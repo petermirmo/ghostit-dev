@@ -1,0 +1,75 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url("htmlTags.css");
+
+.login-background {
+    background-image: linear-gradient(to bottom, #fed330 50%, #3498db 50%);
+    background-image: -o-linear-gradient(to bottom, #fed330 50%, #3498db 50%);
+    background-image: -moz-linear-gradient(to bottom, #fed330 50%, #3498db 50%);
+    background-image: -webkit-linear-gradient(bottom, #fed330 50%, #3498db 50%);
+    background-image: -ms-linear-gradient(to bottom, #fed330 50%, #3498db 50%);
+    min-width: 1024px;
+    min-height: 100%;
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    /* Set up positioning */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    vertical-align: middle;
+}
+.form-box {
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+    border: 2px solid #000;
+
+    text-align: center;
+    margin: auto;
+    margin-top: 10%;
+
+    margin-top: 5%;
+    border-radius: 2px;
+    border: 10px solid #eeeeef;
+}
+.login-box {
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+    border: 2px solid #000;
+
+    text-align: center;
+    margin: auto;
+    margin-top: 10%;
+
+    border-radius: 10px;
+    border: 1px solid #c2c2c2;
+}
+
+.submit-colorful {
+    margin-top: 5%;
+    border-radius: 2px;
+
+    background-color: #3498db;
+    cursor: pointer;
+
+    font-size: 20px;
+    color: #fff;
+}
+
+.big-calendar {
+    min-height: 800px;
+    margin: 40px;
+
+    background-color: #fff;
+}
+
+#wrapper {
+    padding: 50px 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
