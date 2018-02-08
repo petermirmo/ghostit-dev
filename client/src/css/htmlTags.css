@@ -6,10 +6,11 @@
     --font-theme-color: #000;
     --large-font-size: 13pt;
     --regular-font-size: 10pt;
+    --font-theme: "Open Sans";
 }
 
 body {
-    font-family: "Open Sans";
+    font-family: var(--font-theme);
     color: var(--font-theme-color);
     min-height: 100%;
 
@@ -21,21 +22,23 @@ body {
 
 input {
     border: none;
-    font-family: "Open Sans";
-    font-size: var(--regular-font-size);
+    font-family: var(--font-theme);
+    font-size: var(--large-font-size);
     width: 99%;
     outline: none;
     color: var(--font-theme-color);
 }
 button {
     color: var(--white-theme-color);
-    font-family: "Open Sans";
-    font-size: var(--regular-font-size);
+    font-family: var(--font-theme);
+    font-size: var(--large-font-size);
 
     margin: 10px;
-    border: none;
     cursor: pointer;
+    outline: 0;
 
+    border: none;
+    border-radius: 4px;
     background-color: var(--blue-theme-color);
 }
 
@@ -121,8 +124,5 @@ li a.active {
     border-bottom: 4px solid var(--pink-theme-color);
 }
 textarea {
-    outline: 0;
-    max-width: 100%;
-    width: 100%;
-    min-width: 100%;
+    font-family: var(--font-theme);
 }

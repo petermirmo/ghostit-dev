@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "../css/theme.css";
+import DatePicker from "../components/DatePickerComponent.js";
+import TimePicker from "../components/TimePickerComponent.js";
 
 function closeModal() {
     var modal = document.getElementById("myModal");
@@ -14,6 +16,7 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 };
+
 class Modal extends Component {
     render() {
         return (
@@ -25,10 +28,22 @@ class Modal extends Component {
                         </span>
                         <h2>New Post</h2>
                     </div>
+
                     <div className="modal-body">
-                        <textarea rows="10" />
+                        <textarea
+                            className="postingTextArea"
+                            rows="10"
+                            placeholder="Success doesn't write itself!"
+                        />
+                        <DatePicker
+                            clickedCalendarDate={this.props.clickedCalendarDate}
+                        />
+                        <TimePicker />
                     </div>
-                    <button>Save Post</button>
+
+                    <div className="modal-footer">
+                        <button>Save Post</button>
+                    </div>
                 </div>
             </div>
         );

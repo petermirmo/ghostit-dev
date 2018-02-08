@@ -7,15 +7,14 @@
 @import url("htmlTags.css");
 
 .login-background {
-    background-image: linear-gradient(to bottom, #fed330 50%, #3498db 50%);
-    background-image: -o-linear-gradient(to bottom, #fed330 50%, #3498db 50%);
-    background-image: -moz-linear-gradient(to bottom, #fed330 50%, #3498db 50%);
-    background-image: -webkit-linear-gradient(bottom, #fed330 50%, #3498db 50%);
-    background-image: -ms-linear-gradient(to bottom, #fed330 50%, #3498db 50%);
-    min-width: 1024px;
+    background-image: linear-gradient(to bottom, #3498db 50%, #3498db 50%);
+    background-image: -o-linear-gradient(to bottom, #3498db 50%, #3498db 50%);
+    background-image: -moz-linear-gradient(to bottom, #3498db 50%, #3498db 50%);
+    background-image: -webkit-linear-gradient(bottom, #3498db 50%, #3498db 50%);
+    background-image: -ms-linear-gradient(to bottom, #3498db 50%, #3498db 50%);
     min-height: 100%;
     /* Set up proportionate scaling */
-    width: 100%;
+    width: 50%;
     height: auto;
     /* Set up positioning */
     position: absolute;
@@ -25,8 +24,8 @@
     vertical-align: middle;
 }
 .form-box {
-    width: 50%;
-    height: 50%;
+    width: 70%;
+    height: 70%;
     background-color: #fff;
     border: 2px solid #000;
 
@@ -39,14 +38,14 @@
     border: 10px solid #eeeeef;
 }
 .login-box {
-    width: 50%;
-    height: 50%;
+    width: 80%;
+    height: 80%;
     background-color: #fff;
     border: 2px solid #000;
 
     text-align: center;
     margin: auto;
-    margin-top: 10%;
+    margin-top: 20%;
 
     border-radius: 10px;
     border: 1px solid #c2c2c2;
@@ -83,7 +82,7 @@
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 100; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 80px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -100,12 +99,13 @@
     margin: auto;
     padding: 0;
     border: 1px solid #888;
-    width: 80%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s;
+
+    width: 50%;
 }
 
 /* Add Animation */
@@ -154,11 +154,22 @@
 
 .modal-body {
     padding: 2px 16px;
+    overflow: hidden;
 }
 
 .modal-footer {
     padding: 2px 16px;
-    background-color: var(--blue-theme-color);
-    color: white;
+    background-color: var(--white-theme-color);
+    color: red;
     text-align: center;
+}
+
+.postingTextArea {
+    outline: 0;
+
+    max-width: 80%;
+    width: 80%;
+    min-width: 80%;
+
+    border-radius: 5px;
 }

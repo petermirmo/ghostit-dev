@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../css/theme.css";
+import Modal from "../components/Modal";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
@@ -7,32 +8,21 @@ import moment from "moment";
 import style from "../css/calendar.css";
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
-
-// Calendar navbar variables
-var allNavBarGlobal = false;
-var facebookNavBarGlobal = false;
-var twitterNavBarGlobal = false;
-var linkedinNavBarGlobal = false;
-var blogNavBarGlobal = false;
-var emailNavBarGlobal = false;
+var clickedCalendarDate = new Date();
 
 class Calendar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { isToggleOn: true };
+    openModal(slotinfo) {
+        clickedCalendarDate = slotinfo.start;
+        this.setState({ clickedCalendarDate: clickedCalendarDate });
 
-        // This binding is necessary to make `this` work in the callback
-        this.handleClick = this.handleClick.bind(this);
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block";
     }
 
-    handleClick() {
-        this.setState(prevState => ({
-            isToggleOn: !prevState.isToggleOn
-        }));
-    }
     render() {
         return (
             <div>
+                <Modal clickedCalendarDate={clickedCalendarDate} />
                 <ul>
                     <li onClick={() => navBar("All")}>
                         <a id="calendarNavBarAll" className="active">
@@ -66,16 +56,20 @@ class Calendar extends Component {
                     step={60}
                     defaultDate={new Date()}
                     style={style}
-                    onSelectSlot={() => openModal()}
+                    onSelectSlot={slotInfo => this.openModal(slotInfo)}
                 />
             </div>
         );
     }
 }
-function openModal() {
-    var modal = document.getElementById("myModal");
-    modal.style.display = "block";
-}
+
+// Calendar navbar variables
+var allNavBarGlobal = false;
+var facebookNavBarGlobal = false;
+var twitterNavBarGlobal = false;
+var linkedinNavBarGlobal = false;
+var blogNavBarGlobal = false;
+var emailNavBarGlobal = false;
 
 function navBar(navBarClickedSocialMedia) {
     var allNavBar = document.getElementById("calendarNavBarAll");
