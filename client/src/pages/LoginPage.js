@@ -85,15 +85,19 @@ class Login extends Component {
                             <br />
                             <p
                                 id="registerButton"
+                                className="login-switch"
                                 href="#"
                                 onClick={changeToRegistrationForm}
-                                style={{ cursor: "pointer" }}
+                                style={{ width: "70%" }}
                             >
                                 Dont have an account? Get started here!
                             </p>
                         </div>
 
-                        <div id="registerForm" style={{ display: "none" }}>
+                        <div
+                            id="registerForm"
+                            style={{ display: "none", textAlign: "center" }}
+                        >
                             <form
                                 className="form-box"
                                 action="api/auth/email/register"
@@ -160,12 +164,10 @@ class Login extends Component {
                             <br />
                             <p
                                 id="registerButton"
+                                className="login-switch"
                                 href="#"
                                 onClick={changeToLoginForm}
-                                style={{
-                                    cursor: "pointer",
-                                    border: "2px solid var(--white-theme-color)"
-                                }}
+                                style={{ width: "50%" }}
                             >
                                 Have an account? Sign in!
                             </p>

@@ -214,3 +214,10 @@
 
     border-radius: 5px;
 }
+
+.login-switch {
+    cursor: pointer;
+    border-bottom: 2px solid var(--pink-theme-color);
+    margin: auto;
+    margin-bottom: 5%;
+}
