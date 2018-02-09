@@ -53,6 +53,8 @@ class Login extends Component {
                                     type="text"
                                     name="email"
                                     placeholder="Email"
+                                    style={{ marginTop: "5px" }}
+                                    required
                                 />
                                 <hr
                                     style={{
@@ -64,11 +66,19 @@ class Login extends Component {
                                     type="password"
                                     name="password"
                                     placeholder="Password"
+                                    required
+                                />
+                                <hr
+                                    style={{
+                                        border: "2px solid #eeeeef",
+                                        width: "90%"
+                                    }}
                                 />
                                 <input
                                     className="submit-colorful"
                                     value="Sign In"
                                     type="submit"
+                                    style={{ marginBottom: "5px" }}
                                 />
                             </form>
 
@@ -93,6 +103,7 @@ class Login extends Component {
                                     type="text"
                                     name="fullName"
                                     placeholder="Full Name"
+                                    style={{ marginTop: "5px" }}
                                     required
                                 />
                                 <hr
@@ -105,6 +116,7 @@ class Login extends Component {
                                     type="text"
                                     name="email"
                                     placeholder="Email"
+                                    required
                                 />
                                 <hr
                                     style={{
@@ -116,6 +128,7 @@ class Login extends Component {
                                     type="text"
                                     name="website"
                                     placeholder="Website"
+                                    required
                                 />
                                 <hr
                                     style={{
@@ -127,6 +140,7 @@ class Login extends Component {
                                     type="password"
                                     name="password"
                                     placeholder="Password"
+                                    required
                                 />
                                 <hr
                                     style={{
@@ -139,6 +153,7 @@ class Login extends Component {
                                     className="submit-colorful"
                                     type="submit"
                                     value="Register"
+                                    style={{ marginBottom: "5px" }}
                                 />
                             </form>
 
@@ -147,7 +162,10 @@ class Login extends Component {
                                 id="registerButton"
                                 href="#"
                                 onClick={changeToLoginForm}
-                                style={{ cursor: "pointer" }}
+                                style={{
+                                    cursor: "pointer",
+                                    border: "2px solid var(--white-theme-color)"
+                                }}
                             >
                                 Have an account? Sign in!
                             </p>

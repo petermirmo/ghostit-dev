@@ -24,7 +24,7 @@ input {
     border: none;
     font-family: var(--font-theme);
     font-size: var(--large-font-size);
-    width: 99%;
+    width: 90%;
     outline: none;
     color: var(--font-theme-color);
 }
