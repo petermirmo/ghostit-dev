@@ -10,12 +10,15 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const router = express.Router();
+const favicon = require("express-favicon");
 
 require("./models/User");
 
 mongoose.connect(keys.mongoDevelopentURI);
 
 require("./services/passportLocal")(passport);
+
+app.use(favicon(__dirname + "/client/public/favicon.ico"));
 
 app.use(morgan("dev"));
 app.use(cookieParser());
