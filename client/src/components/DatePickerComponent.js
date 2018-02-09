@@ -19,9 +19,8 @@ const muiTheme = getMuiTheme({
 class DatePickerComponent extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            controlledDate: null
+            controlledDate: this.props.clickedCalendarDate
         };
     }
 
@@ -31,6 +30,12 @@ class DatePickerComponent extends Component {
         });
     };
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            controlledDate: nextProps.clickedCalendarDate
+        });
+    }
+
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
@@ -38,8 +43,9 @@ class DatePickerComponent extends Component {
                     className="test"
                     hintText="Click here to pick Date!"
                     autoOk={true}
-                    value={this.props.clickedCalendarDate}
+                    value={this.state.controlledDate}
                     onChange={this.handleChange}
+                    textFieldStyle={{ cursor: "pointer" }}
                 />
             </MuiThemeProvider>
         );

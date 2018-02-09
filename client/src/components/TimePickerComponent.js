@@ -21,7 +21,11 @@ class TimePickerComponent extends Component {
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
-                <TimePicker hintText="Click here to pick Time!" autoOk={true} />
+                <TimePicker
+                    hintText="Click here to pick Time!"
+                    autoOk={true}
+                    textFieldStyle={{ cursor: "pointer" }}
+                />
             </MuiThemeProvider>
         );
     }

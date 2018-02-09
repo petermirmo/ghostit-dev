@@ -5,7 +5,7 @@
     --white-theme-color: #fff;
     --font-theme-color: #000;
     --large-font-size: 13pt;
-    --regular-font-size: 10pt;
+    --regular-font-size: 11pt;
     --font-theme: "Open Sans";
 }
 
@@ -31,7 +31,7 @@ input {
 button {
     color: var(--white-theme-color);
     font-family: var(--font-theme);
-    font-size: var(--large-font-size);
+    font-size: 11pt;
 
     margin: 10px;
     cursor: pointer;
@@ -125,4 +125,5 @@ li a.active {
 }
 textarea {
     font-family: var(--font-theme);
+    font-size: var(--regular-font-size);
 }
