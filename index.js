@@ -18,8 +18,7 @@ mongoose.connect(keys.mongoDevelopentURI);
 
 require("./services/passportLocal")(passport);
 
-app.use(favicon(__dirname + "/client/public/favicon.ico"));
-
+app.use(favicon(__dirname + "/public/images/favicon.ico"));
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
