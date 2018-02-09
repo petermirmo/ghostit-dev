@@ -36,6 +36,7 @@ class Login extends Component {
                             allow you to take your target audience and make your
                             content even more powerful.
                         </h5>
+                        <button>Talk to us to get this feature!</button>
                     </div>
                 </div>
                 <div className="login-background">

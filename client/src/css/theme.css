@@ -30,7 +30,7 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10%;
+    margin-top: 20%;
 }
 
 .landing-page {
@@ -43,6 +43,15 @@
 }
 .landing-page img {
     filter: brightness(55%);
+}
+.landing-page div {
+    text-align: center;
+}
+.landing-page div button {
+    background-color: transparent;
+    border: 2px solid var(--white-theme-color);
+    font-size: var(--large-font-size);
+    border-radius: 4px;
 }
 
 .landing-page .container {
