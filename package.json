@@ -11,7 +11,8 @@
         "start": "node index.js",
         "server": "nodemon index.js",
         "client": "npm run start --prefix client",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
     "author": "",
     "license": "ISC",
@@ -20,18 +21,24 @@
         "body-parser": "^1.18.2",
         "concurrently": "^3.5.1",
         "connect-flash": "^0.1.1",
+        "connect-mongo": "^2.0.1",
         "cookie-parser": "^1.4.3",
         "cookie-session": "^2.0.0-beta.3",
         "express": "^4.16.2",
+        "express-favicon": "^2.0.0",
         "express-session": "^1.15.6",
-        "fullcalendar-reactwrapper": "^1.0.7",
+        "input-moment": "^0.4.0",
         "less": "^2.7.3",
-        "mongoose": "^5.0.1",
+        "material-ui": "^0.20.0",
+        "mongoose": "^5.0.4",
         "morgan": "^1.9.0",
-        "nodemon": "^1.14.11",
+        "nodemon": "^1.14.12",
         "passport": "^0.4.0",
         "passport-google-oauth": "^1.0.0",
         "passport-google-oauth20": "^1.0.0",
-        "passport-local": "^1.0.0"
+        "passport-local": "^1.0.0",
+        "react-bootstrap-date-picker": "^5.1.0",
+        "react-bootstrap-datetimepicker": "0.0.22",
+        "react-datetime": "^2.13.0"
     }
 }

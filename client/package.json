@@ -3,41 +3,18 @@
     "version": "0.1.0",
     "private": true,
     "proxy": {
-        "/api/auth/email/register": {
-            "target": "http://localhost:5000"
-        },
-        "/api/logout": {
-            "target": "http://localhost:5000"
-        },
-        "/test": {
-            "target": "http://localhost:5000"
-        },
         "/api/*": {
-            "target": "http://localhost:5000"
-        },
-        "/api/auth/login": {
-            "target": "http://localhost:5000"
-        },
-        "/api/current_user": {
             "target": "http://localhost:5000"
         }
     },
     "dependencies": {
         "axios": "^0.17.1",
         "bcryptjs": "^2.4.3",
-        "body-parser": "^1.18.2",
         "bootstrap": "^4.0.0",
-        "connect-flash": "^0.1.1",
-        "express": "^4.16.2",
         "express-messages": "^1.0.1",
-        "express-session": "^1.15.3",
-        "express-validator": "^3.2.0",
-        "fullcalendar-reactwrapper": "^1.0.7",
+        "input-moment": "^0.4.0",
+        "material-ui": "^0.20.0",
         "moment": "^2.20.1",
-        "mongodb-stitch": "^2.3.1",
-        "mongoose": "^4.10.2",
-        "passport": "^0.3.2",
-        "passport-local": "^1.0.0",
         "react": "^16.2.0",
         "react-big-calendar": "^0.17.0",
         "react-bootstrap": "^0.32.1",
@@ -48,10 +25,8 @@
         "react-router": "^4.2.0",
         "react-router-dom": "^4.2.2",
         "react-scripts": "1.1.0",
-        "react-scrollbar": "^0.5.1",
-        "reactstrap": "^5.0.0-alpha.4",
+        "reactstrap": "^5.0.0-beta",
         "redux": "^3.7.2",
-        "redux-thunk": "^2.2.0",
         "typeface-roboto": "0.0.50"
     },
     "scripts": {
