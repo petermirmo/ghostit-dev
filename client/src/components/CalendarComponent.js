@@ -5,16 +5,22 @@ import Modal from "../components/Modal";
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
-import style from "../css/calendar.css";
+import calendarStyle from "../css/calendar.css";
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
 var clickedCalendarDate = new Date();
+var timeForPost = new Date();
 
 class Calendar extends Component {
     openModal(slotinfo) {
+        // Date for post is set to date clicked on calendar
         clickedCalendarDate = slotinfo.start;
         this.setState({ clickedCalendarDate: clickedCalendarDate });
 
+        // Time for post is set to 10am
+        this.setState({ timeForPost: timeForPost });
+
+        // Open modal
         var modal = document.getElementById("myModal");
         modal.style.display = "block";
     }
@@ -22,7 +28,10 @@ class Calendar extends Component {
     render() {
         return (
             <div>
-                <Modal clickedCalendarDate={clickedCalendarDate} />
+                <Modal
+                    clickedCalendarDate={clickedCalendarDate}
+                    timeForPost={timeForPost}
+                />
                 <ul>
                     <li onClick={() => navBar("All")}>
                         <a id="calendarNavBarAll" className="active">
@@ -55,7 +64,7 @@ class Calendar extends Component {
                     events={[]}
                     step={60}
                     defaultDate={new Date()}
-                    style={style}
+                    style={calendarStyle}
                     onSelectSlot={slotInfo => this.openModal(slotInfo)}
                 />
             </div>

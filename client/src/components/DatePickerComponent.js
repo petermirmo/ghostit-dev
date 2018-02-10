@@ -40,11 +40,12 @@ class DatePickerComponent extends Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <DatePicker
-                    className="test"
+                    id="contentDatePickerPopUp"
                     hintText="Click here to pick Date!"
                     autoOk={true}
                     value={this.state.controlledDate}
                     onChange={this.handleChange}
+                    getdate={this.state.controlledDate}
                     textFieldStyle={{ cursor: "pointer" }}
                 />
             </MuiThemeProvider>

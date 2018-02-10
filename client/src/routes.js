@@ -6,6 +6,9 @@ import LoginPage from "./pages/LoginPage";
 import Content from "./pages/ContentPage";
 
 class Routes extends Component {
+    componentDidMount() {
+        this.props.fetchUser();
+    }
     render() {
         return (
             <BrowserRouter>

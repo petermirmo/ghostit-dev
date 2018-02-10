@@ -99,6 +99,8 @@
     background-color: #3498db;
     cursor: pointer;
 
+    width: auto;
+
     font-size: 20px;
     color: #fff;
 }
@@ -203,6 +205,9 @@
     background-color: var(--white-theme-color);
     color: red;
     text-align: center;
+}
+.modal-footer button {
+    font-size: var(--large-font-size);
 }
 
 .postingTextArea {

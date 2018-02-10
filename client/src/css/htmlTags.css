@@ -21,12 +21,15 @@ body {
 }
 
 input {
-    border: none;
     font-family: var(--font-theme);
     font-size: var(--large-font-size);
-    width: 90%;
-    outline: none;
     color: var(--font-theme-color);
+
+    width: 90%;
+
+    border: none;
+    outline: none;
+    display: inline-block;
 }
 button {
     color: var(--white-theme-color);

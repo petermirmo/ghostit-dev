@@ -18,12 +18,34 @@ const muiTheme = getMuiTheme({
 });
 
 class TimePickerComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            controlledTime: this.props.timeForPost
+        };
+    }
+
+    handleChange = (event, time) => {
+        this.setState({
+            controlledTime: time
+        });
+    };
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            controlledTime: nextProps.timeForPost
+        });
+    }
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <TimePicker
+                    id="contentTimePickerPopUp"
                     hintText="Click here to pick Time!"
                     autoOk={true}
+                    value={this.state.controlledTime}
+                    onChange={this.handleChange}
+                    gettime={this.state.controlledTime}
                     textFieldStyle={{ cursor: "pointer" }}
                 />
             </MuiThemeProvider>

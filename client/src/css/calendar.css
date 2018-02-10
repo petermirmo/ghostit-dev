@@ -42,6 +42,7 @@ button.rbc-input::-moz-focus-inner {
     left: 0;
     right: 0;
     bottom: 0;
+    cursor: pointer;
 }
 .rbc-ellipsis,
 .rbc-event-label,

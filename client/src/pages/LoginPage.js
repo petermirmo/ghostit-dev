@@ -4,6 +4,9 @@ import "../css/theme.css";
 import langingPageBackground from "./langing_page.jpeg";
 import logo from "./logo.png";
 
+// User's timezone
+var userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 function changeToRegistrationForm() {
     document.getElementById("loginForm").style.display = "none";
     document.getElementById("registerForm").style.display = "";
@@ -152,7 +155,13 @@ class Login extends Component {
                                         width: "90%"
                                     }}
                                 />
-
+                                <input
+                                    name="timezone"
+                                    placeholder="Timezone"
+                                    value={userTimezone}
+                                    style={{ display: "none" }}
+                                    readOnly="true"
+                                />
                                 <input
                                     className="submit-colorful"
                                     type="submit"
