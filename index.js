@@ -10,6 +10,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const router = express.Router();
+const favicon = require("express-favicon");
 
 require("./models/User");
 
@@ -17,6 +18,7 @@ mongoose.connect(keys.mongoDevelopentURI);
 
 require("./services/passportLocal")(passport);
 
+app.use(favicon(__dirname + "/public/images/favicon.ico"));
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -25,18 +27,13 @@ app.use(
     session({
         secret: keys.cookieKey,
         resave: true,
-        saveUninitialized: true
+        saveUninitialized: true,
+        cookie: { maxAge: 60000 * 60 * 24 }
     })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
-// Middleware
-app.use("/api/current_user", function(req, res, next) {
-    console.log("Request URL:", req.originalUrl);
-    next();
-});
 
 require("./routes/authRoutes")(app);
 

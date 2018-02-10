@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import Content from './pages/ContentPage'
 
 class Routes extends Component {
+<<<<<<< HEAD
   render() {
     // TODO: Add a check that the user is logged in, if not, then redirect to path="/login"
     return (
@@ -17,6 +18,21 @@ class Routes extends Component {
       </BrowserRouter>
     )
   }
+=======
+    componentDidMount() {
+        this.props.fetchUser();
+    }
+    render() {
+        return (
+            <BrowserRouter>
+                <div>
+                    <Route path="/" exact={true} component={LoginPage} />
+                    <Route path="/content" exact={true} component={Content} />
+                </div>
+            </BrowserRouter>
+        );
+    }
+>>>>>>> master
 }
 
 export default connect(null, actions)(Routes)

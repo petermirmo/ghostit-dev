@@ -3,22 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "proxy": {
-        "/api/auth/email/register": {
-            "target": "http://localhost:5000"
-        },
-        "/api/logout": {
-            "target": "http://localhost:5000"
-        },
-        "/test": {
-            "target": "http://localhost:5000"
-        },
         "/api/*": {
-            "target": "http://localhost:5000"
-        },
-        "/api/auth/login": {
-            "target": "http://localhost:5000"
-        },
-        "/api/current_user": {
             "target": "http://localhost:5000"
         }
     },

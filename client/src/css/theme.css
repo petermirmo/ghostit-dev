@@ -5,23 +5,65 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
 @import url("htmlTags.css");
-
 .login-background {
-    background-image: linear-gradient(to bottom, #3498db 50%, #3498db 50%);
-    background-image: -o-linear-gradient(to bottom, #3498db 50%, #3498db 50%);
-    background-image: -moz-linear-gradient(to bottom, #3498db 50%, #3498db 50%);
-    background-image: -webkit-linear-gradient(bottom, #3498db 50%, #3498db 50%);
-    background-image: -ms-linear-gradient(to bottom, #3498db 50%, #3498db 50%);
-    min-height: 100%;
-    /* Set up proportionate scaling */
+    background-color: var(--blue-theme-color);
+    background: linear-gradient(
+        180deg,
+        var(--blue-theme-color),
+        var(--white-theme-color)150%
+    );
+
     width: 50%;
     height: auto;
-    /* Set up positioning */
+    min-height: 100%;
+
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
     vertical-align: middle;
+}
+.login-background img {
+    width: 40%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+.landing-page {
+    width: 50%;
+    height: 100%;
+    min-height: 100%;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
+.landing-page img {
+    filter: brightness(55%);
+}
+.landing-page div {
+    text-align: center;
+}
+.landing-page div button {
+    background-color: transparent;
+    border: 2px solid var(--white-theme-color);
+    font-size: var(--large-font-size);
+    border-radius: 4px;
+}
+
+.landing-page .container {
+    position: absolute;
+    color: var(--white-theme-color);
+    width: 80%;
+    margin-top: 45%;
+    padding-left: 40px;
+}
+.landing-page h1 {
+    color: var(--white-theme-color);
+}
+.landing-page h5 {
+    color: var(--white-theme-color);
 }
 .form-box {
     width: 70%;
@@ -31,7 +73,6 @@
 
     text-align: center;
     margin: auto;
-    margin-top: 10%;
 
     margin-top: 5%;
     border-radius: 2px;
@@ -41,14 +82,14 @@
     width: 80%;
     height: 80%;
     background-color: #fff;
-    border: 2px solid #000;
 
     text-align: center;
     margin: auto;
-    margin-top: 20%;
+    margin-top: 2%;
 
     border-radius: 10px;
-    border: 1px solid #c2c2c2;
+    border: 2px solid #fff;
+    box-shadow: 0 0 20px 0;
 }
 
 .submit-colorful {
@@ -57,6 +98,8 @@
 
     background-color: #3498db;
     cursor: pointer;
+
+    width: auto;
 
     font-size: 20px;
     color: #fff;
@@ -163,6 +206,9 @@
     color: red;
     text-align: center;
 }
+.modal-footer button {
+    font-size: var(--large-font-size);
+}
 
 .postingTextArea {
     outline: 0;
@@ -172,4 +218,11 @@
     min-width: 80%;
 
     border-radius: 5px;
+}
+
+.login-switch {
+    cursor: pointer;
+    border-bottom: 2px solid var(--pink-theme-color);
+    margin: auto;
+    margin-bottom: 5%;
 }
