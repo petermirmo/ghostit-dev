@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import axios from "axios";
 import "../css/theme.css";
 
 import langingPageBackground from "./langing_page.jpeg";
@@ -17,7 +19,20 @@ function changeToLoginForm() {
 }
 
 class Login extends Component {
+    state = {
+        isLoggedIn: false
+    };
+    constructor(props) {
+        super(props);
+        axios
+            .get("/api/isUserSignedIn")
+            .then(res => this.setState({ isLoggedIn: res.data }));
+    }
     render() {
+        const { isLoggedIn } = this.state;
+        if (isLoggedIn) {
+            return <Redirect to="/content" />;
+        }
         return (
             <div>
                 <div className="landing-page">

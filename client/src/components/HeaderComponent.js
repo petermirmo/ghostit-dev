@@ -6,7 +6,7 @@ import "../css/theme.css";
 
 class Header extends Component {
     state = {
-        isLoggedIn: false
+        isLoggedIn: true
     };
     constructor(props) {
         super(props);
