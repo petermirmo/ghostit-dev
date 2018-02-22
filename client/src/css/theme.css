@@ -5,6 +5,52 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
 @import url("htmlTags.css");
+@import url("navbar.css");
+@import url("modal.css");
+@import url("sideBar.css");
+@import url("confirmAlert.css");
+
+#wrapper {
+    padding: 60px 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    position: relative;
+    animation: animateleft 0.4s;
+}
+#navBarOpen {
+    padding: 15px;
+}
+.container {
+    border-radius: 10px;
+    height: 80vh;
+    margin: 20px;
+    margin-top: 30px;
+    width: 50%;
+    border: 2px solid #b3e6ff;
+    background-color: #fff;
+}
+.profile-input {
+    width: 60%;
+    margin: 20px;
+    padding: 10px;
+    -webkit-box-shadow: 0 0 0px 1000px var(--white-theme-color) inset;
+    border-radius: 10px;
+    border: 2px solid #cccccc;
+}
+.login-input {
+    font-family: var(--font-theme);
+    font-size: var(--large-font-size);
+    color: var(--font-theme-color);
+
+    width: 90%;
+
+    border: none;
+    outline: none;
+    display: inline-block;
+}
 .login-background {
     background-color: var(--blue-theme-color);
     background: linear-gradient(
@@ -52,7 +98,7 @@
     border-radius: 4px;
 }
 
-.landing-page .container {
+.landing-page .lpcontainer {
     position: absolute;
     color: var(--white-theme-color);
     width: 80%;
@@ -68,7 +114,7 @@
 .form-box {
     width: 70%;
     height: 70%;
-    background-color: #fff;
+    background-color: var(--white-theme-color);
     border: 2px solid #000;
 
     text-align: center;
@@ -81,133 +127,35 @@
 .login-box {
     width: 80%;
     height: 80%;
-    background-color: #fff;
+    background-color: var(--white-theme-color);
 
     text-align: center;
     margin: auto;
     margin-top: 2%;
 
     border-radius: 10px;
-    border: 2px solid #fff;
+    border: 2px solid var(--white-theme-color);
     box-shadow: 0 0 20px 0;
 }
 
 .submit-colorful {
     margin-top: 5%;
-    border-radius: 2px;
+    border-radius: 5px;
 
-    background-color: #3498db;
+    background-color: var(--blue-theme-color);
     cursor: pointer;
 
     width: auto;
 
     font-size: 20px;
-    color: #fff;
+    color: var(--white-theme-color);
 }
 
 .big-calendar {
     min-height: 800px;
     margin: 40px;
 
-    background-color: #fff;
-}
-
-#wrapper {
-    padding: 50px 0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 100; /* Sit on top */
-    padding-top: 80px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0); /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s;
-
-    width: 50%;
-}
-
-/* Add Animation */
-@-webkit-keyframes animatetop {
-    from {
-        top: -300px;
-        opacity: 0;
-    }
-    to {
-        top: 0;
-        opacity: 1;
-    }
-}
-
-@keyframes animatetop {
-    from {
-        top: -300px;
-        opacity: 0;
-    }
-    to {
-        top: 0;
-        opacity: 1;
-    }
-}
-
-.close {
-    color: white;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-header {
-    padding: 2px 16px;
-    background-color: var(--blue-theme-color);
-    color: white;
-    text-align: center;
-}
-
-.modal-body {
-    padding: 2px 16px;
-    overflow: hidden;
-}
-
-.modal-footer {
-    padding: 2px 16px;
     background-color: var(--white-theme-color);
-    color: red;
-    text-align: center;
-}
-.modal-footer button {
-    font-size: var(--large-font-size);
 }
 
 .postingTextArea {
@@ -222,7 +170,55 @@
 
 .login-switch {
     cursor: pointer;
-    border-bottom: 2px solid var(--pink-theme-color);
+    border-bottom: 2px solid var(--blue-theme-color);
     margin: auto;
     margin-bottom: 5%;
+}
+
+.animate-left {
+    position: relative;
+    animation: animateleft 0.4s;
+}
+
+.animate-right {
+    position: relative;
+    animation: animateright 0.4s;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+@keyframes animateright {
+    from {
+        right: -300px;
+        opacity: 0;
+    }
+    to {
+        right: 0;
+        opacity: 1;
+    }
+}
+@keyframes animateleft {
+    from {
+        left: -300px;
+        opacity: 0;
+    }
+    to {
+        left: 0;
+        opacity: 1;
+    }
+}
+.facebook {
+    background-color: #4267b2;
+}
+.twitter {
+    background-color: #1da1f2;
+}
+.linkedin {
+    background-color: #0077b5;
+}
+.instagram {
+    background: linear-gradient(90deg, #cd486b, #8a3ab9);
 }

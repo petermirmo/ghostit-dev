@@ -1,0 +1,132 @@
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    padding-top: 80px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+
+    width: 50%;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+.close,
+.close-dark {
+    color: var(--white-theme-color);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+.close-dark {
+    color: var(--black-theme-color);
+}
+.close-dark:hover,
+.close-dark:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.close-dark:hover {
+    color: var(--blue-theme-color);
+}
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: var(--blue-theme-color);
+    color: white;
+}
+
+.modal-body {
+    padding: 2px 16px;
+    overflow: hidden;
+}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: var(--white-theme-color);
+    color: red;
+    text-align: center;
+}
+.modal-footer button {
+    font-size: var(--large-font-size);
+    padding: 5px;
+    min-width: 20%;
+    margin: 10px;
+}
+.social-media-div {
+    text-align: left;
+    background-color: var(--light-grey-theme-color);
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+.add-fb-page-active,
+.social-media-div:hover {
+    background-color: var(--blue-theme-color);
+    cursor: pointer;
+    color: var(--white-theme-color);
+}
+.social-media-div p {
+    color: inherit;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.social-media-div h4 {
+    color: inherit;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.facebook {
+    background-color: #4267b2;
+}

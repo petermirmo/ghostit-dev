@@ -18,7 +18,7 @@ require("./models/User");
 mongoose.connect(keys.mongoDevelopentURI);
 var db = mongoose.connection;
 
-require("./services/passportLocal")(passport);
+require("./services/passport")(passport);
 
 app.use(morgan("dev")); // Prints all routes used to console
 app.use(cookieParser()); // Read cookies (needed for auth)

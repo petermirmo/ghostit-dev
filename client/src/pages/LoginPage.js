@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import "../css/theme.css";
 
-import langingPageBackground from "./langing_page.jpeg";
+import landingPageBackground from "./landing_page.jpeg";
 import logo from "./logo.png";
 
 // User's timezone
@@ -20,13 +20,15 @@ function changeToLoginForm() {
 
 class Login extends Component {
     state = {
-        isLoggedIn: false
+        isLoggedIn: false,
+        user: null
     };
     constructor(props) {
         super(props);
         axios
             .get("/api/isUserSignedIn")
             .then(res => this.setState({ isLoggedIn: res.data }));
+        axios.get("/api/user").then(res => this.setState({ user: res.data }));
     }
     render() {
         const { isLoggedIn } = this.state;
@@ -37,7 +39,7 @@ class Login extends Component {
             <div>
                 <div className="landing-page">
                     <img
-                        src={langingPageBackground}
+                        src={landingPageBackground}
                         alt="Landing Page"
                         style={{
                             width: "100%",
@@ -45,7 +47,7 @@ class Login extends Component {
                             position: "absolute"
                         }}
                     />
-                    <div className="container">
+                    <div className="lpcontainer">
                         <h1>Find Out How We Can Get You Even More Traffic</h1>
                         <h5>
                             Have you talked to anyone at Ghostit about our
@@ -68,6 +70,7 @@ class Login extends Component {
                             >
                                 <input
                                     id="emailLoginInput"
+                                    className="login-input"
                                     type="text"
                                     name="email"
                                     placeholder="Email"
@@ -81,6 +84,7 @@ class Login extends Component {
                                     }}
                                 />
                                 <input
+                                    className="login-input"
                                     type="password"
                                     name="password"
                                     placeholder="Password"
@@ -93,7 +97,7 @@ class Login extends Component {
                                     }}
                                 />
                                 <input
-                                    className="submit-colorful"
+                                    className="submit-colorful login-input"
                                     value="Sign In"
                                     type="submit"
                                     style={{ marginBottom: "5px" }}
@@ -118,10 +122,11 @@ class Login extends Component {
                         >
                             <form
                                 className="form-box"
-                                action="api/auth/email/register"
+                                action="api/user"
                                 method="post"
                             >
                                 <input
+                                    className="login-input"
                                     type="text"
                                     name="fullName"
                                     placeholder="Full Name"
@@ -135,6 +140,7 @@ class Login extends Component {
                                     }}
                                 />
                                 <input
+                                    className="login-input"
                                     type="text"
                                     name="email"
                                     placeholder="Email"
@@ -147,6 +153,7 @@ class Login extends Component {
                                     }}
                                 />
                                 <input
+                                    className="login-input"
                                     type="text"
                                     name="website"
                                     placeholder="Website"
@@ -159,6 +166,7 @@ class Login extends Component {
                                     }}
                                 />
                                 <input
+                                    className="login-input"
                                     type="password"
                                     name="password"
                                     placeholder="Password"
@@ -171,6 +179,7 @@ class Login extends Component {
                                     }}
                                 />
                                 <input
+                                    className="login-input"
                                     name="timezone"
                                     placeholder="Timezone"
                                     value={userTimezone}

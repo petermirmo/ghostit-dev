@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "../css/theme.css";
-import DatePicker from "../components/DatePickerComponent.js";
-import TimePicker from "../components/TimePickerComponent.js";
+import "../../css/theme.css";
+import DatePicker from "../DatePickerComponent.js";
+import TimePicker from "../TimePickerComponent.js";
 
 function closeModal() {
     var modal = document.getElementById("myModal");
@@ -10,13 +10,21 @@ function closeModal() {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    var modal = document.getElementById("myModal");
+    // Turn off posting modal
+    var postingModal = document.getElementById("myModal");
+    if (event.target === postingModal) {
+        postingModal.style.display = "none";
+        return;
+    }
 
-    if (event.target === modal) {
-        modal.style.display = "none";
+    // Turn off facebook pages modal
+    var facebookModal = document.getElementById("FacebookModal");
+    if (event.target === facebookModal) {
+        facebookModal.style.display = "none";
+        return;
     }
 };
-function test() {
+function savePost() {
     //var content = document.getElementById("contentPostingTextarea").value;
     var date = document
         .getElementById("contentDatePickerPopUp")
@@ -31,9 +39,7 @@ function test() {
 }
 
 class Modal extends Component {
-    componentDidMount() {
-        fetch("/api/current_user").then(res => console.log(res));
-    }
+    componentDidMount() {}
     render() {
         return (
             <div id="myModal" className="modal">
@@ -59,7 +65,7 @@ class Modal extends Component {
                     </div>
 
                     <div className="modal-footer">
-                        <button onClick={() => test()}>Save Post</button>
+                        <button onClick={() => savePost()}>Save Post</button>
                     </div>
                 </div>
             </div>

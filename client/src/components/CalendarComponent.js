@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+
 import "../css/theme.css";
-import Modal from "../components/Modal";
+import ContentModal from "../components/modals/ContentModalComponent";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
@@ -28,7 +29,7 @@ class Calendar extends Component {
     render() {
         return (
             <div>
-                <Modal
+                <ContentModal
                     clickedCalendarDate={clickedCalendarDate}
                     timeForPost={timeForPost}
                 />

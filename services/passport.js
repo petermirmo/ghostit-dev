@@ -1,6 +1,9 @@
 const LocalStrategy = require("passport-local").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+const keys = require("../config/keys");
 
 const User = require("../models/User");
+const Account = require("../models/Account");
 
 module.exports = function(passport) {
     passport.serializeUser((user, done) => {
@@ -103,6 +106,49 @@ module.exports = function(passport) {
                         });
                     } else {
                         return done(null, null);
+                    }
+                });
+            }
+        )
+    );
+    passport.use(
+        new FacebookStrategy(
+            {
+                clientID: keys.fbClientID,
+                clientSecret: keys.fbClientSecret,
+                callbackURL: keys.fbCallbackUrl,
+                profileURL:
+                    "https://graph.facebook.com/v2.12/me?fields=first_name,last_name,email",
+                profileFields: ["id", "email", "name"], // For requesting permissions from Facebook API
+                passReqToCallback: true
+            },
+            function(req, accessToken, refreshToken, profile, done) {
+                console.log("here");
+                // Check if account exists
+                Account.findOne({ socialID: profile.id }, function(
+                    err,
+                    account
+                ) {
+                    if (err) return done(err);
+                    if (account) {
+                        return done("Account already exists");
+                    } else {
+                        // Account does not exist
+                        var newAccount = new Account();
+                        newAccount.userID = req.user._id;
+                        newAccount.socialType = "facebook";
+                        newAccount.accountType = "profile";
+                        newAccount.accessToken = accessToken;
+                        newAccount.socialID = profile.id;
+                        newAccount.givenName = profile._json.first_name;
+                        newAccount.familyName = profile._json.last_name;
+                        newAccount.email = profile._json.email;
+                        newAccount.provider = profile.provider;
+                        newAccount
+                            .save()
+                            .then(account =>
+                                done(null, req.session.passport.user)
+                            );
                     }
                 });
             }

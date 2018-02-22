@@ -1,14 +1,35 @@
 :root {
     --calendar-navbar-bg-color: #fff;
-    --blue-theme-color: #3498db;
+    --blue-theme-color: #19b5fe;
     --pink-theme-color: #e030bb;
     --white-theme-color: #fff;
+    --light-grey-theme-color: #d9d9d9;
+    --grey-theme-color: #bfbfbf;
+    --dark-grey-theme-color: #737373;
+    --green-theme-color: #93fe80;
+    --off-black-theme-color: #666666;
     --font-theme-color: #000;
     --large-font-size: 13pt;
     --regular-font-size: 11pt;
     --font-theme: "Open Sans";
 }
+input[type="checkbox"] {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+    padding: 10px;
+}
+h4 {
+}
+input {
+    font-family: var(--font-theme);
+    font-size: var(--large-font-size);
 
+    outline: none;
+    border: none;
+}
 body {
     font-family: var(--font-theme);
     color: var(--font-theme-color);
@@ -20,23 +41,11 @@ body {
     background-color: var(--white-theme-color);
 }
 
-input {
-    font-family: var(--font-theme);
-    font-size: var(--large-font-size);
-    color: var(--font-theme-color);
-
-    width: 90%;
-
-    border: none;
-    outline: none;
-    display: inline-block;
-}
 button {
     color: var(--white-theme-color);
     font-family: var(--font-theme);
     font-size: 11pt;
 
-    margin: 10px;
     cursor: pointer;
     outline: 0;
 
@@ -53,36 +62,6 @@ header {
 
     width: 100%;
     box-shadow: 0px -5px 50px 0px;
-}
-
-header ul {
-    left: 50%;
-    padding: 0;
-
-    background-color: var(--blue-theme-color);
-}
-
-header li {
-    float: right;
-}
-
-header li a {
-    color: var(--white-theme-color);
-    border-bottom: 4px solid var(--blue-theme-color);
-}
-
-header li a:hover:not(.active) {
-    border-bottom: 4px solid var(--pink-theme-color);
-
-    margin-right: 10%;
-    margin-left: 10%;
-}
-
-header li a.active {
-    border-bottom: 4px solid var(--pink-theme-color);
-
-    margin-right: 10%;
-    margin-left: 10%;
 }
 
 ul {
@@ -115,16 +94,19 @@ li a {
     font-size: var(--large-font-size);
 
     padding: 14px 16px;
-    border-bottom: 4px solid var(--white-theme-color);
+    border-radius: 10px;
+    border: 4px solid var(--white-theme-color);
 }
 
 li a:hover:not(.active) {
     background-color: inherit;
-    border-bottom: 4px solid var(--pink-theme-color);
+    border-radius: 10px;
+    border: 4px solid var(--blue-theme-color);
 }
 
 li a.active {
-    border-bottom: 4px solid var(--pink-theme-color);
+    border-radius: 10px;
+    border: 4px solid var(--blue-theme-color);
 }
 textarea {
     font-family: var(--font-theme);
