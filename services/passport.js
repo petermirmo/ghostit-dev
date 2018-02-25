@@ -1,5 +1,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
+const TwitterStrategy = require("passport-twitter").Strategy;
+const LinkedInStrategy = require("passport-linkedin").Strategy;
 const keys = require("../config/keys");
 
 const User = require("../models/User");
@@ -111,6 +113,8 @@ module.exports = function(passport) {
             }
         )
     );
+
+    // Add Facebook account
     passport.use(
         new FacebookStrategy(
             {
@@ -123,7 +127,6 @@ module.exports = function(passport) {
                 passReqToCallback: true
             },
             function(req, accessToken, refreshToken, profile, done) {
-                console.log("here");
                 // Check if account exists
                 Account.findOne({ socialID: profile.id }, function(
                     err,
@@ -149,6 +152,64 @@ module.exports = function(passport) {
                             .then(account =>
                                 done(null, req.session.passport.user)
                             );
+                    }
+                });
+            }
+        )
+    );
+
+    // Add Twitter account
+    passport.use(
+        new TwitterStrategy(
+            {
+                consumerKey: keys.twitterConsumerKey,
+                consumerSecret: keys.twitterConsumerSecret,
+                callbackURL: keys.twitterCallbackURL,
+                passReqToCallback: true
+            },
+            function(req, token, tokenSecret, profile, done) {
+                // Check if account exists
+                Account.findOne({ socialID: profile.id }, function(
+                    err,
+                    account
+                ) {
+                    if (err) return done(err);
+                    if (account) {
+                        return done("Account already exists");
+                    } else {
+                        // Account does not exist
+                        var user = req.session.passport.user; // pull the user out of the session
+                        var newAccount = new Account();
+
+                        // Split displayName into first name and last name
+                        var givenName;
+                        var familyName;
+                        for (var index in profile.displayName) {
+                            if (profile.displayName[index] === " ") {
+                                givenName = profile.displayName.slice(0, index);
+                                familyName = profile.displayName.slice(
+                                    index,
+                                    profile.displayName.length
+                                );
+                            }
+                        }
+
+                        newAccount.userID = user._id;
+                        newAccount.socialType = "twitter";
+                        newAccount.accountType = "profile";
+                        newAccount.accessToken = token;
+                        newAccount.tokenSecret = tokenSecret;
+                        newAccount.socialID = profile.id;
+                        newAccount.username = profile.username;
+                        newAccount.givenName = givenName;
+                        newAccount.familyName = familyName;
+                        newAccount.email = profile.email;
+
+                        newAccount.save(function(err) {
+                            if (err) return done(err);
+
+                            return done(null, user);
+                        });
                     }
                 });
             }

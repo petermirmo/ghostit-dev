@@ -10,6 +10,11 @@ var connectedTwitterAccounts = [];
 var connectedLinkedinAccounts = [];
 var connectedAccountsHeader;
 class ConnectedAccountsList extends Component {
+    constructor(props) {
+        super(props);
+
+        this.confirmDelete = this.confirmDelete.bind(this);
+    }
     confirmDelete(event) {
         // ID of event.target is the index in the props account array
         var account = this.props.accounts[event.target.id];
@@ -29,7 +34,7 @@ class ConnectedAccountsList extends Component {
         });
     }
     disconnectAccount(account) {
-        axios.delete("/api/facebook/page", { data: account }).then(res => {
+        axios.delete("/api/account", { data: account }).then(res => {
             // Set user's facebook pages to state
             if (res.data) {
                 this.props.getUserAccounts();
@@ -98,7 +103,11 @@ class ConnectedAccountsList extends Component {
                 connectedTwitterAccounts.push(
                     <div
                         key={connectedTwitterAccounts.length}
-                        className="connected-social-div center twitter"
+                        className="connected-social-div center"
+                        style={{
+                            borderLeft: "4px solid #1da1f2",
+                            paddingLeft: "10px"
+                        }}
                     >
                         <h4>
                             {account.givenName.charAt(0).toUpperCase() +
@@ -115,7 +124,7 @@ class ConnectedAccountsList extends Component {
                                     color: "red",
                                     background: "none"
                                 }}
-                                onClick={this.confirmDelete}
+                                onClick={event => this.confirmDelete(event)}
                             />
                         </p>
                     </div>
@@ -125,7 +134,11 @@ class ConnectedAccountsList extends Component {
                 connectedLinkedinAccounts.push(
                     <div
                         key={connectedLinkedinAccounts.length}
-                        className="connected-social-div center linkedin"
+                        className="connected-social-div center"
+                        style={{
+                            borderLeft: "4px solid #0077b5",
+                            paddingLeft: "10px"
+                        }}
                     >
                         <h4>
                             {account.givenName.charAt(0).toUpperCase() +

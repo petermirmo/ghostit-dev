@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import "../css/theme.css";
-import AddPageOrGroupModal from "../components/modals/FacebookPagesModalComponent";
+import AddPageOrGroupModal from "../components/modals/addPagesOrGroupsModal";
 import ConnectedAccountsDiv from "../components/divs/ConnectedAccountsDiv";
 
 class SideBar extends Component {
@@ -10,7 +10,8 @@ class SideBar extends Component {
         accounts: [],
         pageOrGroup: [],
         accountType: "",
-        socialType: ""
+        socialType: "",
+        errorMessage: ""
     };
     constructor(props) {
         super(props);
@@ -26,43 +27,106 @@ class SideBar extends Component {
 
     openModal(socialType, accountType) {
         // Open facebook add page modal
-        var modal = document.getElementById("FacebookPagesModal");
+        var modal = document.getElementById("addPagesOrGroupsModal");
         modal.style.display = "block";
 
         if (socialType === "facebook") {
             if (accountType === "page") {
                 this.getFacebookPages();
+            } else if (accountType === "group") {
+                this.getFacebookGroups();
+            }
+        } else if (socialType === "linkedin") {
+            if (accountType === "page") {
+                this.getLinkedinPages();
             }
         }
     }
 
     getUserAccounts() {
         // Get all connected accounts of the user
-        axios.get("/api/accounts").then(res =>
+        axios.get("/api/accounts").then(res => {
             // Set user's accounts to state
-            this.setState({ accounts: res.data }, () => {})
-        );
+            this.setState({ accounts: res.data });
+        });
     }
 
     getFacebookPages() {
         axios.get("/api/facebook/pages").then(res => {
-            // Set user's facebook pages to state
+            var errorMessage = "";
+
             var pageOrGroup = res.data.data;
+
+            // If pageOrGroup returns false, there was an error so just set to undefined
+            if (pageOrGroup === false) {
+                pageOrGroup = undefined;
+            }
+
+            if (pageOrGroup === []) {
+                errorMessage = "No Facebook pages found";
+            } else {
+                errorMessage = "Please connect your Facebook profile first.";
+            }
+            // Set data to state
             this.setState({
                 pageOrGroup: pageOrGroup,
-                accountType: "facebook",
-                socialType: "page"
+                accountType: "page",
+                socialType: "facebook",
+                errorMessage: errorMessage
             });
         });
     }
     getFacebookGroups() {
         axios.get("/api/facebook/groups").then(res => {
-            // Set user's facebook pages to state
+            var message;
+
+            // Set user's facebook groups to state
             var pageOrGroup = res.data.data;
-            this.setState({ pageOrGroup: pageOrGroup });
+
+            // If pageOrGroup returns false, there was an error so just set to undefined
+            if (pageOrGroup === false) {
+                pageOrGroup = undefined;
+            }
+
+            if (pageOrGroup === []) {
+                message = "No Facebook pages found";
+            } else {
+                message = "Please connect your Facebook profile first.";
+            }
+            // Set data to state
+            this.setState({
+                pageOrGroup: pageOrGroup,
+                accountType: "group",
+                socialType: "facebook",
+                errorMessage: message
+            });
         });
     }
+    getLinkedinPages() {
+        axios.get("/api/linkedin/pages").then(res => {
+            var message;
+            // Check to see if array is empty or a profile account was found
+            var pageOrGroup = res.data;
 
+            // If pageOrGroup returns false, there was an error so just set to undefined
+            if (pageOrGroup === false) {
+                pageOrGroup = undefined;
+            }
+
+            if (pageOrGroup === []) {
+                message = "No Linkedin pages found";
+            } else {
+                message = "Please connect your Linkedin profile first.";
+            }
+            // Set data to state
+            this.setState({
+                pageOrGroup: pageOrGroup,
+                accountType: "page",
+                socialType: "linkedin",
+                errorMessage: message
+            });
+        });
+    }
     render() {
         // Initialize
         var accounts = this.state.accounts;
@@ -78,6 +142,7 @@ class SideBar extends Component {
                     pageOrGroup={this.state.pageOrGroup}
                     accountType={this.state.accountType}
                     socialType={this.state.socialType}
+                    errorMessage={this.state.errorMessage}
                 />
 
                 <span
@@ -108,21 +173,35 @@ class SideBar extends Component {
                     >
                         Page
                     </button>
-                    <button className="side-bar-button-center facebook">
+                    <button
+                        className="side-bar-button-center facebook"
+                        onClick={() => this.openModal("facebook", "group")}
+                    >
                         Group
                     </button>
                     <h4 className="twitter">Connect Twitter</h4>
                     <button
                         className="side-bar-button-center twitter"
                         style={{ width: "60%" }}
+                        onClick={() => {
+                            window.location = "/api/twitter";
+                        }}
                     >
                         Profile
                     </button>
-                    <h4 className="linkedin">Connect Linkedin</h4>{" "}
-                    <button className="side-bar-button-center linkedin">
+                    <h4 className="linkedin">Connect Linkedin</h4>
+                    <button
+                        className="side-bar-button-center linkedin"
+                        onClick={() => {
+                            window.location = "/api/linkedin";
+                        }}
+                    >
                         Profile
                     </button>
-                    <button className="side-bar-button-center linkedin">
+                    <button
+                        className="side-bar-button-center linkedin"
+                        onClick={() => this.openModal("linkedin", "page")}
+                    >
                         Page
                     </button>
                     <h4 className="instagram">Connect Instagram</h4>

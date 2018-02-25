@@ -1,0 +1,62 @@
+const User = require("../models/User");
+const Account = require("../models/Account");
+var FB = require("fb");
+
+module.exports = {
+    getFacebookGroups: function(req, res) {
+        // Get facebook profile
+        Account.findOne(
+            {
+                userID: req.user._id,
+                socialType: "facebook",
+                accountType: "profile"
+            },
+            function(err, account) {
+                if (err) return handleError(err);
+                if (account) {
+                    // Use facebook profile access token to get account groups
+                    FB.setAccessToken(account.accessToken);
+
+                    FB.api("me/groups", "get", function(groups) {
+                        // Init some values
+                        for (var index in groups) {
+                            groups[index].accountType = "group";
+                            groups[index].socialType = "facebook";
+                        }
+                        res.send(groups);
+                    });
+                } else {
+                    res.send(false);
+                }
+            }
+        );
+    },
+    getFacebookPages: function(req, res) {
+        // Get facebook profile
+        Account.findOne(
+            {
+                userID: req.user._id,
+                socialType: "facebook",
+                accountType: "profile"
+            },
+            function(err, account) {
+                if (err) return handleError(err);
+                if (account) {
+                    // Use facebook profile access token to get account pages
+                    FB.setAccessToken(account.accessToken);
+
+                    FB.api("me/accounts", "get", function(pages) {
+                        // Init some values
+                        for (var index in pages) {
+                            pages[index].accountType = "page";
+                            pages[index].socialType = "facebook";
+                        }
+                        res.send(pages);
+                    });
+                } else {
+                    res.send(false);
+                }
+            }
+        );
+    }
+};

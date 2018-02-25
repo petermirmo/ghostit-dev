@@ -3,11 +3,12 @@ import "../../css/theme.css";
 
 var pagesToAdd = [];
 var pagesMessage;
+var indents = [];
+var pages = [];
 class socialMediaDiv extends Component {
     constructor(props) {
         super(props);
 
-        pagesMessage = <p>{this.props.message}</p>;
         this.handleParentClick = this.handleParentClick.bind(this);
         this.handleChildClick = this.handleChildClick.bind(this);
     }
@@ -24,7 +25,7 @@ class socialMediaDiv extends Component {
         // Index in array of page to add
         var indexOfAccount = div.id;
 
-        // Check if index is in array
+        // Check if object is in state array
         if (!pagesToAdd.includes(this.props.accounts[indexOfAccount])) {
             // Page index is not in array
             pagesToAdd.push(this.props.accounts[indexOfAccount]);
@@ -37,7 +38,7 @@ class socialMediaDiv extends Component {
             pagesToAdd.splice(index, 1);
 
             // Take away class active from div
-            div.className += "social-media-div";
+            div.className = "social-media-div";
         }
         this.props.updateParentAccounts(pagesToAdd);
     }
@@ -50,10 +51,20 @@ class socialMediaDiv extends Component {
         // Text of div was clicked but we want the div to be set as active not the h4
         this.handleParentClick(div);
     }
+
     render() {
-        var pages = this.props.accounts;
+        // Error message
+        pagesMessage = <p>{this.props.message}</p>;
+
+        // Check to see if accounts have changed
+        if (pages !== this.props.accounts) {
+            // If they have changed reset pagesToAdd array
+            pagesToAdd = [];
+        }
+
+        pages = this.props.accounts;
         var page;
-        var indents = [];
+        indents = [];
 
         for (var index in pages) {
             page = pages[index];
