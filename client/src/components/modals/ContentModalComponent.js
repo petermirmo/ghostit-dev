@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import OwlCarousel from "react-owl-carousel3";
+import OwlCarousel from "react-owl-carousel";
 
 import "../../css/theme.css";
+import "../../css/carousel.css";
 import DatePicker from "../DatePickerComponent.js";
 import TimePicker from "../TimePickerComponent.js";
 // When the user clicks anywhere outside of the modal, close it
@@ -106,7 +107,7 @@ class Modal extends Component {
                 >
                     <img
                         style={{
-                            maxHeight: "200px",
+                            maxHeight: "100px",
                             boxShadow: " 0 0 20px 0"
                         }}
                         src={linkImages[index]}
@@ -172,20 +173,19 @@ class Modal extends Component {
                         <textarea
                             id="contentPostingTextarea"
                             className="postingTextArea"
-                            rows="10"
+                            rows="5"
                             placeholder="Success doesn't write itself!"
                             onChange={event =>
                                 this.findLink(event.target.value)
                             }
                         />
+                        {carousel}
+
                         <DatePicker
                             clickedCalendarDate={this.props.clickedCalendarDate}
                         />
                         <TimePicker timeForPost={this.props.timeForPost} />
-                        <button className="center" onClick={() => savePost()}>
-                            Save Post
-                        </button>
-                        {carousel}
+                        <button onClick={() => savePost()}>Save Post</button>
                     </div>
 
                     <div className="modal-footer" />

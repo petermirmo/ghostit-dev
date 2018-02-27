@@ -24,7 +24,7 @@
     animation-name: animatetop;
     animation-duration: 0.4s;
 
-    width: 65%;
+    width: 50%;
     margin-bottom: 200px;
 }
 
@@ -144,8 +144,8 @@
 .postingTextArea {
     outline: 0;
     float: left;
-    width: 65%;
-    max-width: 90%;
+    width: 100%;
+    max-width: 100%;
 
     border-radius: 5px;
     margin-bottom: 20px;
@@ -175,13 +175,4 @@
     content: "";
     display: table;
     clear: both;
-}
-
-.owl-theme .owl-controls .owl-page.active span {
-    background-color: red;
-    border: 2px solid red;
-}
-
-.owl-theme .owl-controls .owl-page span {
-    border: 2px solid red;
 }

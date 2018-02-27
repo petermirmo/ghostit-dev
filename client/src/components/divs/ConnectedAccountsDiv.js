@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "font-awesome/css/font-awesome.min.css";
-import { confirmAlert } from "react-confirm-alert";
 
 import "../../css/theme.css";
 
@@ -24,14 +22,6 @@ class ConnectedAccountsList extends Component {
             message +=
                 " Disconnecting a profile account will also disconnect all groups and pages.";
         }
-        confirmAlert({
-            title: "Disconnect Account", // Title dialog
-            message: message, // Message dialog
-            confirmLabel: "Confirm", // Text button confirm
-            cancelLabel: "Cancel", // Text button cancel
-            onConfirm: () => this.disconnectAccount(account), // Action after Confirm
-            onCancel: () => {} // Action after Cancel
-        });
     }
     disconnectAccount(account) {
         axios.delete("/api/account", { data: account }).then(res => {

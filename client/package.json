@@ -8,7 +8,6 @@
         }
     },
     "dependencies": {
-        "@nunkisoftware/link-preview": "^0.4.3",
         "axios": "^0.17.1",
         "bcryptjs": "^2.4.3",
         "bootstrap": "^4.0.0",
@@ -23,7 +22,7 @@
         "react-confirm-alert": "^1.0.8",
         "react-dom": "^16.2.0",
         "react-moment": "^0.7.0",
-        "react-owl-carousel3": "^2.2.5",
+        "react-owl-carousel": "^2.2.0",
         "react-redux": "^5.0.7",
         "react-router": "^4.2.0",
         "react-router-dom": "^4.2.2",
