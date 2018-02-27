@@ -50,3 +50,7 @@
 .owl-theme .owl-dots .owl-dot:hover span {
     background: #19b5fe;
 }
+
+.owl-prev .owl-next .owl-dots {
+    background-color: var(--blue-theme-color);
+}

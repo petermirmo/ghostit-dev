@@ -22,34 +22,23 @@ window.onclick = function(event) {
         return;
     }
 };
-function savePost() {
-    //var content = document.getElementById("contentPostingTextarea").value;
-    var date = document
-        .getElementById("contentDatePickerPopUp")
-        .getAttribute("getdate");
-    var time = document
-        .getElementById("contentTimePickerPopUp")
-        .getAttribute("gettime");
-
-    var postingDate = new Date(date);
-    var postingTime = new Date(time);
-    postingDate.setTime(postingTime.getTime());
-}
 
 class Modal extends Component {
     state = {
-        postContent: "",
-        postImages: "",
-        postLink: "",
-        postLinkImage: "",
-        linkImagesArray: []
+        linkImagesArray: [],
+        linkPreviewCanShow: "true",
+        linkPreviewCanEdit: "false"
     };
     constructor(props) {
         super(props);
 
         this.getDataFromURL = this.getDataFromURL.bind(this);
+        this.switchTabs = this.switchTabs.bind(this);
     }
-    switchTabs(event) {
+    switchTabs(event, socialMedia) {
+        if (socialMedia === "instagram") {
+            return;
+        }
         var clickedNavBarTab = event.target.parentNode;
 
         // Check if this is the active class
@@ -63,9 +52,38 @@ class Modal extends Component {
                 tabs[index].className = "column";
             }
             clickedNavBarTab.className += " active-column";
+            if (socialMedia === "facebook") {
+                this.setState({
+                    linkPreviewCanShow: true,
+                    linkPreviewCanEdit: false,
+                    linkImagesArray: []
+                });
+            } else if (socialMedia === "twitter") {
+                this.setState({
+                    linkPreviewCanShow: false,
+                    linkPreviewCanEdit: false,
+                    linkImagesArray: []
+                });
+            } else if (socialMedia === "linkedin") {
+                this.setState({
+                    linkPreviewCanShow: true,
+                    linkPreviewCanEdit: true,
+                    linkImagesArray: []
+                });
+            } else if (socialMedia === "instagram") {
+                this.setState({
+                    linkPreviewCanShow: false,
+                    linkPreviewCanEdit: false,
+                    linkImagesArray: []
+                });
+            }
         }
     }
     findLink(textAreaString) {
+        // If we can't show link preview, return
+        if (this.state.linkPreviewCanShow === false) {
+            return;
+        }
         // Url regular expression
         var urlRegularExpression = /((http|ftp|https):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
         // Finds url
@@ -88,6 +106,35 @@ class Modal extends Component {
             this.setState({ linkImagesArray: res.data });
         });
     }
+    savePost() {
+        var content = document.getElementById("contentPostingTextarea").value;
+        var date = document
+            .getElementById("contentDatePickerPopUp")
+            .getAttribute("getdate");
+        var time = document
+            .getElementById("contentTimePickerPopUp")
+            .getAttribute("gettime");
+        var carousel;
+        if (this.state.linkPreviewCanShow) {
+            carousel = document.getElementById("linkCarousel");
+        }
+        var postingDate = new Date(date);
+        var postingTime = new Date(time);
+        postingDate.setTime(postingTime.getTime());
+
+        var currentDate = new Date();
+        console.log(currentDate);
+        console.log("\n");
+        console.log(content);
+        console.log("\n");
+        console.log(postingDate);
+        console.log("\n");
+        console.log(content);
+        console.log("\n");
+        if (carousel) {
+            console.log(carousel);
+        }
+    }
 
     render() {
         var linkImages = this.state.linkImagesArray;
@@ -95,7 +142,10 @@ class Modal extends Component {
         var carousel;
 
         for (var index in linkImages) {
-            console.log(linkImages[index]);
+            // If we can't show link preview, break
+            if (this.state.linkPreviewCanShow === false) {
+                break;
+            }
             imgTags.push(
                 <div
                     className="item"
@@ -106,6 +156,7 @@ class Modal extends Component {
                     }}
                 >
                     <img
+                        alt=" error :("
                         style={{
                             maxHeight: "100px",
                             boxShadow: " 0 0 20px 0"
@@ -114,22 +165,48 @@ class Modal extends Component {
                     />
                 </div>
             );
-            carousel = (
-                <OwlCarousel
-                    style={{
-                        float: "left",
-                        width: "40%"
-                    }}
-                    items={1}
-                    className="owl-theme center"
-                    center={true}
-                    loop
-                    margin={10}
-                    nav
-                >
-                    {imgTags}
-                </OwlCarousel>
-            );
+            if (this.state.linkPreviewCanEdit === true) {
+                carousel = (
+                    <OwlCarousel
+                        id="linkCarousel"
+                        style={{
+                            float: "left",
+                            width: "40%"
+                        }}
+                        items={1}
+                        className="owl-theme center"
+                        center={true}
+                        loop
+                        margin={10}
+                        nav
+                    >
+                        {imgTags}
+                    </OwlCarousel>
+                );
+            } else {
+                carousel = (
+                    <OwlCarousel
+                        id="linkCarousel"
+                        style={{
+                            float: "left",
+                            width: "40%"
+                        }}
+                        items={1}
+                        className="owl-theme center"
+                        center={true}
+                        loop
+                        margin={10}
+                        nav={false}
+                        dots={false}
+                        mouseDrag={false}
+                        touchDrag={false}
+                        pullDrag={false}
+                        freeDrag={false}
+                    >
+                        {imgTags}
+                    </OwlCarousel>
+                );
+            }
         }
         return (
             <div id="postingModal" className="modal">
@@ -138,7 +215,9 @@ class Modal extends Component {
                         <div className="row">
                             <div className="column active-column">
                                 <button
-                                    onClick={event => this.switchTabs(event)}
+                                    onClick={event =>
+                                        this.switchTabs(event, "facebook")
+                                    }
                                 >
                                     Facebook
                                 </button>
@@ -146,7 +225,9 @@ class Modal extends Component {
 
                             <div className="column">
                                 <button
-                                    onClick={event => this.switchTabs(event)}
+                                    onClick={event =>
+                                        this.switchTabs(event, "twitter")
+                                    }
                                 >
                                     Twitter
                                 </button>
@@ -154,7 +235,9 @@ class Modal extends Component {
 
                             <div className="column">
                                 <button
-                                    onClick={event => this.switchTabs(event)}
+                                    onClick={event =>
+                                        this.switchTabs(event, "linkedin")
+                                    }
                                 >
                                     Linkedin
                                 </button>
@@ -162,9 +245,15 @@ class Modal extends Component {
 
                             <div
                                 className="column"
-                                onClick={event => this.switchTabs(event)}
+                                style={{
+                                    background:
+                                        "linear-gradient(90deg, #cd486b, #8a3ab9)"
+                                }}
+                                onClick={event =>
+                                    this.switchTabs(event, "instagram")
+                                }
                             >
-                                <button>Instagram</button>
+                                <button>Coming Soon!</button>
                             </div>
                         </div>
                     </div>
@@ -185,7 +274,9 @@ class Modal extends Component {
                             clickedCalendarDate={this.props.clickedCalendarDate}
                         />
                         <TimePicker timeForPost={this.props.timeForPost} />
-                        <button onClick={() => savePost()}>Save Post</button>
+                        <button onClick={() => this.savePost()}>
+                            Save Post
+                        </button>
                     </div>
 
                     <div className="modal-footer" />
