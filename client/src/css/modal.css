@@ -1,4 +1,4 @@
-.modal2 {
+.modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 100; /* Sit on top */
@@ -13,7 +13,7 @@
 }
 
 /* Modal Content */
-.modal-content2 {
+.modal-content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
@@ -79,24 +79,24 @@
     cursor: pointer;
 }
 
-.modal-header2 {
+.modal-header {
     background-color: var(--blue-theme-color);
 }
 
-.modal-body2 {
+.modal-body {
     padding: 2px 16px;
     overflow: hidden;
     padding-top: 20px;
 }
 
-.modal-footer2 {
+.modal-footer {
     padding: 2px 16px;
     background-color: var(--white-theme-color);
     color: red;
     text-align: center;
     height: 50px;
 }
-.modal-body2 button {
+.modal-body button {
     font-size: var(--large-font-size);
     min-width: 20%;
     padding: 5px;
@@ -150,14 +150,14 @@
     border-radius: 5px;
     margin-bottom: 20px;
 }
-.column2 {
+.column {
     float: left;
     width: 25%;
     color: #262626;
     background-color: var(--light-blue-theme-color);
     box-shadow: 1px 2px 2px 0px var(--off-black-theme-color);
 }
-.column2 button {
+.column button {
     height: 50px;
     width: 100%;
     background-color: inherit;
@@ -171,8 +171,17 @@
 }
 
 /* Clear floats after the columns */
-.row2:after {
+.row:after {
     content: "";
     display: table;
     clear: both;
+}
+
+.owl-theme .owl-controls .owl-page.active span {
+    background-color: red;
+    border: 2px solid red;
+}
+
+.owl-theme .owl-controls .owl-page span {
+    border: 2px solid red;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Carousel } from "react-bootstrap";
+import OwlCarousel from "react-owl-carousel3";
 
 import "../../css/theme.css";
 import DatePicker from "../DatePickerComponent.js";
@@ -41,15 +41,12 @@ class Modal extends Component {
         postImages: "",
         postLink: "",
         postLinkImage: "",
-        linkImagesArray: [],
-        index: 0,
-        direction: null
+        linkImagesArray: []
     };
     constructor(props) {
         super(props);
 
         this.getDataFromURL = this.getDataFromURL.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
     }
     switchTabs(event) {
         var clickedNavBarTab = event.target.parentNode;
@@ -62,7 +59,7 @@ class Modal extends Component {
             // Take away active class from all other tabs
             var tabs = document.getElementsByClassName("active-column");
             for (var index = 0; index < tabs.length; index++) {
-                tabs[index].className = "column2";
+                tabs[index].className = "column";
             }
             clickedNavBarTab.className += " active-column";
         }
@@ -90,29 +87,55 @@ class Modal extends Component {
             this.setState({ linkImagesArray: res.data });
         });
     }
-    handleSelect(selectedIndex, e) {
-        alert(`selected=${selectedIndex}, direction=${e.direction}`);
-        this.setState({
-            index: selectedIndex,
-            direction: e.direction
-        });
-    }
-    render() {
-        const { index, direction } = this.state;
 
+    render() {
         var linkImages = this.state.linkImagesArray;
         var imgTags = [];
         var carousel;
 
-        for (var index2 in linkImages) {
-            console.log(linkImages[index2]);
+        for (var index in linkImages) {
+            console.log(linkImages[index]);
+            imgTags.push(
+                <div
+                    className="item"
+                    key={index}
+                    style={{
+                        height: "150",
+                        border: "2px solid var(--black-theme-color)"
+                    }}
+                >
+                    <img
+                        style={{
+                            maxHeight: "200px",
+                            boxShadow: " 0 0 20px 0"
+                        }}
+                        src={linkImages[index]}
+                    />
+                </div>
+            );
+            carousel = (
+                <OwlCarousel
+                    style={{
+                        float: "left",
+                        width: "40%"
+                    }}
+                    items={1}
+                    className="owl-theme center"
+                    center={true}
+                    loop
+                    margin={10}
+                    nav
+                >
+                    {imgTags}
+                </OwlCarousel>
+            );
         }
         return (
-            <div id="postingModal" className="modal2">
-                <div className="modal-content2" style={{ textAlign: "center" }}>
-                    <div className="modal-header2">
-                        <div className="row2">
-                            <div className="column2 active-column">
+            <div id="postingModal" className="modal">
+                <div className="modal-content" style={{ textAlign: "center" }}>
+                    <div className="modal-header">
+                        <div className="row">
+                            <div className="column active-column">
                                 <button
                                     onClick={event => this.switchTabs(event)}
                                 >
@@ -120,7 +143,7 @@ class Modal extends Component {
                                 </button>
                             </div>
 
-                            <div className="column2">
+                            <div className="column">
                                 <button
                                     onClick={event => this.switchTabs(event)}
                                 >
@@ -128,7 +151,7 @@ class Modal extends Component {
                                 </button>
                             </div>
 
-                            <div className="column2">
+                            <div className="column">
                                 <button
                                     onClick={event => this.switchTabs(event)}
                                 >
@@ -137,7 +160,7 @@ class Modal extends Component {
                             </div>
 
                             <div
-                                className="column2"
+                                className="column"
                                 onClick={event => this.switchTabs(event)}
                             >
                                 <button>Instagram</button>
@@ -145,7 +168,7 @@ class Modal extends Component {
                         </div>
                     </div>
 
-                    <div className="modal-body2">
+                    <div className="modal-body">
                         <textarea
                             id="contentPostingTextarea"
                             className="postingTextArea"
@@ -162,61 +185,10 @@ class Modal extends Component {
                         <button className="center" onClick={() => savePost()}>
                             Save Post
                         </button>
+                        {carousel}
                     </div>
-                    <div style={{ maxHeight: "200px" }}>
-                        <Carousel
-                            activeIndex={index}
-                            direction={direction}
-                            onSelect={this.handleSelect}
-                        >
-                            <Carousel.Item>
-                                <img
-                                    width={100}
-                                    height={100}
-                                    alt="900x500"
-                                    src="https://uploads-ssl.webflow.com/5982039167058400011c5a52/5a89ea23d9716c0001a50a0f_product%20image.png"
-                                />
-                                <Carousel.Caption>
-                                    <h3>First slide label</h3>
-                                    <p>
-                                        Nulla vitae elit libero, a pharetra
-                                        augue mollis interdum.
-                                    </p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    width={100}
-                                    height={100}
-                                    alt="900x500"
-                                    src="https://uploads-ssl.webflow.com/5982039167058400011c5a52/5a89ea23d9716c0001a50a0f_product%20image.png"
-                                />
-                                <Carousel.Caption>
-                                    <h3>Second slide label</h3>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit.
-                                    </p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    width={100}
-                                    height={100}
-                                    alt="900x500"
-                                    src="https://uploads-ssl.webflow.com/5982039167058400011c5a52/5a89ea23d9716c0001a50a0f_product%20image.png"
-                                />
-                                <Carousel.Caption>
-                                    <h3>Third slide label</h3>
-                                    <p>
-                                        Praesent commodo cursus magna, vel
-                                        scelerisque nisl consectetur.
-                                    </p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                        </Carousel>
-                    </div>
-                    <div className="modal-footer2" />
+
+                    <div className="modal-footer" />
                 </div>
             </div>
         );
