@@ -33,7 +33,10 @@ class Content extends Component {
     }
     render() {
         return (
-            <div id="wrapper" style={{ backgroundColor: "#b3e6ff" }}>
+            <div
+                id="wrapper"
+                style={{ backgroundColor: "var(--light-blue-theme-color)" }}
+            >
                 <Header />
                 <SideBar />
 
@@ -47,7 +50,7 @@ class Content extends Component {
                                 className="profile-input center"
                                 placeholder="Full Name"
                                 style={{ marginTop: "7%" }}
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                                 required
                             />
                             <input
@@ -56,7 +59,7 @@ class Content extends Component {
                                 name="email"
                                 className="profile-input center"
                                 placeholder="Email"
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                                 required
                             />
 
@@ -66,7 +69,7 @@ class Content extends Component {
                                 name="website"
                                 className="profile-input center"
                                 placeholder="Website"
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                                 required
                             />
                             <input
@@ -74,7 +77,7 @@ class Content extends Component {
                                 name="timezone"
                                 placeholder="Timezone"
                                 className="profile-input center"
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                             />
                             <input
                                 id="passwordProfileInput"
@@ -82,7 +85,7 @@ class Content extends Component {
                                 name="password"
                                 className="profile-input center"
                                 placeholder="Password"
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                                 required
                             />
 

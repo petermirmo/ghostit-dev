@@ -158,16 +158,6 @@
     background-color: var(--white-theme-color);
 }
 
-.postingTextArea {
-    outline: 0;
-
-    max-width: 80%;
-    width: 80%;
-    min-width: 80%;
-
-    border-radius: 5px;
-}
-
 .login-switch {
     cursor: pointer;
     border-bottom: 2px solid var(--blue-theme-color);
@@ -221,4 +211,10 @@
 }
 .instagram {
     background: linear-gradient(90deg, #cd486b, #8a3ab9);
+}
+.carousel-container {
+    margin: 0 auto;
+    padding: 40px;
+    color: #333;
+    background: #419be0;
 }

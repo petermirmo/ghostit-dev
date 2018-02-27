@@ -19,6 +19,7 @@
     "dependencies": {
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "^1.18.2",
+        "cheerio": "^1.0.0-rc.2",
         "concurrently": "^3.5.1",
         "connect-flash": "^0.1.1",
         "connect-mongo": "^2.0.1",
@@ -37,14 +38,12 @@
         "nodemon": "^1.14.12",
         "passport": "^0.4.0",
         "passport-facebook": "^2.1.1",
-        "passport-google-oauth": "^1.0.0",
-        "passport-google-oauth20": "^1.0.0",
         "passport-linkedin": "^1.0.0",
         "passport-local": "^1.0.0",
         "passport-twitter": "^1.0.4",
         "react-bootstrap-date-picker": "^5.1.0",
         "react-bootstrap-datetimepicker": "0.0.22",
         "react-datetime": "^2.13.0",
-        "url": "^0.11.0"
+        "request": "^2.83.0"
     }
 }

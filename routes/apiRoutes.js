@@ -6,7 +6,7 @@ var FB = require("fb");
 var facebookFunctions = require("../services/facebookFunctions");
 var linkedinFunctions = require("../services/linkedinFunctions");
 var userFunctions = require("../services/userFunctions");
-var accountFunctions = require("../services/accountFunctions");
+var postFunctions = require("../services/postFunctions");
 
 module.exports = app => {
     // Login user
@@ -118,5 +118,9 @@ module.exports = app => {
     // Get Linkedin pages of profile account
     app.get("/api/linkedin/pages", (req, res) =>
         linkedinFunctions.getLinkedinPages(req, res)
+    );
+
+    app.post("/api/link", (req, res) =>
+        postFunctions.getImagesFromUrl(req, res)
     );
 };

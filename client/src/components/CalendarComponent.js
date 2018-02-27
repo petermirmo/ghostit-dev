@@ -22,7 +22,7 @@ class Calendar extends Component {
         this.setState({ timeForPost: timeForPost });
 
         // Open modal
-        var modal = document.getElementById("myModal");
+        var modal = document.getElementById("postingModal");
         modal.style.display = "block";
     }
 

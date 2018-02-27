@@ -29,7 +29,7 @@ class Header extends Component {
         }
         return (
             <header>
-                <div className="navbar">
+                <div className="navbar2">
                     <div className="dropdown">
                         <button className="dropbtn">Profile</button>
                         <div className="dropdown-content">

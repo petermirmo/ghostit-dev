@@ -1,4 +1,4 @@
-.modal {
+.modal2 {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 100; /* Sit on top */
@@ -13,7 +13,7 @@
 }
 
 /* Modal Content */
-.modal-content {
+.modal-content2 {
     position: relative;
     background-color: #fefefe;
     margin: auto;
@@ -24,7 +24,7 @@
     animation-name: animatetop;
     animation-duration: 0.4s;
 
-    width: 50%;
+    width: 65%;
     margin-bottom: 200px;
 }
 
@@ -79,28 +79,28 @@
     cursor: pointer;
 }
 
-.modal-header {
-    padding: 2px 16px;
+.modal-header2 {
     background-color: var(--blue-theme-color);
-    color: white;
 }
 
-.modal-body {
+.modal-body2 {
     padding: 2px 16px;
     overflow: hidden;
+    padding-top: 20px;
 }
 
-.modal-footer {
+.modal-footer2 {
     padding: 2px 16px;
     background-color: var(--white-theme-color);
     color: red;
     text-align: center;
+    height: 50px;
 }
-.modal-footer button {
+.modal-body2 button {
     font-size: var(--large-font-size);
-    padding: 5px;
     min-width: 20%;
-    margin: 10px;
+    padding: 5px;
+    margin-top: 5%;
 }
 .social-media-div {
     text-align: left;
@@ -139,4 +139,40 @@
 }
 .instagram {
     background: linear-gradient(90deg, #cd486b, #8a3ab9);
+}
+
+.postingTextArea {
+    outline: 0;
+    float: left;
+    width: 65%;
+    max-width: 90%;
+
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.column2 {
+    float: left;
+    width: 25%;
+    color: #262626;
+    background-color: var(--light-blue-theme-color);
+    box-shadow: 1px 2px 2px 0px var(--off-black-theme-color);
+}
+.column2 button {
+    height: 50px;
+    width: 100%;
+    background-color: inherit;
+    color: inherit;
+}
+.active-column {
+    position: relative;
+    background-color: var(--blue-theme-color);
+    color: var(--white-theme-color);
+    box-shadow: 1px 2px 10px 0px var(--black-theme-color);
+}
+
+/* Clear floats after the columns */
+.row2:after {
+    content: "";
+    display: table;
+    clear: both;
 }
