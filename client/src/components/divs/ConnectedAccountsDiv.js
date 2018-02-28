@@ -52,10 +52,17 @@ class ConnectedAccountsList extends Component {
         for (var index in accounts) {
             // Initialize
             var account = accounts[index];
-            var title = account.givenName;
+            // Capitolize first and last name
+            var name =
+                account.givenName.charAt(0).toUpperCase() +
+                account.givenName.slice(1);
             if (account.familyName) {
-                title += " " + account.familyName;
+                name +=
+                    " " +
+                    account.familyName.charAt(0).toUpperCase() +
+                    account.familyName.slice(1);
             }
+            console.log(name);
             // Header for connected accounts
             connectedAccountsHeader = (
                 <h2
@@ -82,7 +89,7 @@ class ConnectedAccountsList extends Component {
                             paddingLeft: "10px"
                         }}
                     >
-                        <h4>{title}</h4>
+                        <h4>{name}</h4>
                         <p>
                             {account.accountType.charAt(0).toUpperCase() +
                                 account.accountType.slice(1)}
@@ -99,8 +106,7 @@ class ConnectedAccountsList extends Component {
                         </p>
                     </div>
                 );
-            }
-            if (account.socialType === "twitter") {
+            } else if (account.socialType === "twitter") {
                 connectedTwitterAccounts.push(
                     <div
                         key={connectedTwitterAccounts.length}
@@ -110,10 +116,7 @@ class ConnectedAccountsList extends Component {
                             paddingLeft: "10px"
                         }}
                     >
-                        <h4>
-                            {account.givenName.charAt(0).toUpperCase() +
-                                account.givenName.slice(1)}
-                        </h4>
+                        <h4>{name}</h4>
                         <p>
                             {account.accountType.charAt(0).toUpperCase() +
                                 account.accountType.slice(1)}
@@ -130,8 +133,7 @@ class ConnectedAccountsList extends Component {
                         </p>
                     </div>
                 );
-            }
-            if (account.socialType === "linkedin") {
+            } else if (account.socialType === "linkedin") {
                 connectedLinkedinAccounts.push(
                     <div
                         key={connectedLinkedinAccounts.length}
@@ -141,10 +143,7 @@ class ConnectedAccountsList extends Component {
                             paddingLeft: "10px"
                         }}
                     >
-                        <h4>
-                            {account.givenName.charAt(0).toUpperCase() +
-                                account.givenName.slice(1)}
-                        </h4>
+                        <h4>{name}</h4>
                         <p>
                             {account.accountType.charAt(0).toUpperCase() +
                                 account.accountType.slice(1)}
