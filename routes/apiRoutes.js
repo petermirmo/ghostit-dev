@@ -5,6 +5,7 @@ var FB = require("fb");
 
 var facebookFunctions = require("../services/facebookFunctions");
 var linkedinFunctions = require("../services/linkedinFunctions");
+var accountFunctions = require("../services/accountFunctions");
 var userFunctions = require("../services/userFunctions");
 var postFunctions = require("../services/postFunctions");
 

@@ -25,13 +25,15 @@ window.onclick = function(event) {
 
 class Modal extends Component {
     state = {
+        accounts: [],
+        activeTab: "facebook",
         linkImagesArray: [],
         linkPreviewCanShow: "true",
         linkPreviewCanEdit: "false"
     };
     constructor(props) {
         super(props);
-
+        this.getUserAccounts();
         this.getDataFromURL = this.getDataFromURL.bind(this);
         this.switchTabs = this.switchTabs.bind(this);
     }
@@ -54,24 +56,28 @@ class Modal extends Component {
             clickedNavBarTab.className += " active-column";
             if (socialMedia === "facebook") {
                 this.setState({
+                    activeTab: socialMedia,
                     linkPreviewCanShow: true,
                     linkPreviewCanEdit: false,
                     linkImagesArray: []
                 });
             } else if (socialMedia === "twitter") {
                 this.setState({
+                    activeTab: socialMedia,
                     linkPreviewCanShow: false,
                     linkPreviewCanEdit: false,
                     linkImagesArray: []
                 });
             } else if (socialMedia === "linkedin") {
                 this.setState({
+                    activeTab: socialMedia,
                     linkPreviewCanShow: true,
                     linkPreviewCanEdit: true,
                     linkImagesArray: []
                 });
             } else if (socialMedia === "instagram") {
                 this.setState({
+                    activeTab: socialMedia,
                     linkPreviewCanShow: false,
                     linkPreviewCanEdit: false,
                     linkImagesArray: []
@@ -132,8 +138,20 @@ class Modal extends Component {
         console.log(content);
         console.log("\n");
         if (carousel) {
-            console.log(carousel);
+            // Get active image from carousel
+            var here = document.getElementsByClassName(
+                "owl-item active center"
+            )[0].children[0].children[0].src;
+            console.log(here);
         }
+    }
+
+    getUserAccounts() {
+        // Get all connected accounts of the user
+        axios.get("/api/accounts").then(res => {
+            // Set user's accounts to state
+            this.setState({ accounts: res.data });
+        });
     }
 
     render() {
@@ -208,6 +226,44 @@ class Modal extends Component {
                 );
             }
         }
+        var modalBody;
+        var activePageAccountsArray = [];
+        for (var index2 in this.state.accounts) {
+            if (
+                this.state.accounts[index2].socialType === this.state.activeTab
+            ) {
+                activePageAccountsArray.push(this.state.accounts[index2]);
+            }
+        }
+        if (activePageAccountsArray.length !== 0) {
+            modalBody = (
+                <div className="modal-body">
+                    <textarea
+                        id="contentPostingTextarea"
+                        className="postingTextArea"
+                        rows="5"
+                        placeholder="Success doesn't write itself!"
+                        onChange={event => this.findLink(event.target.value)}
+                    />
+                    <div style={{ width: "100%" }} className="center">
+                        Checkboxes go here
+                    </div>
+                    {carousel}
+
+                    <DatePicker
+                        clickedCalendarDate={this.props.clickedCalendarDate}
+                    />
+                    <TimePicker timeForPost={this.props.timeForPost} />
+                    <button onClick={() => this.savePost()}>Save Post</button>
+                </div>
+            );
+        } else {
+            modalBody = (
+                <div className="modal-body center">
+                    <h4>Connect {this.state.activeTab} Profile first!</h4>
+                </div>
+            );
+        }
         return (
             <div id="postingModal" className="modal">
                 <div className="modal-content" style={{ textAlign: "center" }}>
@@ -257,27 +313,7 @@ class Modal extends Component {
                             </div>
                         </div>
                     </div>
-
-                    <div className="modal-body">
-                        <textarea
-                            id="contentPostingTextarea"
-                            className="postingTextArea"
-                            rows="5"
-                            placeholder="Success doesn't write itself!"
-                            onChange={event =>
-                                this.findLink(event.target.value)
-                            }
-                        />
-                        {carousel}
-
-                        <DatePicker
-                            clickedCalendarDate={this.props.clickedCalendarDate}
-                        />
-                        <TimePicker timeForPost={this.props.timeForPost} />
-                        <button onClick={() => this.savePost()}>
-                            Save Post
-                        </button>
-                    </div>
+                    {modalBody}
 
                     <div className="modal-footer" />
                 </div>

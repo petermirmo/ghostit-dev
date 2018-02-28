@@ -22,22 +22,60 @@ class Header extends Component {
         document.getElementById("mySidebar").style.display = "block";
         document.getElementById("main").style.marginLeft = "25%";
     }
+    switchTabs(event) {
+        var clickedNavBarTab = event;
+
+        // Check if this is the active class
+        if (clickedNavBarTab.classList.contains("header-active")) {
+            // If it is already active tab, do nothing
+            return;
+        } else {
+            // Take away active class from all other tabs
+            var tabs = document.getElementsByClassName("header-active");
+            for (var index = 0; index < tabs.length; index++) {
+                tabs[index].classList.remove("header-active");
+            }
+            clickedNavBarTab.className += " header-active";
+        }
+    }
     render() {
         const { isLoggedIn } = this.state;
         if (!isLoggedIn) {
             return <Redirect to="/" />;
         }
+
         return (
             <header>
-                <div className="navbar2">
+                <div className="navbar">
                     <div className="dropdown">
-                        <button className="dropbtn">Profile</button>
+                        <button
+                            id="profileHeaderBtn"
+                            href="/profile"
+                            className="dropbtn"
+                        >
+                            Profile
+                        </button>
                         <div className="dropdown-content">
-                            <a href="/profile">Profile</a>
+                            <a
+                                onClick={event =>
+                                    this.switchTabs(
+                                        document.getElementById(
+                                            "profileHeaderBtn"
+                                        )
+                                    )
+                                }
+                                href="/profile"
+                            >
+                                Profile
+                            </a>
                             <a href="/api/logout">Logout</a>
                         </div>
                     </div>
-                    <a className="active" href="/content">
+                    <a
+                        href="/content"
+                        className="header-active"
+                        onClick={event => this.switchTabs(event.target)}
+                    >
                         Content
                     </a>
                     <button

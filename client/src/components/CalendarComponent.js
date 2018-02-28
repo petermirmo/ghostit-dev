@@ -57,7 +57,6 @@ class Calendar extends Component {
                         </a>
                     </li>
                 </ul>
-                <br />
                 <BigCalendar
                     selectable
                     className="big-calendar"
