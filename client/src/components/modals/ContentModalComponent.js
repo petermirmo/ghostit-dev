@@ -228,13 +228,47 @@ class Modal extends Component {
         }
         var modalBody;
         var activePageAccountsArray = [];
+        var accountsListDiv = [];
+        // Loop through all account
         for (var index2 in this.state.accounts) {
+            // Check if the account is the same as active tab
             if (
                 this.state.accounts[index2].socialType === this.state.activeTab
             ) {
                 activePageAccountsArray.push(this.state.accounts[index2]);
             }
         }
+        // To select which account to post to
+        for (var index3 in activePageAccountsArray) {
+            var name =
+                activePageAccountsArray[index3].givenName
+                    .charAt(0)
+                    .toUpperCase() +
+                activePageAccountsArray[index3].givenName.slice(1);
+            if (activePageAccountsArray[index3].familyName) {
+                name +=
+                    " " +
+                    activePageAccountsArray[index3].familyName
+                        .charAt(0)
+                        .toUpperCase() +
+                    activePageAccountsArray[index3].familyName.slice(1);
+            }
+            // Push div to array
+            var div = (
+                <div
+                    key={index3}
+                    style={{
+                        backgroundColor: "var(--blue-theme-color)",
+                        width: "25%"
+                    }}
+                >
+                    <button>{name}</button>
+                    <p>{activePageAccountsArray[index3].accountType}</p>
+                </div>
+            );
+            accountsListDiv.push(div);
+        }
+
         if (activePageAccountsArray.length !== 0) {
             modalBody = (
                 <div className="modal-body">
@@ -246,7 +280,7 @@ class Modal extends Component {
                         onChange={event => this.findLink(event.target.value)}
                     />
                     <div style={{ width: "100%" }} className="center">
-                        Checkboxes go here
+                        {accountsListDiv}
                     </div>
                     {carousel}
 
@@ -264,6 +298,7 @@ class Modal extends Component {
                 </div>
             );
         }
+
         return (
             <div id="postingModal" className="modal">
                 <div className="modal-content" style={{ textAlign: "center" }}>

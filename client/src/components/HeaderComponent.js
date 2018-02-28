@@ -43,13 +43,17 @@ class Header extends Component {
         if (!isLoggedIn) {
             return <Redirect to="/" />;
         }
+        if (document.getElementById(this.props.activePage)) {
+            document.getElementById(this.props.activePage).className +=
+                " header-active";
+        }
 
         return (
             <header>
                 <div className="navbar">
                     <div className="dropdown">
                         <button
-                            id="profileHeaderBtn"
+                            id="profile"
                             href="/profile"
                             className="dropbtn"
                         >
@@ -59,9 +63,7 @@ class Header extends Component {
                             <a
                                 onClick={event =>
                                     this.switchTabs(
-                                        document.getElementById(
-                                            "profileHeaderBtn"
-                                        )
+                                        document.getElementById("profile")
                                     )
                                 }
                                 href="/profile"
@@ -72,8 +74,8 @@ class Header extends Component {
                         </div>
                     </div>
                     <a
+                        id="content"
                         href="/content"
-                        className="header-active"
                         onClick={event => this.switchTabs(event.target)}
                     >
                         Content

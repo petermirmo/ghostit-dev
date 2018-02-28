@@ -62,7 +62,6 @@ class ConnectedAccountsList extends Component {
                     account.familyName.charAt(0).toUpperCase() +
                     account.familyName.slice(1);
             }
-            console.log(name);
             // Header for connected accounts
             connectedAccountsHeader = (
                 <h2

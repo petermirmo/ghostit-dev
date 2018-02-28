@@ -1,7 +1,7 @@
 .navbar {
     overflow: hidden;
     background-color: var(--blue-theme-color);
-    background: linear-gradient(to top, var(--blue-theme-color), #80d6fe 300%);
+    background: linear-gradient(to top, var(--blue-theme-color), #80d6fe 150%);
     font-family: var(--font-theme);
     padding-right: 10%;
     height: 50px;
@@ -10,7 +10,7 @@
 
 #navBarOpen {
     padding: 10px;
-    background: linear-gradient(to top, var(--blue-theme-color), #80d6fe 300%);
+    background: linear-gradient(to top, var(--blue-theme-color), #80d6fe 150%);
 }
 
 .navbar a {
@@ -101,5 +101,6 @@
     display: block;
 }
 .header-active {
+    font-weight: bold;
     color: var(--white-theme-color) !important;
 }

@@ -37,7 +37,7 @@ class Content extends Component {
                 id="wrapper"
                 style={{ backgroundColor: "var(--light-blue-theme-color)" }}
             >
-                <Header />
+                <Header activePage="profile" />
                 <SideBar />
 
                 <div id="main">

@@ -10,7 +10,7 @@ class Content extends Component {
         return (
             <div id="wrapper">
                 <SideBar />
-                <Header />
+                <Header activePage="content" />
 
                 <div id="main">
                     <Calendar />
