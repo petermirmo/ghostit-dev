@@ -153,6 +153,31 @@ class Modal extends Component {
             this.setState({ accounts: res.data });
         });
     }
+    postingAccountNav(event) {
+        var clickedAccount;
+        // Make sure to get the actual div to set as active
+        // Not just the h4 or something
+        if (
+            event.target.parentNode.classList.contains(
+                "connected-accounts-posting-div"
+            )
+        ) {
+            clickedAccount = event.target.parentNode;
+        } else {
+            clickedAccount = event.target;
+        }
+
+        // Clear all divs to unactive
+        var divArray = document.getElementsByClassName(
+            "connected-accounts-posting-div"
+        );
+        for (var index in divArray) {
+            if (divArray[index].classList)
+                divArray[index].classList.remove("common-active");
+        }
+        // Add active class to clicked div
+        clickedAccount.className += " common-active";
+    }
 
     render() {
         var linkImages = this.state.linkImagesArray;
@@ -257,12 +282,10 @@ class Modal extends Component {
             var div = (
                 <div
                     key={index3}
-                    style={{
-                        backgroundColor: "var(--blue-theme-color)",
-                        width: "25%"
-                    }}
+                    className="connected-accounts-posting-div"
+                    onClick={event => this.postingAccountNav(event)}
                 >
-                    <button>{name}</button>
+                    <h4>{name}</h4>
                     <p>{activePageAccountsArray[index3].accountType}</p>
                 </div>
             );
@@ -275,11 +298,22 @@ class Modal extends Component {
                     <textarea
                         id="contentPostingTextarea"
                         className="postingTextArea"
-                        rows="5"
+                        rows={5}
                         placeholder="Success doesn't write itself!"
                         onChange={event => this.findLink(event.target.value)}
                     />
-                    <div style={{ width: "100%" }} className="center">
+                    <h4
+                        className="center"
+                        style={{
+                            display: "inline-block",
+                            width: "100%",
+                            margin: "0",
+                            padding: "0"
+                        }}
+                    >
+                        Choose an account to post to!
+                    </h4>
+                    <div className="connected-accounts-container center">
                         {accountsListDiv}
                     </div>
                     {carousel}

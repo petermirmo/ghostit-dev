@@ -98,6 +98,8 @@ li a {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    -webkit-transition: border-color 0.3s;
+    transition: border-color 0.3s;
 
     padding: 10px 10px;
     border-radius: 10px;
