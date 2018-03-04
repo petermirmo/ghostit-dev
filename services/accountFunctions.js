@@ -24,7 +24,6 @@ module.exports = {
     },
     saveAccount: function(req, res) {
         var page = req.body;
-        console.log(page);
         // Check to see if account is already added
         Account.findOne({ socialID: page.id }, function(err, account) {
             if (err) return handleError(err);

@@ -152,7 +152,7 @@
     max-width: 100%;
 
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     background: transparent;
 }
 .column {
@@ -185,15 +185,26 @@
     width: 100%;
     display: inline-block;
     margin-bottom: 10px;
+    white-space: nowrap;
 }
 .connected-accounts-posting-div {
     background-color: var(--light-blue-theme-color);
     width: 20%;
     height: 100%;
+    max-height: 100%;
     margin-right: 5px;
     border-radius: 10px;
     cursor: pointer;
     display: inline-block;
+    padding: 0;
+}
+.connected-accounts-posting-div h4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+.connected-accounts-posting-div p {
+    margin: 0;
 }
 
 .common-active,
@@ -202,4 +213,53 @@
     background-color: var(--blue-theme-color);
     cursor: pointer;
     color: var(--white-theme-color);
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin: 0;
+    padding: 4px;
+    float: left;
+    background-color: var(--blue-theme-color);
+    border: none;
+    border-radius: 5px;
+    color: var(--white-theme-color);
+    width: 100%;
+    text-align: center;
+}
+
+.delete-image-container {
+    width: 25%;
+    position: relative;
+    display: inline-block;
+    padding: 0;
+}
+.delete-image-container i {
+    top: 25%;
+    left: 38%;
+    position: absolute;
+    display: none;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+.delete-image-container:hover i {
+    z-index: 500;
+    display: inline-block;
+    color: red;
+}
+.delete-image-container img {
+    margin-top: 10px;
+    width: 90%;
+    transition: 0.5s ease;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.delete-image-container:hover img {
+    opacity: 0.5;
+}
+
+input[type="file"] {
+    display: none;
 }

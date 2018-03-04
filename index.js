@@ -9,6 +9,12 @@ const morgan = require("morgan");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo")(session);
+const fileUpload = require("express-fileupload");
+
+var Schema = mongoose.Schema;
+var multer = require("multer");
+
+var fs = require("fs");
 
 const router = express.Router();
 
@@ -20,11 +26,15 @@ var db = mongoose.connection;
 
 require("./services/passport")(passport);
 
+// For image uploads
+app.use(fileUpload());
+
 app.use(morgan("dev")); // Prints all routes used to console
 app.use(cookieParser()); // Read cookies (needed for auth)
 
 app.use(bodyParser.json()); //Read data from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
     session({
         secret: keys.cookieKey,

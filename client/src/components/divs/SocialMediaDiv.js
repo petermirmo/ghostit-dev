@@ -31,7 +31,7 @@ class socialMediaDiv extends Component {
             pagesToAdd.push(this.props.accounts[indexOfAccount]);
 
             // Set div to active
-            div.className += " add-fb-page-active";
+            div.className += " common-active";
         } else {
             // Page index is in array so remove it
             var index = pagesToAdd.indexOf(this.props.accounts[indexOfAccount]);

@@ -121,7 +121,16 @@ module.exports = app => {
         linkedinFunctions.getLinkedinPages(req, res)
     );
 
+    // Get images from a URL and send back to client
     app.post("/api/link", (req, res) =>
         postFunctions.getImagesFromUrl(req, res)
+    );
+
+    // Save post
+    app.post("/api/post", (req, res) => postFunctions.savePost(req, res));
+
+    // Save post images
+    app.post("/api/post/images", (req, res) =>
+        postFunctions.savePostImages(req, res)
     );
 };
