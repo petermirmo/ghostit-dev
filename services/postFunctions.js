@@ -1,13 +1,13 @@
 var request = require("request");
 var cheerio = require("cheerio");
+
 const Post = require("../models/Post");
-const PostImage = require("../models/PostImage");
 
 module.exports = {
     getImagesFromUrl: function(req, res) {
         var url = req.body.link;
         request(url, function(err, result, body) {
-            if (err) throw err;
+            if (err) res.send();
             var imgSrc = [];
             var $ = cheerio.load(body);
             $("img").each(function(index, img) {
@@ -22,30 +22,28 @@ module.exports = {
         newPost.userID = req.user.id;
         newPost.accountID = post.accountID;
         newPost.content = post.content;
+        newPost.postingDate = post.postingDate;
         newPost.link = post.link;
         newPost.linkImage = post.linkImage;
+        newPost.accountType = post.accountType;
+        newPost.socialType = post.socialType;
         newPost.save().then(result => res.send(result));
     },
     savePostImages: function(req, res) {
-        var imagesArray = req.files.file;
-        var postID = req.body.postID;
-        // Check if one image is being uploaded or many
-        // If it is just one image then imagesArray will be an object not an array
-        if (Array.isArray(imagesArray)) {
-            // Loop through each image
-            for (var index in imagesArray) {
-                let image = imagesArray[index];
-                console.log(image);
-            }
-        } else {
-            // fileArray is an object not an array, because there is only one element
-            var image = imagesArray;
+        res.send(true);
+    },
+    getPosts: function(req, res) {
+        // Get all posts
+        Post.find({ userID: req.user.id }, function(err, posts) {
+            if (err) return handleError(err);
 
-            var newImage = new PostImage();
-            newImage.postID = postID;
-            newImage.name = image.name;
-            newImage.data = image.data;
-            newImage.save();
-        }
-    }
+            res.send(posts);
+        });
+    },
+    getPost: function(req, res) {
+        Post.findOne({ _id: req.params.postID }, function(err, post) {
+            console.log(post);
+        });
+    },
+    getImages: function(req, res) {}
 };

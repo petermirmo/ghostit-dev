@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import OwlCarousel from "react-owl-carousel";
 import "font-awesome/css/font-awesome.min.css";
 
 import "../../css/theme.css";
 import "../../css/carousel.css";
 import DatePicker from "../DatePickerComponent.js";
 import TimePicker from "../TimePickerComponent.js";
+import Carousel from "../divs/Carousel.js";
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     // Turn off posting modal
@@ -22,6 +22,12 @@ window.onclick = function(event) {
         facebookModal.style.display = "none";
         return;
     }
+
+    var edittingModal = document.getElementById("edittingModal");
+    if (event.target === edittingModal) {
+        edittingModal.style.display = "none";
+        return;
+    }
 };
 
 class Modal extends Component {
@@ -33,14 +39,16 @@ class Modal extends Component {
         linkPreviewCanEdit: "false",
         postingToAccountId: "",
         link: "",
-        postImages: []
+        postImages: [],
+        accountType: ""
     };
     constructor(props) {
         super(props);
         this.getUserAccounts();
-        this.getDataFromURL = this.getDataFromURL.bind(this);
+
         this.switchTabs = this.switchTabs.bind(this);
         this.removePhoto = this.removePhoto.bind(this);
+        this.linkPreviewSetState = this.linkPreviewSetState.bind(this);
     }
     switchTabs(event, socialMedia) {
         if (socialMedia === "instagram") {
@@ -119,7 +127,12 @@ class Modal extends Component {
         this.clearActiveDivs();
         // Add active class to clicked div
         clickedAccount.className += " common-active";
-        this.setState({ postingToAccountId: clickedAccount.id });
+
+        // Set accountID and the accountType to state. children[1] is the <p>page</p> tag and the innerHTML is just the "page"
+        this.setState({
+            postingToAccountId: clickedAccount.id,
+            accountType: clickedAccount.children[1].innerHTML
+        });
     }
     clearActiveDivs() {
         this.setState({ postingToAccountId: "" });
@@ -134,36 +147,6 @@ class Modal extends Component {
         }
     }
 
-    findLink(textAreaString) {
-        // If we can't show link preview, return
-        if (this.state.linkPreviewCanShow === false) {
-            return;
-        }
-        // Url regular expression
-        var urlRegularExpression = /((http|ftp|https):\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-
-        // Finds url
-        var match = urlRegularExpression.exec(textAreaString);
-        var link;
-
-        // Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
-        if (match !== null) {
-            if (
-                match[0].substring(0, 7) === "http://" ||
-                match[0].substring(0, 8) === "https://"
-            ) {
-                link = match[0];
-            } else {
-                link = "http://" + match[0];
-            }
-            this.getDataFromURL(link);
-        }
-    }
-    getDataFromURL(link) {
-        axios.post("/api/link", { link: link }).then(res => {
-            this.setState({ link: link, linkImagesArray: res.data });
-        });
-    }
     showImages(event) {
         var images = event.target.files;
         // Check to make sure there are not more than 4 Images
@@ -288,15 +271,18 @@ class Modal extends Component {
             .post("/api/post", {
                 accountID: accountIdToPostTo,
                 content: content,
+                postingDate: postingDate,
                 link: link,
-                linkImage: linkPreviewImage
+                linkImage: linkPreviewImage,
+                accountType: this.state.accountType,
+                socialType: this.state.activeTab
             })
             .then(res => {
                 // Now we need to save images for post, Images are saved after post
                 // Becuse they are handled so differently in the database
                 // Text and images do not go well together
                 var post = res.data;
-                if (post._id && currentImages !== []) {
+                if (post._id && currentImages.length !== 0) {
                     // Make sure post actually saved
                     // Now we add images
 
@@ -315,12 +301,11 @@ class Modal extends Component {
                 }
             });
     }
+    linkPreviewSetState(link, imagesArray) {
+        this.setState({ link: link, linkImagesArray: imagesArray });
+    }
 
     render() {
-        var linkImages = this.state.linkImagesArray;
-        var linkPreviewImageTag = [];
-        var carousel;
-
         // Show preview images
         var imagesDiv = [];
         for (var index4 in this.state.postImages) {
@@ -343,73 +328,15 @@ class Modal extends Component {
             imagesDiv.push(imageTag);
         }
 
-        for (var index in linkImages) {
-            // If we can't show link preview, break
-            if (this.state.linkPreviewCanShow === false) {
-                break;
-            }
-            linkPreviewImageTag.push(
-                <div
-                    className="item"
-                    key={index}
-                    style={{
-                        height: "150",
-                        border: "2px solid var(--black-theme-color)"
-                    }}
-                >
-                    <img
-                        alt=" error :("
-                        style={{
-                            maxHeight: "100px",
-                            boxShadow: " 0 0 20px 0"
-                        }}
-                        src={linkImages[index]}
-                    />
-                </div>
-            );
-            if (this.state.linkPreviewCanEdit === true) {
-                carousel = (
-                    <OwlCarousel
-                        id="linkCarousel"
-                        style={{
-                            float: "left",
-                            width: "40%"
-                        }}
-                        items={1}
-                        className="owl-theme center"
-                        center={true}
-                        loop
-                        margin={10}
-                        nav
-                    >
-                        {linkPreviewImageTag}
-                    </OwlCarousel>
-                );
-            } else {
-                carousel = (
-                    <OwlCarousel
-                        id="linkCarousel"
-                        style={{
-                            float: "left",
-                            width: "40%"
-                        }}
-                        items={1}
-                        className="owl-theme center"
-                        center={true}
-                        loop
-                        margin={10}
-                        nav={false}
-                        dots={false}
-                        mouseDrag={false}
-                        touchDrag={false}
-                        pullDrag={false}
-                        freeDrag={false}
-                    >
-                        {linkPreviewImageTag}
-                    </OwlCarousel>
-                );
-            }
-        }
+        var carousel = (
+            <Carousel
+                linkPreviewCanEdit={this.state.linkPreviewCanEdit}
+                linkPreviewCanShow={this.state.linkPreviewCanShow}
+                ref="carousel"
+                updateParentState={this.linkPreviewSetState}
+            />
+        );
+
         var modalBody;
         var activePageAccountsArray = [];
         var accountsListDiv = [];
@@ -462,7 +389,9 @@ class Modal extends Component {
                         className="postingTextArea"
                         rows={5}
                         placeholder="Success doesn't write itself!"
-                        onChange={event => this.findLink(event.target.value)}
+                        onChange={event =>
+                            this.refs.carousel.findLink(event.target.value)
+                        }
                     />
                     <label htmlFor="file-upload" className="custom-file-upload">
                         Upload Images! (Up to four)

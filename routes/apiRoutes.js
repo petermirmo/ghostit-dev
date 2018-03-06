@@ -2,6 +2,58 @@ const passport = require("passport");
 const User = require("../models/User");
 const Account = require("../models/Account");
 var FB = require("fb");
+var fs = require("fs");
+const Post = require("../models/Post");
+
+var multer = require("multer");
+
+// Uploads images to server files
+// Puts them in client/public/postPhotos/ userID / postID / nameOfImage
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        try {
+            const folderToPhotos = "client/public/postPhotos/";
+            const folderForUser = folderToPhotos + req.user._id + "/";
+            const folderForPost = folderForUser + req.body.postID + "/";
+            if (!fs.existsSync(folderToPhotos)) {
+                fs.mkdir(folderToPhotos);
+            }
+            if (!fs.existsSync(folderForUser)) {
+                fs.mkdir(folderForUser);
+            }
+            if (!fs.existsSync(folderForPost)) {
+                fs.mkdir(folderForPost);
+            }
+            cb(null, folderForPost);
+        } catch (err) {
+            res.send(false);
+        }
+    },
+    filename: function(req, file, cb) {
+        try {
+            cb(null, file.originalname);
+            const relativeURL =
+                "client/public/postPhotos/" +
+                req.user._id +
+                "/" +
+                req.body.postID +
+                "/" +
+                file.originalname;
+            Post.findOne({ _id: req.body.postID }, function(err, post) {
+                if (err) return handleError(err);
+
+                post.images.push({
+                    relativeURL: relativeURL,
+                    name: file.originalname
+                });
+                post.save();
+            });
+        } catch (err) {
+            res.send(false);
+        }
+    }
+});
+var upload = multer({ storage: storage });
 
 var facebookFunctions = require("../services/facebookFunctions");
 var linkedinFunctions = require("../services/linkedinFunctions");
@@ -126,11 +178,18 @@ module.exports = app => {
         postFunctions.getImagesFromUrl(req, res)
     );
 
+    // Save post images
+    app.post("/api/post/images", upload.array("file", 4), (req, res) =>
+        postFunctions.savePostImages(req, res)
+    ); // Get images for a post
+    app.get("/api/post/images/:postID", (req, res) =>
+        postFunctions.getImages(req, res)
+    );
+
     // Save post
     app.post("/api/post", (req, res) => postFunctions.savePost(req, res));
-
-    // Save post images
-    app.post("/api/post/images", (req, res) =>
-        postFunctions.savePostImages(req, res)
-    );
+    // Get all of user's posts
+    app.get("/api/posts", (req, res) => postFunctions.getPosts(req, res));
+    // Get post
+    app.get("/api/post/:postID", (req, res) => postFunctions.getPost(req, res));
 };

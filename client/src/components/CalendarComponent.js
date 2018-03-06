@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import "../css/theme.css";
 import ContentModal from "../components/modals/ContentModalComponent";
+import EdittingModal from "../components/modals/EdittingModalComponent";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
@@ -13,25 +15,82 @@ var clickedCalendarDate = new Date();
 var timeForPost = new Date();
 
 class Calendar extends Component {
+    state = {
+        posts: [],
+        edittingPost: {},
+        edittingImages: []
+    };
+    constructor(props) {
+        super(props);
+
+        // Get all of user's posts to display in calendar
+        axios.get("/api/posts").then(res => {
+            // Set posts to state
+            var postArray = res.data;
+            var eventsArray = [];
+            var event = {};
+            for (var index in postArray) {
+                event = postArray[index];
+                event.start = postArray[index].postingDate;
+                event.end = postArray[index].postingDate;
+                event.title = postArray[index].content;
+                event.link = postArray[index].link;
+                event.linkImage = postArray[index].linkImage;
+                event.accountType = postArray[index].accountType;
+                event.socialType = postArray[index].socialType;
+
+                eventsArray.push(event);
+            }
+            this.setState({ posts: eventsArray });
+        });
+        this.editPost = this.editPost.bind(this);
+    }
     openModal(slotinfo) {
         // Date for post is set to date clicked on calendar
         clickedCalendarDate = slotinfo.start;
         this.setState({ clickedCalendarDate: clickedCalendarDate });
 
-        // Time for post is set to 10am
+        // Time for post is set to current time
         this.setState({ timeForPost: timeForPost });
 
         // Open modal
-        var modal = document.getElementById("postingModal");
-        modal.style.display = "block";
+        document.getElementById("postingModal").style.display = "block";
+    }
+    editPost(clickedCalendarEvent) {
+        // Open editting modal
+        document.getElementById("edittingModal").style.display = "block";
+        this.refs.refEditModal.initialize(clickedCalendarEvent);
     }
 
     render() {
+        // Calendar stuff
+        var calendar = (
+            <BigCalendar
+                selectable
+                className="big-calendar"
+                {...this.props}
+                events={this.state.posts}
+                step={60}
+                defaultDate={new Date()}
+                style={calendarStyle}
+                onSelectSlot={slotInfo => this.openModal(slotInfo)}
+                onSelectEvent={clickedCalendarEvent =>
+                    this.editPost(clickedCalendarEvent)
+                }
+            />
+        );
+
+        // Setting up editting post modal so open it autofills with the post data
+
         return (
             <div>
                 <ContentModal
                     clickedCalendarDate={clickedCalendarDate}
                     timeForPost={timeForPost}
+                />
+                <EdittingModal
+                    post={this.state.edittingPost}
+                    ref="refEditModal"
                 />
                 <ul>
                     <li onClick={() => navBar("All")}>
@@ -57,20 +116,13 @@ class Calendar extends Component {
                         </a>
                     </li>
                 </ul>
-                <BigCalendar
-                    selectable
-                    className="big-calendar"
-                    {...this.props}
-                    events={[]}
-                    step={60}
-                    defaultDate={new Date()}
-                    style={calendarStyle}
-                    onSelectSlot={slotInfo => this.openModal(slotInfo)}
-                />
+                {calendar}
             </div>
         );
     }
 }
+
+// Content page navbar logic
 
 // Calendar navbar variables
 var allNavBarGlobal = false;

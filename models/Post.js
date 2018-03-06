@@ -7,7 +7,16 @@ const postSchema = new Schema({
     accountID: String,
     content: String,
     link: String,
-    linkImage: String
+    linkImage: String,
+    postingDate: String,
+    accountType: String,
+    socialType: String,
+    images: [
+        {
+            relativeURL: String,
+            name: String
+        }
+    ]
 });
 
 module.exports = mongoose.model("posts", postSchema);
