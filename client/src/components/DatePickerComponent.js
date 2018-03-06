@@ -40,7 +40,7 @@ class DatePickerComponent extends Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <DatePicker
-                    id="contentDatePickerPopUp"
+                    id={this.props.id}
                     hintText="Click here to pick Date!"
                     autoOk={true}
                     value={this.state.controlledDate}

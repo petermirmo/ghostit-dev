@@ -40,7 +40,7 @@ class TimePickerComponent extends Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <TimePicker
-                    id="contentTimePickerPopUp"
+                    id={this.props.id}
                     hintText="Click here to pick Time!"
                     autoOk={true}
                     value={this.state.controlledTime}

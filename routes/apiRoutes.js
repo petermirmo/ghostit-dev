@@ -6,9 +6,11 @@ var fs = require("fs");
 const Post = require("../models/Post");
 
 var multer = require("multer");
+var rimraf = require("rimraf");
 
 // Uploads images to server files
 // Puts them in client/public/postPhotos/ userID / postID / nameOfImage
+var edittingPost = true;
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         try {
@@ -16,15 +18,47 @@ var storage = multer.diskStorage({
             const folderForUser = folderToPhotos + req.user._id + "/";
             const folderForPost = folderForUser + req.body.postID + "/";
             if (!fs.existsSync(folderToPhotos)) {
-                fs.mkdir(folderToPhotos);
+                fs.mkdir(folderToPhotos, function(err) {
+                    if (err) return false;
+                });
             }
             if (!fs.existsSync(folderForUser)) {
-                fs.mkdir(folderForUser);
+                fs.mkdir(folderForUser, function(err) {
+                    if (err) return false;
+                });
             }
+
             if (!fs.existsSync(folderForPost)) {
-                fs.mkdir(folderForPost);
+                edittingPost = false;
+                fs.mkdir(folderForPost, function(err) {
+                    if (err) return false;
+                    cb(null, folderForPost);
+                });
+            } else {
+                // Post folder already exists
+                // Check if we are editting a post and this is the first image
+                if (edittingPost) {
+                    edittingPost = false;
+                    rimraf(folderForPost, function() {
+                        Post.findOne({ _id: req.body.postID }, function(
+                            err,
+                            post
+                        ) {
+                            if (err) return handleError(err);
+
+                            post.images = [];
+                            post.save().then(res => {
+                                fs.mkdir(folderForPost, function(err) {
+                                    if (err) return false;
+                                    cb(null, folderForPost);
+                                });
+                            });
+                        });
+                    });
+                } else {
+                    cb(null, folderForPost);
+                }
             }
-            cb(null, folderForPost);
         } catch (err) {
             res.send(false);
         }
@@ -33,7 +67,7 @@ var storage = multer.diskStorage({
         try {
             cb(null, file.originalname);
             const relativeURL =
-                "client/public/postPhotos/" +
+                "/postPhotos/" +
                 req.user._id +
                 "/" +
                 req.body.postID +
@@ -46,7 +80,9 @@ var storage = multer.diskStorage({
                     relativeURL: relativeURL,
                     name: file.originalname
                 });
-                post.save();
+                post.save().then(res => {
+                    // Do something. Not sure what to do yet though....
+                });
             });
         } catch (err) {
             res.send(false);
@@ -178,18 +214,18 @@ module.exports = app => {
         postFunctions.getImagesFromUrl(req, res)
     );
 
-    // Save post images
-    app.post("/api/post/images", upload.array("file", 4), (req, res) =>
-        postFunctions.savePostImages(req, res)
-    ); // Get images for a post
-    app.get("/api/post/images/:postID", (req, res) =>
-        postFunctions.getImages(req, res)
-    );
-
     // Save post
     app.post("/api/post", (req, res) => postFunctions.savePost(req, res));
     // Get all of user's posts
     app.get("/api/posts", (req, res) => postFunctions.getPosts(req, res));
     // Get post
     app.get("/api/post/:postID", (req, res) => postFunctions.getPost(req, res));
+    // update post
+    app.post("/api/post/update/:postID", (req, res) =>
+        postFunctions.updatePost(req, res)
+    );
+    // Save post images
+    app.post("/api/post/images", upload.array("file", 4), (req, res) =>
+        postFunctions.savePostImages(req, res)
+    );
 };

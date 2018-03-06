@@ -22,7 +22,10 @@ class Calendar extends Component {
     };
     constructor(props) {
         super(props);
-
+        this.getPosts = this.getPosts.bind(this);
+        this.getPosts();
+    }
+    getPosts() {
         // Get all of user's posts to display in calendar
         axios.get("/api/posts").then(res => {
             // Set posts to state
@@ -33,11 +36,15 @@ class Calendar extends Component {
                 event = postArray[index];
                 event.start = postArray[index].postingDate;
                 event.end = postArray[index].postingDate;
-                event.title = postArray[index].content;
                 event.link = postArray[index].link;
                 event.linkImage = postArray[index].linkImage;
                 event.accountType = postArray[index].accountType;
                 event.socialType = postArray[index].socialType;
+                if (postArray[index].content === "") {
+                    event.title = "(no content)";
+                } else {
+                    event.title = postArray[index].content;
+                }
 
                 eventsArray.push(event);
             }
@@ -87,10 +94,12 @@ class Calendar extends Component {
                 <ContentModal
                     clickedCalendarDate={clickedCalendarDate}
                     timeForPost={timeForPost}
+                    updateCalendarPosts={this.getPosts}
                 />
                 <EdittingModal
                     post={this.state.edittingPost}
                     ref="refEditModal"
+                    updateCalendarPosts={this.getPosts}
                 />
                 <ul>
                     <li onClick={() => navBar("All")}>

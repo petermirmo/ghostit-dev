@@ -9,12 +9,15 @@ import Carousel from "../divs/Carousel.js";
 
 class EdittingModal extends Component {
     state = {
+        postID: "",
         activeTab: "",
-        linkImagesArray: [],
         link: "",
+        linkImagesArray: [],
+        linkImage: "",
         accountType: "",
         postImages: [],
-        postingToAccountID: ""
+        postingToAccountID: "",
+        postingDate: undefined
     };
 
     constructor(props) {
@@ -27,18 +30,17 @@ class EdittingModal extends Component {
         // Initialize textarea text
         document.getElementById("edittingTextarea").value = post.title;
         // Get images of post from database
-        axios.get("/api/post/images/" + post._id).then(res => {
-            console.log(res.data[0].data.data);
-
-            // Set images and post data to state
-            this.setState({
-                postImages: res.data,
-                activeTab: post.socialType,
-                accountType: post.accountType,
-                postingToAccountID: post.accountID,
-                link: post.link
-            });
+        this.setState({
+            postID: post._id,
+            postImages: post.images,
+            activeTab: post.socialType,
+            accountType: post.accountType,
+            postingToAccountID: post.accountID,
+            link: post.link,
+            linkImage: post.linkImage,
+            postingDate: post.postingDate
         });
+        this.refs.carousel.findLink(post.title);
     }
 
     canShowLinkPreview(socialMedia) {
@@ -90,7 +92,7 @@ class EdittingModal extends Component {
             reader.onloadend = () => {
                 var imageObject = {
                     image: image,
-                    imagePreviewUrl: reader.result
+                    relativeURL: reader.result
                 };
                 imagesArray.push(imageObject);
                 if (index === images.length) {
@@ -127,12 +129,12 @@ class EdittingModal extends Component {
 
         // Get date of post
         var datePickerDate = document
-            .getElementById("contentDatePickerPopUp")
+            .getElementById("edittingDatePickerPopUp")
             .getAttribute("getdate");
 
         // Get time of post
         var timePickerTime = document
-            .getElementById("contentTimePickerPopUp")
+            .getElementById("edittingTimePickerPopUp")
             .getAttribute("gettime");
 
         // Combine time and date into one date variable
@@ -183,9 +185,10 @@ class EdittingModal extends Component {
             );
             return;
         }
+
         // Everything seems okay, save post to database!
         axios
-            .post("/api/post", {
+            .post("/api/post/update/" + this.state.postID, {
                 accountID: accountIdToPostTo,
                 content: content,
                 postingDate: postingDate,
@@ -195,6 +198,9 @@ class EdittingModal extends Component {
                 socialType: this.state.activeTab
             })
             .then(res => {
+                // If this is undefined it means that there were no photos uploaded!
+                if (currentImages[0] === undefined) return;
+
                 // Now we need to save images for post, Images are saved after post
                 // Becuse they are handled so differently in the database
                 // Text and images do not go well together
@@ -234,7 +240,7 @@ class EdittingModal extends Component {
                     <img
                         id={"image" + index4.toString()}
                         key={index4}
-                        src={this.state.postImages[index4].imagePreviewUrl}
+                        src={this.state.postImages[index4].relativeURL}
                         alt="error"
                     />
                     <i className="fa fa-times fa-3x" />
@@ -259,8 +265,8 @@ class EdittingModal extends Component {
         var modalBody;
         var modalFooter;
         var date;
-        if (this.props.post.postingDate !== undefined) {
-            date = new Date(this.props.post.postingDate);
+        if (this.state.postingDate !== undefined) {
+            date = new Date(this.state.postingDate);
         }
         modalBody = (
             <div className="modal-body">
@@ -273,19 +279,25 @@ class EdittingModal extends Component {
                         this.refs.carousel.findLink(event.target.value)
                     }
                 />
-                <label htmlFor="file-upload" className="custom-file-upload">
+                <label
+                    htmlFor="edit-file-upload"
+                    className="custom-file-upload"
+                >
                     Upload Images! (Up to four)
                 </label>
                 {imagesDiv}
                 <input
-                    id="file-upload"
+                    id="edit-file-upload"
                     type="file"
                     onChange={event => this.showImages(event)}
                     multiple
                 />
                 {carousel}
-                <DatePicker clickedCalendarDate={date} />
-                <TimePicker timeForPost={date} />
+                <DatePicker
+                    clickedCalendarDate={date}
+                    id="edittingDatePickerPopUp"
+                />
+                <TimePicker timeForPost={date} id="edittingTimePickerPopUp" />
             </div>
         );
         modalFooter = (

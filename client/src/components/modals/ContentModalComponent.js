@@ -296,7 +296,9 @@ class Modal extends Component {
                     }
                     // Make post request for images
                     axios.post("/api/post/images", formData).then(res => {
-                        console.log(res);
+                        document.getElementById("postingModal").style.display =
+                            "none";
+                        this.props.updateCalendarPosts();
                     });
                 }
             });
@@ -422,8 +424,12 @@ class Modal extends Component {
 
                     <DatePicker
                         clickedCalendarDate={this.props.clickedCalendarDate}
+                        id="contentDatePickerPopUp"
                     />
-                    <TimePicker timeForPost={this.props.timeForPost} />
+                    <TimePicker
+                        timeForPost={this.props.timeForPost}
+                        id="contentTimePickerPopUp"
+                    />
                 </div>
             );
             modalFooter = (

@@ -1,5 +1,6 @@
 var request = require("request");
 var cheerio = require("cheerio");
+var fs = require("fs");
 
 const Post = require("../models/Post");
 
@@ -30,10 +31,11 @@ module.exports = {
         newPost.save().then(result => res.send(result));
     },
     savePostImages: function(req, res) {
+        // All logic is done in the multar storage at the top of apiRoutes
         res.send(true);
     },
     getPosts: function(req, res) {
-        // Get all posts
+        // Get all posts for user
         Post.find({ userID: req.user.id }, function(err, posts) {
             if (err) return handleError(err);
 
@@ -42,8 +44,21 @@ module.exports = {
     },
     getPost: function(req, res) {
         Post.findOne({ _id: req.params.postID }, function(err, post) {
-            console.log(post);
+            res.send(post);
         });
     },
-    getImages: function(req, res) {}
+    updatePost: function(req, res) {
+        Post.findOne({ _id: req.params.postID }, function(err, post) {
+            if (err) return handleError(err);
+            var edittedPost = req.body;
+            post.accountID = edittedPost.accountID;
+            post.content = edittedPost.content;
+            post.postingDate = edittedPost.postingDate;
+            post.link = edittedPost.link;
+            post.linkImage = edittedPost.linkImage;
+            post.accountType = edittedPost.accountType;
+            post.socialType = edittedPost.socialType;
+            post.save().then(post => res.send(post));
+        });
+    }
 };
