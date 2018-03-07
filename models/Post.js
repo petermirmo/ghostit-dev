@@ -13,8 +13,8 @@ const postSchema = new Schema({
     socialType: String,
     images: [
         {
-            relativeURL: String,
-            name: String
+            imageURL: String,
+            publicID: String
         }
     ]
 });

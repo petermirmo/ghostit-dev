@@ -3,6 +3,7 @@ var cheerio = require("cheerio");
 var fs = require("fs");
 
 const Post = require("../models/Post");
+var cloudinary = require("cloudinary");
 
 module.exports = {
     getImagesFromUrl: function(req, res) {
@@ -30,14 +31,10 @@ module.exports = {
         newPost.socialType = post.socialType;
         newPost.save().then(result => res.send(result));
     },
-    savePostImages: function(req, res) {
-        // All logic is done in the multar storage at the top of apiRoutes
-        res.send(true);
-    },
     getPosts: function(req, res) {
         // Get all posts for user
         Post.find({ userID: req.user.id }, function(err, posts) {
-            if (err) return handleError(err);
+            if (err) res.send(err);
 
             res.send(posts);
         });
@@ -49,7 +46,7 @@ module.exports = {
     },
     updatePost: function(req, res) {
         Post.findOne({ _id: req.params.postID }, function(err, post) {
-            if (err) return handleError(err);
+            if (err) res.send(err);
             var edittedPost = req.body;
             post.accountID = edittedPost.accountID;
             post.content = edittedPost.content;
@@ -61,43 +58,65 @@ module.exports = {
             post.save().then(post => res.send(post));
         });
     },
-    updatePostImages: function(req, res) {
-        Post.findOne({ _id: req.params.postID }, function(err, post) {
-            if (err) return handleError(err);
-            var imagesToDelete = [];
-            var currentPostImages = post.images;
-            var updatedPostImages = req.body;
-            var found = false;
-            // Loop through current images
-            for (var i = 0; i < currentPostImages.length; i++) {
-                // Loop through update images
-                for (var j = 0; j < updatedPostImages.length; j++) {
-                    // If these two are equal, then we do not want to delete this image
-                    if (
-                        updatedPostImages[j].relativeURL ===
-                        currentPostImages[i].relativeURL
-                    ) {
-                        found = true;
-                    }
+    uploadPostImages: function(req, res) {
+        var postID = req.body.postID;
+        Post.findOne({ _id: postID }, async function(err, post) {
+            if (err) res.send(false);
+
+            if (Array.isArray(req.files.file)) {
+                // There is multiple files
+                for (var i = 0; i < req.files.file.length; i++) {
+                    // Must be await so results are not duplicated
+                    await cloudinary.v2.uploader.upload(
+                        req.files.file[i].path,
+                        function(error, result) {
+                            post.images.push({
+                                imageURL: result.url,
+                                publicID: result.public_id
+                            });
+                        }
+                    );
+                    post.save().then(result => res.send(true));
                 }
-                if (!found) {
-                    imagesToDelete.push(currentPostImages[i]);
-                } else {
-                    // Reset found
-                    found = false;
-                }
-            }
-            for (i = 0; i < imagesToDelete.length; i++) {
-                fs.unlink(
-                    "client/public" + imagesToDelete[i].relativeURL,
-                    err => {
-                        if (err) console.log(err);
-                        post.images = updatedPostImages;
+            } else {
+                // Only one file
+                await cloudinary.v2.uploader.upload(
+                    req.files.file.path,
+                    function(error, result) {
+                        post.images.push({
+                            imageURL: result.url,
+                            publicID: result.public_id
+                        });
                         post.save().then(result => res.send(true));
                     }
                 );
             }
         });
-        res.send(true);
+    },
+    deletePostImages: async function(req, res) {
+        var deleteImagesArray = req.body;
+
+        // Delete images from cloudinary
+        for (var i = 0; i < deleteImagesArray.length; i++) {
+            await cloudinary.uploader.destroy(
+                deleteImagesArray[i].publicID,
+                function(result) {
+                    // TO DO: handle error here
+                }
+            );
+        }
+        Post.findOne({ _id: req.params.postID }, function(err, post) {
+            for (i = 0; i < post.images.length; i++) {
+                for (j = 0; j < deleteImagesArray.length; j++) {
+                    if (
+                        post.images[i].publicID ===
+                        deleteImagesArray[j].publicID
+                    ) {
+                        post.images.splice(i, 1);
+                    }
+                }
+            }
+            post.save().then(result => res.send(true));
+        });
     }
 };

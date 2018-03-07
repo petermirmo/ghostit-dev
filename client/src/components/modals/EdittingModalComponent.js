@@ -17,7 +17,8 @@ class EdittingModal extends Component {
         accountType: "",
         postImages: [],
         postingToAccountID: "",
-        postingDate: undefined
+        postingDate: undefined,
+        imagesToDelete: []
     };
 
     constructor(props) {
@@ -32,18 +33,21 @@ class EdittingModal extends Component {
         } else {
             document.getElementById("edittingTextarea").value = post.title;
         }
-        // Get images of post from database
-        this.setState({
-            postID: post._id,
-            postImages: post.images,
-            activeTab: post.socialType,
-            accountType: post.accountType,
-            postingToAccountID: post.accountID,
-            link: post.link,
-            linkImage: post.linkImage,
-            postingDate: post.postingDate
+        // Get post from database and update state
+        axios.get("/api/post/" + post._id).then(res => {
+            var post = res.data;
+            this.setState({
+                postID: post._id,
+                postImages: post.images,
+                activeTab: post.socialType,
+                accountType: post.accountType,
+                postingToAccountID: post.accountID,
+                link: post.link,
+                linkImage: post.linkImage,
+                postingDate: post.postingDate
+            });
+            this.refs.carousel.findLink(post.content);
         });
-        this.refs.carousel.findLink(post.title);
     }
 
     canShowLinkPreview(socialMedia) {
@@ -71,9 +75,14 @@ class EdittingModal extends Component {
 
     showImages(event) {
         var images = event.target.files;
+
+        // Add current images to the images the user is adding to make sure is less than 4
+        var currentImages = this.state.postImages;
+        var amountOfImages = currentImages.length + images.length;
+
         // Check to make sure there are not more than 4 Images
-        if (images.length > 4) {
-            alert("You have selected more than 4 images! Please try again");
+        if (amountOfImages > 4) {
+            alert("You have more than 4 images! Please try again");
             return;
         }
 
@@ -88,7 +97,7 @@ class EdittingModal extends Component {
         }
 
         // Save each image to state
-        var imagesArray = [];
+        var imagesArray = currentImages;
         for (index = 0; index < images.length; index++) {
             let reader = new FileReader();
             let image = images[index];
@@ -114,10 +123,20 @@ class EdittingModal extends Component {
             clickedImage = event.target;
         }
 
-        // ID of img tag is image + index in the array ex. image1
+        // ID of img tag is "image" + index in the array ex. image1
         // We will remove "image" leaving us with just the index
         var indexOfRemovalImage = clickedImage.id.replace("image", "");
+
+        // Make sure imagee is in images to delete array
+        // Only add if it is not an object. If it is an object it is not in the database yet
+        if (currentImages[indexOfRemovalImage].relativeURL === undefined) {
+            this.state.imagesToDelete.push(currentImages[indexOfRemovalImage]);
+        }
+
+        // Remove image from current images
         currentImages.splice(indexOfRemovalImage, 1);
+
+        // Update state
         this.setState({ postImages: currentImages });
     }
     savePost() {
@@ -125,10 +144,7 @@ class EdittingModal extends Component {
         var content = document.getElementById("edittingTextarea").value;
 
         // Get current images
-        var currentImages = [];
-        for (var i = 0; i < this.state.postImages.length; i++) {
-            currentImages.push(this.state.postImages[i].image);
-        }
+        var currentImages = this.state.postImages;
 
         // Get date of post
         var datePickerDate = document
@@ -203,39 +219,80 @@ class EdittingModal extends Component {
             .then(res => {
                 var post = res.data;
 
-                // If this is undefined it means that we need to check if any photos were removed
-                if (currentImages[0] === undefined) {
-                    axios
-                        .post(
-                            "/api/post/update/images/" + post._id,
-                            this.state.postImages
-                        )
-                        .then(res => {
-                            console.log(res);
-                        });
-                } else {
-                    // Now we need to save images for post, Images are saved after post
-                    // Becuse they are handled so differently in the database
-                    // Text and images do not go well together
-                    if (post._id && currentImages.length !== 0) {
-                        // Make sure post actually saved
-                        // Now we add images
-
-                        // Images must be uploaded via forms
-                        var formData = new FormData();
-                        formData.append("postID", post._id);
-
-                        // Attach all images to formData
-                        for (var i = 0; i < currentImages.length; i++) {
-                            formData.append("file", currentImages[i]);
-                        }
-                        // Make post request for images
-                        axios
-                            .post("/api/post/images", formData)
-                            .then(res => {});
+                var newImages = [];
+                var imagesToDelete = this.state.imagesToDelete;
+                for (var i = 0; i < currentImages.length; i++) {
+                    // If relativeURL is not undefined this is a new photo and we need to upload it to the server
+                    if (currentImages[i].relativeURL !== undefined) {
+                        newImages.push(currentImages[i].image);
                     }
                 }
+                // We now have two arrays. One with all images we need to add and one with all images we need to delete.
+                // Images are saved after post, becuse they are handled so differently in the database
+                // Text and images do not go well together
+
+                // First we will delete the necessary images from cloudinary and our database
+                if (post._id && imagesToDelete.length !== 0) {
+                    axios
+                        .post(
+                            "/api/post/delete/images/" + post._id,
+                            imagesToDelete
+                        )
+                        .then(res => {
+                            // After images have been deleted, we will save new images
+                            // Add all new images
+                            if (post._id && newImages.length !== 0) {
+                                // Make sure post actually saved
+                                // Now we add images
+
+                                // Images must be uploaded via forms
+                                var formData = new FormData();
+                                formData.append("postID", post._id);
+
+                                // Attach all images to formData
+                                for (i = 0; i < newImages.length; i++) {
+                                    formData.append("file", newImages[i]);
+                                }
+                                // Make post request for images
+                                axios
+                                    .post("/api/post/images", formData)
+                                    .then(res => {
+                                        this.finishSave();
+                                        return;
+                                    });
+                            } else {
+                                this.finishSave();
+                                return;
+                            }
+                        });
+                } else if (post._id && newImages.length !== 0) {
+                    // If there are no images to delete we simply need to add new images
+                    // Add all new images
+                    // Make sure post actually saved
+                    // Now we add images
+
+                    // Images must be uploaded via forms
+                    var formData = new FormData();
+                    formData.append("postID", post._id);
+
+                    // Attach all images to formData
+                    for (i = 0; i < newImages.length; i++) {
+                        formData.append("file", newImages[i]);
+                    }
+                    // Make post request for images
+                    axios.post("/api/post/images", formData).then(res => {
+                        this.finishSave();
+                        return;
+                    });
+                } else {
+                    this.finishSave();
+                    return;
+                }
             });
+    }
+    finishSave() {
+        document.getElementById("edittingModal").style.display = "none";
+        this.props.updateCalendarPosts();
     }
     linkPreviewSetState(link, imagesArray) {
         this.setState({ link: link, linkImagesArray: imagesArray });
@@ -244,7 +301,14 @@ class EdittingModal extends Component {
     render() {
         // Show preview images
         var imagesDiv = [];
-        for (var index4 in this.state.postImages) {
+        var currentImages = this.state.postImages;
+        for (var index4 in currentImages) {
+            var urlToImage;
+            if (currentImages[index4].relativeURL !== undefined) {
+                urlToImage = currentImages[index4].relativeURL;
+            } else {
+                urlToImage = currentImages[index4].imageURL;
+            }
             // If image has been removed index will equal null
             var imageTag = (
                 <div
@@ -255,7 +319,7 @@ class EdittingModal extends Component {
                     <img
                         id={"image" + index4.toString()}
                         key={index4}
-                        src={this.state.postImages[index4].relativeURL}
+                        src={urlToImage}
                         alt="error"
                     />
                     <i className="fa fa-times fa-3x" />
@@ -283,6 +347,25 @@ class EdittingModal extends Component {
         if (this.state.postingDate !== undefined) {
             date = new Date(this.state.postingDate);
         }
+        var fileUploadDiv;
+        if (currentImages.length < 4) {
+            fileUploadDiv = (
+                <div>
+                    <label
+                        htmlFor="edit-file-upload"
+                        className="custom-file-upload"
+                    >
+                        Upload Images! (Up to four)
+                    </label>
+                    <input
+                        id="edit-file-upload"
+                        type="file"
+                        onChange={event => this.showImages(event)}
+                        multiple
+                    />
+                </div>
+            );
+        }
         modalBody = (
             <div className="modal-body">
                 <textarea
@@ -294,19 +377,8 @@ class EdittingModal extends Component {
                         this.refs.carousel.findLink(event.target.value)
                     }
                 />
-                <label
-                    htmlFor="edit-file-upload"
-                    className="custom-file-upload"
-                >
-                    Upload Images! (Up to four)
-                </label>
+                {fileUploadDiv}
                 {imagesDiv}
-                <input
-                    id="edit-file-upload"
-                    type="file"
-                    onChange={event => this.showImages(event)}
-                    multiple
-                />
                 {carousel}
                 <DatePicker
                     clickedCalendarDate={date}

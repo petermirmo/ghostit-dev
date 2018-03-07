@@ -2,94 +2,10 @@ const passport = require("passport");
 const User = require("../models/User");
 const Account = require("../models/Account");
 var FB = require("fb");
-var fs = require("fs");
 const Post = require("../models/Post");
 
-var multer = require("multer");
-var rimraf = require("rimraf");
-
-// Uploads images to server files
-// Puts them in client/public/postPhotos/ userID / postID / nameOfImage
-var edittingPost = true;
-var storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        try {
-            const folderToPhotos = "client/public/postPhotos/";
-            const folderForUser = folderToPhotos + req.user._id + "/";
-            const folderForPost = folderForUser + req.body.postID + "/";
-            if (!fs.existsSync(folderToPhotos)) {
-                fs.mkdir(folderToPhotos, function(err) {
-                    if (err) return false;
-                });
-            }
-            if (!fs.existsSync(folderForUser)) {
-                fs.mkdir(folderForUser, function(err) {
-                    if (err) return false;
-                });
-            }
-
-            if (!fs.existsSync(folderForPost)) {
-                edittingPost = false;
-                fs.mkdir(folderForPost, function(err) {
-                    if (err) return false;
-                    cb(null, folderForPost);
-                });
-            } else {
-                // Post folder already exists
-                // Check if we are editting a post and this is the first image
-                if (edittingPost) {
-                    edittingPost = false;
-                    rimraf(folderForPost, function() {
-                        Post.findOne({ _id: req.body.postID }, function(
-                            err,
-                            post
-                        ) {
-                            if (err) return handleError(err);
-
-                            post.images = [];
-                            post.save().then(res => {
-                                fs.mkdir(folderForPost, function(err) {
-                                    if (err) return false;
-                                    cb(null, folderForPost);
-                                });
-                            });
-                        });
-                    });
-                } else {
-                    cb(null, folderForPost);
-                }
-            }
-        } catch (err) {
-            res.send(false);
-        }
-    },
-    filename: function(req, file, cb) {
-        try {
-            cb(null, file.originalname);
-            const relativeURL =
-                "/postPhotos/" +
-                req.user._id +
-                "/" +
-                req.body.postID +
-                "/" +
-                file.originalname;
-            Post.findOne({ _id: req.body.postID }, function(err, post) {
-                if (err) return handleError(err);
-
-                post.images.push({
-                    relativeURL: relativeURL,
-                    name: file.originalname
-                });
-                post.save().then(res => {
-                    // Do something. Not sure what to do yet though....
-                });
-            });
-        } catch (err) {
-            res.send(false);
-        }
-    }
-});
-var upload = multer({ storage: storage });
+var multipart = require("connect-multiparty");
+var fileParser = multipart();
 
 var facebookFunctions = require("../services/facebookFunctions");
 var linkedinFunctions = require("../services/linkedinFunctions");
@@ -225,11 +141,11 @@ module.exports = app => {
         postFunctions.updatePost(req, res)
     );
     // Save post images
-    app.post("/api/post/images", upload.array("file", 4), (req, res) =>
-        postFunctions.savePostImages(req, res)
+    app.post("/api/post/images", fileParser, async (req, res) =>
+        postFunctions.uploadPostImages(req, res)
     );
-    // Update post images
-    app.post("/api/post/update/images/:postID", (req, res) =>
-        postFunctions.updatePostImages(req, res)
+    // Delete post images
+    app.post("/api/post/delete/images/:postID", (req, res) =>
+        postFunctions.deletePostImages(req, res)
     );
 };

@@ -13,8 +13,8 @@ const MongoStore = require("connect-mongo")(session);
 var Schema = mongoose.Schema;
 var multer = require("multer");
 
-var fs = require("fs");
-
+// Image uploads
+var cloudinary = require("cloudinary");
 const router = express.Router();
 
 require("./models/User");
@@ -22,6 +22,13 @@ require("./models/User");
 // Connect to database
 mongoose.connect(keys.mongoDevelopentURI);
 var db = mongoose.connection;
+
+// Connect to cloudinary
+cloudinary.config({
+    cloud_name: keys.cloudinaryName,
+    api_key: keys.cloudinaryApiKey,
+    api_secret: keys.cloudinaryApiSecret
+});
 
 require("./services/passport")(passport);
 
