@@ -310,7 +310,8 @@ class Modal extends Component {
     render() {
         // Show preview images
         var imagesDiv = [];
-        for (var index4 in this.state.postImages) {
+        var currentImages = this.state.postImages;
+        for (var index4 in currentImages) {
             // If image has been removed index will equal null
             var imageTag = (
                 <div
@@ -321,7 +322,7 @@ class Modal extends Component {
                     <img
                         id={"image" + index4.toString()}
                         key={index4}
-                        src={this.state.postImages[index4].imagePreviewUrl}
+                        src={currentImages[index4].imagePreviewUrl}
                         alt="error"
                     />
                     <i className="fa fa-times fa-3x" />
@@ -382,7 +383,23 @@ class Modal extends Component {
             );
             accountsListDiv.push(div);
         }
+        var fileUploadDiv;
+        if (currentImages.length < 4) {
+            fileUploadDiv = (
+                <div>
+                    <label htmlFor="file-upload" className="custom-file-upload">
+                        Upload Images! (Up to four)
+                    </label>
 
+                    <input
+                        id="file-upload"
+                        type="file"
+                        onChange={event => this.showImages(event)}
+                        multiple
+                    />
+                </div>
+            );
+        }
         if (activePageAccountsArray.length !== 0) {
             modalBody = (
                 <div className="modal-body">
@@ -395,17 +412,9 @@ class Modal extends Component {
                             this.refs.carousel.findLink(event.target.value)
                         }
                     />
-                    <label htmlFor="file-upload" className="custom-file-upload">
-                        Upload Images! (Up to four)
-                    </label>
+                    {fileUploadDiv}
                     {imagesDiv}
 
-                    <input
-                        id="file-upload"
-                        type="file"
-                        onChange={event => this.showImages(event)}
-                        multiple
-                    />
                     <h4
                         className="center"
                         style={{
