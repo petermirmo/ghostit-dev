@@ -228,4 +228,8 @@ module.exports = app => {
     app.post("/api/post/images", upload.array("file", 4), (req, res) =>
         postFunctions.savePostImages(req, res)
     );
+    // Update post images
+    app.post("/api/post/update/images/:postID", (req, res) =>
+        postFunctions.updatePostImages(req, res)
+    );
 };

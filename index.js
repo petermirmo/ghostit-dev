@@ -14,7 +14,6 @@ var Schema = mongoose.Schema;
 var multer = require("multer");
 
 var fs = require("fs");
-var upload = multer({ dest: "uploads/" });
 
 const router = express.Router();
 

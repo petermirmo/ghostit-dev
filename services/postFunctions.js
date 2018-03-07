@@ -60,5 +60,44 @@ module.exports = {
             post.socialType = edittedPost.socialType;
             post.save().then(post => res.send(post));
         });
+    },
+    updatePostImages: function(req, res) {
+        Post.findOne({ _id: req.params.postID }, function(err, post) {
+            if (err) return handleError(err);
+            var imagesToDelete = [];
+            var currentPostImages = post.images;
+            var updatedPostImages = req.body;
+            var found = false;
+            // Loop through current images
+            for (var i = 0; i < currentPostImages.length; i++) {
+                // Loop through update images
+                for (var j = 0; j < updatedPostImages.length; j++) {
+                    // If these two are equal, then we do not want to delete this image
+                    if (
+                        updatedPostImages[j].relativeURL ===
+                        currentPostImages[i].relativeURL
+                    ) {
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    imagesToDelete.push(currentPostImages[i]);
+                } else {
+                    // Reset found
+                    found = false;
+                }
+            }
+            for (i = 0; i < imagesToDelete.length; i++) {
+                fs.unlink(
+                    "client/public" + imagesToDelete[i].relativeURL,
+                    err => {
+                        if (err) console.log(err);
+                        post.images = updatedPostImages;
+                        post.save().then(result => res.send(true));
+                    }
+                );
+            }
+        });
+        res.send(true);
     }
 };

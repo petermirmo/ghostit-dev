@@ -28,7 +28,10 @@ class EdittingModal extends Component {
     }
     initialize(post) {
         // Initialize textarea text
-        document.getElementById("edittingTextarea").value = post.title;
+        if (post.title === "(no content)") {
+        } else {
+            document.getElementById("edittingTextarea").value = post.title;
+        }
         // Get images of post from database
         this.setState({
             postID: post._id,
@@ -198,27 +201,39 @@ class EdittingModal extends Component {
                 socialType: this.state.activeTab
             })
             .then(res => {
-                // If this is undefined it means that there were no photos uploaded!
-                if (currentImages[0] === undefined) return;
-
-                // Now we need to save images for post, Images are saved after post
-                // Becuse they are handled so differently in the database
-                // Text and images do not go well together
                 var post = res.data;
-                if (post._id && currentImages.length !== 0) {
-                    // Make sure post actually saved
-                    // Now we add images
 
-                    // Images must be uploaded via forms
-                    var formData = new FormData();
-                    formData.append("postID", post._id);
+                // If this is undefined it means that we need to check if any photos were removed
+                if (currentImages[0] === undefined) {
+                    axios
+                        .post(
+                            "/api/post/update/images/" + post._id,
+                            this.state.postImages
+                        )
+                        .then(res => {
+                            console.log(res);
+                        });
+                } else {
+                    // Now we need to save images for post, Images are saved after post
+                    // Becuse they are handled so differently in the database
+                    // Text and images do not go well together
+                    if (post._id && currentImages.length !== 0) {
+                        // Make sure post actually saved
+                        // Now we add images
 
-                    // Attach all images to formData
-                    for (var i = 0; i < currentImages.length; i++) {
-                        formData.append("file", currentImages[i]);
+                        // Images must be uploaded via forms
+                        var formData = new FormData();
+                        formData.append("postID", post._id);
+
+                        // Attach all images to formData
+                        for (var i = 0; i < currentImages.length; i++) {
+                            formData.append("file", currentImages[i]);
+                        }
+                        // Make post request for images
+                        axios
+                            .post("/api/post/images", formData)
+                            .then(res => {});
                     }
-                    // Make post request for images
-                    axios.post("/api/post/images", formData).then(res => {});
                 }
             });
     }
