@@ -15,20 +15,27 @@ var multer = require("multer");
 
 // Image uploads
 var cloudinary = require("cloudinary");
-const router = express.Router();
-
-require("./models/User");
-
-// Connect to database
-mongoose.connect(keys.mongoDevelopentURI);
-var db = mongoose.connection;
-
 // Connect to cloudinary
 cloudinary.config({
     cloud_name: keys.cloudinaryName,
     api_key: keys.cloudinaryApiKey,
     api_secret: keys.cloudinaryApiSecret
 });
+
+const router = express.Router();
+
+// Post scheduler
+var schedulerMain = require("./scheduler/cronScheduler");
+var cron = require("node-cron");
+cron.schedule("1,10,20,30,40,50 * * * * *", function() {
+    schedulerMain.main();
+});
+
+require("./models/User");
+
+// Connect to database
+mongoose.connect(keys.mongoDevelopentURI);
+var db = mongoose.connection;
 
 require("./services/passport")(passport);
 

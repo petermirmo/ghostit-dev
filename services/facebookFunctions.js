@@ -17,11 +17,13 @@ module.exports = {
                     // Use facebook profile access token to get account groups
                     FB.setAccessToken(account.accessToken);
 
-                    FB.api("me/groups", "get", function(groups) {
+                    FB.api("me/groups", "get", function(results) {
+                        var groups = results.data;
                         // Init some values
                         for (var index in groups) {
                             groups[index].accountType = "group";
                             groups[index].socialType = "facebook";
+                            groups[index].access_token = account.accessToken;
                         }
                         res.send(groups);
                     });

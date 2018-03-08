@@ -81,7 +81,7 @@ class SideBar extends Component {
             var message;
 
             // Set user's facebook groups to state
-            var pageOrGroup = res.data.data;
+            var pageOrGroup = res.data;
 
             // If pageOrGroup returns false, there was an error so just set to undefined
             if (pageOrGroup === false) {

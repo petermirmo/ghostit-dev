@@ -11,6 +11,9 @@ const postSchema = new Schema({
     postingDate: String,
     accountType: String,
     socialType: String,
+    status: String,
+    errorMessage: String,
+    socialMediaID: String,
     images: [
         {
             imageURL: String,

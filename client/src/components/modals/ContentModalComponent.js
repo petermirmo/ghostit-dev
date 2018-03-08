@@ -231,6 +231,7 @@ class Modal extends Component {
         }
         // Make sure that the date is not in the past
         var currentDate = new Date();
+
         if (postingDate < currentDate) {
             alert(
                 "Time travel is not yet possible! Please select a date in the future not in the past!"
@@ -275,7 +276,8 @@ class Modal extends Component {
                 link: link,
                 linkImage: linkPreviewImage,
                 accountType: this.state.accountType,
-                socialType: this.state.activeTab
+                socialType: this.state.activeTab,
+                status: "pending"
             })
             .then(res => {
                 // Now we need to save images for post, Images are saved after post
@@ -300,6 +302,10 @@ class Modal extends Component {
                             "none";
                         this.props.updateCalendarPosts();
                     });
+                } else {
+                    document.getElementById("postingModal").style.display =
+                        "none";
+                    this.props.updateCalendarPosts();
                 }
             });
     }

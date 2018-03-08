@@ -29,6 +29,7 @@ module.exports = {
         newPost.linkImage = post.linkImage;
         newPost.accountType = post.accountType;
         newPost.socialType = post.socialType;
+        newPost.status = post.status;
         newPost.save().then(result => res.send(result));
     },
     getPosts: function(req, res) {
@@ -76,8 +77,8 @@ module.exports = {
                             });
                         }
                     );
-                    post.save().then(result => res.send(true));
                 }
+                post.save().then(result => res.send(true));
             } else {
                 // Only one file
                 await cloudinary.v2.uploader.upload(
