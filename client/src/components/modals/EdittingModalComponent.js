@@ -169,7 +169,7 @@ class EdittingModal extends Component {
         }
         // Make sure that the date is not in the past
         var currentDate = new Date();
-        if (postingDate > currentDate) {
+        if (postingDate < currentDate) {
             alert(
                 "Time travel is not yet possible! Please select a date in the future not in the past!"
             );
