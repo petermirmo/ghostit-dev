@@ -23,7 +23,7 @@ cloudinary.config({
 });
 
 const router = express.Router();
-console.log("check");
+
 // Post scheduler
 var schedulerMain = require("./scheduler/cronScheduler");
 var cron = require("node-cron");

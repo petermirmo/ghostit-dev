@@ -15,7 +15,6 @@ module.exports = {
                     // Use facebook profile access token to get account groups
                     FB.setAccessToken(account.accessToken);
                     if (post.images.length !== 0) {
-                        return;
                         var facebookPostWithImage = {};
                         // Set non-null information to facebook post
                         if (post.content !== "") {
@@ -40,7 +39,6 @@ module.exports = {
                             );
                         }
                     } else {
-                        return;
                         var facebookPostNoImage = {};
                         // Set non-null information to facebook post
                         if (post.content !== "") {
