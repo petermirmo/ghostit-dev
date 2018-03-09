@@ -343,6 +343,7 @@ class Modal extends Component {
                 linkPreviewCanShow={this.state.linkPreviewCanShow}
                 ref="carousel"
                 updateParentState={this.linkPreviewSetState}
+                id="linkCarousel"
             />
         );
 

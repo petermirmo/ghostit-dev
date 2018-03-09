@@ -1,8 +1,8 @@
 const Post = require("../models/Post");
 
 var facebook = require("./facebook");
-var twitter = require("./linkedin");
-var linkedin = require("./twitter");
+var twitter = require("./twitter");
+var linkedin = require("./linkedin");
 module.exports = {
     main: function() {
         Post.find({ status: "pending" }).then(result => {
@@ -11,7 +11,6 @@ module.exports = {
             for (var index in postArray) {
                 var post = postArray[index];
                 var postingDate = new Date(post.postingDate);
-
                 if (postingDate < currentDate) {
                     // Needs to post
                     if (post.socialType === "facebook") {

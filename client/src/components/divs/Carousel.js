@@ -80,7 +80,7 @@ class Carousel extends Component {
             if (this.props.linkPreviewCanEdit === true) {
                 carousel = (
                     <OwlCarousel
-                        id="linkCarousel"
+                        id={this.props.id}
                         style={{
                             float: "left",
                             width: "40%"
@@ -98,7 +98,7 @@ class Carousel extends Component {
             } else {
                 carousel = (
                     <OwlCarousel
-                        id="linkCarousel"
+                        id={this.props.id}
                         style={{
                             float: "left",
                             width: "40%"

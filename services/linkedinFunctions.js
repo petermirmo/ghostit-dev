@@ -22,7 +22,8 @@ module.exports = {
                     var LI = Linkedin.init(account.accessToken);
 
                     // Get all companies that the user is an admin of
-                    LI.companies.asAdmin(function(err, companies) {
+                    LI.companies.asAdmin(function(err, results) {
+                        var companies = results.values;
                         if (err) return handleError(err);
                         // Linkedin groups (companies) do not come with access tokens so we will use the
                         // user's profile access token
@@ -32,7 +33,7 @@ module.exports = {
                             companies[index].socialType = "linkedin";
                             companies[index].access_token = account.accessToken;
                         }
-                        res.send(companies.values);
+                        res.send(companies);
                     });
                 } else {
                     res.send(false);

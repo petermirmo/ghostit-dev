@@ -164,21 +164,20 @@ class EdittingModal extends Component {
 
         // Get carousel html element
         var carousel;
-        if (this.state.linkPreviewCanShow) {
-            carousel = document.getElementById("linkCarousel");
+        if (this.canEditLinkPreview(this.state.activeTab)) {
+            carousel = document.getElementById("editLinkCarousel");
         }
         // Make sure that the date is not in the past
         var currentDate = new Date();
-        if (postingDate < currentDate) {
+        if (postingDate > currentDate) {
             alert(
                 "Time travel is not yet possible! Please select a date in the future not in the past!"
             );
             return;
         }
-
         var link = this.state.link;
         // If link previews are allowed get src of active image from carousel
-        var linkPreviewImage = "";
+        var linkPreviewImage = this.state.linkImage;
         if (link !== "") {
             if (carousel) {
                 // Get active image from carousel
@@ -327,17 +326,17 @@ class EdittingModal extends Component {
             );
             imagesDiv.push(imageTag);
         }
-
         var carousel = (
             <Carousel
                 linkPreviewCanEdit={this.canEditLinkPreview(
-                    this.props.post.socialType
+                    this.state.activeTab
                 )}
                 linkPreviewCanShow={this.canShowLinkPreview(
-                    this.props.post.socialType
+                    this.state.activeTab
                 )}
                 ref="carousel"
                 updateParentState={this.linkPreviewSetState}
+                id="editLinkCarousel"
             />
         );
 
