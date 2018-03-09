@@ -5,6 +5,7 @@ var twitter = require("./twitter");
 var linkedin = require("./linkedin");
 module.exports = {
     main: function() {
+        console.log("here");
         Post.find({ status: "pending" }).then(result => {
             var postArray = result;
             var currentDate = new Date();
