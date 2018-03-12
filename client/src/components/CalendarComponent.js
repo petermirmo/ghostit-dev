@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import "../css/theme.css";
+import "../css/test.less";
 import ContentModal from "../components/modals/ContentModalComponent";
 import EdittingModal from "../components/modals/EdittingModalComponent";
 
@@ -206,7 +207,15 @@ class Calendar extends Component {
                         </a>
                     </li>
                 </ul>
-                {calendar}
+                <div
+                    styles={{
+                        maxWidth: "500px",
+                        margin: "auto",
+                        padding: "200px"
+                    }}
+                >
+                    <div className="calendar-styles">{calendar}</div>
+                </div>
             </div>
         );
     }
