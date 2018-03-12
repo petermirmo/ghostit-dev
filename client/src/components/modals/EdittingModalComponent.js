@@ -18,7 +18,8 @@ class EdittingModal extends Component {
         postImages: [],
         postingToAccountID: "",
         postingDate: undefined,
-        imagesToDelete: []
+        imagesToDelete: [],
+        status: ""
     };
 
     constructor(props) {
@@ -28,6 +29,7 @@ class EdittingModal extends Component {
         this.linkPreviewSetState = this.linkPreviewSetState.bind(this);
     }
     initialize(post) {
+        console.log(post);
         // Initialize textarea text
         if (post.title === "(no content)") {
         } else {
@@ -44,7 +46,8 @@ class EdittingModal extends Component {
                 postingToAccountID: post.accountID,
                 link: post.link,
                 linkImage: post.linkImage,
-                postingDate: post.postingDate
+                postingDate: post.postingDate,
+                status: post.status
             });
             this.refs.carousel.findLink(post.content);
         });
@@ -298,6 +301,46 @@ class EdittingModal extends Component {
     }
 
     render() {
+        // Determine if post can be editted or not
+        var imageClass;
+        var imageOnClick;
+        var canEditLinkPreview;
+        var textareaDiv;
+        var dateEdittingDisabled;
+        if (this.state.status === "pending") {
+            imageClass = "delete-image-container image-container";
+            imageOnClick = this.removePhoto();
+            canEditLinkPreview = this.canEditLinkPreview(this.state.activeTab);
+            textareaDiv = (
+                <textarea
+                    id="edittingTextarea"
+                    className="postingTextArea"
+                    rows={5}
+                    placeholder="Success doesn't write itself!"
+                    onChange={event =>
+                        this.refs.carousel.findLink(event.target.value)
+                    }
+                />
+            );
+            dateEdittingDisabled = false;
+        } else {
+            imageClass = "image-container";
+            imageOnClick = {};
+            canEditLinkPreview = false;
+            textareaDiv = (
+                <textarea
+                    id="edittingTextarea"
+                    className="postingTextArea"
+                    rows={5}
+                    placeholder="Success doesn't write itself!"
+                    onChange={event =>
+                        this.refs.carousel.findLink(event.target.value)
+                    }
+                    readOnly
+                />
+            );
+            dateEdittingDisabled = true;
+        }
         // Show preview images
         var imagesDiv = [];
         var currentImages = this.state.postImages;
@@ -308,12 +351,11 @@ class EdittingModal extends Component {
             } else {
                 urlToImage = currentImages[index4].imageURL;
             }
-            // If image has been removed index will equal null
             var imageTag = (
                 <div
                     key={index4}
-                    className="delete-image-container"
-                    onClick={event => this.removePhoto(event)}
+                    className={imageClass}
+                    onClick={event => imageOnClick}
                 >
                     <img
                         id={"image" + index4.toString()}
@@ -328,9 +370,7 @@ class EdittingModal extends Component {
         }
         var carousel = (
             <Carousel
-                linkPreviewCanEdit={this.canEditLinkPreview(
-                    this.state.activeTab
-                )}
+                linkPreviewCanEdit={canEditLinkPreview}
                 linkPreviewCanShow={this.canShowLinkPreview(
                     this.state.activeTab
                 )}
@@ -347,50 +387,52 @@ class EdittingModal extends Component {
             date = new Date(this.state.postingDate);
         }
         var fileUploadDiv;
-        if (currentImages.length < 4) {
-            fileUploadDiv = (
-                <div>
-                    <label
-                        htmlFor="edit-file-upload"
-                        className="custom-file-upload"
-                    >
-                        Upload Images! (Up to four)
-                    </label>
-                    <input
-                        id="edit-file-upload"
-                        type="file"
-                        onChange={event => this.showImages(event)}
-                        multiple
-                    />
-                </div>
-            );
+        if (this.state.status === "pending") {
+            if (currentImages.length < 4) {
+                fileUploadDiv = (
+                    <div>
+                        <label
+                            htmlFor="edit-file-upload"
+                            className="custom-file-upload"
+                        >
+                            Upload Images! (Up to four)
+                        </label>
+                        <input
+                            id="edit-file-upload"
+                            type="file"
+                            onChange={event => this.showImages(event)}
+                            multiple
+                        />
+                    </div>
+                );
+            }
         }
+
         modalBody = (
             <div className="modal-body">
-                <textarea
-                    id="edittingTextarea"
-                    className="postingTextArea"
-                    rows={5}
-                    placeholder="Success doesn't write itself!"
-                    onChange={event =>
-                        this.refs.carousel.findLink(event.target.value)
-                    }
-                />
+                {textareaDiv}
                 {fileUploadDiv}
                 {imagesDiv}
                 {carousel}
                 <DatePicker
                     clickedCalendarDate={date}
                     id="edittingDatePickerPopUp"
+                    canEdit={dateEdittingDisabled}
                 />
-                <TimePicker timeForPost={date} id="edittingTimePickerPopUp" />
+                <TimePicker
+                    timeForPost={date}
+                    id="edittingTimePickerPopUp"
+                    canEdit={dateEdittingDisabled}
+                />
             </div>
         );
-        modalFooter = (
-            <div className="modal-footer">
-                <button onClick={() => this.savePost()}>Save Post</button>
-            </div>
-        );
+        if (this.state.status === "pending") {
+            modalFooter = (
+                <div className="modal-footer">
+                    <button onClick={() => this.savePost()}>Save Post</button>
+                </div>
+            );
+        }
 
         return (
             <div id="edittingModal" className="modal">

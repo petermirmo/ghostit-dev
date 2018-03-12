@@ -9,6 +9,7 @@ import EdittingModal from "../components/modals/EdittingModalComponent";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 import calendarStyle from "../css/calendar.css";
+
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
 var clickedCalendarDate = new Date();
@@ -18,11 +19,19 @@ class Calendar extends Component {
     state = {
         posts: [],
         edittingPost: {},
-        edittingImages: []
+        edittingImages: [],
+        facebookPosts: [],
+        twitterPosts: [],
+        linkedinPosts: [],
+        websitePosts: [],
+        emailNewsletterPosts: []
     };
     constructor(props) {
         super(props);
         this.getPosts = this.getPosts.bind(this);
+        this.editPost = this.editPost.bind(this);
+        this.setPostsToState = this.setPostsToState.bind(this);
+
         this.getPosts();
     }
     getPosts() {
@@ -30,27 +39,42 @@ class Calendar extends Component {
         axios.get("/api/posts").then(res => {
             // Set posts to state
             var postArray = res.data;
-            var eventsArray = [];
-            var event = {};
             for (var index in postArray) {
-                event = postArray[index];
-                event.start = postArray[index].postingDate;
-                event.end = postArray[index].postingDate;
-                event.link = postArray[index].link;
-                event.linkImage = postArray[index].linkImage;
-                event.accountType = postArray[index].accountType;
-                event.socialType = postArray[index].socialType;
-                if (postArray[index].content === "") {
-                    event.title = "(no content)";
-                } else {
-                    event.title = postArray[index].content;
+                if (postArray[index].socialType === "facebook") {
+                    this.state.facebookPosts.push(postArray[index]);
+                } else if (postArray[index].socialType === "twitter") {
+                    this.state.twitterPosts.push(postArray[index]);
+                } else if (postArray[index].socialType === "linkedin") {
+                    this.state.linkedinPosts.push(postArray[index]);
+                } else if (postArray[index].socialType === "website") {
+                    this.state.websitePosts.push(postArray[index]);
+                } else if (postArray[index].socialType === "newsletter") {
+                    this.state.emailNewsletterPosts.push(postArray[index]);
                 }
-
-                eventsArray.push(event);
             }
-            this.setState({ posts: eventsArray });
+            this.setPostsToState(postArray);
         });
-        this.editPost = this.editPost.bind(this);
+    }
+    setPostsToState(postsToShowArray) {
+        var eventsArray = [];
+        var event = {};
+        for (var index = 0; index < postsToShowArray.length; index++) {
+            event = postsToShowArray[index];
+            event.start = postsToShowArray[index].postingDate;
+            event.end = postsToShowArray[index].postingDate;
+            event.link = postsToShowArray[index].link;
+            event.linkImage = postsToShowArray[index].linkImage;
+            event.accountType = postsToShowArray[index].accountType;
+            event.socialType = postsToShowArray[index].socialType;
+            if (postsToShowArray[index].content === "") {
+                event.title = "(no content)";
+            } else {
+                event.title = postsToShowArray[index].content;
+            }
+
+            eventsArray.push(event);
+        }
+        this.setState({ posts: eventsArray });
     }
     openModal(slotinfo) {
         // Date for post is set to date clicked on calendar
@@ -70,13 +94,40 @@ class Calendar extends Component {
     }
 
     render() {
+        var events = [];
+        if (facebookNavBarGlobal || allNavBarGlobal) {
+            for (var index in this.state.facebookPosts) {
+                events.push(this.state.facebookPosts[index]);
+            }
+        }
+        if (twitterNavBarGlobal || allNavBarGlobal) {
+            for (index in this.state.twitterPosts) {
+                events.push(this.state.twitterPosts[index]);
+            }
+        }
+        if (linkedinNavBarGlobal || allNavBarGlobal) {
+            for (index in this.state.linkedinPosts) {
+                events.push(this.state.linkedinPosts[index]);
+            }
+        }
+        if (blogNavBarGlobal || allNavBarGlobal) {
+            for (index in this.state.websitePosts) {
+                events.push(this.state.websitePosts[index]);
+            }
+        }
+        if (emailNavBarGlobal || allNavBarGlobal) {
+            for (index in this.state.emailNewsletterPosts) {
+                events.push(this.state.emailNewsletterPosts[index]);
+            }
+        }
+
         // Calendar stuff
         var calendar = (
             <BigCalendar
                 selectable
                 className="big-calendar"
                 {...this.props}
-                events={this.state.posts}
+                events={events}
                 step={60}
                 defaultDate={new Date()}
                 style={calendarStyle}
@@ -102,24 +153,54 @@ class Calendar extends Component {
                     updateCalendarPosts={this.getPosts}
                 />
                 <ul>
-                    <li onClick={() => navBar("All")}>
+                    <li
+                        onClick={() => {
+                            navBar("All");
+                            this.forceUpdate();
+                        }}
+                    >
                         <a id="calendarNavBarAll" className="active">
                             All
                         </a>
                     </li>
-                    <li onClick={() => navBar("Facebook")}>
+                    <li
+                        onClick={() => {
+                            navBar("Facebook");
+                            this.forceUpdate();
+                        }}
+                    >
                         <a id="calendarNavBarFacebook">Facebook</a>
                     </li>
-                    <li onClick={() => navBar("Twitter")}>
+                    <li
+                        onClick={() => {
+                            navBar("Twitter");
+                            this.forceUpdate();
+                        }}
+                    >
                         <a id="calendarNavBarTwitter">Twitter</a>
                     </li>
-                    <li onClick={() => navBar("Linkedin")}>
+                    <li
+                        onClick={() => {
+                            navBar("Linkedin");
+                            this.forceUpdate();
+                        }}
+                    >
                         <a id="calendarNavBarLinkedin">Linkedin</a>
                     </li>
-                    <li onClick={() => navBar("WebsiteBlog")}>
+                    <li
+                        onClick={() => {
+                            navBar("WebsiteBlog");
+                            this.forceUpdate();
+                        }}
+                    >
                         <a id="calendarNavBarWebsiteBlog">Website Blogs</a>
                     </li>
-                    <li onClick={() => navBar("EmailNewsletter")}>
+                    <li
+                        onClick={() => {
+                            navBar("EmailNewsletter");
+                            this.forceUpdate();
+                        }}
+                    >
                         <a id="calendarNavBarEmailNewsletter">
                             Email Newsletter
                         </a>
@@ -134,7 +215,7 @@ class Calendar extends Component {
 // Content page navbar logic
 
 // Calendar navbar variables
-var allNavBarGlobal = false;
+var allNavBarGlobal = true;
 var facebookNavBarGlobal = false;
 var twitterNavBarGlobal = false;
 var linkedinNavBarGlobal = false;

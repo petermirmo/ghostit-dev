@@ -228,36 +228,35 @@
     width: 100%;
     text-align: center;
 }
-
-.delete-image-container {
+.image-container {
     width: 25%;
     position: relative;
     display: inline-block;
     padding: 0;
 }
-.delete-image-container i {
+.image-container i {
     top: 25%;
     left: 38%;
     position: absolute;
     display: none;
     transition: 0.5s ease;
-    cursor: pointer;
 }
 .delete-image-container:hover i {
     z-index: 500;
     display: inline-block;
     color: red;
+    cursor: pointer;
 }
-.delete-image-container img {
+.image-container img {
     margin-top: 10px;
     width: 90%;
     transition: 0.5s ease;
     display: inline-block;
-    cursor: pointer;
 }
 
 .delete-image-container:hover img {
     opacity: 0.5;
+    cursor: pointer;
 }
 
 input[type="file"] {
