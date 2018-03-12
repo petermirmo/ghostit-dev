@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import "../css/theme.css";
-import "../css/test.less";
 import ContentModal from "../components/modals/ContentModalComponent";
 import EdittingModal from "../components/modals/EdittingModalComponent";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
-import calendarStyle from "../css/calendar.css";
+import "../css/calendar.css";
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
@@ -126,12 +125,9 @@ class Calendar extends Component {
         var calendar = (
             <BigCalendar
                 selectable
-                className="big-calendar"
                 {...this.props}
                 events={events}
-                step={60}
                 defaultDate={new Date()}
-                style={calendarStyle}
                 onSelectSlot={slotInfo => this.openModal(slotInfo)}
                 onSelectEvent={clickedCalendarEvent =>
                     this.editPost(clickedCalendarEvent)
@@ -207,15 +203,8 @@ class Calendar extends Component {
                         </a>
                     </li>
                 </ul>
-                <div
-                    styles={{
-                        maxWidth: "500px",
-                        margin: "auto",
-                        padding: "200px"
-                    }}
-                >
-                    <div className="calendar-styles">{calendar}</div>
-                </div>
+
+                <div className="calendar-styles">{calendar}</div>
             </div>
         );
     }
