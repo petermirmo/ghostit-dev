@@ -3,8 +3,8 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import "../css/theme.css";
 
-import landingPageBackground from "./landing_page.jpeg";
-import logo from "./logo.png";
+import landingPageBackground from "../images/landing_page.jpeg";
+import logo from "../images/logo.png";
 
 // User's timezone
 var userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
