@@ -1,121 +1,127 @@
 :root {
-    --calendar-navbar-bg-color: #fff;
-    --blue-theme-color: #19b5fe;
-    --pink-theme-color: #e030bb;
-    --white-theme-color: #fff;
-    --light-grey-theme-color: #d9d9d9;
-    --grey-theme-color: #bfbfbf;
-    --dark-grey-theme-color: #737373;
-    --green-theme-color: #93fe80;
-    --off-black-theme-color: #666666;
-    --light-blue-theme-color: #b3e6ff;
-    --light-light-blue-theme-color: #d1f0ff;
-    --font-theme-color: #000;
-    --black-theme-color: #000;
-    --large-font-size: 13pt;
-    --regular-font-size: 11pt;
-    --font-theme: "Open Sans";
+	--blue-theme-color: #19b5fe;
+	--pink-theme-color: #e030bb;
+	--white-theme-color: #fff;
+	--light-grey-theme-color: #d9d9d9;
+	--grey-theme-color: #bfbfbf;
+	--dark-grey-theme-color: #737373;
+	--green-theme-color: #93fe80;
+	--off-black-theme-color: #666666;
+	--light-blue-theme-color: #b3e6ff;
+	--light-light-blue-theme-color: #d1f0ff;
+	--super-light-blue-theme-color: #e6f7ff;
+	--font-theme-color: #000;
+	--black-theme-color: #000;
+	--large-font-size: 13pt;
+	--regular-font-size: 11pt;
+	--font-theme: "Open Sans";
 }
 input[type="checkbox"] {
-    /* Double-sized Checkboxes */
-    -ms-transform: scale(1.5); /* IE */
-    -moz-transform: scale(1.5); /* FF */
-    -webkit-transform: scale(1.5); /* Safari and Chrome */
-    -o-transform: scale(1.5); /* Opera */
-    padding: 10px;
+	/* Double-sized Checkboxes */
+	-ms-transform: scale(1.5); /* IE */
+	-moz-transform: scale(1.5); /* FF */
+	-webkit-transform: scale(1.5); /* Safari and Chrome */
+	-o-transform: scale(1.5); /* Opera */
+	padding: 10px;
 }
 h4 {
 }
 input {
-    font-family: var(--font-theme);
-    font-size: var(--large-font-size);
+	font-family: var(--font-theme);
+	font-size: var(--large-font-size);
 
-    outline: none;
-    border: none;
+	outline: none;
+	border: none;
 }
 body {
-    font-family: var(--font-theme);
-    color: var(--font-theme-color);
-    min-height: 100%;
+	font-family: var(--font-theme);
+	color: var(--font-theme-color);
+	min-height: 100%;
 
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
 
-    background-color: var(--white-theme-color);
+	background-color: var(--white-theme-color);
 }
 
 button {
-    color: var(--white-theme-color);
-    font-family: var(--font-theme);
-    font-size: 11pt;
+	color: var(--white-theme-color);
+	font-family: var(--font-theme);
+	font-size: 11pt;
 
-    cursor: pointer;
-    outline: 0;
+	cursor: pointer;
+	outline: 0;
 
-    border: none;
-    border-radius: 4px;
-    background-color: var(--blue-theme-color);
+	border: none;
+	border-radius: 4px;
+	background-color: var(--blue-theme-color);
 }
 
 header {
-    top: 0;
-    left: 0;
-    position: fixed;
-    z-index: 9999;
+	top: 0;
+	left: 0;
+	position: fixed;
+	z-index: 9999;
 
-    width: 100%;
-    box-shadow: 0px -5px 20px 0px;
+	width: 100%;
+	box-shadow: 0px -5px 20px 0px;
 }
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+	list-style-type: none;
+	margin: 0;
+	left: 0;
 
-    overflow: hidden;
-    text-align: center;
+	overflow: hidden;
+	text-align: center;
 
-    background-color: var(--calendar-navbar-bg-color);
+	background-color: var(--white-theme-color);
+	margin: 10px 80px 10px 80px;
 }
 
 li {
-    display: inline-block;
-    width: 12%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-right: 10px;
+	display: inline-block;
+	width: 15%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin-top: 4px;
 }
 
 li a {
-    color: var(--font-theme-color);
-    cursor: pointer;
+	color: var(--font-theme-color);
+	cursor: pointer;
 
-    display: block;
-    text-decoration: none;
-    text-align: center;
-    font-size: var(--large-font-size);
+	display: block;
+	text-decoration: none;
+	text-align: center;
+	font-size: var(--large-font-size);
+	border-radius: 20px;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    -webkit-transition: border-color 0.3s;
-    transition: border-color 0.3s;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	-webkit-transition: border-color 0.3s;
+	transition: border-color 0.3s;
 
-    border: 4px solid var(--white-theme-color);
+	border: 4px solid var(--light-grey-theme-color);
 }
 
 li a:hover:not(.active) {
-    background-color: inherit;
-    border-radius: 2px;
-    border: 4px solid var(--blue-theme-color);
+	border-radius: 20px;
+	border: 4px solid var(--blue-theme-color);
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
 }
 
 li a.active {
-    border-radius: 2px;
-    border: 4px solid var(--blue-theme-color);
+	border-radius: 20px;
+	border: 4px solid var(--blue-theme-color);
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
 }
 textarea {
-    font-family: var(--font-theme);
-    font-size: var(--regular-font-size);
+	font-family: var(--font-theme);
+	font-size: var(--regular-font-size);
 }
