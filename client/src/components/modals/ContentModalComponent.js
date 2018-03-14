@@ -40,7 +40,8 @@ class Modal extends Component {
 		postingToAccountId: "",
 		link: "",
 		postImages: [],
-		accountType: ""
+		accountType: "",
+		file: {}
 	};
 	constructor(props) {
 		super(props);
@@ -205,6 +206,9 @@ class Modal extends Component {
 		currentImages.splice(indexOfRemovalImage, 1);
 		this.setState({ postImages: currentImages });
 	}
+	showFile(event) {
+		console.log(event);
+	}
 	savePost() {
 		// Get content of post
 		var content = document.getElementById("contentPostingTextarea").value;
@@ -324,27 +328,21 @@ class Modal extends Component {
 	render() {
 		var modalBody;
 		var modalFooter;
+		// Show preview images
+		var imagesDiv = [];
+		var currentImages = this.state.postImages;
+		for (var index4 in currentImages) {
+			// If image has been removed index will equal null
+			var imageTag = (
+				<div key={index4} className="image-container delete-image-container" onClick={event => this.removePhoto(event)}>
+					<img id={"image" + index4.toString()} key={index4} src={currentImages[index4].imagePreviewUrl} alt="error" />
+					<i className="fa fa-times fa-3x" />
+				</div>
+			);
+			imagesDiv.push(imageTag);
+		}
 		// Check if this is an email or blog placeholder
 		if (this.state.activeTab !== "blog" && this.state.activeTab !== "newsletter") {
-			// Show preview images
-			var imagesDiv = [];
-			var currentImages = this.state.postImages;
-			for (var index4 in currentImages) {
-				// If image has been removed index will equal null
-				var imageTag = (
-					<div key={index4} className="delete-image-container" onClick={event => this.removePhoto(event)}>
-						<img
-							id={"image" + index4.toString()}
-							key={index4}
-							src={currentImages[index4].imagePreviewUrl}
-							alt="error"
-						/>
-						<i className="fa fa-times fa-3x" />
-					</div>
-				);
-				imagesDiv.push(imageTag);
-			}
-
 			var carousel = (
 				<Carousel
 					linkPreviewCanEdit={this.state.linkPreviewCanEdit}
@@ -426,6 +424,7 @@ class Modal extends Component {
 							Choose an account to post to!
 						</h4>
 						<div className="connected-accounts-container center">{accountsListDiv}</div>
+						{carousel}
 						<DatePicker clickedCalendarDate={this.props.clickedCalendarDate} id="contentDatePickerPopUp" />
 						<TimePicker timeForPost={this.props.timeForPost} id="contentTimePickerPopUp" />
 					</div>
@@ -444,11 +443,101 @@ class Modal extends Component {
 				modalFooter = <div className="modal-footer" />;
 			}
 		} else {
+			var fileDiv;
 			modalBody = (
-				<div className="modal-body center">
-					<form>
-						<input type="text" />
+				<div className="modal-body">
+					<form id="createBlogForm" action="/api/blog" method="post" className="create-blog-form">
+						<input
+							type="text"
+							name="title"
+							placeholder="Working Title"
+							align="left"
+							className="create-blog-form-regular"
+							required
+						/>
+						<input type="text" name="keyword1" placeholder="Keyword 1" className="create-blog-form-keyword" required />
+						<input
+							type="text"
+							name="keywordDifficulty1"
+							placeholder="Keyword Difficulty"
+							className="create-blog-form-keyword"
+							required
+						/>
+						<input
+							type="text"
+							name="keywordSearchVolume1"
+							placeholder="Search Volume"
+							className="create-blog-form-keyword"
+							required
+						/>
+						<input type="text" name="keyword2" placeholder="Keyword 2" className="create-blog-form-keyword" />
+						<input
+							type="text"
+							name="keywordDifficulty2"
+							placeholder="Keyword Difficulty"
+							className="create-blog-form-keyword"
+						/>
+						<input
+							type="text"
+							name="keywordSearchVolume2"
+							placeholder="Search Volume"
+							className="create-blog-form-keyword"
+						/>
+						<input type="text" name="keyword3" placeholder="Keyword 3" className="create-blog-form-keyword" />
+						<input
+							type="text"
+							name="keywordDifficulty3"
+							placeholder="Keyword Difficulty"
+							className="create-blog-form-keyword"
+						/>
+						<input
+							type="text"
+							name="keywordSearchVolume3"
+							placeholder="Search Volume"
+							className="create-blog-form-keyword"
+						/>
+						<textarea form="createBlogForm" name="resources" placeholder="Resources" rows={2} />
+						<textarea form="createBlogForm" name="about" placeholder="About(notes)" rows={2} />
+						<label
+							htmlFor="blogUploadImage"
+							className="custom-file-upload"
+							style={{ marginBottom: "5px", marginTop: "5px" }}
+						>
+							Upload an image!
+						</label>
+						<input
+							id="blogUploadImage"
+							type="file"
+							name="blogImage"
+							placeholder="Working Title"
+							className="create-blog-form-regular"
+							onChange={event => this.showImages(event)}
+							required
+						/>
+						{imagesDiv}
+						<label
+							htmlFor="blogUploadWordDoc"
+							className="custom-file-upload"
+							style={{ marginBottom: "10px", marginTop: "5px" }}
+						>
+							Upload Word Document
+						</label>
+						<input
+							id="blogUploadWordDoc"
+							type="file"
+							name="blogWordDoc"
+							placeholder="Working Title"
+							className="create-blog-form-regular"
+							onChange={event => this.showFile(event)}
+							required
+						/>
 					</form>
+					{fileDiv}
+				</div>
+			);
+			modalFooter = (
+				<div className="modal-footer">
+					<button>Save Post</button>
 				</div>
 			);
 		}

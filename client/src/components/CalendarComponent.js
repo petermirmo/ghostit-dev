@@ -35,38 +35,42 @@ class Calendar extends Component {
 		this.getPosts();
 	}
 	getPosts() {
-		this.state.facebookPosts = [];
-		this.state.twitterPosts = [];
-		this.state.linkedinPosts = [];
-		this.state.websitePosts = [];
-		this.state.emailNewsletterPosts = [];
+		var facebookPosts = [];
+		var twitterPosts = [];
+		var linkedinPosts = [];
+
 		// Get all of user's posts to display in calendar
 		axios.get("/api/posts").then(res => {
 			// Set posts to state
 			var postArray = res.data;
 			for (var index in postArray) {
 				if (postArray[index].socialType === "facebook") {
-					this.state.facebookPosts.push(postArray[index]);
+					facebookPosts.push(postArray[index]);
 				} else if (postArray[index].socialType === "twitter") {
-					this.state.twitterPosts.push(postArray[index]);
+					twitterPosts.push(postArray[index]);
 				} else if (postArray[index].socialType === "linkedin") {
-					this.state.linkedinPosts.push(postArray[index]);
-				} else if (postArray[index].socialType === "website") {
-					this.state.websitePosts.push(postArray[index]);
-				} else if (postArray[index].socialType === "newsletter") {
-					this.state.emailNewsletterPosts.push(postArray[index]);
+					linkedinPosts.push(postArray[index]);
 				}
 			}
+			this.setState({
+				facebookPosts: facebookPosts,
+				twitterPosts: twitterPosts,
+				linkedinPosts: linkedinPosts
+			});
 			this.setPostsToState(postArray);
 		});
 	}
 	setPostsToState(postsToShowArray) {
 		var eventsArray = [];
 		var event = {};
+		var date;
+
 		for (var index = 0; index < postsToShowArray.length; index++) {
+			date = new Date(postsToShowArray[index].postingDate);
+
 			event = postsToShowArray[index];
-			event.start = postsToShowArray[index].postingDate;
-			event.end = postsToShowArray[index].postingDate;
+			event.start = date;
+			event.end = date;
 			event.link = postsToShowArray[index].link;
 			event.linkImage = postsToShowArray[index].linkImage;
 			event.accountType = postsToShowArray[index].accountType;
