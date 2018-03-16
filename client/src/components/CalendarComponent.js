@@ -29,10 +29,34 @@ class Calendar extends Component {
 	constructor(props) {
 		super(props);
 		this.getPosts = this.getPosts.bind(this);
+		this.getBlogs = this.getBlogs.bind(this);
 		this.editPost = this.editPost.bind(this);
-		this.setPostsToState = this.setPostsToState.bind(this);
+		this.convertPostToCalendarEvent = this.convertPostToCalendarEvent.bind(this);
 
 		this.getPosts();
+		this.getBlogs();
+	}
+	getBlogs() {
+		axios.get("/api/blogs").then(res => {
+			var blogs = res.data;
+			var blogEvents = [];
+			for (var index in blogs) {
+				blogEvents.push(this.convertBlogToCalendarEvent(blogs[index]));
+			}
+			this.setState({ websitePosts: blogEvents });
+		});
+	}
+	convertBlogToCalendarEvent(blog) {
+		var calendarEvent = {};
+
+		var date = new Date(blog.postingDate);
+		calendarEvent.start = date;
+		calendarEvent.end = date;
+		calendarEvent.socialType = "blog";
+		calendarEvent.backgroundColor = blog.eventColor;
+		calendarEvent.title = blog.title;
+
+		return calendarEvent;
 	}
 	getPosts() {
 		var facebookPosts = [];
@@ -42,14 +66,14 @@ class Calendar extends Component {
 		// Get all of user's posts to display in calendar
 		axios.get("/api/posts").then(res => {
 			// Set posts to state
-			var postArray = res.data;
-			for (var index in postArray) {
-				if (postArray[index].socialType === "facebook") {
-					facebookPosts.push(postArray[index]);
-				} else if (postArray[index].socialType === "twitter") {
-					twitterPosts.push(postArray[index]);
-				} else if (postArray[index].socialType === "linkedin") {
-					linkedinPosts.push(postArray[index]);
+			var posts = res.data;
+			for (var index in posts) {
+				if (posts[index].socialType === "facebook") {
+					facebookPosts.push(this.convertPostToCalendarEvent(posts[index]));
+				} else if (posts[index].socialType === "twitter") {
+					twitterPosts.push(this.convertPostToCalendarEvent(posts[index]));
+				} else if (posts[index].socialType === "linkedin") {
+					linkedinPosts.push(this.convertPostToCalendarEvent(posts[index]));
 				}
 			}
 			this.setState({
@@ -57,34 +81,27 @@ class Calendar extends Component {
 				twitterPosts: twitterPosts,
 				linkedinPosts: linkedinPosts
 			});
-			this.setPostsToState(postArray);
 		});
 	}
-	setPostsToState(postsToShowArray) {
-		var eventsArray = [];
-		var event = {};
-		var date;
 
-		for (var index = 0; index < postsToShowArray.length; index++) {
-			date = new Date(postsToShowArray[index].postingDate);
+	convertPostToCalendarEvent(post) {
+		var calendarEvent = {};
 
-			event = postsToShowArray[index];
-			event.start = date;
-			event.end = date;
-			event.link = postsToShowArray[index].link;
-			event.linkImage = postsToShowArray[index].linkImage;
-			event.accountType = postsToShowArray[index].accountType;
-			event.socialType = postsToShowArray[index].socialType;
-			event.backgroundColor = postsToShowArray[index].color;
-			if (postsToShowArray[index].content === "") {
-				event.title = "(no content)";
-			} else {
-				event.title = postsToShowArray[index].content;
-			}
-
-			eventsArray.push(event);
+		var date = new Date(post.postingDate);
+		calendarEvent = post;
+		calendarEvent.start = date;
+		calendarEvent.end = date;
+		calendarEvent.link = post.link;
+		calendarEvent.linkImage = post.linkImage;
+		calendarEvent.accountType = post.accountType;
+		calendarEvent.socialType = post.socialType;
+		calendarEvent.backgroundColor = post.color;
+		if (post.content === "") {
+			calendarEvent.title = "(no content)";
+		} else {
+			calendarEvent.title = post.content;
 		}
-		this.setState({ posts: eventsArray });
+		return calendarEvent;
 	}
 	openModal(slotinfo) {
 		// Date for post is set to date clicked on calendar
@@ -138,6 +155,7 @@ class Calendar extends Component {
 				events.push(this.state.emailNewsletterPosts[index]);
 			}
 		}
+
 		// Calendar stuff
 		var calendar = (
 			<BigCalendar

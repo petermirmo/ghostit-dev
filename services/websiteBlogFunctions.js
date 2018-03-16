@@ -11,25 +11,25 @@ module.exports = {
 		var imagePublidID = {};
 		var wordDocURL = {};
 		var wordDocPublidID = {};
-		for (var index in req.files) {
-		}
-		if (req.files.image) {
+		var newBlog = new Blog();
+
+		if (req.files.image !== undefined) {
 			await cloudinary.v2.uploader.upload(req.files.image.path, function(error, result) {
-				imageURL = result.url;
-				imagePublidID = result.public_id;
+				newBlog.image = { url: result.url, publicID: result.public_id };
 			});
 		}
-		if (req.files.blogFile) {
+		if (req.files.blogFile !== undefined) {
 			await cloudinary.v2.uploader.upload(req.files.blogFile.path, function(error, result) {
-				wordDocURL = result.url;
-				wordDocPublidID = result.public_id;
+				newBlog.wordDoc = { url: result.url, publicID: result.public_id };
 			});
 		}
 
-		var newBlog = new Blog();
+		newBlog.userID = req.user.id;
+		newBlog.postingDate = data.postingDate;
 		newBlog.title = data.title;
 		newBlog.resources = data.resources;
 		newBlog.about = data.about;
+		newBlog.eventColor = data.eventColor;
 		newBlog.keywords = [
 			{
 				keyword: data.keyword1,
@@ -47,9 +47,19 @@ module.exports = {
 				keywordSearchVolume: data.keywordSearchVolume3
 			}
 		];
-		newBlog.image = { url: imageURL, publicID: imagePublidID };
-		newBlog.wordDoc = { url: wordDocURL, publicID: wordDocPublidID };
-		console.log(newBlog);
-		newBlog.save().then(result => res.send(result));
+		try {
+			newBlog.save().then(result => res.send(result));
+		} catch (e) {
+			console.log(e);
+			res.send(e);
+		}
+	},
+	getBlogs(req, res) {
+		Blog.find({ userID: req.user.id }, function(err, blogs) {
+			if (err) {
+				res.send(false);
+			}
+			res.send(blogs);
+		});
 	}
 };

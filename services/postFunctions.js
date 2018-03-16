@@ -37,12 +37,13 @@ module.exports = {
 		// Get all posts for user
 		Post.find({ userID: req.user.id }, function(err, posts) {
 			if (err) res.send(err);
-
 			res.send(posts);
 		});
 	},
 	getPost: function(req, res) {
 		Post.findOne({ _id: req.params.postID }, function(err, post) {
+			if (err) res.send(err);
+
 			res.send(post);
 		});
 	},

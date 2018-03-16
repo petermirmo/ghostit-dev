@@ -32,6 +32,7 @@ class CreateBlogComponent extends Component {
 		if (this.props.postImages[0] !== undefined) {
 			image = this.props.postImages[0].image;
 		}
+		formData.append("postingDate", this.props.clickedCalendarDate);
 		formData.append("title", document.getElementById("workingTitle").value);
 		formData.append("image", image);
 		formData.append("blogFile", this.state.blogFile);
@@ -46,6 +47,7 @@ class CreateBlogComponent extends Component {
 		formData.append("keywordSearchVolume3", document.getElementById("keywordSearchVolume3").value);
 		formData.append("resources", document.getElementById("resources").value);
 		formData.append("about", document.getElementById("about").value);
+		formData.append("eventColor", "#e74c3c");
 
 		axios.post("/api/blog", formData).then(res => {
 			document.getElementById("postingModal").style.display = "none";

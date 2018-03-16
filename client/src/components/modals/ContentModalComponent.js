@@ -254,7 +254,14 @@ class Modal extends Component {
 				modalFooter = <div className="modal-footer" />;
 			}
 		} else if (this.state.activeTab === "blog") {
-			modalBody = <CreateBlog imagesDiv={imagesDiv} showImages={this.showImages} postImages={this.state.postImages} />;
+			modalBody = (
+				<CreateBlog
+					imagesDiv={imagesDiv}
+					showImages={this.showImages}
+					postImages={this.state.postImages}
+					clickedCalendarDate={this.props.clickedCalendarDate}
+				/>
+			);
 		}
 
 		return (

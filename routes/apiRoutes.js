@@ -130,4 +130,6 @@ module.exports = app => {
 
 	// Create a blog placeholder
 	app.post("/api/blog", fileParser, async (req, res) => blogFunctions.saveBlog(req, res));
+	// Get all placeholder blogs
+	app.get("/api/blogs", (req, res) => blogFunctions.getBlogs(req, res));
 };
