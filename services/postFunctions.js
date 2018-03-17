@@ -72,7 +72,7 @@ module.exports = {
 					// Must be await so results are not duplicated
 					await cloudinary.v2.uploader.upload(req.files.file[i].path, function(error, result) {
 						post.images.push({
-							imageURL: result.url,
+							url: result.url,
 							publicID: result.public_id
 						});
 					});
@@ -82,7 +82,7 @@ module.exports = {
 				// Only one file
 				await cloudinary.v2.uploader.upload(req.files.file.path, function(error, result) {
 					post.images.push({
-						imageURL: result.url,
+						url: result.url,
 						publicID: result.public_id
 					});
 					post.save().then(result => res.send(true));

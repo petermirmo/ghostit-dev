@@ -11,6 +11,7 @@ import CreateBlog from "../forms/CreateBlog.js";
 import savePost from "../../functions/SavePost.js";
 import SelectAccountDiv from "../divs/SelectAccountDiv.js";
 import ContentModalHeader from "../divs/ContentModalHeader.js";
+import ImagesDiv from "../divs/ImagesDiv.js";
 
 class Modal extends Component {
 	state = {
@@ -28,12 +29,11 @@ class Modal extends Component {
 		super(props);
 		this.getUserAccounts();
 
-		this.removePhoto = this.removePhoto.bind(this);
 		this.linkPreviewSetState = this.linkPreviewSetState.bind(this);
-		this.showImages = this.showImages.bind(this);
 		this.postingAccountNav = this.postingAccountNav.bind(this);
 		this.switchTabState = this.switchTabState.bind(this);
 		this.clearActiveDivs = this.clearActiveDivs.bind(this);
+		this.setPostImages = this.setPostImages.bind(this);
 	}
 
 	switchTabState(activeTab, canShow, canEdit) {
@@ -82,77 +82,16 @@ class Modal extends Component {
 		}
 	}
 
-	showImages(event) {
-		var images = event.target.files;
-		// Check to make sure there are not more than 4 Images
-		if (images.length > 4) {
-			alert("You have selected more than 4 images! Please try again");
-			return;
-		}
-
-		// Check to make sure each image is under 5MB
-		for (var index = 0; index < images.length; index++) {
-			if (images[index].size > 5000000) {
-				alert("File size on one or more photos is over 5MB( Please try again");
-				return;
-			}
-		}
-
-		// Save each image to state
-		var imagesArray = [];
-		for (index = 0; index < images.length; index++) {
-			let reader = new FileReader();
-			let image = images[index];
-			reader.onloadend = () => {
-				var imageObject = {
-					image: image,
-					imagePreviewUrl: reader.result
-				};
-				imagesArray.push(imageObject);
-				if (index === images.length) {
-					this.setState({ postImages: imagesArray });
-				}
-			};
-
-			reader.readAsDataURL(image);
-		}
-	}
-	removePhoto(event) {
-		var currentImages = this.state.postImages;
-		// <i> tag can be clicked as well as image tag, so this code checks siblings to make sure we got the <img> tag
-		var clickedImage = event.target.previousElementSibling;
-		if (clickedImage === null) {
-			clickedImage = event.target;
-		}
-
-		// ID of img tag is image + index in the array ex. image1
-		// We will remove "image" leaving us with just the index
-		var indexOfRemovalImage = clickedImage.id.replace("image", "");
-		currentImages.splice(indexOfRemovalImage, 1);
-		this.setState({ postImages: currentImages });
-	}
-
 	linkPreviewSetState(link, imagesArray) {
 		this.setState({ link: link, linkImagesArray: imagesArray });
+	}
+	setPostImages(imagesArray) {
+		this.setState({ postImages: imagesArray });
 	}
 
 	render() {
 		var modalBody;
 		var modalFooter;
-
-		// Show preview images
-		var imagesDiv = [];
-		var currentImages = this.state.postImages;
-		for (var index4 in currentImages) {
-			// If image has been removed index will equal null
-			var imageTag = (
-				<div key={index4} className="image-container delete-image-container" onClick={event => this.removePhoto(event)}>
-					<img id={"image" + index4.toString()} key={index4} src={currentImages[index4].imagePreviewUrl} alt="error" />
-					<i className="fa fa-times fa-3x" />
-				</div>
-			);
-			imagesDiv.push(imageTag);
-		}
 
 		// Check if this is an email or blog placeholder
 		if (this.state.activeTab !== "blog" && this.state.activeTab !== "newsletter") {
@@ -183,19 +122,6 @@ class Modal extends Component {
 				/>
 			);
 
-			var fileUploadDiv;
-			if (currentImages.length < 4) {
-				fileUploadDiv = (
-					<div>
-						<label htmlFor="file-upload" className="custom-file-upload">
-							Upload Images! (Up to four)
-						</label>
-
-						<input id="file-upload" type="file" onChange={event => this.showImages(event)} multiple />
-					</div>
-				);
-			}
-
 			// If the user has an account for the active tab connected
 			if (activePageAccountsArray.length !== 0) {
 				modalBody = (
@@ -207,8 +133,7 @@ class Modal extends Component {
 							placeholder="Success doesn't write itself!"
 							onChange={event => this.refs.carousel.findLink(event.target.value)}
 						/>
-						{fileUploadDiv}
-						{imagesDiv}
+						<ImagesDiv postImages={this.state.postImages} setPostImages={this.setPostImages} />
 						<h4
 							className="center"
 							style={{
@@ -254,14 +179,7 @@ class Modal extends Component {
 				modalFooter = <div className="modal-footer" />;
 			}
 		} else if (this.state.activeTab === "blog") {
-			modalBody = (
-				<CreateBlog
-					imagesDiv={imagesDiv}
-					showImages={this.showImages}
-					postImages={this.state.postImages}
-					clickedCalendarDate={this.props.clickedCalendarDate}
-				/>
-			);
+			modalBody = <CreateBlog clickedCalendarDate={this.props.clickedCalendarDate} />;
 		}
 
 		return (

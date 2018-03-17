@@ -4,6 +4,7 @@ import axios from "axios";
 import "../css/theme.css";
 import ContentModal from "../components/modals/ContentModalComponent";
 import EdittingModal from "../components/modals/EdittingModalComponent";
+import BlogEdittingModal from "../components/modals/BlogEdittingModalComponent";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
@@ -105,8 +106,7 @@ class Calendar extends Component {
 	}
 	openModal(slotinfo) {
 		// Date for post is set to date clicked on calendar
-		clickedCalendarDate = slotinfo.start;
-		this.setState({ clickedCalendarDate: clickedCalendarDate });
+		this.setState({ clickedCalendarDate: slotinfo.start });
 
 		// Time for post is set to current time
 		this.setState({ timeForPost: timeForPost });
@@ -116,7 +116,11 @@ class Calendar extends Component {
 	}
 	editPost(clickedCalendarEvent) {
 		// Open editting modal
-		document.getElementById("edittingModal").style.display = "block";
+		if (clickedCalendarEvent.socialType === "blog") {
+			document.getElementById("BlogEdittingModal").style.display = "block";
+		} else {
+			document.getElementById("edittingModal").style.display = "block";
+		}
 		this.refs.refEditModal.initialize(clickedCalendarEvent);
 	}
 	eventStyleGetter(event, start, end, isSelected) {
@@ -177,6 +181,7 @@ class Calendar extends Component {
 					updateCalendarPosts={this.getPosts}
 				/>
 				<EdittingModal post={this.state.edittingPost} ref="refEditModal" updateCalendarPosts={this.getPosts} />
+				<BlogEdittingModal blog={this.state.edittingPost} updateCalendarPosts={this.getBlogs} />
 				<ul>
 					<li
 						onClick={() => {

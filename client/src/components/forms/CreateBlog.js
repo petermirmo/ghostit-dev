@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
+import ImagesDiv from "../divs/ImagesDiv.js";
 
 class CreateBlogComponent extends Component {
 	state = {
-		blogFile: undefined
+		blogFile: undefined,
+		postImages: []
 	};
+
 	showFile(event) {
 		let reader = new FileReader();
 		let blogFile = event.target.files[0];
@@ -130,24 +133,9 @@ class CreateBlogComponent extends Component {
 					/>
 					<textarea id="resources" form="createBlogForm" name="resources" placeholder="Resources" rows={2} />
 					<textarea id="about" form="createBlogForm" name="about" placeholder="About(notes)" rows={2} />
-					<label
-						htmlFor="blogUploadImage"
-						className="custom-file-upload"
-						style={{ marginBottom: "5px", marginTop: "5px" }}
-					>
-						Upload an image!
-					</label>
-					{this.props.imagesDiv}
-					<input
-						id="blogUploadImage"
-						type="file"
-						name="blogImage"
-						placeholder="Working Title"
-						className="create-blog-form-regular"
-						onChange={event => {
-							this.props.showImages(event);
-						}}
-					/>
+
+					<ImagesDiv images />
+
 					<label
 						htmlFor="blogUploadWordDoc"
 						className="custom-file-upload"

@@ -6,6 +6,7 @@ import "../../css/theme.css";
 import DatePicker from "../DatePickerComponent.js";
 import TimePicker from "../TimePickerComponent.js";
 import Carousel from "../divs/Carousel.js";
+import ImagesDiv from "../divs/ImagesDiv.js";
 
 class EdittingModal extends Component {
 	state = {
@@ -25,8 +26,9 @@ class EdittingModal extends Component {
 	constructor(props) {
 		super(props);
 
-		this.removePhoto = this.removePhoto.bind(this);
 		this.linkPreviewSetState = this.linkPreviewSetState.bind(this);
+		this.setPostImages = this.setPostImages.bind(this);
+		this.pushToImageDeleteArray = this.pushToImageDeleteArray.bind(this);
 	}
 	initialize(post) {
 		// Initialize textarea text
@@ -75,70 +77,6 @@ class EdittingModal extends Component {
 		}
 	}
 
-	showImages(event) {
-		var images = event.target.files;
-
-		// Add current images to the images the user is adding to make sure is less than 4
-		var currentImages = this.state.postImages;
-		var amountOfImages = currentImages.length + images.length;
-
-		// Check to make sure there are not more than 4 Images
-		if (amountOfImages > 4) {
-			alert("You have more than 4 images! Please try again");
-			return;
-		}
-
-		// Check to make sure each image is under 5MB
-		for (var index = 0; index < images.length; index++) {
-			if (images[index].size > 5000000) {
-				alert("File size on one or more photos is over 5MB( Please try again");
-				return;
-			}
-		}
-
-		// Save each image to state
-		var imagesArray = currentImages;
-		for (index = 0; index < images.length; index++) {
-			let reader = new FileReader();
-			let image = images[index];
-			reader.onloadend = () => {
-				var imageObject = {
-					image: image,
-					relativeURL: reader.result
-				};
-				imagesArray.push(imageObject);
-				if (index === images.length) {
-					this.setState({ postImages: imagesArray });
-				}
-			};
-
-			reader.readAsDataURL(image);
-		}
-	}
-	removePhoto(event) {
-		var currentImages = this.state.postImages;
-		// <i> tag can be clicked as well as image tag, so this code checks siblings to make sure we got the <img> tag
-		var clickedImage = event.target.previousElementSibling;
-		if (clickedImage === null) {
-			clickedImage = event.target;
-		}
-
-		// ID of img tag is "image" + index in the array ex. image1
-		// We will remove "image" leaving us with just the index
-		var indexOfRemovalImage = clickedImage.id.replace("image", "");
-
-		// Make sure imagee is in images to delete array
-		// Only add if it is not an object. If it is an object it is not in the database yet
-		if (currentImages[indexOfRemovalImage].relativeURL === undefined) {
-			this.state.imagesToDelete.push(currentImages[indexOfRemovalImage]);
-		}
-
-		// Remove image from current images
-		currentImages.splice(indexOfRemovalImage, 1);
-
-		// Update state
-		this.setState({ postImages: currentImages });
-	}
 	savePost() {
 		// Get content of post
 		var content = document.getElementById("edittingTextarea").value;
@@ -211,8 +149,8 @@ class EdittingModal extends Component {
 				var newImages = [];
 				var imagesToDelete = this.state.imagesToDelete;
 				for (var i = 0; i < currentImages.length; i++) {
-					// If relativeURL is not undefined this is a new photo and we need to upload it to the server
-					if (currentImages[i].relativeURL !== undefined) {
+					// If imagePreviewUrl is not undefined this is a new photo and we need to upload it to the server
+					if (currentImages[i].imagePreviewUrl !== undefined) {
 						newImages.push(currentImages[i].image);
 					}
 				}
@@ -279,17 +217,21 @@ class EdittingModal extends Component {
 	linkPreviewSetState(link, imagesArray) {
 		this.setState({ link: link, linkImagesArray: imagesArray });
 	}
+	setPostImages(imagesArray) {
+		this.setState({ postImages: imagesArray });
+	}
+	pushToImageDeleteArray(image) {
+		var imagesToDeleteArray = this.state.imagesToDelete;
+		imagesToDeleteArray.push(image);
+		this.setState({ imagesToDelete: imagesToDeleteArray });
+	}
 
 	render() {
 		// Determine if post can be editted or not
-		var imageClass;
-		var imageOnClick;
 		var canEditLinkPreview;
 		var textareaDiv;
 		var dateEdittingDisabled;
 		if (this.state.status === "pending") {
-			imageClass = "delete-image-container image-container";
-			imageOnClick = this.removePhoto.bind();
 			canEditLinkPreview = this.canEditLinkPreview(this.state.activeTab);
 			textareaDiv = (
 				<textarea
@@ -302,8 +244,6 @@ class EdittingModal extends Component {
 			);
 			dateEdittingDisabled = false;
 		} else {
-			imageClass = "image-container";
-			imageOnClick = {};
 			canEditLinkPreview = false;
 			textareaDiv = (
 				<textarea
@@ -317,24 +257,7 @@ class EdittingModal extends Component {
 			);
 			dateEdittingDisabled = true;
 		}
-		// Show preview images
-		var imagesDiv = [];
-		var currentImages = this.state.postImages;
-		for (var index4 in currentImages) {
-			var urlToImage;
-			if (currentImages[index4].relativeURL !== undefined) {
-				urlToImage = currentImages[index4].relativeURL;
-			} else {
-				urlToImage = currentImages[index4].imageURL;
-			}
-			var imageTag = (
-				<div key={index4} className={imageClass} onClick={event => imageOnClick}>
-					<img id={"image" + index4.toString()} key={index4} src={urlToImage} alt="error" />
-					<i className="fa fa-times fa-3x" />
-				</div>
-			);
-			imagesDiv.push(imageTag);
-		}
+
 		var carousel = (
 			<Carousel
 				linkPreviewCanEdit={canEditLinkPreview}
@@ -351,25 +274,17 @@ class EdittingModal extends Component {
 		if (this.state.postingDate !== undefined) {
 			date = new Date(this.state.postingDate);
 		}
-		var fileUploadDiv;
-		if (this.state.status === "pending") {
-			if (currentImages.length < 4) {
-				fileUploadDiv = (
-					<div>
-						<label htmlFor="edit-file-upload" className="custom-file-upload">
-							Upload Images! (Up to four)
-						</label>
-						<input id="edit-file-upload" type="file" onChange={event => this.showImages(event)} multiple />
-					</div>
-				);
-			}
-		}
 
+		var canDeleteImage = this.state.status === "pending";
 		modalBody = (
 			<div className="modal-body">
 				{textareaDiv}
-				{fileUploadDiv}
-				{imagesDiv}
+				<ImagesDiv
+					postImages={this.state.postImages}
+					setPostImages={this.setPostImages}
+					pushToImageDeleteArray={this.pushToImageDeleteArray}
+					canDeleteImage={canDeleteImage}
+				/>
 				{carousel}
 				<DatePicker clickedCalendarDate={date} id="edittingDatePickerPopUp" canEdit={dateEdittingDisabled} />
 				<TimePicker timeForPost={date} id="edittingTimePickerPopUp" canEdit={dateEdittingDisabled} />
