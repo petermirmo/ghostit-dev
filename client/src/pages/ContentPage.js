@@ -26,6 +26,12 @@ window.onclick = function(event) {
 		edittingModal.style.display = "none";
 		return;
 	}
+
+	var BlogEdittingModal = document.getElementById("BlogEdittingModal");
+	if (event.target === BlogEdittingModal) {
+		BlogEdittingModal.style.display = "none";
+		return;
+	}
 };
 class Content extends Component {
 	render() {

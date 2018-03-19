@@ -15,7 +15,8 @@ const blogSchema = new Schema({
 	},
 	wordDoc: {
 		url: String,
-		publicID: String
+		publicID: String,
+		name: String
 	},
 	keywords: [{ keyword: String, keywordDifficulty: Number, keywordSearchVolume: Number }]
 });

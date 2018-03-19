@@ -284,6 +284,8 @@ class EdittingModal extends Component {
 					setPostImages={this.setPostImages}
 					pushToImageDeleteArray={this.pushToImageDeleteArray}
 					canDeleteImage={canDeleteImage}
+					imageLimit={4}
+					divID={"edittingPostImagesDiv"}
 				/>
 				{carousel}
 				<DatePicker clickedCalendarDate={date} id="edittingDatePickerPopUp" canEdit={dateEdittingDisabled} />

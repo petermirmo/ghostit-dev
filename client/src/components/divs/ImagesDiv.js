@@ -10,9 +10,14 @@ class ImagesDiv extends Component {
 
 	showImages(event) {
 		var images = event.target.files;
-		// Check to make sure there are not more than 4 Images
-		if (images.length + this.props.postImages.length > 4) {
-			alert("You have selected more than 4 images! Please try again");
+
+		// Check to make sure there are not more than the imageLimit
+		var currentImages = this.props.postImages;
+		if (currentImages === undefined) {
+			currentImages = [];
+		}
+		if (images.length + currentImages.length > this.props.imageLimit) {
+			alert("You have selected more than " + this.props.imageLimit + " images! Please try again");
 			return;
 		}
 
@@ -58,7 +63,7 @@ class ImagesDiv extends Component {
 		// We will remove "image" leaving us with just the index
 		var indexOfRemovalImage = clickedImage.id.replace("image", "");
 
-		// Only add if it has in cloudinary already.If url is null it is not in the database yet
+		// Only add if it is in cloudinary already.If url is null it is not in the database yet
 		if (currentImages[indexOfRemovalImage].url !== undefined) {
 			this.props.pushToImageDeleteArray(currentImages[indexOfRemovalImage]);
 		}
@@ -78,14 +83,18 @@ class ImagesDiv extends Component {
 
 		// Image upload button
 		var fileUploadDiv;
-		if (currentImages.length < 4) {
+		var divID = this.props.divID;
+		if (divID === undefined) {
+			divID = "file-upload";
+		}
+		if (currentImages.length < this.props.imageLimit) {
 			fileUploadDiv = (
 				<div>
-					<label htmlFor="file-upload" className="custom-file-upload">
-						Upload Images! (Up to four)
+					<label htmlFor={divID} className="custom-file-upload">
+						Upload Images! (Up to {this.props.imageLimit})
 					</label>
 
-					<input id="file-upload" type="file" onChange={event => this.showImages(event)} multiple />
+					<input id={divID} type="file" onChange={event => this.showImages(event)} multiple />
 				</div>
 			);
 		}

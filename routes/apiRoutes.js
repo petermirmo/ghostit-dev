@@ -13,6 +13,7 @@ var accountFunctions = require("../services/accountFunctions");
 var userFunctions = require("../services/userFunctions");
 var postFunctions = require("../services/postFunctions");
 var blogFunctions = require("../services/websiteBlogFunctions");
+var generalFunctions = require("../services/generalFunctions");
 
 module.exports = app => {
 	// Login user
@@ -130,6 +131,11 @@ module.exports = app => {
 
 	// Create a blog placeholder
 	app.post("/api/blog", fileParser, async (req, res) => blogFunctions.saveBlog(req, res));
+	// Update blog
+	app.post("/api/blog/:blogID", fileParser, async (req, res) => blogFunctions.saveBlog(req, res));
 	// Get all placeholder blogs
 	app.get("/api/blogs", (req, res) => blogFunctions.getBlogs(req, res));
+
+	// Delete file in cloudinary using pulbic id
+	app.get("/api/delete/file/:publicID", (req, res) => generalFunctions.deleteFile(req, res));
 };

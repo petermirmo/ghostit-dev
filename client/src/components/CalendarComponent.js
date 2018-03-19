@@ -13,8 +13,6 @@ import "../css/calendar.css";
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
-var clickedCalendarDate = new Date();
-var timeForPost = new Date();
 
 class Calendar extends Component {
 	state = {
@@ -25,7 +23,8 @@ class Calendar extends Component {
 		twitterPosts: [],
 		linkedinPosts: [],
 		websitePosts: [],
-		emailNewsletterPosts: []
+		emailNewsletterPosts: [],
+		clickedDate: new Date()
 	};
 	constructor(props) {
 		super(props);
@@ -48,14 +47,14 @@ class Calendar extends Component {
 		});
 	}
 	convertBlogToCalendarEvent(blog) {
-		var calendarEvent = {};
+		var calendarEvent = blog;
 
 		var date = new Date(blog.postingDate);
 		calendarEvent.start = date;
 		calendarEvent.end = date;
 		calendarEvent.socialType = "blog";
 		calendarEvent.backgroundColor = blog.eventColor;
-		calendarEvent.title = blog.title;
+		calendarEvent.title = blog.title || "(no title)";
 
 		return calendarEvent;
 	}
@@ -106,10 +105,8 @@ class Calendar extends Component {
 	}
 	openModal(slotinfo) {
 		// Date for post is set to date clicked on calendar
-		this.setState({ clickedCalendarDate: slotinfo.start });
-
 		// Time for post is set to current time
-		this.setState({ timeForPost: timeForPost });
+		this.setState({ clickedDate: slotinfo.start });
 
 		// Open modal
 		document.getElementById("postingModal").style.display = "block";
@@ -118,10 +115,11 @@ class Calendar extends Component {
 		// Open editting modal
 		if (clickedCalendarEvent.socialType === "blog") {
 			document.getElementById("BlogEdittingModal").style.display = "block";
+			this.refs.refEditBlogModal.initialize(clickedCalendarEvent);
 		} else {
 			document.getElementById("edittingModal").style.display = "block";
+			this.refs.refEditModal.initialize(clickedCalendarEvent);
 		}
-		this.refs.refEditModal.initialize(clickedCalendarEvent);
 	}
 	eventStyleGetter(event, start, end, isSelected) {
 		var backgroundColor = event.backgroundColor;
@@ -176,12 +174,12 @@ class Calendar extends Component {
 		return (
 			<div>
 				<ContentModal
-					clickedCalendarDate={clickedCalendarDate}
-					timeForPost={timeForPost}
+					clickedCalendarDate={this.state.clickedDate}
+					timeForPost={new Date()}
 					updateCalendarPosts={this.getPosts}
 				/>
-				<EdittingModal post={this.state.edittingPost} ref="refEditModal" updateCalendarPosts={this.getPosts} />
-				<BlogEdittingModal blog={this.state.edittingPost} updateCalendarPosts={this.getBlogs} />
+				<EdittingModal ref="refEditModal" updateCalendarPosts={this.getPosts} />
+				<BlogEdittingModal ref="refEditBlogModal" updateCalendarPosts={this.getBlogs} />
 				<ul>
 					<li
 						onClick={() => {

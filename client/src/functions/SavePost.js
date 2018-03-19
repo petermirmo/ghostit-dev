@@ -17,7 +17,6 @@ export default function savePost(
 	for (var i = 0; i < postImages.length; i++) {
 		currentImages.push(postImages[i].image);
 	}
-
 	// Get date of post
 	var datePickerDate = document.getElementById("contentDatePickerPopUp").getAttribute("getdate");
 

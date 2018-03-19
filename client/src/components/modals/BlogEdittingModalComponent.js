@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import axios from "axios";
 import "../../css/theme.css";
 import CreateBlog from "../forms/CreateBlog.js";
 
 class BlogEdittingModal extends Component {
+	initialize(blog) {
+		this.refs.refFillBlogForm.fillBlogForm(blog);
+	}
 	render() {
 		return (
 			<div id="BlogEdittingModal" className="modal">
@@ -11,7 +13,7 @@ class BlogEdittingModal extends Component {
 					<div className="modal-header" />
 
 					<div className="modal-body">
-						<CreateBlog blog={this.props.blog} />
+						<CreateBlog ref="refFillBlogForm" blog={this.props.blog} />
 					</div>
 
 					<div className="modal-footer" />

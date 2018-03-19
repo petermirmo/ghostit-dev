@@ -133,7 +133,12 @@ class Modal extends Component {
 							placeholder="Success doesn't write itself!"
 							onChange={event => this.refs.carousel.findLink(event.target.value)}
 						/>
-						<ImagesDiv postImages={this.state.postImages} setPostImages={this.setPostImages} />
+						<ImagesDiv
+							postImages={this.state.postImages}
+							setPostImages={this.setPostImages}
+							imageLimit={4}
+							divID={"postCreationImagesDiv"}
+						/>
 						<h4
 							className="center"
 							style={{
