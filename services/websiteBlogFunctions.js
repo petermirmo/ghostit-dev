@@ -26,11 +26,32 @@ module.exports = {
 			}
 			if (req.files.image !== undefined) {
 				await cloudinary.v2.uploader.upload(req.files.image.path, function(error, result) {
+					if (error) {
+						console.log(error);
+						res.send(error);
+						return;
+					}
 					newBlog.image = { url: result.url, publicID: result.public_id };
 				});
 			}
 			if (req.files.blogFile !== undefined) {
-				await cloudinary.v2.uploader.upload(req.files.blogFile.path, function(error, result) {
+				// Delete old wordDoc
+				if (newBlog.wordDoc) {
+					await cloudinary.uploader.destroy(
+						newBlog.wordDoc.publicID,
+						function(result) {
+							// TO DO: handle error here
+							console.log(result);
+						},
+						{ resource_type: "raw" }
+					);
+				}
+				await cloudinary.v2.uploader.upload(req.files.blogFile.path, { resource_type: "raw" }, function(error, result) {
+					if (error) {
+						console.log(error);
+						res.send(error);
+						return;
+					}
 					newBlog.wordDoc = { url: result.url, publicID: result.public_id, name: req.files.blogFile.name };
 				});
 			}
