@@ -18,7 +18,7 @@ class Header extends Component {
 	openSideBar() {
 		document.getElementById("mySidebar").style.width = "25%";
 		document.getElementById("mySidebar").style.display = "block";
-		document.getElementById("main").style.marginLeft = "25%";
+		if (document.getElementById("main")) document.getElementById("main").style.marginLeft = "25%";
 	}
 	switchTabs(event) {
 		var clickedNavBarTab = event;

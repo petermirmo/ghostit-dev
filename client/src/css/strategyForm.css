@@ -1,31 +1,22 @@
 .left-column {
-	width: 33%;
+	width: 49.5%;
 	float: left;
-	height: 100%;
-}
-
-.center-column {
-	width: 33%;
-	float: left;
-	height: 100%;
-	margin: 0 5px 0 5px;
 }
 .right-column {
-	width: 33%;
-	float: left;
-	height: 100%;
+	width: 49.5%;
+	float: right;
 }
-.three-part-form {
-	height: 100%;
-}
+
 .input-textarea {
 	outline: none;
 	border-radius: 4px;
-	border: 2px solid var(--grey-theme-color);
-	font-size: var(--large-font-size);
+	border: none;
+	font-size: var(--regular-font-size);
+
 	box-sizing: border-box;
 	resize: none;
-	margin: 0 0 5px 5px;
+	margin: 10px 10px 10px 10px;
+	width: 98.1%;
 }
 .input-theme {
 	border: 2px solid var(--grey-theme-color);
@@ -37,19 +28,36 @@
 .full-width {
 	width: 99%;
 }
-.half-width {
-	width: 47.5%;
-}
-.third-width {
-	width: 33.33%;
-}
 .input-title {
 	padding: 0;
 	text-align: left;
 	margin: 0 0 0 5px;
 }
 .form-title {
-	margin-bottom: 10px;
+	margin: 10px 0 0 35px;
 	border-bottom: 2px solid var(--blue-theme-color);
-	width: 70%;
+	display: inline-block;
+	float: left;
+}
+.input-container {
+	border-radius: 4px;
+	margin-top: 20px;
+	width: 95%;
+	border: 2px solid #b3e6ff;
+	background-color: var(--light-blue-theme-color);
+	box-sizing: border-box;
+	overflow: auto;
+}
+.full-form {
+	height: 100%;
+}
+.white-button {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
+	float: left;
+	margin: 10px 10px 10px 10px;
+}
+.white-button:hover {
+	background-color: var(--white-theme-color);
+	color: var(--blue-theme-color);
 }

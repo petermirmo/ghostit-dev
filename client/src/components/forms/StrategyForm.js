@@ -1,149 +1,53 @@
 import React, { Component } from "react";
 
 import "../../css/strategyForm.css";
+import "font-awesome/css/font-awesome.min.css";
 
 class StrategyForm extends Component {
 	state = {
-		websiteInput: {
-			placeholder: "Link to client website",
-			className: "input-theme full-width",
-			title: "Client website:",
-			value: "",
-			position: "left"
-		},
-		nameInput: {
-			placeholder: "Name",
-			className: "input-theme full-width",
-			title: "Client name:",
-			value: "",
-			position: "left"
-		},
-		facebookLink: {
-			placeholder: "Facebook link",
-			className: "input-theme full-width",
-			title: "Facebook link:",
-			value: "",
-			position: "left"
-		},
-		twitterLink: {
-			placeholder: "Twitter link",
-			className: "input-theme full-width",
-			title: "Twitter link:",
-			value: "",
-			position: "left"
-		},
-		linkedinLink: {
-			placeholder: "Linkedin link",
-			className: "input-theme full-width",
-			title: "Linkedin link:",
-			value: "",
-			position: "left"
-		},
-		instagramLink: {
-			placeholder: "Instagram link",
-			className: "input-theme full-width",
-			title: "Instagram link:",
-			value: "",
-			position: "left"
-		},
 		questionnaireLink: {
-			placeholder: "Questionnaire link",
-			className: "input-theme full-width",
-			title: "Link to questionnaire:",
+			placeholder: "Example",
+			className: "input-textarea",
+			title: "Onboarding Questionnaire",
 			value: "",
-			position: "left"
+			rows: "1"
 		},
-		competitionTitle1: {
-			placeholder: "Competition 1",
-			className: "input-theme full-width",
-			title: "Competition 1:",
+		audience: {
+			placeholder: "Example:",
+			className: "input-textarea",
+			title: "Audience",
 			value: "",
-			position: "center"
-		},
-		competitionUrl1: {
-			placeholder: "Link to competition",
-			className: "input-theme full-width",
-			title: "Link to competition:",
-			value: "",
-			position: "center"
-		},
-		competitionTitle2: {
-			placeholder: "Competition 2",
-			className: "input-theme full-width",
-			title: "Competition 2:",
-			value: "",
-			position: "center"
-		},
-		competitionUrl2: {
-			placeholder: "Link to competition",
-			className: "input-theme full-width",
-			title: "Link to competition:",
-			value: "",
-			position: "center"
-		},
-		competitionTitle3: {
-			placeholder: "Competition 3",
-			className: "input-theme full-width",
-			title: "Competition 3:",
-			value: "",
-			position: "center"
-		},
-		competitionUrl3: {
-			placeholder: "Link to competition",
-			className: "input-theme full-width",
-			title: "Link to competition:",
-			value: "",
-			position: "center"
-		},
-		audience1: {
-			placeholder: "Audience 1",
-			className: "input-theme full-width",
-			title: "Audience 1:",
-			value: "",
-			position: "right"
-		},
-		audience2: {
-			placeholder: "Audience 2",
-			className: "input-theme full-width",
-			title: "Audience 2:",
-			value: "",
-			position: "right"
-		},
-		audience3: {
-			placeholder: "Audience 3",
-			className: "input-theme full-width",
-			title: "Audience 3:",
-			value: "",
-			position: "right"
+			rows: "6"
 		},
 		styleAndStructure: {
-			placeholder: "Style and Structure",
-			className: "input-theme full-width",
+			placeholder: "Example",
+			className: "input-textarea",
 			title: "Style and Structure:",
 			value: "",
-			position: "right"
+			rows: "6"
 		},
 		brandVoice: {
-			placeholder: "Brand voice",
-			className: "input-theme full-width",
+			placeholder: "Example",
+			className: "input-textarea",
 			title: "Brand voice:",
 			value: "",
-			position: "right"
+			rows: "6"
 		},
 		content: {
-			placeholder: "Content",
-			className: "input-theme full-width",
-			title: "Content:",
+			placeholder: "Example",
+			className: "input-textarea",
+			title: "Content",
 			value: "",
-			position: "right"
+			rows: "6"
 		},
 		notes: {
-			placeholder: "Notes",
-			className: "input-theme full-width",
-			title: "Notes:",
+			placeholder: "Example",
+			className: "input-textarea",
+			title: "Notes",
 			value: "",
-			position: "right"
-		}
+			rows: "6"
+		},
+		competitors: []
 	};
 	constructor(props) {
 		super(props);
@@ -160,48 +64,65 @@ class StrategyForm extends Component {
 			}
 		});
 	}
+	addCompetitor(event) {
+		event.preventDefault();
+	}
 
 	render() {
+		var formFields = [];
 		var leftFormFields = [];
-		var centerFormFields = [];
 		var rightFormFields = [];
+		var competitorDivs = [];
 		for (var index in this.state) {
-			var temp = (
+			if (index !== "competitors") {
+				formFields.push(
+					<div key={index}>
+						<h3 className="form-title">{this.state[index].title}</h3>
+						<br />
+						<div className="input-container center">
+							<textarea
+								id={index}
+								type="text"
+								placeholder={this.state[index].placeholder}
+								className={this.state[index].className}
+								value={index.value}
+								onChange={this.handleFormChange}
+								rows={this.state[index].rows}
+							/>
+						</div>
+					</div>
+				);
+			}
+		}
+		for (index in this.state.competitors) {
+			competitorDivs.push(
 				<div key={index}>
-					<p className="input-title">{this.state[index].title}</p>
-					<input
-						id={index}
-						type="text"
-						placeholder={this.state[index].placeholder}
-						className={this.state[index].className}
-						value={index.value}
-						onChange={this.handleFormChange}
-					/>
+					<h3 className="form-title">{this.state[index].title}</h3>
+					<br />
+					<div className="input-container center">
+						<textarea
+							id={index}
+							type="text"
+							placeholder={this.state[index].placeholder}
+							className={this.state[index].className}
+							value={index.value}
+							onChange={this.handleFormChange}
+							rows={this.state[index].rows}
+						/>
+					</div>
 				</div>
 			);
-			if (this.state[index].position === "left") {
-				leftFormFields.push(temp);
-			} else if (this.state[index].position === "center") {
-				centerFormFields.push(temp);
-			} else if (this.state[index].position === "right") {
-				rightFormFields.push(temp);
-			}
 		}
 
 		return (
-			<form id="strategyForm" className="three-part-form">
-				<div className="left-column center">
-					<h2 className="form-title center">Client</h2>
-					{leftFormFields}
+			<form id="strategyForm" className="full-form">
+				<h3 className="form-title">Competitors</h3>
+				<br />
+				<div className="input-container center">
+					{competitorDivs}
+					<button onClick={this.addCompetitor} className="fa fa-plus fa-2x white-button" />
 				</div>
-				<div className="center-column">
-					<h2 className="form-title center">Client's Competition</h2>
-					{centerFormFields}
-				</div>
-				<div className="right-column">
-					<h2 className="form-title center">Brand</h2>
-					{rightFormFields}
-				</div>
+				{formFields}
 			</form>
 		);
 	}

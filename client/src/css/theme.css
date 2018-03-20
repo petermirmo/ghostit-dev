@@ -31,7 +31,7 @@
 }
 .container-full {
 	border-radius: 10px;
-	height: 80vh;
+	height: 100%;
 	margin-top: 30px;
 	width: 95%;
 	border: 2px solid #b3e6ff;
@@ -233,4 +233,7 @@
 }
 .instagram {
 	background: linear-gradient(90deg, #cd486b, #8a3ab9);
+}
+.container-background {
+	background: -webkit-linear-gradient(top, var(--light-grey-theme-color), var(--light-grey-theme-color) 5%, white 12%);
 }
