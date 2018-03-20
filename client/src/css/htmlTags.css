@@ -1,6 +1,10 @@
 :root {
 	--blue-theme-color: #19b5fe;
-	--pink-theme-color: #e030bb;
+	--purple-theme-color: #ae56fa;
+	--orange-theme-color: #fd651c;
+	--red-theme-color: #f00001;
+	--yellow-theme-color: #ffff00;
+	--pink-theme-color: #ff017e;
 	--white-theme-color: #fff;
 	--light-grey-theme-color: #d9d9d9;
 	--grey-theme-color: #bfbfbf;

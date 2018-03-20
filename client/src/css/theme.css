@@ -11,222 +11,226 @@
 @import url("confirmAlert.css");
 
 #wrapper {
-    padding: 50px 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+	padding: 50px 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 
-    position: relative;
-    animation: animateleft 0.4s;
+	position: relative;
+	animation: animateleft 0.4s;
 }
 .container {
-    border-radius: 10px;
-    height: 80vh;
-    margin: 20px;
-    margin-top: 30px;
-    width: 50%;
-    border: 2px solid #b3e6ff;
-    background-color: #fff;
+	border-radius: 10px;
+	height: 80vh;
+	margin: 20px;
+	margin-top: 30px;
+	width: 50%;
+	border: 2px solid #b3e6ff;
+	background-color: #fff;
+}
+.container-full {
+	border-radius: 10px;
+	height: 80vh;
+	margin-top: 30px;
+	width: 95%;
+	border: 2px solid #b3e6ff;
+	background-color: #fff;
 }
 .profile-input {
-    width: 60%;
-    margin: 20px;
-    padding: 10px;
-    -webkit-box-shadow: 0 0 0px 1000px var(--white-theme-color) inset;
-    border-radius: 10px;
-    border: 2px solid #cccccc;
+	width: 60%;
+	margin: 20px;
+	padding: 10px;
+	-webkit-box-shadow: 0 0 0px 1000px var(--white-theme-color) inset;
+	border-radius: 10px;
+	border: 2px solid #cccccc;
 }
 .login-input {
-    font-family: var(--font-theme);
-    font-size: var(--large-font-size);
-    color: var(--font-theme-color);
+	font-family: var(--font-theme);
+	font-size: var(--large-font-size);
+	color: var(--font-theme-color);
 
-    width: 90%;
+	width: 90%;
 
-    border: none;
-    outline: none;
-    display: inline-block;
+	border: none;
+	outline: none;
+	display: inline-block;
 }
 .login-background {
-    background-color: var(--blue-theme-color);
-    background: linear-gradient(
-        180deg,
-        var(--blue-theme-color),
-        var(--white-theme-color)150%
-    );
+	background-color: var(--blue-theme-color);
+	background: linear-gradient(180deg, var(--blue-theme-color), var(--white-theme-color)150%);
 
-    width: 50%;
-    height: auto;
-    min-height: 100%;
+	width: 50%;
+	height: auto;
+	min-height: 100%;
 
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    vertical-align: middle;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	vertical-align: middle;
 }
 .login-background img {
-    width: 40%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10%;
+	width: 40%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
 }
 
 .landing-page {
-    width: 50%;
-    height: 100%;
-    min-height: 100%;
-    right: 0;
-    position: absolute;
-    z-index: -1;
+	width: 50%;
+	height: 100%;
+	min-height: 100%;
+	right: 0;
+	position: absolute;
+	z-index: -1;
 }
 .landing-page img {
-    filter: brightness(55%);
+	filter: brightness(55%);
 }
 .landing-page div {
-    text-align: center;
+	text-align: center;
 }
 .landing-page div button {
-    background-color: transparent;
-    border: 2px solid var(--white-theme-color);
-    font-size: var(--large-font-size);
-    border-radius: 4px;
+	background-color: transparent;
+	border: 2px solid var(--white-theme-color);
+	font-size: var(--large-font-size);
+	border-radius: 4px;
 }
 
 .landing-page .lpcontainer {
-    position: absolute;
-    color: var(--white-theme-color);
-    width: 80%;
-    margin-top: 45%;
-    padding-left: 40px;
+	position: absolute;
+	color: var(--white-theme-color);
+	width: 80%;
+	margin-top: 45%;
+	padding-left: 40px;
 }
 .landing-page h1 {
-    color: var(--white-theme-color);
+	color: var(--white-theme-color);
 }
 .landing-page h5 {
-    color: var(--white-theme-color);
+	color: var(--white-theme-color);
 }
 .form-box {
-    width: 70%;
-    height: 70%;
-    background-color: var(--white-theme-color);
-    border: 2px solid #000;
+	width: 70%;
+	height: 70%;
+	background-color: var(--white-theme-color);
+	border: 2px solid #000;
 
-    text-align: center;
-    margin: auto;
+	text-align: center;
+	margin: auto;
 
-    margin-top: 5%;
-    border-radius: 2px;
-    border: 10px solid #eeeeef;
+	margin-top: 5%;
+	border-radius: 2px;
+	border: 10px solid #eeeeef;
 }
 .login-box {
-    width: 80%;
-    height: 80%;
-    background-color: var(--white-theme-color);
+	width: 80%;
+	height: 80%;
+	background-color: var(--white-theme-color);
 
-    text-align: center;
-    margin: auto;
-    margin-top: 2%;
+	text-align: center;
+	margin: auto;
+	margin-top: 2%;
 
-    border-radius: 10px;
-    border: 2px solid var(--white-theme-color);
-    box-shadow: 0 0 20px 0;
+	border-radius: 10px;
+	border: 2px solid var(--white-theme-color);
+	box-shadow: 0 0 20px 0;
 }
 
 .submit-colorful {
-    margin-top: 5%;
-    border-radius: 5px;
+	margin-top: 5%;
+	border-radius: 5px;
 
-    background-color: var(--blue-theme-color);
-    cursor: pointer;
+	background-color: var(--blue-theme-color);
+	cursor: pointer;
 
-    width: auto;
+	width: auto;
 
-    font-size: 20px;
-    color: var(--white-theme-color);
+	font-size: 20px;
+	color: var(--white-theme-color);
 }
 
 .big-calendar {
-    min-height: 800px;
-    margin: 40px;
+	min-height: 800px;
+	margin: 40px;
 
-    background-color: var(--white-theme-color);
+	background-color: var(--white-theme-color);
 }
 
 .login-switch {
-    cursor: pointer;
-    border-bottom: 2px solid var(--blue-theme-color);
-    margin: auto;
-    margin-bottom: 5%;
+	cursor: pointer;
+	border-bottom: 2px solid var(--blue-theme-color);
+	margin: auto;
+	margin-bottom: 5%;
 }
 
 .animate-left {
-    position: relative;
-    animation: animateleft 0.4s;
+	position: relative;
+	animation: animateleft 0.4s;
 }
 
 .animate-right {
-    position: relative;
-    animation: animateright 0.4s;
+	position: relative;
+	animation: animateright 0.4s;
 }
 .center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
 @keyframes animateright {
-    from {
-        right: -300px;
-        opacity: 0;
-    }
-    to {
-        right: 0;
-        opacity: 1;
-    }
+	from {
+		right: -300px;
+		opacity: 0;
+	}
+	to {
+		right: 0;
+		opacity: 1;
+	}
 }
 @keyframes animateleft {
-    from {
-        left: -300px;
-        opacity: 0;
-    }
-    to {
-        left: 0;
-        opacity: 1;
-    }
+	from {
+		left: -300px;
+		opacity: 0;
+	}
+	to {
+		left: 0;
+		opacity: 1;
+	}
 }
 /* width */
 ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
+	width: 0px;
+	background: transparent;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: var(--light-blue-theme-color);
+	background: var(--light-blue-theme-color);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: var(--blue-theme-color);
-    border-radius: 10px;
+	background: var(--blue-theme-color);
+	border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #019ce5;
+	background: #019ce5;
 }
 .facebook {
-    background-color: #4267b2;
+	background-color: #4267b2;
 }
 .twitter {
-    background-color: #1da1f2;
+	background-color: #1da1f2;
 }
 .linkedin {
-    background-color: #0077b5;
+	background-color: #0077b5;
 }
 .instagram {
-    background: linear-gradient(90deg, #cd486b, #8a3ab9);
+	background: linear-gradient(90deg, #cd486b, #8a3ab9);
 }

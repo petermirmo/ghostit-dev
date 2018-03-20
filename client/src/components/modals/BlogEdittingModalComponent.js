@@ -9,9 +9,7 @@ class BlogEdittingModal extends Component {
 	render() {
 		return (
 			<div id="BlogEdittingModal" className="modal">
-				<div className="modal-content" style={{ textAlign: "center", width: "35%" }}>
-					<div className="modal-header" />
-
+				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-body">
 						<CreateBlog ref="refFillBlogForm" blog={this.props.blog} />
 					</div>

@@ -5,11 +5,6 @@ import { confirmAlert } from "react-confirm-alert";
 
 import "../../css/theme.css";
 
-var connectedFacebookAccounts = [];
-var connectedTwitterAccounts = [];
-var connectedLinkedinAccounts = [];
-var connectedAccountsHeader;
-var connectedAccountsFooter;
 class ConnectedAccountsList extends Component {
 	constructor(props) {
 		super(props);
@@ -44,9 +39,11 @@ class ConnectedAccountsList extends Component {
 	render() {
 		// Initialize
 		var accounts = this.props.accounts;
-		connectedFacebookAccounts = [];
-		connectedTwitterAccounts = [];
-		connectedLinkedinAccounts = [];
+		var connectedFacebookAccounts = [];
+		var connectedTwitterAccounts = [];
+		var connectedLinkedinAccounts = [];
+		var connectedAccountsHeader;
+		var connectedAccountsFooter;
 
 		for (var index in accounts) {
 			// Initialize
