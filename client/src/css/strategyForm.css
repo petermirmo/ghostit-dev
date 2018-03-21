@@ -19,11 +19,14 @@
 	width: 98.1%;
 }
 .input-theme {
-	border: 2px solid var(--grey-theme-color);
+	border: none;
 	border-radius: 4px;
 	box-sizing: border-box;
-	margin: 0 0 5px 5px;
+	margin: 10px 0 10px 10px;
+	padding: 4px;
 	font-size: var(--regular-font-size);
+	float: left;
+	width: 30%;
 }
 .full-width {
 	width: 99%;
@@ -54,10 +57,14 @@
 .white-button {
 	background-color: var(--blue-theme-color);
 	color: var(--white-theme-color);
-	float: left;
 	margin: 10px 10px 10px 10px;
+	float: left;
 }
 .white-button:hover {
 	background-color: var(--white-theme-color);
 	color: var(--blue-theme-color);
+}
+.icon-container {
+	width: 100%;
+	display: inline-block;
 }

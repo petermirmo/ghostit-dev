@@ -52,6 +52,7 @@ class StrategyForm extends Component {
 	constructor(props) {
 		super(props);
 		this.handleFormChange = this.handleFormChange.bind(this);
+		this.addCompetitor = this.addCompetitor.bind(this);
 	}
 	handleFormChange(event) {
 		this.setState({
@@ -66,6 +67,14 @@ class StrategyForm extends Component {
 	}
 	addCompetitor(event) {
 		event.preventDefault();
+		var competitor = {
+			placeholder: "Competitor",
+			className: "input-theme",
+			value: ""
+		};
+		var temp = this.state.competitors;
+		temp.push(competitor);
+		this.setState({ competitors: temp });
 	}
 
 	render() {
@@ -85,7 +94,7 @@ class StrategyForm extends Component {
 								type="text"
 								placeholder={this.state[index].placeholder}
 								className={this.state[index].className}
-								value={index.value}
+								value={this.state[index].value}
 								onChange={this.handleFormChange}
 								rows={this.state[index].rows}
 							/>
@@ -97,19 +106,14 @@ class StrategyForm extends Component {
 		for (index in this.state.competitors) {
 			competitorDivs.push(
 				<div key={index}>
-					<h3 className="form-title">{this.state[index].title}</h3>
-					<br />
-					<div className="input-container center">
-						<textarea
-							id={index}
-							type="text"
-							placeholder={this.state[index].placeholder}
-							className={this.state[index].className}
-							value={index.value}
-							onChange={this.handleFormChange}
-							rows={this.state[index].rows}
-						/>
-					</div>
+					<input
+						id={index}
+						type="text"
+						placeholder={this.state.competitors[index].placeholder}
+						className={this.state.competitors[index].className}
+						value={this.state.competitors[index].value}
+						onChange={this.handleFormChange}
+					/>
 				</div>
 			);
 		}
@@ -120,7 +124,9 @@ class StrategyForm extends Component {
 				<br />
 				<div className="input-container center">
 					{competitorDivs}
-					<button onClick={this.addCompetitor} className="fa fa-plus fa-2x white-button" />
+					<div className="icon-container">
+						<button onClick={this.addCompetitor} className="fa fa-plus fa-2x white-button" />
+					</div>
 				</div>
 				{formFields}
 			</form>
