@@ -142,4 +142,5 @@ module.exports = app => {
 
 	// Create or update user's strategy
 	app.post("/api/strategy", (req, res) => strategyFunctions.saveStrategy(req, res));
+	app.get("/api/strategy", (req, res) => strategyFunctions.getStrategy(req, res));
 };

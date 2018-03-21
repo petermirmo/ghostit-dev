@@ -6,7 +6,7 @@ import "font-awesome/css/font-awesome.min.css";
 
 class StrategyForm extends Component {
 	state = {
-		questionnaireLink: {
+		questionnaire: {
 			placeholder: "Example",
 			className: "input-textarea",
 			title: "Onboarding Questionnaire",
@@ -55,6 +55,42 @@ class StrategyForm extends Component {
 		this.handleFormChange = this.handleFormChange.bind(this);
 		this.addCompetitor = this.addCompetitor.bind(this);
 		this.saveStrategy = this.saveStrategy.bind(this);
+		this.findStrategyAndFillForm = this.findStrategyAndFillForm.bind(this);
+		this.findStrategyAndFillForm();
+	}
+	findStrategyAndFillForm() {
+		axios.get("/api/strategy").then(res => {
+			var strategy = res.data;
+			delete strategy._id;
+			delete strategy.__v;
+			delete strategy.userID;
+			if (strategy) {
+				for (var index in strategy) {
+					if (Array.isArray(strategy[index])) {
+						var tempArray = [];
+						for (var j in strategy[index]) {
+							tempArray.push({
+								value: strategy[index][j],
+								placeholder: "Competitor",
+								className: "input-theme"
+							});
+						}
+						this.setState({ competitors: tempArray });
+					} else {
+						console.log(index);
+						this.setState({
+							[index]: {
+								placeholder: this.state[index].placeholder,
+								className: this.state[index].className,
+								title: this.state[index].title,
+								value: strategy[index],
+								rows: this.state[index].rows
+							}
+						});
+					}
+				}
+			}
+		});
 	}
 	handleFormChange(event) {
 		if (Number.isInteger(Number(event.target.id))) {
