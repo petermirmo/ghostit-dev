@@ -59,9 +59,8 @@ class ConnectedAccountsList extends Component {
 					className="center"
 					style={{
 						color: "var(--black-theme-color)",
-						textAlign: "center",
 						width: "90%",
-						borderBottom: " 2px solid var(--blue-theme-color)"
+						borderBottom: " 2px solid var(--purple-theme-color)"
 					}}
 				>
 					Connected Accounts

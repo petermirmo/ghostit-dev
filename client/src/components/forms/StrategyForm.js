@@ -77,7 +77,6 @@ class StrategyForm extends Component {
 						}
 						this.setState({ competitors: tempArray });
 					} else {
-						console.log(index);
 						this.setState({
 							[index]: {
 								placeholder: this.state[index].placeholder,
@@ -136,7 +135,9 @@ class StrategyForm extends Component {
 			if (Array.isArray(this.state[index])) {
 				var arrayTemp = [];
 				for (var j in this.state[index]) {
-					arrayTemp.push(this.state[index][j].value);
+					if (this.state[index][j].value !== "") {
+						arrayTemp.push(this.state[index][j].value);
+					}
 				}
 				strategy[index] = arrayTemp;
 			} else {
@@ -144,14 +145,16 @@ class StrategyForm extends Component {
 			}
 		}
 		axios.post("/api/strategy", strategy).then(res => {
-			console.log(res);
+			if (res.data) {
+				// Success
+			} else {
+				// Failure!
+			}
 		});
 	}
 
 	render() {
 		var formFields = [];
-		var leftFormFields = [];
-		var rightFormFields = [];
 		var competitorDivs = [];
 		for (var index in this.state) {
 			if (!Array.isArray(this.state[index])) {

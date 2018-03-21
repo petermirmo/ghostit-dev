@@ -38,7 +38,7 @@
 }
 .form-title {
 	margin: 10px 0 0 35px;
-	border-bottom: 2px solid var(--blue-theme-color);
+	border-bottom: 2px solid var(--purple-theme-color);
 	display: inline-block;
 	float: left;
 }
