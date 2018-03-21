@@ -2,6 +2,8 @@
 	--blue-theme-color: #19b5fe;
 	--dark-blue-theme-color: #019ce5;
 	--purple-theme-color: #ae56fa;
+	--light-purple-theme-color: #c483fb;
+	--light-light-purple-theme-color: #dbb5fd;
 	--orange-theme-color: #fd651c;
 	--red-theme-color: #f00001;
 	--yellow-theme-color: #ffff00;
@@ -18,6 +20,7 @@
 	--font-theme-color: #000;
 	--black-theme-color: #000;
 	--large-font-size: 13pt;
+	--extra-large-font-size: 17pt;
 	--regular-font-size: 11pt;
 	--font-theme: "Open Sans";
 }

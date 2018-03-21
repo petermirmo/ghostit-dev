@@ -68,3 +68,11 @@
 	width: 100%;
 	display: inline-block;
 }
+.big-purple-submit-button {
+	margin: 20px 0 20px 35px;
+	padding: 20px;
+	font-size: var(--extra-large-font-size);
+	border-radius: 60px;
+	width: 40%;
+	background-color: var(--purple-theme-color);
+}

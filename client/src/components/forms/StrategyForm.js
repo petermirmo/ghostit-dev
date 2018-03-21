@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import "../../css/strategyForm.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -53,17 +54,30 @@ class StrategyForm extends Component {
 		super(props);
 		this.handleFormChange = this.handleFormChange.bind(this);
 		this.addCompetitor = this.addCompetitor.bind(this);
+		this.saveStrategy = this.saveStrategy.bind(this);
 	}
 	handleFormChange(event) {
-		this.setState({
-			[event.target.id]: {
-				placeholder: this.state[event.target.id].placeholder,
-				className: this.state[event.target.id].className,
-				title: this.state[event.target.id].title,
-				value: event.target.value,
-				position: this.state[event.target.id].position
-			}
-		});
+		if (Number.isInteger(Number(event.target.id))) {
+			var temp = this.state.competitors;
+			temp[event.target.id] = {
+				placeholder: this.state.competitors[event.target.id].placeholder,
+				className: this.state.competitors[event.target.id].className,
+				value: event.target.value
+			};
+			this.setState({
+				competitors: temp
+			});
+		} else {
+			this.setState({
+				[event.target.id]: {
+					placeholder: this.state[event.target.id].placeholder,
+					className: this.state[event.target.id].className,
+					title: this.state[event.target.id].title,
+					value: event.target.value,
+					rows: this.state[event.target.id].rows
+				}
+			});
+		}
 	}
 	addCompetitor(event) {
 		event.preventDefault();
@@ -76,6 +90,27 @@ class StrategyForm extends Component {
 		temp.push(competitor);
 		this.setState({ competitors: temp });
 	}
+	saveStrategy(event) {
+		event.preventDefault();
+		var strategy = {};
+
+		// Loop through state
+		for (var index in this.state) {
+			// If state element is an array we need to loop through each index of that array
+			if (Array.isArray(this.state[index])) {
+				var arrayTemp = [];
+				for (var j in this.state[index]) {
+					arrayTemp.push(this.state[index][j].value);
+				}
+				strategy[index] = arrayTemp;
+			} else {
+				strategy[index] = this.state[index].value;
+			}
+		}
+		axios.post("/api/strategy", strategy).then(res => {
+			console.log(res);
+		});
+	}
 
 	render() {
 		var formFields = [];
@@ -83,7 +118,7 @@ class StrategyForm extends Component {
 		var rightFormFields = [];
 		var competitorDivs = [];
 		for (var index in this.state) {
-			if (index !== "competitors") {
+			if (!Array.isArray(this.state[index])) {
 				formFields.push(
 					<div key={index}>
 						<h3 className="form-title">{this.state[index].title}</h3>
@@ -101,21 +136,22 @@ class StrategyForm extends Component {
 						</div>
 					</div>
 				);
+			} else {
+				for (var j in this.state.competitors) {
+					competitorDivs.push(
+						<div key={j}>
+							<input
+								id={j}
+								type="text"
+								placeholder={this.state.competitors[j].placeholder}
+								className={this.state.competitors[j].className}
+								value={this.state.competitors[j].value}
+								onChange={this.handleFormChange}
+							/>
+						</div>
+					);
+				}
 			}
-		}
-		for (index in this.state.competitors) {
-			competitorDivs.push(
-				<div key={index}>
-					<input
-						id={index}
-						type="text"
-						placeholder={this.state.competitors[index].placeholder}
-						className={this.state.competitors[index].className}
-						value={this.state.competitors[index].value}
-						onChange={this.handleFormChange}
-					/>
-				</div>
-			);
 		}
 
 		return (
@@ -129,6 +165,9 @@ class StrategyForm extends Component {
 					</div>
 				</div>
 				{formFields}
+				<button onClick={this.saveStrategy} className="big-purple-submit-button">
+					Save Strategy!
+				</button>
 			</form>
 		);
 	}

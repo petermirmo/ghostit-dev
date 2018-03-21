@@ -14,6 +14,7 @@ var userFunctions = require("../services/userFunctions");
 var postFunctions = require("../services/postFunctions");
 var blogFunctions = require("../services/websiteBlogFunctions");
 var generalFunctions = require("../services/generalFunctions");
+var strategyFunctions = require("../services/strategyFunctions");
 
 module.exports = app => {
 	// Login user
@@ -138,4 +139,7 @@ module.exports = app => {
 
 	// Delete file in cloudinary using pulbic id
 	app.get("/api/delete/file/:publicID", (req, res) => generalFunctions.deleteFile(req, res));
+
+	// Create or update user's strategy
+	app.post("/api/strategy", (req, res) => strategyFunctions.saveStrategy(req, res));
 };
