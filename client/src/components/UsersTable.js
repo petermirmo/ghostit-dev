@@ -81,6 +81,7 @@ class UsersTable extends Component {
 			users = this.state.demoUsers;
 		}
 		this.setState({ activeTab: event.target.id, activeUsers: users, untouchedActiveUsers: users });
+		this.removeClickedUser();
 	}
 	searchUsers(event) {
 		this.removeClickedUser();
@@ -133,7 +134,9 @@ class UsersTable extends Component {
 			<div>
 				<NavBar updateParentState={this.updateUsers} categories={["admin", "writer", "client", "demo"]} />
 				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} userClicked={this.userClicked} />
-				<UserDiv user={this.state.clickedUser} />
+				<div style={{ float: "right", width: "74%" }}>
+					<UserDiv user={this.state.clickedUser} className="center" />
+				</div>
 			</div>
 		);
 	}

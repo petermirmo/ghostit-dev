@@ -15,13 +15,7 @@ class ManageColumn extends Component {
 		}
 		return (
 			<div className="user-column">
-				<input
-					type="text"
-					id="myInput"
-					onKeyUp={this.props.searchUsers}
-					placeholder="Search users"
-					className="search center"
-				/>
+				<textarea onKeyUp={this.props.searchUsers} placeholder="Search users" className="search center" rows={1} />
 				{userDiv}
 			</div>
 		);

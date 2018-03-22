@@ -19,5 +19,9 @@ module.exports = {
 				res.send(users);
 			});
 		}
+	},
+	signInAsUser: function(req, res) {
+		console.log(req.body);
+		res.send(true);
 	}
 };

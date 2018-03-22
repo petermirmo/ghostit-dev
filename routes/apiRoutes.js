@@ -150,5 +150,9 @@ module.exports = app => {
 	app.get("/api/strategy", (req, res) => strategyFunctions.getStrategy(req, res));
 
 	// Admin routes!!!!!
+
+	// Get all users
 	app.get("/api/users", (req, res) => adminFunctions.getUsers(req, res));
+	// Login as user
+	app.post("/api/signInAsUser", (req, res) => adminFunctions.signInAsUser(req, res));
 };
