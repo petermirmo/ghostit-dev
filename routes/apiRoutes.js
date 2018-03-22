@@ -15,6 +15,7 @@ var postFunctions = require("../services/postFunctions");
 var blogFunctions = require("../services/websiteBlogFunctions");
 var generalFunctions = require("../services/generalFunctions");
 var strategyFunctions = require("../services/strategyFunctions");
+var adminFunctions = require("../services/adminFunctions");
 
 module.exports = app => {
 	// Login user
@@ -49,7 +50,11 @@ module.exports = app => {
 
 	// Middleware check
 	app.get("/api/isUserSignedIn", (req, res) => {
-		res.send(req.isAuthenticated());
+		if (req.user) {
+			res.send([req.isAuthenticated(), req.user.role]);
+		} else {
+			res.send([req.isAuthenticated(), null]);
+		}
 	});
 
 	// Save account to database
@@ -143,4 +148,7 @@ module.exports = app => {
 	// Create or update user's strategy
 	app.post("/api/strategy", (req, res) => strategyFunctions.saveStrategy(req, res));
 	app.get("/api/strategy", (req, res) => strategyFunctions.getStrategy(req, res));
+
+	// Admin routes!!!!!
+	app.get("/api/users", (req, res) => adminFunctions.getUsers(req, res));
 };

@@ -1,0 +1,31 @@
+.users-table {
+}
+.user-column {
+	width: 25%;
+	margin: 0 20px 0 0;
+	padding: 20px;
+	display: inline-block;
+	float: left;
+}
+.user-row {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	display: block;
+	overflow: hidden;
+	width: 100%;
+	padding: 10px;
+	background-color: var(--purple-theme-color);
+	color: var(--white-theme-color);
+	border-radius: 20px;
+}
+.user-row:nth-child(even) {
+	background-color: var(--blue-theme-color);
+}
+.user-row:hover {
+	background-color: var(--orange-theme-color);
+	cursor: pointer;
+}
+.row-header {
+	padding: 4px;
+	margin: 0;
+}

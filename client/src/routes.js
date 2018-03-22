@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import Content from "./pages/ContentPage";
 import Profile from "./pages/Profile";
 import Strategy from "./pages/StrategyPage";
+import Manage from "./pages/ManagePage";
 
 class Routes extends Component {
 	render() {
@@ -15,6 +16,7 @@ class Routes extends Component {
 					<Route path="/content" exact={true} component={Content} />
 					<Route path="/profile" exact={true} component={Profile} />
 					<Route path="/strategy" exact={true} component={Strategy} />
+					<Route path="/manage" exact={true} component={Manage} />
 				</div>
 			</BrowserRouter>
 		);

@@ -5,7 +5,7 @@ import Header from "../components/HeaderComponent";
 import StrategyForm from "../components/forms/StrategyForm";
 import SideBar from "../components/SideBar";
 
-class Content extends Component {
+class StrategyPage extends Component {
 	render() {
 		return (
 			<div id="wrapper">
@@ -20,4 +20,4 @@ class Content extends Component {
 	}
 }
 
-export default Content;
+export default StrategyPage;

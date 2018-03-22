@@ -1,0 +1,30 @@
+import React, { Component } from "react";
+import axios from "axios";
+
+import Header from "../components/HeaderComponent";
+import SideBar from "../components/SideBar";
+import UsersTable from "../components/UsersTable";
+
+class ManagePage extends Component {
+	constructor(props) {
+		super(props);
+
+		// Make sure user is an admin!
+		axios.get("/api/isUserSignedIn").then(res => {
+			if (res.data[1] !== "admin") {
+				window.location.replace("/content");
+			}
+		});
+	}
+	render() {
+		return (
+			<div id="wrapper">
+				<Header activePage="manage" />
+				<SideBar />
+				<UsersTable />
+			</div>
+		);
+	}
+}
+
+export default ManagePage;

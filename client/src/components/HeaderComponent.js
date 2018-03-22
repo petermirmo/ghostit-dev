@@ -7,35 +7,23 @@ import "font-awesome/css/font-awesome.min.css";
 
 class Header extends Component {
 	state = {
-		isLoggedIn: true
+		isLoggedIn: true,
+		role: "demo"
 	};
 	constructor(props) {
 		super(props);
 
 		// Logged in check
-		axios.get("/api/isUserSignedIn").then(res => this.setState({ isLoggedIn: res.data }));
+		axios.get("/api/isUserSignedIn").then(res => {
+			this.setState({ isLoggedIn: res.data[0], role: res.data[1] });
+		});
 	}
 	openSideBar() {
 		document.getElementById("mySidebar").style.width = "25%";
 		document.getElementById("mySidebar").style.display = "block";
 		if (document.getElementById("main")) document.getElementById("main").style.marginLeft = "25%";
 	}
-	switchTabs(event) {
-		var clickedNavBarTab = event;
 
-		// Check if this is the active class
-		if (clickedNavBarTab.classList.contains("header-active")) {
-			// If it is already active tab, do nothing
-			return;
-		} else {
-			// Take away active class from all other tabs
-			var tabs = document.getElementsByClassName("header-active");
-			for (var index = 0; index < tabs.length; index++) {
-				tabs[index].classList.remove("header-active");
-			}
-			clickedNavBarTab.className += " header-active";
-		}
-	}
 	render() {
 		const { isLoggedIn } = this.state;
 		if (!isLoggedIn) {
@@ -43,6 +31,19 @@ class Header extends Component {
 		}
 		if (document.getElementById(this.props.activePage)) {
 			document.getElementById(this.props.activePage).className += " header-active";
+		}
+
+		var adminButton;
+		if (this.state.role === "admin") {
+			var className;
+			if (this.props.activePage === "manage") {
+				className = "header-active";
+			}
+			adminButton = (
+				<a id="manage" href="/manage" className={className}>
+					Manage
+				</a>
+			);
 		}
 
 		return (
@@ -53,16 +54,15 @@ class Header extends Component {
 							Profile
 						</button>
 						<div className="dropdown-content">
-							<a onClick={event => this.switchTabs(document.getElementById("profile"))} href="/profile">
-								Profile
-							</a>
+							<a href="/profile">Profile</a>
 							<a href="/api/logout">Logout</a>
 						</div>
 					</div>
-					<a id="strategy" href="/strategy" onClick={event => this.switchTabs(event.target)}>
+					{adminButton}
+					<a id="strategy" href="/strategy">
 						Strategy
 					</a>
-					<a id="content" href="/content" onClick={event => this.switchTabs(event.target)}>
+					<a id="content" href="/content">
 						Content
 					</a>
 
