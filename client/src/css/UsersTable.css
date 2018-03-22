@@ -29,3 +29,10 @@
 	padding: 4px;
 	margin: 0;
 }
+.search {
+	text-align: left;
+	border-radius: 20px;
+	border: 2px solid var(--pink-theme-color);
+	padding: 10px;
+	width: 100%;
+}

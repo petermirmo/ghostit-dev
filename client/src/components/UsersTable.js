@@ -11,13 +11,16 @@ class UsersTable extends Component {
 		payingUsers: [],
 		writerUsers: [],
 		adminUsers: [],
-		activeTab: ""
+		activeTab: "",
+		activeUsers: [],
+		untouchedActiveUsers: []
 	};
 	constructor(props) {
 		super(props);
 
 		this.updateUsers = this.updateUsers.bind(this);
 		this.getUsers = this.getUsers.bind(this);
+		this.searchUsers = this.searchUsers.bind(this);
 
 		this.getUsers();
 	}
@@ -60,24 +63,50 @@ class UsersTable extends Component {
 			document.getElementById(this.state.activeTab).className = "";
 		}
 		event.target.className = "active";
-		this.setState({ activeTab: event.target.id });
-	}
-	render() {
 		let users;
-		if (this.state.activeTab === "admin") {
+		if (event.target.id === "admin") {
 			users = this.state.adminUsers;
-		} else if (this.state.activeTab === "writer") {
+		} else if (event.target.id === "writer") {
 			users = this.state.writerUsers;
-		} else if (this.state.activeTab === "client") {
+		} else if (event.target.id === "client") {
 			users = this.state.payingUsers;
-		} else if (this.state.activeTab === "demo") {
+		} else if (event.target.id === "demo") {
 			users = this.state.demoUsers;
 		}
+		this.setState({ activeTab: event.target.id, activeUsers: users, untouchedActiveUsers: users });
+	}
+	searchUsers(event) {
+		let value = event.target.value;
+		let stringArray = value.split(" ");
 
+		let users = [];
+		// Loop through all users
+		for (var index in this.state.untouchedActiveUsers) {
+			let matchFound = false;
+			// Loop through all words in the entered value
+			for (var j in stringArray) {
+				// Make sure we are not checking an empty string
+				if (stringArray[j] !== "") {
+					// Check to see if a part of the string matches user's fullName or email
+					if (
+						this.state.untouchedActiveUsers[index].fullName.includes(stringArray[j]) ||
+						this.state.untouchedActiveUsers[index].email.includes(stringArray[j])
+					) {
+						matchFound = true;
+					}
+				}
+			}
+			if (matchFound) {
+				users.push(this.state.untouchedActiveUsers[index]);
+			}
+		}
+		this.setState({ activeUsers: users });
+	}
+	render() {
 		return (
 			<div>
 				<NavBar updateParentState={this.updateUsers} categories={["admin", "writer", "client", "demo"]} />
-				<ManageColumn users={users} />
+				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} />
 			</div>
 		);
 	}

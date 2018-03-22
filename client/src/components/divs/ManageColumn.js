@@ -13,7 +13,18 @@ class ManageColumn extends Component {
 				</p>
 			);
 		}
-		return <div className="user-column">{userDiv}</div>;
+		return (
+			<div className="user-column">
+				<input
+					type="text"
+					id="myInput"
+					onKeyUp={this.props.searchUsers}
+					placeholder="Search users"
+					className="search center"
+				/>
+				{userDiv}
+			</div>
+		);
 	}
 }
 export default ManageColumn;
