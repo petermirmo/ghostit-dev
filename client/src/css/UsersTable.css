@@ -22,7 +22,7 @@
 	background-color: var(--blue-theme-color);
 }
 .user-row:hover {
-	background-color: var(--orange-theme-color);
+	background-color: var(--pink-theme-color);
 	cursor: pointer;
 }
 .row-header {
@@ -35,4 +35,23 @@
 	border: 2px solid var(--pink-theme-color);
 	padding: 10px;
 	width: 100%;
+}
+.clicked-user {
+	background-color: var(--pink-theme-color) !important;
+}
+.clicked-user-options {
+	border: 2px solid var(--blue-theme-color);
+	width: 65%;
+	margin: 20px 20px 0 0;
+	display: inline-block;
+	border-radius: 10px;
+	padding: 20px;
+}
+.user-attribute-label {
+	display: inline-block;
+	margin: 0 5px 0 0;
+	padding: 0;
+}
+.user-attribute {
+	display: inline-block;
 }

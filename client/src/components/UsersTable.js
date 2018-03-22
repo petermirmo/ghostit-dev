@@ -3,6 +3,7 @@ import axios from "axios";
 
 import "../css/UsersTable.css";
 import ManageColumn from "./divs/ManageColumn";
+import UserDiv from "./divs/ManageUserDiv";
 import NavBar from "./NavBar";
 
 class UsersTable extends Component {
@@ -11,9 +12,10 @@ class UsersTable extends Component {
 		payingUsers: [],
 		writerUsers: [],
 		adminUsers: [],
-		activeTab: "",
+		activeTab: "demo",
 		activeUsers: [],
-		untouchedActiveUsers: []
+		untouchedActiveUsers: [],
+		clickedUser: {}
 	};
 	constructor(props) {
 		super(props);
@@ -21,6 +23,8 @@ class UsersTable extends Component {
 		this.updateUsers = this.updateUsers.bind(this);
 		this.getUsers = this.getUsers.bind(this);
 		this.searchUsers = this.searchUsers.bind(this);
+		this.userClicked = this.userClicked.bind(this);
+		this.removeClickedUser = this.removeClickedUser.bind(this);
 
 		this.getUsers();
 	}
@@ -52,8 +56,11 @@ class UsersTable extends Component {
 					demoUsers: demoUsers,
 					payingUsers: payingUsers,
 					writerUsers: writerUsers,
-					adminUsers: adminUsers
+					adminUsers: adminUsers,
+					activeUsers: demoUsers,
+					untouchedActiveUsers: demoUsers
 				});
+				document.getElementById("demo").className = "active";
 			}
 		});
 	}
@@ -76,7 +83,12 @@ class UsersTable extends Component {
 		this.setState({ activeTab: event.target.id, activeUsers: users, untouchedActiveUsers: users });
 	}
 	searchUsers(event) {
+		this.removeClickedUser();
 		let value = event.target.value;
+		if (value === "") {
+			this.setState({ activeUsers: this.state.untouchedActiveUsers });
+			return;
+		}
 		let stringArray = value.split(" ");
 
 		let users = [];
@@ -102,11 +114,26 @@ class UsersTable extends Component {
 		}
 		this.setState({ activeUsers: users });
 	}
+	userClicked(event) {
+		this.removeClickedUser();
+		event.target.className += " clicked-user";
+
+		// ID of clicked event is the index of in activeUsers of the clicked user
+		const temp = this.state.activeUsers[event.target.id];
+		this.setState({ clickedUser: temp });
+	}
+	removeClickedUser() {
+		var elements = document.getElementsByClassName("clicked-user");
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].classList.remove("clicked-user");
+		}
+	}
 	render() {
 		return (
 			<div>
 				<NavBar updateParentState={this.updateUsers} categories={["admin", "writer", "client", "demo"]} />
-				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} />
+				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} userClicked={this.userClicked} />
+				<UserDiv user={this.state.clickedUser} />
 			</div>
 		);
 	}

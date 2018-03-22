@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import "../../css/UsersTable.css";
 
 class ManageColumn extends Component {
 	render() {
 		var userDiv = [];
+
 		// User list is sent by parent in props
 		// Loop through and create a row for each user
 		for (var index in this.props.users) {
 			userDiv.push(
-				<p key={index} className="user-row center">
+				<p id={index} key={index} className="user-row center" onClick={this.props.userClicked}>
 					{this.props.users[index].fullName}
 				</p>
 			);
