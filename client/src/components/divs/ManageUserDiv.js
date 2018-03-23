@@ -4,10 +4,14 @@ import axios from "axios";
 import UserAttribute from "./UserAttributeDiv";
 
 class UserDiv extends Component {
+	state = {
+		editUser: false
+	};
 	constructor(props) {
 		super(props);
 
 		this.showPasswordField = this.showPasswordField.bind(this);
+		this.editUser = this.editUser.bind(this);
 	}
 	signInAsUser(password) {
 		axios.post("/api/signInAsUser", { password: password }).then(res => {
@@ -27,17 +31,23 @@ class UserDiv extends Component {
 			document.getElementById("passwordInput").style.display = "inline-block";
 		}
 	}
+	editUser() {
+		this.setState({ editUser: !this.state.editUser });
+	}
 	render() {
 		let userAttributes = [];
 		let booleanTest = false;
 		let userButtons;
 		for (var index in this.props.user) {
-			userAttributes.push(<UserAttribute key={index} value={this.props.user[index]} label={index} />);
+			userAttributes.push(
+				<UserAttribute key={index} value={this.props.user[index]} label={index} editUser={this.state.editUser} />
+			);
 			booleanTest = true;
 		}
 		if (booleanTest) {
 			userButtons = (
-				<div className="test">
+				<div>
+					<button onClick={this.editUser} className="fa fa-edit fa-2x margin-auto center" />
 					<input
 						id="passwordInput"
 						type="password"
@@ -45,7 +55,7 @@ class UserDiv extends Component {
 						placeholder="Please enter your password"
 						className="password-input"
 					/>
-					<button onClick={this.showPasswordField} className="fa fa-sign-in fa-2x float-right center" />
+					<button onClick={this.showPasswordField} className="fa fa-sign-in fa-2x margin-auto center" />
 				</div>
 			);
 		}
