@@ -4,22 +4,23 @@ const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    socialMediaID: String,
-    role: String,
-    email: String,
-    password: String,
-    fullName: String,
-    country: String,
-    timezone: String,
-    website: String
+	socialMediaID: String,
+	role: String,
+	email: String,
+	password: String,
+	fullName: String,
+	country: String,
+	timezone: String,
+	website: String,
+	writer: { id: String, name: String }
 });
 
 userSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+	return bcrypt.compareSync(password, this.password);
 };
 
 module.exports = mongoose.model("users", userSchema);

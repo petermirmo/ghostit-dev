@@ -8,13 +8,11 @@ class UserDiv extends Component {
 	state = {
 		editUser: false,
 		updatedUser: {},
-		timezoneSearch: "",
-		signingIntoUser: false
+		timezoneSearch: ""
 	};
 	constructor(props) {
 		super(props);
 
-		this.showPasswordField = this.showPasswordField.bind(this);
 		this.editUser = this.editUser.bind(this);
 		this.updateUser = this.updateUser.bind(this);
 		this.keyDownTextField = this.keyDownTextField.bind(this);
@@ -23,31 +21,17 @@ class UserDiv extends Component {
 
 		document.addEventListener("keydown", this.keyDownTextField, false);
 	}
-	signInAsUser(password) {
-		axios.post("/api/signInAsUser", { password: password }).then(res => {
-			console.log(res);
-		});
-	}
-	showPasswordField() {
-		// Check if input is displayed
-		if (this.state.signingIntoUser) {
-			// Make sure they have typed in password
-			if (document.getElementById("passwordInput").value === "") {
-				document.getElementById("passwordInput").style.borderColor = "var(--red-theme-color)";
-			} else {
-				document.getElementById("passwordInput").style.borderColor = "var(--purple-theme-color)";
-				this.signInAsUser(document.getElementById("passwordInput").value);
-			}
-		} else {
-			this.setState({ signingIntoUser: true });
-		}
-	}
+
 	editUser() {
 		this.setState({ editUser: !this.state.editUser });
 	}
-	updateUser(index, value) {
+	updateUser(index, value, value2) {
 		let user = this.props.user;
-		user[index] = value;
+		if (index === "writer") {
+			user[index] = { id: value, name: value2 };
+		} else {
+			user[index] = value;
+		}
 		this.setState({ updateUser: user });
 	}
 	keyDownTextField(e) {
@@ -76,35 +60,28 @@ class UserDiv extends Component {
 			return;
 		}
 		axios.post("/api/updateUser", this.state.updateUser).then(res => {
-			console.log(res);
+			if (res.data) {
+				this.props.updateUsers();
+				this.cancel();
+			} else {
+				alert(
+					"There has been an error! :( Contact your local dev team immediately! If you do not have a local dev team, you can contact me at peter.mirmotahari@gmail.com!"
+				);
+			}
 		});
 	}
 	render() {
 		let showCancelButton;
 		let showSaveButton;
 		let showEditButton;
-		let showLoginButton;
-		let showPasswordInput;
-		if (this.state.editUser || this.state.signingIntoUser) {
-			if (this.state.editUser && !this.state.signingIntoUser) {
-				showCancelButton = { display: "inline-block" };
-				showSaveButton = { display: "inline-block" };
-				showEditButton = { display: "none" };
-				showLoginButton = { display: "none" };
-				showPasswordInput = { display: "none" };
-			} else if (!this.state.editUser && this.state.signingIntoUser) {
-				showCancelButton = { display: "inline-block" };
-				showSaveButton = { display: "none" };
-				showEditButton = { display: "none" };
-				showLoginButton = { display: "inline-block" };
-				showPasswordInput = { display: "inline-block" };
-			}
+		if (this.state.editUser) {
+			showCancelButton = { display: "inline-block" };
+			showSaveButton = { display: "inline-block" };
+			showEditButton = { display: "none" };
 		} else {
 			showCancelButton = { display: "none" };
 			showSaveButton = { display: "none" };
 			showEditButton = { display: "inline-block" };
-			showLoginButton = { display: "inline-block" };
-			showPasswordInput = { display: "none" };
 		}
 		let userAttributes = [];
 		let booleanTest = false;
@@ -122,16 +99,22 @@ class UserDiv extends Component {
 				}
 			} else if (index === "role") {
 				dropdownList = ["demo", "client", "manager", "admin"];
+			} else if (index === "writer") {
+				dropdownList = this.props.managers;
+			}
+			let value = this.props.user[index];
+			if (value.name) {
+				value = value.name;
 			}
 			userAttributes.push(
 				<UserAttribute
 					key={index}
-					value={this.props.user[index]}
+					value={value}
 					label={index}
 					editUser={
 						this.state.editUser && index !== "password" && index !== "__v" && index !== "_id" && index !== "password"
 					}
-					dropdown={index === "timezone" || index === "role"}
+					dropdown={dropdownList.length !== 0}
 					dropdownList={dropdownList}
 					updateParentState={this.updateUser}
 				/>
@@ -146,20 +129,6 @@ class UserDiv extends Component {
 						onClick={this.editUser}
 						className="fa fa-edit fa-2x margin-auto center"
 						style={showEditButton}
-					/>
-
-					<input
-						id="passwordInput"
-						type="password"
-						placeholder="Please enter your password"
-						className="password-input"
-						style={showPasswordInput}
-					/>
-					<button
-						id="signInToUserButton"
-						onClick={this.showPasswordField}
-						className="fa fa-sign-in fa-2x margin-auto center"
-						style={showLoginButton}
 					/>
 
 					<button

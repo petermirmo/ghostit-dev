@@ -14,7 +14,7 @@ class UserAttribute extends Component {
 	}
 	dismissDropDownList(event) {
 		event.target.parentNode.style.display = "none";
-		this.props.updateParentState(this.props.label, event.target.innerHTML);
+		this.props.updateParentState(this.props.label, event.target.id, event.target.innerHTML);
 	}
 
 	render() {
@@ -24,11 +24,19 @@ class UserAttribute extends Component {
 				// Dropdown
 				let dropDownContent = [];
 				for (var index in this.props.dropdownList) {
-					dropDownContent.push(
-						<p key={index} onClick={this.dismissDropDownList}>
-							{this.props.dropdownList[index]}
-						</p>
-					);
+					if (this.props.dropdownList[index].writer) {
+						dropDownContent.push(
+							<p id={this.props.dropdownList[index]._id} key={index} onClick={this.dismissDropDownList}>
+								{this.props.dropdownList[index].fullName}
+							</p>
+						);
+					} else {
+						dropDownContent.push(
+							<p id={this.props.dropdownList[index]} key={index} onClick={this.dismissDropDownList}>
+								{this.props.dropdownList[index]}
+							</p>
+						);
+					}
 				}
 				let dropDownList = <div className="dropdown-list center">{dropDownContent}</div>;
 				userAttributeDiv = (
@@ -41,6 +49,7 @@ class UserAttribute extends Component {
 				);
 			} else {
 				// Edit textarea
+
 				userAttributeDiv = (
 					<span id="test" className="center">
 						<textarea

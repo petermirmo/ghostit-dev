@@ -20,16 +20,6 @@ module.exports = {
 			});
 		}
 	},
-	signInAsUser: function(req, res) {
-		if (req.user.role !== "admin") {
-			// TO DO: Punish hacker?
-			console.log("HACKER ALERT!!!!!");
-			res.send(false);
-			return;
-		}
-		console.log(req.body);
-		res.send(true);
-	},
 	updateUser: function(req, res) {
 		if (req.user.role !== "admin") {
 			// TO DO: Punish hacker?

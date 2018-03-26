@@ -9,8 +9,8 @@ import NavBar from "./NavBar";
 class UsersTable extends Component {
 	state = {
 		demoUsers: [],
-		payingUsers: [],
-		writerUsers: [],
+		clientUsers: [],
+		managerUsers: [],
 		adminUsers: [],
 		activeTab: "demo",
 		activeUsers: [],
@@ -36,28 +36,39 @@ class UsersTable extends Component {
 				var users = res.data;
 
 				var demoUsers = [];
-				var payingUsers = [];
-				var writerUsers = [];
+				var clientUsers = [];
+				var managerUsers = [];
 				var adminUsers = [];
 
 				for (var index in users) {
 					if (users[index].role === "demo") {
 						demoUsers.push(users[index]);
 					} else if (users[index].role === "client") {
-						payingUsers.push(users[index]);
+						clientUsers.push(users[index]);
 					} else if (users[index].role === "manager") {
-						writerUsers.push(users[index]);
+						managerUsers.push(users[index]);
 					} else if (users[index].role === "admin") {
 						adminUsers.push(users[index]);
 					}
 				}
+				let activeUsers;
+				if (this.state.activeTab === "demo") {
+					activeUsers = demoUsers;
+				} else if (this.state.activeTab === "client") {
+					activeUsers = clientUsers;
+				} else if (this.state.activeTab === "manager") {
+					activeUsers = managerUsers;
+				} else if (this.state.activeTab === "admin") {
+					activeUsers = adminUsers;
+				}
+
 				this.setState({
 					demoUsers: demoUsers,
-					payingUsers: payingUsers,
-					writerUsers: writerUsers,
+					clientUsers: clientUsers,
+					managerUsers: managerUsers,
 					adminUsers: adminUsers,
-					activeUsers: demoUsers,
-					untouchedActiveUsers: demoUsers
+					activeUsers: activeUsers,
+					untouchedActiveUsers: activeUsers
 				});
 				document.getElementById(this.state.activeTab).className = "active";
 			}
@@ -72,10 +83,10 @@ class UsersTable extends Component {
 		let users;
 		if (event.target.id === "admin") {
 			users = this.state.adminUsers;
-		} else if (event.target.id === "writer") {
-			users = this.state.writerUsers;
+		} else if (event.target.id === "manager") {
+			users = this.state.managerUsers;
 		} else if (event.target.id === "client") {
-			users = this.state.payingUsers;
+			users = this.state.clientUsers;
 		} else if (event.target.id === "demo") {
 			users = this.state.demoUsers;
 		}
@@ -120,10 +131,15 @@ class UsersTable extends Component {
 	render() {
 		return (
 			<div>
-				<NavBar updateParentState={this.updateUsers} categories={["admin", "writer", "client", "demo"]} />
+				<NavBar updateParentState={this.updateUsers} categories={["admin", "manager", "client", "demo"]} />
 				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} userClicked={this.userClicked} />
 				<div style={{ float: "right", width: "74%" }}>
-					<UserDiv user={this.state.clickedUser} updateUsers={this.getUsers} className="center" />
+					<UserDiv
+						user={this.state.clickedUser}
+						updateUsers={this.getUsers}
+						className="center"
+						managers={this.state.managerUsers}
+					/>
 				</div>
 			</div>
 		);

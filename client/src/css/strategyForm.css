@@ -76,3 +76,6 @@
 	width: 40%;
 	background-color: var(--purple-theme-color);
 }
+.big-purple-submit-button:hover {
+	background-color: var(--blue-theme-color);
+}
