@@ -1,28 +1,67 @@
 import React, { Component } from "react";
 
 class UserAttribute extends Component {
+	constructor(props) {
+		super(props);
+
+		this.showDropDownList = this.showDropDownList.bind(this);
+		this.dismissDropDownList = this.dismissDropDownList.bind(this);
+	}
+	showDropDownList(event) {
+		if (event.target.parentNode.children[1].style.display === "block")
+			event.target.parentNode.children[1].style.display = "none";
+		else event.target.parentNode.children[1].style.display = "block";
+	}
+	dismissDropDownList(event) {
+		event.target.parentNode.style.display = "none";
+		this.props.updateParentState(this.props.label, event.target.innerHTML);
+	}
+
 	render() {
 		let userAttributeDiv;
 		if (this.props.editUser) {
-			userAttributeDiv = (
-				<div style={{ overflow: "hidden" }}>
-					<h4 className="user-attribute-label">{this.props.label + ":"}</h4>
-					<span id="test" className="center">
-						<textarea className="user-attribute-edit" rows={1}>
+			if (this.props.dropdown) {
+				// Dropdown
+				let dropDownContent = [];
+				for (var index in this.props.dropdownList) {
+					dropDownContent.push(
+						<p key={index} onClick={this.dismissDropDownList}>
+							{this.props.dropdownList[index]}
+						</p>
+					);
+				}
+				let dropDownList = <div className="dropdown-list center">{dropDownContent}</div>;
+				userAttributeDiv = (
+					<div className="user-attribute-dropdown center">
+						<button className="user-attribute-dropdown-button" onClick={this.showDropDownList}>
 							{this.props.value}
-						</textarea>
+						</button>
+						{dropDownList}
+					</div>
+				);
+			} else {
+				// Edit textarea
+				userAttributeDiv = (
+					<span id="test" className="center">
+						<textarea
+							className="user-attribute-edit"
+							rows={1}
+							defaultValue={this.props.value}
+							onChange={event => this.props.updateParentState(this.props.label, event.target.value)}
+						/>
 					</span>
-				</div>
-			);
+				);
+			}
 		} else {
-			userAttributeDiv = (
-				<div>
-					<h4 className="user-attribute-label">{this.props.label + ":"}</h4>
-					<p className="user-attribute">{this.props.value}</p>
-				</div>
-			);
+			// Not editting
+			userAttributeDiv = <p className="user-attribute">{this.props.value}</p>;
 		}
-		return <div>{userAttributeDiv}</div>;
+		return (
+			<div style={{ overflow: "hidden" }}>
+				<h4 className="user-attribute-label">{this.props.label + ":"}</h4>
+				{userAttributeDiv}
+			</div>
+		);
 	}
 }
 export default UserAttribute;

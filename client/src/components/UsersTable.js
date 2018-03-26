@@ -24,7 +24,6 @@ class UsersTable extends Component {
 		this.getUsers = this.getUsers.bind(this);
 		this.searchUsers = this.searchUsers.bind(this);
 		this.userClicked = this.userClicked.bind(this);
-		this.removeClickedUser = this.removeClickedUser.bind(this);
 
 		this.getUsers();
 	}
@@ -60,7 +59,7 @@ class UsersTable extends Component {
 					activeUsers: demoUsers,
 					untouchedActiveUsers: demoUsers
 				});
-				document.getElementById("demo").className = "active";
+				document.getElementById(this.state.activeTab).className = "active";
 			}
 		});
 	}
@@ -81,10 +80,8 @@ class UsersTable extends Component {
 			users = this.state.demoUsers;
 		}
 		this.setState({ activeTab: event.target.id, activeUsers: users, untouchedActiveUsers: users });
-		this.removeClickedUser();
 	}
 	searchUsers(event) {
-		this.removeClickedUser();
 		let value = event.target.value;
 		if (value === "") {
 			this.setState({ activeUsers: this.state.untouchedActiveUsers });
@@ -116,18 +113,9 @@ class UsersTable extends Component {
 		this.setState({ activeUsers: users });
 	}
 	userClicked(event) {
-		this.removeClickedUser();
-		event.target.className += " clicked-user";
-
 		// ID of clicked event is the index of in activeUsers of the clicked user
 		const temp = this.state.activeUsers[event.target.id];
 		this.setState({ clickedUser: temp });
-	}
-	removeClickedUser() {
-		var elements = document.getElementsByClassName("clicked-user");
-		for (var i = 0; i < elements.length; i++) {
-			elements[i].classList.remove("clicked-user");
-		}
 	}
 	render() {
 		return (
@@ -135,7 +123,7 @@ class UsersTable extends Component {
 				<NavBar updateParentState={this.updateUsers} categories={["admin", "writer", "client", "demo"]} />
 				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} userClicked={this.userClicked} />
 				<div style={{ float: "right", width: "74%" }}>
-					<UserDiv user={this.state.clickedUser} className="center" />
+					<UserDiv user={this.state.clickedUser} updateUsers={this.getUsers} className="center" />
 				</div>
 			</div>
 		);

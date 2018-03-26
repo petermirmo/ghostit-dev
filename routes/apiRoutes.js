@@ -155,4 +155,5 @@ module.exports = app => {
 	app.get("/api/users", (req, res) => adminFunctions.getUsers(req, res));
 	// Login as user
 	app.post("/api/signInAsUser", (req, res) => adminFunctions.signInAsUser(req, res));
+	app.post("/api/updateUser", (req, res) => adminFunctions.updateUser(req, res));
 };
