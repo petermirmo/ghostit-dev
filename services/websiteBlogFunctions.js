@@ -56,7 +56,7 @@ module.exports = {
 				});
 			}
 
-			newBlog.userID = req.user.id;
+			newBlog.userID = userID;
 			newBlog.postingDate = data.postingDate;
 			newBlog.title = data.title;
 			newBlog.resources = data.resources;
@@ -88,7 +88,13 @@ module.exports = {
 		});
 	},
 	getBlogs(req, res) {
-		Blog.find({ userID: req.user.id }, function(err, blogs) {
+		let userID;
+		if (req.user.signedInAsUser) {
+			userID = req.user.signedInAsUser.id;
+		} else {
+			userID = req.user._id;
+		}
+		Blog.find({ userID: userID }, function(err, blogs) {
 			if (err) {
 				res.send(false);
 			}

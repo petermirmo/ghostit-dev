@@ -21,7 +21,13 @@ module.exports = {
 	savePost: function(req, res) {
 		var post = req.body;
 		var newPost = new Post();
-		newPost.userID = req.user.id;
+		let userID;
+		if (req.user.signedInAsUser) {
+			userID = req.user.signedInAsUser.id;
+		} else {
+			userID = req.user._id;
+		}
+		newPost.userID = userID;
 		newPost.accountID = post.accountID;
 		newPost.content = post.content;
 		newPost.postingDate = post.postingDate;
@@ -35,7 +41,13 @@ module.exports = {
 	},
 	getPosts: function(req, res) {
 		// Get all posts for user
-		Post.find({ userID: req.user.id }, function(err, posts) {
+		let userID;
+		if (req.user.signedInAsUser) {
+			userID = req.user.signedInAsUser.id;
+		} else {
+			userID = req.user._id;
+		}
+		Post.find({ userID: userID }, function(err, posts) {
 			if (err) res.send(err);
 			res.send(posts);
 		});

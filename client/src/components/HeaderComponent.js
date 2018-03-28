@@ -17,7 +17,10 @@ class Header extends Component {
 		// Logged in check
 		axios.get("/api/isUserSignedIn").then(res => {
 			this.setState({ isLoggedIn: res.data[0], user: res.data[1] });
-			if (res.data[1].signedInAsUser) {
+			if (
+				this.state.user.signedInAsUser &&
+				(this.props.activePage === "content" || this.props.activePage === "strategy")
+			) {
 				this.props.updateParentState();
 			}
 		});
@@ -37,7 +40,6 @@ class Header extends Component {
 			}
 		}
 	}
-	openClientSideBar() {}
 
 	render() {
 		const { isLoggedIn } = this.state;
@@ -63,13 +65,17 @@ class Header extends Component {
 					</a>
 				);
 			}
-			clientButton = (
-				<button className="big-round-button" onClick={() => this.openSideBar("clientsSideBar")}>
-					My Clients
-				</button>
-			);
-			if (this.state.user.signedInAsUser) {
+
+			if (
+				this.state.user.signedInAsUser &&
+				(this.props.activePage === "content" || this.props.activePage === "strategy")
+			) {
 				signedInAsDiv = <p id="signed-in-as">Logged in as: {this.state.user.signedInAsUser.fullName}</p>;
+				clientButton = (
+					<button className="big-round-button" onClick={() => this.openSideBar("clientsSideBar")}>
+						My Clients
+					</button>
+				);
 			}
 		}
 

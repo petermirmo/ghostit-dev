@@ -3,7 +3,13 @@ const Strategy = require("../models/Strategy");
 module.exports = {
 	saveStrategy: function(req, res) {
 		var currentStrategy = req.body;
-		Strategy.findOne({ userID: req.user._id }, function(err, strategy) {
+		let userID;
+		if (req.user.signedInAsUser) {
+			userID = req.user.signedInAsUser.id;
+		} else {
+			userID = req.user._id;
+		}
+		Strategy.findOne({ userID: userID }, function(err, strategy) {
 			if (err) {
 				console.log(err);
 				res.send(err);
@@ -15,7 +21,7 @@ module.exports = {
 			} else {
 				newStrategy = new Strategy();
 			}
-			newStrategy.userID = req.user._id;
+			newStrategy.userID = userID;
 			for (var index in currentStrategy) {
 				if (Array.isArray(currentStrategy[index])) {
 					var tempArray = [];
@@ -31,7 +37,13 @@ module.exports = {
 		});
 	},
 	getStrategy: function(req, res) {
-		Strategy.findOne({ userID: req.user._id }, function(err, strategy) {
+		let userID;
+		if (req.user.signedInAsUser) {
+			userID = req.user.signedInAsUser.id;
+		} else {
+			userID = req.user._id;
+		}
+		Strategy.findOne({ userID: userID }, function(err, strategy) {
 			if (err) {
 				console.log(err);
 				res.send(err);

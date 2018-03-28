@@ -49,7 +49,6 @@ class UserAttribute extends Component {
 				);
 			} else {
 				// Edit textarea
-
 				userAttributeDiv = (
 					<span id="test" className="center">
 						<textarea

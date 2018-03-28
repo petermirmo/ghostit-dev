@@ -66,7 +66,7 @@ module.exports = {
 				handleError(res, "User is a manager, but the client is not a client of this manager!");
 			}
 		} else if (currentUser.role === "admin") {
-			currentUser.signedInAsUserID = clientUser._id;
+			currentUser.signedInAsUser = { id: clientUser._id, fullName: clientUser.fullName };
 			currentUser.save().then(result => res.send(true));
 		} else {
 			handleError(res, "HACKER ALERT!!!!");

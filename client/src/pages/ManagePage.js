@@ -11,7 +11,7 @@ class ManagePage extends Component {
 
 		// Make sure user is an admin!
 		axios.get("/api/isUserSignedIn").then(res => {
-			if (res.data[1] !== "admin") {
+			if (res.data[1].role !== "admin") {
 				window.location.replace("/content");
 			}
 		});

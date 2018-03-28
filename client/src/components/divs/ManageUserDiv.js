@@ -106,19 +106,21 @@ class UserDiv extends Component {
 			if (value.name) {
 				value = value.name;
 			}
-			userAttributes.push(
-				<UserAttribute
-					key={index}
-					value={value}
-					label={index}
-					editUser={
-						this.state.editUser && index !== "password" && index !== "__v" && index !== "_id" && index !== "password"
-					}
-					dropdown={dropdownList.length !== 0}
-					dropdownList={dropdownList}
-					updateParentState={this.updateUser}
-				/>
-			);
+			if (index !== "signedInAsUser") {
+				userAttributes.push(
+					<UserAttribute
+						key={index}
+						value={value}
+						label={index}
+						editUser={
+							this.state.editUser && index !== "password" && index !== "__v" && index !== "_id" && index !== "password"
+						}
+						dropdown={dropdownList.length !== 0}
+						dropdownList={dropdownList}
+						updateParentState={this.updateUser}
+					/>
+				);
+			}
 			booleanTest = true;
 		}
 		if (booleanTest) {
