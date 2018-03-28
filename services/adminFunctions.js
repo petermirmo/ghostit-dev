@@ -71,6 +71,11 @@ module.exports = {
 		} else {
 			handleError(res, "HACKER ALERT!!!!");
 		}
+	},
+	signOutOfUserAccount: function(req, res) {
+		var currentUser = req.user;
+		currentUser.signedInAsUser = undefined;
+		currentUser.save().then(result => res.send(true));
 	}
 };
 function handleError(res, errorMessage) {

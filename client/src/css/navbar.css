@@ -106,10 +106,22 @@
 	font-weight: bold;
 	color: var(--white-theme-color) !important;
 }
-#signed-in-as {
+.signed-in-as {
+	width: 100%;
+	background-color: var(--dark-blue-theme-color);
+}
+.signed-in-as p {
 	padding: 0;
+	margin: 0;
+	color: var(--white-theme-color);
+	text-align: center;
+	display: inline-block;
+}
+.signed-in-as button {
+	padding: 0 0 0 20px;
 	margin: 0;
 	background-color: var(--dark-blue-theme-color);
 	color: var(--white-theme-color);
 	text-align: center;
+	display: inline-block;
 }

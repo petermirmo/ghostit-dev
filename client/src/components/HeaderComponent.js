@@ -24,6 +24,7 @@ class Header extends Component {
 				this.props.updateParentState();
 			}
 		});
+		this.signOutOfUsersAccount = this.signOutOfUsersAccount.bind(this);
 	}
 	openSideBar(id) {
 		if (document.getElementById(id).style.display === "none") {
@@ -39,6 +40,11 @@ class Header extends Component {
 				document.getElementById("main").style.marginLeft = "25%";
 			}
 		}
+	}
+	signOutOfUsersAccount() {
+		axios.get("/api/signOutOfUserAccount").then(res => {
+			window.location.reload();
+		});
 	}
 
 	render() {
@@ -66,11 +72,15 @@ class Header extends Component {
 				);
 			}
 
-			if (
-				this.state.user.signedInAsUser &&
-				(this.props.activePage === "content" || this.props.activePage === "strategy")
-			) {
-				signedInAsDiv = <p id="signed-in-as">Logged in as: {this.state.user.signedInAsUser.fullName}</p>;
+			if (this.props.activePage === "content" || this.props.activePage === "strategy") {
+				if (this.state.user.signedInAsUser) {
+					signedInAsDiv = (
+						<div className="signed-in-as center">
+							<p>Logged in as: {this.state.user.signedInAsUser.fullName}</p>
+							<button className="fa fa-times" onClick={() => this.signOutOfUsersAccount()} />
+						</div>
+					);
+				}
 				clientButton = (
 					<button className="big-round-button" onClick={() => this.openSideBar("clientsSideBar")}>
 						My Clients
