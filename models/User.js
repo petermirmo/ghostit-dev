@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-	socialMediaID: String,
 	role: String,
 	email: String,
 	password: String,
@@ -12,6 +11,7 @@ const userSchema = new Schema({
 	country: String,
 	timezone: String,
 	website: String,
+	signedInAsUser: { id: String, fullName: String },
 	writer: { id: String, name: String }
 });
 

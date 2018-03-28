@@ -51,7 +51,7 @@ module.exports = app => {
 	// Middleware check
 	app.get("/api/isUserSignedIn", (req, res) => {
 		if (req.user) {
-			res.send([req.isAuthenticated(), req.user.role]);
+			res.send([req.isAuthenticated(), req.user]);
 		} else {
 			res.send([req.isAuthenticated(), null]);
 		}
@@ -155,4 +155,7 @@ module.exports = app => {
 	app.get("/api/users", (req, res) => adminFunctions.getUsers(req, res));
 	// Admin update user
 	app.post("/api/updateUser", (req, res) => adminFunctions.updateUser(req, res));
+	// Get clients
+	app.get("/api/clients", (req, res) => adminFunctions.getClients(req, res));
+	app.post("/api/signInAsUser", (req, res) => adminFunctions.signInAsUser(req, res));
 };

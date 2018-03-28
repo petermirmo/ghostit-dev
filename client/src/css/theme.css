@@ -237,3 +237,15 @@
 .container-background {
 	background: -webkit-linear-gradient(top, var(--light-grey-theme-color), var(--light-grey-theme-color) 5%, white 12%);
 }
+.big-round-button {
+	font-size: var(--large-font-size);
+	border: 2px solid var(--white-theme-color);
+	margin: 7px 0 0 7px;
+	border-radius: 20px;
+
+	-webkit-transition: background-color 0.3s;
+	transition: background-color 0.3s;
+}
+.big-round-button:hover {
+	background-color: var(--dark-blue-theme-color);
+}

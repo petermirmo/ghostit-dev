@@ -8,21 +8,36 @@ import "font-awesome/css/font-awesome.min.css";
 class Header extends Component {
 	state = {
 		isLoggedIn: true,
-		role: "demo"
+		user: { role: "demo" },
+		signedInAs: {}
 	};
 	constructor(props) {
 		super(props);
 
 		// Logged in check
 		axios.get("/api/isUserSignedIn").then(res => {
-			this.setState({ isLoggedIn: res.data[0], role: res.data[1] });
+			this.setState({ isLoggedIn: res.data[0], user: res.data[1] });
+			if (res.data[1].signedInAsUser) {
+				this.props.updateParentState();
+			}
 		});
 	}
-	openSideBar() {
-		document.getElementById("mySidebar").style.width = "25%";
-		document.getElementById("mySidebar").style.display = "block";
-		if (document.getElementById("main")) document.getElementById("main").style.marginLeft = "25%";
+	openSideBar(id) {
+		if (document.getElementById(id).style.display === "none") {
+			document.getElementById(id).style.width = "25%";
+			document.getElementById(id).style.display = "block";
+		} else {
+			document.getElementById(id).style.display = "none";
+		}
+		if (document.getElementById("main")) {
+			if (document.getElementById("main").style.marginLeft === "25%") {
+				document.getElementById("main").style.marginLeft = "0%";
+			} else {
+				document.getElementById("main").style.marginLeft = "25%";
+			}
+		}
 	}
+	openClientSideBar() {}
 
 	render() {
 		const { isLoggedIn } = this.state;
@@ -34,16 +49,28 @@ class Header extends Component {
 		}
 
 		var adminButton;
-		if (this.state.role === "admin") {
-			var className;
-			if (this.props.activePage === "manage") {
-				className = "header-active";
+		var clientButton;
+		var signedInAsDiv;
+		if (this.state.user.role === "admin" || this.state.user.role === "manager") {
+			if (this.state.user.role === "admin") {
+				var className;
+				if (this.props.activePage === "manage") {
+					className = "header-active";
+				}
+				adminButton = (
+					<a id="manage" href="/manage" className={className}>
+						Manage
+					</a>
+				);
 			}
-			adminButton = (
-				<a id="manage" href="/manage" className={className}>
-					Manage
-				</a>
+			clientButton = (
+				<button className="big-round-button" onClick={() => this.openSideBar("clientsSideBar")}>
+					My Clients
+				</button>
 			);
+			if (this.state.user.signedInAsUser) {
+				signedInAsDiv = <p id="signed-in-as">Logged in as: {this.state.user.signedInAsUser.fullName}</p>;
+			}
 		}
 
 		return (
@@ -66,8 +93,12 @@ class Header extends Component {
 						Content
 					</a>
 
-					<button id="navBarOpen" onClick={() => this.openSideBar()} className="fa fa-bars fa-2x" />
+					<button className="big-round-button" onClick={() => this.openSideBar("mySidebar")}>
+						Connect Accounts!
+					</button>
+					{clientButton}
 				</div>
+				{signedInAsDiv}
 			</header>
 		);
 	}

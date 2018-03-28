@@ -3,14 +3,14 @@ import React, { Component } from "react";
 import "../css/theme.css";
 import Header from "../components/HeaderComponent";
 import StrategyForm from "../components/forms/StrategyForm";
-import SideBar from "../components/SideBar";
+import ConnectAccountsSideBar from "../components/ConnectAccountsSideBar";
 
 class StrategyPage extends Component {
 	render() {
 		return (
 			<div id="wrapper">
 				<Header activePage="strategy" />
-				<SideBar />
+				<ConnectAccountsSideBar />
 
 				<div className="center">
 					<StrategyForm />

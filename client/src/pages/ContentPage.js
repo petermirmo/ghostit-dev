@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import "../css/theme.css";
 import Header from "../components/HeaderComponent";
 import Calendar from "../components/CalendarComponent";
-import SideBar from "../components/SideBar";
+import ConnectAccountsSideBar from "../components/ConnectAccountsSideBar";
+import ClientsSideBar from "../components/ClientsSideBar";
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
@@ -34,11 +35,22 @@ window.onclick = function(event) {
 	}
 };
 class Content extends Component {
+	state = {
+		padding: { paddingTop: "50px" }
+	};
+	constructor(props) {
+		super(props);
+		this.increaseHeaderPadding = this.increaseHeaderPadding.bind(this);
+	}
+	increaseHeaderPadding() {
+		this.setState({ padding: { paddingTop: "70px" } });
+	}
 	render() {
 		return (
-			<div id="wrapper">
-				<SideBar />
-				<Header activePage="content" />
+			<div id="wrapper" style={this.state.padding}>
+				<ConnectAccountsSideBar />
+				<ClientsSideBar />
+				<Header activePage="content" updateParentState={this.increaseHeaderPadding} />
 
 				<div id="main">
 					<Calendar />

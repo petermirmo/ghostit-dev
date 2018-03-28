@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import Header from "../components/HeaderComponent";
-import SideBar from "../components/SideBar";
+import ConnectAccountsSideBar from "../components/ConnectAccountsSideBar";
 import UsersTable from "../components/UsersTable";
 
 class ManagePage extends Component {
@@ -20,7 +20,7 @@ class ManagePage extends Component {
 		return (
 			<div id="wrapper">
 				<Header activePage="manage" />
-				<SideBar />
+				<ConnectAccountsSideBar />
 				<UsersTable />
 			</div>
 		);

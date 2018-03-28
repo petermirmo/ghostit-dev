@@ -14,7 +14,7 @@ class ManageColumn extends Component {
 			);
 		}
 		return (
-			<div className="user-column">
+			<div className="user-column" style={this.props.styleOverride}>
 				<textarea onKeyUp={this.props.searchUsers} placeholder="Search users" className="search center" rows={1} />
 				{userDiv}
 			</div>

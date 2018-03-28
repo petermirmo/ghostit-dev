@@ -39,9 +39,9 @@ module.exports = {
 				if (newBlog.wordDoc) {
 					await cloudinary.uploader.destroy(
 						newBlog.wordDoc.publicID,
-						function(result) {
+						function(error) {
 							// TO DO: handle error here
-							console.log(result);
+							console.log(error);
 						},
 						{ resource_type: "raw" }
 					);

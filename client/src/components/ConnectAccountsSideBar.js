@@ -5,7 +5,7 @@ import "../css/theme.css";
 import AddPageOrGroupModal from "./modals/addPagesOrGroupsModal";
 import ConnectedAccountsDiv from "./divs/ConnectedAccountsDiv";
 
-class SideBar extends Component {
+class ConnectAccountsSideBar extends Component {
 	state = {
 		accounts: [],
 		pageOrGroup: [],
@@ -202,4 +202,4 @@ class SideBar extends Component {
 	}
 }
 
-export default SideBar;
+export default ConnectAccountsSideBar;
