@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "../../css/strategyForm.css";
+import "./style.css";
 import "font-awesome/css/font-awesome.min.css";
 
 class StrategyForm extends Component {

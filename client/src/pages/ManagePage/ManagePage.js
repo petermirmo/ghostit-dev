@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import Header from "../../components/HeaderComponent";
-import ConnectAccountsSideBar from "../../components/ConnectAccountsSideBar";
+import ConnectAccountsSideBar from "../../components/SideBarAccounts/SideBarAccounts";
 import UsersTable from "./UsersTable";
 import PlansTable from "./PlansTable";
 import "./style.css";

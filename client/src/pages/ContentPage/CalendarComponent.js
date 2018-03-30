@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "../css/theme.css";
-import ContentModal from "../components/modals/ContentModalComponent";
-import EdittingModal from "../components/modals/EdittingModalComponent";
-import BlogEdittingModal from "../components/modals/BlogEdittingModalComponent";
+import ContentModal from "./ContentModalComponent";
+import EdittingModal from "./EdittingModalComponent";
+import BlogEdittingModal from "./BlogEdittingModalComponent";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
-import "../css/calendar.css";
+import "./calendar.css";
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);

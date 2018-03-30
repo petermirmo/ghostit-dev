@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 
-import "../css/theme.css";
-import Header from "../components/HeaderComponent";
-import StrategyForm from "../components/forms/StrategyForm";
-import ConnectAccountsSideBar from "../components/ConnectAccountsSideBar";
-import ClientsSideBar from "../components/ClientsSideBar";
+import Header from "../../components/HeaderComponent";
+import StrategyForm from "./StrategyForm";
+import ConnectAccountsSideBar from "../../components/SideBarAccounts/SideBarAccounts";
+import ClientsSideBar from "../../components/SideBarClients/SideBarClients";
 
 class StrategyPage extends Component {
 	state = {

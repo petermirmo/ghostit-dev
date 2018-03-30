@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 
-import "../css/theme.css";
-import Header from "../components/HeaderComponent";
-import Calendar from "../components/CalendarComponent";
-import ConnectAccountsSideBar from "../components/ConnectAccountsSideBar";
-import ClientsSideBar from "../components/ClientsSideBar";
+import Header from "../../components/HeaderComponent";
+import Calendar from "./CalendarComponent";
+import ConnectAccountsSideBar from "../../components/SideBarAccounts/SideBarAccounts";
+import ClientsSideBar from "../../components/SideBarClients/SideBarClients";
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {

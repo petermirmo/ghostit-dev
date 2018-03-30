@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ManageColumn from "./divs/ManageColumn";
+import ManageColumn from "../divs/ManageColumn";
+import "../../css/sideBar.css";
 
 class ConnectAccountsSideBar extends Component {
 	state = {

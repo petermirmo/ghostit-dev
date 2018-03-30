@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import "../../css/theme.css";
-import CreateBlog from "../forms/CreateBlog.js";
+import CreateBlog from "./CreateBlog.js";
+import "../../css/modal.css";
 
 class BlogEdittingModal extends Component {
 	initialize(blog) {

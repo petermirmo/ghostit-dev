@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../../css/theme.css";
 
 class ImagesDiv extends Component {
 	constructor(props) {

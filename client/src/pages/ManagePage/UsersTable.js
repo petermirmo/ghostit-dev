@@ -3,7 +3,7 @@ import axios from "axios";
 
 import ManageColumn from "../../components/divs/ManageColumn";
 import UserDiv from "./ManageUserDiv";
-import NavBar from "../../components/NavBar";
+import NavigationBar from "../../components/NavigationBar/NavigationBar";
 
 class UsersTable extends Component {
 	state = {
@@ -129,7 +129,7 @@ class UsersTable extends Component {
 	render() {
 		return (
 			<div>
-				<NavBar
+				<NavigationBar
 					updateParentState={this.updateUsers}
 					categories={["admin", "manager", "client", "demo"]}
 					setActive={this.state.activeTab}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import "../css/theme.css";
 
-import DatePicker from "material-ui/DatePicker";
+import TimePicker from "material-ui/TimePicker";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 
@@ -16,36 +15,36 @@ const muiTheme = getMuiTheme({
 		borderColor: "#000"
 	}
 });
-class DatePickerComponent extends Component {
+
+class TimePickerComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			controlledDate: this.props.clickedCalendarDate
+			controlledTime: this.props.timeForPost
 		};
 	}
 
-	handleChange = (event, date) => {
+	handleChange = (event, time) => {
 		this.setState({
-			controlledDate: date
+			controlledTime: time
 		});
 	};
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
-			controlledDate: nextProps.clickedCalendarDate
+			controlledTime: nextProps.timeForPost
 		});
 	}
-
 	render() {
 		return (
 			<MuiThemeProvider muiTheme={muiTheme}>
-				<DatePicker
+				<TimePicker
 					id={this.props.id}
-					hintText="Click here to pick Date!"
+					hintText="Click here to pick Time!"
 					autoOk={true}
-					value={this.state.controlledDate}
+					value={this.state.controlledTime}
 					onChange={this.handleChange}
-					getdate={this.state.controlledDate}
+					gettime={this.state.controlledTime}
 					textFieldStyle={{ cursor: "pointer" }}
 					disabled={this.props.canEdit}
 				/>
@@ -54,4 +53,4 @@ class DatePickerComponent extends Component {
 	}
 }
 
-export default DatePickerComponent;
+export default TimePickerComponent;

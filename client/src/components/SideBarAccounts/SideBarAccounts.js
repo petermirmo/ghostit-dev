@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "../css/theme.css";
-import AddPageOrGroupModal from "./modals/addPagesOrGroupsModal";
-import ConnectedAccountsDiv from "./divs/ConnectedAccountsDiv";
+import AddPageOrGroupModal from "./AddPagesOrGroupsModal";
+import ConnectedAccountsDiv from "./ConnectedAccountsDiv";
+import "../../css/sideBar.css";
 
 class ConnectAccountsSideBar extends Component {
 	state = {

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import LoginPage from "./pages/LoginPage";
-import Content from "./pages/ContentPage";
-import Profile from "./pages/Profile";
-import Strategy from "./pages/StrategyPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import Content from "./pages/ContentPage/ContentPage";
+import Profile from "./pages/ProfilePage/ProfilePage";
+import Strategy from "./pages/StrategyPage/StrategyPage";
 import Manage from "./pages/ManagePage/ManagePage";
+import "./css/theme.css";
 
 class Routes extends Component {
 	render() {
