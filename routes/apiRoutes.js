@@ -1,21 +1,22 @@
 const passport = require("passport");
 const User = require("../models/User");
 const Account = require("../models/Account");
-var FB = require("fb");
+const FB = require("fb");
 const Post = require("../models/Post");
 
-var multipart = require("connect-multiparty");
-var fileParser = multipart();
+const multipart = require("connect-multiparty");
+const fileParser = multipart();
 
-var facebookFunctions = require("../services/facebookFunctions");
-var linkedinFunctions = require("../services/linkedinFunctions");
-var accountFunctions = require("../services/accountFunctions");
-var userFunctions = require("../services/userFunctions");
-var postFunctions = require("../services/postFunctions");
-var blogFunctions = require("../services/websiteBlogFunctions");
-var generalFunctions = require("../services/generalFunctions");
-var strategyFunctions = require("../services/strategyFunctions");
-var adminFunctions = require("../services/adminFunctions");
+const facebookFunctions = require("../services/facebookFunctions");
+const linkedinFunctions = require("../services/linkedinFunctions");
+const accountFunctions = require("../services/accountFunctions");
+const userFunctions = require("../services/userFunctions");
+const postFunctions = require("../services/postFunctions");
+const blogFunctions = require("../services/websiteBlogFunctions");
+const generalFunctions = require("../services/generalFunctions");
+const strategyFunctions = require("../services/strategyFunctions");
+const adminFunctions = require("../services/adminFunctions");
+const planFunctions = require("../services/planFunctions");
 
 module.exports = app => {
 	// Login user
@@ -62,12 +63,7 @@ module.exports = app => {
 	// Delete account
 	app.delete("/api/account", (req, res) => accountFunctions.disconnectAccount(req, res));
 	// Get all accounts that a user has connected
-	app.get("/api/accounts", (req, res) => {
-		Account.find({ userID: req.user._id }, function(err, accounts) {
-			if (err) return handleError(err);
-			res.send(accounts);
-		});
-	});
+	app.get("/api/accounts", (req, res) => accountFunctions.getAccounts(req, res));
 
 	// Add Facebook profile
 	app.get(
@@ -161,4 +157,6 @@ module.exports = app => {
 	app.post("/api/signInAsUser", (req, res) => adminFunctions.signInAsUser(req, res));
 	// Sign out as user
 	app.get("/api/signOutOfUserAccount", (req, res) => adminFunctions.signOutOfUserAccount(req, res));
+	// Create a plan
+	app.post("/api/plan", (req, res) => planFunctions.createPlan(req, res));
 };

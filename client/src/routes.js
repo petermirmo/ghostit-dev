@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import Content from "./pages/ContentPage";
 import Profile from "./pages/Profile";
 import Strategy from "./pages/StrategyPage";
-import Manage from "./pages/ManagePage";
+import Manage from "./pages/ManagePage/ManagePage";
 
 class Routes extends Component {
 	render() {

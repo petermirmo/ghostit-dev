@@ -4,7 +4,7 @@ module.exports = {
 	saveStrategy: function(req, res) {
 		var currentStrategy = req.body;
 		let userID;
-		if (req.user.signedInAsUser) {
+		if (req.user.signedInAsUser.id) {
 			userID = req.user.signedInAsUser.id;
 		} else {
 			userID = req.user._id;
@@ -38,7 +38,7 @@ module.exports = {
 	},
 	getStrategy: function(req, res) {
 		let userID;
-		if (req.user.signedInAsUser) {
+		if (req.user.signedInAsUser.id) {
 			userID = req.user.signedInAsUser.id;
 		} else {
 			userID = req.user._id;

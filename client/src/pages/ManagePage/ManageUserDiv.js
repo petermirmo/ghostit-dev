@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
-import UserAttribute from "./UserAttributeDiv";
+import UserNotEditableAttribute from "./UserNotEditableAttribute";
+import UserEditableAttribute from "./UserEditableAttribute";
+import UserDropdownAttribute from "./UserDropdownAttribute";
 
 class UserDiv extends Component {
 	state = {
@@ -15,11 +17,8 @@ class UserDiv extends Component {
 
 		this.editUser = this.editUser.bind(this);
 		this.updateUser = this.updateUser.bind(this);
-		this.keyDownTextField = this.keyDownTextField.bind(this);
 		this.cancel = this.cancel.bind(this);
 		this.saveUser = this.saveUser.bind(this);
-
-		document.addEventListener("keydown", this.keyDownTextField, false);
 	}
 
 	editUser() {
@@ -34,23 +33,7 @@ class UserDiv extends Component {
 		}
 		this.setState({ updateUser: user });
 	}
-	keyDownTextField(e) {
-		var keyCode = e.keyCode;
-		// Keycode 65-90 are letters, keycode 8 is a backspace, keycode 191 is a forward slash
-		if ((keyCode < 65 || keyCode > 90) && (keyCode !== 8 && keyCode !== 191)) return;
 
-		let timezoneSearch = this.state.timezoneSearch;
-		if (keyCode === 8) {
-			timezoneSearch = timezoneSearch.substring(0, timezoneSearch.length - 1);
-		} else if (keyCode === 191) {
-			timezoneSearch += "/";
-		} else {
-			timezoneSearch += String.fromCharCode(keyCode);
-		}
-		timezoneSearch = timezoneSearch.toLowerCase();
-
-		this.setState({ timezoneSearch: timezoneSearch });
-	}
 	cancel() {
 		this.setState({ editUser: false, signingIntoUser: false });
 	}
@@ -71,23 +54,13 @@ class UserDiv extends Component {
 		});
 	}
 	render() {
-		let showCancelButton;
-		let showSaveButton;
-		let showEditButton;
-		if (this.state.editUser) {
-			showCancelButton = { display: "inline-block" };
-			showSaveButton = { display: "inline-block" };
-			showEditButton = { display: "none" };
-		} else {
-			showCancelButton = { display: "none" };
-			showSaveButton = { display: "none" };
-			showEditButton = { display: "inline-block" };
-		}
 		let userAttributes = [];
 		let booleanTest = false;
 		let userButtons;
 		for (var index in this.props.user) {
 			let dropdownList = [];
+
+			// Timezone dropdown list
 			if (index === "timezone") {
 				let timezones = moment.tz.names();
 				for (var j in timezones) {
@@ -98,53 +71,64 @@ class UserDiv extends Component {
 					}
 				}
 			} else if (index === "role") {
+				// Role dropdown list
 				dropdownList = ["demo", "client", "manager", "admin"];
 			} else if (index === "writer") {
 				dropdownList = this.props.managers;
 			}
+
+			// If it is an object get name in object
 			let value = this.props.user[index];
 			if (value.name) {
 				value = value.name;
 			}
 			if (index !== "signedInAsUser") {
-				userAttributes.push(
-					<UserAttribute
-						key={index}
-						value={value}
-						label={index}
-						editUser={
-							this.state.editUser && index !== "password" && index !== "__v" && index !== "_id" && index !== "password"
-						}
-						dropdown={dropdownList.length !== 0}
-						dropdownList={dropdownList}
-						updateParentState={this.updateUser}
-					/>
-				);
+				if (
+					this.state.editUser &&
+					index !== "password" &&
+					index !== "__v" &&
+					index !== "_id" &&
+					dropdownList.length === 0
+				) {
+					userAttributes.push(
+						<UserEditableAttribute key={index} value={value} label={index} updateParentState={this.updateUser} />
+					);
+				} else if (
+					this.state.editUser &&
+					index !== "password" &&
+					index !== "__v" &&
+					index !== "_id" &&
+					dropdownList.length !== 0
+				) {
+					userAttributes.push(
+						<UserDropdownAttribute
+							key={index}
+							value={value}
+							label={index}
+							editUser={this.state.editUser && index !== "password" && index !== "__v" && index !== "_id"}
+							dropdownList={dropdownList}
+							updateParentState={this.updateUser}
+						/>
+					);
+				} else {
+					userAttributes.push(<UserNotEditableAttribute key={index} value={value} label={index} />);
+				}
 			}
 			booleanTest = true;
 		}
 		if (booleanTest) {
 			userButtons = (
 				<div>
-					<button
-						id="editUserButton"
-						onClick={this.editUser}
-						className="fa fa-edit fa-2x margin-auto center"
-						style={showEditButton}
-					/>
+					{!this.state.editUser && (
+						<button id="editUserButton" onClick={this.editUser} className="fa fa-edit fa-2x margin-auto center" />
+					)}
 
-					<button
-						id="saveButton"
-						onClick={this.saveUser}
-						className="fa fa-check fa-2x margin-auto center"
-						style={showSaveButton}
-					/>
-					<button
-						id="cancelButton"
-						onClick={this.cancel}
-						className="fa fa-times fa-2x margin-auto center"
-						style={showCancelButton}
-					/>
+					{this.state.editUser && (
+						<button id="saveButton" onClick={this.saveUser} className="fa fa-check fa-2x margin-auto center" />
+					)}
+					{this.state.editUser && (
+						<button id="cancelButton" onClick={this.cancel} className="fa fa-times fa-2x margin-auto center" />
+					)}
 				</div>
 			);
 		}

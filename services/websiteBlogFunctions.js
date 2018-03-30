@@ -7,7 +7,7 @@ var cloudinary = require("cloudinary");
 module.exports = {
 	saveBlog: function(req, res) {
 		let userID;
-		if (req.user.signedInAsUser) {
+		if (req.user.signedInAsUser.id) {
 			userID = req.user.signedInAsUser.id;
 		} else {
 			userID = req.user._id;
@@ -95,7 +95,7 @@ module.exports = {
 	},
 	getBlogs(req, res) {
 		let userID;
-		if (req.user.signedInAsUser) {
+		if (req.user.signedInAsUser.id) {
 			userID = req.user.signedInAsUser.id;
 		} else {
 			userID = req.user._id;

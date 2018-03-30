@@ -249,3 +249,31 @@
 .big-round-button:hover {
 	background-color: var(--dark-blue-theme-color);
 }
+.switch {
+	border: 2px solid var(--blue-theme-color);
+	width: 20%;
+	margin-top: 10px;
+	padding: 0;
+	border-radius: 20px;
+}
+.switch-button {
+	border-radius: 0;
+	width: 50%;
+	height: 100%;
+	padding: 4px;
+	background-color: transparent;
+	color: var(--blue-theme-color);
+	position: relative;
+}
+.switch-active {
+	background-color: var(--blue-theme-color);
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+	color: var(--white-theme-color);
+}
+.left-switch {
+	border-radius: 20px 0 0 20px;
+}
+.right-switch {
+	border-radius: 0 20px 20px 0;
+}

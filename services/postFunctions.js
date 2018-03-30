@@ -22,7 +22,7 @@ module.exports = {
 		var post = req.body;
 		var newPost = new Post();
 		let userID;
-		if (req.user.signedInAsUser) {
+		if (req.user.signedInAsUser.id) {
 			userID = req.user.signedInAsUser.id;
 		} else {
 			userID = req.user._id;
@@ -42,7 +42,7 @@ module.exports = {
 	getPosts: function(req, res) {
 		// Get all posts for user
 		let userID;
-		if (req.user.signedInAsUser) {
+		if (req.user.signedInAsUser.id) {
 			userID = req.user.signedInAsUser.id;
 		} else {
 			userID = req.user._id;

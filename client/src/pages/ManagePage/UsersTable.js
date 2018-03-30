@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "../css/UsersTable.css";
-import ManageColumn from "./divs/ManageColumn";
-import UserDiv from "./divs/ManageUserDiv";
-import NavBar from "./NavBar";
+import ManageColumn from "../../components/divs/ManageColumn";
+import UserDiv from "./ManageUserDiv";
+import NavBar from "../../components/NavBar";
 
 class UsersTable extends Component {
 	state = {
@@ -70,7 +69,6 @@ class UsersTable extends Component {
 					activeUsers: activeUsers,
 					untouchedActiveUsers: activeUsers
 				});
-				document.getElementById(this.state.activeTab).className = "active";
 			}
 		});
 	}
@@ -131,7 +129,11 @@ class UsersTable extends Component {
 	render() {
 		return (
 			<div>
-				<NavBar updateParentState={this.updateUsers} categories={["admin", "manager", "client", "demo"]} />
+				<NavBar
+					updateParentState={this.updateUsers}
+					categories={["admin", "manager", "client", "demo"]}
+					setActive={this.state.activeTab}
+				/>
 				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} userClicked={this.userClicked} />
 				<div style={{ float: "right", width: "74%" }}>
 					<UserDiv
