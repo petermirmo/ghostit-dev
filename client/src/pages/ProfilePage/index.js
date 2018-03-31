@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Header from "../../components/HeaderComponent";
+import Header from "../../components/Header/index";
 import ConnectAccountsSideBar from "../../components/SideBarAccounts/SideBarAccounts";
 
 class Content extends Component {

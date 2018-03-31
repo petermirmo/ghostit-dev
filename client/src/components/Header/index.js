@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-import "../css/theme.css";
 import "font-awesome/css/font-awesome.min.css";
+import "./style.css";
 
 class Header extends Component {
 	state = {

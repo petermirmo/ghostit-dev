@@ -3,8 +3,6 @@ import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
 import { confirmAlert } from "react-confirm-alert";
 
-import "../../css/theme.css";
-
 class ConnectedAccountsList extends Component {
 	constructor(props) {
 		super(props);

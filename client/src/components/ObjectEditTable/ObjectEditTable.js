@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import NonEditableAttribute from "./NonEditableAttribute";
 import EditableAttribute from "./EditableAttribute";
 import DropdownAttribute from "./DropdownAttribute";
+import "./style.css";
 
 class ObjectEditTable extends Component {
 	state = {

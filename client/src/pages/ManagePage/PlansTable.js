@@ -1,64 +1,33 @@
 import React, { Component } from "react";
-//import axios from "axios";
+import axios from "axios";
+
+import ManageColumn from "../../components/SearchColumn/index";
+import ObjectEditTable from "../../components/ObjectEditTable/ObjectEditTable";
+import PlanForm from "./PlanForm";
 
 class PlansTable extends Component {
 	state = {
-		socialPosts: {
-			amount: 0,
-			frequency: 1
-		},
-		facebookPosts: {
-			amount: 0,
-			frequency: 1
-		},
-		twitterPosts: {
-			amount: 0,
-			frequency: 1
-		},
-		linkedinPosts: {
-			amount: 0,
-			frequency: 1
-		},
-		instagramPosts: {
-			amount: 0,
-			frequency: 1
-		},
-		websiteBlogPosts: {
-			amount: 0,
-			frequency: 1
-		},
-		emailNewsletters: {
-			amount: 0,
-			frequency: 1
-		},
-		eBooks: {
-			amount: 0,
-			frequency: 3
-		}
+		createPlan: false
 	};
 	constructor(props) {
 		super(props);
-		this.formChange = this.formChange.bind(this);
+		this.createPlan = this.createPlan.bind(this);
 	}
-	formChange(event) {
-		// ID of target is object attribute in state
-		let object = this.state[event.target.id];
-		object.amount = event.target.value;
-		console.log(object);
+	savePlan() {}
+	getPlans() {}
+	createPlan() {
+		this.setState({ createPlan: true });
 	}
 	render() {
+		let array;
 		let planDivs = [];
-		for (let index in this.state) {
-			planDivs.push(
-				<div key={index}>
-					<span>
-						{index}
-						<input id={index} value={this.state[index].amount} onChange={this.formChange} />
-					</span>
-				</div>
-			);
-		}
-		return <div>{planDivs}</div>;
+
+		return (
+			<div>
+				<button onClick={this.createPlan}>Create Plan</button>
+				{this.state.createPlan && <PlanForm />}
+			</div>
+		);
 	}
 }
 

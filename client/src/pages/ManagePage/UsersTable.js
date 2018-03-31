@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
-import ManageColumn from "../../components/divs/ManageColumn";
+import ManageColumn from "../../components/SearchColumn/index";
 import ObjectEditTable from "../../components/ObjectEditTable/ObjectEditTable";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 

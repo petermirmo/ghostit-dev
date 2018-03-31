@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Header from "../../components/HeaderComponent";
+import Header from "../../components/Header/index";
 import StrategyForm from "./StrategyForm";
 import ConnectAccountsSideBar from "../../components/SideBarAccounts/SideBarAccounts";
 import ClientsSideBar from "../../components/SideBarClients/SideBarClients";

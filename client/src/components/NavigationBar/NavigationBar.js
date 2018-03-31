@@ -12,8 +12,8 @@ class NavBar extends Component {
 				active = "";
 			}
 			categoryDivs.push(
-				<li key={index} onClick={this.props.updateParentState}>
-					<a id={this.props.categories[index]} className={active}>
+				<li className="navigation-container" key={index} onClick={this.props.updateParentState}>
+					<a className="nagivation-option" id={this.props.categories[index]} className={active}>
 						{this.props.categories[index]}
 					</a>
 				</li>
