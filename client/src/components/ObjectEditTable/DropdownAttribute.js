@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class UserDropDownAttribute extends Component {
+class DropDownAttribute extends Component {
 	state = {
 		showDropdown: false,
 		dropdownList: this.props.dropdownList,
@@ -22,8 +22,8 @@ class UserDropDownAttribute extends Component {
 		for (let index in this.state.untouchedDropdownList) {
 			// Check to see if index is an object or not
 			let indexValue;
-			if (this.state.untouchedDropdownList[index].fullName) {
-				indexValue = this.state.untouchedDropdownList[index].fullName;
+			if (this.state.untouchedDropdownList[index].name) {
+				indexValue = this.state.untouchedDropdownList[index].name;
 			} else {
 				indexValue = this.state.untouchedDropdownList[index];
 			}
@@ -33,24 +33,32 @@ class UserDropDownAttribute extends Component {
 		}
 		this.setState({ inputValue: event.target.value, dropdownList: dropdownList });
 	}
-	updateDropdown(event) {
-		this.setState({ showDropdown: false, inputValue: event.target.innerHTML });
+	updateDropdown(index, value, id) {
+		this.setState({ showDropdown: false, inputValue: value });
 
 		// event.target.id is the id of the writer while event.target.innerhtml is the name of the writer
-		this.props.updateParentState(this.props.label, event.target.innerHTML, event.target.id);
+		this.props.updateParentState(index, value, id);
 	}
 	render() {
 		let dropDownContent = [];
 		for (var index in this.state.dropdownList) {
-			if (this.state.dropdownList[index].writer) {
+			if (this.state.dropdownList[index].id) {
 				dropDownContent.push(
-					<p id={this.state.dropdownList[index]._id} key={index} onClick={this.updateDropdown}>
-						{this.state.dropdownList[index].fullName}
+					<p
+						id={this.state.dropdownList[index].id}
+						key={index}
+						onClick={event => this.updateDropdown(this.props.label, event.target.innerHTML, event.target.id)}
+					>
+						{this.state.dropdownList[index].value}
 					</p>
 				);
 			} else {
 				dropDownContent.push(
-					<p id={this.state.dropdownList[index]} key={index} onClick={this.updateDropdown}>
+					<p
+						id={this.state.dropdownList[index]}
+						key={index}
+						onClick={event => this.updateDropdown(this.props.label, event.target.innerHTML)}
+					>
 						{this.state.dropdownList[index]}
 					</p>
 				);
@@ -74,4 +82,4 @@ class UserDropDownAttribute extends Component {
 		);
 	}
 }
-export default UserDropDownAttribute;
+export default DropDownAttribute;

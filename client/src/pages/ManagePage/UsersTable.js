@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
+import moment from "moment-timezone";
 
 import ManageColumn from "../../components/divs/ManageColumn";
-import UserDiv from "./ManageUserDiv";
+import ObjectEditTable from "../../components/ObjectEditTable/ObjectEditTable";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 
 class UsersTable extends Component {
@@ -14,7 +15,8 @@ class UsersTable extends Component {
 		activeTab: "demo",
 		activeUsers: [],
 		untouchedActiveUsers: [],
-		clickedUser: {}
+		clickedUser: undefined,
+		editting: false
 	};
 	constructor(props) {
 		super(props);
@@ -23,6 +25,8 @@ class UsersTable extends Component {
 		this.getUsers = this.getUsers.bind(this);
 		this.searchUsers = this.searchUsers.bind(this);
 		this.userClicked = this.userClicked.bind(this);
+		this.saveUser = this.saveUser.bind(this);
+		this.editObject = this.editObject.bind(this);
 
 		this.getUsers();
 	}
@@ -124,9 +128,61 @@ class UsersTable extends Component {
 	userClicked(event) {
 		// ID of clicked event is the index of in activeUsers of the clicked user
 		const temp = this.state.activeUsers[event.target.id];
-		this.setState({ clickedUser: temp });
+		this.setState({ clickedUser: temp, editting: !this.state.editting });
+	}
+	saveUser(user) {
+		axios.post("/api/updateUser", user).then(res => {
+			if (res.data) {
+				this.getUsers();
+			} else {
+				alert(
+					"There has been an error! :( Contact your local dev team immediately! If you do not have a local dev team, you can contact me at peter.mirmotahari@gmail.com!"
+				);
+			}
+		});
+	}
+	editObject() {
+		this.setState({ editting: !this.state.editting });
 	}
 	render() {
+		let array = [];
+
+		for (let index in this.state.clickedUser) {
+			let canEdit = true;
+			let dropdown = false;
+			let dropdownList;
+			if (index === "password" || index === "__v" || index === "_id") {
+				canEdit = false;
+			} else if (index === "role" || index === "timezone" || index === "writer") {
+				dropdown = true;
+				if (index === "role") {
+					dropdownList = ["demo", "client", "manager", "admin"];
+				} else if (index === "timezone") {
+					dropdownList = moment.tz.names();
+				} else if (index === "writer") {
+					for (let j in this.state.managerUsers) {
+						dropdownList = [];
+						dropdownList.push({
+							id: this.state.managerUsers[j]._id,
+							value: this.state.managerUsers[j].fullName
+						});
+					}
+				}
+			}
+
+			if (index !== "signedInAsUser") {
+				array.push({
+					canEdit: canEdit,
+					value:
+						this.state.clickedUser[index] === Object(this.state.clickedUser[index])
+							? this.state.clickedUser[index].name
+							: this.state.clickedUser[index],
+					dropdown: dropdown,
+					dropdownList: dropdownList,
+					index: index
+				});
+			}
+		}
 		return (
 			<div>
 				<NavigationBar
@@ -136,11 +192,14 @@ class UsersTable extends Component {
 				/>
 				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} userClicked={this.userClicked} />
 				<div style={{ float: "right", width: "74%" }}>
-					<UserDiv
-						user={this.state.clickedUser}
-						updateUsers={this.getUsers}
+					<ObjectEditTable
+						objectArray={array}
+						updateList={this.getUsers}
+						saveObject={this.saveUser}
+						clickedObject={this.state.clickedUser}
 						className="center"
-						managers={this.state.managerUsers}
+						editting={this.state.editting}
+						editObject={this.editObject}
 					/>
 				</div>
 			</div>
