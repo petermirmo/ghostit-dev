@@ -13,6 +13,7 @@ class socialMediaDiv extends Component {
 	}
 	//  For social media background color change on click
 	handleParentClick(event) {
+		const { accounts } = this.props;
 		var div;
 		if (event.target) {
 			// Not a child click
@@ -25,15 +26,15 @@ class socialMediaDiv extends Component {
 		var indexOfAccount = div.id;
 
 		// Check if object is in state array
-		if (!pagesToAdd.includes(this.props.accounts[indexOfAccount])) {
+		if (!pagesToAdd.includes(accounts[indexOfAccount])) {
 			// Page index is not in array
-			pagesToAdd.push(this.props.accounts[indexOfAccount]);
+			pagesToAdd.push(accounts[indexOfAccount]);
 
 			// Set div to active
 			div.className += " common-active";
 		} else {
 			// Page index is in array so remove it
-			var index = pagesToAdd.indexOf(this.props.accounts[indexOfAccount]);
+			var index = pagesToAdd.indexOf(accounts[indexOfAccount]);
 			pagesToAdd.splice(index, 1);
 
 			// Take away class active from div
@@ -52,16 +53,18 @@ class socialMediaDiv extends Component {
 	}
 
 	render() {
+		const { message, accounts } = this.props;
+
 		// Error message
-		pagesMessage = <p>{this.props.message}</p>;
+		pagesMessage = <p>{message}</p>;
 
 		// Check to see if accounts have changed
-		if (pages !== this.props.accounts) {
+		if (pages !== accounts) {
 			// If they have changed reset pagesToAdd array
 			pagesToAdd = [];
 		}
 
-		pages = this.props.accounts;
+		pages = accounts;
 		var page;
 		indents = [];
 

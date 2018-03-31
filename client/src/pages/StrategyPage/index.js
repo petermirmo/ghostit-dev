@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
-import Header from "../../components/Header/index";
+import Header from "../../components/Header/";
 import StrategyForm from "./StrategyForm";
-import ConnectAccountsSideBar from "../../components/SideBarAccounts/SideBarAccounts";
-import ClientsSideBar from "../../components/SideBarClients/SideBarClients";
+import ConnectAccountsSideBar from "../../components/SideBarAccounts/";
+import ClientsSideBar from "../../components/SideBarClients/";
 
 class StrategyPage extends Component {
 	state = {

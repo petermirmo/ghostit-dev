@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
-import ManageColumn from "../../components/SearchColumn/index";
-import ObjectEditTable from "../../components/ObjectEditTable/ObjectEditTable";
-import NavigationBar from "../../components/NavigationBar/NavigationBar";
+import ManageColumn from "../../components/SearchColumn/";
+import ObjectEditTable from "../../components/ObjectEditTable/";
+import NavigationBar from "../../components/NavigationBar/";
 
 class UsersTable extends Component {
 	state = {

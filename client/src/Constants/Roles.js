@@ -1,3 +1,1 @@
-const Roles = {
-	roles: ["demo", "client", "manager", "admin"]
-};
+export const roles = ["demo", "client", "manager", "admin"];

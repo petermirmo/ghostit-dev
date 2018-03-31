@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Header from "../../components/Header/index";
-import ConnectAccountsSideBar from "../../components/SideBarAccounts/SideBarAccounts";
+import Header from "../../components/Header/";
+import ConnectAccountsSideBar from "../../components/SideBarAccounts/";
 
 class Content extends Component {
 	state = {

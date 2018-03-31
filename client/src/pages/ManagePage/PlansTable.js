@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import ManageColumn from "../../components/SearchColumn/index";
-import ObjectEditTable from "../../components/ObjectEditTable/ObjectEditTable";
+import ManageColumn from "../../components/SearchColumn/";
+import ObjectEditTable from "../../components/ObjectEditTable/";
 import PlanForm from "./PlanForm";
 
 class PlansTable extends Component {

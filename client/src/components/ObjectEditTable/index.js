@@ -63,7 +63,7 @@ class ObjectEditTable extends Component {
 						<button
 							id="edittingButton"
 							onClick={this.props.editObject}
-							className="fa fa-edit fa-2x margin-auto center"
+							className="fa fa-edit fa-2x attribute-footer-button"
 						/>
 					)}
 
@@ -71,14 +71,14 @@ class ObjectEditTable extends Component {
 						<button
 							id="saveButton"
 							onClick={() => this.props.saveObject(this.state.updatedObject)}
-							className="fa fa-check fa-2x margin-auto center"
+							className="fa fa-check fa-2x attribute-footer-button"
 						/>
 					)}
 					{!this.props.editting && (
 						<button
 							id="cancelButton"
 							onClick={this.props.editObject}
-							className="fa fa-times fa-2x margin-auto center"
+							className="fa fa-times fa-2x attribute-footer-button"
 						/>
 					)}
 				</div>
