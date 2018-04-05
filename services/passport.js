@@ -73,6 +73,7 @@ module.exports = function(passport) {
 								// User does not exist yet
 								var newUser = new User();
 								newUser.role = "demo";
+								newUser.plan = { id: "none", name: "none" };
 								newUser.email = email;
 								newUser.password = newUser.generateHash(password);
 								newUser.fullName = req.body.fullName;

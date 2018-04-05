@@ -16,7 +16,8 @@ class UsersTable extends Component {
 		activeUsers: [],
 		untouchedActiveUsers: [],
 		clickedUser: undefined,
-		editting: false
+		editting: false,
+		plans: undefined
 	};
 	constructor(props) {
 		super(props);
@@ -29,6 +30,7 @@ class UsersTable extends Component {
 		this.editObject = this.editObject.bind(this);
 
 		this.getUsers();
+		this.getPlans();
 	}
 	getUsers() {
 		axios.get("/api/users").then(res => {
@@ -76,6 +78,11 @@ class UsersTable extends Component {
 			}
 		});
 	}
+	getPlans = () => {
+		axios.get("/api/plans").then(res => {
+			this.setState({ plans: res.data });
+		});
+	};
 	updateUsers(event) {
 		// Remove active class from last tab
 		if (this.state.activeTab) {
@@ -153,18 +160,26 @@ class UsersTable extends Component {
 			let dropdownList;
 			if (index === "password" || index === "__v" || index === "_id") {
 				canEdit = false;
-			} else if (index === "role" || index === "timezone" || index === "writer") {
+			} else if (index === "role" || index === "timezone" || index === "writer" || index === "plan") {
 				dropdown = true;
 				if (index === "role") {
 					dropdownList = ["demo", "client", "manager", "admin"];
 				} else if (index === "timezone") {
 					dropdownList = moment.tz.names();
 				} else if (index === "writer") {
+					dropdownList = [];
 					for (let j in this.state.managerUsers) {
-						dropdownList = [];
 						dropdownList.push({
 							id: this.state.managerUsers[j]._id,
 							value: this.state.managerUsers[j].fullName
+						});
+					}
+				} else if (index === "plan") {
+					dropdownList = [];
+					for (let j in this.state.plans) {
+						dropdownList.push({
+							id: this.state.plans[j]._id,
+							value: this.state.plans[j].name
 						});
 					}
 				}

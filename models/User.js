@@ -12,7 +12,8 @@ const userSchema = new Schema({
 	timezone: String,
 	website: String,
 	signedInAsUser: { id: String, fullName: String },
-	writer: { id: String, name: String }
+	writer: { id: String, name: String },
+	plan: { id: String, name: String }
 });
 
 userSchema.methods.generateHash = function(password) {
