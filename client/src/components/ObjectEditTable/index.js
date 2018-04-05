@@ -27,10 +27,10 @@ class ObjectEditTable extends Component {
 	}
 
 	render() {
-		let objectArray = this.props.objectArray;
+		const { editting, objectArray } = this.props;
 		let attributes = [];
 		for (let index in objectArray) {
-			if (objectArray[index].dropdown && !this.props.editting) {
+			if (objectArray[index].dropdown && editting) {
 				attributes.push(
 					<DropdownAttribute
 						key={index}
@@ -40,7 +40,7 @@ class ObjectEditTable extends Component {
 						updateParentState={this.updateObject}
 					/>
 				);
-			} else if (objectArray[index].canEdit && !this.props.editting) {
+			} else if (objectArray[index].canEdit && editting) {
 				attributes.push(
 					<EditableAttribute
 						key={index}
@@ -59,7 +59,7 @@ class ObjectEditTable extends Component {
 		if (this.props.clickedObject) {
 			buttons = (
 				<div>
-					{this.props.editting && (
+					{!editting && (
 						<button
 							id="edittingButton"
 							onClick={this.props.editObject}
@@ -67,14 +67,14 @@ class ObjectEditTable extends Component {
 						/>
 					)}
 
-					{!this.props.editting && (
+					{editting && (
 						<button
 							id="saveButton"
 							onClick={() => this.props.saveObject(this.state.updatedObject)}
 							className="fa fa-check fa-2x attribute-footer-button"
 						/>
 					)}
-					{!this.props.editting && (
+					{editting && (
 						<button
 							id="cancelButton"
 							onClick={this.props.editObject}

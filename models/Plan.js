@@ -34,7 +34,11 @@ const PlanSchema = new Schema({
 	eBooks: {
 		amount: Number,
 		frequency: Number
-	}
+	},
+	name: String,
+	price: Number,
+	private: Boolean,
+	createdBy: String
 });
 
 module.exports = mongoose.model("plans", PlanSchema);

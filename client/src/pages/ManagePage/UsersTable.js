@@ -24,7 +24,7 @@ class UsersTable extends Component {
 		this.updateUsers = this.updateUsers.bind(this);
 		this.getUsers = this.getUsers.bind(this);
 		this.searchUsers = this.searchUsers.bind(this);
-		this.userClicked = this.userClicked.bind(this);
+		this.handleClickedUser = this.handleClickedUser.bind(this);
 		this.saveUser = this.saveUser.bind(this);
 		this.editObject = this.editObject.bind(this);
 
@@ -125,10 +125,10 @@ class UsersTable extends Component {
 		}
 		this.setState({ activeUsers: users });
 	}
-	userClicked(event) {
+	handleClickedUser(event) {
 		// ID of clicked event is the index of in activeUsers of the clicked user
 		const temp = this.state.activeUsers[event.target.id];
-		this.setState({ clickedUser: temp, editting: !this.state.editting });
+		this.setState({ clickedUser: temp, editting: false });
 	}
 	saveUser(user) {
 		axios.post("/api/updateUser", user).then(res => {
@@ -190,7 +190,11 @@ class UsersTable extends Component {
 					categories={["admin", "manager", "client", "demo"]}
 					setActive={this.state.activeTab}
 				/>
-				<ManageColumn users={this.state.activeUsers} searchUsers={this.searchUsers} userClicked={this.userClicked} />
+				<ManageColumn
+					objectList={this.state.activeUsers}
+					searchObjects={this.searchUsers}
+					handleClickedObject={this.handleClickedUser}
+				/>
 				<div style={{ float: "right", width: "74%" }}>
 					<ObjectEditTable
 						objectArray={array}

@@ -1,11 +1,11 @@
 const User = require("../models/User");
+const Plan = require("../models/Plan");
 
 var cloudinary = require("cloudinary");
 
 module.exports = {
 	getUsers: function(req, res) {
 		if (req.user.role !== "admin") {
-			// TO DO: Punish hacker?
 			handleError(res, "HACKER ALERT!!!!");
 		} else {
 			User.find({}, function(err, users) {
@@ -20,7 +20,6 @@ module.exports = {
 	},
 	updateUser: function(req, res) {
 		if (req.user.role !== "admin") {
-			// TO DO: Punish hacker?
 			handleError(res, "HACKER ALERT!!!!!");
 		} else {
 			let user = req.body;
@@ -76,6 +75,49 @@ module.exports = {
 		var currentUser = req.user;
 		currentUser.signedInAsUser = undefined;
 		currentUser.save().then(result => res.send(true));
+	},
+	createPlan: function(req, res) {
+		if (req.user.role !== "admin") {
+			handleError(res, "HACKER ALERT!!!!!");
+		} else {
+			const newPlan = req.body;
+
+			// Check if we are editting a plan or creating a new plan!
+			if (newPlan._id) {
+				console.log("here");
+				Plan.update({ _id: newPlan._id }, { $set: newPlan }).then(result => {
+					res.send(true);
+				});
+			} else {
+				Plan.find({ name: newPlan.name }, function(err, Plans) {
+					if (err) {
+						handleError(res, err);
+					} else if (Plans.length > 0) {
+						handleError(res, "Plan already exists!");
+					} else {
+						let plan = new Plan(newPlan);
+						plan.createdBy = req.user._id;
+						plan.private = true;
+						plan.save().then(result => {
+							res.send(true);
+						});
+					}
+				});
+			}
+		}
+	},
+	getPlans: function(req, res) {
+		if (req.user.role !== "admin") {
+			handleError(res, "HACKER ALERT!!!!!");
+		} else {
+			Plan.find({}, function(err, plans) {
+				if (err) {
+					handleError(res, err);
+				} else {
+					res.send(plans);
+				}
+			});
+		}
 	}
 };
 function handleError(res, errorMessage) {

@@ -71,9 +71,9 @@ class ConnectAccountsSideBar extends Component {
 		return (
 			<div className="side-bar animate-left" style={{ display: "none" }} id="clientsSideBar">
 				<ManageColumn
-					users={this.state.clients}
+					objectList={this.state.clients}
 					searchUsers={this.searchUsers}
-					userClicked={this.userClicked}
+					handleClickedObject={this.userClicked}
 					styleOverride={{ width: "90%" }}
 				/>
 			</div>

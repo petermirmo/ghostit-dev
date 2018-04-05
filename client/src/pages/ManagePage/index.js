@@ -9,7 +9,7 @@ import "./style.css";
 
 class ManagePage extends Component {
 	state = {
-		userTable: true
+		userTable: false
 	};
 	constructor(props) {
 		super(props);

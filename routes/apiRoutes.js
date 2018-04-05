@@ -158,5 +158,7 @@ module.exports = app => {
 	// Sign out as user
 	app.get("/api/signOutOfUserAccount", (req, res) => adminFunctions.signOutOfUserAccount(req, res));
 	// Create a plan
-	app.post("/api/plan", (req, res) => planFunctions.createPlan(req, res));
+	app.post("/api/plan", (req, res) => adminFunctions.createPlan(req, res));
+	// Get plans
+	app.get("/api/plans", (req, res) => adminFunctions.getPlans(req, res));
 };

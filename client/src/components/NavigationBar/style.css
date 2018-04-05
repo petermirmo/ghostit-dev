@@ -28,15 +28,11 @@
 }
 
 .nagivation-option:hover:not(.active) {
-	border-radius: 20px;
-	border: 2px solid var(--blue-theme-color);
 	background-color: var(--blue-theme-color);
 	color: var(--white-theme-color);
 }
 
 .nagivation-option.active {
-	border-radius: 20px;
 	border: 2px solid var(--blue-theme-color);
-	background-color: var(--blue-theme-color);
 	color: var(--white-theme-color);
 }

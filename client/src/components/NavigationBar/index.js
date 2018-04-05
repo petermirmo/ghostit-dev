@@ -3,18 +3,16 @@ import "./style.css";
 
 class NavBar extends Component {
 	render() {
+		const { categories } = this.props;
 		var categoryDivs = [];
-		let active;
-		for (var index in this.props.categories) {
-			if (this.props.categories[index] === this.props.setActive) {
-				active = "active";
-			} else {
-				active = "";
-			}
+		for (var index in categories) {
 			categoryDivs.push(
 				<li className="navigation-container" key={index} onClick={this.props.updateParentState}>
-					<a className="nagivation-option" id={this.props.categories[index]} className={active}>
-						{this.props.categories[index]}
+					<a
+						className={this.props.setActive === categories[index] ? "nagivation-option active" : "nagivation-option"}
+						id={categories[index]}
+					>
+						{categories[index]}
 					</a>
 				</li>
 			);
