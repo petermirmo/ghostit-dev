@@ -145,6 +145,9 @@ module.exports = app => {
 	app.post("/api/strategy", (req, res) => strategyFunctions.saveStrategy(req, res));
 	app.get("/api/strategy", (req, res) => strategyFunctions.getStrategy(req, res));
 
+	// Get public plans
+	app.get("/api/plans/public", (req, res) => planFunctions.getPublicPlans(req, res));
+
 	// Admin routes!!!!!
 
 	// Get all users

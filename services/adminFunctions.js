@@ -84,7 +84,6 @@ module.exports = {
 
 			// Check if we are editting a plan or creating a new plan!
 			if (newPlan._id) {
-				console.log("here");
 				Plan.update({ _id: newPlan._id }, { $set: newPlan }).then(result => {
 					res.send(true);
 				});
@@ -93,6 +92,7 @@ module.exports = {
 					if (err) {
 						handleError(res, err);
 					} else if (Plans.length > 0) {
+						// There is already a plan with this name!
 						handleError(res, "Plan already exists!");
 					} else {
 						let plan = new Plan(newPlan);

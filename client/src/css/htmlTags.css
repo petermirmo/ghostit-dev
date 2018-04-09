@@ -1,39 +1,36 @@
 :root {
 	--blue-theme-color: #19b5fe;
-	--dark-blue-theme-color: #019ce5;
 	--purple-theme-color: #ae56fa;
-	--light-purple-theme-color: #c483fb;
-	--light-light-purple-theme-color: #dbb5fd;
 	--orange-theme-color: #fd651c;
-	--red-theme-color: #f00001;
+	--green-theme-color: #1aff1a;
 	--yellow-theme-color: #ffff00;
 	--pink-theme-color: #ff017e;
-	--white-theme-color: #fff;
-	--light-grey-theme-color: #d9d9d9;
+	--red-theme-color: #ff1a1a;
+
 	--grey-theme-color: #bfbfbf;
-	--dark-grey-theme-color: #737373;
-	--green-theme-color: #93fe80;
-	--off-black-theme-color: #666666;
+	--black-theme-color: #000;
+	--white-theme-color: #fff;
+
+	--light-purple-theme-color: #c483fb;
+	--light-light-purple-theme-color: #dbb5fd;
 	--light-blue-theme-color: #b3e6ff;
 	--light-light-blue-theme-color: #d1f0ff;
 	--super-light-blue-theme-color: #e6f7ff;
+	--dark-blue-theme-color: #019ce5;
+
+	--light-grey-theme-color: #d9d9d9;
+	--dark-grey-theme-color: #737373;
+
+	--off-black-theme-color: #666666;
+
 	--font-theme-color: #000;
-	--black-theme-color: #000;
 	--large-font-size: 13pt;
 	--extra-large-font-size: 17pt;
 	--regular-font-size: 11pt;
+
 	--font-theme: "Open Sans";
 }
-input[type="checkbox"] {
-	/* Double-sized Checkboxes */
-	-ms-transform: scale(1.5); /* IE */
-	-moz-transform: scale(1.5); /* FF */
-	-webkit-transform: scale(1.5); /* Safari and Chrome */
-	-o-transform: scale(1.5); /* Opera */
-	padding: 10px;
-}
-h4 {
-}
+
 input {
 	font-family: var(--font-theme);
 	font-size: var(--large-font-size);

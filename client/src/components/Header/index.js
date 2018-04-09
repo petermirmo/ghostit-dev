@@ -52,20 +52,23 @@ class Header extends Component {
 		if (!isLoggedIn) {
 			return <Redirect to="/" />;
 		}
+
 		if (document.getElementById(this.props.activePage)) {
 			document.getElementById(this.props.activePage).className += " header-active";
 		}
 
-		var adminButton;
-		var clientButton;
-		var signedInAsDiv;
+		let managePageButton;
+		let signIntoClientsButton;
+		let plansPageButton;
+
+		let signedInAsDiv;
 		if (this.state.user.role === "admin" || this.state.user.role === "manager") {
 			if (this.state.user.role === "admin") {
-				var className;
+				let className;
 				if (this.props.activePage === "manage") {
 					className = "header-active";
 				}
-				adminButton = (
+				managePageButton = (
 					<a id="manage" href="/manage" className={className}>
 						Manage
 					</a>
@@ -81,13 +84,19 @@ class Header extends Component {
 						</div>
 					);
 				}
-				clientButton = (
+				signIntoClientsButton = (
 					<button className="big-round-button" onClick={() => this.openSideBar("clientsSideBar")}>
 						My Clients
 					</button>
 				);
 			}
+		} else {
 		}
+		plansPageButton = (
+			<a id="plans" href="/subscribe">
+				Upgrade to Business Superhero
+			</a>
+		);
 
 		return (
 			<header>
@@ -101,18 +110,19 @@ class Header extends Component {
 							<a href="/api/logout">Logout</a>
 						</div>
 					</div>
-					{adminButton}
+					{managePageButton}
 					<a id="strategy" href="/strategy">
 						Strategy
 					</a>
 					<a id="content" href="/content">
 						Content
 					</a>
+					{plansPageButton}
 
 					<button className="big-round-button" onClick={() => this.openSideBar("mySidebar")}>
 						Connect Accounts!
 					</button>
-					{clientButton}
+					{signIntoClientsButton}
 				</div>
 				{signedInAsDiv}
 			</header>

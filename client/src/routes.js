@@ -6,6 +6,7 @@ import Content from "./pages/ContentPage/";
 import Profile from "./pages/ProfilePage/";
 import Strategy from "./pages/StrategyPage/";
 import Manage from "./pages/ManagePage/";
+import Plans from "./pages/PlansPage/";
 import "./css/theme.css";
 
 class Routes extends Component {
@@ -18,6 +19,7 @@ class Routes extends Component {
 					<Route path="/profile" exact={true} component={Profile} />
 					<Route path="/strategy" exact={true} component={Strategy} />
 					<Route path="/manage" exact={true} component={Manage} />
+					<Route path="/subscribe" exact={true} component={Plans} />
 				</div>
 			</BrowserRouter>
 		);
