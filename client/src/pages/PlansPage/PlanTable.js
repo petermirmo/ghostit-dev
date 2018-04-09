@@ -43,12 +43,13 @@ class PlanTable extends Component {
 			);
 		}
 		let price = 0;
-		if (unitsOfContent > 2) {
-			price = unitsOfContent * (150 - unitsOfContent * 2.5);
-		} else {
-			price = 150 * unitsOfContent;
+		let discount = 150;
+		for (let i = 0; i < unitsOfContent; i++) {
+			if (i > 1 && discount > 100) {
+				discount = discount - 2.5;
+			}
+			price = price + discount;
 		}
-
 		return (
 			<div className="plan-container center">
 				<div className="plan-row">
