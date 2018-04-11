@@ -161,7 +161,7 @@ class Modal extends Component {
 							onClick={() =>
 								savePost(
 									this.state.link,
-									this.state.accountIdToPostTo,
+									this.state.postingToAccountId,
 									this.state.postImages,
 									this.state.linkPreviewCanShow,
 									this.state.activeTab,
