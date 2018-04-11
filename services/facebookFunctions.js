@@ -10,6 +10,7 @@ module.exports = {
 		} else {
 			userID = req.user._id;
 		}
+
 		// Get facebook profile
 		Account.findOne(
 			{
@@ -25,6 +26,7 @@ module.exports = {
 
 					FB.api("me/groups", "get", function(results) {
 						var groups = results.data;
+
 						// Init some values
 						for (var index in groups) {
 							groups[index].accountType = "group";

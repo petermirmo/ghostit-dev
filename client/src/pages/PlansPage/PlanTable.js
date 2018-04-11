@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import axios from "axios";
 
-import * as PlanConstants from "../../Constants/PlanConstants";
+//import * as PlanConstants from "../../Constants/PlanConstants";
 import PayDiv from "./PayDiv";
 
 import "./style.css";
@@ -32,25 +31,13 @@ class PlanTable extends Component {
 	handleCheckBox = () => {
 		this.setState({ checkbox: !this.state.checkbox });
 	};
-	signUp = () => {
-		axios.post("/api/signUpToPlan", this.state).then(res => {
-			console.log(res);
-		});
-	};
 
 	render() {
 		const { unitsOfContent } = this.state;
 		let onboardingFeeDiv;
-		let signUpButton;
 		let overThreeHundredWarning;
 
-		if (unitsOfContent > 2)
-			signUpButton = (
-				<button className="sign-up center" onClick={this.signUp}>
-					Become Awesome!
-				</button>
-			);
-		else overThreeHundredWarning = <h4 className="warning">Plan must be over $300</h4>;
+		if (unitsOfContent < 2) overThreeHundredWarning = <h4 className="warning">Plan must be over $300</h4>;
 
 		if (!this.state.checkbox) {
 			onboardingFeeDiv = <h3 className="warning">+ $200 One time onboarding fee</h3>;
@@ -141,10 +128,9 @@ class PlanTable extends Component {
 					</div>
 				</div>
 				<div className="plan-footer">
-					{signUpButton}
 					{onboardingFeeDiv}
 					{overThreeHundredWarning}
-					<PayDiv />
+					{unitsOfContent > 1 && <PayDiv plan={this.state} />}
 				</div>
 			</div>
 		);
