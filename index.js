@@ -17,9 +17,9 @@ var multer = require("multer");
 var cloudinary = require("cloudinary");
 // Connect to cloudinary
 cloudinary.config({
-    cloud_name: keys.cloudinaryName,
-    api_key: keys.cloudinaryApiKey,
-    api_secret: keys.cloudinaryApiSecret
+	cloud_name: keys.cloudinaryName,
+	api_key: keys.cloudinaryApiKey,
+	api_secret: keys.cloudinaryApiSecret
 });
 
 const router = express.Router();
@@ -28,7 +28,7 @@ const router = express.Router();
 var schedulerMain = require("./scheduler/cronScheduler");
 var cron = require("node-cron");
 cron.schedule("1,10,20,30,40,50 * * * * *", function() {
-    schedulerMain.main();
+	schedulerMain.main();
 });
 
 require("./models/User");
@@ -46,12 +46,12 @@ app.use(bodyParser.json()); //Read data from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
-    session({
-        secret: keys.cookieKey,
-        resave: true,
-        saveUninitialized: true,
-        store: new MongoStore({ mongooseConnection: db })
-    })
+	session({
+		secret: keys.cookieKey,
+		resave: true,
+		saveUninitialized: true,
+		store: new MongoStore({ mongooseConnection: db })
+	})
 );
 
 app.use(passport.initialize());
@@ -63,12 +63,12 @@ require("./routes/apiRoutes")(app);
 
 // If using production then if a route is not found in express we send user to react routes
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static("client/build"));
+	app.use(express.static("client/build"));
 
-    const path = require("path");
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-    });
+	const path = require("path");
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	});
 }
 
 const PORT = process.env.PORT || 5000;

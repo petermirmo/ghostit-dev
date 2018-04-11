@@ -27,6 +27,7 @@ module.exports = {
 		} else {
 			userID = req.user._id;
 		}
+
 		newPost.userID = userID;
 		newPost.accountID = post.accountID;
 		newPost.content = post.content;
@@ -37,6 +38,9 @@ module.exports = {
 		newPost.socialType = post.socialType;
 		newPost.status = post.status;
 		newPost.color = post.color;
+		console.log(post);
+		console.log(newPost);
+
 		newPost.save().then(result => res.send(result));
 	},
 	getPosts: function(req, res) {

@@ -4,38 +4,11 @@ import * as PlanConstants from "../../Constants/PlanConstants";
 class PlanForm extends Component {
 	state = {
 		plan: {
-			socialPosts: {
-				frequency: 1,
-				amount: 0
-			},
-			facebookPosts: {
-				frequency: 1,
-				amount: 0
-			},
-			twitterPosts: {
-				frequency: 1,
-				amount: 0
-			},
-			linkedinPosts: {
-				frequency: 1,
-				amount: 0
-			},
-			instagramPosts: {
-				frequency: 1,
-				amount: 0
-			},
-			websiteBlogPosts: {
-				frequency: 1,
-				amount: 0
-			},
-			emailNewsletters: {
-				frequency: 1,
-				amount: 0
-			},
-			eBooks: {
-				frequency: 3,
-				amount: 0
-			},
+			socialPosts: 0,
+			instagramPosts: 0,
+			websiteBlogPosts: 0,
+			emailNewsletters: 0,
+			eBooks: 0,
 			name: "peter_is_cool",
 			price: 0
 		}
@@ -100,7 +73,6 @@ class PlanForm extends Component {
 		return (
 			<div className="plan-form">
 				<span className="plan-form-header">
-					<h4 className="plan-form-title-right">Frequency</h4>
 					<h4 className="plan-form-title-right">Amount</h4>
 					<h4 className="plan-form-title-left">Name</h4>
 				</span>

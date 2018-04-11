@@ -53,6 +53,7 @@
         "passport-twitter": "^1.0.4",
         "request": "^2.83.0",
         "rimraf": "^2.6.2",
+        "stripe": "^5.8.0",
         "twitter": "^1.7.1"
     }
 }

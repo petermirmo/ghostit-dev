@@ -72,10 +72,15 @@ module.exports = {
 						res.send(false);
 					} else {
 						// Account does not exist
-						var user = req.session.passport.user; // pull the user out of the session
+						var user = req.user; // pull the user out of the session
 						var newAccount = new Account();
-
-						newAccount.userID = user._id;
+						let userID;
+						if (req.user.signedInAsUser.id) {
+							userID = req.user.signedInAsUser.id;
+						} else {
+							userID = req.user._id;
+						}
+						newAccount.userID = userID;
 						newAccount.socialType = "linkedin";
 						newAccount.accountType = "profile";
 						newAccount.accessToken = accessToken;

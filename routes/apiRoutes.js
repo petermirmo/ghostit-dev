@@ -147,6 +147,8 @@ module.exports = app => {
 
 	// Get public plans
 	app.get("/api/plans/public", (req, res) => planFunctions.getPublicPlans(req, res));
+	// Sign up to plan
+	app.post("/api/signUpToPlan", (req, res) => planFunctions.signUpToPlan(req, res));
 
 	// Admin routes!!!!!
 

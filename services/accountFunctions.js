@@ -30,6 +30,7 @@ module.exports = {
 		} else {
 			userID = req.user._id;
 		}
+
 		// Check to see if account is already added
 		Account.findOne({ socialID: page.id }, function(err, account) {
 			if (err) return handleError(err);

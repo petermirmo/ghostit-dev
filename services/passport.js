@@ -150,10 +150,10 @@ module.exports = function(passport) {
 						return done("Account already exists");
 					} else {
 						// Account does not exist
-						var user = req.session.passport.user; // pull the user out of the session
+						var user = req.user; // pull the user out of the session
 						let userID;
-						if (user) {
-							userID = user.id;
+						if (req.user.signedInAsUser.id) {
+							userID = req.user.signedInAsUser.id;
 						} else {
 							userID = req.user._id;
 						}
