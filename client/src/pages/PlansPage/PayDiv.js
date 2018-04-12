@@ -1,8 +1,14 @@
 import React, { Component } from "react";
+import axios from "axios";
 
+var plan;
 class ChargeCardForm extends Component {
 	constructor(props) {
 		super(props);
+		plan = this.props.plan;
+	}
+	componentWillReceiveProps(nextProps) {
+		plan = nextProps.plan;
 	}
 	componentDidMount() {
 		var stripe = window.Stripe("pk_test_C6VKqentibktzCQjTRZ9vOuY");
@@ -15,7 +21,6 @@ class ChargeCardForm extends Component {
 		var style = {
 			base: {
 				color: "#32325d",
-				lineHeight: "18px",
 				fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
 				fontSmoothing: "antialiased",
 				fontSize: "20px",
@@ -43,41 +48,42 @@ class ChargeCardForm extends Component {
 				displayError.textContent = "";
 			}
 		});
-		stripe.createToken(card).then(function(result) {
-			if (result.error) {
-				// Inform the user if there was an error.
-				var errorElement = document.getElementById("card-errors");
-				errorElement.textContent = result.error.message;
-			} else {
-				// Send the token to your server.
-				window.stripeTokenHandler(result.token);
-			}
+
+		// Create a token or display an error when the form is submitted.
+		var form = document.getElementById("payment-form");
+		form.addEventListener("submit", function(event) {
+			event.preventDefault();
+
+			stripe.createToken(card).then(function(result) {
+				if (result.error) {
+					// Inform the customer that there was an error.
+					var errorElement = document.getElementById("card-errors");
+					errorElement.textContent = result.error.message;
+				} else {
+					// Send the token to your server.
+					stripeTokenHandler(result.token, plan);
+				}
+			});
 		});
-	}
-	submit(event) {
-		event.preventDefault();
 	}
 
 	render() {
 		return (
-			<form action="/charge" method="post" id="payment-form">
+			<form action="/api/signUpToPlan" method="post" id="payment-form">
 				<div className="form-row">
 					<div id="card-element" />
 
 					<div id="card-errors" role="alert" />
 				</div>
 
-				<button
-					className="sign-up center"
-					onClick={event => {
-						event.preventDefault();
-						this.submit(event);
-					}}
-				>
-					Submit Payment
-				</button>
+				<button className="sign-up center">Submit Payment</button>
 			</form>
 		);
 	}
+}
+function stripeTokenHandler(stripeToken, plan) {
+	axios.post("/api/signUpToPlan", { stripeToken: stripeToken, plan: plan }).then(res => {
+		console.log(res);
+	});
 }
 export default ChargeCardForm;

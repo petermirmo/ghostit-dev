@@ -107,8 +107,8 @@ class PlanTable extends Component {
 
 					<div className="plan-row">
 						<p className="plan-row-label">E-books </p>
-						<button onClick={() => this.increment("eBooks", 1, 3)} className="fa fa-plus fa-2x plan-row-increment" />
-						<button onClick={() => this.increment("eBooks", -1, -3)} className="fa fa-minus fa-2x plan-row-increment" />
+						<button onClick={() => this.increment("eBooks", 1, 1)} className="fa fa-plus fa-2x plan-row-increment" />
+						<button onClick={() => this.increment("eBooks", -1, -1)} className="fa fa-minus fa-2x plan-row-increment" />
 						<h2 className="plan-row-value">{this.state.eBooks}</h2>
 					</div>
 
@@ -124,7 +124,7 @@ class PlanTable extends Component {
 
 					<div className="plan-row">
 						<h3 className="plan-row-label">Monthly Price </h3>
-						<h1 className="plan-row-value">{price}</h1>
+						<h1 className="plan-row-value">${price}</h1>
 					</div>
 				</div>
 				<div className="plan-footer">

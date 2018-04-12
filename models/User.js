@@ -13,7 +13,9 @@ const userSchema = new Schema({
 	website: String,
 	signedInAsUser: { id: String, fullName: String },
 	writer: { id: String, name: String },
-	plan: { id: String, name: String }
+	plan: { id: String, name: String },
+	stripeCustomerID: String,
+	stripeSubscriptionID: String
 });
 
 userSchema.methods.generateHash = function(password) {

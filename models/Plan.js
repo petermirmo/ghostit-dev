@@ -10,7 +10,9 @@ const PlanSchema = new Schema({
 	eBooks: Number,
 	name: String,
 	price: Number,
-	createdBy: String
+	createdBy: String,
+	stripePlanID: String,
+	currency: String
 });
 
 module.exports = mongoose.model("plans", PlanSchema);
