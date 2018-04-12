@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo")(session);
+const User = require("./models/User");
 
 var Schema = mongoose.Schema;
 var multer = require("multer");
