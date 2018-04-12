@@ -74,6 +74,7 @@ module.exports = function(passport) {
 								var newUser = new User();
 								newUser.role = "demo";
 								newUser.plan = { id: "none", name: "none" };
+								newUser.writer = { id: "none", name: "none" };
 								newUser.email = email;
 								newUser.password = newUser.generateHash(password);
 								newUser.fullName = req.body.fullName;
