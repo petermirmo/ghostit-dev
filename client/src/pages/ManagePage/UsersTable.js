@@ -50,7 +50,7 @@ class UsersTable extends Component {
 					if (users[index].role === "demo") {
 						demoUsers.push(users[index]);
 					} else if (users[index].role === "client") {
-						if (users[index].writer.id === "none") clientUsers.push(users[index]);
+						clientUsers.push(users[index]);
 					} else if (users[index].role === "manager") {
 						managerUsers.push(users[index]);
 					} else if (users[index].role === "admin") {
