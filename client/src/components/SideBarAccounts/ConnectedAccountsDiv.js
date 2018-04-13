@@ -47,7 +47,8 @@ class ConnectedAccountsList extends Component {
 			// Initialize
 			var account = accounts[index];
 			// Capitolize first and last name
-			var name = account.givenName.charAt(0).toUpperCase() + account.givenName.slice(1);
+			var name;
+			if (account.givenName) name = account.givenName.charAt(0).toUpperCase() + account.givenName.slice(1);
 			if (account.familyName) {
 				name += " " + account.familyName.charAt(0).toUpperCase() + account.familyName.slice(1);
 			}

@@ -46,6 +46,7 @@ class ConnectAccountsSideBar extends Component {
 	getUserAccounts() {
 		// Get all connected accounts of the user
 		axios.get("/api/accounts").then(res => {
+			console.log(res.data);
 			// Set user's accounts to state
 			this.setState({ accounts: res.data });
 		});

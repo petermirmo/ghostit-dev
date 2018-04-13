@@ -69,7 +69,7 @@ module.exports = {
 				Account.findOne({ socialID: linkedinProfile.id }, function(err, account) {
 					if (err) return done(err);
 					if (account) {
-						res.send(false);
+						res.send("Account already exists");
 					} else {
 						// Account does not exist
 						var user = req.user; // pull the user out of the session
