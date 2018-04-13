@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import Header from "../../components/Header/";
 import Calendar from "./CalendarComponent";
@@ -35,15 +36,22 @@ window.onclick = function(event) {
 };
 class Content extends Component {
 	state = {
-		padding: { paddingTop: "50px" }
+		padding: { paddingTop: "50px" },
+		usersTimezone: "America/Vancouver"
 	};
 	constructor(props) {
 		super(props);
 		this.increaseHeaderPadding = this.increaseHeaderPadding.bind(this);
+		this.getTimezone();
 	}
 	increaseHeaderPadding() {
 		this.setState({ padding: { paddingTop: "70px" } });
 	}
+	getTimezone = () => {
+		axios.get("/api/timezone").then(res => {
+			this.setState({ usersTimezone: res.data });
+		});
+	};
 	render() {
 		return (
 			<div id="wrapper" style={this.state.padding}>
@@ -52,11 +60,10 @@ class Content extends Component {
 				<Header activePage="content" updateParentState={this.increaseHeaderPadding} />
 
 				<div id="main">
-					<Calendar />
+					<Calendar usersTimezone={this.state.usersTimezone} />
 				</div>
 			</div>
 		);
 	}
 }
-
 export default Content;

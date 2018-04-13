@@ -38,8 +38,6 @@ module.exports = {
 		newPost.socialType = post.socialType;
 		newPost.status = post.status;
 		newPost.color = post.color;
-		console.log(post);
-		console.log(newPost);
 
 		newPost.save().then(result => res.send(result));
 	},

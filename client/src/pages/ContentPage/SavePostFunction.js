@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment-timezone";
 
 export default function savePost(
 	link,
@@ -7,7 +8,8 @@ export default function savePost(
 	linkPreviewCanShow,
 	activeTab,
 	accountType,
-	updateCalendarPosts
+	updateCalendarPosts,
+	usersTimezone
 ) {
 	// Get content of post
 	var content = document.getElementById("contentPostingTextarea").value;
@@ -34,10 +36,14 @@ export default function savePost(
 	if (linkPreviewCanShow) {
 		carousel = document.getElementById("linkCarousel");
 	}
-	// Make sure that the date is not in the past
-	var currentDate = new Date();
 
-	if (postingDate < currentDate) {
+	var dateToPostInUtcTime = switchDateToUsersTimezoneInUtcForm(postingDate, usersTimezone);
+
+	var currentUtcDate = moment()
+		.utcOffset(0)
+		.format();
+	// Make sure that the date is not in the past
+	if (currentUtcDate > dateToPostInUtcTime) {
 		alert("Time travel is not yet possible! Please select a date in the future not in the past!");
 		return;
 	}
@@ -80,7 +86,7 @@ export default function savePost(
 		.post("/api/post", {
 			accountID: accountIdToPostTo,
 			content: content,
-			postingDate: postingDate,
+			postingDate: dateToPostInUtcTime,
 			link: link,
 			linkImage: linkPreviewImage,
 			accountType: accountType,
@@ -115,4 +121,21 @@ export default function savePost(
 				updateCalendarPosts();
 			}
 		});
+}
+function switchDateToUsersTimezoneInUtcForm(postingDate, zone) {
+	var format = "YYYY/MM/DD HH:mm:ss ZZ";
+
+	var postingDateUtcOffset = postingDate.getTimezoneOffset();
+	var userTimezoneUtcOffset = -moment(postingDate)
+		.tz(zone)
+		.utcOffset();
+
+	var minutesToAdd = userTimezoneUtcOffset - postingDateUtcOffset;
+
+	var finalDate = moment(postingDate, format)
+		.add(minutesToAdd, "minutes")
+		.utcOffset(0)
+		.format();
+
+	return finalDate;
 }

@@ -17,12 +17,9 @@ const muiTheme = getMuiTheme({
 });
 
 class TimePickerComponent extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			controlledTime: this.props.timeForPost
-		};
-	}
+	state = {
+		controlledTime: this.props.timeForPost
+	};
 
 	handleChange = (event, time) => {
 		this.setState({

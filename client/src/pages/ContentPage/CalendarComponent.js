@@ -176,6 +176,7 @@ class Calendar extends Component {
 					clickedCalendarDate={this.state.clickedDate}
 					timeForPost={new Date()}
 					updateCalendarPosts={this.getPosts}
+					usersTimezone={this.props.usersTimezone}
 				/>
 				<EdittingModal ref="refEditModal" updateCalendarPosts={this.getPosts} />
 				<BlogEdittingModal ref="refEditBlogModal" updateCalendarPosts={this.getBlogs} />

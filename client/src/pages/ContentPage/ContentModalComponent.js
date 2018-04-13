@@ -166,7 +166,8 @@ class Modal extends Component {
 									this.state.linkPreviewCanShow,
 									this.state.activeTab,
 									this.state.accountType,
-									this.props.updateCalendarPosts
+									this.props.updateCalendarPosts,
+									this.props.usersTimezone
 								)
 							}
 						>
