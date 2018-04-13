@@ -36,6 +36,7 @@ class PlanForm extends Component {
 		let planAttributes = [];
 		let attributes = this.state.plan;
 		for (let index in attributes) {
+			// Make sure it does not exist in array
 			if (nonEditablePlanFields.indexOf(index) === -1) {
 				let attribute = [];
 				// Check if it is an object (if it is we need to loop through each attribute)

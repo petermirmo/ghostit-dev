@@ -5,6 +5,7 @@ import moment from "moment-timezone";
 import ManageColumn from "../../components/SearchColumn/";
 import ObjectEditTable from "../../components/ObjectEditTable/";
 import NavigationBar from "../../components/NavigationBar/";
+import * as PlanConstants from "../../Constants/UserConstants";
 
 class UsersTable extends Component {
 	state = {
@@ -140,6 +141,7 @@ class UsersTable extends Component {
 	saveUser(user) {
 		axios.post("/api/updateUser", user).then(res => {
 			if (res.data) {
+				alert("success");
 				this.getUsers();
 			} else {
 				alert(
@@ -153,12 +155,13 @@ class UsersTable extends Component {
 	}
 	render() {
 		let array = [];
+		const { nonEditableUserFields } = PlanConstants;
 
 		for (let index in this.state.clickedUser) {
 			let canEdit = true;
 			let dropdown = false;
 			let dropdownList;
-			if (index === "password" || index === "__v" || index === "_id") {
+			if (nonEditableUserFields.indexOf(index) !== -1) {
 				canEdit = false;
 			} else if (index === "role" || index === "timezone" || index === "writer" || index === "plan") {
 				dropdown = true;
