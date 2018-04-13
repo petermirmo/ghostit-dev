@@ -155,7 +155,7 @@ class UsersTable extends Component {
 	}
 	render() {
 		let array = [];
-		const { nonEditableUserFields } = PlanConstants;
+		const { nonEditableUserFields, canShowUserFields } = PlanConstants;
 
 		for (let index in this.state.clickedUser) {
 			let canEdit = true;
@@ -188,7 +188,7 @@ class UsersTable extends Component {
 				}
 			}
 
-			if (index !== "signedInAsUser") {
+			if (canShowUserFields.indexOf(index) === -1) {
 				array.push({
 					canEdit: canEdit,
 					value:
