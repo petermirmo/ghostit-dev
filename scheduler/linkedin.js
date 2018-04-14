@@ -68,7 +68,7 @@ module.exports = {
 					linkedinPost.content = linkedinLink;
 				}
 				if (post.images) {
-					linkedinLink["submitted-image-url"] = post.image[0];
+					linkedinLink["submitted-image-url"] = post.images[0];
 					linkedinPost.content = linkedinLink;
 				}
 				linkedinPost.visibility = { code: "anyone" };
