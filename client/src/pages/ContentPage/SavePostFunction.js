@@ -115,10 +115,12 @@ export default function savePost(
 				axios.post("/api/post/images", formData).then(res => {
 					document.getElementById("postingModal").style.display = "none";
 					updateCalendarPosts();
+					document.getElementById("contentPostingTextarea").value = "";
 				});
 			} else {
 				document.getElementById("postingModal").style.display = "none";
 				updateCalendarPosts();
+				document.getElementById("contentPostingTextarea").value = "";
 			}
 		});
 }
