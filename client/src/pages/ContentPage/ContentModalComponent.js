@@ -87,6 +87,13 @@ class Modal extends Component {
 	setPostImages(imagesArray) {
 		this.setState({ postImages: imagesArray });
 	}
+	savePostCallback = () => {
+		this.setState({
+			linkImagesArray: [],
+			link: "",
+			postImages: []
+		});
+	};
 
 	render() {
 		var modalBody;
@@ -167,7 +174,8 @@ class Modal extends Component {
 									this.state.activeTab,
 									this.state.accountType,
 									this.props.updateCalendarPosts,
-									this.props.usersTimezone
+									this.props.usersTimezone,
+									this.savePostCallback
 								)
 							}
 						>

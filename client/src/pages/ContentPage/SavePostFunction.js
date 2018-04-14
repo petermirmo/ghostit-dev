@@ -9,7 +9,8 @@ export default function savePost(
 	activeTab,
 	accountType,
 	updateCalendarPosts,
-	usersTimezone
+	usersTimezone,
+	callback
 ) {
 	// Get content of post
 	var content = document.getElementById("contentPostingTextarea").value;
@@ -116,11 +117,13 @@ export default function savePost(
 					document.getElementById("postingModal").style.display = "none";
 					updateCalendarPosts();
 					document.getElementById("contentPostingTextarea").value = "";
+					callback();
 				});
 			} else {
 				document.getElementById("postingModal").style.display = "none";
 				updateCalendarPosts();
 				document.getElementById("contentPostingTextarea").value = "";
+				callback();
 			}
 		});
 }
