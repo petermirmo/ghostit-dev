@@ -39,21 +39,24 @@ class ConnectedAccountsList extends Component {
 	}
 	render() {
 		// Initialize
-		var accounts = this.props.accounts;
-		var connectedFacebookAccounts = [];
-		var connectedTwitterAccounts = [];
-		var connectedLinkedinAccounts = [];
-		var connectedAccountsHeader;
-		var connectedAccountsFooter;
+		let accounts = this.props.accounts;
+		let connectedFacebookAccounts = [];
+		let connectedTwitterAccounts = [];
+		let connectedLinkedinAccounts = [];
+		let connectedAccountsHeader;
+		let connectedAccountsFooter;
 
-		for (var index in accounts) {
+		for (let index in accounts) {
 			// Initialize
-			var account = accounts[index];
+			let account = accounts[index];
 			// Capitolize first and last name
-			var name;
+			let name;
 			if (account.givenName) name = account.givenName.charAt(0).toUpperCase() + account.givenName.slice(1);
 			if (account.familyName) {
 				name += " " + account.familyName.charAt(0).toUpperCase() + account.familyName.slice(1);
+			}
+			if (!name) {
+				name = account.username;
 			}
 			// Header for connected accounts
 			connectedAccountsHeader = (
