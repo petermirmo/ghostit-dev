@@ -110,26 +110,18 @@ module.exports = function(passport) {
 				} else {
 					userID = req.user._id;
 				}
-				// Check if account exists
-				Account.findOne({ socialID: profile.id }, function(err, account) {
-					if (err) return done(err);
-					if (account) {
-						return done("Account already exists");
-					} else {
-						// Account does not exist
-						var newAccount = new Account();
-						newAccount.userID = userID;
-						newAccount.socialType = "facebook";
-						newAccount.accountType = "profile";
-						newAccount.accessToken = accessToken;
-						newAccount.socialID = profile.id;
-						newAccount.givenName = profile._json.first_name;
-						newAccount.familyName = profile._json.last_name;
-						newAccount.email = profile._json.email;
-						newAccount.provider = profile.provider;
-						newAccount.save().then(account => done(null, req.session.passport.user));
-					}
-				});
+
+				var newAccount = new Account();
+				newAccount.userID = userID;
+				newAccount.socialType = "facebook";
+				newAccount.accountType = "profile";
+				newAccount.accessToken = accessToken;
+				newAccount.socialID = profile.id;
+				newAccount.givenName = profile._json.first_name;
+				newAccount.familyName = profile._json.last_name;
+				newAccount.email = profile._json.email;
+				newAccount.provider = profile.provider;
+				newAccount.save().then(account => done(null, req.session.passport.user));
 			}
 		)
 	);
@@ -144,49 +136,41 @@ module.exports = function(passport) {
 				passReqToCallback: true
 			},
 			function(req, token, tokenSecret, profile, done) {
-				// Check if account exists
-				Account.findOne({ socialID: profile.id }, function(err, account) {
-					if (err) return done(err);
-					if (account) {
-						return done("Account already exists");
-					} else {
-						// Account does not exist
-						var user = req.user; // pull the user out of the session
-						let userID;
-						if (req.user.signedInAsUser.id) {
-							userID = req.user.signedInAsUser.id;
-						} else {
-							userID = req.user._id;
-						}
-						var newAccount = new Account();
+				// Account does not exist
+				var user = req.user; // pull the user out of the session
+				let userID;
+				if (req.user.signedInAsUser.id) {
+					userID = req.user.signedInAsUser.id;
+				} else {
+					userID = req.user._id;
+				}
+				var newAccount = new Account();
 
-						// Split displayName into first name and last name
-						var givenName;
-						var familyName;
-						for (var index in profile.displayName) {
-							if (profile.displayName[index] === " ") {
-								givenName = profile.displayName.slice(0, index);
-								familyName = profile.displayName.slice(index, profile.displayName.length);
-							}
-						}
-
-						newAccount.userID = userID;
-						newAccount.socialType = "twitter";
-						newAccount.accountType = "profile";
-						newAccount.accessToken = token;
-						newAccount.tokenSecret = tokenSecret;
-						newAccount.socialID = profile.id;
-						newAccount.username = profile.username;
-						newAccount.givenName = givenName;
-						newAccount.familyName = familyName;
-						newAccount.email = profile.email;
-
-						newAccount.save(function(err) {
-							if (err) return done(err);
-
-							return done(null, user);
-						});
+				// Split displayName into first name and last name
+				var givenName;
+				var familyName;
+				for (var index in profile.displayName) {
+					if (profile.displayName[index] === " ") {
+						givenName = profile.displayName.slice(0, index);
+						familyName = profile.displayName.slice(index, profile.displayName.length);
 					}
+				}
+
+				newAccount.userID = userID;
+				newAccount.socialType = "twitter";
+				newAccount.accountType = "profile";
+				newAccount.accessToken = token;
+				newAccount.tokenSecret = tokenSecret;
+				newAccount.socialID = profile.id;
+				newAccount.username = profile.username;
+				newAccount.givenName = givenName;
+				newAccount.familyName = familyName;
+				newAccount.email = profile.email;
+
+				newAccount.save(function(err) {
+					if (err) return done(err);
+
+					return done(null, user);
 				});
 			}
 		)

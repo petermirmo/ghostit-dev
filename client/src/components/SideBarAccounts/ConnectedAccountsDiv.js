@@ -16,9 +16,6 @@ class ConnectedAccountsList extends Component {
 		if (account.familyName) name += " " + account.familyName;
 
 		var message = "Are you sure you want to disconnect " + name + "?";
-		if (account.accountType === "profile") {
-			message += " Disconnecting a profile account will also disconnect all groups and pages.";
-		}
 
 		confirmAlert({
 			title: "Disconnect Account", // Title dialog

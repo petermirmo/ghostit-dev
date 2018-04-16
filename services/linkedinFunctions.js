@@ -65,36 +65,28 @@ module.exports = {
 				if (err) res.send(false);
 				var linkedinProfile = $in;
 
-				// Make sure account is not added already
-				Account.findOne({ socialID: linkedinProfile.id }, function(err, account) {
-					if (err) return done(err);
-					if (account) {
-						res.send("Account already exists");
-					} else {
-						// Account does not exist
-						var user = req.user; // pull the user out of the session
-						var newAccount = new Account();
-						let userID;
-						if (req.user.signedInAsUser.id) {
-							userID = req.user.signedInAsUser.id;
-						} else {
-							userID = req.user._id;
-						}
-						newAccount.userID = userID;
-						newAccount.socialType = "linkedin";
-						newAccount.accountType = "profile";
-						newAccount.accessToken = accessToken;
-						newAccount.socialID = linkedinProfile.id;
-						newAccount.givenName = linkedinProfile.firstName;
-						newAccount.familyName = linkedinProfile.lastName;
-						newAccount.email = linkedinProfile.emailAddress;
+				// pull the user out of the session
+				var user = req.user;
+				var newAccount = new Account();
+				let userID;
+				if (req.user.signedInAsUser.id) {
+					userID = req.user.signedInAsUser.id;
+				} else {
+					userID = req.user._id;
+				}
+				newAccount.userID = userID;
+				newAccount.socialType = "linkedin";
+				newAccount.accountType = "profile";
+				newAccount.accessToken = accessToken;
+				newAccount.socialID = linkedinProfile.id;
+				newAccount.givenName = linkedinProfile.firstName;
+				newAccount.familyName = linkedinProfile.lastName;
+				newAccount.email = linkedinProfile.emailAddress;
 
-						newAccount.save(function(err) {
-							if (err) res.send(false);
+				newAccount.save(function(err) {
+					if (err) res.send(false);
 
-							res.redirect("/content");
-						});
-					}
+					res.redirect("/content");
 				});
 			});
 		});
