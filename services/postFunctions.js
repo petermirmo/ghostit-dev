@@ -3,6 +3,7 @@ var cheerio = require("cheerio");
 var fs = require("fs");
 
 const Post = require("../models/Post");
+const User = require("../models/User");
 var cloudinary = require("cloudinary");
 
 module.exports = {
@@ -49,6 +50,8 @@ module.exports = {
 		} else {
 			userID = req.user._id;
 		}
+		//Post.findOne({ _id: "5ad206819225d4001440bbbb" }, function(err, posts) {
+
 		Post.find({ userID: userID }, function(err, posts) {
 			if (err) res.send(err);
 			res.send(posts);

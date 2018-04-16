@@ -114,13 +114,11 @@ export default function savePost(
 				}
 				// Make post request for images
 				axios.post("/api/post/images", formData).then(res => {
-					document.getElementById("postingModal").style.display = "none";
 					updateCalendarPosts();
 					document.getElementById("contentPostingTextarea").value = "";
 					callback();
 				});
 			} else {
-				document.getElementById("postingModal").style.display = "none";
 				updateCalendarPosts();
 				document.getElementById("contentPostingTextarea").value = "";
 				callback();
