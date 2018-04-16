@@ -93,10 +93,10 @@ function savePostError(postID, error) {
 		});
 	});
 }
-function savePostSuccessfully(postID, fbPostID) {
+function savePostSuccessfully(postID, linkedinPostID) {
 	Post.findOne({ _id: postID }, function(err, result) {
 		result.status = "posted";
-		result.socialMediaID = fbPostID;
+		result.socialMediaID = linkedinPostID;
 		result.save().then(response => {
 			return;
 		});

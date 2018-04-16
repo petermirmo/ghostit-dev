@@ -36,7 +36,7 @@ function uploadImage(mediaListID, i, client, post) {
 	// and store the media_id in the mediaListID string
 	if (post.images[i]) {
 		// Download image from url
-		request.get(post.images[i].imageURL, function(err, res, body) {
+		request.get(post.images[i].url, function(err, res, body) {
 			// Upload image to Twitter
 			client.post("media/upload", { media: body }, function(error, media, response) {
 				if (error || media.media_id === undefined) {

@@ -259,7 +259,7 @@ class EdittingModal extends Component {
 		var canEditLinkPreview;
 		var textareaDiv;
 		var dateEdittingDisabled;
-		if (this.state.status === "pending") {
+		if (this.state.status === "pending" || this.state.status === "error") {
 			canEditLinkPreview = this.canEditLinkPreview(this.state.activeTab);
 			textareaDiv = (
 				<textarea
@@ -303,7 +303,7 @@ class EdittingModal extends Component {
 			date = new Date(this.state.postingDate);
 		}
 
-		var canDeleteImage = this.state.status === "pending";
+		var canDeleteImage = this.state.status === "pending" || this.state.status === "error";
 		modalBody = (
 			<div className="modal-body">
 				{textareaDiv}
@@ -321,7 +321,7 @@ class EdittingModal extends Component {
 				{this.state.status && <button onClick={() => this.savePost()}>Save Post</button>}
 			</div>
 		);
-		if (this.state.status === "pending") {
+		if (this.state.status === "pending" || this.state.status === "error") {
 			modalFooter = (
 				<div className="modal-footer">
 					<button onClick={this.deletePostPopUp} className="fa fa-trash fa-2x delete" />

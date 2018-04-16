@@ -34,7 +34,7 @@ module.exports = {
 		}
 	},
 	getClients: function(req, res) {
-		if (req.user.role === "admin") {
+		if (req.user.role === "admin" || req.user.role === "manager") {
 			User.find({ role: "client" }, function(err, users) {
 				if (err) {
 					handleError(res, err);
@@ -42,7 +42,8 @@ module.exports = {
 					res.send(users);
 				}
 			});
-		} else if (req.user.role === "manager") {
+		} else {
+			/*else if (req.user.role === "manager") {
 			User.find({ "writer.id": req.user._id }, function(err, users) {
 				if (err) {
 					handleError(res, err);
@@ -50,8 +51,10 @@ module.exports = {
 					res.send(users);
 				}
 			});
-		} else {
-			handleError(res, "Hacker Alert!");
+		} */ handleError(
+				res,
+				"Hacker Alert!"
+			);
 		}
 	},
 	signInAsUser: function(req, res) {
