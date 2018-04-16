@@ -12,7 +12,10 @@ class ConnectedAccountsList extends Component {
 	confirmDelete(event) {
 		// ID of event.target is the index in the props account array
 		var account = this.props.accounts[event.target.id];
-		var message = "Are you sure you want to disconnect " + account.givenName + "?";
+		let name = account.socialType + " " + account.accountType + " " + account.givenName;
+		if (account.familyName) name += " " + account.familyName;
+
+		var message = "Are you sure you want to disconnect " + name + "?";
 		if (account.accountType === "profile") {
 			message += " Disconnecting a profile account will also disconnect all groups and pages.";
 		}
@@ -107,7 +110,7 @@ class ConnectedAccountsList extends Component {
 						<p>
 							{account.accountType.charAt(0).toUpperCase() + account.accountType.slice(1)}
 							<button
-								id={connectedFacebookAccounts.length}
+								id={index}
 								className="fa fa-trash"
 								style={{
 									float: "right",
@@ -122,7 +125,7 @@ class ConnectedAccountsList extends Component {
 			} else if (account.socialType === "linkedin") {
 				connectedLinkedinAccounts.push(
 					<div
-						key={connectedLinkedinAccounts.length}
+						key={index}
 						className="connected-social-div center"
 						style={{
 							borderLeft: "4px solid #0077b5",

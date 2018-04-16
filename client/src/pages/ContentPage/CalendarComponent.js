@@ -45,7 +45,7 @@ class Calendar extends Component {
 			for (var index in blogs) {
 				blogEvents.push(this.convertBlogToCalendarEvent(blogs[index]));
 			}
-			this.setState({ websitePosts: blogEvents, blogEdittingModal: false });
+			this.setState({ websitePosts: blogEvents, blogEdittingModal: false, contentModal: false });
 		});
 	}
 	convertBlogToCalendarEvent(blog) {

@@ -318,12 +318,12 @@ class EdittingModal extends Component {
 				{carousel}
 				<DatePicker clickedCalendarDate={date} id="edittingDatePickerPopUp" canEdit={dateEdittingDisabled} />
 				<TimePicker timeForPost={date} id="edittingTimePickerPopUp" canEdit={dateEdittingDisabled} />
+				{this.state.status && <button onClick={() => this.savePost()}>Save Post</button>}
 			</div>
 		);
 		if (this.state.status === "pending") {
 			modalFooter = (
 				<div className="modal-footer">
-					<button onClick={() => this.savePost()}>Save Post</button>
 					<button onClick={this.deletePostPopUp} className="fa fa-trash fa-2x delete" />
 				</div>
 			);
