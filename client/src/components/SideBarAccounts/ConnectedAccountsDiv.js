@@ -55,7 +55,7 @@ class ConnectedAccountsList extends Component {
 			if (account.familyName) {
 				name += " " + account.familyName.charAt(0).toUpperCase() + account.familyName.slice(1);
 			}
-			if (!name) {
+			if (account.username !== "" && account.username) {
 				name = account.username;
 			}
 			// Header for connected accounts
@@ -139,7 +139,7 @@ class ConnectedAccountsList extends Component {
 						<p>
 							{account.accountType.charAt(0).toUpperCase() + account.accountType.slice(1)}
 							<button
-								id={connectedLinkedinAccounts.length}
+								id={index}
 								className="fa fa-trash"
 								style={{
 									float: "right",
