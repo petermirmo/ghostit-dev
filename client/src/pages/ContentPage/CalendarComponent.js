@@ -23,7 +23,10 @@ class Calendar extends Component {
 		linkedinPosts: [],
 		websitePosts: [],
 		emailNewsletterPosts: [],
-		clickedDate: new Date()
+		clickedDate: new Date(),
+		blogEdittingModal: false,
+		contentModal: false,
+		postEdittingModal: false
 	};
 	constructor(props) {
 		super(props);
@@ -42,7 +45,7 @@ class Calendar extends Component {
 			for (var index in blogs) {
 				blogEvents.push(this.convertBlogToCalendarEvent(blogs[index]));
 			}
-			this.setState({ websitePosts: blogEvents });
+			this.setState({ websitePosts: blogEvents, blogEdittingModal: false });
 		});
 	}
 	convertBlogToCalendarEvent(blog) {
@@ -78,7 +81,9 @@ class Calendar extends Component {
 			this.setState({
 				facebookPosts: facebookPosts,
 				twitterPosts: twitterPosts,
-				linkedinPosts: linkedinPosts
+				linkedinPosts: linkedinPosts,
+				postEdittingModal: false,
+				contentModal: false
 			});
 		});
 	}
@@ -105,19 +110,14 @@ class Calendar extends Component {
 	openModal(slotinfo) {
 		// Date for post is set to date clicked on calendar
 		// Time for post is set to current time
-		this.setState({ clickedDate: slotinfo.start });
-
-		// Open modal
-		document.getElementById("postingModal").style.display = "block";
+		this.setState({ clickedDate: slotinfo.start, contentModal: true });
 	}
 	editPost(clickedCalendarEvent) {
 		// Open editting modal
 		if (clickedCalendarEvent.socialType === "blog") {
-			document.getElementById("BlogEdittingModal").style.display = "block";
-			this.refs.refEditBlogModal.initialize(clickedCalendarEvent);
+			this.setState({ blogEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
 		} else {
-			document.getElementById("edittingModal").style.display = "block";
-			this.refs.refEditModal.initialize(clickedCalendarEvent);
+			this.setState({ postEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
 		}
 	}
 	eventStyleGetter(event, start, end, isSelected) {
@@ -129,6 +129,9 @@ class Calendar extends Component {
 			style: style
 		};
 	}
+	closeModal = modal => {
+		this.setState({ [modal]: false });
+	};
 	render() {
 		var events = [];
 		if (facebookNavBarGlobal || allNavBarGlobal) {
@@ -169,17 +172,32 @@ class Calendar extends Component {
 				eventPropGetter={this.eventStyleGetter}
 			/>
 		);
-
 		return (
 			<div>
-				<ContentModal
-					clickedCalendarDate={this.state.clickedDate}
-					timeForPost={new Date()}
-					updateCalendarPosts={this.getPosts}
-					usersTimezone={this.props.usersTimezone}
-				/>
-				<EdittingModal ref="refEditModal" updateCalendarPosts={this.getPosts} />
-				<BlogEdittingModal ref="refEditBlogModal" updateCalendarPosts={this.getBlogs} />
+				{this.state.contentModal && (
+					<ContentModal
+						clickedCalendarDate={this.state.clickedDate}
+						timeForPost={new Date()}
+						updateCalendarPosts={this.getPosts}
+						usersTimezone={this.props.usersTimezone}
+						updateCalendarBlogs={this.getBlogs}
+						close={this.closeModal}
+					/>
+				)}
+				{this.state.postEdittingModal && (
+					<EdittingModal
+						updateCalendarPosts={this.getPosts}
+						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						close={this.closeModal}
+					/>
+				)}
+				{this.state.blogEdittingModal && (
+					<BlogEdittingModal
+						updateCalendarBlogs={this.getBlogs}
+						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						close={this.closeModal}
+					/>
+				)}
 				<ul>
 					<li
 						onClick={() => {

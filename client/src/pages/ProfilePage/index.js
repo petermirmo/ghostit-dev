@@ -10,8 +10,7 @@ class Content extends Component {
 			fullName: "",
 			email: "",
 			website: "",
-			password: "",
-			timezone: ""
+			password: ""
 		}
 	};
 	constructor(props) {
@@ -22,7 +21,6 @@ class Content extends Component {
 			document.getElementById("fullNameProfileInput").value = res.data.fullName;
 			document.getElementById("emailProfileInput").value = res.data.email;
 			document.getElementById("websiteProfileInput").value = res.data.website;
-			document.getElementById("timezoneProfileInput").value = res.data.timezone;
 			document.getElementById("passwordProfileInput").value = null;
 		});
 	}
@@ -64,13 +62,7 @@ class Content extends Component {
 								autoComplete="new-password"
 								required
 							/>
-							<input
-								id="timezoneProfileInput"
-								name="timezone"
-								placeholder="Timezone"
-								className="profile-input center"
-								autoComplete="new-password"
-							/>
+
 							<input
 								id="passwordProfileInput"
 								type="password"

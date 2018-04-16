@@ -6,6 +6,10 @@ import DatePicker from "./DatePickerComponent.js";
 import TimePicker from "./TimePickerComponent.js";
 import Carousel from "./Carousel.js";
 import ImagesDiv from "./ImagesDiv.js";
+
+import Notification from "../../components/Notification";
+import ConfirmAlert from "../../components/ConfirmAlert";
+
 import "../../css/modal.css";
 
 class EdittingModal extends Component {
@@ -20,7 +24,8 @@ class EdittingModal extends Component {
 		postingToAccountID: "",
 		postingDate: undefined,
 		imagesToDelete: [],
-		status: ""
+		status: "",
+		notification: {}
 	};
 
 	constructor(props) {
@@ -29,6 +34,9 @@ class EdittingModal extends Component {
 		this.linkPreviewSetState = this.linkPreviewSetState.bind(this);
 		this.setPostImages = this.setPostImages.bind(this);
 		this.pushToImageDeleteArray = this.pushToImageDeleteArray.bind(this);
+	}
+	componentDidMount() {
+		this.initialize(this.props.clickedCalendarEvent);
 	}
 	initialize(post) {
 		// Initialize textarea text
@@ -211,7 +219,6 @@ class EdittingModal extends Component {
 			});
 	}
 	finishSave() {
-		document.getElementById("edittingModal").style.display = "none";
 		this.props.updateCalendarPosts();
 	}
 	linkPreviewSetState(link, imagesArray) {
@@ -225,6 +232,27 @@ class EdittingModal extends Component {
 		imagesToDeleteArray.push(image);
 		this.setState({ imagesToDelete: imagesToDeleteArray });
 	}
+	deletePostPopUp = () => {
+		this.setState({ deletePost: true });
+	};
+	deletePost = deletePost => {
+		this.setState({ deletePost: false });
+		if (!this.state.postID) {
+			alert("Error cannot find post. Please contact our dev team immediately");
+			return;
+		}
+		if (deletePost) {
+			axios.delete("/api/post/delete/" + this.state.postID).then(res => {
+				if (res.data) {
+					this.props.updateCalendarPosts();
+				} else {
+					this.setState({
+						notification: { on: true, notificationType: "danger", title: "Something went wrong", message: "" }
+					});
+				}
+			});
+		}
+	};
 
 	render() {
 		// Determine if post can be editted or not
@@ -296,13 +324,34 @@ class EdittingModal extends Component {
 			modalFooter = (
 				<div className="modal-footer">
 					<button onClick={() => this.savePost()}>Save Post</button>
+					<button onClick={this.deletePostPopUp} className="fa fa-trash fa-2x delete" />
 				</div>
 			);
 		}
 
 		return (
 			<div id="edittingModal" className="modal">
+				{this.state.notification.on && (
+					<Notification
+						notificationType={this.state.notification.notificationType}
+						title={this.state.notification.title}
+						message={this.state.notification.message}
+						callback={this.hideNotification}
+					/>
+				)}
+				{this.state.deletePost && (
+					<ConfirmAlert
+						title="Delete Post"
+						message="Are you sure you want to delete this post?"
+						callback={this.deletePost}
+					/>
+				)}
 				<div className="modal-content" style={{ textAlign: "center" }}>
+					<div className="modal-header">
+						<span className="close-dark" onClick={() => this.props.close("postEdittingModal")}>
+							&times;
+						</span>
+					</div>
 					{modalBody}
 					{modalFooter}
 				</div>

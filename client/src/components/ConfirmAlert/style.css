@@ -1,0 +1,34 @@
+.confirm-alert-background {
+	background-color: rgba(0, 0, 0, 0.2); /* Black w/ opacity */
+	width: 100%;
+	height: 100%;
+	z-index: 10001;
+	position: fixed;
+	top: 0;
+}
+.confirm-alert {
+	padding: 20px;
+	color: var(--black-theme-color);
+	width: 20%;
+	top: 40%;
+	right: 40%;
+	z-index: 10000;
+	position: fixed;
+	border-radius: 4px;
+	background-color: var(--white-theme-color);
+}
+.confirm-message {
+	display: block;
+}
+.confirm-button {
+	width: 40%;
+	margin-top: 10px;
+	float: left;
+	background-color: var(--red-theme-color);
+}
+.cancel-button {
+	width: 40%;
+	margin-top: 10px;
+	float: right;
+	background-color: var(--blue-theme-color);
+}

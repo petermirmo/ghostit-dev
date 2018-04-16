@@ -262,3 +262,8 @@
 .right-switch {
 	border-radius: 0 20px 20px 0;
 }
+.delete {
+	float: right;
+	color: var(--red-theme-color);
+	background-color: var(--white-theme-color);
+}

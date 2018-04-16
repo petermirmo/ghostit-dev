@@ -11,7 +11,8 @@ class ConnectAccountsSideBar extends Component {
 		pageOrGroup: [],
 		accountType: "",
 		socialType: "",
-		errorMessage: ""
+		errorMessage: "",
+		addPageOrGroupModal: false
 	};
 	constructor(props) {
 		super(props);
@@ -27,9 +28,7 @@ class ConnectAccountsSideBar extends Component {
 
 	openModal(socialType, accountType) {
 		// Open facebook add page modal
-		var modal = document.getElementById("addPagesOrGroupsModal");
-		modal.style.display = "block";
-
+		this.setState({ addPageOrGroupModal: true });
 		if (socialType === "facebook") {
 			if (accountType === "page") {
 				this.getFacebookPages();
@@ -127,19 +126,25 @@ class ConnectAccountsSideBar extends Component {
 			});
 		});
 	}
+	close = () => {
+		this.setState({ addPageOrGroupModal: false });
+	};
 	render() {
 		// Initialize
 		var accounts = this.state.accounts;
 
 		return (
 			<div className="side-bar animate-left" style={{ display: "none" }} id="mySidebar">
-				<AddPageOrGroupModal
-					getUserAccounts={this.getUserAccounts}
-					pageOrGroup={this.state.pageOrGroup}
-					accountType={this.state.accountType}
-					socialType={this.state.socialType}
-					errorMessage={this.state.errorMessage}
-				/>
+				{this.state.addPageOrGroupModal && (
+					<AddPageOrGroupModal
+						getUserAccounts={this.getUserAccounts}
+						pageOrGroup={this.state.pageOrGroup}
+						accountType={this.state.accountType}
+						socialType={this.state.socialType}
+						errorMessage={this.state.errorMessage}
+						close={this.close}
+					/>
+				)}
 
 				<span className="close-dark" onClick={() => this.closeSideBar()}>
 					&times;

@@ -124,8 +124,10 @@ module.exports = app => {
 	app.get("/api/posts", (req, res) => postFunctions.getPosts(req, res));
 	// Get post
 	app.get("/api/post/:postID", (req, res) => postFunctions.getPost(req, res));
-	// update post
+	// Update post
 	app.post("/api/post/update/:postID", (req, res) => postFunctions.updatePost(req, res));
+	// Delete post
+	app.delete("/api/post/delete/:postID", (req, res) => postFunctions.deletePost(req, res));
 	// Save post images
 	app.post("/api/post/images", fileParser, async (req, res) => postFunctions.uploadPostImages(req, res));
 	// Delete post images
@@ -135,11 +137,13 @@ module.exports = app => {
 	app.post("/api/blog", fileParser, async (req, res) => blogFunctions.saveBlog(req, res));
 	// Update blog
 	app.post("/api/blog/:blogID", fileParser, async (req, res) => blogFunctions.saveBlog(req, res));
+	// Delete blog
+	app.delete("/api/blog/delete/:blogID", (req, res) => blogFunctions.deleteBlog(req, res));
 	// Get all placeholder blogs
 	app.get("/api/blogs", (req, res) => blogFunctions.getBlogs(req, res));
 
 	// Delete file in cloudinary using pulbic id
-	app.get("/api/delete/file/:publicID", (req, res) => generalFunctions.deleteFile(req, res));
+	app.delete("/api/delete/file/:publicID", (req, res) => generalFunctions.deleteFile(req, res));
 
 	// Create or update user's strategy
 	app.post("/api/strategy", (req, res) => strategyFunctions.saveStrategy(req, res));

@@ -31,6 +31,16 @@ module.exports = {
 				newBlog = new Blog();
 			}
 			if (req.files.image !== undefined) {
+				if (newBlog.image.publicID) {
+					await cloudinary.uploader.destroy(newBlog.image.publicID, function(error) {
+						// TO DO: handle error here
+						if (error) {
+							console.log(error);
+							res.send(false);
+							return;
+						}
+					});
+				}
 				await cloudinary.v2.uploader.upload(req.files.image.path, function(error, result) {
 					if (error) {
 						console.log(error);
@@ -42,12 +52,16 @@ module.exports = {
 			}
 			if (req.files.blogFile !== undefined) {
 				// Delete old wordDoc
-				if (newBlog.wordDoc) {
+				if (newBlog.wordDoc.publicID) {
 					await cloudinary.uploader.destroy(
 						newBlog.wordDoc.publicID,
 						function(error) {
 							// TO DO: handle error here
-							console.log(error);
+							if (error) {
+								console.log(error);
+								res.send(false);
+								return;
+							}
 						},
 						{ resource_type: "raw" }
 					);
@@ -86,11 +100,9 @@ module.exports = {
 				}
 			];
 
-			try {
-				newBlog.save().then(result => res.send(result));
-			} catch (e) {
-				res.send(e);
-			}
+			newBlog.save().then(result => {
+				res.send(true);
+			});
 		});
 	},
 	getBlogs(req, res) {
@@ -106,5 +118,47 @@ module.exports = {
 			}
 			res.send(blogs);
 		});
+	},
+	deleteBlog(req, res) {
+		Blog.findOne({ _id: req.params.blogID }, async function(err, blog) {
+			if (err) {
+				handleError(res, err);
+			} else if (blog) {
+				if (blog.userID === req.user._id || req.user.role === "admin" || req.user.role === "manager") {
+					if (blog.wordDoc.publicID) {
+						await cloudinary.uploader.destroy(
+							blog.wordDoc.publicID,
+							function(error) {
+								// TO DO: handle error here
+								if (error) {
+									console.log(error);
+								}
+							},
+							{ resource_type: "raw" }
+						);
+					}
+					if (blog.image.publicID) {
+						await cloudinary.uploader.destroy(blog.image.publicID, function(error) {
+							// TO DO: handle error here
+							if (error) {
+								console.log(error);
+							}
+						});
+					}
+					blog.remove().then(result => {
+						res.send(true);
+					});
+				} else {
+					handleError(res, "Hacker trying to delete posts");
+				}
+			} else {
+				handleError(res, "Blog not found");
+			}
+		});
 	}
 };
+function handleError(res, errorMessage) {
+	console.log(errorMessage);
+	res.send(false);
+	return;
+}

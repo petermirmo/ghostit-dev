@@ -4,22 +4,23 @@ import ImagesDiv from "./ImagesDiv.js";
 
 class CreateBlogComponent extends Component {
 	state = {
-		blogFile: undefined,
-		blogImage: [],
-		blogID: "",
-		title: "",
-		keyword1: "",
-		keyword2: "",
-		keyword3: "",
-		keywordDifficulty1: "",
-		keywordDifficulty2: "",
-		keywordDifficulty3: "",
-		keywordSearchVolume1: "",
-		keywordSearchVolume2: "",
-		keywordSearchVolume3: "",
-		about: "",
-		resources: "",
-		postingDate: this.props.clickedCalendarDate,
+		blogID: this.props.blog ? this.props.blog._id || "" : "",
+		title: this.props.blog ? this.props.blog.title || "" : "",
+		keyword1: this.props.blog ? this.props.blog.keywords[0].keyword || "" : "",
+		keyword2: this.props.blog ? this.props.blog.keywords[1].keyword || "" : "",
+		keyword3: this.props.blog ? this.props.blog.keywords[2].keyword || "" : "",
+		keywordDifficulty1: this.props.blog ? this.props.blog.keywords[0].keywordDifficulty || "" : "",
+		keywordDifficulty2: this.props.blog ? this.props.blog.keywords[1].keywordDifficulty || "" : "",
+		keywordDifficulty3: this.props.blog ? this.props.blog.keywords[2].keywordDifficulty || "" : "",
+		keywordSearchVolume1: this.props.blog ? this.props.blog.keywords[0].keywordSearchVolume || "" : "",
+		keywordSearchVolume2: this.props.blog ? this.props.blog.keywords[1].keywordSearchVolume || "" : "",
+		keywordSearchVolume3: this.props.blog ? this.props.blog.keywords[2].keywordSearchVolume || "" : "",
+		about: this.props.blog ? this.props.blog.about || "" : "",
+		resources: this.props.blog ? this.props.blog.resources || "" : "",
+		postingDate: this.props.blog ? this.props.blog.postingDate : this.props.clickedCalendarDate || "",
+		blogImage: this.props.blog ? (this.props.blog.image ? [this.props.blog.image] : []) : [],
+		blogFile: this.props.blog ? this.props.blog.wordDoc || "" : "",
+
 		imagesToDelete: []
 	};
 	constructor(props) {
@@ -27,28 +28,6 @@ class CreateBlogComponent extends Component {
 		this.setPostImages = this.setPostImages.bind(this);
 		this.handleBlogFormChange = this.handleBlogFormChange.bind(this);
 		this.pushToImageDeleteArray = this.pushToImageDeleteArray.bind(this);
-	}
-	fillBlogForm(blog) {
-		var imageArray = [];
-		if (blog.image) imageArray.push(blog.image);
-		this.setState({
-			blogID: blog._id || "",
-			title: blog.title || "",
-			keyword1: blog.keywords[0].keyword || "",
-			keyword2: blog.keywords[1].keyword || "",
-			keyword3: blog.keywords[2].keyword || "",
-			keywordDifficulty1: blog.keywords[0].keywordDifficulty || "",
-			keywordDifficulty2: blog.keywords[1].keywordDifficulty || "",
-			keywordDifficulty3: blog.keywords[2].keywordDifficulty || "",
-			keywordSearchVolume1: blog.keywords[0].keywordSearchVolume || "",
-			keywordSearchVolume2: blog.keywords[1].keywordSearchVolume || "",
-			keywordSearchVolume3: blog.keywords[2].keywordSearchVolume || "",
-			about: blog.about || "",
-			resources: blog.resources || "",
-			postingDate: blog.postingDate || "",
-			blogImage: imageArray,
-			blogFile: blog.wordDoc
-		});
 	}
 
 	showFile(event) {
@@ -94,16 +73,16 @@ class CreateBlogComponent extends Component {
 		formData.append("about", this.state.about);
 		formData.append("eventColor", "#e74c3c");
 		for (var index in this.state.imagesToDelete) {
-			axios.get("/api/delete/file/" + this.state.imagesToDelete[index].publicID).then(res => {});
+			axios.delete("/api/delete/file/" + this.state.imagesToDelete[index].publicID).then(res => {});
 		}
 		// Check if we are updating a blog or creating a new blog
 		if (this.state.blogID === "" || this.state.blogID === undefined || this.state.blogID === null) {
 			axios.post("/api/blog", formData).then(res => {
-				document.getElementById("postingModal").style.display = "none";
+				this.props.updateCalendarBlogs();
 			});
 		} else {
 			axios.post("/api/blog/" + this.state.blogID, formData).then(res => {
-				document.getElementById("BlogEdittingModal").style.display = "none";
+				this.props.updateCalendarBlogs();
 			});
 		}
 	}

@@ -1,5 +1,4 @@
 .modal {
-	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 100; /* Sit on top */
 	padding-top: 80px; /* Location of the box */
@@ -157,7 +156,7 @@
 }
 .column {
 	float: left;
-	width: 16.66666%;
+	width: 15.4%;
 	color: #262626;
 	background-color: var(--light-blue-theme-color);
 	box-shadow: 1px 2px 2px 0px var(--off-black-theme-color);

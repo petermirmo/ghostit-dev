@@ -9,8 +9,7 @@ class addPagesOrGroupsModal extends Component {
 		this.updateParentState = this.updateParentState.bind(this);
 	}
 	closeModal() {
-		var modal = document.getElementById("addPagesOrGroupsModal");
-		modal.style.display = "none";
+		this.props.close();
 
 		// Remove active class from all divs
 		for (var index in this.props.pageOrGroup) {

@@ -123,5 +123,17 @@ module.exports = {
 			}
 			post.save().then(result => res.send(true));
 		});
+	},
+	deletePost: function(req, res) {
+		Post.findOne({ _id: req.params.postID }, async function(err, post) {
+			for (var i = 0; i < post.images.length; i++) {
+				await cloudinary.uploader.destroy(post.images[i].publicID, function(result) {
+					// TO DO: handle error here
+				});
+			}
+			post.remove().then(result => {
+				res.send(true);
+			});
+		});
 	}
 };

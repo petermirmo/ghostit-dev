@@ -192,12 +192,20 @@ class Modal extends Component {
 				modalFooter = <div className="modal-footer" />;
 			}
 		} else if (this.state.activeTab === "blog") {
-			modalBody = <CreateBlog clickedCalendarDate={this.props.clickedCalendarDate} />;
+			modalBody = (
+				<CreateBlog
+					clickedCalendarDate={this.props.clickedCalendarDate}
+					updateCalendarBlogs={this.props.updateCalendarBlogs}
+				/>
+			);
 		}
 
 		return (
 			<div id="postingModal" className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
+					<span className="close-dark" onClick={() => this.props.close("contentModal")}>
+						&times;
+					</span>
 					<div className="modal-header">
 						<ContentModalHeader switchTabState={this.switchTabState} clearActiveDivs={this.clearActiveDivs} />
 					</div>
