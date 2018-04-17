@@ -10,7 +10,11 @@ module.exports = {
 				_id: post.accountID
 			},
 			async function(err, account) {
-				if (err) return console.log(err);
+				if (err) {
+					console.log(err);
+					savePostError(post._id, err);
+					return;
+				}
 				if (account) {
 					// Use facebook profile access token to get account groups
 					FB.setAccessToken(account.accessToken);

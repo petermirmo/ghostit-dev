@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import Header from "../../components/Header/";
-import Calendar from "./CalendarComponent";
+import Calendar from "./Calendar";
 import ConnectAccountsSideBar from "../../components/SideBarAccounts/";
 import ClientsSideBar from "../../components/SideBarClients/";
 

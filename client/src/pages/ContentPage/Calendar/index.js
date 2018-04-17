@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import ContentModal from "./ContentModalComponent";
-import EdittingModal from "./EdittingModalComponent";
-import BlogEdittingModal from "./BlogEdittingModalComponent";
+import ContentModal from "../Modals/ContentModal";
+import EdittingModal from "../Modals/PostEdittingModal";
+import BlogEdittingModal from "../Modals/BlogEdittingModal";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
-import "./calendar.css";
+import "./style.css";
 
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
+const m = (...args) => moment.tz(...args, BigCalendar.tz);
+m.localeData = moment.localeData;
+
+BigCalendar.setLocalizer(BigCalendar.momentLocalizer(m));
+
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
 
 class Calendar extends Component {

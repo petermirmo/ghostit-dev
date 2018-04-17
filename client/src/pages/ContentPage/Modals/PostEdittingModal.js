@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
 
-import DatePicker from "./DatePickerComponent.js";
-import TimePicker from "./TimePickerComponent.js";
-import Carousel from "./Carousel.js";
-import ImagesDiv from "./ImagesDiv.js";
+import DatePicker from "../Divs/DatePicker.js";
+import TimePicker from "../Divs/TimePicker.js";
+import Carousel from "../Carousel";
+import ImagesDiv from "../Divs/ImagesDiv.js";
 
-import Notification from "../../components/Notification";
-import ConfirmAlert from "../../components/ConfirmAlert";
+import Notification from "../../../components/Notification";
+import ConfirmAlert from "../../../components/ConfirmAlert";
 
-import "../../css/modal.css";
+import "../../../css/modal.css";
 
 class EdittingModal extends Component {
 	state = {

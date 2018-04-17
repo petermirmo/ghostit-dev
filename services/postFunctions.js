@@ -10,8 +10,17 @@ module.exports = {
 	getImagesFromUrl: function(req, res) {
 		var url = req.body.link;
 		request(url, function(err, result, body) {
-			if (err) res.send();
+			if (err) {
+				console.log(err);
+				res.send(false);
+				return;
+			}
 			var imgSrc = [];
+			if (!body) {
+				console.log("No images found");
+				res.send(false);
+				return;
+			}
 			var $ = cheerio.load(body);
 			$("img").each(function(index, img) {
 				imgSrc.push(img.attribs.src);

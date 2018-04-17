@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
 
-import DatePicker from "./DatePickerComponent.js";
-import TimePicker from "./TimePickerComponent.js";
-import Carousel from "./Carousel.js";
+import DatePicker from "../Divs/DatePicker.js";
+import TimePicker from "../Divs/TimePicker.js";
+import Carousel from "../Carousel";
 import CreateBlog from "./CreateBlog.js";
 import savePost from "./SavePostFunction.js";
-import SelectAccountDiv from "./SelectAccountDiv.js";
+import SelectAccountDiv from "../Divs/SelectAccountDiv.js";
 import ContentModalHeader from "./ContentModalHeader.js";
-import ImagesDiv from "./ImagesDiv.js";
-import "../../css/modal.css";
+import ImagesDiv from "../Divs/ImagesDiv.js";
+import "../../../css/modal.css";
 
 class Modal extends Component {
 	state = {

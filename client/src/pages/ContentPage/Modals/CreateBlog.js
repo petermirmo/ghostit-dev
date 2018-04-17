@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ImagesDiv from "./ImagesDiv.js";
+import ImagesDiv from "../Divs/ImagesDiv.js";
 
 class CreateBlogComponent extends Component {
 	state = {

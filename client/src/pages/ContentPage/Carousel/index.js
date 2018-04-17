@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import OwlCarousel from "react-owl-carousel";
 
-import "./carousel.css";
+import "./style.css";
 
 class Carousel extends Component {
 	state = {
