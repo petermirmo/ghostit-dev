@@ -33,6 +33,7 @@ class Calendar extends Component {
 		this.getBlogs = this.getBlogs.bind(this);
 		this.editPost = this.editPost.bind(this);
 		this.convertPostToCalendarEvent = this.convertPostToCalendarEvent.bind(this);
+
 		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
 		this.getPosts();

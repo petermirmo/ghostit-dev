@@ -67,12 +67,16 @@ module.exports = {
 
 				// pull the user out of the session
 				var user = req.user;
+				//console.log(req.user);
+				if (!user) {
+					user = req.session.passport.user;
+				}
 				var newAccount = new Account();
 				let userID;
-				if (req.user.signedInAsUser.id) {
-					userID = req.user.signedInAsUser.id;
+				if (user.signedInAsUser.id) {
+					userID = user.signedInAsUser.id;
 				} else {
-					userID = req.user._id;
+					userID = user._id;
 				}
 				newAccount.userID = userID;
 				newAccount.socialType = "linkedin";
