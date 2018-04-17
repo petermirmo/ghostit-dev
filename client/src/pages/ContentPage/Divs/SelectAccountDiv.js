@@ -6,14 +6,20 @@ class SelectAccountDiv extends Component {
 
 		// To select which account to post to
 		for (var index in this.props.activePageAccountsArray) {
-			var name =
-				this.props.activePageAccountsArray[index].givenName.charAt(0).toUpperCase() +
-				this.props.activePageAccountsArray[index].givenName.slice(1);
+			var name;
+			if (this.props.activePageAccountsArray[index].familyName) {
+				name =
+					this.props.activePageAccountsArray[index].givenName.charAt(0).toUpperCase() +
+					this.props.activePageAccountsArray[index].givenName.slice(1);
+			}
 			if (this.props.activePageAccountsArray[index].familyName) {
 				name +=
 					" " +
 					this.props.activePageAccountsArray[index].familyName.charAt(0).toUpperCase() +
 					this.props.activePageAccountsArray[index].familyName.slice(1);
+			}
+			if (this.props.activePageAccountsArray[index].username) {
+				name = this.props.activePageAccountsArray[index].username;
 			}
 			// Push div to array
 			var div = (

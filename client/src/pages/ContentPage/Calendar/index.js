@@ -39,7 +39,7 @@ class Calendar extends Component {
 		this.getBlogs();
 	}
 	componentWillReceiveProps(nextProps) {
-		//BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment.tz.setDefault("")));
+		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment.tz.setDefault(nextProps.usersTimezone)));
 	}
 	getBlogs() {
 		axios.get("/api/blogs").then(res => {
