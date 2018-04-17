@@ -6,10 +6,11 @@ import DatePicker from "../Divs/DatePicker.js";
 import TimePicker from "../Divs/TimePicker.js";
 import Carousel from "../Carousel";
 import CreateBlog from "./CreateBlog.js";
-import savePost from "./SavePostFunction.js";
 import SelectAccountDiv from "../Divs/SelectAccountDiv.js";
 import ContentModalHeader from "./ContentModalHeader.js";
 import ImagesDiv from "../Divs/ImagesDiv.js";
+import { savePost } from "../../../functions/CommonFunctions";
+
 import "../../../css/modal.css";
 
 class Modal extends Component {

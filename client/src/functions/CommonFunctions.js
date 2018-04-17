@@ -1,7 +1,24 @@
-import axios from "axios";
 import moment from "moment-timezone";
+import axios from "axios";
 
-export default function savePost(
+export function switchDateToUsersTimezoneInUtcForm(postingDate, zone) {
+	var format = "YYYY/MM/DD HH:mm:ss ZZ";
+
+	var postingDateUtcOffset = postingDate.getTimezoneOffset();
+	var userTimezoneUtcOffset = -moment(postingDate)
+		.tz(zone)
+		.utcOffset();
+
+	var minutesToAdd = userTimezoneUtcOffset - postingDateUtcOffset;
+
+	var finalDate = moment(postingDate, format)
+		.add(minutesToAdd, "minutes")
+		.utcOffset(0)
+		.format();
+
+	return finalDate;
+}
+export function savePost(
 	link,
 	accountIdToPostTo,
 	postImages,
@@ -124,21 +141,4 @@ export default function savePost(
 				callback();
 			}
 		});
-}
-function switchDateToUsersTimezoneInUtcForm(postingDate, zone) {
-	var format = "YYYY/MM/DD HH:mm:ss ZZ";
-
-	var postingDateUtcOffset = postingDate.getTimezoneOffset();
-	var userTimezoneUtcOffset = -moment(postingDate)
-		.tz(zone)
-		.utcOffset();
-
-	var minutesToAdd = userTimezoneUtcOffset - postingDateUtcOffset;
-
-	var finalDate = moment(postingDate, format)
-		.add(minutesToAdd, "minutes")
-		.utcOffset(0)
-		.format();
-
-	return finalDate;
 }

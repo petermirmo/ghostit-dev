@@ -2,18 +2,13 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import ContentModal from "../Modals/ContentModal";
-import EdittingModal from "../Modals/PostEdittingModal";
+import PostEdittingModal from "../Modals/PostEdittingModal";
 import BlogEdittingModal from "../Modals/BlogEdittingModal";
 
 // BigCalendar dependencies
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 import "./style.css";
-
-const m = (...args) => moment.tz(...args, BigCalendar.tz);
-m.localeData = moment.localeData;
-
-BigCalendar.setLocalizer(BigCalendar.momentLocalizer(m));
 
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
 
@@ -38,9 +33,13 @@ class Calendar extends Component {
 		this.getBlogs = this.getBlogs.bind(this);
 		this.editPost = this.editPost.bind(this);
 		this.convertPostToCalendarEvent = this.convertPostToCalendarEvent.bind(this);
+		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
 		this.getPosts();
 		this.getBlogs();
+	}
+	componentWillReceiveProps(nextProps) {
+		//BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment.tz.setDefault("")));
 	}
 	getBlogs() {
 		axios.get("/api/blogs").then(res => {
@@ -189,9 +188,10 @@ class Calendar extends Component {
 					/>
 				)}
 				{this.state.postEdittingModal && (
-					<EdittingModal
+					<PostEdittingModal
 						updateCalendarPosts={this.getPosts}
 						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						usersTimezone={this.props.usersTimezone}
 						close={this.closeModal}
 					/>
 				)}

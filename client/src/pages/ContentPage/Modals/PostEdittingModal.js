@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
+import moment from "moment-timezone";
 
 import DatePicker from "../Divs/DatePicker.js";
 import TimePicker from "../Divs/TimePicker.js";
@@ -11,6 +12,7 @@ import Notification from "../../../components/Notification";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 
 import "../../../css/modal.css";
+import { switchDateToUsersTimezoneInUtcForm } from "../../../functions/CommonFunctions";
 
 class EdittingModal extends Component {
 	state = {
@@ -110,8 +112,14 @@ class EdittingModal extends Component {
 			carousel = document.getElementById("editLinkCarousel");
 		}
 		// Make sure that the date is not in the past
-		var currentDate = new Date();
-		if (postingDate < currentDate) {
+
+		var dateToPostInUtcTime = switchDateToUsersTimezoneInUtcForm(postingDate, this.props.usersTimezone);
+
+		var currentUtcDate = moment()
+			.utcOffset(0)
+			.format();
+		// Make sure that the date is not in the past
+		if (currentUtcDate > dateToPostInUtcTime) {
 			alert("Time travel is not yet possible! Please select a date in the future not in the past!");
 			return;
 		}
@@ -145,7 +153,7 @@ class EdittingModal extends Component {
 			.post("/api/post/update/" + this.state.postID, {
 				accountID: accountIdToPostTo,
 				content: content,
-				postingDate: postingDate,
+				postingDate: dateToPostInUtcTime,
 				link: link,
 				linkImage: linkPreviewImage,
 				accountType: this.state.accountType,
@@ -298,11 +306,26 @@ class EdittingModal extends Component {
 
 		var modalBody;
 		var modalFooter;
-		var date;
-		if (this.state.postingDate !== undefined) {
-			date = new Date(this.state.postingDate);
-		}
 
+		// Don't mess with this date. Javascript dates are messed up and this makes it work.
+		// It is complicated and weird. Do not touch it.
+		let date;
+		if (this.state.postingDate) {
+			let test = moment(this.state.postingDate);
+			date = new Date(
+				test.toDate().getTime() +
+					moment()
+						.tz(this.props.usersTimezone)
+						.utcOffset() *
+						60 *
+						1000 -
+					moment()
+						.tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+						.utcOffset() *
+						60 *
+						1000
+			);
+		}
 		var canDeleteImage = this.state.status === "pending" || this.state.status === "error";
 		modalBody = (
 			<div className="modal-body">
