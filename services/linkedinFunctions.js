@@ -67,7 +67,7 @@ module.exports = {
 
 				// pull the user out of the session
 				var user = req.user;
-				//console.log(req.user);
+
 				if (!user) {
 					user = req.session.passport.user;
 				}
