@@ -5,9 +5,22 @@ const keys = require("../config/keys");
 var stripe = require("stripe")(keys.stripeSecretKey);
 
 module.exports = {
-	getUserPlan: function(req, res) {
-		if (req.user.plan) {
-			Plan.findOne({ _id: req.user.plan.id }, function(err, plan) {
+	getUserPlan: async function(req, res) {
+		let user = req.user;
+		if (user.signedInAsUser) {
+			if (user.signedInAsUser.id) {
+				await User.findOne({ _id: user.signedInAsUser.id }, function(err, signedInAsUser) {
+					if (err) {
+						handleError(res, err);
+					}
+					if (signedInAsUser) {
+						user = signedInAsUser;
+					}
+				});
+			}
+		}
+		if (user.plan) {
+			Plan.findOne({ _id: user.plan.id }, function(err, plan) {
 				if (err) {
 					handleError(res, err);
 				} else if (plan) {
@@ -20,16 +33,25 @@ module.exports = {
 			res.send(false);
 		}
 	},
-	signUpToPlan: function(req, res) {
+	signUpToPlan: async function(req, res) {
 		let sixMonthCommitment = req.body.plan.checkbox;
 		let currency = "usd";
 		if (req.body.stripeToken.card.country === "CA") {
 			currency = "cad";
 		}
 		let userID = req.user._id;
+		let user = req.user;
 		if (req.user.signedInAsUser.id) {
 			userID = req.user.signedInAsUser.id;
+			await User.findOne({ _id: userID }, function(err, signedInAsUser) {
+				if (err) {
+					handleError(res, err);
+				} else if (signedInAsUser) {
+					user = signedInAsUser;
+				}
+			});
 		}
+
 		let newPlan = new Plan(req.body.plan);
 		let unitsOfContent =
 			newPlan.websiteBlogPosts +
@@ -52,9 +74,9 @@ module.exports = {
 
 		// Check to see if plan exists
 		let findPlan;
-		if (req.user.plan) {
-			if (req.user.plan.id) {
-				findPlan = { _id: req.user.plan.id };
+		if (user.plan) {
+			if (user.plan.id) {
+				findPlan = { _id: user.plan.id };
 			} else {
 				findPlan = {
 					websiteBlogPosts: newPlan.websiteBlogPosts,
@@ -84,7 +106,7 @@ module.exports = {
 			} else if (plan) {
 				// If plan is found simply sign up user to plan
 				if (plan.stripePlanID) {
-					signUpUserToPlan(stripe, req.body.stripeToken, plan, res, req, sixMonthCommitment);
+					signUpUserToPlan(stripe, req.body.stripeToken, plan, res, req, sixMonthCommitment, user);
 				} else {
 					stripe.plans.create(
 						{
@@ -98,6 +120,7 @@ module.exports = {
 							if (err) {
 								handleError(res, err);
 							} else {
+								console.log("here");
 								// Create customer in stripe
 								plan.currency = currency;
 								plan.stripePlanID = stripePlan.id;
@@ -108,7 +131,8 @@ module.exports = {
 										savedPlanWithStripePlanID,
 										res,
 										req,
-										sixMonthCommitment
+										sixMonthCommitment,
+										user
 									);
 								});
 							}
@@ -140,7 +164,8 @@ module.exports = {
 										savedPlanWithStripePlanID,
 										res,
 										req,
-										sixMonthCommitment
+										sixMonthCommitment,
+										user
 									);
 								});
 							}
@@ -156,7 +181,7 @@ function handleError(res, errorMessage) {
 	res.send(false);
 	return;
 }
-function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCommitment) {
+function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCommitment, userForPlan) {
 	// First create customer in stripe
 	stripe.customers.create(
 		{
@@ -166,12 +191,7 @@ function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCom
 			if (err) {
 				handleError(res, err);
 			} else {
-				let userID;
-				if (req.user.signedInAsUser.id) {
-					userID = req.user.signedInAsUser.id;
-				} else {
-					userID = req.user._id;
-				}
+				let userID = userForPlan._id;
 
 				// After user is created in stripe we want to save that ID to our platform user
 				User.findOne({ _id: userID }, function(err, user) {

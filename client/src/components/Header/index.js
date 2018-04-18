@@ -19,7 +19,9 @@ class Header extends Component {
 			this.setState({ isLoggedIn: res.data[0], user: res.data[1] });
 			if (
 				this.state.user.signedInAsUser &&
-				(this.props.activePage === "content" || this.props.activePage === "strategy")
+				(this.props.activePage === "content" ||
+					this.props.activePage === "strategy" ||
+					this.props.activePage === "plans")
 			) {
 				this.props.updateParentState();
 			}
@@ -75,7 +77,11 @@ class Header extends Component {
 				);
 			}
 
-			if (this.props.activePage === "content" || this.props.activePage === "strategy") {
+			if (
+				this.props.activePage === "content" ||
+				this.props.activePage === "strategy" ||
+				this.props.activePage === "plans"
+			) {
 				if (this.state.user.signedInAsUser) {
 					signedInAsDiv = (
 						<div className="signed-in-as center">

@@ -169,15 +169,6 @@ class UsersTable extends Component {
 					dropdownList = ["demo", "client", "manager", "admin"];
 				} else if (index === "timezone") {
 					dropdownList = moment.tz.names();
-					for (let test in dropdownList) {
-						if (
-							moment()
-								.tz(dropdownList[test])
-								.utcOffset() === 0
-						) {
-							console.log(dropdownList[test]);
-						}
-					}
 				} else if (index === "writer") {
 					dropdownList = [];
 					for (let j in this.state.managerUsers) {

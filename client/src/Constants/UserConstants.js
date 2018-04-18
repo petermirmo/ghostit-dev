@@ -7,4 +7,4 @@ export const nonEditableUserFields = [
 	"country",
 	"signedInAsUser"
 ];
-export const canShowUserFields = ["__v", "password", "tempID", "country", "signedInAsUser"];
+export const canShowUserFields = ["__v", "password", "country", "signedInAsUser"];
