@@ -9,7 +9,7 @@ import "./style.css";
 
 class PlansPage extends Component {
 	state = {
-		publicPlans: {}
+		usersPlan: false
 	};
 	constructor(props) {
 		super(props);
