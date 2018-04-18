@@ -21,6 +21,7 @@ class PlanTable extends Component {
 		if (nextProps.usersPlan) this.setState(nextProps.usersPlan);
 	}
 	increment = (index, value, unitsOfContent) => {
+		if (this.props.usersPlan) return;
 		// Make sure value cannot go below 0
 		if (this.state[index] === 0 && value < 0) {
 			return;
