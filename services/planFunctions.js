@@ -5,14 +5,20 @@ const keys = require("../config/keys");
 var stripe = require("stripe")(keys.stripeSecretKey);
 
 module.exports = {
-	getPublicPlans: function(req, res) {
-		Plan.find({ private: false }, function(err, plans) {
-			if (err) {
-				handleError(res, err);
-			} else {
-				res.send(plans);
-			}
-		});
+	getUserPlan: function(req, res) {
+		if (req.user.plan) {
+			Plan.findOne({ _id: req.user.plan.id }, function(err, plan) {
+				if (err) {
+					handleError(res, err);
+				} else if (plan) {
+					res.send(plan);
+				} else {
+					res.send(false);
+				}
+			});
+		} else {
+			res.send(false);
+		}
 	},
 	signUpToPlan: function(req, res) {
 		let sixMonthCommitment = req.body.plan.checkbox;
@@ -45,8 +51,23 @@ module.exports = {
 		newPlan.price = price;
 
 		// Check to see if plan exists
-		Plan.findOne(
-			{
+		let findPlan;
+		if (req.user.plan) {
+			if (req.user.plan.id) {
+				findPlan = { _id: req.user.plan.id };
+			} else {
+				findPlan = {
+					websiteBlogPosts: newPlan.websiteBlogPosts,
+					socialPosts: newPlan.socialPosts,
+					instagramPosts: newPlan.instagramPosts,
+					emailNewsletters: newPlan.emailNewsletters,
+					eBooks: newPlan.eBooks,
+					currency: newPlan.currency,
+					price: newPlan.price
+				};
+			}
+		} else {
+			findPlan = {
 				websiteBlogPosts: newPlan.websiteBlogPosts,
 				socialPosts: newPlan.socialPosts,
 				instagramPosts: newPlan.instagramPosts,
@@ -54,49 +75,80 @@ module.exports = {
 				eBooks: newPlan.eBooks,
 				currency: newPlan.currency,
 				price: newPlan.price
-			},
-			function(err, plan) {
-				if (err) {
-					handleError(res, err);
-				} else if (plan) {
-					// If plan is found simply sign up user to plan
+			};
+		}
+
+		Plan.findOne(findPlan, function(err, plan) {
+			if (err) {
+				handleError(res, err);
+			} else if (plan) {
+				// If plan is found simply sign up user to plan
+				if (plan.stripePlanID) {
 					signUpUserToPlan(stripe, req.body.stripeToken, plan, res, req, sixMonthCommitment);
 				} else {
-					// If plan is not found then we first need to create the plan in our database
-					newPlan.save().then(resultNewPlan => {
-						// After created in our database create it in stripe
-						//console.log(req.body.stripeToken);
-						stripe.plans.create(
-							{
-								id: String(resultNewPlan._id),
-								amount: resultNewPlan.price * 100,
-								interval: "month",
-								product: { name: String(resultNewPlan._id) },
-								currency: resultNewPlan.currency
-							},
-							function(err, stripePlan) {
-								if (err) {
-									handleError(res, err);
-								} else {
-									// Create customer in stripe
-									resultNewPlan.stripePlanID = stripePlan.id;
-									resultNewPlan.save().then(savedPlanWithStripePlanID => {
-										signUpUserToPlan(
-											stripe,
-											req.body.stripeToken,
-											savedPlanWithStripePlanID,
-											res,
-											req,
-											sixMonthCommitment
-										);
-									});
-								}
+					stripe.plans.create(
+						{
+							id: String(plan._id),
+							amount: plan.price * 100,
+							interval: "month",
+							product: { name: String(plan._id) },
+							currency: currency
+						},
+						function(err, stripePlan) {
+							if (err) {
+								handleError(res, err);
+							} else {
+								// Create customer in stripe
+								plan.currency = currency;
+								plan.stripePlanID = stripePlan.id;
+								plan.save().then(savedPlanWithStripePlanID => {
+									signUpUserToPlan(
+										stripe,
+										req.body.stripeToken,
+										savedPlanWithStripePlanID,
+										res,
+										req,
+										sixMonthCommitment
+									);
+								});
 							}
-						);
-					});
+						}
+					);
 				}
+			} else {
+				// If plan is not found then we first need to create the plan in our database
+				newPlan.save().then(resultNewPlan => {
+					// After created in our database create it in stripe
+					stripe.plans.create(
+						{
+							id: String(resultNewPlan._id),
+							amount: resultNewPlan.price * 100,
+							interval: "month",
+							product: { name: String(resultNewPlan._id) },
+							currency: resultNewPlan.currency
+						},
+						function(err, stripePlan) {
+							if (err) {
+								handleError(res, err);
+							} else {
+								// Create customer in stripe
+								resultNewPlan.stripePlanID = stripePlan.id;
+								resultNewPlan.save().then(savedPlanWithStripePlanID => {
+									signUpUserToPlan(
+										stripe,
+										req.body.stripeToken,
+										savedPlanWithStripePlanID,
+										res,
+										req,
+										sixMonthCommitment
+									);
+								});
+							}
+						}
+					);
+				});
 			}
-		);
+		});
 	}
 };
 function handleError(res, errorMessage) {

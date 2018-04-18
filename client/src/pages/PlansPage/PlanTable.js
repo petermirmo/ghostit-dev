@@ -16,6 +16,10 @@ class PlanTable extends Component {
 		checkbox: true,
 		unitsOfContent: 0
 	};
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.usersPlan) this.setState(nextProps.usersPlan);
+	}
 	increment = (index, value, unitsOfContent) => {
 		// Make sure value cannot go below 0
 		if (this.state[index] === 0 && value < 0) {
@@ -37,7 +41,8 @@ class PlanTable extends Component {
 		let onboardingFeeDiv;
 		let overThreeHundredWarning;
 
-		if (unitsOfContent < 2) overThreeHundredWarning = <h4 className="warning">Plan must be over $300</h4>;
+		if (unitsOfContent < 2 && !this.state.price)
+			overThreeHundredWarning = <h4 className="warning">Plan must be over $300</h4>;
 
 		if (!this.state.checkbox) {
 			onboardingFeeDiv = <h3 className="warning">+ $200 One time onboarding fee</h3>;
@@ -49,6 +54,9 @@ class PlanTable extends Component {
 				discount = discount - 2.5;
 			}
 			price = price + discount;
+		}
+		if (this.state.price) {
+			price = this.state.price;
 		}
 		return (
 			<div className="plan-container center">
@@ -130,7 +138,7 @@ class PlanTable extends Component {
 				<div className="plan-footer">
 					{onboardingFeeDiv}
 					{overThreeHundredWarning}
-					{unitsOfContent > 1 && <PayDiv plan={this.state} />}
+					{(unitsOfContent > 1 || this.state.price) && <PayDiv plan={this.state} />}
 				</div>
 			</div>
 		);

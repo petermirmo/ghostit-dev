@@ -9,15 +9,15 @@ import "./style.css";
 
 class PlansPage extends Component {
 	state = {
-		publicPlans: []
+		publicPlans: {}
 	};
 	constructor(props) {
 		super(props);
-		this.getPublicPlans();
+		this.getUsersAssignedPlan();
 	}
-	getPublicPlans = () => {
-		axios.get("/api/plans/public").then(res => {
-			this.setState({ publicPlans: res.data });
+	getUsersAssignedPlan = () => {
+		axios.get("/api/user/plan").then(res => {
+			this.setState({ usersPlan: res.data });
 		});
 	};
 	render() {
@@ -27,7 +27,7 @@ class PlansPage extends Component {
 				<ConnectAccountsSideBar />
 
 				<div id="main">
-					<PlanTable publicPlans={this.state.publicPlans} />
+					<PlanTable usersPlan={this.state.usersPlan} />
 				</div>
 			</div>
 		);

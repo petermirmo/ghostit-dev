@@ -150,7 +150,7 @@ module.exports = app => {
 	app.get("/api/strategy", (req, res) => strategyFunctions.getStrategy(req, res));
 
 	// Get public plans
-	app.get("/api/plans/public", (req, res) => planFunctions.getPublicPlans(req, res));
+	app.get("/api/user/plan", (req, res) => planFunctions.getUserPlan(req, res));
 	// Sign up to plan
 	app.post("/api/signUpToPlan", (req, res) => planFunctions.signUpToPlan(req, res));
 

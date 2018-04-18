@@ -11,7 +11,7 @@ class ChargeCardForm extends Component {
 		plan = nextProps.plan;
 	}
 	componentDidMount() {
-		var stripe = window.Stripe("pk_test_C6VKqentibktzCQjTRZ9vOuY");
+		var stripe = window.Stripe("pk_live_fbteh655nQqpE4WEFr6fs5Pm");
 
 		// Create an instance of Elements.
 		var elements = stripe.elements();
