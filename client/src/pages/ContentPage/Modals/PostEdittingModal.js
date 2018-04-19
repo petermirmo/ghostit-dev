@@ -60,7 +60,8 @@ class EdittingModal extends Component {
 				postingDate: post.postingDate,
 				status: post.status
 			});
-			this.refs.carousel.findLink(post.content);
+			let carousel = document.getElementById("editLinkCarousel");
+			if (carousel) this.refs.carousel.findLink(post.content);
 		});
 	}
 
@@ -341,7 +342,7 @@ class EdittingModal extends Component {
 				{carousel}
 				<DatePicker clickedCalendarDate={date} id="edittingDatePickerPopUp" canEdit={dateEdittingDisabled} />
 				<TimePicker timeForPost={date} id="edittingTimePickerPopUp" canEdit={dateEdittingDisabled} />
-				{this.state.status && <button onClick={() => this.savePost()}>Save Post</button>}
+				{this.state.status === "pending" && <button onClick={() => this.savePost()}>Save Post</button>}
 			</div>
 		);
 		if (this.state.status === "pending" || this.state.status === "error") {
