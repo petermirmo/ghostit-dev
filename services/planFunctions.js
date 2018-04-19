@@ -76,7 +76,7 @@ module.exports = {
 		let findPlan;
 		if (user.plan) {
 			if (user.plan.id) {
-				findPlan = { _id: user.plan.id };
+				findPlan = { _id: String(user.plan.id) };
 			} else {
 				findPlan = {
 					websiteBlogPosts: newPlan.websiteBlogPosts,

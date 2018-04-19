@@ -83,7 +83,11 @@ class ChargeCardForm extends Component {
 }
 function stripeTokenHandler(stripeToken, plan) {
 	axios.post("/api/signUpToPlan", { stripeToken: stripeToken, plan: plan }).then(res => {
-		console.log(res);
+		if (res.data) {
+			alert("success");
+		} else {
+			alert("Contact Ghostit dev team!");
+		}
 	});
 }
 export default ChargeCardForm;
