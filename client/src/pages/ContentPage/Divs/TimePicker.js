@@ -38,7 +38,6 @@ class TimePickerComponent extends Component {
 				<TimePicker
 					id={this.props.id}
 					hintText="Click here to pick Time!"
-					autoOk={true}
 					value={this.state.controlledTime}
 					onChange={this.handleChange}
 					gettime={this.state.controlledTime}
