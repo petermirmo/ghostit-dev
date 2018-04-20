@@ -10,6 +10,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo")(session);
 const User = require("./models/User");
+const secure = require("express-force-https");
 
 var Schema = mongoose.Schema;
 var multer = require("multer");
@@ -60,6 +61,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+// Force https
+app.use(secure);
 // Routes
 require("./routes/apiRoutes")(app);
 
