@@ -61,7 +61,6 @@ class Header extends Component {
 
 		let managePageButton;
 		let signIntoClientsButton;
-		let plansPageButton;
 
 		let signedInAsDiv;
 		if (this.state.user.role === "admin" || this.state.user.role === "manager") {

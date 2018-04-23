@@ -342,7 +342,9 @@ class EdittingModal extends Component {
 				{carousel}
 				<DatePicker clickedCalendarDate={date} id="edittingDatePickerPopUp" canEdit={dateEdittingDisabled} />
 				<TimePicker timeForPost={date} id="edittingTimePickerPopUp" canEdit={dateEdittingDisabled} />
-				{this.state.status === "pending" && <button onClick={() => this.savePost()}>Save Post</button>}
+				{(this.state.status === "pending" || this.state.status === "error") && (
+					<button onClick={() => this.savePost()}>Save Post</button>
+				)}
 			</div>
 		);
 		if (this.state.status === "pending" || this.state.status === "error") {
