@@ -59,15 +59,13 @@ module.exports = {
 			newPlan.eBooks +
 			newPlan.instagramPosts / 15 * 2 +
 			newPlan.emailNewsletters;
-		let price = 0;
-		let discount = 150;
 
 		// Recreate plan price because it should not come from client side
-		for (let i = 0; i < unitsOfContent; i++) {
-			if (i > 1 && discount > 100) {
-				discount = discount - 2.5;
-			}
-			price = price + discount;
+		let price;
+		if (unitsOfContent > 2) {
+			price = (unitsOfContent - 2) * 120 + 2 * 150;
+		} else {
+			price = unitsOfContent * 150;
 		}
 		newPlan.currency = currency;
 		newPlan.price = price;

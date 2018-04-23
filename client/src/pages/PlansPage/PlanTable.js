@@ -48,14 +48,13 @@ class PlanTable extends Component {
 		if (!this.state.checkbox) {
 			onboardingFeeDiv = <h3 className="warning">+ $200 One time onboarding fee</h3>;
 		}
-		let price = 0;
-		let discount = 150;
-		for (let i = 0; i < unitsOfContent; i++) {
-			if (i > 1 && discount > 100) {
-				discount = discount - 2.5;
-			}
-			price = price + discount;
+		let price;
+		if (unitsOfContent > 2) {
+			price = (unitsOfContent - 2) * 120 + 2 * 150;
+		} else {
+			price = unitsOfContent * 150;
 		}
+
 		if (this.state.price) {
 			price = this.state.price;
 		}
