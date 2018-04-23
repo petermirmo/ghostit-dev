@@ -89,7 +89,6 @@ module.exports = {
 	}
 };
 function savePostError(postID, error) {
-	return;
 	Post.findOne({ _id: postID }, function(err, post) {
 		post.status = "error";
 		post.errorMessage = JSON.stringify(error);

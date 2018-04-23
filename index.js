@@ -29,10 +29,10 @@ const router = express.Router();
 // Post scheduler
 var schedulerMain = require("./scheduler/cronScheduler");
 var cron = require("node-cron");
-//if (process.env.NODE_ENV === "production")
-cron.schedule("1,10,20,30,40,50,55 * * * * *", function() {
-	schedulerMain.main();
-});
+if (process.env.NODE_ENV === "production")
+	cron.schedule("1 * * * * *", function() {
+		schedulerMain.main();
+	});
 
 require("./models/User");
 
