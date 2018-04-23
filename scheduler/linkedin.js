@@ -69,7 +69,7 @@ module.exports = {
 						linkedinPost.content = linkedinLink;
 					}
 					if (post.images) {
-						linkedinLink["submitted-image-url"] = post.images[0];
+						linkedinLink["submitted-image-url"] = post.images[0].url;
 						linkedinPost.content = linkedinLink;
 					}
 					linkedinPost.visibility = { code: "anyone" };
@@ -89,6 +89,7 @@ module.exports = {
 	}
 };
 function savePostError(postID, error) {
+	return;
 	Post.findOne({ _id: postID }, function(err, post) {
 		post.status = "error";
 		post.errorMessage = JSON.stringify(error);

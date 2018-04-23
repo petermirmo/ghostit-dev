@@ -5,6 +5,7 @@ import Header from "../../components/Header/";
 import ConnectAccountsSideBar from "../../components/SideBarAccounts/";
 import PlanTable from "./PlanTable";
 import ClientsSideBar from "../../components/SideBarClients/";
+import { roleCheck } from "../../functions/CommonFunctions";
 
 import "./style.css";
 
@@ -14,6 +15,8 @@ class PlansPage extends Component {
 	};
 	constructor(props) {
 		super(props);
+
+		roleCheck("demo");
 		this.getUsersAssignedPlan();
 	}
 	getUsersAssignedPlan = () => {

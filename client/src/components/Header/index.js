@@ -8,7 +8,7 @@ import "./style.css";
 class Header extends Component {
 	state = {
 		isLoggedIn: true,
-		user: { role: "demo" },
+		user: {},
 		signedInAs: {}
 	};
 	constructor(props) {
@@ -96,13 +96,7 @@ class Header extends Component {
 					</button>
 				);
 			}
-		} else {
 		}
-		plansPageButton = (
-			<a id="plans" href="/subscribe">
-				Upgrade to Business Superhero
-			</a>
-		);
 
 		return (
 			<header>
@@ -123,7 +117,11 @@ class Header extends Component {
 					<a id="content" href="/content">
 						Content
 					</a>
-					{plansPageButton}
+					{(this.state.user.role === "demo" || this.state.user.role === "admin") && (
+						<a id="plans" href="/subscribe">
+							Upgrade to Business Superhero
+						</a>
+					)}
 
 					<button className="big-round-button" onClick={() => this.openSideBar("mySidebar")}>
 						Connect Accounts!
