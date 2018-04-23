@@ -144,7 +144,7 @@ export function savePost(
 }
 export function roleCheck(role) {
 	axios.get("/api/isUserSignedIn").then(res => {
-		if (res.data[1].role !== role || res.data[1].role !== "admin") {
+		if (res.data[1].role !== role && res.data[1].role !== "admin") {
 			window.location.replace("/content");
 		}
 	});
