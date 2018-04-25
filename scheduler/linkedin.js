@@ -31,6 +31,10 @@ module.exports = {
 					if (post.linkImage !== "" && post.link !== "") {
 						linkedinLink["submitted-image-url"] = post.linkImage;
 						linkedinPost.content = linkedinLink;
+						if (post.images[0]) {
+							linkedinLink["submitted-image-url"] = post.images[0].url;
+							linkedinPost.content = linkedinLink;
+						}
 					}
 					linkedinPost.visibility = { code: "anyone" };
 
@@ -67,11 +71,12 @@ module.exports = {
 					if (post.linkImage !== "" && post.link !== "") {
 						linkedinLink["submitted-image-url"] = post.linkImage;
 						linkedinPost.content = linkedinLink;
+						if (post.images[0]) {
+							linkedinLink["submitted-image-url"] = post.images[0].url;
+							linkedinPost.content = linkedinLink;
+						}
 					}
-					if (post.images) {
-						linkedinLink["submitted-image-url"] = post.images[0].url;
-						linkedinPost.content = linkedinLink;
-					}
+
 					linkedinPost.visibility = { code: "anyone" };
 
 					LI.companies.share(account.socialID, linkedinPost, function(error, result) {
