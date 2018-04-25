@@ -25,6 +25,7 @@ class TimePickerComponent extends Component {
 		this.setState({
 			controlledTime: time
 		});
+		this.props.callback("time", time);
 	};
 
 	componentWillReceiveProps(nextProps) {

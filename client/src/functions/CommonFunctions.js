@@ -26,44 +26,21 @@ export function savePost(
 	activeTab,
 	accountType,
 	updateCalendarPosts,
-	usersTimezone,
-	callback
+	dateToPostInUtcTime,
+	callback,
+	content,
+	dateToPost
 ) {
-	// Get content of post
-	var content = document.getElementById("contentPostingTextarea").value;
-
 	// Get current images
 	var currentImages = [];
 	for (var i = 0; i < postImages.length; i++) {
 		currentImages.push(postImages[i].image);
 	}
-	// Get date of post
-	var datePickerDate = document.getElementById("contentDatePickerPopUp").getAttribute("getdate");
-
-	// Get time of post
-	var timePickerTime = document.getElementById("contentTimePickerPopUp").getAttribute("gettime");
-
-	// Combine time and date into one date variable
-	var postingDate = new Date(datePickerDate);
-	var postingTime = new Date(timePickerTime);
-	postingDate.setHours(postingTime.getHours());
-	postingDate.setMinutes(postingTime.getMinutes());
 
 	// Get carousel html element
 	var carousel;
 	if (linkPreviewCanShow) {
 		carousel = document.getElementById("linkCarousel");
-	}
-
-	var dateToPostInUtcTime = switchDateToUsersTimezoneInUtcForm(postingDate, usersTimezone);
-
-	var currentUtcDate = moment()
-		.utcOffset(0)
-		.format();
-	// Make sure that the date is not in the past
-	if (currentUtcDate > dateToPostInUtcTime) {
-		alert("Time travel is not yet possible! Please select a date in the future not in the past!");
-		return;
 	}
 
 	// If link previews are allowed get src of active image from carousel
@@ -75,18 +52,8 @@ export function savePost(
 		}
 	}
 
-	if (accountIdToPostTo === "") {
-		alert("Please select an account to post to!");
-		return;
-	}
-
 	// Now we have content of post, date (and time), account ID to post to, link preview image src and the link url
 
-	// Check to make sure we have atleast a link, content, or an image
-	if (content === "" && link === "" && currentImages === []) {
-		alert("You are trying to create an empty post. We will not let you shoot yourself in the foot.");
-		return;
-	}
 	// Set color of post
 	var backgroundColorOfPost;
 	if (activeTab === "facebook") {
@@ -132,15 +99,52 @@ export function savePost(
 				// Make post request for images
 				axios.post("/api/post/images", formData).then(res => {
 					updateCalendarPosts();
-					document.getElementById("contentPostingTextarea").value = "";
 					callback();
 				});
 			} else {
 				updateCalendarPosts();
-				document.getElementById("contentPostingTextarea").value = "";
 				callback();
 			}
 		});
+}
+export function postChecks(
+	postingToAccountId,
+	dateToPostInUtcTime,
+	usersTimezone,
+	accountType,
+	link,
+	currentImages,
+	content
+) {
+	var currentUtcDate = moment()
+		.utcOffset(0)
+		.format();
+	// Make sure that the date is not in the past
+	if (currentUtcDate > dateToPostInUtcTime) {
+		alert("Time travel is not yet possible! Please select a date in the future not in the past!");
+		return false;
+	}
+
+	if (postingToAccountId === "") {
+		alert("Please select an account to post to!");
+		return false;
+	}
+
+	// Check to make sure we have atleast a link, content, or an image
+	if (content === "" && link === "" && currentImages === []) {
+		alert("You are trying to create an empty post. We will not let you shoot yourself in the foot.");
+		return;
+	}
+	return true;
+}
+export function convertDateAndTimeToUtcTme(date, time, usersTimezone) {
+	// Combine time and date into one date variable
+	var postingDate = new Date(date);
+	var postingTime = new Date(time);
+	postingDate.setHours(postingTime.getHours());
+	postingDate.setMinutes(postingTime.getMinutes());
+
+	return switchDateToUsersTimezoneInUtcForm(postingDate, usersTimezone);
 }
 export function roleCheck(role) {
 	axios.get("/api/isUserSignedIn").then(res => {

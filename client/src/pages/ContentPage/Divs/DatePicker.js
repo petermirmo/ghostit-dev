@@ -27,6 +27,7 @@ class DatePickerComponent extends Component {
 		this.setState({
 			controlledDate: date
 		});
+		this.props.callback("date", date);
 	};
 
 	componentWillReceiveProps(nextProps) {

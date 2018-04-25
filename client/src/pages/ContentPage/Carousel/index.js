@@ -43,7 +43,6 @@ class Carousel extends Component {
 			this.props.updateParentState(link, res.data);
 		});
 	}
-
 	render() {
 		var linkImages = this.state.linkImagesArray;
 		var linkPreviewImageTag = [];
@@ -64,7 +63,7 @@ class Carousel extends Component {
 					}}
 				>
 					<img
-						alt=" error :("
+						alt=" No images at this url!"
 						style={{
 							maxHeight: "100px",
 							boxShadow: " 0 0 20px 0"

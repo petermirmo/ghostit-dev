@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
+import moment from "moment-timezone";
 
 import DatePicker from "../Divs/DatePicker.js";
 import TimePicker from "../Divs/TimePicker.js";
@@ -9,7 +10,12 @@ import CreateBlog from "./CreateBlog.js";
 import SelectAccountDiv from "../Divs/SelectAccountDiv.js";
 import ContentModalHeader from "./ContentModalHeader.js";
 import ImagesDiv from "../Divs/ImagesDiv.js";
-import { savePost } from "../../../functions/CommonFunctions";
+import {
+	savePost,
+	switchDateToUsersTimezoneInUtcForm,
+	postChecks,
+	convertDateAndTimeToUtcTme
+} from "../../../functions/CommonFunctions";
 
 import "../../../css/modal.css";
 
@@ -23,7 +29,11 @@ class Modal extends Component {
 		postingToAccountId: "",
 		link: "",
 		postImages: [],
-		accountType: ""
+		accountType: "",
+		contentValue: "",
+		time: this.props.timeForPost,
+		date: this.props.clickedCalendarDate,
+		saving: false
 	};
 	constructor(props) {
 		super(props);
@@ -95,19 +105,43 @@ class Modal extends Component {
 			postImages: []
 		});
 	};
+	handleChange = (index, value) => {
+		this.setState({
+			[index]: value
+		});
+	};
 
 	render() {
+		if (this.state.saving) {
+			return <div>here</div>;
+		}
+		const {
+			activeTab,
+			accounts,
+			linkPreviewCanEdit,
+			linkPreviewCanShow,
+			date,
+			time,
+			saving,
+			link,
+			postImages,
+			contentValue,
+			postingToAccountId,
+			accountType
+		} = this.state;
+		const { updateCalendarPosts, updateCalendarBlogs, usersTimezone, close } = this.props;
+
 		var modalBody;
 		var modalFooter;
 
 		// Check if this is an email or blog placeholder
-		if (this.state.activeTab !== "blog" && this.state.activeTab !== "newsletter") {
+		if (activeTab !== "blog" && activeTab !== "newsletter") {
 			// Loop through all accounts
 			var activePageAccountsArray = [];
-			for (var index in this.state.accounts) {
+			for (var index in accounts) {
 				// Check if the account is the same as active tab
-				if (this.state.accounts[index].socialType === this.state.activeTab) {
-					activePageAccountsArray.push(this.state.accounts[index]);
+				if (accounts[index].socialType === activeTab) {
+					activePageAccountsArray.push(accounts[index]);
 				}
 			}
 			// Accounts list
@@ -121,8 +155,8 @@ class Modal extends Component {
 			// Carousel
 			var carousel = (
 				<Carousel
-					linkPreviewCanEdit={this.state.linkPreviewCanEdit}
-					linkPreviewCanShow={this.state.linkPreviewCanShow}
+					linkPreviewCanEdit={linkPreviewCanEdit}
+					linkPreviewCanShow={linkPreviewCanShow}
 					ref="carousel"
 					updateParentState={this.linkPreviewSetState}
 					id="linkCarousel"
@@ -134,14 +168,17 @@ class Modal extends Component {
 				modalBody = (
 					<div className="modal-body">
 						<textarea
-							id="contentPostingTextarea"
 							className="postingTextArea"
 							rows={5}
 							placeholder="Success doesn't write itself!"
-							onChange={event => this.refs.carousel.findLink(event.target.value)}
+							onChange={event => {
+								this.refs.carousel.findLink(event.target.value);
+								this.handleChange("contentValue", event.target.value);
+							}}
+							value={contentValue}
 						/>
 						<ImagesDiv
-							postImages={this.state.postImages}
+							postImages={postImages}
 							setPostImages={this.setPostImages}
 							imageLimit={4}
 							divID={"postCreationImagesDiv"}
@@ -159,26 +196,44 @@ class Modal extends Component {
 						</h4>
 						{accountsListDiv}
 						{carousel}
-						<DatePicker clickedCalendarDate={this.props.clickedCalendarDate} id="contentDatePickerPopUp" />
-						<TimePicker timeForPost={this.props.timeForPost} id="contentTimePickerPopUp" />
+						<DatePicker clickedCalendarDate={date} callback={this.handleChange} />
+						<TimePicker timeForPost={time} callback={this.handleChange} />
 					</div>
 				);
 				modalFooter = (
 					<div className="modal-footer">
 						<button
-							onClick={() =>
+							onClick={() => {
+								let dateToPostInUtcTime = convertDateAndTimeToUtcTme(date, time, usersTimezone);
+								if (
+									!postChecks(
+										postingToAccountId,
+										dateToPostInUtcTime,
+										usersTimezone,
+										accountType,
+										link,
+										postImages,
+										contentValue
+									)
+								) {
+									return;
+								}
 								savePost(
-									this.state.link,
-									this.state.postingToAccountId,
-									this.state.postImages,
-									this.state.linkPreviewCanShow,
-									this.state.activeTab,
-									this.state.accountType,
-									this.props.updateCalendarPosts,
-									this.props.usersTimezone,
-									this.savePostCallback
-								)
-							}
+									link,
+									postingToAccountId,
+									postImages,
+									linkPreviewCanShow,
+									activeTab,
+									accountType,
+									updateCalendarPosts,
+									dateToPostInUtcTime,
+									this.savePostCallback,
+									contentValue,
+									time,
+									date
+								);
+								this.setState({ saving: true });
+							}}
 						>
 							Save Post
 						</button>
@@ -187,24 +242,19 @@ class Modal extends Component {
 			} else {
 				modalBody = (
 					<div className="modal-body center">
-						<h4>Connect {this.state.activeTab} Profile first!</h4>
+						<h4>Connect {activeTab} Profile first!</h4>
 					</div>
 				);
 				modalFooter = <div className="modal-footer" />;
 			}
-		} else if (this.state.activeTab === "blog") {
-			modalBody = (
-				<CreateBlog
-					clickedCalendarDate={this.props.clickedCalendarDate}
-					updateCalendarBlogs={this.props.updateCalendarBlogs}
-				/>
-			);
+		} else if (activeTab === "blog") {
+			modalBody = <CreateBlog clickedCalendarDate={date} updateCalendarBlogs={updateCalendarBlogs} />;
 		}
 
 		return (
 			<div id="postingModal" className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
-					<span className="close-dark" onClick={() => this.props.close("contentModal")}>
+					<span className="close-dark" onClick={() => close("contentModal")}>
 						&times;
 					</span>
 					<div className="modal-header">
