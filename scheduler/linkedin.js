@@ -1,14 +1,14 @@
 const Post = require("../models/Post");
 const Account = require("../models/Account");
-var cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 const keys = require("../config/keys");
-var Linkedin = require("node-linkedin")(
+const Linkedin = require("node-linkedin")(
 	keys.linkedinConsumerKey,
 	keys.linkedinConsumerSecret,
 	keys.linkedinCallbackURL
 );
-var request = require("request");
-var axios = require("axios");
+const request = require("request");
+const axios = require("axios");
 
 module.exports = {
 	postToProfile: function(post) {

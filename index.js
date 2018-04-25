@@ -12,11 +12,11 @@ const MongoStore = require("connect-mongo")(session);
 const User = require("./models/User");
 const secure = require("express-force-https");
 
-var Schema = mongoose.Schema;
-var multer = require("multer");
+const Schema = mongoose.Schema;
+const multer = require("multer");
 
 // Image uploads
-var cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 // Connect to cloudinary
 cloudinary.config({
 	cloud_name: keys.cloudinaryName,
@@ -27,12 +27,18 @@ cloudinary.config({
 const router = express.Router();
 
 // Post scheduler
-var schedulerMain = require("./scheduler/cronScheduler");
-var cron = require("node-cron");
-if (process.env.NODE_ENV === "production")
-	cron.schedule("1 * * * * *", function() {
-		schedulerMain.main();
+const PostScheduler = require("./scheduler/PostScheduler");
+const TokenScheduler = require("./scheduler/TokenScheduler");
+const schedule = require("node-schedule");
+
+if (process.env.NODE_ENV === "production") {
+	schedule.scheduleJob("* * * * *", function() {
+		PostScheduler.main();
 	});
+	schedule.scheduleJob("0 0 1 * *", function() {
+		TokenScheduler.main();
+	});
+}
 
 require("./models/User");
 

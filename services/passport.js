@@ -81,6 +81,8 @@ module.exports = function(passport) {
 								newUser.country = req.body.country;
 								newUser.timezone = req.body.timezone;
 								newUser.website = req.body.website;
+								newAccount.lastRenewed = new Date().getTime();
+
 								newUser.save().then(user => done(null, user));
 							}
 						});
@@ -121,6 +123,8 @@ module.exports = function(passport) {
 				newAccount.familyName = profile._json.last_name;
 				newAccount.email = profile._json.email;
 				newAccount.provider = profile.provider;
+				newAccount.lastRenewed = new Date().getTime();
+
 				newAccount.save().then(account => done(null, req.session.passport.user));
 			}
 		)
@@ -166,6 +170,7 @@ module.exports = function(passport) {
 				newAccount.givenName = givenName;
 				newAccount.familyName = familyName;
 				newAccount.email = profile.email;
+				newAccount.lastRenewed = new Date().getTime();
 
 				newAccount.save(function(err) {
 					if (err) return done(err);

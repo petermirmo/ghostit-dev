@@ -1,7 +1,8 @@
 const Post = require("../models/Post");
-var FB = require("fb");
+const FB = require("fb");
 const Account = require("../models/Account");
-var cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
+const keys = require("../config/keys");
 
 module.exports = {
 	postToProfileOrPage: function(post) {
@@ -107,6 +108,10 @@ module.exports = {
 				}
 			}
 		);
+	},
+	renewAuthToken: function(accounts) {
+		let account = accounts[0];
+		getFbCode(account, accounts, 0);
 	}
 };
 function savePostError(postID, error) {
@@ -126,4 +131,52 @@ function savePostSuccessfully(postID, fbPostID) {
 			return;
 		});
 	});
+}
+function tradeCodeForToken(codeResult, account, accounts, counter) {
+	FB.api(
+		"oauth/access_token",
+		{
+			client_id: keys.fbClientID,
+			redirect_uri: keys.fbCallbackUrl,
+			code: codeResult.code
+		},
+		function(tokenResult) {
+			if (!tokenResult.access_token) {
+				counter++;
+
+				if (counter < 10) {
+					getFbCode(account, accounts, counter);
+				} else {
+					console.log("failed");
+				}
+				return;
+			}
+			for (let i = 0; i < accounts.length; i++) {
+				accounts[i].accessToken = tokenResult.access_token;
+				accounts[i].renewDate = new Date();
+				accounts[i].save().then(resu => {
+					console.log("success");
+					console.log("\n");
+				});
+			}
+		}
+	);
+}
+function getFbCode(account, accounts, counter) {
+	FB.api(
+		"oauth/client_code",
+		{
+			client_id: keys.fbClientID,
+			client_secret: keys.fbClientSecret,
+			redirect_uri: keys.fbCallbackUrl,
+			access_token: account.accessToken
+		},
+		function(codeResult) {
+			if (!codeResult.code) {
+				console.log(codeResult);
+				return;
+			}
+			tradeCodeForToken(codeResult, account, accounts);
+		}
+	);
 }

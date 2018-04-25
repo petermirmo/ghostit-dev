@@ -31,6 +31,8 @@ module.exports = {
 		newAccount.socialID = page.id;
 		newAccount.givenName = page.name;
 		newAccount.category = page.category;
+		newAccount.lastRenewed = new Date().getTime();
+
 		newAccount.save().then(result => res.send(true));
 	},
 	getAccounts: function(req, res) {

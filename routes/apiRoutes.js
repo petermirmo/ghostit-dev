@@ -88,6 +88,7 @@ module.exports = app => {
 			failureRedirect: "/"
 		})
 	);
+
 	// Add Twitter account
 	app.get("/api/twitter", passport.authenticate("twitter"));
 	// Twitter callback
