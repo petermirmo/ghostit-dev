@@ -150,9 +150,10 @@ class StrategyForm extends Component {
 		}
 		axios.post("/api/strategy", strategy).then(res => {
 			if (res.data) {
-				// Success
+				this.setState({ saving: false });
 			} else {
-				// Failure!
+				this.setState({ saving: false });
+				alert("Something went wrong! Contact your local Dev Ninja! :D");
 			}
 		});
 	}
@@ -160,7 +161,8 @@ class StrategyForm extends Component {
 	render() {
 		var formFields = [];
 		var competitorDivs = [];
-		for (var index in strategyFormFields) {
+		for (let i in strategyFormFields) {
+			let index = strategyFormFields[i];
 			if (!Array.isArray(this.state[index])) {
 				formFields.push(
 					<div key={index}>

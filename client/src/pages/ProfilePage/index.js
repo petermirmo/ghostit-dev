@@ -35,7 +35,6 @@ class Content extends Component {
 		event.preventDefault();
 		const { fullName, email, website, password } = this.state;
 		axios.post("/api/user/id", { fullName: fullName, email: email, website: website, password: password }).then(res => {
-			console.log(res.data);
 			if (res.data) {
 				this.setState({ saving: false });
 			} else {
@@ -60,6 +59,7 @@ class Content extends Component {
 								style={{ marginTop: "7%" }}
 								onChange={event => this.handleChange("fullName", event.target.value)}
 								value={this.state.fullName}
+								required
 							/>
 							<input
 								type="text"
@@ -67,6 +67,7 @@ class Content extends Component {
 								placeholder="Email"
 								onChange={event => this.handleChange("email", event.target.value)}
 								value={this.state.email}
+								required
 							/>
 
 							<input
@@ -75,6 +76,7 @@ class Content extends Component {
 								placeholder="Website"
 								onChange={event => this.handleChange("website", event.target.value)}
 								value={this.state.website}
+								required
 							/>
 
 							<input
@@ -83,6 +85,7 @@ class Content extends Component {
 								placeholder="Password"
 								onChange={event => this.handleChange("password", event.target.value)}
 								value={this.state.password}
+								required
 							/>
 
 							<input
