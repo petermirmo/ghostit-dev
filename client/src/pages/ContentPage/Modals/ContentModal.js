@@ -201,6 +201,7 @@ class Modal extends Component {
 						<button
 							onClick={() => {
 								let dateToPostInUtcTime = convertDateAndTimeToUtcTme(date, time, usersTimezone);
+
 								if (
 									!postChecks(
 										postingToAccountId,
