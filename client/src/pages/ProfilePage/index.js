@@ -9,12 +9,10 @@ import "./style.css";
 
 class Content extends Component {
 	state = {
-		user: {
-			fullName: "",
-			email: "",
-			website: "",
-			password: ""
-		},
+		fullName: "",
+		email: "",
+		website: "",
+		password: "",
 		saving: false
 	};
 	constructor(props) {
@@ -24,7 +22,7 @@ class Content extends Component {
 	}
 	initialize() {
 		// Get current user and fill in form data
-		axios.get("/api/user").then(function(res) {
+		axios.get("/api/user").then(res => {
 			const { fullName, email, website } = res.data;
 			this.setState({ fullName: fullName, email: email, website: website, password: "" });
 		});
@@ -33,7 +31,18 @@ class Content extends Component {
 		this.setState({ [index]: value });
 	};
 	saveUser = event => {
+		this.setState({ saving: true });
 		event.preventDefault();
+		const { fullName, email, website, password } = this.state;
+		axios.post("/api/user/id", { fullName: fullName, email: email, website: website, password: password }).then(res => {
+			console.log(res.data);
+			if (res.data) {
+				this.setState({ saving: false });
+			} else {
+				this.setState({ saving: false });
+				alert("Something went wrong! Contact your local DevNinja");
+			}
+		});
 	};
 	render() {
 		return (
@@ -43,45 +52,37 @@ class Content extends Component {
 
 				<div id="main">
 					<div className="container center">
-						<form action="/api/user/id" method="post">
+						<form>
 							<input
 								type="text"
-								name="fullName"
 								className="profile-input center"
 								placeholder="Full Name"
 								style={{ marginTop: "7%" }}
 								onChange={event => this.handleChange("fullName", event.target.value)}
 								value={this.state.fullName}
-								required
 							/>
 							<input
 								type="text"
-								name="email"
 								className="profile-input center"
 								placeholder="Email"
 								onChange={event => this.handleChange("email", event.target.value)}
 								value={this.state.email}
-								required
 							/>
 
 							<input
 								type="text"
-								name="website"
 								className="profile-input center"
 								placeholder="Website"
 								onChange={event => this.handleChange("website", event.target.value)}
 								value={this.state.website}
-								required
 							/>
 
 							<input
 								type="password"
-								name="password"
 								className="profile-input center"
 								placeholder="Password"
 								onChange={event => this.handleChange("password", event.target.value)}
 								value={this.state.password}
-								required
 							/>
 
 							<input
