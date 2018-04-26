@@ -118,7 +118,7 @@ class Header extends Component {
 					</a>
 					{(this.state.user.role === "demo" || this.state.user.role === "admin") && (
 						<a id="plans" href="/subscribe">
-							Upgrade to Business Superhero
+							Become Awesome
 						</a>
 					)}
 

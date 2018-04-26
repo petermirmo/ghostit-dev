@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as PlanConstants from "../../Constants/PlanConstants";
+import { nonEditablePlanFields } from "../../constants/PlanConstants";
 
 class PlanForm extends Component {
 	state = {
@@ -31,7 +31,6 @@ class PlanForm extends Component {
 	}
 	render() {
 		const { savePlan, updateParentState } = this.props;
-		const { nonEditablePlanFields } = PlanConstants;
 
 		let planAttributes = [];
 		let attributes = this.state.plan;

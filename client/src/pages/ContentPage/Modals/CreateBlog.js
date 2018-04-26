@@ -21,7 +21,8 @@ class CreateBlogComponent extends Component {
 		blogImage: this.props.blog ? (this.props.blog.image ? [this.props.blog.image] : []) : [],
 		blogFile: this.props.blog ? this.props.blog.wordDoc || "" : "",
 
-		imagesToDelete: []
+		imagesToDelete: [],
+		saving: false
 	};
 	constructor(props) {
 		super(props);
@@ -52,7 +53,9 @@ class CreateBlogComponent extends Component {
 		reader.readAsDataURL(blogFile);
 	}
 	saveBlog() {
+		this.props.callback();
 		var formData = new FormData();
+
 		var image;
 		if (this.state.blogImage.length > 0) image = this.state.blogImage[0].image;
 

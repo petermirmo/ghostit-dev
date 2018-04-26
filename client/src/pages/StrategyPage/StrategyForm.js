@@ -3,6 +3,9 @@ import axios from "axios";
 
 import "./style.css";
 import "font-awesome/css/font-awesome.min.css";
+import Loader from "../../components/Loader/";
+
+import { strategyFormFields } from "../../constants/Common";
 
 class StrategyForm extends Component {
 	state = {
@@ -48,7 +51,8 @@ class StrategyForm extends Component {
 			value: "",
 			rows: "6"
 		},
-		competitors: []
+		competitors: [],
+		saving: false
 	};
 	constructor(props) {
 		super(props);
@@ -156,7 +160,7 @@ class StrategyForm extends Component {
 	render() {
 		var formFields = [];
 		var competitorDivs = [];
-		for (var index in this.state) {
+		for (var index in strategyFormFields) {
 			if (!Array.isArray(this.state[index])) {
 				formFields.push(
 					<div key={index}>
@@ -204,9 +208,16 @@ class StrategyForm extends Component {
 					</div>
 				</div>
 				{formFields}
-				<button onClick={this.saveStrategy} className="big-purple-submit-button">
+				<button
+					onClick={event => {
+						this.setState({ saving: true });
+						this.saveStrategy(event);
+					}}
+					className="big-purple-submit-button"
+				>
 					Save Strategy!
 				</button>
+				{this.state.saving && <Loader />}
 			</form>
 		);
 	}

@@ -10,8 +10,9 @@ import ImagesDiv from "../Divs/ImagesDiv.js";
 
 import Notification from "../../../components/Notification";
 import ConfirmAlert from "../../../components/ConfirmAlert";
+//import Loader from "../../../components/Loader/";
 
-import "../../../css/modal.css";
+import "./style.css";
 import { switchDateToUsersTimezoneInUtcForm } from "../../../functions/CommonFunctions";
 
 class EdittingModal extends Component {
@@ -27,7 +28,8 @@ class EdittingModal extends Component {
 		postingDate: undefined,
 		imagesToDelete: [],
 		status: "",
-		notification: {}
+		notification: {},
+		saving: false
 	};
 
 	constructor(props) {

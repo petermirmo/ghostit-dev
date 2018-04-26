@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-//import * as PlanConstants from "../../Constants/PlanConstants";
 import PayDiv from "./PayDiv";
 
 import "./style.css";

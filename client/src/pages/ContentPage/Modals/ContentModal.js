@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
-import moment from "moment-timezone";
 
 import DatePicker from "../Divs/DatePicker.js";
 import TimePicker from "../Divs/TimePicker.js";
@@ -10,14 +9,9 @@ import CreateBlog from "./CreateBlog.js";
 import SelectAccountDiv from "../Divs/SelectAccountDiv.js";
 import ContentModalHeader from "./ContentModalHeader.js";
 import ImagesDiv from "../Divs/ImagesDiv.js";
-import {
-	savePost,
-	switchDateToUsersTimezoneInUtcForm,
-	postChecks,
-	convertDateAndTimeToUtcTme
-} from "../../../functions/CommonFunctions";
-
-import "../../../css/modal.css";
+import { savePost, postChecks, convertDateAndTimeToUtcTme } from "../../../functions/CommonFunctions";
+import Loader from "../../../components/Loader/";
+import "./style.css";
 
 class Modal extends Component {
 	state = {
@@ -110,10 +104,13 @@ class Modal extends Component {
 			[index]: value
 		});
 	};
+	setSaving = () => {
+		this.setState({ saving: true });
+	};
 
 	render() {
 		if (this.state.saving) {
-			return <div>here</div>;
+			return <Loader />;
 		}
 		const {
 			activeTab,
@@ -122,7 +119,6 @@ class Modal extends Component {
 			linkPreviewCanShow,
 			date,
 			time,
-			saving,
 			link,
 			postImages,
 			contentValue,
@@ -248,7 +244,9 @@ class Modal extends Component {
 				modalFooter = <div className="modal-footer" />;
 			}
 		} else if (activeTab === "blog") {
-			modalBody = <CreateBlog clickedCalendarDate={date} updateCalendarBlogs={updateCalendarBlogs} />;
+			modalBody = (
+				<CreateBlog clickedCalendarDate={date} updateCalendarBlogs={updateCalendarBlogs} callback={this.setSaving} />
+			);
 		}
 
 		return (

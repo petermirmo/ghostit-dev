@@ -1,0 +1,8 @@
+.profile-input {
+	width: 60%;
+	margin: 20px;
+	padding: 10px;
+	-webkit-box-shadow: 0 0 0px 1000px var(--white-theme-color) inset;
+	border-radius: 10px;
+	border: 2px solid #cccccc;
+}

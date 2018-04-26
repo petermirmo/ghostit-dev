@@ -1,11 +1,39 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-@import url(https://fonts.googleapis.com/css?family=Indie+Flower);
-@import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
-@import url(https://fonts.googleapis.com/css?family=Lobster);
-@import url(https://fonts.googleapis.com/css?family=Pacifico);
 
 @import url("htmlTags.css");
 @import url("confirmAlert.css");
+:root {
+	--blue-theme-color: #19b5fe;
+	--purple-theme-color: #ae56fa;
+	--orange-theme-color: #fd651c;
+	--green-theme-color: #4cd137;
+	--yellow-theme-color: #ffff00;
+	--pink-theme-color: #ff017e;
+	--red-theme-color: #ff1a1a;
+
+	--grey-theme-color: #bfbfbf;
+	--black-theme-color: #000;
+	--white-theme-color: #fff;
+
+	--light-purple-theme-color: #c483fb;
+	--light-light-purple-theme-color: #dbb5fd;
+	--light-blue-theme-color: #b3e6ff;
+	--light-light-blue-theme-color: #d1f0ff;
+	--super-light-blue-theme-color: #e6f7ff;
+	--dark-blue-theme-color: #019ce5;
+
+	--light-grey-theme-color: #d9d9d9;
+	--dark-grey-theme-color: #737373;
+
+	--off-black-theme-color: #666666;
+
+	--font-theme-color: #000;
+	--large-font-size: 13pt;
+	--extra-large-font-size: 17pt;
+	--regular-font-size: 11pt;
+
+	--font-theme: "Open Sans";
+}
 
 #wrapper {
 	padding: 50px 0;
@@ -34,107 +62,6 @@
 	border: 2px solid #b3e6ff;
 	background-color: #fff;
 }
-.profile-input {
-	width: 60%;
-	margin: 20px;
-	padding: 10px;
-	-webkit-box-shadow: 0 0 0px 1000px var(--white-theme-color) inset;
-	border-radius: 10px;
-	border: 2px solid #cccccc;
-}
-.login-input {
-	font-family: var(--font-theme);
-	font-size: var(--large-font-size);
-	color: var(--font-theme-color);
-
-	width: 90%;
-
-	border: none;
-	outline: none;
-	display: inline-block;
-}
-.login-background {
-	background-color: var(--blue-theme-color);
-	background: linear-gradient(180deg, var(--blue-theme-color), var(--white-theme-color)150%);
-
-	width: 50%;
-	height: auto;
-	min-height: 100%;
-
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: -1;
-	vertical-align: middle;
-}
-.login-background img {
-	width: 40%;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 10%;
-}
-
-.landing-page {
-	width: 50%;
-	height: 100%;
-	min-height: 100%;
-	right: 0;
-	position: absolute;
-	z-index: -1;
-}
-.landing-page img {
-	filter: brightness(55%);
-}
-.landing-page div {
-	text-align: center;
-}
-.landing-page div button {
-	background-color: transparent;
-	border: 2px solid var(--white-theme-color);
-	font-size: var(--large-font-size);
-	border-radius: 4px;
-}
-
-.landing-page .lpcontainer {
-	position: absolute;
-	color: var(--white-theme-color);
-	width: 80%;
-	margin-top: 45%;
-	padding-left: 40px;
-}
-.landing-page h1 {
-	color: var(--white-theme-color);
-}
-.landing-page h5 {
-	color: var(--white-theme-color);
-}
-.form-box {
-	width: 70%;
-	height: 70%;
-	background-color: var(--white-theme-color);
-	border: 2px solid #000;
-
-	text-align: center;
-	margin: auto;
-
-	margin-top: 5%;
-	border-radius: 2px;
-	border: 10px solid #eeeeef;
-}
-.login-box {
-	width: 80%;
-	height: 80%;
-	background-color: var(--white-theme-color);
-
-	text-align: center;
-	margin: auto;
-	margin-top: 2%;
-
-	border-radius: 10px;
-	border: 2px solid var(--white-theme-color);
-	box-shadow: 0 0 20px 0;
-}
 
 .submit-colorful {
 	margin-top: 5%;
@@ -147,20 +74,6 @@
 
 	font-size: 20px;
 	color: var(--white-theme-color);
-}
-
-.big-calendar {
-	min-height: 800px;
-	margin: 40px;
-
-	background-color: var(--white-theme-color);
-}
-
-.login-switch {
-	cursor: pointer;
-	border-bottom: 2px solid var(--blue-theme-color);
-	margin: auto;
-	margin-bottom: 5%;
 }
 
 .animate-left {

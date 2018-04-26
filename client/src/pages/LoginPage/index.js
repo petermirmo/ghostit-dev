@@ -4,6 +4,7 @@ import axios from "axios";
 
 import landingPageBackground from "./landing_page.jpeg";
 import logo from "./logo.png";
+import "./style.css";
 
 // User's timezone
 var userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;

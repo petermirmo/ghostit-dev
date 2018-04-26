@@ -5,7 +5,7 @@ import moment from "moment-timezone";
 import ManageColumn from "../../components/SearchColumn/";
 import ObjectEditTable from "../../components/ObjectEditTable/";
 import NavigationBar from "../../components/NavigationBar/";
-import * as PlanConstants from "../../Constants/UserConstants";
+import { nonEditableUserFields, canShowUserFields } from "../../constants/Common";
 
 class UsersTable extends Component {
 	state = {
@@ -155,7 +155,6 @@ class UsersTable extends Component {
 	}
 	render() {
 		let array = [];
-		const { nonEditableUserFields, canShowUserFields } = PlanConstants;
 
 		for (let index in this.state.clickedUser) {
 			let canEdit = true;

@@ -1,27 +1,29 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "../../../css/modal.css";
+import "./style.css";
 import "font-awesome/css/font-awesome.min.css";
 
 import Notification from "../../../components/Notification";
 import ConfirmAlert from "../../../components/ConfirmAlert";
 import CreateBlog from "./CreateBlog.js";
+import Loader from "../../../components/Loader/";
 
 class BlogEdittingModal extends Component {
 	state = {
-		deletePost: false,
+		deleteblog: false,
 		notification: {},
-		blog: this.props.clickedCalendarEvent
+		blog: this.props.clickedCalendarEvent,
+		saving: false
 	};
 	componentWillReceiveProps(nextProps) {
 		this.setState({ blog: nextProps.clickedCalendarEvent });
 	}
 	deleteBlogPopUp = () => {
-		this.setState({ deletePost: true });
+		this.setState({ deleteblog: true });
 	};
 	deleteBlog = deleteBlog => {
-		this.setState({ deletePost: false });
+		this.setState({ deleteblog: false, saving: true });
 		if (!this.state.blog) {
 			alert("Error cannot find blog. Please contact our dev team immediately");
 			return;
@@ -42,6 +44,9 @@ class BlogEdittingModal extends Component {
 		this.setState({ notification: {} });
 	};
 	render() {
+		if (this.state.saving) {
+			return <Loader />;
+		}
 		return (
 			<div id="BlogEdittingModal" className="modal">
 				{this.state.notification.on && (
@@ -52,7 +57,7 @@ class BlogEdittingModal extends Component {
 						callback={this.hideNotification}
 					/>
 				)}
-				{this.state.deletePost && (
+				{this.state.deleteblog && (
 					<ConfirmAlert
 						title="Delete Blog"
 						message="Are you sure you want to delete this blog?"
