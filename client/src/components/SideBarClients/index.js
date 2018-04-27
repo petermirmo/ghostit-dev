@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ManageColumn from "../SearchColumn/";
+import SearchColumn from "../SearchColumn/";
 import "../../css/sideBar.css";
 
 class ConnectAccountsSideBar extends Component {
@@ -70,7 +70,7 @@ class ConnectAccountsSideBar extends Component {
 	render() {
 		return (
 			<div className="side-bar animate-left" style={{ display: "none" }} id="clientsSideBar">
-				<ManageColumn
+				<SearchColumn
 					objectList={this.state.clients}
 					searchObjects={this.searchUsers}
 					handleClickedObject={this.userClicked}
