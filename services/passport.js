@@ -81,7 +81,6 @@ module.exports = function(passport) {
 								newUser.country = req.body.country;
 								newUser.timezone = req.body.timezone;
 								newUser.website = req.body.website;
-								newAccount.lastRenewed = new Date().getTime();
 
 								newUser.save().then(user => done(null, user));
 							}
