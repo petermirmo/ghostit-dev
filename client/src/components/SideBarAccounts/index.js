@@ -4,6 +4,7 @@ import axios from "axios";
 import AddPageOrGroupModal from "./AddPagesOrGroupsModal";
 import ConnectedAccountsDiv from "./ConnectedAccountsDiv";
 import "../../css/sideBar.css";
+import "./style.css";
 
 class ConnectAccountsSideBar extends Component {
 	state = {

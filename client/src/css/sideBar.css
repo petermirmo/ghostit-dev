@@ -37,23 +37,3 @@ label {
 	color: var(--white-theme-color);
 	text-decoration: none;
 }
-.connected-social-div {
-	display: block;
-	width: 80%;
-	color: var(--black-theme-color);
-}
-.connected-social-div h4 {
-	text-align: left;
-	color: var(--black-theme-color);
-	font-weight: normal;
-	margin: 0;
-}
-.connected-accounts-div-footer {
-}
-.connected-social-div p {
-	text-align: left;
-	color: var(--dark-grey-theme-color);
-	font-weight: normal;
-	font-size: var(--regular-font-size);
-	margin-top: 10px;
-}

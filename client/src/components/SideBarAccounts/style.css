@@ -1,0 +1,30 @@
+.connected-social-div {
+	display: block;
+	width: 80%;
+	color: var(--black-theme-color);
+}
+.connected-social-div h4 {
+	text-align: left;
+	color: var(--black-theme-color);
+	font-weight: normal;
+	margin: 0;
+}
+.connected-accounts-div-footer {
+	border-bottom: 2px solid var(--light-blue-theme-color);
+	width: 90%;
+}
+hr {
+	color: var(--blue-theme-color);
+}
+.connected-social-div p {
+	text-align: left;
+	color: var(--dark-grey-theme-color);
+	font-weight: normal;
+	font-size: var(--regular-font-size);
+	margin-top: 10px;
+}
+.connected-accounts-header {
+	color: var(--black-theme-color);
+	width: 90%;
+	border-bottom: 2px solid var(--pink-theme-color);
+}

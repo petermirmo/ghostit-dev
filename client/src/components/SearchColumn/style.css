@@ -19,9 +19,6 @@
 .user-row:nth-child(even) {
 	background-color: var(--blue-theme-color);
 }
-.user-row:nth-child(odd):hover {
-	background-color: var(--green-theme-color);
-}
 .user-row:hover {
 	background-color: var(--green-theme-color);
 	cursor: pointer;

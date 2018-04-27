@@ -95,6 +95,7 @@ class StrategyForm extends Component {
 			}
 		});
 	}
+
 	handleFormChange(event) {
 		if (Number.isInteger(Number(event.target.id))) {
 			var temp = this.state.competitors;
@@ -206,7 +207,7 @@ class StrategyForm extends Component {
 				<div className="input-container center">
 					{competitorDivs}
 					<div className="icon-container">
-						<button onClick={this.addCompetitor} className="fa fa-plus fa-2x white-button" />
+						<button onClick={this.addCompetitor} className="fa fa-plus fa-2x add-competitor" />
 					</div>
 				</div>
 				{formFields}

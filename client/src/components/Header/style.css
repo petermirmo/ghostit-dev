@@ -9,20 +9,21 @@ header {
 }
 .signed-in-as {
 	width: 100%;
-	background-color: var(--dark-blue-theme-color);
+	background-color: var(--green-theme-color);
 }
 .signed-in-as p {
 	padding: 0;
 	margin: 0;
-	color: var(--white-theme-color);
+	color: var(--dark-green-theme-color);
 	text-align: center;
 	display: inline-block;
+	font-weight: bold;
 }
 .signed-in-as button {
 	padding: 0 0 0 20px;
 	margin: 0;
-	background-color: var(--dark-blue-theme-color);
-	color: var(--white-theme-color);
+	background-color: inherit;
+	color: var(--red-theme-color);
 	text-align: center;
 	display: inline-block;
 }
@@ -138,11 +139,11 @@ header {
 	font-size: var(--large-font-size);
 	border: 2px solid var(--white-theme-color);
 	margin: 7px 0 0 7px;
-	border-radius: 4px;
+	border-radius: 50px;
 
 	-webkit-transition: background-color 0.3s;
 	transition: background-color 0.3s;
 }
 .big-round-button:hover {
-	background-color: var(--pink-theme-color);
+	background-color: var(--green-theme-color);
 }

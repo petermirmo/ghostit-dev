@@ -38,7 +38,7 @@
 }
 .form-title {
 	margin: 10px 0 0 35px;
-	border-bottom: 2px solid var(--purple-theme-color);
+	border-bottom: 2px solid var(--pink-theme-color);
 	display: inline-block;
 	float: left;
 }
@@ -54,13 +54,13 @@
 .full-form {
 	height: 100%;
 }
-.white-button {
+.add-competitor {
 	background-color: var(--blue-theme-color);
 	color: var(--white-theme-color);
 	margin: 10px 10px 10px 10px;
 	float: left;
 }
-.white-button:hover {
+.add-competitor:hover {
 	background-color: var(--white-theme-color);
 	color: var(--blue-theme-color);
 }
@@ -70,12 +70,16 @@
 }
 .big-purple-submit-button {
 	margin: 20px 0 20px 35px;
-	padding: 20px;
+	padding: 15px;
 	font-size: var(--extra-large-font-size);
 	border-radius: 60px;
-	width: 40%;
-	background-color: var(--purple-theme-color);
+	width: 30%;
+	background-color: var(--pink-theme-color);
+	color: var(--white-theme-color);
+	font-weight: bold;
+
+	transition: all 1s ease;
 }
 .big-purple-submit-button:hover {
-	background-color: var(--blue-theme-color);
+	transform: scale(1.2);
 }

@@ -56,19 +56,8 @@ class ConnectedAccountsList extends Component {
 				name = account.username;
 			}
 			// Header for connected accounts
-			connectedAccountsHeader = (
-				<h2
-					className="center"
-					style={{
-						color: "var(--black-theme-color)",
-						width: "90%",
-						borderBottom: " 2px solid var(--purple-theme-color)"
-					}}
-				>
-					Connected Accounts
-				</h2>
-			);
-			connectedAccountsFooter = <hr className="connected-accounts-div-footer" />;
+			connectedAccountsHeader = <h2 className="center connected-accounts-header">Connected Accounts</h2>;
+			connectedAccountsFooter = <div className="center connected-accounts-div-footer" />;
 			// Create div for each connected account
 			if (account.socialType === "facebook") {
 				connectedFacebookAccounts.push(
