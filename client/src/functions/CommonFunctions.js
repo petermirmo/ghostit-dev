@@ -3,7 +3,6 @@ import axios from "axios";
 
 export function switchDateToUsersTimezoneInUtcForm(postingDate, zone) {
 	var format = "YYYY/MM/DD HH:mm:ss ZZ";
-	console.log(zone);
 
 	var postingDateUtcOffset = postingDate.getTimezoneOffset();
 	var userTimezoneUtcOffset = -moment(postingDate)

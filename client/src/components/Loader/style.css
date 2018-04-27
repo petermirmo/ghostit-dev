@@ -97,7 +97,7 @@
 	width: 120px;
 	height: 60px;
 	border-radius: 120px 120px 0 0;
-	background: #19b5fe;
+	background: var(--blue-theme-color);
 	-webkit-animation: lds-pacman-1 0.8s linear infinite;
 	animation: lds-pacman-1 0.8s linear infinite;
 	-webkit-transform-origin: 60px 60px;
@@ -114,7 +114,7 @@
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
-	background: #ae56fa;
+	background: var(--purple-theme-color);
 	-webkit-animation: lds-pacman-3 0.8s linear infinite;
 	animation: lds-pacman-3 0.8s linear infinite;
 }

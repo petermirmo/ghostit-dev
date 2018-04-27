@@ -22,8 +22,6 @@ class Content extends Component {
 	getTimezone = () => {
 		axios.get("/api/timezone").then(res => {
 			if (res.data) {
-				console.log("here");
-
 				this.setState({ usersTimezone: res.data });
 			}
 		});
