@@ -1,31 +1,11 @@
 header {
 	top: 0;
 	left: 0;
-	position: fixed;
+	position: absolute;
 	z-index: 9999;
 
 	width: 100%;
 	box-shadow: 0px -5px 20px 0px;
-}
-.signed-in-as {
-	width: 100%;
-	background-color: var(--green-theme-color);
-}
-.signed-in-as p {
-	padding: 0;
-	margin: 0;
-	color: var(--dark-green-theme-color);
-	text-align: center;
-	display: inline-block;
-	font-weight: bold;
-}
-.signed-in-as button {
-	padding: 0 0 0 20px;
-	margin: 0;
-	background-color: inherit;
-	color: var(--red-theme-color);
-	text-align: center;
-	display: inline-block;
 }
 .navbar {
 	overflow: hidden;
@@ -33,7 +13,6 @@ header {
 	background: linear-gradient(to top, var(--blue-theme-color), #80d6fe 150%);
 	font-family: var(--font-theme);
 	padding-right: 10%;
-	height: 50px;
 	color: var(--light-light-blue-theme-color);
 }
 
@@ -46,17 +25,25 @@ header {
 	float: right;
 
 	padding: 10px 16px;
-	border-radius: 10px;
+	border-radius: 4px;
 
-	-webkit-transition: color 1s;
-	transition: color 1s;
+	-webkit-transition: color 0.3s;
+	transition: color 0.3s;
+
+	-webkit-transition: background-color 0.3s;
+	transition: background-color 0.3s;
 }
 
-.navbar a:hover {
-	border-radius: 10px;
-	color: var(--white-theme-color);
+.header-active {
+	font-weight: bold;
 }
-
+.header-button {
+	cursor: pointer;
+	color: var(--white-theme-color) !important;
+}
+.header-button:hover {
+	font-weight: bold;
+}
 .dropdown {
 	float: right;
 	overflow: hidden;
@@ -83,7 +70,7 @@ header {
 
 .dropdown .dropbtn {
 	font-size: var(--large-font-size);
-	color: var(--light-light-blue-theme-color);
+	color: var(--white-theme-color);
 	font-family: inherit;
 
 	border: none;
@@ -106,7 +93,7 @@ header {
 }
 .dropbtn:hover {
 	border-radius: 10px;
-	color: var(--white-theme-color);
+	font-weight: bold;
 }
 .dropdown-content a:hover {
 	border-radius: 10px;
@@ -118,6 +105,7 @@ header {
 	display: none;
 	position: absolute;
 
+	cursor: pointer;
 	min-width: 80px;
 
 	z-index: 1;
@@ -131,10 +119,6 @@ header {
 .dropdown:hover .dropdown-content {
 	display: block;
 }
-.header-active {
-	font-weight: bold;
-	color: var(--white-theme-color) !important;
-}
 .big-round-button {
 	font-size: var(--large-font-size);
 	border: 2px solid var(--white-theme-color);
@@ -146,4 +130,25 @@ header {
 }
 .big-round-button:hover {
 	background-color: var(--green-theme-color);
+}
+
+.signed-in-as {
+	width: 100%;
+	background-color: var(--green-theme-color);
+}
+.signed-in-as p {
+	padding: 0;
+	margin: 0;
+	color: var(--dark-green-theme-color);
+	text-align: center;
+	display: inline-block;
+	font-weight: bold;
+}
+.signed-in-as button {
+	padding: 0 0 0 20px;
+	margin: 0;
+	background-color: inherit;
+	color: var(--red-theme-color);
+	text-align: center;
+	display: inline-block;
 }

@@ -38,7 +38,102 @@
 
 	--font-theme: "Open Sans";
 }
+.modal {
+	position: fixed; /* Stay in place */
+	z-index: 100; /* Sit on top */
+	padding-top: 80px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
 
+/* Modal Content */
+.modal-content {
+	position: relative;
+	background-color: var(--white-theme-color);
+	margin: auto;
+	padding: 0;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-animation-name: animatetop;
+	-webkit-animation-duration: 0.4s;
+	animation-name: animatetop;
+	animation-duration: 0.4s;
+
+	width: 50%;
+	margin-bottom: 200px;
+}
+
+.modal-header {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
+	margin: 0;
+}
+
+.modal-body {
+	padding: 0 16px;
+	margin: 0;
+	overflow: hidden;
+}
+
+.modal-footer {
+	padding: 0;
+	background-color: var(--white-theme-color);
+	text-align: center;
+}
+/* Add Animation */
+@-webkit-keyframes animatetop {
+	from {
+		top: -300px;
+		opacity: 0;
+	}
+	to {
+		top: 0;
+		opacity: 1;
+	}
+}
+
+@keyframes animatetop {
+	from {
+		top: -300px;
+		opacity: 0;
+	}
+	to {
+		top: 0;
+		opacity: 1;
+	}
+}
+
+.close,
+.close-dark {
+	color: var(--white-theme-color);
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	padding-top: 1px;
+	margin-right: 10px;
+}
+.close-dark {
+	color: var(--black-theme-color);
+}
+.close-dark:hover,
+.close-dark:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+.close-dark:hover {
+	color: var(--blue-theme-color);
+}
+.close:hover,
+.close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
 #wrapper {
 	padding: 50px 0;
 	top: 0;
@@ -183,4 +278,10 @@
 	float: right;
 	color: var(--red-theme-color);
 	background-color: var(--white-theme-color);
+}
+
+.connected-accounts-posting-div:hover {
+	background-color: var(--blue-theme-color);
+	cursor: pointer;
+	color: var(--white-theme-color);
 }

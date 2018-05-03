@@ -77,7 +77,10 @@ module.exports = {
 	signOutOfUserAccount: function(req, res) {
 		var currentUser = req.user;
 		currentUser.signedInAsUser = undefined;
-		currentUser.save().then(result => res.send(true));
+		currentUser.save().then(result => {
+			console.log(result);
+			res.send({ success: true, user: result });
+		});
 	},
 	createPlan: function(req, res) {
 		if (req.user.role !== "admin") {

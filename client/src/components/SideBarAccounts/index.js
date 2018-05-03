@@ -1,31 +1,28 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import AddPageOrGroupModal from "./AddPagesOrGroupsModal";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { openAccountSideBar, updateAccounts } from "../../actions/";
+
+import AddPageOrGroupModal from "./AddPagesOrGroupsModal/";
 import ConnectedAccountsDiv from "./ConnectedAccountsDiv";
 import "../../css/sideBar.css";
 import "./style.css";
 
 class ConnectAccountsSideBar extends Component {
 	state = {
-		accounts: [],
+		accounts: this.props.accounts,
 		pageOrGroup: [],
 		accountType: "",
 		socialType: "",
 		errorMessage: "",
 		addPageOrGroupModal: false
 	};
-	constructor(props) {
-		super(props);
-		this.getUserAccounts = this.getUserAccounts.bind(this);
 
-		this.getUserAccounts();
-	}
-
-	closeSideBar() {
-		document.getElementById("mySidebar").style.display = "none";
-		if (document.getElementById("main")) document.getElementById("main").style.marginLeft = "0%";
-	}
+	closeSideBar = () => {
+		this.props.openAccountSideBar(!this.props.accountSideBar);
+	};
 
 	openModal(socialType, accountType) {
 		// Open facebook add page modal
@@ -43,15 +40,21 @@ class ConnectAccountsSideBar extends Component {
 		}
 	}
 
-	getUserAccounts() {
+	getUserAccounts = () => {
 		// Get all connected accounts of the user
 		axios.get("/api/accounts").then(res => {
 			// Set user's accounts to state
 			this.setState({ accounts: res.data });
+			this.props.updateAccounts(res.data);
 		});
-	}
+	};
 
 	getFacebookPages() {
+		this.setState({
+			accountType: "page",
+			socialType: "facebook",
+			pageOrGroup: []
+		});
 		axios.get("/api/facebook/pages").then(res => {
 			var errorMessage = "";
 
@@ -59,7 +62,7 @@ class ConnectAccountsSideBar extends Component {
 
 			// If pageOrGroup returns false, there was an error so just set to undefined
 			if (pageOrGroup === false) {
-				pageOrGroup = undefined;
+				pageOrGroup = [];
 			}
 
 			if (pageOrGroup === []) {
@@ -70,13 +73,17 @@ class ConnectAccountsSideBar extends Component {
 			// Set data to state
 			this.setState({
 				pageOrGroup: pageOrGroup,
-				accountType: "page",
-				socialType: "facebook",
+
 				errorMessage: errorMessage
 			});
 		});
 	}
 	getFacebookGroups() {
+		this.setState({
+			accountType: "group",
+			socialType: "facebook",
+			pageOrGroup: []
+		});
 		axios.get("/api/facebook/groups").then(res => {
 			var message;
 
@@ -85,7 +92,7 @@ class ConnectAccountsSideBar extends Component {
 
 			// If pageOrGroup returns false, there was an error so just set to undefined
 			if (pageOrGroup === false) {
-				pageOrGroup = undefined;
+				pageOrGroup = [];
 			}
 
 			if (pageOrGroup === []) {
@@ -96,21 +103,24 @@ class ConnectAccountsSideBar extends Component {
 			// Set data to state
 			this.setState({
 				pageOrGroup: pageOrGroup,
-				accountType: "group",
-				socialType: "facebook",
 				errorMessage: message
 			});
 		});
 	}
 	getLinkedinPages() {
+		this.setState({
+			accountType: "page",
+			socialType: "linkedin",
+			pageOrGroup: []
+		});
 		axios.get("/api/linkedin/pages").then(res => {
 			var message;
 			// Check to see if array is empty or a profile account was found
 			var pageOrGroup = res.data;
 
-			// If pageOrGroup returns false, there was an error so just set to undefined
+			// If pageOrGroup returns false, there was an error so just set to []
 			if (pageOrGroup === false) {
-				pageOrGroup = undefined;
+				pageOrGroup = [];
 			}
 
 			if (pageOrGroup === []) {
@@ -121,8 +131,6 @@ class ConnectAccountsSideBar extends Component {
 			// Set data to state
 			this.setState({
 				pageOrGroup: pageOrGroup,
-				accountType: "page",
-				socialType: "linkedin",
 				errorMessage: message
 			});
 		});
@@ -132,29 +140,24 @@ class ConnectAccountsSideBar extends Component {
 	};
 	render() {
 		// Initialize
-		var accounts = this.state.accounts;
+		const { accounts } = this.state;
 
 		return (
-			<div className="side-bar animate-left" style={{ display: "none" }} id="mySidebar">
-				{this.state.addPageOrGroupModal && (
-					<AddPageOrGroupModal
-						getUserAccounts={this.getUserAccounts}
-						pageOrGroup={this.state.pageOrGroup}
-						accountType={this.state.accountType}
-						socialType={this.state.socialType}
-						errorMessage={this.state.errorMessage}
-						close={this.close}
-					/>
-				)}
-
-				<span className="close-dark" onClick={() => this.closeSideBar()}>
-					&times;
-				</span>
-				<br />
-				<br />
-				<ConnectedAccountsDiv accounts={accounts} getUserAccounts={this.getUserAccounts} />
+			<div className="side-bar animate-left">
 				<div className="side-bar-container center">
-					<h4 className="facebook">Connect Facebook</h4>
+					<span className="close-dark" style={{ margin: "0" }} onClick={() => this.closeSideBar()}>
+						&times;
+					</span>
+					<br />
+					<ConnectedAccountsDiv accounts={accounts} getUserAccounts={this.getUserAccounts} />
+					<button
+						className="social-header-button facebook"
+						onClick={() => {
+							window.location = "/api/facebook";
+						}}
+					>
+						Connect Facebook
+					</button>
 					<button
 						className="side-bar-button-center facebook"
 						onClick={() => {
@@ -169,7 +172,14 @@ class ConnectAccountsSideBar extends Component {
 					<button className="side-bar-button-center facebook" onClick={() => this.openModal("facebook", "group")}>
 						Group
 					</button>
-					<h4 className="twitter">Connect Twitter</h4>
+					<button
+						className="social-header-button twitter"
+						onClick={() => {
+							window.location = "/api/twitter";
+						}}
+					>
+						Connect Twitter
+					</button>
 					<button
 						className="side-bar-button-center twitter"
 						style={{ width: "60%" }}
@@ -179,7 +189,14 @@ class ConnectAccountsSideBar extends Component {
 					>
 						Profile
 					</button>
-					<h4 className="linkedin">Connect Linkedin</h4>
+					<button
+						className="social-header-button linkedin"
+						onClick={() => {
+							window.location = "/api/linkedin";
+						}}
+					>
+						Connect Linkedin
+					</button>
 					<button
 						className="side-bar-button-center linkedin"
 						onClick={() => {
@@ -191,7 +208,7 @@ class ConnectAccountsSideBar extends Component {
 					<button className="side-bar-button-center linkedin" onClick={() => this.openModal("linkedin", "page")}>
 						Page
 					</button>
-					<h4 className="instagram">Connect Instagram</h4>
+					<button className="social-header-button instagram">Connect Instagram</button>
 					<button
 						className="side-bar-button-center instagram"
 						style={{
@@ -203,9 +220,29 @@ class ConnectAccountsSideBar extends Component {
 						Coming Soon!
 					</button>
 				</div>
+				{this.state.addPageOrGroupModal && (
+					<AddPageOrGroupModal
+						getUserAccounts={this.getUserAccounts}
+						pageOrGroup={this.state.pageOrGroup}
+						accountType={this.state.accountType}
+						socialType={this.state.socialType}
+						errorMessage={this.state.errorMessage}
+						close={this.close}
+					/>
+				)}
 			</div>
 		);
 	}
 }
 
-export default ConnectAccountsSideBar;
+function mapStateToProps(state) {
+	return {
+		clientSideBar: state.clientSideBar,
+		accountSideBar: state.accountSideBar,
+		accounts: state.accounts
+	};
+}
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({ openAccountSideBar: openAccountSideBar, updateAccounts: updateAccounts }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectAccountsSideBar);

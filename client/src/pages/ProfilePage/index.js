@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Header from "../../components/Header/";
-import ConnectAccountsSideBar from "../../components/SideBarAccounts/";
 import Loader from "../../components/Loader/";
 
 import "./style.css";
@@ -46,9 +44,6 @@ class Content extends Component {
 	render() {
 		return (
 			<div id="wrapper" style={{ backgroundColor: "var(--light-blue-theme-color)" }}>
-				<Header activePage="profile" />
-				<ConnectAccountsSideBar />
-
 				<div id="main">
 					<div className="container center">
 						<form>

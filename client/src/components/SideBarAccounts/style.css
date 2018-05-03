@@ -13,9 +13,6 @@
 	border-bottom: 2px solid var(--light-blue-theme-color);
 	width: 90%;
 }
-hr {
-	color: var(--blue-theme-color);
-}
 .connected-social-div p {
 	text-align: left;
 	color: var(--dark-grey-theme-color);
@@ -27,4 +24,9 @@ hr {
 	color: var(--black-theme-color);
 	width: 90%;
 	border-bottom: 2px solid var(--pink-theme-color);
+}
+.social-header-button {
+	width: 100%;
+	margin: 20px 0 10px 0;
+	font-size: var(--large-font-size);
 }

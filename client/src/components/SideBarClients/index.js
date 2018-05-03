@@ -3,7 +3,7 @@ import axios from "axios";
 import SearchColumn from "../SearchColumn/";
 import "../../css/sideBar.css";
 
-class ConnectAccountsSideBar extends Component {
+class ClientSideBar extends Component {
 	state = {
 		clients: [],
 		untouchedClients: []
@@ -69,16 +69,16 @@ class ConnectAccountsSideBar extends Component {
 	}
 	render() {
 		return (
-			<div className="side-bar animate-left" style={{ display: "none" }} id="clientsSideBar">
+			<div className="side-bar animate-left">
 				<SearchColumn
 					objectList={this.state.clients}
 					searchObjects={this.searchUsers}
 					handleClickedObject={this.userClicked}
-					styleOverride={{ width: "90%" }}
+					styleOverride={{ width: "90%", marginTop: "70px", position: "absolute" }}
 				/>
 			</div>
 		);
 	}
 }
 
-export default ConnectAccountsSideBar;
+export default ClientSideBar;

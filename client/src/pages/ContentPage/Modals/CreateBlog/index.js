@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import ImagesDiv from "../Divs/ImagesDiv.js";
+
+import ImagesDiv from "../../Divs/ImagesDiv/";
+import "./style.css";
 
 class CreateBlogComponent extends Component {
 	state = {

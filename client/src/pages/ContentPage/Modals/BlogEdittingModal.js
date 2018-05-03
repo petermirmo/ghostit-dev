@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "./style.css";
 import "font-awesome/css/font-awesome.min.css";
 
 import Notification from "../../../components/Notification";
 import ConfirmAlert from "../../../components/ConfirmAlert";
-import CreateBlog from "./CreateBlog.js";
+import CreateBlog from "./CreateBlog/";
 import Loader from "../../../components/Loader/";
+import "./style.css";
 
 class BlogEdittingModal extends Component {
 	state = {

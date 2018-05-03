@@ -1,6 +1,3 @@
-#main {
-	transition: margin-left 0.4s;
-}
 label {
 	text-align: left;
 }
@@ -21,8 +18,9 @@ label {
 	outline: 0;
 }
 .side-bar-container {
-	width: 80%;
+	width: 95%;
 	color: #fff;
+	margin-top: 55px;
 }
 .side-bar-container h4 {
 	padding: 3px;

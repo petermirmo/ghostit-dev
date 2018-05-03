@@ -37,7 +37,17 @@ module.exports = {
 		} else {
 			userID = req.user._id;
 		}
-
+		// Set color of post
+		let backgroundColorOfPost;
+		if (post.socialType === "facebook") {
+			backgroundColorOfPost = "#4267b2";
+		} else if (post.socialType === "twitter") {
+			backgroundColorOfPost = "#1da1f2";
+		} else if (post.socialType === "linkedin") {
+			backgroundColorOfPost = "#0077b5";
+		} else if (post.socialType === "instagram") {
+			backgroundColorOfPost = "#cd486b";
+		}
 		newPost.userID = userID;
 		newPost.accountID = post.accountID;
 		newPost.content = post.content;
@@ -46,8 +56,8 @@ module.exports = {
 		newPost.linkImage = post.linkImage;
 		newPost.accountType = post.accountType;
 		newPost.socialType = post.socialType;
-		newPost.status = post.status;
-		newPost.color = post.color;
+		newPost.color = backgroundColorOfPost;
+		newPost.status = "pending";
 
 		newPost.save().then(result => res.send(result));
 	},

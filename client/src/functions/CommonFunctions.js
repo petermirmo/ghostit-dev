@@ -19,51 +19,26 @@ export function switchDateToUsersTimezoneInUtcForm(postingDate, zone) {
 	return finalDate;
 }
 export function savePost(
-	link,
-	accountIdToPostTo,
-	postImages,
-	linkPreviewCanShow,
-	activeTab,
-	accountType,
-	updateCalendarPosts,
-	dateToPostInUtcTime,
-	callback,
 	content,
-	dateToPost
+	dateToPostInUtcTime,
+	link,
+	postImages,
+	accountIdToPostTo,
+	socialType,
+	accountType,
+	callback
 ) {
 	// Get current images
-	var currentImages = [];
-	for (var i = 0; i < postImages.length; i++) {
+	let currentImages = [];
+	for (let i = 0; i < postImages.length; i++) {
 		currentImages.push(postImages[i].image);
 	}
 
-	// Get carousel html element
-	var carousel;
-	if (linkPreviewCanShow) {
-		carousel = document.getElementById("linkCarousel");
-	}
-
 	// If link previews are allowed get src of active image from carousel
-	var linkPreviewImage = "";
-	if (link !== "") {
-		if (carousel) {
-			// Get active image from carousel
-			linkPreviewImage = document.getElementsByClassName("owl-item active center")[0].children[0].children[0].src;
-		}
-	}
-
-	// Now we have content of post, date (and time), account ID to post to, link preview image src and the link url
-
-	// Set color of post
-	var backgroundColorOfPost;
-	if (activeTab === "facebook") {
-		backgroundColorOfPost = "#4267b2";
-	} else if (activeTab === "twitter") {
-		backgroundColorOfPost = "#1da1f2";
-	} else if (activeTab === "linkedin") {
-		backgroundColorOfPost = "#0077b5";
-	} else if (activeTab === "instagram") {
-		backgroundColorOfPost = "#cd486b";
+	let linkPreviewImage = "";
+	if (link) {
+		// Get active image from carousel
+		linkPreviewImage = document.getElementsByClassName("owl-item active center")[0].children[0].children[0].src;
 	}
 
 	// Everything seems okay, save post to database!
@@ -75,9 +50,7 @@ export function savePost(
 			link: link,
 			linkImage: linkPreviewImage,
 			accountType: accountType,
-			socialType: activeTab,
-			status: "pending",
-			color: backgroundColorOfPost
+			socialType: socialType
 		})
 		.then(res => {
 			// Now we need to save images for post, Images are saved after post
@@ -98,24 +71,14 @@ export function savePost(
 				}
 				// Make post request for images
 				axios.post("/api/post/images", formData).then(res => {
-					updateCalendarPosts();
-					callback();
+					callback(res.data);
 				});
 			} else {
-				updateCalendarPosts();
-				callback();
+				callback(res.data);
 			}
 		});
 }
-export function postChecks(
-	postingToAccountId,
-	dateToPostInUtcTime,
-	usersTimezone,
-	accountType,
-	link,
-	currentImages,
-	content
-) {
+export function postChecks(postingToAccountId, dateToPostInUtcTime, link, currentImages, content) {
 	var currentUtcDate = moment()
 		.utcOffset(0)
 		.format();
@@ -151,4 +114,19 @@ export function roleCheck(role) {
 			window.location.replace("/content");
 		}
 	});
+}
+export function carouselOptions(socialType) {
+	if (socialType === "facebook") {
+		return [true, false];
+	} else if (socialType === "twitter") {
+		return [false, false];
+	} else if (socialType === "linkedin") {
+		return [true, true];
+	} else if (socialType === "instagram") {
+		return [false, false];
+	} else if (socialType === "blog") {
+		return [false, false];
+	} else if (socialType === "newsletter") {
+		return [false, false];
+	}
 }

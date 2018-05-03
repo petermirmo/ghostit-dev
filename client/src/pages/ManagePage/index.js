@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import Header from "../../components/Header/";
-import ConnectAccountsSideBar from "../../components/SideBarAccounts/";
 import UsersTable from "./UsersTable";
 import PlansTable from "./PlansTable";
 import { roleCheck } from "../../functions/CommonFunctions";
@@ -24,8 +22,6 @@ class ManagePage extends Component {
 	render() {
 		return (
 			<div id="wrapper">
-				<Header activePage="manage" />
-				<ConnectAccountsSideBar />
 				<div className="switch center">
 					{!this.state.userTable && (
 						<button className="switch-button active-switch" onClick={event => this.switchDivs(event)}>

@@ -23,17 +23,10 @@ class UsersTable extends Component {
 	constructor(props) {
 		super(props);
 
-		this.updateUsers = this.updateUsers.bind(this);
-		this.getUsers = this.getUsers.bind(this);
-		this.searchUsers = this.searchUsers.bind(this);
-		this.handleClickedUser = this.handleClickedUser.bind(this);
-		this.saveUser = this.saveUser.bind(this);
-		this.editObject = this.editObject.bind(this);
-
 		this.getUsers();
 		this.getPlans();
 	}
-	getUsers() {
+	getUsers = () => {
 		axios.get("/api/users").then(res => {
 			if (!res) {
 				// If res sends back false the user is not an admin and is likely a hacker
@@ -78,13 +71,13 @@ class UsersTable extends Component {
 				});
 			}
 		});
-	}
+	};
 	getPlans = () => {
 		axios.get("/api/plans").then(res => {
 			this.setState({ plans: res.data });
 		});
 	};
-	updateUsers(event) {
+	updateUsers = event => {
 		// Remove active class from last tab
 		if (this.state.activeTab) {
 			document.getElementById(this.state.activeTab).className = "";
@@ -101,8 +94,8 @@ class UsersTable extends Component {
 			users = this.state.demoUsers;
 		}
 		this.setState({ activeTab: event.target.id, activeUsers: users, untouchedActiveUsers: users });
-	}
-	searchUsers(event) {
+	};
+	searchUsers = event => {
 		let value = event.target.value;
 		if (value === "") {
 			this.setState({ activeUsers: this.state.untouchedActiveUsers });
@@ -132,13 +125,13 @@ class UsersTable extends Component {
 			}
 		}
 		this.setState({ activeUsers: users });
-	}
-	handleClickedUser(event) {
+	};
+	handleClickedUser = event => {
 		// ID of clicked event is the index of in activeUsers of the clicked user
 		const temp = this.state.activeUsers[event.target.id];
 		this.setState({ clickedUser: temp, editting: false });
-	}
-	saveUser(user) {
+	};
+	saveUser = user => {
 		axios.post("/api/updateUser", user).then(res => {
 			if (res.data) {
 				alert("success");
@@ -149,10 +142,10 @@ class UsersTable extends Component {
 				);
 			}
 		});
-	}
-	editObject() {
+	};
+	editObject = () => {
 		this.setState({ editting: !this.state.editting });
-	}
+	};
 	render() {
 		let array = [];
 

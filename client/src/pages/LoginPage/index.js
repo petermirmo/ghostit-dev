@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import axios from "axios";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import { changePage } from "../../actions/";
 import landingPageBackground from "./landing_page.jpeg";
 import logo from "./logo.png";
 import "./style.css";
@@ -19,20 +20,7 @@ function changeToLoginForm() {
 }
 
 class Login extends Component {
-	state = {
-		isLoggedIn: false,
-		user: null
-	};
-	constructor(props) {
-		super(props);
-		axios.get("/api/isUserSignedIn").then(res => this.setState({ isLoggedIn: res.data[0] }));
-		axios.get("/api/user").then(res => this.setState({ user: res.data }));
-	}
 	render() {
-		const { isLoggedIn } = this.state;
-		if (isLoggedIn) {
-			return <Redirect to="/content" />;
-		}
 		return (
 			<div>
 				<div className="landing-page">
@@ -168,4 +156,10 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+function mapStateToProps(state) {
+	return { activePage: state.activePage };
+}
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({ changePage: changePage }, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

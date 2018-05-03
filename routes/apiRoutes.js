@@ -40,9 +40,7 @@ module.exports = app => {
 	// Update user account
 	app.post("/api/user/id", (req, res) => userFunctions.updateUser(req, res));
 	// Get current user
-	app.get("/api/user", (req, res) => {
-		res.send(req.user);
-	});
+	app.get("/api/user", (req, res) => userFunctions.currentUser(req, res));
 	// Logout user
 	app.get("/api/logout", (req, res) => {
 		req.session.destroy();
