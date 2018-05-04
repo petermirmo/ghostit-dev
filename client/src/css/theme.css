@@ -68,9 +68,8 @@
 }
 
 .modal-header {
-	background-color: var(--blue-theme-color);
-	color: var(--white-theme-color);
 	margin: 0;
+	min-height: 38px;
 }
 
 .modal-body {
@@ -83,6 +82,7 @@
 	padding: 0;
 	background-color: var(--white-theme-color);
 	text-align: center;
+	overflow: auto;
 }
 /* Add Animation */
 @-webkit-keyframes animatetop {
@@ -275,9 +275,9 @@
 	border-radius: 0 20px 20px 0;
 }
 .delete {
-	float: right;
 	color: var(--red-theme-color);
 	background-color: var(--white-theme-color);
+	float: right;
 }
 
 .connected-accounts-posting-div:hover {

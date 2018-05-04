@@ -1,41 +1,58 @@
-var request = require("request");
-var cheerio = require("cheerio");
-var fs = require("fs");
+const request = require("request");
+const cheerio = require("cheerio");
+const fs = require("fs");
 
 const Post = require("../models/Post");
 const User = require("../models/User");
-var cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 
 module.exports = {
 	getImagesFromUrl: function(req, res) {
-		var url = req.body.link;
+		let url = req.body.link;
 		request(url, function(err, result, body) {
 			if (err) {
 				console.log(err);
 				res.send(false);
 				return;
 			}
-			var imgSrc = [];
+			let imgSrc = [];
 			if (!body) {
 				console.log("No images found");
 				res.send(false);
 				return;
 			}
-			var $ = cheerio.load(body);
+			let $ = cheerio.load(body);
 			$("img").each(function(index, img) {
 				imgSrc.push(img.attribs.src);
 			});
 			res.send(imgSrc);
 		});
 	},
-	savePost: function(req, res) {
-		var post = req.body;
-		var newPost = new Post();
-		let userID;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-		} else {
-			userID = req.user._id;
+	savePost: async function(req, res) {
+		let post = req.body;
+
+		let newPost = new Post();
+		if (post.id) {
+			await Post.findOne({ _id: post.id }, function(err, foundPost) {
+				if (err) {
+					console.log(err);
+					res.send(false);
+					return;
+				} else if (foundPost) {
+					newPost = foundPost;
+				} else {
+					console.log(err);
+					res.send(false);
+					return;
+				}
+			});
+		}
+
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
 		}
 		// Set color of post
 		let backgroundColorOfPost;
@@ -69,7 +86,6 @@ module.exports = {
 		} else {
 			userID = req.user._id;
 		}
-		//Post.findOne({ _id: "5ad206819225d4001440bbbb" }, function(err, posts) {
 
 		Post.find({ userID: userID }, function(err, posts) {
 			if (err) res.send(err);
@@ -83,28 +99,14 @@ module.exports = {
 			res.send(post);
 		});
 	},
-	updatePost: function(req, res) {
-		Post.findOne({ _id: req.params.postID }, function(err, post) {
-			if (err) res.send(err);
-			var edittedPost = req.body;
-			post.accountID = edittedPost.accountID;
-			post.content = edittedPost.content;
-			post.postingDate = edittedPost.postingDate;
-			post.link = edittedPost.link;
-			post.linkImage = edittedPost.linkImage;
-			post.accountType = edittedPost.accountType;
-			post.socialType = edittedPost.socialType;
-			post.save().then(post => res.send(post));
-		});
-	},
 	uploadPostImages: function(req, res) {
-		var postID = req.body.postID;
+		let postID = req.body.postID;
 		Post.findOne({ _id: postID }, async function(err, post) {
 			if (err) res.send(false);
 
 			if (Array.isArray(req.files.file)) {
 				// There are multiple files
-				for (var i = 0; i < req.files.file.length; i++) {
+				for (let i = 0; i < req.files.file.length; i++) {
 					// Must be await so results are not duplicated
 					await cloudinary.v2.uploader.upload(req.files.file[i].path, function(error, result) {
 						post.images.push({
@@ -127,17 +129,16 @@ module.exports = {
 		});
 	},
 	deletePostImages: async function(req, res) {
-		var deleteImagesArray = req.body;
-
+		let deleteImagesArray = req.body;
 		// Delete images from cloudinary
-		for (var i = 0; i < deleteImagesArray.length; i++) {
+		for (let i = 0; i < deleteImagesArray.length; i++) {
 			await cloudinary.uploader.destroy(deleteImagesArray[i].publicID, function(result) {
 				// TO DO: handle error here
 			});
 		}
 		Post.findOne({ _id: req.params.postID }, function(err, post) {
-			for (i = 0; i < post.images.length; i++) {
-				for (j = 0; j < deleteImagesArray.length; j++) {
+			for (let i = 0; i < post.images.length; i++) {
+				for (let j = 0; j < deleteImagesArray.length; j++) {
 					if (post.images[i].publicID === deleteImagesArray[j].publicID) {
 						post.images.splice(i, 1);
 					}
@@ -149,7 +150,7 @@ module.exports = {
 	deletePost: function(req, res) {
 		Post.findOne({ _id: req.params.postID }, async function(err, post) {
 			if (post.images) {
-				for (var i = 0; i < post.images.length; i++) {
+				for (let i = 0; i < post.images.length; i++) {
 					await cloudinary.uploader.destroy(post.images[i].publicID, function(result) {
 						// TO DO: handle error here
 					});

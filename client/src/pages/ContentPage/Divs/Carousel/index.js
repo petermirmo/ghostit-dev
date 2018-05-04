@@ -21,11 +21,11 @@ class Carousel extends Component {
 			return;
 		}
 		// Url regular expression
-		var urlRegularExpression = /((http|ftp|https):\\)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/;
+		let urlRegularExpression = /((http|ftp|https):\\)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/;
 
 		// Finds url
-		var match = urlRegularExpression.exec(textAreaString);
-		var link;
+		let match = urlRegularExpression.exec(textAreaString);
+		let link;
 
 		// Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
 		if (match !== null) {
@@ -44,11 +44,11 @@ class Carousel extends Component {
 		});
 	}
 	render() {
-		var linkImages = this.state.linkImagesArray;
-		var linkPreviewImageTag = [];
-		var carousel;
+		let linkImages = this.state.linkImagesArray;
+		let linkPreviewImageTag = [];
+		let carousel;
 
-		for (var index in linkImages) {
+		for (let index in linkImages) {
 			// If we can't show link preview, break
 			if (this.props.linkPreviewCanShow === false) {
 				break;

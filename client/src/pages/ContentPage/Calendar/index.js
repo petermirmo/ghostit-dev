@@ -55,7 +55,8 @@ class Calendar extends Component {
 			for (let index in blogs) {
 				blogEvents.push(this.convertBlogToCalendarEvent(blogs[index]));
 			}
-			this.setState({ websitePosts: blogEvents, blogEdittingModal: false, contentModal: false });
+			this.setState({ websitePosts: blogEvents });
+			this.closeModals();
 		});
 	};
 	convertBlogToCalendarEvent = blog => {
@@ -91,10 +92,9 @@ class Calendar extends Component {
 			this.setState({
 				facebookPosts: facebookPosts,
 				twitterPosts: twitterPosts,
-				linkedinPosts: linkedinPosts,
-				postEdittingModal: false,
-				contentModal: false
+				linkedinPosts: linkedinPosts
 			});
+			this.closeModals();
 		});
 	};
 
@@ -134,8 +134,12 @@ class Calendar extends Component {
 			style: style
 		};
 	};
-	closeModal = modal => {
-		this.setState({ [modal]: false });
+	closeModals = () => {
+		this.setState({
+			blogEdittingModal: false,
+			contentModal: false,
+			postEdittingModal: false
+		});
 	};
 	updateTabState = event => {
 		// Category name is stored in html element id
@@ -158,39 +162,54 @@ class Calendar extends Component {
 			this.setState({ calendarEventCategories: calendarEventCategories });
 		}
 	};
+	savePostCallback = () => {
+		this.getPosts();
+	};
+	saveBlogCallback = () => {
+		this.getBlogs();
+	};
 	render() {
-		const { calendarEventCategories } = this.state;
-		const { allActive } = calendarEventCategories;
+		const {
+			calendarEventCategories,
+			facebookPosts,
+			twitterPosts,
+			linkedinPosts,
+			instagramPosts,
+			websitePosts,
+			emailNewsletterPosts
+		} = this.state;
+		const { All, Facebook, Twitter, Linkedin, Instagram, Blog, Newsletter } = calendarEventCategories;
+
 		let events = [];
 
-		if (this.state.facebookActive || allActive) {
-			for (let index in this.state.facebookPosts) {
-				events.push(this.state.facebookPosts[index]);
+		if (Facebook || All) {
+			for (let index in facebookPosts) {
+				events.push(facebookPosts[index]);
 			}
 		}
-		if (this.state.twitterActive || allActive) {
-			for (let index in this.state.twitterPosts) {
-				events.push(this.state.twitterPosts[index]);
+		if (Twitter || All) {
+			for (let index in twitterPosts) {
+				events.push(twitterPosts[index]);
 			}
 		}
-		if (this.state.linkedinActive || allActive) {
-			for (let index in this.state.linkedinPosts) {
-				events.push(this.state.linkedinPosts[index]);
+		if (Linkedin || All) {
+			for (let index in linkedinPosts) {
+				events.push(linkedinPosts[index]);
 			}
 		}
-		if (this.state.instagramActive || allActive) {
-			for (let index in this.state.instagramPosts) {
-				events.push(this.state.instagramPosts[index]);
+		if (Instagram || All) {
+			for (let index in instagramPosts) {
+				events.push(instagramPosts[index]);
 			}
 		}
-		if (this.state.blogActive || allActive) {
-			for (let index in this.state.websitePosts) {
-				events.push(this.state.websitePosts[index]);
+		if (Blog || All) {
+			for (let index in websitePosts) {
+				events.push(websitePosts[index]);
 			}
 		}
-		if (this.state.newsletterActive || allActive) {
-			for (let index in this.state.emailNewsletterPosts) {
-				events.push(this.state.emailNewsletterPosts[index]);
+		if (Newsletter || All) {
+			for (let index in emailNewsletterPosts) {
+				events.push(emailNewsletterPosts[index]);
 			}
 		}
 
@@ -202,32 +221,32 @@ class Calendar extends Component {
 					{...this.props}
 					events={events}
 					defaultDate={new Date()}
-					onSelectSlot={slotInfo => this.openModal(slotInfo)}
-					onSelectEvent={clickedCalendarEvent => this.editPost(clickedCalendarEvent)}
+					onSelectSlot={this.openModal}
+					onSelectEvent={this.editPost}
 					eventPropGetter={this.eventStyleGetter}
 				/>
 				{this.state.contentModal && (
 					<ContentModal
 						clickedCalendarDate={this.state.clickedDate}
-						updateCalendarPosts={this.getPosts}
 						usersTimezone={this.props.usersTimezone}
-						updateCalendarBlogs={this.getBlogs}
-						close={this.closeModal}
+						close={this.closeModals}
+						savePostCallback={this.savePostCallback}
+						saveBlogCallback={this.saveBlogCallback}
 					/>
 				)}
 				{this.state.postEdittingModal && (
 					<PostEdittingModal
-						updateCalendarPosts={this.getPosts}
+						savePostCallback={this.savePostCallback}
 						clickedCalendarEvent={this.state.clickedCalendarEvent}
 						usersTimezone={this.props.usersTimezone}
-						close={this.closeModal}
+						close={this.closeModals}
 					/>
 				)}
 				{this.state.blogEdittingModal && (
 					<BlogEdittingModal
 						updateCalendarBlogs={this.getBlogs}
 						clickedCalendarEvent={this.state.clickedCalendarEvent}
-						close={this.closeModal}
+						close={this.closeModals}
 					/>
 				)}
 			</div>

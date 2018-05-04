@@ -1,12 +1,4 @@
-.posting-textarea {
-	outline: 0;
-	float: left;
-	width: 100%;
-	max-width: 100%;
-
-	border-radius: 5px;
-	margin-bottom: 5px;
-	background: transparent;
+.posting-form {
 }
 .content-header {
 	background-color: var(--white-theme-color);
@@ -14,7 +6,7 @@
 .account-tab {
 	width: 20%;
 	display: inline-block;
-	margin: 10px 0 10px 20px;
+	margin: 10px 0 0 20px;
 	border-radius: 50px;
 	background-color: var(--blue-theme-color);
 }
@@ -27,4 +19,23 @@
 .active-account-tab {
 	background-color: var(--green-theme-color);
 	color: var(--black-theme-color) !important;
+}
+.posting-textarea {
+	outline: 0;
+	float: left;
+	width: 100%;
+	max-width: 100%;
+
+	border-radius: 5px;
+	margin: 10px 0 10px 0;
+	background: transparent;
+	overflow: auto;
+}
+.save-post-button {
+	font-size: var(--large-font-size);
+	background-color: var(--pink-theme-color);
+	min-width: 30%;
+	padding: 10px 0 10px 0;
+	margin: 20px 0 10px 0;
+	border-radius: 50px;
 }

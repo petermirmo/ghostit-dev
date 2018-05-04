@@ -55,7 +55,7 @@ class CreateBlogComponent extends Component {
 		reader.readAsDataURL(blogFile);
 	}
 	saveBlog() {
-		this.props.callback();
+		this.props.setSaving();
 		var formData = new FormData();
 
 		var image;
@@ -83,11 +83,11 @@ class CreateBlogComponent extends Component {
 		// Check if we are updating a blog or creating a new blog
 		if (this.state.blogID === "" || this.state.blogID === undefined || this.state.blogID === null) {
 			axios.post("/api/blog", formData).then(res => {
-				this.props.updateCalendarBlogs();
+				this.props.callback();
 			});
 		} else {
 			axios.post("/api/blog/" + this.state.blogID, formData).then(res => {
-				this.props.updateCalendarBlogs();
+				this.props.callback();
 			});
 		}
 	}
@@ -222,7 +222,9 @@ class CreateBlogComponent extends Component {
 					/>
 					{fileDiv}
 				</form>
-				<button onClick={event => this.saveBlog()}>Save Post</button>
+				<button className="save-post-button" onClick={event => this.saveBlog()}>
+					Save Blog
+				</button>
 			</div>
 		);
 	}

@@ -7,6 +7,7 @@ class ImagesDiv extends Component {
 		let images = event.target.files;
 		const { postImages } = this.props;
 		let temp = postImages;
+
 		// Check to make sure there are not more than the imageLimit
 		if (images.length + postImages.length > this.props.imageLimit) {
 			alert("You have selected more than " + this.props.imageLimit + " images! Please try again");

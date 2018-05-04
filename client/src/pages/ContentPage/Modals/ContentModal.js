@@ -28,45 +28,36 @@ class ContentModal extends Component {
 	setSaving = () => {
 		this.setState({ saving: true });
 	};
-	postFinishedSavingCallback = result => {
-		this.setState({ saving: false });
-	};
 
 	render() {
 		if (this.state.saving) {
 			return <Loader />;
 		}
-		const { activeTab } = this.state;
-		const { updateCalendarBlogs, close, clickedCalendarDate, accounts } = this.props;
+		var { activeTab } = this.state;
+		const { close, clickedCalendarDate, accounts, savePostCallback, saveBlogCallback } = this.props;
 
 		let modalBody;
-		// Loop through all accounts
-		let activePageAccountsArray = [];
-		for (let index in accounts) {
-			// Check if the account is the same as active tab
-			if (accounts[index].socialType === activeTab) {
-				activePageAccountsArray.push(accounts[index]);
-			}
-		}
 
 		// Check if this is a blog placeholder
 		if (activeTab === "blog") {
 			modalBody = (
-				<CreateBlog
-					clickedCalendarDate={clickedCalendarDate}
-					updateCalendarBlogs={updateCalendarBlogs}
-					callback={this.setSaving}
-				/>
+				<CreateBlog clickedCalendarDate={clickedCalendarDate} callback={saveBlogCallback} setSaving={this.setSaving} />
 			);
 		} else {
 			// If the user has an account for the active tab connected
-			if (activePageAccountsArray.length !== 0) {
+			if (
+				accounts
+					.map(function(e) {
+						return e.socialType;
+					})
+					.indexOf(activeTab) !== -1
+			) {
 				modalBody = (
 					<div className="modal-body">
 						<PostingOptions
-							accounts={activePageAccountsArray}
+							accounts={accounts}
 							clickedCalendarDate={clickedCalendarDate}
-							postFinishedSavingCallback={this.postFinishedSavingCallback}
+							postFinishedSavingCallback={savePostCallback}
 							setSaving={this.setSaving}
 							socialType={activeTab}
 						/>

@@ -21,7 +21,7 @@ class SelectAccountDiv extends Component {
 			}
 			// Push div to array
 			let div = (
-				<div key={index} className={className} onClick={event => setActiveAccount("postingToAccountId", account._id)}>
+				<div key={index} className={className} onClick={event => setActiveAccount(account)}>
 					<h4>{name}</h4>
 					<p>{account.accountType}</p>
 				</div>

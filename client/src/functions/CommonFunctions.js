@@ -2,23 +2,24 @@ import moment from "moment-timezone";
 import axios from "axios";
 
 export function switchDateToUsersTimezoneInUtcForm(postingDate, zone) {
-	var format = "YYYY/MM/DD HH:mm:ss ZZ";
+	let format = "YYYY/MM/DD HH:mm:ss ZZ";
 
-	var postingDateUtcOffset = postingDate.getTimezoneOffset();
-	var userTimezoneUtcOffset = -moment(postingDate)
+	let postingDateUtcOffset = postingDate.getTimezoneOffset();
+	let userTimezoneUtcOffset = -moment(postingDate)
 		.tz(zone)
 		.utcOffset();
 
-	var minutesToAdd = userTimezoneUtcOffset - postingDateUtcOffset;
+	let minutesToAdd = userTimezoneUtcOffset - postingDateUtcOffset;
 
-	var finalDate = moment(postingDate, format)
+	let finalDate = moment(postingDate, format)
 		.add(minutesToAdd, "minutes")
 		.utcOffset(0)
 		.format();
 
 	return finalDate;
 }
-export function savePost(
+export async function savePost(
+	id,
 	content,
 	dateToPostInUtcTime,
 	link,
@@ -26,12 +27,16 @@ export function savePost(
 	accountIdToPostTo,
 	socialType,
 	accountType,
-	callback
+	callback,
+	deleteImagesArray
 ) {
+	if (deleteImagesArray) {
+		await axios.post("/api/post/delete/images/" + id, deleteImagesArray);
+	}
 	// Get current images
-	let currentImages = [];
+	let imagesToSave = [];
 	for (let i = 0; i < postImages.length; i++) {
-		currentImages.push(postImages[i].image);
+		if (!postImages.url) imagesToSave.push(postImages[i].image);
 	}
 
 	// If link previews are allowed get src of active image from carousel
@@ -44,6 +49,7 @@ export function savePost(
 	// Everything seems okay, save post to database!
 	axios
 		.post("/api/post", {
+			id: id,
 			accountID: accountIdToPostTo,
 			content: content,
 			postingDate: dateToPostInUtcTime,
@@ -56,30 +62,30 @@ export function savePost(
 			// Now we need to save images for post, Images are saved after post
 			// Becuse they are handled so differently in the database
 			// Text and images do not go well together
-			var post = res.data;
-			if (post._id && currentImages.length !== 0) {
+			let post = res.data;
+			if (post._id && imagesToSave.length !== 0) {
 				// Make sure post actually saved
 				// Now we add images
 
 				// Images must be uploaded via forms
-				var formData = new FormData();
+				let formData = new FormData();
 				formData.append("postID", post._id);
 
 				// Attach all images to formData
-				for (var i = 0; i < currentImages.length; i++) {
-					formData.append("file", currentImages[i]);
+				for (let i = 0; i < imagesToSave.length; i++) {
+					formData.append("file", imagesToSave[i]);
 				}
 				// Make post request for images
 				axios.post("/api/post/images", formData).then(res => {
-					callback(res.data);
+					callback();
 				});
 			} else {
-				callback(res.data);
+				callback();
 			}
 		});
 }
 export function postChecks(postingToAccountId, dateToPostInUtcTime, link, currentImages, content) {
-	var currentUtcDate = moment()
+	let currentUtcDate = moment()
 		.utcOffset(0)
 		.format();
 	// Make sure that the date is not in the past
@@ -101,9 +107,9 @@ export function postChecks(postingToAccountId, dateToPostInUtcTime, link, curren
 	return true;
 }
 export function convertDateAndTimeToUtcTme(date, time, usersTimezone) {
-	// Combine time and date into one date variable
-	var postingDate = new Date(date);
-	var postingTime = new Date(time);
+	// Combine time and date into one date letiable
+	let postingDate = new Date(date);
+	let postingTime = new Date(time);
 	postingDate.setHours(postingTime.getHours());
 	postingDate.setMinutes(postingTime.getMinutes());
 	return switchDateToUsersTimezoneInUtcForm(postingDate, usersTimezone);

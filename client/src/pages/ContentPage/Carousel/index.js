@@ -74,19 +74,7 @@ class Carousel extends Component {
 			);
 			if (this.props.linkPreviewCanEdit === true) {
 				carousel = (
-					<OwlCarousel
-						id={this.props.id}
-						style={{
-							float: "left",
-							width: "40%"
-						}}
-						items={1}
-						className="owl-theme center"
-						center={true}
-						loop
-						margin={10}
-						nav
-					>
+					<OwlCarousel id={this.props.id} items={1} className="owl-theme" center={true} loop margin={10} nav>
 						{linkPreviewImageTag}
 					</OwlCarousel>
 				);
@@ -94,12 +82,8 @@ class Carousel extends Component {
 				carousel = (
 					<OwlCarousel
 						id={this.props.id}
-						style={{
-							float: "left",
-							width: "40%"
-						}}
 						items={1}
-						className="owl-theme center"
+						className="owl-theme"
 						center={true}
 						loop
 						margin={10}

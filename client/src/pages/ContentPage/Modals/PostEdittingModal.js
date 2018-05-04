@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
 
-import PostingOptions from "./PostingOptions";
+import { connect } from "react-redux";
 
+import PostingOptions from "./PostingOptions";
 import Notification from "../../../components/Notification";
 import ConfirmAlert from "../../../components/ConfirmAlert";
+import Loader from "../../../components/Loader/";
 
 import "./style.css";
 
@@ -19,15 +21,15 @@ class PostEdittingModal extends Component {
 		this.setState({ deletePost: true });
 	};
 	deletePost = deletePost => {
-		this.setState({ deletePost: false });
-		if (!this.state.postID) {
+		this.setState({ deletePost: false, saving: true });
+		if (!this.props.clickedCalendarEvent._id) {
 			alert("Error cannot find post. Please contact our dev team immediately");
 			return;
 		}
 		if (deletePost) {
-			axios.delete("/api/post/delete/" + this.state.postID).then(res => {
+			axios.delete("/api/post/delete/" + this.props.clickedCalendarEvent._id).then(res => {
 				if (res.data) {
-					this.props.updateCalendarPosts();
+					this.props.savePostCallback();
 				} else {
 					this.setState({
 						notification: { on: true, notificationType: "danger", title: "Something went wrong", message: "" }
@@ -39,10 +41,13 @@ class PostEdittingModal extends Component {
 	setSaving = () => {
 		this.setState({ saving: true });
 	};
-
 	render() {
+		if (this.state.saving) {
+			return <Loader />;
+		}
+		const { close, savePostCallback, clickedCalendarEvent } = this.props;
 		let modalFooter;
-		let canEditPost = this.state.status === "pending" || this.state.status === "error";
+		let canEditPost = clickedCalendarEvent.status === "pending" || clickedCalendarEvent.status === "error";
 		if (canEditPost) {
 			modalFooter = (
 				<div className="modal-footer">
@@ -50,21 +55,23 @@ class PostEdittingModal extends Component {
 				</div>
 			);
 		}
-
 		return (
-			<div id="edittingModal" className="modal">
+			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-header">
-						<span className="close-dark" onClick={() => this.props.close("postEdittingModal")}>
+						<span className="close-dark" onClick={() => close()}>
 							&times;
 						</span>
 					</div>
-					<PostingOptions
-						postFinishedSavingCallback={this.postFinishedSavingCallback}
-						setSaving={this.setSaving}
-						post={this.props.clickedCalendarEvent}
-						canEditPost={canEditPost}
-					/>
+					<div className="modal-body">
+						<PostingOptions
+							setSaving={this.setSaving}
+							post={clickedCalendarEvent}
+							canEditPost={canEditPost}
+							accounts={[]}
+							postFinishedSavingCallback={savePostCallback}
+						/>
+					</div>
 
 					{modalFooter}
 				</div>
@@ -88,4 +95,9 @@ class PostEdittingModal extends Component {
 	}
 }
 
-export default PostEdittingModal;
+function mapStateToProps(state) {
+	return {
+		accounts: state.accounts
+	};
+}
+export default connect(mapStateToProps)(PostEdittingModal);
