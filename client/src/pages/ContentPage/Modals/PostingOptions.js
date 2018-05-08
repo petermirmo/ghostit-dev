@@ -119,24 +119,34 @@ class PostingOptions extends Component {
 				}
 			}
 		}
+
 		// Don't mess with this date. Javascript dates are messed up and this makes it work.
 		// It is complicated and weird. Do not touch it.
+		let currentDate = new Date();
 		let date2;
-		date2 = new Date(
-			moment(date)
-				.toDate()
-				.getTime() +
-				moment()
-					.tz(timezone)
-					.utcOffset() *
-					60 *
-					1000 -
-				moment()
-					.tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-					.utcOffset() *
-					60 *
-					1000
-		);
+		if (id) {
+			date2 = undefined;
+
+			date2 = new Date(
+				moment(date)
+					.toDate()
+					.getTime() +
+					moment()
+						.tz(timezone)
+						.utcOffset() *
+						60 *
+						1000 -
+					moment()
+						.tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+						.utcOffset() *
+						60 *
+						1000
+			);
+		} else {
+			date2 = date;
+			date2.setHours(currentDate.getHours());
+			date2.setMinutes(currentDate.getMinutes());
+		}
 		return (
 			<div className="posting-form">
 				<textarea
