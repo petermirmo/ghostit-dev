@@ -39,8 +39,9 @@ class AddPagesOrGroupsModal extends Component {
 	};
 
 	render() {
-		const { socialType, accountType, pageOrGroup, errorMessage } = this.props;
-
+		const { socialType, accountType, errorMessage } = this.props;
+		let { pageOrGroup } = this.props;
+		if (!pageOrGroup) pageOrGroup = [];
 		return (
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center", width: "35%" }}>
