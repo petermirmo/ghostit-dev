@@ -41,8 +41,14 @@ class Calendar extends Component {
 	constructor(props) {
 		super(props);
 
-		moment.tz.setDefault(props.user.timezone);
 		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
+		axios.get("/api/getTimezone").then(res => {
+			let result = res.data;
+
+			if (result.success) {
+				moment.tz.setDefault(result.timezone);
+			}
+		});
 
 		this.getPosts();
 		this.getBlogs();
@@ -80,6 +86,7 @@ class Calendar extends Component {
 		axios.get("/api/posts").then(res => {
 			// Set posts to state
 			let posts = res.data;
+			console.log(posts);
 			for (let index in posts) {
 				if (posts[index].socialType === "facebook") {
 					facebookPosts.push(this.convertPostToCalendarEvent(posts[index]));

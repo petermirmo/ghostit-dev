@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import moment from "moment";
 
 import DatePicker from "../Divs/DatePicker.js";
 import TimePicker from "../Divs/TimePicker.js";
@@ -118,6 +119,24 @@ class PostingOptions extends Component {
 				}
 			}
 		}
+		// Don't mess with this date. Javascript dates are messed up and this makes it work.
+		// It is complicated and weird. Do not touch it.
+		let date2;
+		date2 = new Date(
+			moment(date)
+				.toDate()
+				.getTime() +
+				moment()
+					.tz(timezone)
+					.utcOffset() *
+					60 *
+					1000 -
+				moment()
+					.tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+					.utcOffset() *
+					60 *
+					1000
+		);
 		return (
 			<div className="posting-form">
 				<textarea
@@ -155,8 +174,8 @@ class PostingOptions extends Component {
 						linkImage={linkImage}
 					/>
 				)}
-				<DatePicker clickedCalendarDate={date} callback={this.handleChange} canEdit={canEditPost} />
-				<TimePicker timeForPost={time} callback={this.handleChange} canEdit={canEditPost} />
+				<DatePicker clickedCalendarDate={date2} callback={this.handleChange} canEdit={canEditPost} />
+				<TimePicker timeForPost={date2} callback={this.handleChange} canEdit={canEditPost} />
 				{canEditPost && (
 					<button
 						className="save-post-button center"

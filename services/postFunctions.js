@@ -32,6 +32,7 @@ module.exports = {
 		let post = req.body;
 
 		let newPost = new Post();
+
 		if (post.id) {
 			await Post.findOne({ _id: post.id }, function(err, foundPost) {
 				if (err) {
