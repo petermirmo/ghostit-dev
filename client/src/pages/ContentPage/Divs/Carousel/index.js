@@ -55,11 +55,11 @@ class Carousel extends Component {
 		let linkPreviewImageTag = [];
 		let carousel;
 
-		for (let index in linkImagesArray) {
-			linkPreviewImageTag.push(this.imageDiv(linkImagesArray[index]), index);
-		}
 		if (linkImage) {
 			linkPreviewImageTag.push(this.imageDiv(linkImage, -1));
+		}
+		for (let index in linkImagesArray) {
+			linkPreviewImageTag.push(this.imageDiv(linkImagesArray[index], index));
 		}
 		if (linkPreviewCanEdit === true) {
 			carousel = (
