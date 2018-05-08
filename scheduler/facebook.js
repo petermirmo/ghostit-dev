@@ -48,7 +48,7 @@ module.exports = {
 							if (!res || res.error) {
 								savePostError(post._id, res.error);
 							} else {
-								savePostSuccessfully(post._id, res.post_id);
+								savePostSuccessfully(post._id, res.id);
 							}
 						});
 					}
@@ -111,9 +111,91 @@ module.exports = {
 	},
 	renewAuthToken: function(accounts) {
 		let account = accounts[0];
-		getFbCode(account, accounts, 0);
+		getFbCode(account, accounts, 0, accessTokenCallback);
+	},
+	renewPageToken: function(accounts) {
+		let account = accounts[0];
+		getFbCode(account, accounts, 0, pageTokenCallback);
 	}
 };
+function pageTokenCallback(accessToken, accounts) {
+	if (accessToken) {
+		let account = accounts[0];
+		FB.setAccessToken(accessToken);
+
+		FB.api("me/accounts", "get", function(result) {
+			let pages = result.data;
+
+			for (let index in pages) {
+				let page = pages[index];
+				if (account.socialID === page.id) {
+					for (let i = 0; i < accounts.length; i++) {
+						accounts[i].accessToken = page.access_token;
+						accounts[i].renewDate = new Date();
+						accounts[i].save().then(resu => {
+							console.log("success");
+						});
+					}
+				}
+			}
+		});
+	}
+}
+function accessTokenCallback(accessToken, accounts) {
+	if (accessToken) {
+		for (let i = 0; i < accounts.length; i++) {
+			accounts[i].accessToken = accessToken;
+			accounts[i].renewDate = new Date();
+			accounts[i].save().then(resu => {
+				console.log("success");
+			});
+		}
+	}
+}
+function tradeCodeForToken(codeResult, account, accounts, counter, callback) {
+	FB.api(
+		"oauth/access_token",
+		{
+			client_id: keys.fbClientID,
+			redirect_uri: keys.fbCallbackUrl,
+			code: codeResult.code
+		},
+		function(tokenResult) {
+			if (!tokenResult.access_token) {
+				counter++;
+
+				if (counter < 10) {
+					getFbCode(account, accounts, counter, callback);
+				} else {
+					console.log("failed");
+				}
+				return undefined;
+			} else {
+				callback(tokenResult.access_token, accounts);
+				return;
+			}
+		}
+	);
+}
+function getFbCode(account, accounts, counter, callback) {
+	FB.api(
+		"oauth/client_code",
+		{
+			client_id: keys.fbClientID,
+			client_secret: keys.fbClientSecret,
+			redirect_uri: keys.fbCallbackUrl,
+			access_token: account.accessToken
+		},
+		function(codeResult) {
+			if (!codeResult.code) {
+				console.log(codeResult);
+				return;
+			}
+			tradeCodeForToken(codeResult, account, accounts, counter, callback);
+		}
+	);
+}
+
 function savePostError(postID, error) {
 	Post.findOne({ _id: postID }, function(err, post) {
 		post.status = "error";
@@ -131,52 +213,4 @@ function savePostSuccessfully(postID, fbPostID) {
 			return;
 		});
 	});
-}
-function tradeCodeForToken(codeResult, account, accounts, counter) {
-	FB.api(
-		"oauth/access_token",
-		{
-			client_id: keys.fbClientID,
-			redirect_uri: keys.fbCallbackUrl,
-			code: codeResult.code
-		},
-		function(tokenResult) {
-			if (!tokenResult.access_token) {
-				counter++;
-
-				if (counter < 10) {
-					getFbCode(account, accounts, counter);
-				} else {
-					console.log("failed");
-				}
-				return;
-			}
-			for (let i = 0; i < accounts.length; i++) {
-				accounts[i].accessToken = tokenResult.access_token;
-				accounts[i].renewDate = new Date();
-				accounts[i].save().then(resu => {
-					console.log("success");
-					console.log("\n");
-				});
-			}
-		}
-	);
-}
-function getFbCode(account, accounts, counter) {
-	FB.api(
-		"oauth/client_code",
-		{
-			client_id: keys.fbClientID,
-			client_secret: keys.fbClientSecret,
-			redirect_uri: keys.fbCallbackUrl,
-			access_token: account.accessToken
-		},
-		function(codeResult) {
-			if (!codeResult.code) {
-				console.log(codeResult);
-				return;
-			}
-			tradeCodeForToken(codeResult, account, accounts);
-		}
-	);
 }

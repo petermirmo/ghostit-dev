@@ -15,10 +15,10 @@ module.exports = {
 				// Find all accounts with the same socialID becuase they will use the same auth token
 				Account.find({ socialID: account.socialID }, function(err, accountsOfSameSocialID) {
 					if (accountsOfSameSocialID[0].socialType === "facebook") {
-						facebook.renewAuthToken(accountsOfSameSocialID);
-					}
-					if (accountsOfSameSocialID[0].socialType === "linkedin") {
-						linkedin.renewAuthToken(accountsOfSameSocialID);
+						if (accountsOfSameSocialID[0].accountType === "profile") {
+							facebook.renewAuthToken(accountsOfSameSocialID);
+						} else if (accountsOfSameSocialID[0].accountType === "page")
+							facebook.renewPageToken(accountsOfSameSocialID);
 					}
 				});
 			}
