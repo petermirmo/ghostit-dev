@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import moment from "moment";
 
 import DatePicker from "../Divs/DatePicker.js";
@@ -19,21 +18,14 @@ class PostingOptions extends Component {
 		accountType: this.props.post ? this.props.post.accountType : "",
 		socialType: this.props.post ? this.props.post.socialType : this.props.socialType,
 		contentValue: this.props.post ? this.props.post.content : "",
-		time: this.props.post ? new Date(this.props.post.postingDate) : new Date(),
-		date: this.props.post ? new Date(this.props.post.postingDate) : this.props.clickedCalendarDate,
+		time: this.props.post ? convertTimeAndDate(new Date(this.props.post.postingDate), this.props.timezone) : new Date(),
+		date: this.props.post
+			? convertTimeAndDate(new Date(this.props.post.postingDate), this.props.timezone)
+			: this.props.clickedCalendarDate,
 		deleteImagesArray: [],
 		linkImagesArray: [],
 		timezone: "America/Vancouver"
 	};
-	constructor(props) {
-		super(props);
-		axios.get("/api/getTimezone").then(res => {
-			let result = res.data;
-			if (result.success) {
-				this.setState({ timezone: result.timezone });
-			}
-		});
-	}
 	componentWillReceiveProps(nextProps) {
 		this.setState({
 			id: nextProps.post ? nextProps.post._id : undefined,
@@ -44,8 +36,10 @@ class PostingOptions extends Component {
 			accountType: nextProps.post ? nextProps.post.accountType : "",
 			socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
 			contentValue: nextProps.post ? nextProps.post.content : "",
-			time: nextProps.post ? new Date(nextProps.post.postingDate) : new Date(),
-			date: nextProps.post ? new Date(nextProps.post.postingDate) : nextProps.clickedCalendarDate,
+			time: nextProps.post ? convertTimeAndDate(new Date(nextProps.post.postingDate), nextProps.timezone) : new Date(),
+			date: nextProps.post
+				? convertTimeAndDate(new Date(nextProps.post.postingDate), nextProps.timezone)
+				: nextProps.clickedCalendarDate,
 			linkImagesArray: []
 		});
 	}
@@ -79,6 +73,7 @@ class PostingOptions extends Component {
 		temp.push(image);
 		this.setState({ deleteImagesArray: temp });
 	};
+
 	render() {
 		const {
 			id,
@@ -120,33 +115,6 @@ class PostingOptions extends Component {
 			}
 		}
 
-		// Don't mess with this date. Javascript dates are messed up and this makes it work.
-		// It is complicated and weird. Do not touch it.
-		let currentDate = new Date();
-		let date2;
-		if (id) {
-			date2 = undefined;
-
-			date2 = new Date(
-				moment(date)
-					.toDate()
-					.getTime() +
-					moment()
-						.tz(timezone)
-						.utcOffset() *
-						60 *
-						1000 -
-					moment()
-						.tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-						.utcOffset() *
-						60 *
-						1000
-			);
-		} else {
-			date2 = date;
-			date2.setHours(currentDate.getHours());
-			date2.setMinutes(currentDate.getMinutes());
-		}
 		return (
 			<div className="posting-form">
 				<textarea
@@ -184,8 +152,8 @@ class PostingOptions extends Component {
 						linkImage={linkImage}
 					/>
 				)}
-				<DatePicker clickedCalendarDate={date2} callback={this.handleChange} canEdit={canEditPost} />
-				<TimePicker timeForPost={date2} callback={this.handleChange} canEdit={canEditPost} />
+				<DatePicker clickedCalendarDate={date} callback={this.handleChange} canEdit={canEditPost} />
+				<TimePicker timeForPost={time} callback={this.handleChange} canEdit={canEditPost} />
 				{canEditPost && (
 					<button
 						className="save-post-button center"
@@ -218,6 +186,26 @@ class PostingOptions extends Component {
 			</div>
 		);
 	}
+}
+function convertTimeAndDate(date, timezone) {
+	// Don't mess with this date. Javascript dates are messed up and this makes it work.
+	// It is complicated and weird. Do not touch it.
+	let tempDate = new Date(
+		moment(date)
+			.toDate()
+			.getTime() +
+			moment()
+				.tz(timezone)
+				.utcOffset() *
+				60 *
+				1000 -
+			moment()
+				.tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+				.utcOffset() *
+				60 *
+				1000
+	);
+	return tempDate;
 }
 
 export default PostingOptions;

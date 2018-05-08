@@ -45,7 +45,7 @@ class PostEdittingModal extends Component {
 		if (this.state.saving) {
 			return <Loader />;
 		}
-		const { close, savePostCallback, clickedCalendarEvent, accounts } = this.props;
+		const { close, savePostCallback, clickedCalendarEvent, accounts, timezone } = this.props;
 		let modalFooter;
 		let canEditPost = clickedCalendarEvent.status !== "posted";
 		if (canEditPost) {
@@ -71,6 +71,7 @@ class PostEdittingModal extends Component {
 							canEditPost={canEditPost}
 							postFinishedSavingCallback={savePostCallback}
 							accounts={accounts}
+							timezone={timezone}
 						/>
 					</div>
 

@@ -36,7 +36,8 @@ class Calendar extends Component {
 			Twitter: false,
 			Linkedin: false,
 			Blog: false
-		}
+		},
+		timezone: "America/Vancouver"
 	};
 	constructor(props) {
 		super(props);
@@ -44,10 +45,10 @@ class Calendar extends Component {
 		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 		axios.get("/api/getTimezone").then(res => {
 			let result = res.data;
-
 			if (result.success) {
 				moment.tz.setDefault(result.timezone);
 			}
+			this.setState({ timezone: result.timezone });
 		});
 
 		this.getPosts();
@@ -86,7 +87,7 @@ class Calendar extends Component {
 		axios.get("/api/posts").then(res => {
 			// Set posts to state
 			let posts = res.data;
-			console.log(posts);
+
 			for (let index in posts) {
 				if (posts[index].socialType === "facebook") {
 					facebookPosts.push(this.convertPostToCalendarEvent(posts[index]));
@@ -183,7 +184,8 @@ class Calendar extends Component {
 			linkedinPosts,
 			instagramPosts,
 			websitePosts,
-			emailNewsletterPosts
+			emailNewsletterPosts,
+			timezone
 		} = this.state;
 		const { All, Facebook, Twitter, Linkedin, Instagram, Blog, Newsletter } = calendarEventCategories;
 
@@ -235,7 +237,7 @@ class Calendar extends Component {
 				{this.state.contentModal && (
 					<ContentModal
 						clickedCalendarDate={this.state.clickedDate}
-						usersTimezone={this.props.usersTimezone}
+						timezone={timezone}
 						close={this.closeModals}
 						savePostCallback={this.savePostCallback}
 						saveBlogCallback={this.saveBlogCallback}
@@ -245,7 +247,7 @@ class Calendar extends Component {
 					<PostEdittingModal
 						savePostCallback={this.savePostCallback}
 						clickedCalendarEvent={this.state.clickedCalendarEvent}
-						usersTimezone={this.props.usersTimezone}
+						timezone={timezone}
 						close={this.closeModals}
 					/>
 				)}
