@@ -28,57 +28,55 @@ module.exports = {
 			res.send(imgSrc);
 		});
 	},
-	savePost: async function(req, res) {
+	savePost: function(req, res) {
 		let post = req.body;
 
 		let newPost = new Post();
 
-		if (post.id) {
-			await Post.findOne({ _id: post.id }, function(err, foundPost) {
-				if (err) {
-					console.log(err);
-					res.send(false);
-					return;
-				} else if (foundPost) {
-					newPost = foundPost;
-				} else {
-					console.log(err);
-					res.send(false);
-					return;
-				}
-			});
-		}
-
-		let userID = req.user._id;
-		if (req.user.signedInAsUser) {
-			if (req.user.signedInAsUser.id) {
-				userID = req.user.signedInAsUser.id;
+		Post.findOne({ _id: post.id }, function(err, foundPost) {
+			if (err) {
+				console.log(err);
+				res.send(false);
+				return;
+			} else if (foundPost) {
+				newPost = foundPost;
+			} else {
+				console.log(err);
+				res.send(false);
+				return;
 			}
-		}
-		// Set color of post
-		let backgroundColorOfPost;
-		if (post.socialType === "facebook") {
-			backgroundColorOfPost = "#4267b2";
-		} else if (post.socialType === "twitter") {
-			backgroundColorOfPost = "#1da1f2";
-		} else if (post.socialType === "linkedin") {
-			backgroundColorOfPost = "#0077b5";
-		} else if (post.socialType === "instagram") {
-			backgroundColorOfPost = "#cd486b";
-		}
 
-		newPost.userID = userID;
-		newPost.accountID = post.accountID;
-		newPost.content = post.content;
-		newPost.postingDate = post.postingDate;
-		newPost.link = post.link;
-		newPost.linkImage = post.linkImage;
-		newPost.accountType = post.accountType;
-		newPost.socialType = post.socialType;
-		newPost.color = backgroundColorOfPost;
-		newPost.status = "pending";
+			let userID = req.user._id;
+			if (req.user.signedInAsUser) {
+				if (req.user.signedInAsUser.id) {
+					userID = req.user.signedInAsUser.id;
+				}
+			}
+			// Set color of post
+			let backgroundColorOfPost;
+			if (post.socialType === "facebook") {
+				backgroundColorOfPost = "#4267b2";
+			} else if (post.socialType === "twitter") {
+				backgroundColorOfPost = "#1da1f2";
+			} else if (post.socialType === "linkedin") {
+				backgroundColorOfPost = "#0077b5";
+			} else if (post.socialType === "instagram") {
+				backgroundColorOfPost = "#cd486b";
+			}
 
-		newPost.save().then(result => res.send(result));
+			newPost.userID = userID;
+			newPost.accountID = post.accountID;
+			newPost.content = post.content;
+			newPost.postingDate = post.postingDate;
+			newPost.link = post.link;
+			newPost.linkImage = post.linkImage;
+			newPost.accountType = post.accountType;
+			newPost.socialType = post.socialType;
+			newPost.color = backgroundColorOfPost;
+			newPost.status = "pending";
+
+			newPost.save().then(result => res.send(result));
+		});
 	},
 	getPosts: function(req, res) {
 		// Get all posts for user

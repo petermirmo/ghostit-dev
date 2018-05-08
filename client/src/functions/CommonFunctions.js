@@ -48,7 +48,7 @@ export async function savePost(
 		if (document.getElementsByClassName("owl-item active center")[0].children[0].children[0])
 			linkPreviewImage = document.getElementsByClassName("owl-item active center")[0].children[0].children[0].src;
 	}
-	console.log(id);
+
 	// Everything seems okay, save post to database!
 	axios
 		.post("/api/post", {
