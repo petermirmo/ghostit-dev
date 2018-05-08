@@ -31,10 +31,10 @@ const PostScheduler = require("./scheduler/PostScheduler");
 const TokenScheduler = require("./scheduler/TokenScheduler");
 const schedule = require("node-schedule");
 
+schedule.scheduleJob("* * * * *", function() {
+	PostScheduler.main();
+});
 if (process.env.NODE_ENV === "production") {
-	schedule.scheduleJob("* * * * *", function() {
-		PostScheduler.main();
-	});
 	schedule.scheduleJob("0 0 1 * *", function() {
 		TokenScheduler.main();
 	});

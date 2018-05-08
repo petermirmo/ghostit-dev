@@ -13,6 +13,7 @@ class PostingOptions extends Component {
 		id: this.props.post ? this.props.post._id : undefined,
 		postingToAccountId: this.props.post ? this.props.post.accountID : "",
 		link: this.props.post ? this.props.post.link : "",
+		linkImage: this.props.post ? this.props.post.linkImage : "",
 		postImages: this.props.post ? this.props.post.images : [],
 		accountType: this.props.post ? this.props.post.accountType : "",
 		socialType: this.props.post ? this.props.post.socialType : this.props.socialType,
@@ -37,6 +38,7 @@ class PostingOptions extends Component {
 			id: nextProps.post ? nextProps.post._id : undefined,
 			postingToAccountId: nextProps.post ? nextProps.post.accountID : "",
 			link: nextProps.post ? nextProps.post.link : "",
+			linkImage: nextProps.post ? nextProps.post.linkImage : "",
 			postImages: nextProps.post ? nextProps.post.images : [],
 			accountType: nextProps.post ? nextProps.post.accountType : "",
 			socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
@@ -81,6 +83,7 @@ class PostingOptions extends Component {
 			id,
 			contentValue,
 			link,
+			linkImage,
 			linkImagesArray,
 			time,
 			postImages,
@@ -144,11 +147,12 @@ class PostingOptions extends Component {
 				/>
 				{linkPreviewCanShow && (
 					<Carousel
-						linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-						ref="carousel"
-						updateParentState={this.linkPreviewSetState}
 						id="linkCarousel"
+						ref="carousel"
+						linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+						updateParentState={this.linkPreviewSetState}
 						linkImagesArray={linkImagesArray}
+						linkImage={linkImage}
 					/>
 				)}
 				<DatePicker clickedCalendarDate={date} callback={this.handleChange} canEdit={canEditPost} />

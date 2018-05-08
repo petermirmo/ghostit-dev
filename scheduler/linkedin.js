@@ -29,7 +29,9 @@ module.exports = {
 						linkedinPost.content = linkedinLink;
 					}
 					if (post.linkImage !== "" && post.link !== "") {
-						linkedinLink["submitted-image-url"] = post.linkImage;
+						linkedinLink["submitted-image-url"] =
+							"http://testcreative.co.uk/wp-content/uploads/2017/10/Test-Logo-Small-Black-transparent-1.png";
+
 						linkedinPost.content = linkedinLink;
 						if (post.images[0]) {
 							linkedinLink["submitted-image-url"] = post.images[0].url;
@@ -39,6 +41,10 @@ module.exports = {
 					linkedinPost.visibility = { code: "anyone" };
 
 					LI.people.share(linkedinPost, function(nothing, results) {
+						if (!results) {
+							return;
+						}
+
 						if (!results.updateKey) {
 							savePostError(post._id, results);
 						} else {

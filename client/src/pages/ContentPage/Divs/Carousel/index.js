@@ -29,73 +29,79 @@ class Carousel extends Component {
 			this.props.updateParentState(link, res.data);
 		});
 	};
+	imageDiv(link, index) {
+		return (
+			<div
+				className="item"
+				key={index}
+				style={{
+					height: "150",
+					border: "2px solid var(--black-theme-color)"
+				}}
+			>
+				<img
+					alt=" No images at this url!"
+					style={{
+						maxHeight: "100px",
+						boxShadow: " 0 0 20px 0"
+					}}
+					src={link}
+				/>
+			</div>
+		);
+	}
 	render() {
-		const { linkImagesArray, id, linkPreviewCanEdit } = this.props;
+		const { linkImagesArray, id, linkPreviewCanEdit, linkImage } = this.props;
 		let linkPreviewImageTag = [];
 		let carousel;
 
 		for (let index in linkImagesArray) {
-			linkPreviewImageTag.push(
-				<div
-					className="item"
-					key={index}
+			linkPreviewImageTag.push(this.imageDiv(linkImagesArray[index]), index);
+		}
+		if (linkImage) {
+			linkPreviewImageTag.push(this.imageDiv(linkImage, -1));
+		}
+		if (linkPreviewCanEdit === true) {
+			carousel = (
+				<OwlCarousel
+					id={id}
+					items={1}
+					className="owl-theme"
+					center={true}
+					loop
+					margin={10}
 					style={{
-						height: "150",
-						border: "2px solid var(--black-theme-color)"
+						float: "left",
+						width: "40%"
+					}}
+					nav
+				>
+					{linkPreviewImageTag}
+				</OwlCarousel>
+			);
+		} else {
+			carousel = (
+				<OwlCarousel
+					id={id}
+					items={1}
+					className="owl-theme"
+					center={true}
+					loop
+					margin={10}
+					nav={false}
+					dots={false}
+					mouseDrag={false}
+					touchDrag={false}
+					pullDrag={false}
+					freeDrag={false}
+					style={{
+						float: "left",
+						width: "40%"
 					}}
 				>
-					<img
-						alt=" No images at this url!"
-						style={{
-							maxHeight: "100px",
-							boxShadow: " 0 0 20px 0"
-						}}
-						src={linkImagesArray[index]}
-					/>
-				</div>
+					{linkPreviewImageTag}
+				</OwlCarousel>
 			);
-			if (linkPreviewCanEdit === true) {
-				carousel = (
-					<OwlCarousel
-						id={id}
-						items={1}
-						className="owl-theme"
-						center={true}
-						loop
-						margin={10}
-						style={{
-							float: "left",
-							width: "40%"
-						}}
-						nav
-					>
-						{linkPreviewImageTag}
-					</OwlCarousel>
-				);
-			} else {
-				carousel = (
-					<OwlCarousel
-						id={id}
-						items={1}
-						className="owl-theme"
-						center={true}
-						loop
-						margin={10}
-						nav={false}
-						dots={false}
-						mouseDrag={false}
-						touchDrag={false}
-						pullDrag={false}
-						freeDrag={false}
-						style={{
-							float: "left",
-							width: "40%"
-						}}
-					>
-						{linkPreviewImageTag}
-					</OwlCarousel>
-				);
-			}
 		}
 
 		return <div>{carousel}</div>;
