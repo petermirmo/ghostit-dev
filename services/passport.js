@@ -105,11 +105,11 @@ module.exports = function(passport) {
 				passReqToCallback: true
 			},
 			function(req, accessToken, refreshToken, profile, done) {
-				let userID;
-				if (req.user.signedInAsUser.id) {
-					userID = req.user.signedInAsUser.id;
-				} else {
-					userID = req.user._id;
+				let userID = req.user._id;
+				if (req.user.signedInAsUser) {
+					if (req.user.signedInAsUser.id) {
+						userID = req.user.signedInAsUser.id;
+					}
 				}
 
 				var newAccount = new Account();
@@ -141,11 +141,11 @@ module.exports = function(passport) {
 			function(req, token, tokenSecret, profile, done) {
 				// Account does not exist
 				var user = req.user; // pull the user out of the session
-				let userID;
-				if (req.user.signedInAsUser.id) {
-					userID = req.user.signedInAsUser.id;
-				} else {
-					userID = req.user._id;
+				let userID = req.user._id;
+				if (req.user.signedInAsUser) {
+					if (req.user.signedInAsUser.id) {
+						userID = req.user.signedInAsUser.id;
+					}
 				}
 				var newAccount = new Account();
 

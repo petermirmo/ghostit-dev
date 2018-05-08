@@ -153,9 +153,7 @@ module.exports = app => {
 	// Sign up to plan
 	app.post("/api/signUpToPlan", (req, res) => planFunctions.signUpToPlan(req, res));
 
-	// Get timezone
-	app.get("/api/timezone", (req, res) => generalFunctions.getTimezone(req, res));
-
+	app.get("/api/getTimezone", (req, res) => userFunctions.getTimezone(req, res));
 	// Admin routes!!!!!
 
 	// Get all users

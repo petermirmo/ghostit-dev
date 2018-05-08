@@ -18,7 +18,8 @@ class UsersTable extends Component {
 		untouchedActiveUsers: [],
 		clickedUser: undefined,
 		editting: false,
-		plans: undefined
+		plans: undefined,
+		userCategories: { admin: false, manager: false, client: false, demo: true }
 	};
 	constructor(props) {
 		super(props);
@@ -147,9 +148,10 @@ class UsersTable extends Component {
 		this.setState({ editting: !this.state.editting });
 	};
 	render() {
+		const { clickedUser, managerUsers, plans, activeTab, editting, activeUsers, userCategories } = this.state;
 		let array = [];
 
-		for (let index in this.state.clickedUser) {
+		for (let index in clickedUser) {
 			let canEdit = true;
 			let dropdown = false;
 			let dropdownList;
@@ -163,18 +165,18 @@ class UsersTable extends Component {
 					dropdownList = moment.tz.names();
 				} else if (index === "writer") {
 					dropdownList = [];
-					for (let j in this.state.managerUsers) {
+					for (let j in managerUsers) {
 						dropdownList.push({
-							id: this.state.managerUsers[j]._id,
-							value: this.state.managerUsers[j].fullName
+							id: managerUsers[j]._id,
+							value: managerUsers[j].fullName
 						});
 					}
 				} else if (index === "plan") {
 					dropdownList = [];
-					for (let j in this.state.plans) {
+					for (let j in plans) {
 						dropdownList.push({
-							id: this.state.plans[j]._id,
-							value: this.state.plans[j].name
+							id: plans[j]._id,
+							value: plans[j].name
 						});
 					}
 				}
@@ -184,9 +186,7 @@ class UsersTable extends Component {
 				array.push({
 					canEdit: canEdit,
 					value:
-						this.state.clickedUser[index] === Object(this.state.clickedUser[index])
-							? this.state.clickedUser[index].name
-							: this.state.clickedUser[index],
+						this.state.clickedUser[index] === Object(clickedUser[index]) ? clickedUser[index].name : clickedUser[index],
 					dropdown: dropdown,
 					dropdownList: dropdownList,
 					index: index
@@ -195,13 +195,9 @@ class UsersTable extends Component {
 		}
 		return (
 			<div>
-				<NavigationBar
-					updateParentState={this.updateUsers}
-					categories={["admin", "manager", "client", "demo"]}
-					setActive={this.state.activeTab}
-				/>
+				<NavigationBar updateParentState={this.updateUsers} categories={userCategories} setActive={activeTab} />
 				<ManageColumn
-					objectList={this.state.activeUsers}
+					objectList={activeUsers}
 					searchObjects={this.searchUsers}
 					handleClickedObject={this.handleClickedUser}
 				/>
@@ -210,9 +206,9 @@ class UsersTable extends Component {
 						objectArray={array}
 						updateList={this.getUsers}
 						saveObject={this.saveUser}
-						clickedObject={this.state.clickedUser}
+						clickedObject={clickedUser}
 						className="center"
-						editting={this.state.editting}
+						editting={editting}
 						editObject={this.editObject}
 					/>
 				</div>

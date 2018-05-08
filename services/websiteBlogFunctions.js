@@ -6,11 +6,11 @@ var cloudinary = require("cloudinary");
 
 module.exports = {
 	saveBlog: function(req, res) {
-		let userID;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-		} else {
-			userID = req.user._id;
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
 		}
 		Blog.findOne({ _id: req.params.blogID }, async function(err, blog) {
 			if (err) {
@@ -106,11 +106,11 @@ module.exports = {
 		});
 	},
 	getBlogs(req, res) {
-		let userID;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-		} else {
-			userID = req.user._id;
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
 		}
 		Blog.find({ userID: userID }, function(err, blogs) {
 			if (err) {

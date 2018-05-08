@@ -8,11 +8,11 @@ var Linkedin = require("node-linkedin")(
 );
 module.exports = {
 	getLinkedinPages: function(req, res) {
-		let userID;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-		} else {
-			userID = req.user._id;
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
 		}
 		// Get Linkedin profile
 		Account.findOne(

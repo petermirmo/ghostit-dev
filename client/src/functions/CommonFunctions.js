@@ -31,7 +31,9 @@ export async function savePost(
 	deleteImagesArray
 ) {
 	if (deleteImagesArray) {
-		await axios.post("/api/post/delete/images/" + id, deleteImagesArray);
+		if (deleteImagesArray.length !== 0) {
+			await axios.post("/api/post/delete/images/" + id, deleteImagesArray);
+		}
 	}
 	// Get current images
 	let imagesToSave = [];
@@ -106,13 +108,14 @@ export function postChecks(postingToAccountId, dateToPostInUtcTime, link, curren
 	}
 	return true;
 }
-export function convertDateAndTimeToUtcTme(date, time, usersTimezone) {
+export function convertDateAndTimeToUtcTme(date, time, timezone) {
 	// Combine time and date into one date letiable
 	let postingDate = new Date(date);
 	let postingTime = new Date(time);
 	postingDate.setHours(postingTime.getHours());
 	postingDate.setMinutes(postingTime.getMinutes());
-	return switchDateToUsersTimezoneInUtcForm(postingDate, usersTimezone);
+
+	return switchDateToUsersTimezoneInUtcForm(postingDate, timezone);
 }
 export function roleCheck(role) {
 	axios.get("/api/isUserSignedIn").then(res => {

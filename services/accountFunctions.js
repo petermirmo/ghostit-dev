@@ -16,11 +16,11 @@ module.exports = {
 	},
 	saveAccount: function(req, res) {
 		var page = req.body;
-		let userID;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-		} else {
-			userID = req.user._id;
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
 		}
 
 		var newAccount = new Account();
@@ -36,11 +36,11 @@ module.exports = {
 		newAccount.save().then(result => res.send(true));
 	},
 	getAccounts: function(req, res) {
-		let userID;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-		} else {
-			userID = req.user._id;
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
 		}
 		Account.find({ userID: userID }, function(err, accounts) {
 			if (err) {

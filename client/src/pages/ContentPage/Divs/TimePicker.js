@@ -43,7 +43,7 @@ class TimePickerComponent extends Component {
 					onChange={this.handleChange}
 					gettime={this.state.controlledTime}
 					textFieldStyle={{ cursor: "pointer" }}
-					disabled={this.props.canEdit}
+					disabled={!this.props.canEdit}
 				/>
 			</MuiThemeProvider>
 		);

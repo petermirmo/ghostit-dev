@@ -11,7 +11,6 @@ import "./style.css";
 
 class ContentModal extends Component {
 	state = {
-		linkImagesArray: [],
 		saving: false,
 		activeTab: "facebook",
 		categories: ["facebook", "twitter", "linkedin", "blog"]
@@ -20,7 +19,6 @@ class ContentModal extends Component {
 	switchTabState = activeTab => {
 		this.setState({
 			activeTab: activeTab,
-			linkImagesArray: [],
 			postingToAccountId: ""
 		});
 	};
@@ -33,7 +31,7 @@ class ContentModal extends Component {
 		if (this.state.saving) {
 			return <Loader />;
 		}
-		var { activeTab } = this.state;
+		const { activeTab } = this.state;
 		const { close, clickedCalendarDate, accounts, savePostCallback, saveBlogCallback } = this.props;
 
 		let modalBody;
@@ -60,6 +58,7 @@ class ContentModal extends Component {
 							postFinishedSavingCallback={savePostCallback}
 							setSaving={this.setSaving}
 							socialType={activeTab}
+							canEditPost={true}
 						/>
 					</div>
 				);

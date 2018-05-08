@@ -41,15 +41,17 @@ module.exports = {
 		}
 		let userID = req.user._id;
 		let user = req.user;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-			await User.findOne({ _id: userID }, function(err, signedInAsUser) {
-				if (err) {
-					handleError(res, err);
-				} else if (signedInAsUser) {
-					user = signedInAsUser;
-				}
-			});
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+				await User.findOne({ _id: userID }, function(err, signedInAsUser) {
+					if (err) {
+						handleError(res, err);
+					} else if (signedInAsUser) {
+						user = signedInAsUser;
+					}
+				});
+			}
 		}
 
 		let newPlan = new Plan(req.body.plan);
@@ -73,7 +75,7 @@ module.exports = {
 		// Check to see if plan exists
 		let findPlan;
 		if (user.plan) {
-			if (user.plan.id) {
+			if (user.plan.id && user.plan.id !== "none") {
 				findPlan = { _id: String(user.plan.id) };
 			} else {
 				findPlan = {

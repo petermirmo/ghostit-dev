@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Loader from "../../components/Loader/";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setUser } from "../../actions/";
 
+import Loader from "../../components/Loader/";
 import "./style.css";
 
 class Content extends Component {
@@ -13,28 +16,32 @@ class Content extends Component {
 		password: "",
 		saving: false
 	};
-	constructor(props) {
-		super(props);
-		this.initialize = this.initialize.bind(this);
-		this.initialize();
+	componentDidMount() {
+		const { user } = this.props;
+		const { fullName, email, website } = user;
+		if (this.props.user) {
+			this.setState({ fullName: fullName, email: email, website: website });
+		}
 	}
-	initialize() {
-		// Get current user and fill in form data
-		axios.get("/api/user").then(res => {
-			const { fullName, email, website } = res.data;
-			this.setState({ fullName: fullName, email: email, website: website, password: "" });
-		});
-	}
+
 	handleChange = (index, value) => {
 		this.setState({ [index]: value });
 	};
 	saveUser = event => {
 		this.setState({ saving: true });
-		event.preventDefault();
+
 		const { fullName, email, website, password } = this.state;
 		axios.post("/api/user/id", { fullName: fullName, email: email, website: website, password: password }).then(res => {
-			if (res.data) {
-				this.setState({ saving: false });
+			if (res.data.success) {
+				let user = res.data.result;
+				this.setState({
+					saving: false,
+					fullName: user.fullName,
+					email: user.email,
+					website: user.website,
+					password: ""
+				});
+				this.props.setUser(user);
 			} else {
 				this.setState({ saving: false });
 				alert("Something went wrong! Contact your local DevNinja");
@@ -42,9 +49,10 @@ class Content extends Component {
 		});
 	};
 	render() {
+		const { fullName, email, website, password, saving } = this.state;
 		return (
 			<div id="wrapper" style={{ backgroundColor: "var(--light-blue-theme-color)" }}>
-				<div id="main">
+				<div>
 					<div className="container center">
 						<form>
 							<input
@@ -53,7 +61,7 @@ class Content extends Component {
 								placeholder="Full Name"
 								style={{ marginTop: "7%" }}
 								onChange={event => this.handleChange("fullName", event.target.value)}
-								value={this.state.fullName}
+								value={fullName}
 								required
 							/>
 							<input
@@ -61,7 +69,7 @@ class Content extends Component {
 								className="profile-input center"
 								placeholder="Email"
 								onChange={event => this.handleChange("email", event.target.value)}
-								value={this.state.email}
+								value={email}
 								required
 							/>
 
@@ -70,7 +78,7 @@ class Content extends Component {
 								className="profile-input center"
 								placeholder="Website"
 								onChange={event => this.handleChange("website", event.target.value)}
-								value={this.state.website}
+								value={website}
 								required
 							/>
 
@@ -79,26 +87,33 @@ class Content extends Component {
 								className="profile-input center"
 								placeholder="Password"
 								onChange={event => this.handleChange("password", event.target.value)}
-								value={this.state.password}
+								value={password}
 								required
 							/>
-
-							<input
-								className="center submit-colorful"
-								type="submit"
-								value="Save Changes"
-								style={{ marginBottom: "5px" }}
-								onClick={event => {
-									this.saveUser(event);
-								}}
-							/>
 						</form>
+						<button
+							className="profile-save center"
+							onClick={event => {
+								this.saveUser(event);
+							}}
+						>
+							Save Changes
+						</button>
 					</div>
 				</div>
-				{this.state.saving && <Loader />}
+				{saving && <Loader />}
 			</div>
 		);
 	}
 }
 
-export default Content;
+function mapStateToProps(state) {
+	return {
+		user: state.user
+	};
+}
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({ setUser: setUser }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Content);

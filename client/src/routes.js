@@ -23,13 +23,13 @@ class Routes extends Component {
 			if (res.data.success) {
 				props.setUser(res.data.user);
 				props.changePage("content");
+				// Get all connected accounts of the user
+				axios.get("/api/accounts").then(res => {
+					// Set user's accounts to state
+					this.setState({ accounts: res.data });
+					this.props.updateAccounts(res.data);
+				});
 			}
-		});
-		// Get all connected accounts of the user
-		axios.get("/api/accounts").then(res => {
-			// Set user's accounts to state
-			this.setState({ accounts: res.data });
-			this.props.updateAccounts(res.data);
 		});
 	}
 	render() {

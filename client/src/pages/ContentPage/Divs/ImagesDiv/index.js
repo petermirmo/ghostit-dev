@@ -55,12 +55,12 @@ class ImagesDiv extends Component {
 	};
 
 	render() {
-		const { canDeleteImage, postImages } = this.props;
+		const { canEdit, postImages } = this.props;
 
 		// Image upload button
 		let fileUploadDiv;
 
-		if (postImages.length < this.props.imageLimit) {
+		if (postImages.length < this.props.imageLimit && canEdit) {
 			fileUploadDiv = (
 				<div>
 					<label htmlFor="file-upload" className="custom-file-upload">
@@ -75,7 +75,7 @@ class ImagesDiv extends Component {
 		// Show preview images
 		let imagesDiv = [];
 		let imageClass;
-		if (canDeleteImage === true) {
+		if (canEdit === true) {
 			imageClass = "image-container delete-image-container";
 		} else {
 			imageClass = "image-container ";

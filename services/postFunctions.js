@@ -65,6 +65,7 @@ module.exports = {
 		} else if (post.socialType === "instagram") {
 			backgroundColorOfPost = "#cd486b";
 		}
+
 		newPost.userID = userID;
 		newPost.accountID = post.accountID;
 		newPost.content = post.content;
@@ -80,11 +81,11 @@ module.exports = {
 	},
 	getPosts: function(req, res) {
 		// Get all posts for user
-		let userID;
-		if (req.user.signedInAsUser.id) {
-			userID = req.user.signedInAsUser.id;
-		} else {
-			userID = req.user._id;
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
 		}
 
 		Post.find({ userID: userID }, function(err, posts) {

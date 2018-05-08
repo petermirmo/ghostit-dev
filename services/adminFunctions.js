@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const Plan = require("../models/Plan");
-
-var cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 
 module.exports = {
 	getUsers: function(req, res) {
@@ -58,8 +57,8 @@ module.exports = {
 		}
 	},
 	signInAsUser: function(req, res) {
-		var currentUser = req.user;
-		var clientUser = req.body;
+		let currentUser = req.user;
+		let clientUser = req.body;
 		if (currentUser.role === "manager") {
 			//if (String(currentUser._id) === clientUser.writer.id) {
 			currentUser.signedInAsUser = { id: clientUser._id, fullName: clientUser.fullName };
@@ -75,7 +74,7 @@ module.exports = {
 		}
 	},
 	signOutOfUserAccount: function(req, res) {
-		var currentUser = req.user;
+		let currentUser = req.user;
 		currentUser.signedInAsUser = undefined;
 		currentUser.save().then(result => {
 			console.log(result);

@@ -47,7 +47,7 @@ class DatePickerComponent extends Component {
 					onChange={this.handleChange}
 					getdate={this.state.controlledDate}
 					textFieldStyle={{ cursor: "pointer" }}
-					disabled={this.props.canEdit}
+					disabled={!this.props.canEdit}
 				/>
 			</MuiThemeProvider>
 		);

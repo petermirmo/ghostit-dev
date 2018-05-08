@@ -5,21 +5,7 @@ import OwlCarousel from "react-owl-carousel";
 import "./style.css";
 
 class Carousel extends Component {
-	state = {
-		linkImagesArray: [],
-		linkPreviewCanShow: this.props.linkPreviewCanShow,
-		linkPreviewCanEdit: this.props.linkPreviewCanEdit
-	};
-	constructor(props) {
-		super(props);
-		this.getDataFromURL = this.getDataFromURL.bind(this);
-	}
-
 	findLink(textAreaString) {
-		// If we can't show link preview, return
-		if (this.state.linkPreviewCanShow === false) {
-			return;
-		}
 		// Url regular expression
 		let urlRegularExpression = /((http|ftp|https):\\)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/;
 
@@ -37,22 +23,18 @@ class Carousel extends Component {
 			this.getDataFromURL(link);
 		}
 	}
-	getDataFromURL(link) {
+	getDataFromURL = link => {
 		axios.post("/api/link", { link: link }).then(res => {
 			this.setState({ link: link, linkImagesArray: res.data });
 			this.props.updateParentState(link, res.data);
 		});
-	}
+	};
 	render() {
-		let linkImages = this.state.linkImagesArray;
+		const { linkImagesArray, id, linkPreviewCanEdit } = this.props;
 		let linkPreviewImageTag = [];
 		let carousel;
 
-		for (let index in linkImages) {
-			// If we can't show link preview, break
-			if (this.props.linkPreviewCanShow === false) {
-				break;
-			}
+		for (let index in linkImagesArray) {
 			linkPreviewImageTag.push(
 				<div
 					className="item"
@@ -68,23 +50,23 @@ class Carousel extends Component {
 							maxHeight: "100px",
 							boxShadow: " 0 0 20px 0"
 						}}
-						src={linkImages[index]}
+						src={linkImagesArray[index]}
 					/>
 				</div>
 			);
-			if (this.props.linkPreviewCanEdit === true) {
+			if (linkPreviewCanEdit === true) {
 				carousel = (
 					<OwlCarousel
-						id={this.props.id}
+						id={id}
+						items={1}
+						className="owl-theme"
+						center={true}
+						loop
+						margin={10}
 						style={{
 							float: "left",
 							width: "40%"
 						}}
-						items={1}
-						className="owl-theme center"
-						center={true}
-						loop
-						margin={10}
 						nav
 					>
 						{linkPreviewImageTag}
@@ -93,13 +75,9 @@ class Carousel extends Component {
 			} else {
 				carousel = (
 					<OwlCarousel
-						id={this.props.id}
-						style={{
-							float: "left",
-							width: "40%"
-						}}
+						id={id}
 						items={1}
-						className="owl-theme center"
+						className="owl-theme"
 						center={true}
 						loop
 						margin={10}
@@ -109,6 +87,10 @@ class Carousel extends Component {
 						touchDrag={false}
 						pullDrag={false}
 						freeDrag={false}
+						style={{
+							float: "left",
+							width: "40%"
+						}}
 					>
 						{linkPreviewImageTag}
 					</OwlCarousel>

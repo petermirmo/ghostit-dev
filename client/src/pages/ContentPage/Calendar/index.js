@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import ContentModal from "../Modals/ContentModal";
 import PostEdittingModal from "../Modals/PostEdittingModal";
 import BlogEdittingModal from "../Modals/BlogEdittingModal";
-import Navigation from "../../../components/NavigationBar/";
+import NavigationBar from "../../../components/NavigationBar/";
 import "./style.css";
 
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
@@ -215,7 +215,7 @@ class Calendar extends Component {
 
 		return (
 			<div>
-				<Navigation categories={calendarEventCategories} updateParentState={this.updateTabState} />
+				<NavigationBar categories={calendarEventCategories} updateParentState={this.updateTabState} />
 				<BigCalendar
 					selectable
 					{...this.props}

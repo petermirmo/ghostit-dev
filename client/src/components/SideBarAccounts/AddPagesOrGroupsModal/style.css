@@ -1,6 +1,7 @@
 .connect-header {
 	margin: 0;
 	padding: 10px;
+	color: var(--white-theme-color);
 }
 .social-media-div {
 	text-align: left;

@@ -4,7 +4,7 @@ import "./style.css";
 class SelectAccountDiv extends Component {
 	render() {
 		let accountsListDiv = [];
-		const { activePageAccountsArray, activeAccount, setActiveAccount } = this.props;
+		const { activePageAccountsArray, activeAccount, setActiveAccount, canEdit } = this.props;
 		// To select which account to post to
 		for (let index in activePageAccountsArray) {
 			let name;
@@ -30,7 +30,7 @@ class SelectAccountDiv extends Component {
 		}
 		return (
 			<div className="center select-accounts-container">
-				<h4 className="select-accounts-header">Choose an account to post to!</h4>
+				{canEdit && <h4 className="select-accounts-header">Choose an account to post to!</h4>}
 				{accountsListDiv}
 			</div>
 		);

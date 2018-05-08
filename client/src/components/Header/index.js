@@ -37,7 +37,7 @@ class Header extends Component {
 
 		if (!user) {
 			changePage("");
-			return <div>here</div>;
+			return <div style={{ display: "none" }} />;
 		}
 
 		let active = this.isActive("profile");

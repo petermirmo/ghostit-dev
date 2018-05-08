@@ -45,9 +45,9 @@ class PostEdittingModal extends Component {
 		if (this.state.saving) {
 			return <Loader />;
 		}
-		const { close, savePostCallback, clickedCalendarEvent } = this.props;
+		const { close, savePostCallback, clickedCalendarEvent, accounts } = this.props;
 		let modalFooter;
-		let canEditPost = clickedCalendarEvent.status === "pending" || clickedCalendarEvent.status === "error";
+		let canEditPost = clickedCalendarEvent.status !== "posted";
 		if (canEditPost) {
 			modalFooter = (
 				<div className="modal-footer">
@@ -55,6 +55,7 @@ class PostEdittingModal extends Component {
 				</div>
 			);
 		}
+
 		return (
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
@@ -68,8 +69,8 @@ class PostEdittingModal extends Component {
 							setSaving={this.setSaving}
 							post={clickedCalendarEvent}
 							canEditPost={canEditPost}
-							accounts={[]}
 							postFinishedSavingCallback={savePostCallback}
+							accounts={accounts}
 						/>
 					</div>
 
