@@ -31,6 +31,13 @@ class Header extends Component {
 				return "";
 		}
 	};
+	logout = () => {
+		axios.get("/api/logout").then(res => {
+			if (res.success) {
+				this.props.changePage("login");
+			}
+		});
+	};
 	render() {
 		const { user, activePage } = this.props;
 		const { changePage } = this.props;
@@ -78,7 +85,7 @@ class Header extends Component {
 
 						<div className="dropdown-content">
 							<a onClick={() => changePage("profile")}>Profile</a>
-							<a href="/api/logout">Logout</a>
+							<a onClick={() => this.logout()}>Logout</a>
 						</div>
 					</div>
 

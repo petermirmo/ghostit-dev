@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage, setUser, updateAccounts } from "./actions/";
 
+import Loader from "./components/Loader/";
 import LoginPage from "./pages/LoginPage/";
 import Content from "./pages/ContentPage/";
 import Profile from "./pages/ProfilePage/";
@@ -33,18 +34,20 @@ class Routes extends Component {
 		});
 	}
 	render() {
+		const { activePage, accountSideBar, clientSideBar } = this.props;
+
 		return (
 			<div>
 				<Header />
-				{this.props.accountSideBar && <ConnectAccountsSideBar />}
-				{this.props.clientSideBar && <ClientsSideBar />}
+				{accountSideBar && <ConnectAccountsSideBar />}
+				{clientSideBar && <ClientsSideBar />}
 
-				{this.props.activePage === "" && <LoginPage />}
-				{this.props.activePage === "content" && <Content />}
-				{this.props.activePage === "profile" && <Profile />}
-				{this.props.activePage === "strategy" && <Strategy />}
-				{this.props.activePage === "manage" && <Manage />}
-				{this.props.activePage === "subscribe" && <Plans />}
+				{activePage === "" && <LoginPage />}
+				{activePage === "content" && <Content />}
+				{activePage === "profile" && <Profile />}
+				{activePage === "strategy" && <Strategy />}
+				{activePage === "manage" && <Manage />}
+				{activePage === "subscribe" && <Plans />}
 			</div>
 		);
 	}

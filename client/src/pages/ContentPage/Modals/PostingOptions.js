@@ -125,7 +125,7 @@ class PostingOptions extends Component {
 					rows={5}
 					placeholder="Success doesn't write itself!"
 					onChange={event => {
-						this.refs.carousel.findLink(event.target.value);
+						if (this.refs.carousel) this.refs.carousel.findLink(event.target.value);
 						this.handleChange("contentValue", event.target.value);
 					}}
 					value={contentValue}

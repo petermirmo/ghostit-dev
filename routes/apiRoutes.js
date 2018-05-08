@@ -44,7 +44,7 @@ module.exports = app => {
 	// Logout user
 	app.get("/api/logout", (req, res) => {
 		req.session.destroy();
-		res.redirect("/");
+		res.send({ success: true });
 	});
 
 	// Middleware check
