@@ -29,8 +29,7 @@ module.exports = {
 						linkedinPost.content = linkedinLink;
 					}
 					if (post.linkImage !== "" && post.link !== "") {
-						linkedinLink["submitted-image-url"] =
-							"http://testcreative.co.uk/wp-content/uploads/2017/10/Test-Logo-Small-Black-transparent-1.png";
+						linkedinLink["submitted-image-url"] = post.linkImage;
 
 						linkedinPost.content = linkedinLink;
 						if (post.images[0]) {
