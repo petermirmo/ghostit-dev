@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import axios from "axios";
 
 import DatePicker from "../Divs/DatePicker.js";
 import TimePicker from "../Divs/TimePicker.js";
@@ -44,18 +45,13 @@ class PostingOptions extends Component {
 		});
 	}
 	componentDidMount() {
-		this.findLink();
+		this.findLink(this.state.contentValue);
 	}
-	findLink = () => {
-		if (this.refs.carousel) this.refs.carousel.findLink(this.state.contentValue);
-	};
+
 	setPostImages = imagesArray => {
 		this.setState({ postImages: imagesArray });
 	};
 
-	linkPreviewSetState = (link, imagesArray) => {
-		this.setState({ link: link, linkImagesArray: imagesArray });
-	};
 	handleChange = (index, value) => {
 		this.setState({
 			[index]: value
@@ -72,6 +68,29 @@ class PostingOptions extends Component {
 		let temp = this.state.deleteImagesArray;
 		temp.push(image);
 		this.setState({ deleteImagesArray: temp });
+	};
+	findLink(textAreaString) {
+		// Url regular expression
+		let urlRegularExpression = /((http|ftp|https):\\)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/;
+
+		// Finds url
+		let match = urlRegularExpression.exec(textAreaString);
+		let link;
+
+		// Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
+		if (match !== null) {
+			if (match[0].substring(0, 7) === "http://" || match[0].substring(0, 8) === "https://") {
+				link = match[0];
+			} else {
+				link = "http://" + match[0];
+			}
+			this.getDataFromURL(link);
+		}
+	}
+	getDataFromURL = link => {
+		axios.post("/api/link", { link: link }).then(res => {
+			this.setState({ link: link, linkImagesArray: res.data });
+		});
 	};
 
 	render() {
@@ -122,7 +141,7 @@ class PostingOptions extends Component {
 					rows={5}
 					placeholder="Success doesn't write itself!"
 					onChange={event => {
-						if (this.refs.carousel) this.refs.carousel.findLink(event.target.value);
+						this.findLink(event.target.value);
 						this.handleChange("contentValue", event.target.value);
 					}}
 					value={contentValue}
@@ -142,46 +161,48 @@ class PostingOptions extends Component {
 					setActiveAccount={this.updatePostingAccount}
 					canEdit={canEditPost}
 				/>
-				{linkPreviewCanShow && (
-					<Carousel
-						id="linkCarousel"
-						ref="carousel"
-						linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-						updateParentState={this.linkPreviewSetState}
-						linkImagesArray={linkImagesArray}
-						linkImage={linkImage}
-					/>
-				)}
+				{linkPreviewCanShow &&
+					link && (
+						<Carousel
+							id="linkCarousel"
+							linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+							linkImagesArray={linkImagesArray}
+							linkImage={linkImage}
+						/>
+					)}
 				<DatePicker clickedCalendarDate={date} callback={this.handleChange} canEdit={canEditPost} />
 				<TimePicker timeForPost={time} callback={this.handleChange} canEdit={canEditPost} />
+
 				{canEditPost && (
-					<button
-						className="save-post-button center"
-						onClick={() => {
-							let dateToPostInUtcTime = convertDateAndTimeToUtcTme(date, time, timezone);
+					<div className="save-post-button-background center">
+						<button
+							className="save-post-button center"
+							onClick={() => {
+								let dateToPostInUtcTime = convertDateAndTimeToUtcTme(date, time, timezone);
 
-							if (!postChecks(postingToAccountId, dateToPostInUtcTime, link, postImages, contentValue)) {
-								return;
-							}
+								if (!postChecks(postingToAccountId, dateToPostInUtcTime, link, postImages, contentValue)) {
+									return;
+								}
 
-							setSaving();
+								setSaving();
 
-							savePost(
-								id,
-								contentValue,
-								dateToPostInUtcTime,
-								link,
-								postImages,
-								postingToAccountId,
-								socialType,
-								accountType,
-								postFinishedSavingCallback,
-								deleteImagesArray
-							);
-						}}
-					>
-						Save Post
-					</button>
+								savePost(
+									id,
+									contentValue,
+									dateToPostInUtcTime,
+									link,
+									postImages,
+									postingToAccountId,
+									socialType,
+									accountType,
+									postFinishedSavingCallback,
+									deleteImagesArray
+								);
+							}}
+						>
+							Save Post
+						</button>
+					</div>
 				)}
 			</div>
 		);

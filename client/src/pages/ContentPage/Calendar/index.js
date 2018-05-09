@@ -43,7 +43,7 @@ class Calendar extends Component {
 		super(props);
 
 		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
-		axios.get("/api/getTimezone").then(res => {
+		axios.get("/api/timezone").then(res => {
 			let result = res.data;
 			if (result.success) {
 				moment.tz.setDefault(result.timezone);

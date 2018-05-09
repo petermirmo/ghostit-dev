@@ -41,6 +41,7 @@ module.exports = {
 			} else if (foundPost) {
 				newPost = foundPost;
 			}
+
 			let userID = req.user._id;
 			if (req.user.signedInAsUser) {
 				if (req.user.signedInAsUser.id) {

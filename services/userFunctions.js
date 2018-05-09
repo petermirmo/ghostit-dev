@@ -67,7 +67,11 @@ module.exports = {
 					}
 					res.send({ success: true, timezone: timezone });
 				});
+			} else {
+				res.send({ success: true, timezone: timezone });
 			}
+		} else {
+			res.send({ success: true, timezone: timezone });
 		}
 	}
 };
