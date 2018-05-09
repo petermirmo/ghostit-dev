@@ -35,10 +35,11 @@ export async function savePost(
 			await axios.post("/api/post/delete/images/" + id, deleteImagesArray);
 		}
 	}
+
 	// Get current images
 	let imagesToSave = [];
 	for (let i = 0; i < postImages.length; i++) {
-		if (!postImages.url) imagesToSave.push(postImages[i].image);
+		if (!postImages[i].url) imagesToSave.push(postImages[i].image);
 	}
 
 	// If link previews are allowed get src of active image from carousel
