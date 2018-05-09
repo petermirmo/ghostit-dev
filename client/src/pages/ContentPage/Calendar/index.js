@@ -45,10 +45,15 @@ class Calendar extends Component {
 		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 		axios.get("/api/timezone").then(res => {
 			let result = res.data;
+			let timezone = "America/Vancouver";
 			if (result.success) {
-				moment.tz.setDefault(result.timezone);
+				if (result.timezone) {
+					timezone = result.timezone;
+				}
 			}
-			this.setState({ timezone: result.timezone });
+			moment.tz.setDefault(timezone);
+
+			this.setState({ timezone: timezone });
 		});
 
 		this.getPosts();

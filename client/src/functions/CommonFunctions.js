@@ -44,10 +44,12 @@ export async function savePost(
 
 	// If link previews are allowed get src of active image from carousel
 	let linkPreviewImage = "";
-	if (link) {
+	if (link && document.getElementById("linkCarousel")) {
 		// Get active image from carousel
-		if (document.getElementsByClassName("owl-item active center")[0].children[0].children[0])
-			linkPreviewImage = document.getElementsByClassName("owl-item active center")[0].children[0].children[0].src;
+		if (document.getElementsByClassName("owl-item active center")[0].children[0]) {
+			if (document.getElementsByClassName("owl-item active center")[0].children[0].children[0])
+				linkPreviewImage = document.getElementsByClassName("owl-item active center")[0].children[0].children[0].src;
+		}
 	}
 
 	// Everything seems okay, save post to database!
