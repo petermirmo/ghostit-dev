@@ -20,15 +20,19 @@ module.exports = {
 			}
 		}
 		if (user.plan) {
-			Plan.findOne({ _id: user.plan.id }, function(err, plan) {
-				if (err) {
-					handleError(res, err);
-				} else if (plan) {
-					res.send(plan);
-				} else {
-					res.send(false);
-				}
-			});
+			if (user.plan.id && user.plan.id !== "none") {
+				Plan.findOne({ _id: user.plan.id }, function(err, plan) {
+					if (err) {
+						handleError(res, err);
+					} else if (plan) {
+						res.send(plan);
+					} else {
+						res.send(false);
+					}
+				});
+			} else {
+				res.send(false);
+			}
 		} else {
 			res.send(false);
 		}
