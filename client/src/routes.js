@@ -38,7 +38,7 @@ class Routes extends Component {
 
 		return (
 			<div>
-				<Header />
+				{activePage !== "" && <Header />}
 				{accountSideBar && <ConnectAccountsSideBar />}
 				{clientSideBar && <ClientsSideBar />}
 

@@ -47,7 +47,6 @@ class Login extends Component {
 	login = event => {
 		event.preventDefault();
 		const { email, password } = this.state;
-		let { notification } = this.state;
 
 		if (email && password) {
 			axios.post("/api/login", { email: email, password: password }).then(res => {
@@ -65,7 +64,6 @@ class Login extends Component {
 	register = event => {
 		event.preventDefault();
 		const { fullName, email, website, timezone, password } = this.state;
-		let { notification } = this.state;
 
 		if (fullName && email && website && timezone && password) {
 			axios

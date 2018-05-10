@@ -33,8 +33,10 @@ class Header extends Component {
 	};
 	logout = () => {
 		axios.get("/api/logout").then(res => {
-			if (res.success) {
-				this.props.changePage("login");
+			if (res.data.success) {
+				this.props.changePage("");
+			} else {
+				alert("something went wrong. Please load the page!");
 			}
 		});
 	};
