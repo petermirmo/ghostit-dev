@@ -25,27 +25,22 @@ module.exports = function(passport) {
 			{
 				// by default, local strategy uses username and password, we will override with email
 				usernameField: "email",
-				passwordField: "password",
-				passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+				passwordField: "password"
 			},
-			function(req, email, password, done) {
-				if (email) email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
+			function(email, password, done) {
+				// Use lower-case e-mails to avoid case-sensitive e-mail matching
+				if (email) email = email.toLowerCase();
 
-				// asynchronous
-				process.nextTick(function() {
-					User.findOne({ email: email }, function(err, user) {
-						// if there are any errors, return the error
-						if (err) return done(err);
-
-						// if no user is found, return the message
-						if (!user) return done(null, false, req.flash("loginMessage", "No user found."));
-
-						if (!user.validPassword(password))
-							return done(null, false, req.flash("loginMessage", "Oops! Wrong password."));
-						else
-							// all is well, return user
-							return done(null, user);
-					});
+				User.findOne({ email: email }, function(err, user) {
+					if (err) {
+						return done(false, false, "Something went wrong :(. Please refresh the page and try again!");
+					} else if (!user) {
+						return done(false, false, "No account was found with this email address!");
+					} else if (!user.validPassword(password)) {
+						return done(false, false, "Invalid password! :(");
+					} else {
+						return done(false, user, "Success");
+					}
 				});
 			}
 		)
@@ -57,38 +52,33 @@ module.exports = function(passport) {
 		new LocalStrategy(
 			{
 				usernameField: "email",
-				passwordField: "password",
 				passReqToCallback: true
 			},
 			function(req, email, password, done) {
-				process.nextTick(function() {
-					if (!req.user) {
-						User.findOne({ email: email }, function(err, existingUser) {
-							if (err) return done(err);
+				if (!req.user) {
+					User.findOne({ email: email }, function(err, existingUser) {
+						if (err) {
+							return done(false, false, "An error occured :(");
+						} else if (existingUser) {
+							return done(false, false, "A user with this email already exists!");
+						} else {
+							let newUser = new User();
+							newUser.role = "demo";
+							newUser.plan = { id: "none", name: "none" };
+							newUser.writer = { id: "none", name: "none" };
+							newUser.email = email;
+							newUser.password = newUser.generateHash(req.body.password);
+							newUser.fullName = req.body.fullName;
+							newUser.country = req.body.country;
+							newUser.timezone = req.body.timezone;
+							newUser.website = req.body.website;
 
-							// User already exists
-							if (existingUser) {
-								return done(null, false, req.flash("signupMessage", "That email is already taken."));
-							} else {
-								// User does not exist yet
-								var newUser = new User();
-								newUser.role = "demo";
-								newUser.plan = { id: "none", name: "none" };
-								newUser.writer = { id: "none", name: "none" };
-								newUser.email = email;
-								newUser.password = newUser.generateHash(password);
-								newUser.fullName = req.body.fullName;
-								newUser.country = req.body.country;
-								newUser.timezone = req.body.timezone;
-								newUser.website = req.body.website;
-
-								newUser.save().then(user => done(null, user));
-							}
-						});
-					} else {
-						return done(null, null);
-					}
-				});
+							newUser.save().then(user => done(null, user, "Success!"));
+						}
+					});
+				} else {
+					return done(null, null, "User already logged in!");
+				}
 			}
 		)
 	);

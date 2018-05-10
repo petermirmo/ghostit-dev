@@ -79,6 +79,7 @@
 	font-weight: bold;
 
 	transition: all 1s ease;
+	-webkit-transition: all 1s ease;
 }
 .big-purple-submit-button:hover {
 	transform: scale(1.2);

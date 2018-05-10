@@ -20,23 +20,42 @@ const planFunctions = require("../services/planFunctions");
 
 module.exports = app => {
 	// Login user
-	app.post(
-		"/api/auth/login",
-		passport.authenticate("local-login", {
-			successRedirect: "/content",
-			failureRedirect: "/",
-			failureFlash: true
-		})
-	);
+	app.post("/api/login", (req, res, next) => {
+		passport.authenticate("local-login", function(err, user, message) {
+			let success = true;
+			if (err) success = false;
+			if (!user) success = false;
+			if (success) {
+				req.logIn(user, function(err) {
+					if (err) {
+						success = false;
+						message = "Could not log you in! :( Please refresh the page and try again :)";
+					}
+					res.send({ success: success, user: user, message: message });
+				});
+			} else {
+				res.send({ success: success, message: message });
+			}
+		})(req, res, next);
+	});
 	// Register user
-	app.post(
-		"/api/user",
-		passport.authenticate("local-signup", {
-			successRedirect: "/content",
-			failureRedirect: "/",
-			failureFlash: true
-		})
-	);
+	app.post("/api/register", (req, res, next) => {
+		passport.authenticate("local-signup", function(notUsed, user, message) {
+			let success = true;
+			if (!user) success = false;
+			if (success) {
+				req.logIn(user, function(err) {
+					if (err) {
+						success = false;
+						message = "Could not log you in! :( Please refresh the page and try again :)";
+					}
+					res.send({ success: success, user: user, message: message });
+				});
+			} else {
+				res.send({ success: success, message: message });
+			}
+		})(req, res, next);
+	});
 	// Update user account
 	app.post("/api/user/id", (req, res) => userFunctions.updateUser(req, res));
 	// Get current user
@@ -82,7 +101,7 @@ module.exports = app => {
 	app.get(
 		"/api/facebook/callback",
 		passport.authenticate("facebook", {
-			successRedirect: "/content",
+			successRedirect: "/",
 			failureRedirect: "/"
 		})
 	);
@@ -93,7 +112,7 @@ module.exports = app => {
 	app.get(
 		"/api/twitter/callback",
 		passport.authenticate("twitter", {
-			successRedirect: "/content",
+			successRedirect: "/",
 			failureRedirect: "/"
 		})
 	);
@@ -102,10 +121,6 @@ module.exports = app => {
 	app.get("/api/facebook/pages", (req, res) => facebookFunctions.getFacebookPages(req, res));
 	// Get Facebook groups of profile accounts
 	app.get("/api/facebook/groups", (req, res) => facebookFunctions.getFacebookGroups(req, res));
-	// Post to facebook
-	app.post("/api/facebook/post", (req, res) => {
-		res.redirect("/profile");
-	});
 
 	// Add Linkedin account
 	app.get("/api/linkedin", (req, res) => linkedinFunctions.getLinkedinCode(req, res));

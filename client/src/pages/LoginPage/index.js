@@ -1,155 +1,193 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { changePage } from "../../actions/";
-import landingPageBackground from "./landing_page.jpeg";
+import { changePage, setUser } from "../../actions/";
 import logo from "./logo.png";
+import Notification from "../../components/Notification/";
 import "./style.css";
 
-// User's timezone
-var userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-function changeToRegistrationForm() {
-	document.getElementById("loginForm").style.display = "none";
-	document.getElementById("registerForm").style.display = "";
-}
-function changeToLoginForm() {
-	document.getElementById("registerForm").style.display = "none";
-	document.getElementById("loginForm").style.display = "";
-}
+let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class Login extends Component {
+	state = {
+		login: false,
+		fullName: "",
+		email: "",
+		website: "",
+		timezone: timezone ? timezone : "America/Vancouver",
+		password: "",
+		notification: {
+			on: false,
+			title: "Something went wrong!",
+			message: "",
+			notificationType: "danger"
+		}
+	};
+
+	handleChange = (index, value) => {
+		this.setState({ [index]: value });
+	};
+	notify = message => {
+		let { notification } = this.state;
+		notification.on = !notification.on;
+		if (message) notification.message = message;
+		this.setState({ notification: notification });
+
+		if (notification.on) {
+			setTimeout(() => {
+				let { notification } = this.state;
+				notification.on = false;
+				this.setState({ notification: notification });
+			}, 5000);
+		}
+	};
+	login = event => {
+		event.preventDefault();
+		const { email, password } = this.state;
+		let { notification } = this.state;
+
+		if (email && password) {
+			axios.post("/api/login", { email: email, password: password }).then(res => {
+				const { success, user, message } = res.data;
+
+				if (success) {
+					this.props.setUser(user);
+					this.props.changePage("content");
+				} else {
+					this.notify(message);
+				}
+			});
+		}
+	};
+	register = event => {
+		event.preventDefault();
+		const { fullName, email, website, timezone, password } = this.state;
+		let { notification } = this.state;
+
+		if (fullName && email && website && timezone && password) {
+			axios
+				.post("/api/register", {
+					fullName: fullName,
+					email: email,
+					website: website,
+					timezone: timezone,
+					password: password
+				})
+				.then(res => {
+					const { success, user, message } = res.data;
+
+					if (success) {
+						this.props.setUser(user);
+						this.props.changePage("content");
+					} else {
+						this.notify(message);
+					}
+				});
+		}
+	};
 	render() {
+		const { login, fullName, email, website, password, notification } = this.state;
+
 		return (
-			<div>
-				<div className="landing-page">
-					<img
-						src={landingPageBackground}
-						alt="Landing Page"
-						style={{
-							width: "100%",
-							height: "100%",
-							position: "absolute"
-						}}
+			<div className="login-background">
+				{notification.on && (
+					<Notification
+						title={notification.title}
+						message={notification.message}
+						notificationType={notification.notificationType}
+						callback={this.notify}
 					/>
-					<div className="lpcontainer">
-						<h1>Find Out How We Can Get You Even More Traffic</h1>
-						<h5>
-							Have you talked to anyone at Ghostit about our newest addition to our offering? We are currently building
-							out our very own ads platform that will allow you to take your target audience and make your content even
-							more powerful.
-						</h5>
-						<button>Talk to us to get this feature!</button>
-					</div>
-				</div>
-				<div className="login-background">
-					<img src={logo} alt="logo" />
-					<div className="login-box">
-						<div id="loginForm">
+				)}
+				<img src={logo} alt="logo" />
+
+				<div className="login-box">
+					{login && (
+						<div>
 							<form className="form-box" action="/api/auth/login" method="post">
 								<input
-									id="emailLoginInput"
 									className="login-input"
+									value={email}
+									onChange={event => this.handleChange("email", event.target.value)}
 									type="text"
 									name="email"
 									placeholder="Email"
-									style={{ marginTop: "5px" }}
 									required
 								/>
-								<hr
-									style={{
-										border: "2px solid #eeeeef",
-										width: "90%"
-									}}
-								/>
-								<input className="login-input" type="password" name="password" placeholder="Password" required />
-								<hr
-									style={{
-										border: "2px solid #eeeeef",
-										width: "90%"
-									}}
-								/>
 								<input
-									className="submit-colorful login-input"
-									value="Sign In"
-									type="submit"
-									style={{ marginBottom: "5px" }}
+									className="login-input password"
+									value={password}
+									onChange={event => this.handleChange("password", event.target.value)}
+									name="password"
+									placeholder="Password"
+									required
 								/>
+								<button className="submit-colorful" onClick={this.login} type="submit">
+									Sign In
+								</button>
 							</form>
 
 							<br />
-							<p
-								id="registerButton"
-								className="login-switch"
-								href="#"
-								onClick={changeToRegistrationForm}
-								style={{ width: "70%" }}
-							>
-								Dont have an account? Get started here!
-							</p>
+							<div className="login-switch center" href="#" onClick={event => this.handleChange("login", !login)}>
+								New to Ghostit? <h4 className="login-switch-highlight"> Sign Up</h4>
+							</div>
 						</div>
-
-						<div id="registerForm" style={{ display: "none", textAlign: "center" }}>
+					)}
+					{!login && (
+						<div>
 							<form className="form-box" action="api/user" method="post">
 								<input
 									className="login-input"
+									value={fullName}
+									onChange={event => this.handleChange("fullName", event.target.value)}
 									type="text"
 									name="fullName"
 									placeholder="Full Name"
-									style={{ marginTop: "5px" }}
 									required
 								/>
-								<hr
-									style={{
-										border: "2px solid #eeeeef",
-										width: "90%"
-									}}
-								/>
-								<input className="login-input" type="text" name="email" placeholder="Email" required />
-								<hr
-									style={{
-										border: "2px solid #eeeeef",
-										width: "90%"
-									}}
-								/>
-								<input className="login-input" type="text" name="website" placeholder="Website" required />
-								<hr
-									style={{
-										border: "2px solid #eeeeef",
-										width: "90%"
-									}}
-								/>
-								<input className="login-input" type="password" name="password" placeholder="Password" required />
-								<hr
-									style={{
-										border: "2px solid #eeeeef",
-										width: "90%"
-									}}
-								/>
+
 								<input
 									className="login-input"
-									name="timezone"
-									placeholder="Timezone"
-									value={userTimezone}
-									style={{ display: "none" }}
-									readOnly="true"
+									value={email}
+									onChange={event => this.handleChange("email", event.target.value)}
+									type="text"
+									name="email"
+									placeholder="Email"
+									required
 								/>
-								<input className="submit-colorful" type="submit" value="Register" style={{ marginBottom: "5px" }} />
+
+								<input
+									className="login-input"
+									value={website}
+									onChange={event => this.handleChange("website", event.target.value)}
+									type="text"
+									name="website"
+									placeholder="Website"
+									required
+								/>
+
+								<input
+									className="login-input password"
+									value={password}
+									onChange={event => this.handleChange("password", event.target.value)}
+									name="password"
+									placeholder="Password"
+									required
+								/>
+
+								<button className="submit-colorful" onClick={this.register} type="submit">
+									Register
+								</button>
 							</form>
 
 							<br />
-							<p
-								id="registerButton"
-								className="login-switch"
-								href="#"
-								onClick={changeToLoginForm}
-								style={{ width: "50%" }}
-							>
-								Have an account? Sign in!
-							</p>
+							<div className="login-switch center" href="#" onClick={event => this.handleChange("login", !login)}>
+								Have an account? <h4 className="login-switch-highlight"> Sign In</h4>
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
 		);
@@ -160,6 +198,6 @@ function mapStateToProps(state) {
 	return { activePage: state.activePage };
 }
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ changePage: changePage }, dispatch);
+	return bindActionCreators({ changePage: changePage, setUser: setUser }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

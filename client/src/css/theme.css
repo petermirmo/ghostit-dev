@@ -32,9 +32,9 @@
 	--off-black-theme-color: #666666;
 
 	--font-theme-color: #000;
+	--regular-font-size: 11pt;
 	--large-font-size: 13pt;
 	--extra-large-font-size: 17pt;
-	--regular-font-size: 11pt;
 
 	--font-theme: "Open Sans";
 }

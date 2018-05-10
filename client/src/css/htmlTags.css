@@ -19,14 +19,12 @@ body {
 button {
 	color: var(--white-theme-color);
 	font-family: var(--font-theme);
-	font-size: 11pt;
+	font-size: var(--regular-font-size);
 
 	cursor: pointer;
 	outline: 0;
 
 	border: none;
-	border-radius: 4px;
-	background-color: var(--blue-theme-color);
 }
 ul {
 	list-style-type: none;

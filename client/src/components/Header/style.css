@@ -122,6 +122,7 @@ header {
 .big-round-button {
 	font-size: var(--large-font-size);
 	border: 2px solid var(--white-theme-color);
+	background-color: var(--blue-theme-color);
 	margin: 7px 0 0 7px;
 	border-radius: 50px;
 

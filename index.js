@@ -40,8 +40,6 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-require("./models/User");
-
 // Connect to database
 mongoose.connect(keys.mongoDevelopentURI);
 var db = mongoose.connection;

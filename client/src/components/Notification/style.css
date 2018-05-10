@@ -9,14 +9,17 @@
 	border-radius: 4px;
 	opacity: 0.9;
 }
-
+.notifcation-title {
+	margin: 0;
+	padding: 0;
+}
 .notification.success {
 	background-color: var(--green-theme-color);
 }
 .notification.info {
 	background-color: var(--light-blue-theme-color);
 }
-.notification.warning {
+.notification.danger {
 	background-color: var(--red-theme-color);
 }
 
@@ -28,7 +31,6 @@
 	font-size: 22px;
 	line-height: 20px;
 	cursor: pointer;
-	transition: 0.3s;
 }
 
 .closebtn:hover {

@@ -2,38 +2,19 @@ import React, { Component } from "react";
 
 import "./style.css";
 
-class ObjectEditTable extends Component {
-	componentDidMount = () => {
-		const timeOut = 5000;
-		if (timeOut !== 0) {
-			this.timer = setTimeout(this.requestHide, timeOut);
-		}
-	};
-
-	componentWillUnmount = () => {
-		if (this.timer) {
-			clearTimeout(this.timer);
-		}
-	};
-	requestHide = () => {
-		const { callback } = this.props;
-		if (callback) {
-			callback();
-		}
-	};
-
+class Notification extends Component {
 	render() {
 		const { title, message, notificationType } = this.props;
 
 		return (
 			<div className={"notification " + notificationType}>
-				<span className="closebtn" onClick={this.requestHide}>
+				<span className="closebtn" onClick={this.props.callback}>
 					&times;
 				</span>
-				<strong>{title}</strong>
+				<h4 className="notifcation-title">{title}</h4>
 				{message}
 			</div>
 		);
 	}
 }
-export default ObjectEditTable;
+export default Notification;
