@@ -20,7 +20,7 @@ class ChargeCardForm extends Component {
 	};
 	componentDidMount() {
 		const { plan } = this.props;
-		var stripe = window.Stripe("pk_test_C6VKqentibktzCQjTRZ9vOuY");
+		var stripe = window.Stripe("pk_live_fbteh655nQqpE4WEFr6fs5Pm");
 
 		// Create an instance of Elements.
 		var elements = stripe.elements();
