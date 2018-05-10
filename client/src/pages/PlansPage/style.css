@@ -21,18 +21,19 @@
 	width: 50%;
 }
 .plan-row-value {
-	padding: 0 10px 0 0;
+	padding: 0 10px 0 10px;
 	margin: 0;
 	float: right;
+	width: 20px;
 }
 .plan-row-increment {
 	float: right;
-	margin: 0 0 0 20px;
+	margin: 0 0 0 0;
 	display: inline-block;
 	background-color: var(--white-theme-color);
 	color: var(--blue-theme-color);
 }
-.plan-row-increment:nth-child(odd) {
+.plan-row-increment.minus {
 	color: var(--red-theme-color);
 }
 .plan-row input {

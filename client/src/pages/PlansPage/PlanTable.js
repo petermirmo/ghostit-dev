@@ -66,11 +66,11 @@ class PlanTable extends Component {
 							onClick={() => this.increment("websiteBlogPosts", 1, 1)}
 							className="fa fa-plus fa-2x plan-row-increment"
 						/>
+						<h2 className="plan-row-value">{this.state.websiteBlogPosts}</h2>
 						<button
 							onClick={() => this.increment("websiteBlogPosts", -1, -1)}
-							className="fa fa-minus fa-2x plan-row-increment"
+							className="fa fa-minus fa-2x plan-row-increment minus"
 						/>
-						<h2 className="plan-row-value">{this.state.websiteBlogPosts}</h2>
 					</div>
 
 					<div className="plan-row">
@@ -79,11 +79,11 @@ class PlanTable extends Component {
 							onClick={() => this.increment("socialPosts", 15, 1)}
 							className="fa fa-plus fa-2x plan-row-increment"
 						/>
+						<h2 className="plan-row-value">{this.state.socialPosts}</h2>
 						<button
 							onClick={() => this.increment("socialPosts", -15, -1)}
-							className="fa fa-minus fa-2x plan-row-increment"
+							className="fa fa-minus fa-2x plan-row-increment minus"
 						/>
-						<h2 className="plan-row-value">{this.state.socialPosts}</h2>
 					</div>
 
 					<div className="plan-row">
@@ -92,11 +92,11 @@ class PlanTable extends Component {
 							onClick={() => this.increment("instagramPosts", 15, 2)}
 							className="fa fa-plus fa-2x plan-row-increment"
 						/>
+						<h2 className="plan-row-value">{this.state.instagramPosts}</h2>
 						<button
 							onClick={() => this.increment("instagramPosts", -15, -2)}
-							className="fa fa-minus fa-2x plan-row-increment"
+							className="fa fa-minus fa-2x plan-row-increment minus"
 						/>
-						<h2 className="plan-row-value">{this.state.instagramPosts}</h2>
 					</div>
 
 					<div className="plan-row">
@@ -105,18 +105,21 @@ class PlanTable extends Component {
 							onClick={() => this.increment("emailNewsletters", 1, 1)}
 							className="fa fa-plus fa-2x plan-row-increment"
 						/>
+						<h2 className="plan-row-value">{this.state.emailNewsletters}</h2>
 						<button
 							onClick={() => this.increment("emailNewsletters", -1, -1)}
-							className="fa fa-minus fa-2x plan-row-increment"
+							className="fa fa-minus fa-2x plan-row-increment minus"
 						/>
-						<h2 className="plan-row-value">{this.state.emailNewsletters}</h2>
 					</div>
 
 					<div className="plan-row">
 						<p className="plan-row-label">E-books </p>
 						<button onClick={() => this.increment("eBooks", 1, 1)} className="fa fa-plus fa-2x plan-row-increment" />
-						<button onClick={() => this.increment("eBooks", -1, -1)} className="fa fa-minus fa-2x plan-row-increment" />
 						<h2 className="plan-row-value">{this.state.eBooks}</h2>
+						<button
+							onClick={() => this.increment("eBooks", -1, -1)}
+							className="fa fa-minus fa-2x plan-row-increment minus"
+						/>
 					</div>
 
 					<div className="plan-row">

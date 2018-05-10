@@ -15,9 +15,11 @@
 }
 .notification.success {
 	background-color: var(--green-theme-color);
+	color: var(--black-theme-color);
 }
 .notification.info {
 	background-color: var(--light-blue-theme-color);
+	color: var(--black-theme-color);
 }
 .notification.danger {
 	background-color: var(--red-theme-color);
