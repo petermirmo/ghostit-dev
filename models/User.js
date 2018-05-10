@@ -16,7 +16,8 @@ const userSchema = new Schema({
 	plan: { id: String, name: String },
 	stripeCustomerID: String,
 	stripeSubscriptionID: String,
-	tempID: String
+	tempID: String,
+	dateCreated: Date
 });
 
 userSchema.methods.generateHash = function(password) {

@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage, setUser, updateAccounts } from "./actions/";
 
-import Loader from "./components/Loader/";
 import LoginPage from "./pages/LoginPage/";
 import Content from "./pages/ContentPage/";
 import Profile from "./pages/ProfilePage/";

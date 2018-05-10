@@ -1,15 +1,14 @@
 .plan-container {
 	padding: 20px 10% 20px 10%;
 	margin: 0;
-	width: 50%;
-	min-height: 300px;
+	width: 60%;
 	border-radius: 4px;
 }
 .plan-row {
 	text-align: left;
 	margin: 5px 0 0 0;
 	display: block;
-	height: 50px;
+	height: 40px;
 	border-bottom: 2px solid var(--light-blue-theme-color);
 }
 .plan-row:last-child {
@@ -47,15 +46,6 @@
 	float: right;
 	margin-right: 3px;
 }
-.sign-up {
-	font-size: var(--extra-large-font-size);
-	background-color: var(--blue-theme-color);
-	padding: 10px;
-	border-radius: 50px;
-}
-.sign-up:hover {
-	background-color: var(--dark-blue-theme-color);
-}
 .plan-footer {
 }
 .warning {
@@ -64,7 +54,7 @@
 	margin: 0;
 }
 .StripeElement {
-	background-color: white;
+	background-color: var(--white-theme-color);
 	height: 40px;
 	padding: 10px 12px;
 	border-radius: 4px;
@@ -80,8 +70,24 @@
 
 .StripeElement--invalid {
 	border-color: #fa755a;
+	border-color: var(--red-theme-color);
 }
 
 .StripeElement--webkit-autofill {
 	background-color: #fefde5 !important;
+}
+
+.sign-up {
+	font-size: var(--extra-large-font-size);
+	background-color: var(--pink-theme-color);
+	padding: 10px;
+	margin-top: 10px;
+	border-radius: 50px;
+	width: 40%;
+
+	transition: all 1s ease;
+	-webkit-transition: all 1s ease;
+}
+.sign-up:hover {
+	transform: scale(1.1);
 }
