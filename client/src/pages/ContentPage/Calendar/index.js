@@ -5,9 +5,9 @@ import moment from "moment";
 
 import { connect } from "react-redux";
 
-import ContentModal from "../Modals/ContentModal";
-import PostEdittingModal from "../Modals/PostEdittingModal";
-import BlogEdittingModal from "../Modals/BlogEdittingModal";
+import ContentModal from "../PostingFiles/ContentModal";
+import PostEdittingModal from "../PostingFiles/PostEdittingModal";
+import BlogEdittingModal from "../PostingFiles/BlogEdittingModal";
 import NavigationBar from "../../../components/NavigationBar/";
 import "./style.css";
 

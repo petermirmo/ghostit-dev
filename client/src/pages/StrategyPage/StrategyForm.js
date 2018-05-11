@@ -56,27 +56,23 @@ class StrategyForm extends Component {
 	};
 	constructor(props) {
 		super(props);
-		this.handleFormChange = this.handleFormChange.bind(this);
-		this.addCompetitor = this.addCompetitor.bind(this);
-		this.saveStrategy = this.saveStrategy.bind(this);
-		this.findStrategyAndFillForm = this.findStrategyAndFillForm.bind(this);
 		this.findStrategyAndFillForm();
 	}
-	findStrategyAndFillForm() {
+	findStrategyAndFillForm = () => {
 		axios.get("/api/strategy").then(res => {
-			var strategy = res.data;
+			let strategy = res.data;
 			delete strategy._id;
 			delete strategy.__v;
 			delete strategy.userID;
 			if (strategy) {
-				for (var index in strategy) {
+				for (let index in strategy) {
 					if (Array.isArray(strategy[index])) {
-						var tempArray = [];
-						for (var j in strategy[index]) {
+						let tempArray = [];
+						for (let j in strategy[index]) {
 							tempArray.push({
 								value: strategy[index][j],
 								placeholder: "Competitor",
-								className: "input-theme"
+								className: "strategy-input-theme"
 							});
 						}
 						this.setState({ competitors: tempArray });
@@ -94,11 +90,11 @@ class StrategyForm extends Component {
 				}
 			}
 		});
-	}
+	};
 
-	handleFormChange(event) {
+	handleFormChange = event => {
 		if (Number.isInteger(Number(event.target.id))) {
-			var temp = this.state.competitors;
+			let temp = this.state.competitors;
 			temp[event.target.id] = {
 				placeholder: this.state.competitors[event.target.id].placeholder,
 				className: this.state.competitors[event.target.id].className,
@@ -118,28 +114,28 @@ class StrategyForm extends Component {
 				}
 			});
 		}
-	}
-	addCompetitor(event) {
+	};
+	addCompetitor = event => {
 		event.preventDefault();
-		var competitor = {
+		let competitor = {
 			placeholder: "Competitor",
-			className: "input-theme",
+			className: "strategy-input-theme",
 			value: ""
 		};
-		var temp = this.state.competitors;
+		let temp = this.state.competitors;
 		temp.push(competitor);
 		this.setState({ competitors: temp });
-	}
-	saveStrategy(event) {
+	};
+	saveStrategy = event => {
 		event.preventDefault();
-		var strategy = {};
+		let strategy = {};
 
 		// Loop through state
-		for (var index in this.state) {
+		for (let index in this.state) {
 			// If state element is an array we need to loop through each index of that array
 			if (Array.isArray(this.state[index])) {
-				var arrayTemp = [];
-				for (var j in this.state[index]) {
+				let arrayTemp = [];
+				for (let j in this.state[index]) {
 					if (this.state[index][j].value !== "") {
 						arrayTemp.push(this.state[index][j].value);
 					}
@@ -157,11 +153,12 @@ class StrategyForm extends Component {
 				alert("Something went wrong! Contact your local Dev Ninja! :D");
 			}
 		});
-	}
+	};
 
 	render() {
-		var formFields = [];
-		var competitorDivs = [];
+		const { competitors } = this.state;
+		let formFields = [];
+		let competitorDivs = [];
 		for (let i in strategyFormFields) {
 			let index = strategyFormFields[i];
 			if (!Array.isArray(this.state[index])) {
@@ -183,15 +180,15 @@ class StrategyForm extends Component {
 					</div>
 				);
 			} else {
-				for (var j in this.state.competitors) {
+				for (let index in competitors) {
 					competitorDivs.push(
-						<div key={j}>
+						<div key={index}>
 							<input
-								id={j}
+								id={index}
 								type="text"
-								placeholder={this.state.competitors[j].placeholder}
-								className={this.state.competitors[j].className}
-								value={this.state.competitors[j].value}
+								placeholder={competitors[index].placeholder}
+								className={competitors[index].className}
+								value={competitors[index].value}
 								onChange={this.handleFormChange}
 							/>
 						</div>
