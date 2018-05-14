@@ -13,13 +13,13 @@ class UsersTable extends Component {
 		clientUsers: [],
 		managerUsers: [],
 		adminUsers: [],
-		activeTab: "demo",
+		activeTab: "client",
 		activeUsers: [],
 		untouchedActiveUsers: [],
 		clickedUser: undefined,
 		editting: false,
 		plans: undefined,
-		userCategories: { admin: false, manager: false, client: false, demo: true }
+		userCategories: { admin: false, manager: false, client: true, demo: false }
 	};
 	constructor(props) {
 		super(props);
@@ -28,19 +28,20 @@ class UsersTable extends Component {
 		this.getPlans();
 	}
 	getUsers = () => {
+		const { activeTab } = this.state;
 		axios.get("/api/users").then(res => {
 			if (!res) {
 				// If res sends back false the user is not an admin and is likely a hacker
 				window.location.replace("/content");
 			} else {
-				var users = res.data;
+				let users = res.data;
 
-				var demoUsers = [];
-				var clientUsers = [];
-				var managerUsers = [];
-				var adminUsers = [];
+				let demoUsers = [];
+				let clientUsers = [];
+				let managerUsers = [];
+				let adminUsers = [];
 
-				for (var index in users) {
+				for (let index in users) {
 					if (users[index].role === "demo") {
 						demoUsers.push(users[index]);
 					} else if (users[index].role === "client") {
@@ -52,14 +53,20 @@ class UsersTable extends Component {
 					}
 				}
 				let activeUsers;
-				if (this.state.activeTab === "demo") {
-					activeUsers = demoUsers;
-				} else if (this.state.activeTab === "client") {
-					activeUsers = clientUsers;
-				} else if (this.state.activeTab === "manager") {
-					activeUsers = managerUsers;
-				} else if (this.state.activeTab === "admin") {
-					activeUsers = adminUsers;
+				switch (activeTab) {
+					case "demo":
+						activeUsers = demoUsers;
+						break;
+					case "client":
+						activeUsers = clientUsers;
+						break;
+					case "manager":
+						activeUsers = managerUsers;
+						break;
+					case "admin":
+						activeUsers = adminUsers;
+						break;
+					default:
 				}
 
 				this.setState({
@@ -97,16 +104,17 @@ class UsersTable extends Component {
 		this.setState({ activeTab: event.target.id, activeUsers: users, untouchedActiveUsers: users });
 	};
 	searchUsers = event => {
+		const { untouchedActiveUsers } = this.state;
 		let value = event.target.value;
 		if (value === "") {
-			this.setState({ activeUsers: this.state.untouchedActiveUsers });
+			this.setState({ activeUsers: untouchedActiveUsers });
 			return;
 		}
 		let stringArray = value.split(" ");
 
 		let users = [];
 		// Loop through all users
-		for (var index in this.state.untouchedActiveUsers) {
+		for (var index in untouchedActiveUsers) {
 			let matchFound = false;
 			// Loop through all words in the entered value
 			for (var j in stringArray) {
@@ -114,15 +122,15 @@ class UsersTable extends Component {
 				if (stringArray[j] !== "") {
 					// Check to see if a part of the string matches user's fullName or email
 					if (
-						this.state.untouchedActiveUsers[index].fullName.includes(stringArray[j]) ||
-						this.state.untouchedActiveUsers[index].email.includes(stringArray[j])
+						untouchedActiveUsers[index].fullName.includes(stringArray[j]) ||
+						untouchedActiveUsers[index].email.includes(stringArray[j])
 					) {
 						matchFound = true;
 					}
 				}
 			}
 			if (matchFound) {
-				users.push(this.state.untouchedActiveUsers[index]);
+				users.push(untouchedActiveUsers[index]);
 			}
 		}
 		this.setState({ activeUsers: users });
@@ -149,22 +157,22 @@ class UsersTable extends Component {
 	};
 	render() {
 		const { clickedUser, managerUsers, plans, activeTab, editting, activeUsers, userCategories } = this.state;
-		let array = [];
+		let objectArry = [];
 
 		for (let index in clickedUser) {
 			let canEdit = true;
 			let dropdown = false;
-			let dropdownList;
+			let dropdownList = [];
 			if (nonEditableUserFields.indexOf(index) !== -1) {
 				canEdit = false;
 			} else if (index === "role" || index === "timezone" || index === "writer" || index === "plan") {
 				dropdown = true;
+
 				if (index === "role") {
 					dropdownList = ["demo", "client", "manager", "admin"];
 				} else if (index === "timezone") {
 					dropdownList = moment.tz.names();
 				} else if (index === "writer") {
-					dropdownList = [];
 					for (let j in managerUsers) {
 						dropdownList.push({
 							id: managerUsers[j]._id,
@@ -172,7 +180,6 @@ class UsersTable extends Component {
 						});
 					}
 				} else if (index === "plan") {
-					dropdownList = [];
 					for (let j in plans) {
 						dropdownList.push({
 							id: plans[j]._id,
@@ -183,7 +190,7 @@ class UsersTable extends Component {
 			}
 
 			if (canShowUserFields.indexOf(index) === -1) {
-				array.push({
+				objectArry.push({
 					canEdit: canEdit,
 					value:
 						this.state.clickedUser[index] === Object(clickedUser[index]) ? clickedUser[index].name : clickedUser[index],
@@ -203,7 +210,7 @@ class UsersTable extends Component {
 				/>
 				<div style={{ float: "right", width: "74%" }}>
 					<ObjectEditTable
-						objectArray={array}
+						objectArray={objectArry}
 						updateList={this.getUsers}
 						saveObject={this.saveUser}
 						clickedObject={clickedUser}

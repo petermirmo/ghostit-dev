@@ -20,9 +20,7 @@ class OnboardingModal extends Component {
 			{ placeholder: "Competitor", className: "strategy-input-theme", value: "" }
 		]
 	};
-	constructor(props) {
-		super(props);
-	}
+
 	changeTab = (increment, animateDirection) => {
 		const { totalPageNumber } = this.state;
 		let { activePageNumber } = this.state;
