@@ -118,6 +118,51 @@ module.exports = {
 		getFbCode(account, accounts, 0, pageTokenCallback);
 	}
 };
+function getFbCode(account, accounts, counter, callback) {
+	FB.api(
+		"oauth/client_code",
+		{
+			client_id: keys.fbClientID,
+			client_secret: keys.fbClientSecret,
+			redirect_uri: keys.fbCallbackUrl,
+			access_token: account.accessToken
+		},
+		function(codeResult) {
+			if (!codeResult.code) {
+				console.log(codeResult);
+				return;
+			}
+			tradeCodeForToken(codeResult, account, accounts, counter, callback);
+		}
+	);
+}
+
+function tradeCodeForToken(codeResult, account, accounts, counter, callback) {
+	FB.api(
+		"oauth/access_token",
+		{
+			client_id: keys.fbClientID,
+			redirect_uri: keys.fbCallbackUrl,
+			code: codeResult.code
+		},
+		function(tokenResult) {
+			if (!tokenResult.access_token) {
+				counter++;
+
+				if (counter < 10) {
+					getFbCode(account, accounts, counter, callback);
+				} else {
+					console.log("failed");
+				}
+				return undefined;
+			} else {
+				callback(tokenResult.access_token, accounts);
+				return;
+			}
+		}
+	);
+}
+
 function pageTokenCallback(accessToken, accounts) {
 	if (accessToken) {
 		let account = accounts[0];
@@ -151,49 +196,6 @@ function accessTokenCallback(accessToken, accounts) {
 			});
 		}
 	}
-}
-function tradeCodeForToken(codeResult, account, accounts, counter, callback) {
-	FB.api(
-		"oauth/access_token",
-		{
-			client_id: keys.fbClientID,
-			redirect_uri: keys.fbCallbackUrl,
-			code: codeResult.code
-		},
-		function(tokenResult) {
-			if (!tokenResult.access_token) {
-				counter++;
-
-				if (counter < 10) {
-					getFbCode(account, accounts, counter, callback);
-				} else {
-					console.log("failed");
-				}
-				return undefined;
-			} else {
-				callback(tokenResult.access_token, accounts);
-				return;
-			}
-		}
-	);
-}
-function getFbCode(account, accounts, counter, callback) {
-	FB.api(
-		"oauth/client_code",
-		{
-			client_id: keys.fbClientID,
-			client_secret: keys.fbClientSecret,
-			redirect_uri: keys.fbCallbackUrl,
-			access_token: account.accessToken
-		},
-		function(codeResult) {
-			if (!codeResult.code) {
-				console.log(codeResult);
-				return;
-			}
-			tradeCodeForToken(codeResult, account, accounts, counter, callback);
-		}
-	);
 }
 
 function savePostError(postID, error) {
