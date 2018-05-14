@@ -16,16 +16,17 @@ header {
 	color: var(--light-light-blue-theme-color);
 }
 
-.navbar a {
-	font-size: var(--large-font-size);
+.header-button {
+	cursor: pointer;
+	color: var(--white-theme-color) !important;
+	font-size: var(--twelve-font-size);
 	color: inherit;
 	text-align: center;
 	text-decoration: none;
 
 	float: right;
 
-	padding: 10px 16px;
-	border-radius: 4px;
+	padding: 10px 16px 2px;
 
 	-webkit-transition: color 0.3s;
 	transition: color 0.3s;
@@ -36,13 +37,11 @@ header {
 
 .header-active {
 	font-weight: bold;
-}
-.header-button {
-	cursor: pointer;
-	color: var(--white-theme-color) !important;
+	border-bottom: 2px solid var(--white-theme-color);
 }
 .header-button:hover {
 	font-weight: bold;
+	border-bottom: 2px solid var(--white-theme-color);
 }
 .dropdown {
 	float: right;
@@ -69,7 +68,7 @@ header {
 }
 
 .dropdown .dropbtn {
-	font-size: var(--large-font-size);
+	font-size: var(--twelve-font-size);
 	color: var(--white-theme-color);
 	font-family: inherit;
 
@@ -120,7 +119,7 @@ header {
 	display: block;
 }
 .big-round-button {
-	font-size: var(--large-font-size);
+	font-size: var(--twelve-font-size);
 	border: 2px solid var(--white-theme-color);
 	background-color: var(--blue-theme-color);
 	margin: 7px 0 0 7px;
@@ -143,7 +142,6 @@ header {
 	color: var(--dark-green-theme-color);
 	text-align: center;
 	display: inline-block;
-	font-weight: bold;
 }
 .signed-in-as button {
 	padding: 0 0 0 20px;
