@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import CompetitorsTab from "../../components/OnboardingTabs/CompetitorsTab/";
+import CompetitorsTab from "../../components/OnboardingTabs/Competitors/";
 import "./style.css";
 import "font-awesome/css/font-awesome.min.css";
 import Loader from "../../components/Loader/";

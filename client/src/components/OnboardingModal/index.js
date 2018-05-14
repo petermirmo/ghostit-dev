@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import CompetitorsTab from "../OnboardingTabs/CompetitorsTab/";
 import TextareaTab from "../OnboardingTabs/TextareaTab/";
@@ -21,6 +22,14 @@ class OnboardingModal extends Component {
 			{ placeholder: "Competitor", className: "strategy-input-theme", value: "" }
 		]
 	};
+	constructor(props) {
+		super(props);
+		axios.get("/api/strategy").then(res => {
+			const { strategy, success } = res.data;
+			if (success) {
+			}
+		});
+	}
 
 	changeTab = (increment, animateDirection) => {
 		const { totalPageNumber } = this.state;

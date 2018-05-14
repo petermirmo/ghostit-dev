@@ -9,6 +9,7 @@ module.exports = {
 				userID = req.user.signedInAsUser.id;
 			}
 		}
+		console.log(currentStrategy);
 		Strategy.findOne({ userID: userID }, function(err, strategy) {
 			if (err) {
 				console.log(err);
