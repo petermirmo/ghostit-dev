@@ -197,7 +197,8 @@ function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCom
 	// First create customer in stripe
 	stripe.customers.create(
 		{
-			source: stripeToken.id
+			source: stripeToken.id,
+			email: userForPlan.email
 		},
 		function(err, customer) {
 			if (err) {

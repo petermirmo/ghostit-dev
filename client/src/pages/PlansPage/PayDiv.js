@@ -19,7 +19,6 @@ class ChargeCardForm extends Component {
 		}
 	};
 	componentDidMount() {
-		const { plan } = this.props;
 		var stripe = window.Stripe("pk_live_fbteh655nQqpE4WEFr6fs5Pm");
 
 		// Create an instance of Elements.
@@ -70,7 +69,7 @@ class ChargeCardForm extends Component {
 					errorElement.textContent = result.error.message;
 				} else {
 					// Send the token to your server.
-					this.stripeTokenHandler(result.token, plan);
+					this.stripeTokenHandler(result.token, this.props.plan);
 				}
 			});
 		});
