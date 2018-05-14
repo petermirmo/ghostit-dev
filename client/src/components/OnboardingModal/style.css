@@ -26,7 +26,6 @@
 	padding: 0;
 	color: var(--white-theme-color);
 	font-size: var(--gigantic-font-size);
-	display: inline-block !important;
 
 	width: 80% !important;
 }

@@ -5,7 +5,8 @@ export const nonEditableUserFields = [
 	"tempID",
 	"stripeCustomerID",
 	"country",
-	"signedInAsUser"
+	"signedInAsUser",
+	"dateCreated"
 ];
 export const canShowUserFields = ["__v", "password", "country", "signedInAsUser"];
 export const strategyFormFields = [

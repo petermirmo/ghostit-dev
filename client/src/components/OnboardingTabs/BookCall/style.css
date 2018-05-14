@@ -1,0 +1,20 @@
+.book-call-hyperlink {
+	color: var(--white-theme-color);
+	text-align: left;
+	text-decoration: none;
+	font-size: 30pt;
+	padding: 30px;
+	margin: 50px 0 0 0;
+	background-color: var(--blue-theme-color);
+	border-radius: 200px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
+	-o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
+
+	transition: all 1s ease;
+	-webkit-transition: all 1s ease;
+}
+.book-call-hyperlink:hover {
+	transform: scale(1.1);
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import CompetitorsTab from "../OnboardingTabs/CompetitorsTab/";
 import TextareaTab from "../OnboardingTabs/TextareaTab/";
+import BookCall from "../OnboardingTabs/BookCall/";
 import "./style.css";
 
 class OnboardingModal extends Component {
@@ -12,7 +13,7 @@ class OnboardingModal extends Component {
 		headerMessage: "",
 		audience: "",
 		styleAndStructure: "",
-		brandVoice: "",
+		brand: "",
 		notes: "",
 		competitors: [
 			{ placeholder: "Competitor", className: "strategy-input-theme", value: "" },
@@ -52,7 +53,7 @@ class OnboardingModal extends Component {
 	};
 	render() {
 		const { animateDirection, activePageNumber, totalPageNumber, headerMessage } = this.state;
-		const { competitors, audience, styleAndStructure, brandVoice, notes } = this.state;
+		const { competitors, audience, brand, notes } = this.state;
 		const { close } = this.props;
 
 		return (
@@ -87,48 +88,71 @@ class OnboardingModal extends Component {
 							</div>
 						)}
 						{activePageNumber === 2 && (
-							<TextareaTab
-								handleChange={this.handleChange}
-								placeholder="Audience"
-								className={"onboarding-textarea " + animateDirection}
-								setHeaderMessage={this.setHeaderMessage}
-								value={audience}
-								index="audience"
-								title="Tell Us About Your Audience!"
-							/>
+							<div className={"active-tab " + animateDirection}>
+								<TextareaTab
+									handleChange={this.handleChange}
+									placeholder="Waiting... :)"
+									className="onboarding-textarea"
+									setHeaderMessage={this.setHeaderMessage}
+									value={audience}
+									index="audience"
+									title="Tell Us About Your Audience!"
+								/>
+								<p className="onboarding-info">
+									Example: We sell to tech companies, 1-15 employees based in US, UK, Canada and Australia. The decision
+									maker in these companies are marketing managers and the problems they are looking to solve are content
+									marketing strategy, content marketing production, user acquisition, generating more website inbound.
+								</p>
+							</div>
 						)}
 						{activePageNumber === 3 && (
-							<TextareaTab
-								handleChange={this.handleChange}
-								placeholder="Style and Structure"
-								className={"onboarding-textarea " + animateDirection}
-								setHeaderMessage={this.setHeaderMessage}
-								value={styleAndStructure}
-								index="styleAndStructure"
-								title="Does Your Brand Have a Style?"
-							/>
+							<div className={"active-tab " + animateDirection}>
+								<TextareaTab
+									handleChange={this.handleChange}
+									placeholder="RAWR!!!"
+									className="onboarding-textarea"
+									setHeaderMessage={this.setHeaderMessage}
+									value={brand}
+									index="brand"
+									title="Tell Us About Your Brand!"
+								/>
+								<p className="onboarding-info">
+									Example: Our brand voice is fun somewhat cheeky, educational, informative and actionable.
+									<br />
+									We look for insparation like Ahrefs, nerd wallet, hubspot.
+									<br />
+									Things we look to avoid: generic, non-actionable, non-value additive content.
+								</p>
+							</div>
 						)}
 						{activePageNumber === 4 && (
-							<TextareaTab
-								handleChange={this.handleChange}
-								placeholder="Brand"
-								className={"onboarding-textarea " + animateDirection}
-								setHeaderMessage={this.setHeaderMessage}
-								value={brandVoice}
-								index="brandVoice"
-								title="Tell Us About Your Brand!"
-							/>
+							<div className={"active-tab " + animateDirection}>
+								<TextareaTab
+									handleChange={this.handleChange}
+									placeholder="Did we scare you? :D"
+									className="onboarding-textarea"
+									setHeaderMessage={this.setHeaderMessage}
+									value={notes}
+									index="notes"
+									title="Anything Else You Would Like To Add?"
+								/>
+								<p className="onboarding-info">
+									All we need is the name of 3 or more competitors! We will do the rest!
+									<br />
+									Note: This information is used to outrank your competition in google searches!
+								</p>
+							</div>
 						)}
 						{activePageNumber === 5 && (
-							<TextareaTab
-								handleChange={this.handleChange}
-								placeholder="Notes"
-								className={"onboarding-textarea " + animateDirection}
-								setHeaderMessage={this.setHeaderMessage}
-								value={notes}
-								index="notes"
-								title="Anything Else You Would Like To Add?"
-							/>
+							<div className={"active-tab " + animateDirection}>
+								<BookCall
+									setHeaderMessage={this.setHeaderMessage}
+									className="book-call-hyperlink"
+									link="https://calendly.com/ghostit/call-30"
+									value="Book Your Call!"
+									title="Last step!"
+								/>
+							</div>
 						)}
 					</div>
 
