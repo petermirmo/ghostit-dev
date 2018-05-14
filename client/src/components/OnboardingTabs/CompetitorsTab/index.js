@@ -1,28 +1,27 @@
 import React, { Component } from "react";
 
-class OnboardingModal extends Component {
-	state = {
-		competitors: []
-	};
+import "../style.css";
+
+class CompetitorsTab extends Component {
 	constructor(props) {
 		super(props);
-		props.setHeaderMessage("Tell us about your competition!");
+		if (props.setHeaderMessage) props.setHeaderMessage("Tell us about your competition!");
 	}
 
-	addCompetitor = event => {
-		event.preventDefault();
+	addCompetitor = () => {
 		let competitor = {
 			placeholder: "Competitor",
 			className: "strategy-input-theme",
 			value: ""
 		};
-		let temp = this.state.competitors;
-		temp.push(competitor);
-		this.setState({ competitors: temp });
+		let { competitors } = this.props;
+
+		competitors.push(competitor);
+		this.props.updateCompetitors(competitors);
 	};
 	render() {
 		let competitorDivs = [];
-		const { competitors } = this.state;
+		const { competitors, handleFormChange } = this.props;
 		for (let index in competitors) {
 			competitorDivs.push(
 				<div key={index}>
@@ -32,7 +31,7 @@ class OnboardingModal extends Component {
 						placeholder={competitors[index].placeholder}
 						className={competitors[index].className}
 						value={competitors[index].value}
-						onChange={this.handleFormChange}
+						onChange={handleFormChange}
 					/>
 				</div>
 			);
@@ -41,10 +40,10 @@ class OnboardingModal extends Component {
 			<div className="competitor-input">
 				{competitorDivs}
 				<div className="icon-container">
-					<button onClick={this.addCompetitor} className="fa fa-plus fa-2x add-competitor" />
+					<button onClick={() => this.addCompetitor()} className="fa fa-plus fa-2x add-competitor" />
 				</div>
 			</div>
 		);
 	}
 }
-export default OnboardingModal;
+export default CompetitorsTab;

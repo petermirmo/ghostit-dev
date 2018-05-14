@@ -60,9 +60,9 @@
 	margin: 5px 0 5px 0;
 	padding: 5px 5px 5px 5px;
 }
-.line-inbetween-input {
-	border: 2px solid #eeeeef;
-	width: 90%;
+
+.login-input:focus {
+	border-color: var(--blue-theme-color);
 }
 
 .login-switch {
@@ -91,9 +91,6 @@
 	transform: scale(1.1);
 }
 
-.login-input:focus {
-	border-color: var(--blue-theme-color);
-}
 .password {
 	-webkit-text-security: disc;
 }

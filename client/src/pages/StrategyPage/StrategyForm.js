@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import CompetitorsTab from "../../components/OnboardingTabs/CompetitorsTab/";
 import "./style.css";
 import "font-awesome/css/font-awesome.min.css";
 import Loader from "../../components/Loader/";
@@ -115,19 +116,8 @@ class StrategyForm extends Component {
 			});
 		}
 	};
-	addCompetitor = event => {
-		event.preventDefault();
-		let competitor = {
-			placeholder: "Competitor",
-			className: "strategy-input-theme",
-			value: ""
-		};
-		let temp = this.state.competitors;
-		temp.push(competitor);
-		this.setState({ competitors: temp });
-	};
+
 	saveStrategy = event => {
-		event.preventDefault();
 		let strategy = {};
 
 		// Loop through state
@@ -154,11 +144,13 @@ class StrategyForm extends Component {
 			}
 		});
 	};
+	updateCompetitors = competitors => {
+		this.setState({ competitors: competitors });
+	};
 
 	render() {
 		const { competitors } = this.state;
 		let formFields = [];
-		let competitorDivs = [];
 		for (let i in strategyFormFields) {
 			let index = strategyFormFields[i];
 			if (!Array.isArray(this.state[index])) {
@@ -179,33 +171,20 @@ class StrategyForm extends Component {
 						</div>
 					</div>
 				);
-			} else {
-				for (let index in competitors) {
-					competitorDivs.push(
-						<div key={index}>
-							<input
-								id={index}
-								type="text"
-								placeholder={competitors[index].placeholder}
-								className={competitors[index].className}
-								value={competitors[index].value}
-								onChange={this.handleFormChange}
-							/>
-						</div>
-					);
-				}
 			}
 		}
 
 		return (
-			<form id="strategyForm" className="full-form">
+			<div className="full-form">
 				<h3 className="form-title">Competitors</h3>
 				<br />
+
 				<div className="input-container center">
-					{competitorDivs}
-					<div className="icon-container">
-						<button onClick={this.addCompetitor} className="fa fa-plus fa-2x add-competitor" />
-					</div>
+					<CompetitorsTab
+						competitors={competitors}
+						handleFormChange={this.handleFormChange}
+						updateCompetitors={this.updateCompetitors}
+					/>
 				</div>
 				{formFields}
 				<button
@@ -218,7 +197,7 @@ class StrategyForm extends Component {
 					Save Strategy!
 				</button>
 				{this.state.saving && <Loader />}
-			</form>
+			</div>
 		);
 	}
 }

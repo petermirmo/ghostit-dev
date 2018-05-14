@@ -5,10 +5,17 @@ import "font-awesome/css/font-awesome.min.css";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage, setUser, openAccountSideBar, openClientSideBar } from "../../actions/";
+import OnboardingModal from "../OnboardingModal/";
 
 import "./style.css";
 
 class Header extends Component {
+	state = {
+		newClient: false
+	};
+	closeOnboardingModal = () => {
+		this.setState({ newClient: false });
+	};
 	openClientSideBar = () => {
 		this.props.openClientSideBar(!this.props.clientSideBar);
 	};
@@ -41,6 +48,7 @@ class Header extends Component {
 		});
 	};
 	render() {
+		const { newClient } = this.state;
 		const { user, activePage } = this.props;
 		const { changePage } = this.props;
 
@@ -49,41 +57,12 @@ class Header extends Component {
 			return <div style={{ display: "none" }} />;
 		}
 
-		let active = this.isActive("profile");
-		let profile = <button className={"dropbtn" + active}>Profile</button>;
-
-		active = this.isActive("manage");
-		let manage = (
-			<a className={"header-button" + active} onClick={() => changePage("manage")}>
-				Manage
-			</a>
-		);
-
-		active = this.isActive("strategy");
-		let strategy = (
-			<a className={"header-button" + active} onClick={() => changePage("strategy")}>
-				Strategy
-			</a>
-		);
-
-		active = this.isActive("content");
-		let content = (
-			<a className={"header-button" + active} onClick={() => changePage("content")}>
-				Content
-			</a>
-		);
-
-		active = this.isActive("subscribe");
-		let plans = (
-			<a className={"header-button" + active} onClick={() => changePage("subscribe")}>
-				Become Awesome
-			</a>
-		);
+		let isAdmin = user.role === "admin";
 		return (
 			<header>
 				<div className="navbar">
 					<div className="dropdown">
-						{profile}
+						{<button className={"dropbtn" + this.isActive("profile")}>Profile</button>}
 
 						<div className="dropdown-content">
 							<a onClick={() => changePage("profile")}>Profile</a>
@@ -91,16 +70,42 @@ class Header extends Component {
 						</div>
 					</div>
 
-					{user.role === "admin" && manage}
-					{strategy}
-					{content}
-					{(user.role === "demo" || user.role === "admin") && plans}
-
+					{isAdmin && (
+						<a className={"header-button" + this.isActive("manage")} onClick={() => changePage("manage")}>
+							Manage
+						</a>
+					)}
+					{
+						<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
+							Strategy
+						</a>
+					}
+					{
+						<a className={"header-button" + this.isActive("content")} onClick={() => changePage("content")}>
+							Content
+						</a>
+					}
+					{(user.role === "demo" || isAdmin) && (
+						<a className={"header-button" + this.isActive("subscribe")} onClick={() => changePage("subscribe")}>
+							Become Awesome
+						</a>
+					)}
+					{newClient && <OnboardingModal close={this.closeOnboardingModal} />}
+					{isAdmin && (
+						<a
+							className={"header-button"}
+							onClick={() => {
+								this.setState({ newClient: !this.state.newClient });
+							}}
+						>
+							Testing Onboarding Modal
+						</a>
+					)}
 					<button className="big-round-button" onClick={() => this.openAccountSideBar()}>
 						Connect Accounts!
 					</button>
 
-					{(user.role === "manager" || user.role === "admin") && (
+					{(user.role === "manager" || isAdmin) && (
 						<button className="big-round-button" onClick={() => this.openClientSideBar()}>
 							My Clients
 						</button>
