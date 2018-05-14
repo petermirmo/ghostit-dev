@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import CompetitorsTab from "../OnboardingTabs/CompetitorsTab/";
+import CompetitorsTab from "../OnboardingTabs/Competitors/";
 import TextareaTab from "../OnboardingTabs/TextareaTab/";
 import BookCall from "../OnboardingTabs/BookCall/";
 import "./style.css";
