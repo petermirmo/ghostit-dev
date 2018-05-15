@@ -61,20 +61,16 @@ class StrategyForm extends Component {
 	}
 	findStrategyAndFillForm = () => {
 		axios.get("/api/strategy").then(res => {
-			let strategy = res.data;
+			let { strategy } = res.data;
 			delete strategy._id;
 			delete strategy.__v;
 			delete strategy.userID;
 			if (strategy) {
 				for (let index in strategy) {
-					if (Array.isArray(strategy[index])) {
+					if (index === "competitors") {
 						let tempArray = [];
 						for (let j in strategy[index]) {
-							tempArray.push({
-								value: strategy[index][j],
-								placeholder: "Competitor",
-								className: "strategy-input-theme"
-							});
+							tempArray.push(strategy[index][j]);
 						}
 						this.setState({ competitors: tempArray });
 					} else {
@@ -96,11 +92,7 @@ class StrategyForm extends Component {
 	handleFormChange = event => {
 		if (Number.isInteger(Number(event.target.id))) {
 			let temp = this.state.competitors;
-			temp[event.target.id] = {
-				placeholder: this.state.competitors[event.target.id].placeholder,
-				className: this.state.competitors[event.target.id].className,
-				value: event.target.value
-			};
+			temp[event.target.id] = event.target.value;
 			this.setState({
 				competitors: temp
 			});
@@ -124,13 +116,7 @@ class StrategyForm extends Component {
 		for (let index in this.state) {
 			// If state element is an array we need to loop through each index of that array
 			if (Array.isArray(this.state[index])) {
-				let arrayTemp = [];
-				for (let j in this.state[index]) {
-					if (this.state[index][j].value !== "") {
-						arrayTemp.push(this.state[index][j].value);
-					}
-				}
-				strategy[index] = arrayTemp;
+				strategy[index] = this.state[index];
 			} else {
 				strategy[index] = this.state[index].value;
 			}
@@ -150,6 +136,7 @@ class StrategyForm extends Component {
 
 	render() {
 		const { competitors } = this.state;
+
 		let formFields = [];
 		for (let i in strategyFormFields) {
 			let index = strategyFormFields[i];

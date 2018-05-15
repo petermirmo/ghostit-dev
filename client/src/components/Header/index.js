@@ -5,17 +5,10 @@ import "font-awesome/css/font-awesome.min.css";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage, setUser, openAccountSideBar, openClientSideBar } from "../../actions/";
-import OnboardingModal from "../OnboardingModal/";
 
 import "./style.css";
 
 class Header extends Component {
-	state = {
-		newClient: false
-	};
-	closeOnboardingModal = () => {
-		this.setState({ newClient: false });
-	};
 	openClientSideBar = () => {
 		this.props.openClientSideBar(!this.props.clientSideBar);
 	};
@@ -48,7 +41,6 @@ class Header extends Component {
 		});
 	};
 	render() {
-		const { newClient } = this.state;
 		const { user, activePage } = this.props;
 		const { changePage } = this.props;
 
@@ -90,17 +82,7 @@ class Header extends Component {
 							Become Awesome
 						</a>
 					)}
-					{newClient && <OnboardingModal close={this.closeOnboardingModal} />}
-					{isAdmin && (
-						<a
-							className={"header-button"}
-							onClick={() => {
-								this.setState({ newClient: !this.state.newClient });
-							}}
-						>
-							Testing Onboarding Modal
-						</a>
-					)}
+
 					<button className="big-round-button" onClick={() => this.openAccountSideBar()}>
 						Connect Accounts!
 					</button>

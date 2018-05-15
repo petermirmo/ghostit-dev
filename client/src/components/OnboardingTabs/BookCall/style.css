@@ -1,10 +1,11 @@
 .book-call-hyperlink {
 	color: var(--white-theme-color);
-	text-align: left;
+	text-align: center;
 	text-decoration: none;
 	font-size: 30pt;
 	padding: 30px;
-	margin: 50px 0 0 0;
+	width: 50%;
+	margin: 10% 0 0 0;
 	background-color: var(--blue-theme-color);
 	border-radius: 200px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import Notification from "../../components/Notification/";
+import IntroTab from "../OnboardingTabs/Intro/";
 import CompetitorsTab from "../OnboardingTabs/Competitors/";
-import TextareaTab from "../OnboardingTabs/TextareaTab/";
+import TextareaTab from "../OnboardingTabs/Textarea/";
 import BookCall from "../OnboardingTabs/BookCall/";
 import "./style.css";
 
@@ -10,23 +12,54 @@ class OnboardingModal extends Component {
 	state = {
 		animateDirection: "animate-right",
 		activePageNumber: 1,
-		totalPageNumber: 5,
+		totalPageNumber: 6,
 		headerMessage: "",
-		audience: "",
-		styleAndStructure: "",
-		brand: "",
-		notes: "",
-		competitors: [
-			{ placeholder: "Competitor", className: "strategy-input-theme", value: "" },
-			{ placeholder: "Competitor", className: "strategy-input-theme", value: "" },
-			{ placeholder: "Competitor", className: "strategy-input-theme", value: "" }
-		]
+		strategy: {
+			audience: "",
+			styleAndStructure: "",
+			brandVoice: "",
+			notes: "",
+			competitors: ["", "", ""]
+		},
+		notification: {
+			on: false,
+			title: "",
+			message: "",
+			type: "danger"
+		}
 	};
 	constructor(props) {
 		super(props);
 		axios.get("/api/strategy").then(res => {
-			const { strategy, success } = res.data;
+			const { strategy, success, message } = res.data;
 			if (success) {
+				const { competitors, audience, styleAndStructure, brandVoice, notes } = strategy;
+				let tempCompetitors = [];
+				if (competitors.length === 0) {
+					tempCompetitors = ["", "", ""];
+				} else {
+					for (let index in competitors) {
+						tempCompetitors.push(competitors[index]);
+					}
+				}
+				this.setState({
+					strategy: {
+						competitors: tempCompetitors,
+						audience: audience,
+						styleAndStructure: styleAndStructure,
+						brandVoice: brandVoice,
+						notes: notes
+					}
+				});
+			} else {
+				this.setState({
+					notification: {
+						on: true,
+						title: "Contact Ghostit!",
+						message: message,
+						type: "danger"
+					}
+				});
 			}
 		});
 	}
@@ -43,33 +76,78 @@ class OnboardingModal extends Component {
 	};
 
 	handleFormChange = event => {
-		let { competitors } = this.state;
-		competitors[event.target.id] = {
-			placeholder: competitors[event.target.id].placeholder,
-			className: competitors[event.target.id].className,
-			value: event.target.value
-		};
+		let { strategy } = this.state;
+		let { competitors } = this.state.strategy;
+		competitors[event.target.id] = event.target.value;
+
+		strategy.competitors = competitors;
 		this.setState({
-			competitors: competitors
+			strategy: strategy
 		});
 	};
 	handleChange = (index, value) => {
-		this.setState({ [index]: value });
+		let { strategy } = this.state;
+		strategy[index] = value;
+		this.setState({ strategy: strategy });
 	};
 
 	updateCompetitors = competitors => {
 		this.setState({ competitors: competitors });
 	};
+	notify = notificationObject => {
+		const { title, message, type } = notificationObject;
+
+		let { notification } = this.state;
+		notification.on = !notification.on;
+
+		if (title) notification.title = title;
+		if (message) notification.message = message;
+		if (type) notification.type = type;
+
+		this.setState({ notification: notification });
+
+		if (notification.on) {
+			setTimeout(() => {
+				let { notification } = this.state;
+				notification.on = false;
+				this.setState({ notification: notification });
+			}, 1500);
+		}
+	};
+	saveStrategy = () => {
+		let strategy = this.state.strategy;
+		let temp = [];
+		for (let index in strategy.competitors) {
+			if (strategy.competitors[index].value) temp(strategy[index].value);
+		}
+		axios.post("/api/strategy", strategy).then(res => {
+			if (res.data) {
+				/*this.notify({
+					title: "Success!",
+					message: "Strategy saved :)",
+					type: "success"
+				});*/
+			} else {
+			}
+		});
+	};
+
 	render() {
-		const { animateDirection, activePageNumber, totalPageNumber, headerMessage } = this.state;
-		const { competitors, audience, brand, notes } = this.state;
+		const { animateDirection, activePageNumber, totalPageNumber, headerMessage, notification } = this.state;
+		const { competitors, audience, brandVoice, notes } = this.state.strategy;
 		const { close } = this.props;
 
 		return (
 			<div className="modal center">
 				<div className="modal-content onboarding-modal">
 					{activePageNumber === totalPageNumber && (
-						<p className="onboarding-close" onClick={close}>
+						<p
+							className="onboarding-close"
+							onClick={() => {
+								this.props.changePage("strategy");
+								close();
+							}}
+						>
 							&times;
 						</p>
 					)}
@@ -82,12 +160,16 @@ class OnboardingModal extends Component {
 
 					<div className="modal-body onboarding-body">
 						{activePageNumber === 1 && (
+							<IntroTab setHeaderMessage={this.setHeaderMessage} title="Tell Us About Your Business!" />
+						)}
+						{activePageNumber === 2 && (
 							<div className={"active-tab " + animateDirection}>
 								<CompetitorsTab
 									setHeaderMessage={this.setHeaderMessage}
 									competitors={competitors}
 									handleFormChange={this.handleFormChange}
 									updateCompetitors={this.updateCompetitors}
+									title="Tell Us About Your Competition!"
 								/>
 								<p className="onboarding-info">
 									All we need is the name of 3 or more competitors! We will do the rest!
@@ -96,11 +178,11 @@ class OnboardingModal extends Component {
 								</p>
 							</div>
 						)}
-						{activePageNumber === 2 && (
+						{activePageNumber === 3 && (
 							<div className={"active-tab " + animateDirection}>
 								<TextareaTab
 									handleChange={this.handleChange}
-									placeholder="Waiting... :)"
+									placeholder="RAWR!!!"
 									className="onboarding-textarea"
 									setHeaderMessage={this.setHeaderMessage}
 									value={audience}
@@ -114,15 +196,15 @@ class OnboardingModal extends Component {
 								</p>
 							</div>
 						)}
-						{activePageNumber === 3 && (
+						{activePageNumber === 4 && (
 							<div className={"active-tab " + animateDirection}>
 								<TextareaTab
 									handleChange={this.handleChange}
-									placeholder="RAWR!!!"
+									placeholder="Did we scare you? :D"
 									className="onboarding-textarea"
 									setHeaderMessage={this.setHeaderMessage}
-									value={brand}
-									index="brand"
+									value={brandVoice}
+									index="brandVoice"
 									title="Tell Us About Your Brand!"
 								/>
 								<p className="onboarding-info">
@@ -134,11 +216,11 @@ class OnboardingModal extends Component {
 								</p>
 							</div>
 						)}
-						{activePageNumber === 4 && (
+						{activePageNumber === 5 && (
 							<div className={"active-tab " + animateDirection}>
 								<TextareaTab
 									handleChange={this.handleChange}
-									placeholder="Did we scare you? :D"
+									placeholder="Waiting... :)"
 									className="onboarding-textarea"
 									setHeaderMessage={this.setHeaderMessage}
 									value={notes}
@@ -146,20 +228,18 @@ class OnboardingModal extends Component {
 									title="Anything Else You Would Like To Add?"
 								/>
 								<p className="onboarding-info">
-									All we need is the name of 3 or more competitors! We will do the rest!
-									<br />
-									Note: This information is used to outrank your competition in google searches!
+									This can be anything! If you want to send us a happy face, send us a happy face :)
 								</p>
 							</div>
 						)}
-						{activePageNumber === 5 && (
+						{activePageNumber === 6 && (
 							<div className={"active-tab " + animateDirection}>
 								<BookCall
 									setHeaderMessage={this.setHeaderMessage}
 									className="book-call-hyperlink"
 									link="https://calendly.com/ghostit/call-30"
 									value="Book Your Call!"
-									title="Last step!"
+									title="Last Step!"
 								/>
 							</div>
 						)}
@@ -172,12 +252,27 @@ class OnboardingModal extends Component {
 							</button>
 						)}
 						{activePageNumber !== totalPageNumber && (
-							<button className="next-button" onClick={() => this.changeTab(1, "animate-right")}>
+							<button
+								className="next-button"
+								onClick={() => {
+									this.saveStrategy();
+
+									this.changeTab(1, "animate-right");
+								}}
+							>
 								Next <span className="fa fa-long-arrow-right fa-2x next-button-icon" />
 							</button>
 						)}
 					</div>
 				</div>
+				{notification.on && (
+					<Notification
+						title={notification.title}
+						message={notification.message}
+						notificationType={notification.type}
+						callback={this.notify}
+					/>
+				)}
 			</div>
 		);
 	}

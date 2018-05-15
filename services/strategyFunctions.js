@@ -9,7 +9,7 @@ module.exports = {
 				userID = req.user.signedInAsUser.id;
 			}
 		}
-		console.log(currentStrategy);
+
 		Strategy.findOne({ userID: userID }, function(err, strategy) {
 			if (err) {
 				console.log(err);
@@ -47,13 +47,13 @@ module.exports = {
 		Strategy.findOne({ userID: userID }, function(err, strategy) {
 			if (err) {
 				console.log(err);
-				res.send(err);
+				res.send({ success: false, message: err });
 				return;
 			}
 			if (strategy) {
-				res.send(strategy);
+				res.send({ success: true, strategy: strategy });
 			} else {
-				res.send(false);
+				res.send({ success: false, message: "Something went wrong!" });
 			}
 		});
 	}

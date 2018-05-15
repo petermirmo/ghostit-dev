@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { changePage, setUser } from "../../actions/";
+import OnboardingModal from "../../components/OnboardingModal/";
 import Notification from "../../components/Notification/";
 import Loader from "../../components/Loader/";
 
@@ -16,7 +17,8 @@ class ChargeCardForm extends Component {
 			title: "",
 			message: "",
 			type: "danger"
-		}
+		},
+		onboardingModal: false
 	};
 	componentDidMount() {
 		var stripe = window.Stripe("pk_live_fbteh655nQqpE4WEFr6fs5Pm");
@@ -74,6 +76,10 @@ class ChargeCardForm extends Component {
 			});
 		});
 	}
+
+	closeOnboardingModal = () => {
+		this.setState({ onboardingModal: false });
+	};
 	notify = (message, type, title) => {
 		let { notification } = this.state;
 		notification.on = !notification.on;
@@ -105,10 +111,7 @@ class ChargeCardForm extends Component {
 						this.props.setUser(user);
 					}
 
-					this.notify("We will start on your content immediately!", "success", "Success!");
-					setTimeout(() => {
-						this.props.changePage("content");
-					}, 5000);
+					this.setState({ onboardingModal: true });
 				} else {
 					this.notify(message, "danger", "Something went wrong!");
 				}
@@ -119,7 +122,7 @@ class ChargeCardForm extends Component {
 	};
 
 	render() {
-		const { notification, saving } = this.state;
+		const { notification, saving, onboardingModal } = this.state;
 		const { user } = this.props;
 
 		return (
@@ -145,6 +148,7 @@ class ChargeCardForm extends Component {
 							<button className="sign-up center">Submit Payment</button>
 						)}
 				</form>
+				{onboardingModal && <OnboardingModal close={this.closeOnboardingModal} />}
 			</div>
 		);
 	}

@@ -5,18 +5,13 @@ import "../style.css";
 class CompetitorsTab extends Component {
 	constructor(props) {
 		super(props);
-		if (props.setHeaderMessage) props.setHeaderMessage("Tell us about your competition!");
+		if (props.setHeaderMessage) props.setHeaderMessage(props.title);
 	}
 
 	addCompetitor = () => {
-		let competitor = {
-			placeholder: "Competitor",
-			className: "strategy-input-theme",
-			value: ""
-		};
 		let { competitors } = this.props;
 
-		competitors.push(competitor);
+		competitors.push("");
 		this.props.updateCompetitors(competitors);
 	};
 	render() {
@@ -28,9 +23,9 @@ class CompetitorsTab extends Component {
 					<input
 						id={index}
 						type="text"
-						placeholder={competitors[index].placeholder}
-						className={competitors[index].className}
-						value={competitors[index].value}
+						placeholder="Competitor"
+						className="strategy-input-theme"
+						value={competitors[index]}
 						onChange={handleFormChange}
 					/>
 				</div>
