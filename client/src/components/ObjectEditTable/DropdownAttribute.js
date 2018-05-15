@@ -14,6 +14,23 @@ class DropDownAttribute extends Component {
 		this.sortDropdown = this.sortDropdown.bind(this);
 		this.updateDropdown = this.updateDropdown.bind(this);
 	}
+
+	componentDidMount() {
+		document.addEventListener("mousedown", this.handleClickOutside);
+	}
+
+	componentWillUnmount() {
+		document.removeEventListener("mousedown", this.handleClickOutside);
+	}
+	setWrapperRef = node => {
+		this.wrapperRef = node;
+	};
+
+	handleClickOutside = event => {
+		if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+			this.setState({ showDropdown: false });
+		}
+	};
 	showDropDownList(event) {
 		this.setState({ showDropdown: !this.state.showDropdown });
 	}
@@ -41,7 +58,7 @@ class DropDownAttribute extends Component {
 	}
 	render() {
 		let dropDownContent = [];
-		for (var index in this.state.dropdownList) {
+		for (let index in this.state.dropdownList) {
 			if (this.state.dropdownList[index].id) {
 				dropDownContent.push(
 					<p
@@ -65,7 +82,7 @@ class DropDownAttribute extends Component {
 			}
 		}
 		return (
-			<div className="row">
+			<div className="row" ref={this.setWrapperRef}>
 				<span className="user-attribute-label">
 					<h4>{this.props.label + ":"}</h4>
 					<div className="user-attribute-dropdown">
