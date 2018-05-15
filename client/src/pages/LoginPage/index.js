@@ -78,6 +78,7 @@ class Login extends Component {
 					const { success, user, message } = res.data;
 
 					if (success) {
+						this.props.updateAccounts([]);
 						this.props.setUser(user);
 						this.props.changePage("content");
 					} else {
@@ -196,6 +197,6 @@ function mapStateToProps(state) {
 	return { activePage: state.activePage };
 }
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ changePage: changePage, setUser: setUser }, dispatch);
+	return bindActionCreators({ changePage: changePage, setUser: setUser, updateAccounts: updateAccounts }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
