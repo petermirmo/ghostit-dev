@@ -62,10 +62,10 @@ class StrategyForm extends Component {
 	findStrategyAndFillForm = () => {
 		axios.get("/api/strategy").then(res => {
 			let { strategy } = res.data;
-			delete strategy._id;
-			delete strategy.__v;
-			delete strategy.userID;
 			if (strategy) {
+				delete strategy._id;
+				delete strategy.__v;
+				delete strategy.userID;
 				for (let index in strategy) {
 					if (index === "competitors") {
 						let tempArray = [];
