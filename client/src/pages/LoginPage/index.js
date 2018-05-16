@@ -4,7 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { changePage, setUser } from "../../actions/";
+import { changePage, setUser, updateAccounts } from "../../actions/";
 import logo from "./logo.png";
 import Notification from "../../components/Notification/";
 import "./style.css";
