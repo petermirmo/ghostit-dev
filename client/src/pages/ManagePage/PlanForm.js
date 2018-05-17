@@ -3,15 +3,17 @@ import { nonEditablePlanFields } from "../../constants/PlanConstants";
 
 class PlanForm extends Component {
 	state = {
-		plan: {
-			socialPosts: 0,
-			instagramPosts: 0,
-			websiteBlogPosts: 0,
-			emailNewsletters: 0,
-			eBooks: 0,
-			name: "peter_is_cool",
-			price: 0
-		}
+		plan: this.props.clickedObject
+			? this.props.clickedObject
+			: {
+					socialPosts: 0,
+					instagramPosts: 0,
+					websiteBlogPosts: 0,
+					emailNewsletters: 0,
+					eBooks: 0,
+					name: "peter_is_cool",
+					price: 0
+				}
 	};
 	constructor(props) {
 		super(props);

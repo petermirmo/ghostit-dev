@@ -32,7 +32,7 @@ class DropDownAttribute extends Component {
 		}
 	};
 	showDropDownList(event) {
-		this.setState({ showDropdown: !this.state.showDropdown });
+		this.setState({ showDropdown: true });
 	}
 	sortDropdown(event) {
 		let dropdownList = [];
@@ -58,6 +58,7 @@ class DropDownAttribute extends Component {
 	}
 	render() {
 		let dropDownContent = [];
+
 		for (let index in this.state.dropdownList) {
 			if (this.state.dropdownList[index].id) {
 				dropDownContent.push(
@@ -66,7 +67,9 @@ class DropDownAttribute extends Component {
 						key={index}
 						onClick={event => this.updateDropdown(this.props.label, event.target.innerHTML, event.target.id)}
 					>
-						{this.state.dropdownList[index].value}
+						{this.state.dropdownList[index].value
+							? this.state.dropdownList[index].value
+							: this.state.dropdownList[index].id}
 					</p>
 				);
 			} else {

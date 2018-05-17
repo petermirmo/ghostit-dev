@@ -193,7 +193,9 @@ class UsersTable extends Component {
 				objectArry.push({
 					canEdit: canEdit,
 					value:
-						this.state.clickedUser[index] === Object(clickedUser[index]) ? clickedUser[index].name : clickedUser[index],
+						this.state.clickedUser[index] === Object(clickedUser[index])
+							? clickedUser[index].name ? clickedUser[index].name : clickedUser[index].id
+							: clickedUser[index],
 					dropdown: dropdown,
 					dropdownList: dropdownList,
 					index: index

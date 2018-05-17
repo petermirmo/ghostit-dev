@@ -77,7 +77,6 @@ module.exports = {
 		let currentUser = req.user;
 		currentUser.signedInAsUser = undefined;
 		currentUser.save().then(result => {
-			console.log(result);
 			res.send({ success: true, user: result });
 		});
 	},
@@ -90,7 +89,7 @@ module.exports = {
 			// Check if we are editting a plan or creating a new plan!
 			if (newPlan._id) {
 				Plan.update({ _id: newPlan._id }, { $set: newPlan }).then(result => {
-					res.send(true);
+					res.send({ success: true });
 				});
 			} else {
 				Plan.find({ name: newPlan.name }, function(err, Plans) {

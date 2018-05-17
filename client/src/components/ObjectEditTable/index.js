@@ -35,7 +35,7 @@ class ObjectEditTable extends Component {
 					<DropdownAttribute
 						key={index}
 						label={objectArray[index].index}
-						value={objectArray[index].value}
+						value={objectArray[index].value ? objectArray[index].value : objectArray[index].id}
 						dropdownList={objectArray[index].dropdownList}
 						updateParentState={this.updateObject}
 					/>

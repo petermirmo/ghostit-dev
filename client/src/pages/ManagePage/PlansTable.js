@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import ManageColumn from "../../components/SearchColumn/";
+import SearchColumn from "../../components/SearchColumn/";
 import PlanForm from "./PlanForm";
 
 class PlansTable extends Component {
@@ -14,19 +14,21 @@ class PlansTable extends Component {
 	constructor(props) {
 		super(props);
 
-		this.getPlans = this.getPlans.bind(this);
 		this.getPlans();
 	}
 	savePlan = plan => {
 		axios.post("/api/plan", plan).then(res => {
+			const { success } = res.data;
+			if (success) alert("Success");
+			else alert("Something went wrong message your local dev ninja (Peter)!");
 			this.getPlans();
 		});
 	};
-	getPlans() {
+	getPlans = () => {
 		axios.get("/api/plans").then(res => {
 			this.setState({ activePlans: res.data, untouchedPlans: res.data });
 		});
-	}
+	};
 	planFormActive = () => {
 		this.setState({ planFormActive: !this.state.planFormActive, clickedPlan: null });
 	};
@@ -38,7 +40,7 @@ class PlansTable extends Component {
 	};
 	searchPlans = event => {
 		let value = event.target.value;
-		if (value === "") {
+		if (!value) {
 			this.setState({ activePlans: this.state.untouchedPlans });
 			return;
 		}
@@ -46,15 +48,22 @@ class PlansTable extends Component {
 
 		let plans = [];
 		// Loop through all plans
-		for (var index in this.state.untouchedPlans) {
+		for (let index in this.state.untouchedPlans) {
 			let matchFound = false;
 			// Loop through all words in the entered value
-			for (var j in stringArray) {
+			for (let j in stringArray) {
 				// Make sure we are not checking an empty string
-				if (stringArray[j] !== "") {
+				if (stringArray[j]) {
 					// Check to see if a part of the string matches user's fullName or email
-					if (this.state.untouchedPlans[index].name.includes(stringArray[j])) {
-						matchFound = true;
+					if (this.state.untouchedPlans[index].name) {
+						if (this.state.untouchedPlans[index].name.includes(stringArray[j])) {
+							matchFound = true;
+						}
+					}
+					if (this.state.untouchedPlans[index]._id) {
+						if (this.state.untouchedPlans[index]._id.includes(stringArray[j])) {
+							matchFound = true;
+						}
 					}
 				}
 			}
@@ -65,17 +74,18 @@ class PlansTable extends Component {
 		this.setState({ activePlans: plans });
 	};
 	render() {
+		const { activePlans, planFormActive, clickedPlan } = this.state;
 		return (
 			<div>
-				<ManageColumn
-					objectList={this.state.activePlans}
+				<SearchColumn
+					objectList={activePlans}
 					handleClickedObject={this.handlePlanClicked}
 					searchObjects={this.searchPlans}
 					styleOverride={{ marginTop: "20px" }}
 				/>
 				<button className="fa fa-plus fa-2x create-plan-button" onClick={this.planFormActive} />
-				{this.state.planFormActive && (
-					<PlanForm updateParentState={this.cancel} savePlan={this.savePlan} clickedObject={this.state.clickedPlan} />
+				{planFormActive && (
+					<PlanForm updateParentState={this.cancel} savePlan={this.savePlan} clickedObject={clickedPlan} />
 				)}
 			</div>
 		);
