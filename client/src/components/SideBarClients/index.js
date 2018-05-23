@@ -18,7 +18,9 @@ class ClientSideBar extends Component {
 	getMyClients() {
 		axios.get("/api/clients").then(res => {
 			if (Array.isArray(res.data)) {
-				this.setState({ clients: res.data, untouchedClients: res.data });
+				let clientAccounts = res.data;
+				clientAccounts.sort(compare);
+				this.setState({ clients: clientAccounts, untouchedClients: clientAccounts });
 			} else {
 				// To Do: handle error
 			}
@@ -34,10 +36,10 @@ class ClientSideBar extends Component {
 
 		let users = [];
 		// Loop through all users
-		for (var index in this.state.untouchedClients) {
+		for (let index in this.state.untouchedClients) {
 			let matchFound = false;
 			// Loop through all words in the entered value
-			for (var j in stringArray) {
+			for (let j in stringArray) {
 				// Make sure we are not checking an empty string
 				if (stringArray[j] !== "") {
 					// Check to see if a part of the string matches user's fullName or email
@@ -80,5 +82,9 @@ class ClientSideBar extends Component {
 		);
 	}
 }
-
+function compare(a, b) {
+	if (a.fullName < b.fullName) return -1;
+	if (a.fullName > b.fullName) return 1;
+	return 0;
+}
 export default ClientSideBar;
