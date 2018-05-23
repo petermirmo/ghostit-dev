@@ -168,6 +168,9 @@ class AccountsPage extends Component {
 			</div>
 		);
 	};
+	close = () => {
+		this.setState({ addPageOrGroupModal: false });
+	};
 	render() {
 		const { accounts, pageOrGroup, errorMessage, addPageOrGroupModal, deleteAccount } = this.state;
 
@@ -193,7 +196,7 @@ class AccountsPage extends Component {
 		return (
 			<div id="wrapper">
 				<div className="accounts-wrapper">
-					<div className="account-column center">
+					<div className="account-column">
 						<button
 							className="social-header-button facebook"
 							onClick={() => {

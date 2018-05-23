@@ -15,6 +15,7 @@
 .social-header-button {
 	width: 100%;
 	margin: 20px 0 10px 0;
+	padding: 6px;
 	font-size: var(--large-font-size);
 }
 
