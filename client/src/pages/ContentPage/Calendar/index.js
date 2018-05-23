@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import ContentModal from "../PostingFiles/ContentModal";
 import PostEdittingModal from "../PostingFiles/PostEdittingModal";
 import BlogEdittingModal from "../PostingFiles/BlogEdittingModal";
-import NavigationBar from "../../../components/NavigationBar/";
+import NavigationBar from "../../../components/Navigations/NavigationBar/";
 import "./style.css";
 
 Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);

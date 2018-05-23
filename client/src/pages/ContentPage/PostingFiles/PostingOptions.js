@@ -7,7 +7,12 @@ import TimePicker from "../Divs/TimePicker.js";
 import SelectAccountDiv from "../Divs/SelectAccountDiv/";
 import Carousel from "../Divs/Carousel";
 import ImagesDiv from "../Divs/ImagesDiv/";
-import { savePost, postChecks, convertDateAndTimeToUtcTme, carouselOptions } from "../../../functions/CommonFunctions";
+import {
+	savePost,
+	postChecks,
+	convertDateAndTimeToUtcTme,
+	carouselOptions
+} from "../../../extra/functions/CommonFunctions";
 
 class PostingOptions extends Component {
 	state = {

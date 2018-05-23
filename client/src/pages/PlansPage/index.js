@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import PlanTable from "./PlanTable";
-import { roleCheck } from "../../functions/CommonFunctions";
+import { roleCheck } from "../../extra/functions/CommonFunctions";
 
 import "./style.css";
 

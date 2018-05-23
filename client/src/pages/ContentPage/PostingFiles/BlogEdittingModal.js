@@ -3,10 +3,10 @@ import axios from "axios";
 
 import "font-awesome/css/font-awesome.min.css";
 
-import Notification from "../../../components/Notification";
-import ConfirmAlert from "../../../components/ConfirmAlert";
+import Notification from "../../../components/Notifications/Notification";
+import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateBlog from "./CreateBlog/";
-import Loader from "../../../components/Loader/";
+import Loader from "../../../components/Notifications/Loader/";
 import "./style.css";
 
 class BlogEdittingModal extends Component {

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import CreateBlog from "./CreateBlog/";
 import ContentModalHeader from "./ContentModalHeader";
-import Loader from "../../../components/Loader/";
+import Loader from "../../../components/Notifications/Loader/";
 import PostingOptions from "./PostingOptions";
 import InstagramPosting from "./InstagramPosting";
 import "./style.css";

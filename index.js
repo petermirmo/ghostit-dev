@@ -68,7 +68,7 @@ app.use(flash());
 // Force https
 app.use(secure);
 // Routes
-require("./routes/apiRoutes")(app);
+require("./apiRoutes")(app);
 
 // If using production then if a route is not found in express we send user to react routes
 if (process.env.NODE_ENV === "production") {

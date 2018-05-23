@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, setUser, openAccountSideBar, openClientSideBar } from "../../actions/";
+import { changePage, setUser, openAccountSideBar, openClientSideBar } from "../../../redux/actions/";
 
 import "./style.css";
 
@@ -63,21 +63,23 @@ class Header extends Component {
 								Become Awesome
 							</a>
 						)}
-						{
-							<a className={"header-button" + this.isActive("content")} onClick={() => changePage("content")}>
-								Calendar
-							</a>
-						}
-						{
-							<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
-								Strategy
-							</a>
-						}
-						{
-							<a className={"header-button" + this.isActive("accounts")} onClick={() => changePage("accounts")}>
-								Social Profiles
-							</a>
-						}
+
+						<a className={"header-button" + this.isActive("content")} onClick={() => changePage("content")}>
+							Calendar
+						</a>
+
+						<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
+							Strategy
+						</a>
+
+						<a className={"header-button" + this.isActive("accounts")} onClick={() => changePage("accounts")}>
+							Social Profiles
+						</a>
+
+						<button
+							className={"header-icon fa fa-edit" + this.isActive("writersBrief")}
+							onClick={() => changePage("writersBrief")}
+						/>
 						{isAdmin && (
 							<button
 								className={"header-icon fa fa-cogs" + this.isActive("manage")}

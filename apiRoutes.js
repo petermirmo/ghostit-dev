@@ -1,22 +1,22 @@
 const passport = require("passport");
-const User = require("../models/User");
-const Account = require("../models/Account");
+const User = require("./models/User");
+const Account = require("./models/Account");
 const FB = require("fb");
-const Post = require("../models/Post");
+const Post = require("./models/Post");
 
 const multipart = require("connect-multiparty");
 const fileParser = multipart();
 
-const facebookFunctions = require("../services/facebookFunctions");
-const linkedinFunctions = require("../services/linkedinFunctions");
-const accountFunctions = require("../services/accountFunctions");
-const userFunctions = require("../services/userFunctions");
-const postFunctions = require("../services/postFunctions");
-const blogFunctions = require("../services/websiteBlogFunctions");
-const generalFunctions = require("../services/generalFunctions");
-const strategyFunctions = require("../services/strategyFunctions");
-const adminFunctions = require("../services/adminFunctions");
-const planFunctions = require("../services/planFunctions");
+const facebookFunctions = require("./services/facebookFunctions");
+const linkedinFunctions = require("./services/linkedinFunctions");
+const accountFunctions = require("./services/accountFunctions");
+const userFunctions = require("./services/userFunctions");
+const postFunctions = require("./services/postFunctions");
+const blogFunctions = require("./services/websiteBlogFunctions");
+const generalFunctions = require("./services/generalFunctions");
+const strategyFunctions = require("./services/strategyFunctions");
+const adminFunctions = require("./services/adminFunctions");
+const planFunctions = require("./services/planFunctions");
 
 module.exports = app => {
 	// Login user

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import UsersTable from "./UsersTable";
 import PlansTable from "./PlansTable";
-import { roleCheck } from "../../functions/CommonFunctions";
+import { roleCheck } from "../../extra/functions/CommonFunctions";
 import "./style.css";
 
 class ManagePage extends Component {

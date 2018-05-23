@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { nonEditablePlanFields } from "../../constants/PlanConstants";
+import { nonEditablePlanFields } from "../../extra/constants/PlanConstants";
 
 class PlanForm extends Component {
 	state = {

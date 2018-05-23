@@ -4,10 +4,10 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { changePage, setUser } from "../../actions/";
-import OnboardingModal from "../../components/OnboardingModal/";
-import Notification from "../../components/Notification/";
-import Loader from "../../components/Loader/";
+import { changePage, setUser } from "../../redux/actions/";
+import OnboardingModal from "../../components/Onboarding/OnboardingModal/";
+import Notification from "../../components/Notifications/Notification/";
+import Loader from "../../components/Notifications/Loader/";
 
 class ChargeCardForm extends Component {
 	state = {

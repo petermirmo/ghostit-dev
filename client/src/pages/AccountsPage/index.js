@@ -3,10 +3,10 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { updateAccounts } from "../../actions/";
+import { updateAccounts } from "../../redux/actions/";
 
 import AddPageOrGroupModal from "./AddPagesOrGroupsModal/";
-import ConfirmAlert from "../../components/ConfirmAlert/";
+import ConfirmAlert from "../../components/Notifications/ConfirmAlert/";
 import "./style.css";
 
 class AccountsPage extends Component {

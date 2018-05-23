@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import CompetitorsTab from "../../components/OnboardingTabs/Competitors/";
+import CompetitorsTab from "../../components/Onboarding/OnboardingTabs/Competitors/";
 import "./style.css";
 import "font-awesome/css/font-awesome.min.css";
-import Loader from "../../components/Loader/";
+import Loader from "../../components/Notifications/Loader/";
 
-import { strategyFormFields } from "../../constants/Common";
+import { strategyFormFields } from "../../extra/constants/Common";
 
 class StrategyForm extends Component {
 	state = {

@@ -38,13 +38,17 @@ header {
 	color: var(--white-theme-color);
 	background-color: inherit;
 
-	padding: 5px;
+	padding: 5px 5px 2px 5px;
 	margin: 8px 0 0 0;
+	border-bottom: 2px solid inherit;
+
+	transform: scale(1.2);
+
 	transition: all 0.3s ease;
 	-webkit-transition: all 0.3s ease;
 }
 .header-icon:hover {
-	transform: scale(1.2);
+	transform: scale(1.4);
 }
 .header-button {
 	cursor: pointer;
@@ -55,9 +59,12 @@ header {
 	padding: 10px 16px 2px;
 }
 
-.header-active {
+.header-button.header-active {
 	font-weight: bold;
 	border-bottom: 2px solid var(--white-theme-color);
+}
+.header-icon.header-active {
+	transform: scale(1.6);
 }
 .header-button:hover {
 	font-weight: bold;

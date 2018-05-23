@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import Notification from "../../components/Notification/";
+import Notification from "../../../components/Notifications/Notification/";
 import IntroTab from "../OnboardingTabs/Intro/";
 import CompetitorsTab from "../OnboardingTabs/Competitors/";
 import TextareaTab from "../OnboardingTabs/Textarea/";

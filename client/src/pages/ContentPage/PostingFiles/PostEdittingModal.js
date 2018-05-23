@@ -5,9 +5,9 @@ import "font-awesome/css/font-awesome.min.css";
 import { connect } from "react-redux";
 
 import PostingOptions from "./PostingOptions";
-import Notification from "../../../components/Notification";
-import ConfirmAlert from "../../../components/ConfirmAlert";
-import Loader from "../../../components/Loader/";
+import Notification from "../../../components/Notifications/Notification";
+import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
+import Loader from "../../../components/Notifications/Loader/";
 
 import "./style.css";
 

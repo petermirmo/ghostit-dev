@@ -4,9 +4,9 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { changePage, setUser, updateAccounts } from "../../actions/";
+import { changePage, setUser, updateAccounts } from "../../redux/actions/";
 import logo from "./logo.png";
-import Notification from "../../components/Notification/";
+import Notification from "../../components/Notifications/Notification/";
 import "./style.css";
 
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;

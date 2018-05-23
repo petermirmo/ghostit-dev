@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, setUser, updateAccounts } from "./actions/";
+import { changePage, setUser, updateAccounts } from "./redux/actions/";
 
 import LoginPage from "./pages/LoginPage/";
 import Content from "./pages/ContentPage/";
@@ -13,7 +13,7 @@ import Profile from "./pages/ProfilePage/";
 import Strategy from "./pages/StrategyPage/";
 import Manage from "./pages/ManagePage/";
 import Plans from "./pages/PlansPage/";
-import Header from "./components/Header/";
+import Header from "./components/Navigations/Header/";
 import ClientsSideBar from "./components/SideBarClients/";
 import "./css/theme.css";
 

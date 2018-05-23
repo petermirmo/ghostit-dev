@@ -3,9 +3,9 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser } from "../../actions/";
+import { setUser } from "../../redux/actions/";
 
-import Loader from "../../components/Loader/";
+import Loader from "../../components/Notifications/Loader/";
 import "./style.css";
 
 class Content extends Component {

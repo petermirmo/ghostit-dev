@@ -4,8 +4,8 @@ import moment from "moment-timezone";
 
 import ManageColumn from "../../components/SearchColumn/";
 import ObjectEditTable from "../../components/ObjectEditTable/";
-import NavigationBar from "../../components/NavigationBar/";
-import { nonEditableUserFields, canShowUserFields } from "../../constants/Common";
+import NavigationBar from "../../components/Navigations/NavigationBar/";
+import { nonEditableUserFields, canShowUserFields } from "../../extra/constants/Common";
 
 class UsersTable extends Component {
 	state = {

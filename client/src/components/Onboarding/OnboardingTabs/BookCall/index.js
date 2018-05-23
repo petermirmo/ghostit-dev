@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage } from "../../../actions/";
+import { changePage } from "../../../../redux/actions/";
 import "./style.css";
 
 class BookCall extends Component {
