@@ -53,6 +53,10 @@ class UsersTable extends Component {
 					}
 				}
 				let activeUsers;
+				demoUsers.sort(compare);
+				clientUsers.sort(compare);
+				managerUsers.sort(compare);
+				adminUsers.sort(compare);
 				switch (activeTab) {
 					case "demo":
 						activeUsers = demoUsers;
@@ -226,4 +230,9 @@ class UsersTable extends Component {
 	}
 }
 
+function compare(a, b) {
+	if (a.fullName < b.fullName) return -1;
+	if (a.fullName > b.fullName) return 1;
+	return 0;
+}
 export default UsersTable;
