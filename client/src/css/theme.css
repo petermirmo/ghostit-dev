@@ -276,7 +276,7 @@
 }
 .delete {
 	color: var(--red-theme-color);
-	background-color: var(--white-theme-color);
+	background-color: transparent;
 	float: right;
 }
 

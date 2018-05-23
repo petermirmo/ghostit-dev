@@ -7,13 +7,14 @@ import CreateBlog from "./CreateBlog/";
 import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Loader/";
 import PostingOptions from "./PostingOptions";
+import InstagramPosting from "./InstagramPosting";
 import "./style.css";
 
 class ContentModal extends Component {
 	state = {
 		saving: false,
 		activeTab: "facebook",
-		categories: ["facebook", "twitter", "linkedin", "blog"]
+		categories: ["facebook", "twitter", "linkedin", "instagram", "blog"]
 	};
 
 	switchTabState = activeTab => {
@@ -40,6 +41,19 @@ class ContentModal extends Component {
 		if (activeTab === "blog") {
 			modalBody = (
 				<CreateBlog clickedCalendarDate={clickedCalendarDate} callback={saveBlogCallback} setSaving={this.setSaving} />
+			);
+		} else if (activeTab === "instagram") {
+			modalBody = (
+				<div className="modal-body">
+					<InstagramPosting
+						accounts={accounts}
+						clickedCalendarDate={clickedCalendarDate}
+						postFinishedSavingCallback={savePostCallback}
+						setSaving={this.setSaving}
+						socialType={activeTab}
+						canEditPost={true}
+					/>
+				</div>
 			);
 		} else {
 			// If the user has an account for the active tab connected

@@ -26,12 +26,3 @@ label {
 	padding: 3px;
 	border-radius: 4px;
 }
-.side-bar-button-center {
-	padding: 1px;
-	border-radius: 4px;
-	margin-left: 5px;
-	width: 25%;
-	text-align: center;
-	color: var(--white-theme-color);
-	text-decoration: none;
-}

@@ -1,0 +1,65 @@
+.accounts-wrapper {
+	display: block;
+	text-align: center;
+}
+.account-column {
+	width: 20%;
+	display: inline-block !important;
+	margin-left: 2%;
+	vertical-align: top;
+}
+.account-column:first-child {
+	margin-left: 0;
+}
+
+.social-header-button {
+	width: 100%;
+	margin: 20px 0 10px 0;
+	font-size: var(--large-font-size);
+}
+
+.social-media-connect {
+	padding: 1px;
+	margin-left: 5px;
+	width: 45%;
+	text-align: center;
+	color: var(--white-theme-color);
+	text-decoration: none;
+	margin-bottom: 10px;
+}
+.connected-social-div {
+	text-align: left;
+	margin-top: 10px;
+}
+.connected-social-media-icon {
+	display: inline-block !important;
+	color: var(--white-theme-color);
+	text-align: center;
+	width: 20%;
+
+	border-radius: 100px;
+	padding: 10px 0 10px 0;
+	vertical-align: top;
+}
+.connected-social {
+	display: inline-block !important;
+	color: var(--black-theme-color);
+	width: 73% !important;
+
+	padding: 5px 0 0 10px;
+}
+.connected-social-div h4 {
+	text-align: left;
+	color: var(--black-theme-color);
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+.connected-social-div p {
+	text-align: left;
+	color: var(--dark-grey-theme-color);
+	font-weight: normal;
+	font-size: var(--regular-font-size);
+	margin: 0;
+	padding: 0;
+}

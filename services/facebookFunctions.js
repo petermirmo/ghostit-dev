@@ -24,10 +24,10 @@ module.exports = {
 					FB.setAccessToken(account.accessToken);
 
 					FB.api("me/groups", "get", function(results) {
-						var groups = results.data;
+						let groups = results.data;
 
 						// Init some values
-						for (var index in groups) {
+						for (let index in groups) {
 							groups[index].accountType = "group";
 							groups[index].socialType = "facebook";
 							groups[index].access_token = account.accessToken;

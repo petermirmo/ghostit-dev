@@ -68,24 +68,27 @@ class Header extends Component {
 						</a>
 					)}
 					{
+						<a className={"header-button" + this.isActive("accounts")} onClick={() => changePage("accounts")}>
+							Social Profiles
+						</a>
+					}
+					{
 						<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
 							Strategy
 						</a>
 					}
+
 					{
 						<a className={"header-button" + this.isActive("content")} onClick={() => changePage("content")}>
 							Content
 						</a>
 					}
+
 					{(user.role === "demo" || isAdmin) && (
 						<a className={"header-button" + this.isActive("subscribe")} onClick={() => changePage("subscribe")}>
 							Become Awesome
 						</a>
 					)}
-
-					<button className="big-round-button" onClick={() => this.openAccountSideBar()}>
-						Connect Accounts!
-					</button>
 
 					{(user.role === "manager" || isAdmin) && (
 						<button className="big-round-button" onClick={() => this.openClientSideBar()}>

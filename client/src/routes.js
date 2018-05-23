@@ -7,12 +7,13 @@ import { changePage, setUser, updateAccounts } from "./actions/";
 
 import LoginPage from "./pages/LoginPage/";
 import Content from "./pages/ContentPage/";
+import Analytics from "./pages/AnalyticsPage/";
+import Accounts from "./pages/AccountsPage/";
 import Profile from "./pages/ProfilePage/";
 import Strategy from "./pages/StrategyPage/";
 import Manage from "./pages/ManagePage/";
 import Plans from "./pages/PlansPage/";
 import Header from "./components/Header/";
-import ConnectAccountsSideBar from "./components/SideBarAccounts/";
 import ClientsSideBar from "./components/SideBarClients/";
 import "./css/theme.css";
 
@@ -22,29 +23,30 @@ class Routes extends Component {
 		axios.get("/api/user").then(res => {
 			if (res.data.success) {
 				props.setUser(res.data.user);
-				props.changePage("content");
 				// Get all connected accounts of the user
 				axios.get("/api/accounts").then(res => {
 					// Set user's accounts to state
 					this.setState({ accounts: res.data });
 					this.props.updateAccounts(res.data);
+					props.changePage("accounts");
 				});
 			}
 		});
 	}
 	render() {
-		const { activePage, accountSideBar, clientSideBar } = this.props;
+		const { activePage, clientSideBar } = this.props;
 
 		return (
 			<div>
 				{activePage !== "" && <Header />}
-				{accountSideBar && <ConnectAccountsSideBar />}
 				{clientSideBar && <ClientsSideBar />}
 
 				{activePage === "" && <LoginPage />}
 				{activePage === "content" && <Content />}
-				{activePage === "profile" && <Profile />}
+				{activePage === "analytics" && <Analytics />}
+				{activePage === "accounts" && <Accounts />}
 				{activePage === "strategy" && <Strategy />}
+				{activePage === "profile" && <Profile />}
 				{activePage === "manage" && <Manage />}
 				{activePage === "subscribe" && <Plans />}
 			</div>

@@ -28,15 +28,6 @@ function clientSideBar(state = false, action) {
 	}
 }
 
-function accountSideBar(state = false, action) {
-	switch (action.type) {
-		case "ACCOUNT_SIDE_BAR":
-			return action.payload;
-		default:
-			return state;
-	}
-}
-
 function accounts(state = [], action) {
 	switch (action.type) {
 		case "SOCIAL_ACCOUNTS":
@@ -51,7 +42,6 @@ const rootReducer = combineReducers({
 	account: accountReducer,
 	activePage: activePage,
 	clientSideBar: clientSideBar,
-	accountSideBar: accountSideBar,
 	accounts: accounts
 });
 
