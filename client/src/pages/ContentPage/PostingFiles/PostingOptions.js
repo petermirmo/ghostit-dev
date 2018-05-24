@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
-import DatePicker from "../Divs/DatePicker.js";
-import TimePicker from "../Divs/TimePicker.js";
+import DatePicker from "../Divs/DatePicker";
+import TimePicker from "../Divs/TimePicker";
 import SelectAccountDiv from "../Divs/SelectAccountDiv/";
 import Carousel from "../Divs/Carousel";
 import ImagesDiv from "../Divs/ImagesDiv/";

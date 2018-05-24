@@ -33,7 +33,7 @@ class Routes extends Component {
 					// Set user's accounts to state
 					this.setState({ accounts: res.data });
 					this.props.updateAccounts(res.data);
-					props.changePage("content");
+					props.changePage("writersBrief");
 				});
 			}
 		});

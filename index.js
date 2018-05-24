@@ -3,7 +3,6 @@ const app = express();
 const mongoose = require("mongoose");
 const passport = require("passport");
 const keys = require("./config/keys");
-const flash = require("connect-flash");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const session = require("express-session");
@@ -63,7 +62,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
 // Force https
 app.use(secure);
