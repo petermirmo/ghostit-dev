@@ -1,19 +1,21 @@
 const Post = require("../models/Post");
 
-var facebook = require("./facebook");
-var twitter = require("./twitter");
-var linkedin = require("./linkedin");
+let facebook = require("./facebook");
+let twitter = require("./twitter");
+let linkedin = require("./linkedin");
 module.exports = {
 	main: function() {
-		return;
 		Post.find({ status: "pending" }).then(result => {
-			return;
-			var postArray = result;
-			var currentDate = new Date();
-			//console.log(new Date("2018-04-19T13:51:00-07:00"));
-			for (var index in postArray) {
-				var post = postArray[index];
-				var postingDate = new Date(post.postingDate);
+			let postArray = result;
+			let currentDate = new Date();
+			for (let index in postArray) {
+				let post = postArray[index];
+				post.status = "working";
+				post.save();
+			}
+			for (let index in postArray) {
+				let post = postArray[index];
+				let postingDate = new Date(post.postingDate);
 				if (postingDate < currentDate) {
 					// Needs to post
 					if (post.socialType === "facebook") {

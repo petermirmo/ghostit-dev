@@ -32,7 +32,7 @@ const TokenScheduler = require("./scheduler/TokenScheduler");
 const schedule = require("node-schedule");
 
 if (process.env.NODE_ENV === "production") {
-	schedule.scheduleJob("* * * * *", function() {
+	schedule.scheduleJob("*/2 * * * *", function() {
 		PostScheduler.main();
 	});
 	schedule.scheduleJob("0 0 1 * *", function() {

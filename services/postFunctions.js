@@ -4,6 +4,7 @@ const fs = require("fs");
 
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Account = require("../models/Account");
 const cloudinary = require("cloudinary");
 
 module.exports = {
