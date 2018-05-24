@@ -6,15 +6,20 @@ import { bindActionCreators } from "redux";
 import { changePage, setUser, updateAccounts } from "./redux/actions/";
 
 import LoginPage from "./pages/LoginPage/";
-import Content from "./pages/ContentPage/";
-import Analytics from "./pages/AnalyticsPage/";
-import Accounts from "./pages/AccountsPage/";
-import Profile from "./pages/ProfilePage/";
-import Strategy from "./pages/StrategyPage/";
-import Manage from "./pages/ManagePage/";
-import Plans from "./pages/PlansPage/";
+
 import Header from "./components/Navigations/Header/";
 import ClientsSideBar from "./components/SideBarClients/";
+
+import Plans from "./pages/PlansPage/";
+import Content from "./pages/ContentPage/";
+import Strategy from "./pages/StrategyPage/";
+import Accounts from "./pages/AccountsPage/";
+import Manage from "./pages/ManagePage/";
+import Profile from "./pages/ProfilePage/";
+
+import Analytics from "./pages/AnalyticsPage/";
+import WritersBrief from "./pages/WritersBriefPage/";
+
 import "./css/theme.css";
 
 class Routes extends Component {
@@ -28,7 +33,7 @@ class Routes extends Component {
 					// Set user's accounts to state
 					this.setState({ accounts: res.data });
 					this.props.updateAccounts(res.data);
-					props.changePage("content");
+					props.changePage("writersBrief");
 				});
 			}
 		});
@@ -42,13 +47,14 @@ class Routes extends Component {
 				{clientSideBar && <ClientsSideBar />}
 
 				{activePage === "" && <LoginPage />}
+				{activePage === "subscribe" && <Plans />}
 				{activePage === "content" && <Content />}
+				{activePage === "strategy" && <Strategy />}
 				{activePage === "analytics" && <Analytics />}
 				{activePage === "accounts" && <Accounts />}
-				{activePage === "strategy" && <Strategy />}
-				{activePage === "profile" && <Profile />}
+				{activePage === "writersBrief" && <WritersBrief />}
 				{activePage === "manage" && <Manage />}
-				{activePage === "subscribe" && <Plans />}
+				{activePage === "profile" && <Profile />}
 			</div>
 		);
 	}

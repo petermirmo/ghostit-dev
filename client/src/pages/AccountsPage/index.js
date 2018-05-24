@@ -62,7 +62,7 @@ class AccountsPage extends Component {
 				pageOrGroup = [];
 			}
 
-			if (pageOrGroup === []) {
+			if (pageOrGroup.length === 0) {
 				errorMessage = "No Facebook pages found";
 			} else {
 				errorMessage = "Please connect your Facebook profile first.";
@@ -92,7 +92,7 @@ class AccountsPage extends Component {
 				pageOrGroup = [];
 			}
 
-			if (pageOrGroup === []) {
+			if (pageOrGroup.length === 0) {
 				message = "No Facebook pages found";
 			} else {
 				message = "Please connect your Facebook profile first.";
@@ -120,7 +120,7 @@ class AccountsPage extends Component {
 				pageOrGroup = [];
 			}
 
-			if (pageOrGroup === []) {
+			if (pageOrGroup.length === 0) {
 				message = "No Linkedin pages found";
 			} else {
 				message = "Please connect your Linkedin profile first.";
@@ -172,11 +172,20 @@ class AccountsPage extends Component {
 		this.setState({ addPageOrGroupModal: false });
 	};
 	render() {
-		const { accounts, pageOrGroup, errorMessage, addPageOrGroupModal, deleteAccount } = this.state;
+		const {
+			accounts,
+			addPageOrGroupModal,
+			deleteAccount,
+			errorMessage,
+			pageOrGroup,
+			socialType,
+			accountType
+		} = this.state;
 
 		let connectedFacebookAccountDivs = [];
 		let connectedTwitterAccountDivs = [];
 		let connectedLinkedinAccountDivs = [];
+
 		for (let index in accounts) {
 			let account = accounts[index];
 			switch (account.socialType) {
@@ -249,10 +258,10 @@ class AccountsPage extends Component {
 				{addPageOrGroupModal && (
 					<AddPageOrGroupModal
 						getUserAccounts={this.getUserAccounts}
-						pageOrGroup={this.state.pageOrGroup}
-						accountType={this.state.accountType}
-						socialType={this.state.socialType}
-						errorMessage={this.state.errorMessage}
+						pageOrGroup={pageOrGroup}
+						accountType={accountType}
+						socialType={socialType}
+						errorMessage={errorMessage}
 						close={this.close}
 					/>
 				)}

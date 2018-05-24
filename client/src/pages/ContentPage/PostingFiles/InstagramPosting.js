@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment";
-import axios from "axios";
+//import axios from "axios";
 
-import ImagesDiv from "../Divs/ImagesDiv/";
+//import ImagesDiv from "../Divs/ImagesDiv/";
 import "font-awesome/css/font-awesome.min.css";
 
 import "./style.css";
@@ -58,7 +58,7 @@ class InstagramPosting extends Component {
 		this.setState({ deleteImagesArray: temp });
 	};
 	render() {
-		const {
+		/*	const {
 			id,
 			contentValue,
 			time,
@@ -69,7 +69,7 @@ class InstagramPosting extends Component {
 			deleteImagesArray,
 			timezone
 		} = this.state;
-		const { postFinishedSavingCallback, setSaving, accounts, canEditPost } = this.props;
+		const { postFinishedSavingCallback, setSaving, accounts, canEditPost } = this.props;*/
 
 		return (
 			<div>

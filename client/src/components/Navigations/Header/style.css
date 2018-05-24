@@ -64,7 +64,7 @@ header {
 	border-bottom: 2px solid var(--white-theme-color);
 }
 .header-icon.header-active {
-	transform: scale(1.6);
+	transform: scale(1.4);
 }
 .header-button:hover {
 	font-weight: bold;
