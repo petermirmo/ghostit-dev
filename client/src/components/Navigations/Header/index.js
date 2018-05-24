@@ -75,11 +75,12 @@ class Header extends Component {
 						<a className={"header-button" + this.isActive("accounts")} onClick={() => changePage("accounts")}>
 							Social Profiles
 						</a>
-
-						<button
-							className={"header-icon fa fa-edit" + this.isActive("writersBrief")}
-							onClick={() => changePage("writersBrief")}
-						/>
+						{false && (
+							<button
+								className={"header-icon fa fa-edit" + this.isActive("writersBrief")}
+								onClick={() => changePage("writersBrief")}
+							/>
+						)}
 						{isAdmin && (
 							<button
 								className={"header-icon fa fa-cogs" + this.isActive("manage")}
