@@ -5,8 +5,7 @@ import "./style.css";
 class Carousel extends Component {
 	state = {
 		linkImagesArray: this.props.linkImagesArray ? this.props.linkImagesArray : [],
-		activeImageIndex: 0,
-		linkImage: this.props.linkImage
+		activeImageIndex: 0
 	};
 
 	componentDidMount() {
@@ -17,13 +16,7 @@ class Carousel extends Component {
 		}
 	}
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.linkImage) {
-			let temp = nextProps.linkImagesArray;
-			temp.unshift(nextProps.linkImage);
-			this.setState({ linkImagesArray: temp });
-		} else {
-			this.setState({ linkImagesArray: nextProps.linkImagesArray });
-		}
+		this.setState({ linkImagesArray: nextProps.linkImagesArray });
 	}
 	changeImage = increment => {
 		let { activeImageIndex, linkImagesArray } = this.state;
@@ -37,10 +30,7 @@ class Carousel extends Component {
 		this.setState({ activeImageIndex: activeImageIndex });
 	};
 	render() {
-		const { linkPreviewCanEdit } = this.props;
-		const { linkImagesArray, activeImageIndex } = this.state;
-		let imageLink = linkImagesArray[activeImageIndex];
-
+		const { linkPreviewCanEdit, linkImage } = this.props;
 		return (
 			<div className="carousel-container">
 				<div className="carousel">
@@ -48,7 +38,7 @@ class Carousel extends Component {
 						{linkPreviewCanEdit && (
 							<button className="carousel-previous-button fa fa-arrow-left" onClick={() => this.changeImage(-1)} />
 						)}
-						<img alt=" No images at this url!" src={imageLink} className="carousel-image" />
+						<img alt=" No images at this url!" src={linkImage} className="carousel-image" />
 						{linkPreviewCanEdit && (
 							<button className="carousel-next-button fa fa-arrow-right" onClick={() => this.changeImage(1)} />
 						)}
