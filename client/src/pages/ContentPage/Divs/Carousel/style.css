@@ -12,6 +12,9 @@
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 	-o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 	white-space: nowrap;
+	height: 150px;
+	width: 200px;
+	position: relative;
 }
 .carousel-image {
 	max-width: 200px;
@@ -20,8 +23,12 @@
 .carousel-previous-button,
 .carousel-next-button {
 	background-color: var(--blue-theme-color);
+	position: absolute;
+	bottom: 0;
 }
 .carousel-next-button {
+	right: 0;
 }
 .carousel-previous-button {
+	left: 0;
 }
