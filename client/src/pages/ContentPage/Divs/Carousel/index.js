@@ -1,58 +1,61 @@
 import React, { Component } from "react";
-import OwlCarousel from "react-owl-carousel";
 
 import "./style.css";
 
 class Carousel extends Component {
-	imageDiv(link, index) {
+	state = {
+		linkImagesArray: this.props.linkImagesArray ? this.props.linkImagesArray : [],
+		activeImageIndex: 0,
+		linkImage: this.props.linkImage
+	};
+
+	componentDidMount() {
+		if (this.props.linkImage) {
+			let temp = this.props.linkImagesArray;
+			temp.unshift(this.props.linkImage);
+			this.setState({ linkImagesArray: temp });
+		}
+	}
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.linkImage) {
+			let temp = nextProps.linkImagesArray;
+			temp.unshift(nextProps.linkImage);
+			this.setState({ linkImagesArray: temp });
+		} else {
+			this.setState({ linkImagesArray: nextProps.linkImagesArray });
+		}
+	}
+	changeImage = increment => {
+		let { activeImageIndex, linkImagesArray } = this.state;
+		activeImageIndex += increment;
+		if (activeImageIndex >= linkImagesArray.length) {
+			activeImageIndex = 0;
+		} else if (activeImageIndex <= 0) {
+			activeImageIndex = linkImagesArray.length - 1;
+		}
+		this.props.handleChange("linkImage", linkImagesArray[activeImageIndex]);
+		this.setState({ activeImageIndex: activeImageIndex });
+	};
+	render() {
+		const { linkPreviewCanEdit } = this.props;
+		const { linkImagesArray, activeImageIndex } = this.state;
+		let imageLink = linkImagesArray[activeImageIndex];
+
 		return (
-			<div className="carousel-image-container item" key={index}>
-				<img alt=" No images at this url!" className="carousel-image" src={link} />
+			<div className="carousel-container">
+				<div className="carousel">
+					<div className="carousel-image-container">
+						{linkPreviewCanEdit && (
+							<button className="carousel-previous-button fa fa-arrow-left" onClick={() => this.changeImage(-1)} />
+						)}
+						<img alt=" No images at this url!" src={imageLink} className="carousel-image" />
+						{linkPreviewCanEdit && (
+							<button className="carousel-next-button fa fa-arrow-right" onClick={() => this.changeImage(1)} />
+						)}
+					</div>
+				</div>
 			</div>
 		);
-	}
-	render() {
-		const { linkImagesArray, id, linkPreviewCanEdit, linkImage } = this.props;
-
-		let linkPreviewImageTag = [];
-		let carousel;
-
-		if (linkImage) {
-			linkPreviewImageTag.push(this.imageDiv(linkImage, -1));
-		}
-
-		for (let index = 0; index < linkImagesArray.length; index++) {
-			linkPreviewImageTag.push(this.imageDiv(linkImagesArray[index], index));
-		}
-
-		if (linkPreviewCanEdit === true) {
-			carousel = (
-				<OwlCarousel id={id} items={1} className="carousel owl-theme" center={true} loop margin={10} nav>
-					{linkPreviewImageTag}
-				</OwlCarousel>
-			);
-		} else {
-			carousel = (
-				<OwlCarousel
-					id={id}
-					items={1}
-					className="carousel owl-theme"
-					center={true}
-					loop
-					margin={10}
-					nav={false}
-					dots={false}
-					mouseDrag={false}
-					touchDrag={false}
-					pullDrag={false}
-					freeDrag={false}
-				>
-					{linkPreviewImageTag}
-				</OwlCarousel>
-			);
-		}
-
-		return <div>{carousel}</div>;
 	}
 }
 

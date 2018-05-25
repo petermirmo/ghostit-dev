@@ -23,6 +23,7 @@ export async function savePost(
 	content,
 	dateToPostInUtcTime,
 	link,
+	linkImage,
 	postImages,
 	accountIdToPostTo,
 	socialType,
@@ -44,12 +45,8 @@ export async function savePost(
 
 	// If link previews are allowed get src of active image from carousel
 	let linkPreviewImage = "";
-	if (link && document.getElementById("linkCarousel")) {
-		// Get active image from carousel
-		if (document.getElementsByClassName("owl-item active center")[0].children[0]) {
-			if (document.getElementsByClassName("owl-item active center")[0].children[0].children[0])
-				linkPreviewImage = document.getElementsByClassName("owl-item active center")[0].children[0].children[0].src;
-		}
+	if (linkImage) {
+		linkPreviewImage = linkImage;
 	}
 
 	// Everything seems okay, save post to database!

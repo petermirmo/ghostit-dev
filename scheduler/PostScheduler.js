@@ -8,11 +8,16 @@ module.exports = {
 		Post.find({ status: "pending" }).then(result => {
 			let postArray = result;
 			let currentDate = new Date();
+
 			for (let index in postArray) {
 				let post = postArray[index];
-				post.status = "working";
-				post.save();
+				let postingDate = new Date(post.postingDate);
+				if (postingDate < currentDate) {
+					post.status = "working";
+					post.save();
+				}
 			}
+
 			for (let index in postArray) {
 				let post = postArray[index];
 				let postingDate = new Date(post.postingDate);

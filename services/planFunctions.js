@@ -40,8 +40,10 @@ module.exports = {
 	signUpToPlan: async function(req, res) {
 		let sixMonthCommitment = req.body.plan.checkbox;
 		let currency = "usd";
+		let tax = 0;
 		if (req.body.stripeToken.card.country === "CA") {
 			currency = "cad";
+			tax = 5.0;
 		}
 		let userID = req.user._id;
 		let user = req.user;
@@ -50,7 +52,7 @@ module.exports = {
 				userID = req.user.signedInAsUser.id;
 				await User.findOne({ _id: userID }, function(err, signedInAsUser) {
 					if (err) {
-						sendError(res, "Please reload the page and try again!");
+						sendError(res, "Please reload the page and try again!", err);
 						return;
 					} else if (signedInAsUser) {
 						user = signedInAsUser;
@@ -107,12 +109,12 @@ module.exports = {
 
 		Plan.findOne(findPlan, function(err, plan) {
 			if (err) {
-				sendError(res, "Please reload the page and try again!");
+				sendError(res, "Please reload the page and try again!", err);
 				return;
 			} else if (plan) {
 				// If plan is found simply sign up user to plan
 				if (plan.stripePlanID) {
-					signUpUserToPlan(stripe, req.body.stripeToken, plan, res, req, sixMonthCommitment, user);
+					signUpUserToPlan(stripe, req.body.stripeToken, plan, res, req, sixMonthCommitment, user, tax);
 				} else {
 					stripe.plans.create(
 						{
@@ -124,7 +126,7 @@ module.exports = {
 						},
 						function(err, stripePlan) {
 							if (err) {
-								sendError(res, "Please reload the page and try again!");
+								sendError(res, "Please reload the page and try again!", err);
 								return;
 							} else {
 								// Create customer in stripe
@@ -138,7 +140,8 @@ module.exports = {
 										res,
 										req,
 										sixMonthCommitment,
-										user
+										user,
+										tax
 									);
 								});
 							}
@@ -159,7 +162,7 @@ module.exports = {
 						},
 						function(err, stripePlan) {
 							if (err) {
-								sendError(res, "Please reload the page and try again!");
+								sendError(res, "Please reload the page and try again!", err);
 								return;
 							} else {
 								// Create customer in stripe
@@ -172,7 +175,8 @@ module.exports = {
 										res,
 										req,
 										sixMonthCommitment,
-										user
+										user,
+										tax
 									);
 								});
 							}
@@ -188,12 +192,13 @@ function handleError(res, errorMessage) {
 	res.send(false);
 	return;
 }
-function sendError(res, errorMessage) {
+function sendError(res, errorMessage, err) {
+	console.log(err);
 	console.log(errorMessage);
 	res.send({ success: false, message: errorMessage });
 	return;
 }
-function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCommitment, userForPlan) {
+function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCommitment, userForPlan, tax) {
 	// First create customer in stripe
 	stripe.customers.create(
 		{
@@ -202,7 +207,7 @@ function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCom
 		},
 		function(err, customer) {
 			if (err) {
-				sendError(res, "Please reload the page and try again!");
+				sendError(res, "Please reload the page and try again!", err);
 				return;
 			} else {
 				let userID = userForPlan._id;
@@ -210,7 +215,7 @@ function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCom
 				// After user is created in stripe we want to save that ID to our platform user
 				User.findOne({ _id: userID }, function(err, user) {
 					if (err) {
-						sendError(res, "Please reload the page and try again!");
+						sendError(res, "Please reload the page and try again!", err);
 						return;
 					} else {
 						user.plan = { id: stripePlan._id, name: stripePlan.name };
@@ -225,11 +230,12 @@ function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCom
 										{
 											plan: String(stripePlan._id)
 										}
-									]
+									],
+									tax_percent: tax
 								},
 								function(err, subscription) {
 									if (err) {
-										sendError(res, "Please contact our development team!");
+										sendError(res, "Please contact our development team!", err);
 										return;
 									} else {
 										savedUserWithStripeCustomerID.stripeSubscriptionID = subscription.id;
@@ -245,7 +251,7 @@ function signUpUserToPlan(stripe, stripeToken, stripePlan, res, req, sixMonthCom
 													},
 													function(err, charge) {
 														if (err) {
-															sendError(res, "Please contact our development team!");
+															sendError(res, "Please contact our development team!", err);
 															return;
 														} else {
 															res.send({ success: true, message: "Success!", user: savedUserWithStripeCustomerID });

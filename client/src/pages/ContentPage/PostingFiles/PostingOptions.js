@@ -169,10 +169,10 @@ class PostingOptions extends Component {
 				{linkPreviewCanShow &&
 					link && (
 						<Carousel
-							id="linkCarousel"
 							linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
 							linkImagesArray={linkImagesArray}
 							linkImage={linkImage}
+							handleChange={this.handleChange}
 						/>
 					)}
 				<DatePicker clickedCalendarDate={date} callback={this.handleChange} canEdit={canEditPost} />
@@ -196,6 +196,7 @@ class PostingOptions extends Component {
 									contentValue,
 									dateToPostInUtcTime,
 									link,
+									linkImage,
 									postImages,
 									postingToAccountId,
 									socialType,
