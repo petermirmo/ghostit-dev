@@ -48,7 +48,8 @@ class StrategyForm extends Component {
 			value: ""
 		},
 		competitors: [],
-		saving: false
+		saving: false,
+		saveButtonOpacity: 0.4
 	};
 	constructor(props) {
 		super(props);
@@ -84,6 +85,7 @@ class StrategyForm extends Component {
 	};
 
 	handleFormChange = event => {
+		this.setState({ saveButtonOpacity: 1 });
 		if (Number.isInteger(Number(event.target.id))) {
 			let temp = this.state.competitors;
 			temp[event.target.id] = event.target.value;
@@ -116,7 +118,7 @@ class StrategyForm extends Component {
 		}
 		axios.post("/api/strategy", strategy).then(res => {
 			if (res.data) {
-				this.setState({ saving: false });
+				this.setState({ saving: false, saveButtonOpacity: 0.4 });
 			} else {
 				this.setState({ saving: false });
 				alert("Something went wrong! Contact your local Dev Ninja! :D");
@@ -132,7 +134,7 @@ class StrategyForm extends Component {
 	};
 
 	render() {
-		const { competitors } = this.state;
+		const { competitors, saveButtonOpacity } = this.state;
 
 		let formFields = [];
 		for (let i in strategyFormFields) {
@@ -175,7 +177,8 @@ class StrategyForm extends Component {
 						this.setState({ saving: true });
 						this.saveStrategy(event);
 					}}
-					className="big-purple-submit-button center"
+					className="big-purple-submit-button"
+					style={{ opacity: saveButtonOpacity }}
 				>
 					Save Strategy!
 				</button>
