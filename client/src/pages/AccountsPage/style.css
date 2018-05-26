@@ -36,8 +36,8 @@
 	display: inline-block !important;
 	color: var(--white-theme-color);
 	text-align: center;
-	width: 20%;
 	min-width: 50px;
+	max-width: 50px;
 
 	border-radius: 50%;
 	padding: 10px 0 10px 0;
