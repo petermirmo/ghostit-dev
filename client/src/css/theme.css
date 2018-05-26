@@ -120,10 +120,9 @@
 .close-dark {
 	color: var(--red-theme-color);
 	position: fixed;
-	top: 40px;
+	top: 60px;
 	right: 30px;
 	font-size: 30pt;
-	z-index: 20000;
 }
 .close-dark:hover {
 	text-decoration: none;
