@@ -61,9 +61,7 @@ class PostEdittingModal extends Component {
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-header">
-						<span className="close-dark" onClick={() => close()}>
-							&times;
-						</span>
+						<span className="close-dark fa fa-times" onClick={() => close()} />
 					</div>
 					<div className="modal-body">
 						<PostingOptions

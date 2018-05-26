@@ -88,9 +88,7 @@ class ContentModal extends Component {
 		return (
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
-					<span className="close-dark" onClick={() => close("contentModal")}>
-						&times;
-					</span>
+					<span className="close-dark fa fa-times fa-10x" onClick={() => close("contentModal")} />
 					<div className="modal-header">
 						<ContentModalHeader
 							categories={this.state.categories}

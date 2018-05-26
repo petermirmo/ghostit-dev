@@ -109,8 +109,7 @@
 	}
 }
 
-.close,
-.close-dark {
+.close {
 	color: var(--white-theme-color);
 	float: right;
 	font-size: 28px;
@@ -119,11 +118,19 @@
 	margin-right: 10px;
 }
 .close-dark {
-	color: var(--black-theme-color);
+	color: var(--red-theme-color);
+	position: fixed;
+	top: 40px;
+	right: 30px;
+	font-size: 30pt;
+	z-index: 20000;
 }
-.close-dark:hover,
+.close-dark:hover {
+	text-decoration: none;
+	cursor: pointer;
+	color: var(--blue-theme-color);
+}
 .close-dark:focus {
-	color: #000;
 	text-decoration: none;
 	cursor: pointer;
 	color: var(--blue-theme-color);

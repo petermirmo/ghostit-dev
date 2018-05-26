@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Textarea from "react-textarea-autosize";
 import axios from "axios";
 
 import CompetitorsTab from "../../components/Onboarding/OnboardingTabs/Competitors/";
@@ -14,43 +15,37 @@ class StrategyForm extends Component {
 			placeholder: "Example",
 			className: "input-textarea",
 			title: "Onboarding Questionnaire",
-			value: "",
-			rows: "1"
+			value: ""
 		},
 		audience: {
 			placeholder: "Example:",
 			className: "input-textarea",
 			title: "Audience",
-			value: "",
-			rows: "6"
+			value: ""
 		},
 		styleAndStructure: {
 			placeholder: "Example",
 			className: "input-textarea",
 			title: "Style and Structure:",
-			value: "",
-			rows: "6"
+			value: ""
 		},
 		brandVoice: {
 			placeholder: "Example",
 			className: "input-textarea",
 			title: "Brand voice:",
-			value: "",
-			rows: "6"
+			value: ""
 		},
 		content: {
 			placeholder: "Example",
 			className: "input-textarea",
 			title: "Content",
-			value: "",
-			rows: "6"
+			value: ""
 		},
 		notes: {
 			placeholder: "Example",
 			className: "input-textarea",
 			title: "Notes",
-			value: "",
-			rows: "6"
+			value: ""
 		},
 		competitors: [],
 		saving: false
@@ -79,8 +74,7 @@ class StrategyForm extends Component {
 								placeholder: this.state[index].placeholder,
 								className: this.state[index].className,
 								title: this.state[index].title,
-								value: strategy[index],
-								rows: this.state[index].rows
+								value: strategy[index]
 							}
 						});
 					}
@@ -102,8 +96,7 @@ class StrategyForm extends Component {
 					placeholder: this.state[event.target.id].placeholder,
 					className: this.state[event.target.id].className,
 					title: this.state[event.target.id].title,
-					value: event.target.value,
-					rows: this.state[event.target.id].rows
+					value: event.target.value
 				}
 			});
 		}
@@ -133,6 +126,10 @@ class StrategyForm extends Component {
 	updateCompetitors = competitors => {
 		this.setState({ competitors: competitors });
 	};
+	updateTextAreaHeight = event => {
+		event.style.height = "1px";
+		event.style.height = 25 + event.scrollHeight + "px";
+	};
 
 	render() {
 		const { competitors } = this.state;
@@ -146,14 +143,13 @@ class StrategyForm extends Component {
 						<h3 className="form-title">{this.state[index].title}</h3>
 						<br />
 						<div className="input-container center">
-							<textarea
+							<Textarea
 								id={index}
 								type="text"
 								placeholder={this.state[index].placeholder}
 								className={this.state[index].className}
 								value={this.state[index].value}
 								onChange={this.handleFormChange}
-								rows={this.state[index].rows}
 							/>
 						</div>
 					</div>
@@ -179,7 +175,7 @@ class StrategyForm extends Component {
 						this.setState({ saving: true });
 						this.saveStrategy(event);
 					}}
-					className="big-purple-submit-button"
+					className="big-purple-submit-button center"
 				>
 					Save Strategy!
 				</button>

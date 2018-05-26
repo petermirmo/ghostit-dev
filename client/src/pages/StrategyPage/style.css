@@ -1,80 +1,72 @@
-.left-column {
-	width: 49.5%;
+.full-form {
+	padding-bottom: 50px;
+}
+.form-title {
+	margin: 10px 0 0 2.5%;
+	border-bottom: 2px solid var(--pink-theme-color);
 	float: left;
 }
-.right-column {
-	width: 49.5%;
-	float: right;
+
+.input-container {
+	margin-top: 20px;
+	width: 95%;
+	background-color: var(--light-blue-theme-color);
 }
 
 .input-textarea {
-	outline: none;
-	border-radius: 4px;
-	border: none;
 	font-size: var(--regular-font-size);
-
 	box-sizing: border-box;
+
+	width: fill;
+	min-height: 100px;
+
+	margin: 7px 7px 4px 7px;
+	padding: 5px;
+	border-radius: 2px;
+
+	outline: none;
+	border: 1px solid var(--light-blue-theme-color);
+
 	resize: none;
-	margin: 10px 10px 10px 10px;
-	width: 98.1%;
+}
+.input-textarea:focus {
+	border: 1px solid var(--blue-theme-color);
 }
 .strategy-input-theme {
-	border: none;
-	border-radius: 4px;
-	box-sizing: border-box;
+	font-size: var(--regular-font-size);
+	width: 30%;
+	float: left;
+
 	margin: 10px 0 10px 10px;
 	padding: 4px;
-	font-size: var(--regular-font-size);
-	float: left;
-	width: 30%;
-	border: 2px solid var(--grey-theme-color);
+
+	border: 1px solid var(--light-blue-theme-color);
 }
 .strategy-input-theme:focus {
-	border-color: var(--blue-theme-color);
-}
-.full-width {
-	width: 99%;
-}
-.input-title {
-	padding: 0;
-	text-align: left;
-	margin: 0 0 0 5px;
-}
-.form-title {
-	margin: 10px 0 0 35px;
-	border-bottom: 2px solid var(--pink-theme-color);
-	display: inline-block;
-	float: left;
-}
-.input-container {
-	border-radius: 4px;
-	margin-top: 20px;
-	width: 95%;
-	border: 2px solid #b3e6ff;
-	background-color: var(--light-blue-theme-color);
-	box-sizing: border-box;
-	overflow: auto;
-}
-.full-form {
-	height: 100%;
-}
-.icon-container {
-	width: 100%;
-	display: inline-block;
+	border: 1px solid var(--blue-theme-color);
 }
 .big-purple-submit-button {
-	margin: 20px 0 20px 35px;
-	padding: 15px;
-	font-size: var(--extra-large-font-size);
-	border-radius: 60px;
-	width: 30%;
-	background-color: var(--pink-theme-color);
 	color: var(--white-theme-color);
 	font-weight: bold;
+	font-size: var(--extra-large-font-size);
+	background-color: var(--pink-theme-color);
+	opacity: 0.4;
+
+	padding: 10px;
+	border-radius: 4px;
+
+	position: fixed;
+
+	bottom: 20px;
+	width: 20%;
+	left: 40%;
+
+	z-index: 100;
 
 	transition: all 1s ease;
 	-webkit-transition: all 1s ease;
 }
 .big-purple-submit-button:hover {
-	transform: scale(1.2);
+	transform: scale(1.1);
+	opacity: 1;
 }

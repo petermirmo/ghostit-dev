@@ -1,15 +1,15 @@
 .posting-form {
 }
 .content-header {
-	background-color: var(--white-theme-color);
+	background-color: var(--blue-theme-color);
 }
 .account-tab {
 	width: 15%;
 	display: inline-block;
 	margin: 10px 0 0 20px;
-	border-radius: 50px;
 	background-color: var(--blue-theme-color);
 	color: var(--white-theme-color);
+	border-radius: 4px 4px 0 0;
 }
 .account-tab button {
 	padding: 15px 0 15px 0;
@@ -27,7 +27,7 @@
 	width: 100%;
 	max-width: 100%;
 
-	border-radius: 5px;
+	border-radius: 4px;
 	margin: 10px 0 10px 0;
 	background: transparent;
 	overflow: auto;
@@ -41,7 +41,7 @@
 	min-width: 30%;
 	padding: 10px 0 10px 0;
 	margin: 20px 0 10px 0;
-	border-radius: 50px;
+	border-radius: 4px;
 	transition: all 1s ease;
 
 	position: sticky;

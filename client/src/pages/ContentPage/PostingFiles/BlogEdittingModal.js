@@ -49,6 +49,18 @@ class BlogEdittingModal extends Component {
 		}
 		return (
 			<div id="BlogEdittingModal" className="modal">
+				<div className="modal-content" style={{ textAlign: "center" }}>
+					<div className="modal-header">
+						<span className="close-dark fa fa-times" onClick={() => this.props.close("blogEdittingModal")} />
+					</div>
+					<div className="modal-body">
+						<CreateBlog blog={this.props.clickedCalendarEvent} updateCalendarBlogs={this.props.updateCalendarBlogs} />
+					</div>
+
+					<div className="modal-footer">
+						<button onClick={this.deleteBlogPopUp} className="fa fa-trash fa-2x delete" />
+					</div>
+				</div>
 				{this.state.notification.on && (
 					<Notification
 						notificationType={this.state.notification.notificationType}
@@ -64,20 +76,6 @@ class BlogEdittingModal extends Component {
 						callback={this.deleteBlog}
 					/>
 				)}
-				<div className="modal-content" style={{ textAlign: "center" }}>
-					<div className="modal-header">
-						<span className="close-dark" onClick={() => this.props.close("blogEdittingModal")}>
-							&times;
-						</span>
-					</div>
-					<div className="modal-body">
-						<CreateBlog blog={this.props.clickedCalendarEvent} updateCalendarBlogs={this.props.updateCalendarBlogs} />
-					</div>
-
-					<div className="modal-footer">
-						<button onClick={this.deleteBlogPopUp} className="fa fa-trash fa-2x delete" />
-					</div>
-				</div>
 			</div>
 		);
 	}
