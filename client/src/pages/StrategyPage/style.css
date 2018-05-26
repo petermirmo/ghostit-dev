@@ -68,5 +68,5 @@
 }
 .big-purple-submit-button:hover {
 	transform: scale(1.1);
-	opacity: 1;
+	opacity: 1 !important;
 }
