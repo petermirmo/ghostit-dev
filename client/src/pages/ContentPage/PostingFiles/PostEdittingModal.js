@@ -30,6 +30,7 @@ class PostEdittingModal extends Component {
 			axios.delete("/api/post/delete/" + this.props.clickedCalendarEvent._id).then(res => {
 				if (res.data) {
 					this.props.savePostCallback();
+					this.props.close();
 				} else {
 					this.setState({
 						notification: { on: true, notificationType: "danger", title: "Something went wrong", message: "" }
