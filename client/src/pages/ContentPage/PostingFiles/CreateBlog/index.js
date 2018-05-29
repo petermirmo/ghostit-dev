@@ -197,14 +197,12 @@ class CreateBlogComponent extends Component {
 						onChange={event => this.handleBlogFormChange(event.target.value, "resources")}
 						form="createBlogForm"
 						placeholder="Resources"
-						rows={2}
 					/>
 					<textarea
 						value={blog.about}
 						onChange={event => this.handleBlogFormChange(event.target.value, "about")}
 						form="createBlogForm"
 						placeholder="About(notes)"
-						rows={2}
 					/>
 
 					<ImagesDiv

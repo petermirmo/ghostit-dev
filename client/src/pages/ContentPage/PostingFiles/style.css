@@ -26,11 +26,17 @@
 	float: left;
 	width: stretch;
 	max-width: 100%;
+	min-height: 100px;
 
+	border: 1px solid var(--grey-theme-color);
 	border-radius: 4px;
 	margin: 10px 10px 10px 0;
 	background: transparent;
 	overflow: auto;
+	resize: none;
+}
+.posting-textarea:focus {
+	border: 1px solid var(--blue-theme-color);
 }
 .save-post-button-background {
 	width: 100%;

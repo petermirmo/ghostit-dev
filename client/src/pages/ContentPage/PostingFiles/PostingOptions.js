@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import Textarea from "react-textarea-autosize";
 import axios from "axios";
 
 import DatePicker from "../Divs/DatePicker";
@@ -140,9 +141,8 @@ class PostingOptions extends Component {
 
 		return (
 			<div className="posting-form">
-				<textarea
+				<Textarea
 					className="posting-textarea"
-					rows={5}
 					placeholder="Success doesn't write itself!"
 					onChange={event => {
 						this.findLink(event.target.value);
