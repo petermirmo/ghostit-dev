@@ -68,7 +68,10 @@ class PostEdittingModal extends Component {
 							setSaving={this.setSaving}
 							post={clickedCalendarEvent}
 							canEditPost={canEditPost}
-							postFinishedSavingCallback={savePostCallback}
+							postFinishedSavingCallback={() => {
+								savePostCallback();
+								close();
+							}}
 							accounts={accounts}
 							timezone={timezone}
 						/>

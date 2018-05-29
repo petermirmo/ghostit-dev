@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, setUser, openAccountSideBar, openClientSideBar } from "../../../redux/actions/";
+import { changePage, setUser, updateAccounts, openClientSideBar } from "../../../redux/actions/";
 
 import "./style.css";
 
@@ -11,9 +11,7 @@ class Header extends Component {
 	openClientSideBar = () => {
 		this.props.openClientSideBar(!this.props.clientSideBar);
 	};
-	openAccountSideBar = () => {
-		this.props.openAccountSideBar(!this.props.accountSideBar);
-	};
+
 	signOutOfUsersAccount = () => {
 		axios.get("/api/signOutOfUserAccount").then(res => {
 			if (res.data.success) {
@@ -33,6 +31,8 @@ class Header extends Component {
 	logout = () => {
 		axios.get("/api/logout").then(res => {
 			if (res.data.success) {
+				//	this.props.setUser(undefined);
+				//this.props.updateAccounts([]);
 				this.props.changePage("");
 			} else {
 				alert("something went wrong. Please load the page!");
@@ -123,8 +123,8 @@ function mapDispatchToProps(dispatch) {
 		{
 			changePage: changePage,
 			setUser: setUser,
-			openAccountSideBar: openAccountSideBar,
-			openClientSideBar: openClientSideBar
+			openClientSideBar: openClientSideBar,
+			updateAccounts: updateAccounts
 		},
 		dispatch
 	);

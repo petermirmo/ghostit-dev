@@ -32,6 +32,7 @@ class BlogEdittingModal extends Component {
 			axios.delete("/api/blog/delete/" + this.state.blog._id).then(res => {
 				if (res.data) {
 					this.props.updateCalendarBlogs();
+					this.props.close();
 				} else {
 					this.setState({
 						notification: { on: true, notificationType: "danger", title: "Something went wrong", message: "" }
@@ -43,18 +44,28 @@ class BlogEdittingModal extends Component {
 	hideNotification = () => {
 		this.setState({ notification: {} });
 	};
+	setSaving = () => {
+		this.setState({ saving: true });
+	};
 	render() {
 		if (this.state.saving) {
 			return <Loader />;
 		}
 		return (
-			<div id="BlogEdittingModal" className="modal">
+			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-header">
-						<span className="close-dark fa fa-times" onClick={() => this.props.close("blogEdittingModal")} />
+						<span className="close-dark fa fa-times" onClick={() => this.props.close()} />
 					</div>
 					<div className="modal-body">
-						<CreateBlog blog={this.props.clickedCalendarEvent} updateCalendarBlogs={this.props.updateCalendarBlogs} />
+						<CreateBlog
+							blog={this.props.clickedCalendarEvent}
+							callback={() => {
+								this.props.updateCalendarBlogs();
+								this.props.close();
+							}}
+							setSaving={this.setSaving}
+						/>
 					</div>
 
 					<div className="modal-footer">

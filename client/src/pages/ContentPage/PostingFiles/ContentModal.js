@@ -69,7 +69,10 @@ class ContentModal extends Component {
 						<PostingOptions
 							accounts={accounts}
 							clickedCalendarDate={clickedCalendarDate}
-							postFinishedSavingCallback={savePostCallback}
+							postFinishedSavingCallback={() => {
+								savePostCallback();
+								close();
+							}}
 							setSaving={this.setSaving}
 							socialType={activeTab}
 							canEditPost={true}

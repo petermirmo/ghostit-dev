@@ -6,42 +6,70 @@ import "./style.css";
 
 class CreateBlogComponent extends Component {
 	state = {
-		blogID: this.props.blog ? this.props.blog._id : "",
-		title: this.props.blog ? this.props.blog.title : "",
-		keyword1: this.props.blog ? this.props.blog.keywords[0].keyword : "",
-		keyword2: this.props.blog ? this.props.blog.keywords[1].keyword : "",
-		keyword3: this.props.blog ? this.props.blog.keywords[2].keyword : "",
-		keywordDifficulty1: this.props.blog ? this.props.blog.keywords[0].keywordDifficulty : "",
-		keywordDifficulty2: this.props.blog ? this.props.blog.keywords[1].keywordDifficulty : "",
-		keywordDifficulty3: this.props.blog ? this.props.blog.keywords[2].keywordDifficulty : "",
-		keywordSearchVolume1: this.props.blog ? this.props.blog.keywords[0].keywordSearchVolume : "",
-		keywordSearchVolume2: this.props.blog ? this.props.blog.keywords[1].keywordSearchVolume : "",
-		keywordSearchVolume3: this.props.blog ? this.props.blog.keywords[2].keywordSearchVolume : "",
-		about: this.props.blog ? this.props.blog.about : "",
-		resources: this.props.blog ? this.props.blog.resources : "",
-		postingDate: this.props.blog ? this.props.blog.postingDate : this.props.clickedCalendarDate,
-		blogImage: this.props.blog ? (this.props.blog.image ? [this.props.blog.image] : []) : [],
-		blogFile: this.props.blog ? this.props.blog.wordDoc : "",
+		blog: this.props.blog
+			? this.props.blog
+			: {
+					_id: undefined,
+					title: "",
+					keywords: [
+						{ keyword: "", keywordDifficulty: 0, keywordSearchVolume: 0 },
+						{ keyword: "", keywordDifficulty: 0, keywordSearchVolume: 0 },
+						{ keyword: "", keywordDifficulty: 0, keywordSearchVolume: 0 }
+					],
 
+					about: "",
+					resources: "",
+					postingDate: this.props.clickedCalendarDate
+				},
+		blogImages: [],
+		blogFile: {},
 		imagesToDelete: [],
 		saving: false
 	};
-	constructor(props) {
-		super(props);
-		this.setPostImages = this.setPostImages.bind(this);
-		this.handleBlogFormChange = this.handleBlogFormChange.bind(this);
-		this.pushToImageDeleteArray = this.pushToImageDeleteArray.bind(this);
-	}
 
-	showFile(event) {
+	saveBlog = () => {
+		let { blog, imagesToDelete, blogImages, blogFile } = this.state;
+
+		this.props.setSaving();
+
+		blog.eventColor = "#e74c3c";
+
+		for (let index in imagesToDelete) {
+			axios.delete("/api/delete/file/" + imagesToDelete[index].publicID).then(res => {});
+		}
+		// Check if we are updating a blog or creating a new blog
+
+		if (!blog._id) {
+			axios
+				.post("/api/blog", { blog: blog, blogImages: blogImages, blogFile: blogFile, blogFileName: blogFile.name })
+				.then(res => {
+					this.props.callback();
+				});
+		} else {
+			axios
+				.post("/api/blog/" + blog._id, {
+					blog: blog,
+					blogImages: blogImages,
+					blogFile: blogFile,
+					blogFileName: blogFile.name
+				})
+				.then(res => {
+					this.props.callback();
+				});
+		}
+	};
+
+	showFile = event => {
 		let reader = new FileReader();
 		let blogFile = event.target.files[0];
 
 		if (blogFile === undefined) {
+			alert("Could not read file!");
 			return;
 		}
 
-		var ext = blogFile.name.split(".").pop();
+		let ext = blogFile.name.split(".").pop();
+
 		if (ext !== "pdf" && ext !== "docx" && ext !== "doc") {
 			alert("Only pdf, docx or doc files can be uploaded! Nice try though ;)");
 			return;
@@ -53,156 +81,139 @@ class CreateBlogComponent extends Component {
 		};
 
 		reader.readAsDataURL(blogFile);
-	}
-	saveBlog() {
-		this.props.setSaving();
-		var formData = new FormData();
+	};
 
-		var image;
-		if (this.state.blogImage.length > 0) image = this.state.blogImage[0].image;
-
-		formData.append("postingDate", this.state.postingDate);
-		formData.append("title", this.state.title);
-		formData.append("image", image);
-		formData.append("blogFile", this.state.blogFile);
-		formData.append("keyword1", this.state.keyword1);
-		formData.append("keyword2", this.state.keyword2);
-		formData.append("keyword3", this.state.keyword3);
-		formData.append("keywordDifficulty1", this.state.keywordDifficulty1);
-		formData.append("keywordDifficulty2", this.state.keywordDifficulty2);
-		formData.append("keywordDifficulty3", this.state.keywordDifficulty3);
-		formData.append("keywordSearchVolume1", this.state.keywordSearchVolume1);
-		formData.append("keywordSearchVolume2", this.state.keywordSearchVolume2);
-		formData.append("keywordSearchVolume3", this.state.keywordSearchVolume3);
-		formData.append("resources", this.state.resources);
-		formData.append("about", this.state.about);
-		formData.append("eventColor", "#e74c3c");
-		for (var index in this.state.imagesToDelete) {
-			axios.delete("/api/delete/file/" + this.state.imagesToDelete[index].publicID).then(res => {});
+	handleBlogFormChange = (value, index, secondIndex, thirdIndex) => {
+		let { blog } = this.state;
+		if (thirdIndex) {
+			blog[index][secondIndex][thirdIndex] = value;
+		} else if (secondIndex) {
+			blog[index][secondIndex] = value;
+		} else if (index) {
+			blog[index] = value;
 		}
-		// Check if we are updating a blog or creating a new blog
-		if (this.state.blogID === "" || this.state.blogID === undefined || this.state.blogID === null) {
-			axios.post("/api/blog", formData).then(res => {
-				this.props.callback();
-			});
-		} else {
-			axios.post("/api/blog/" + this.state.blogID, formData).then(res => {
-				this.props.callback();
-			});
-		}
-	}
-
-	handleBlogFormChange(event, stateVariable) {
-		this.setState({ [stateVariable]: event.target.value });
-	}
-	setPostImages(imagesArray) {
-		this.setState({ blogImage: imagesArray });
-	}
-	pushToImageDeleteArray(image) {
-		var imagesToDeleteArray = this.state.imagesToDelete;
-		imagesToDeleteArray.push(image);
-		this.setState({ imagesToDelete: imagesToDeleteArray });
-	}
+		this.setState({ blog: blog });
+	};
+	setPostImages = imagesArray => {
+		this.setState({ blogImages: imagesArray });
+	};
+	pushToImageDeleteArray = image => {
+		let { imagesToDelete, blog } = this.state;
+		imagesToDelete.push(image);
+		blog.image = undefined;
+		this.setState({ imagesToDelete: imagesToDelete, blog: blog, blogImages: [] });
+	};
 
 	render() {
-		var fileDiv;
-		if (this.state.blogFile) {
-			fileDiv = <h4>{this.state.blogFile.name}</h4>;
+		const { blog, blogFile, blogImages } = this.state;
+		let fileDiv;
+		if (blog.wordDoc) {
+			fileDiv = <h4>{blog.wordDoc.name}</h4>;
+		}
+		if (blogFile.name) {
+			fileDiv = <h4>{blogFile.name}</h4>;
+		}
+		let images = [];
+		if (blog.image) {
+			images.push(blog.image);
+		} else if (blogImages) {
+			images = blogImages;
 		}
 		return (
 			<div className="modal-body">
 				<form id="createBlogForm" className="create-blog-form">
 					<input
-						value={this.state.title}
-						onChange={event => this.handleBlogFormChange(event, "title")}
+						value={blog.title ? blog.title : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "title")}
 						type="text"
 						placeholder="Working Title"
 						className="create-blog-form-regular"
 					/>
 					<input
-						value={this.state.keyword1}
-						onChange={event => this.handleBlogFormChange(event, "keyword1")}
+						value={blog.keywords[0].keyword ? blog.keywords[0].keyword : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 0, "keyword")}
 						type="text"
-						placeholder="Keyword 1"
+						placeholder="Keyword"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keywordDifficulty1}
-						onChange={event => this.handleBlogFormChange(event, "keywordDifficulty1")}
-						type="text"
+						value={blog.keywords[0].keywordDifficulty ? blog.keywords[0].keywordDifficulty : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 0, "keywordDifficulty")}
+						type="number"
 						placeholder="Keyword Difficulty"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keywordSearchVolume1}
-						onChange={event => this.handleBlogFormChange(event, "keywordSearchVolume1")}
-						type="text"
+						value={blog.keywords[0].keywordSearchVolume ? blog.keywords[0].keywordSearchVolume : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 0, "keywordSearchVolume")}
+						type="number"
 						placeholder="Search Volume"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keyword2}
-						onChange={event => this.handleBlogFormChange(event, "keyword2")}
+						value={blog.keywords[1].keyword ? blog.keywords[1].keyword : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 1, "keyword")}
 						type="text"
-						placeholder="Keyword 2"
+						placeholder="Keyword"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keywordDifficulty2}
-						onChange={event => this.handleBlogFormChange(event, "keywordDifficulty2")}
-						type="text"
+						value={blog.keywords[1].keywordDifficulty ? blog.keywords[1].keywordDifficulty : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 1, "keywordDifficulty")}
+						type="number"
 						placeholder="Keyword Difficulty"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keywordSearchVolume2}
-						onChange={event => this.handleBlogFormChange(event, "keywordSearchVolume2")}
-						type="text"
+						value={blog.keywords[1].keywordSearchVolume ? blog.keywords[1].keywordSearchVolume : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 1, "keywordSearchVolume")}
+						type="number"
 						placeholder="Search Volume"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keyword3}
-						onChange={event => this.handleBlogFormChange(event, "keyword3")}
+						value={blog.keywords[2].keyword ? blog.keywords[2].keyword : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 2, "keyword")}
 						type="text"
-						placeholder="Keyword 3"
+						placeholder="Keyword"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keywordDifficulty3}
-						onChange={event => this.handleBlogFormChange(event, "keywordDifficulty3")}
-						type="text"
+						value={blog.keywords[2].keywordDifficulty ? blog.keywords[2].keywordDifficulty : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 2, "keywordDifficulty")}
+						type="number"
 						placeholder="Keyword Difficulty"
 						className="create-blog-form-keyword"
 					/>
 					<input
-						value={this.state.keywordSearchVolume3}
-						onChange={event => this.handleBlogFormChange(event, "keywordSearchVolume3")}
-						type="text"
+						value={blog.keywords[2].keywordSearchVolume ? blog.keywords[2].keywordSearchVolume : ""}
+						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 2, "keywordSearchVolume")}
+						type="number"
 						placeholder="Search Volume"
 						className="create-blog-form-keyword"
 					/>
 					<textarea
-						value={this.state.resources}
-						onChange={event => this.handleBlogFormChange(event, "resources")}
+						value={blog.resources}
+						onChange={event => this.handleBlogFormChange(event.target.value, "resources")}
 						form="createBlogForm"
 						placeholder="Resources"
 						rows={2}
 					/>
 					<textarea
-						value={this.state.about}
-						onChange={event => this.handleBlogFormChange(event, "about")}
+						value={blog.about}
+						onChange={event => this.handleBlogFormChange(event.target.value, "about")}
 						form="createBlogForm"
 						placeholder="About(notes)"
 						rows={2}
 					/>
 
 					<ImagesDiv
-						postImages={this.state.blogImage}
+						postImages={images}
 						setPostImages={this.setPostImages}
 						imageLimit={1}
 						divID={"blogImagesDiv"}
 						pushToImageDeleteArray={this.pushToImageDeleteArray}
+						canEdit={true}
 					/>
 
 					<label

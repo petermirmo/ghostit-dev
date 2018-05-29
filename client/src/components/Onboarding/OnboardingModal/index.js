@@ -31,7 +31,7 @@ class OnboardingModal extends Component {
 	constructor(props) {
 		super(props);
 		axios.get("/api/strategy").then(res => {
-			const { strategy, success, message } = res.data;
+			const { strategy, success } = res.data;
 			if (success) {
 				const { competitors, audience, styleAndStructure, brandVoice, notes } = strategy;
 				let tempCompetitors = [];
@@ -49,15 +49,6 @@ class OnboardingModal extends Component {
 						styleAndStructure: styleAndStructure,
 						brandVoice: brandVoice,
 						notes: notes
-					}
-				});
-			} else {
-				this.setState({
-					notification: {
-						on: true,
-						title: "Contact Ghostit!",
-						message: message,
-						type: "danger"
 					}
 				});
 			}

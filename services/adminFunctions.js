@@ -103,7 +103,7 @@ module.exports = {
 						plan.createdBy = req.user._id;
 						plan.private = true;
 						plan.save().then(result => {
-							res.send(true);
+							res.send({ success: true });
 						});
 					}
 				});

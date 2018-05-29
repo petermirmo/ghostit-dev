@@ -53,7 +53,7 @@ module.exports = {
 			if (strategy) {
 				res.send({ success: true, strategy: strategy });
 			} else {
-				res.send({ success: false, message: "Something went wrong!" });
+				res.send({ success: false, message: "No strategy found!" });
 			}
 		});
 	}

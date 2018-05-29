@@ -9,6 +9,8 @@ import OnboardingModal from "../../components/Onboarding/OnboardingModal/";
 import Notification from "../../components/Notifications/Notification/";
 import Loader from "../../components/Notifications/Loader/";
 
+//pk_test_C6VKqentibktzCQjTRZ9vOuY
+//pk_live_fbteh655nQqpE4WEFr6fs5Pm
 class ChargeCardForm extends Component {
 	state = {
 		saving: false,
@@ -21,7 +23,7 @@ class ChargeCardForm extends Component {
 		onboardingModal: false
 	};
 	componentDidMount() {
-		var stripe = window.Stripe("pk_live_fbteh655nQqpE4WEFr6fs5Pm");
+		var stripe = window.Stripe("pk_test_C6VKqentibktzCQjTRZ9vOuY");
 
 		// Create an instance of Elements.
 		var elements = stripe.elements();
@@ -108,7 +110,7 @@ class ChargeCardForm extends Component {
 
 				if (success) {
 					if (user) {
-						this.props.setUser(user);
+						if (this.props.user.role !== "admin" && this.props.user.role !== "manager") this.props.setUser(user);
 					}
 
 					this.setState({ onboardingModal: true });

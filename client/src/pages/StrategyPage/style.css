@@ -17,7 +17,7 @@
 	font-size: var(--regular-font-size);
 	box-sizing: border-box;
 
-	width: fill;
+	width: stretch;
 	min-height: 100px;
 
 	margin: 7px 7px 4px 7px;

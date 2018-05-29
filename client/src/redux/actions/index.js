@@ -16,12 +16,7 @@ export const openClientSideBar = value => {
 		payload: value
 	};
 };
-export const openAccountSideBar = value => {
-	return {
-		type: "ACCOUNT_SIDE_BAR",
-		payload: value
-	};
-};
+
 export const updateAccounts = value => {
 	return {
 		type: "SOCIAL_ACCOUNTS",

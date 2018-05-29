@@ -48,8 +48,8 @@ require("./services/passport")(passport);
 app.use(morgan("dev")); // Prints all routes used to console
 app.use(cookieParser()); // Read cookies (needed for auth)
 
-app.use(bodyParser.json()); //Read data from html forms
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "50mb" })); //Read data from html forms
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(
 	session({

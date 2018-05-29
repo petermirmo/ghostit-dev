@@ -41,8 +41,10 @@ class Calendar extends Component {
 	};
 	constructor(props) {
 		super(props);
-
 		BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
+	}
+	componentDidMount() {
+		this._ismounted = true;
 		axios.get("/api/timezone").then(res => {
 			let result = res.data;
 			let timezone = "America/Vancouver";
@@ -60,29 +62,10 @@ class Calendar extends Component {
 		this.getBlogs();
 	}
 
-	getBlogs = () => {
-		axios.get("/api/blogs").then(res => {
-			let blogs = res.data;
-			let blogEvents = [];
-			for (let index in blogs) {
-				blogEvents.push(this.convertBlogToCalendarEvent(blogs[index]));
-			}
-			this.setState({ websitePosts: blogEvents });
-			this.closeModals();
-		});
-	};
-	convertBlogToCalendarEvent = blog => {
-		let date = new Date(blog.postingDate);
+	componentWillUnmount() {
+		this._ismounted = false;
+	}
 
-		let calendarEvent = blog;
-		calendarEvent.start = date;
-		calendarEvent.end = date;
-		calendarEvent.socialType = "blog";
-		calendarEvent.backgroundColor = blog.eventColor;
-		calendarEvent.title = blog.title || "(no title)";
-
-		return calendarEvent;
-	};
 	getPosts = () => {
 		let facebookPosts = [];
 		let twitterPosts = [];
@@ -102,15 +85,40 @@ class Calendar extends Component {
 					linkedinPosts.push(this.convertPostToCalendarEvent(posts[index]));
 				}
 			}
-			this.setState({
-				facebookPosts: facebookPosts,
-				twitterPosts: twitterPosts,
-				linkedinPosts: linkedinPosts
-			});
-			this.closeModals();
+			if (this._ismounted) {
+				this.setState({
+					facebookPosts: facebookPosts,
+					twitterPosts: twitterPosts,
+					linkedinPosts: linkedinPosts
+				});
+			}
 		});
 	};
 
+	getBlogs = () => {
+		axios.get("/api/blogs").then(res => {
+			let blogs = res.data;
+			let blogEvents = [];
+			for (let index in blogs) {
+				blogEvents.push(this.convertBlogToCalendarEvent(blogs[index]));
+			}
+			if (this._ismounted) {
+				this.setState({ websitePosts: blogEvents });
+			}
+		});
+	};
+	convertBlogToCalendarEvent = blog => {
+		let date = new Date(blog.postingDate);
+
+		let calendarEvent = blog;
+		calendarEvent.start = date;
+		calendarEvent.end = date;
+		calendarEvent.socialType = "blog";
+		calendarEvent.backgroundColor = blog.eventColor;
+		calendarEvent.title = blog.title || "(no title)";
+
+		return calendarEvent;
+	};
 	convertPostToCalendarEvent = post => {
 		let date = new Date(post.postingDate);
 
@@ -244,8 +252,14 @@ class Calendar extends Component {
 						clickedCalendarDate={this.state.clickedDate}
 						timezone={timezone}
 						close={this.closeModals}
-						savePostCallback={this.savePostCallback}
-						saveBlogCallback={this.saveBlogCallback}
+						savePostCallback={() => {
+							this.savePostCallback();
+							this.closeModals();
+						}}
+						saveBlogCallback={() => {
+							this.saveBlogCallback();
+							this.closeModals();
+						}}
 					/>
 				)}
 				{this.state.postEdittingModal && (

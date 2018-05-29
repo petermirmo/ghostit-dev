@@ -12,93 +12,75 @@ module.exports = {
 				userID = req.user.signedInAsUser.id;
 			}
 		}
-		Blog.findOne({ _id: req.params.blogID }, async function(err, blog) {
+
+		Blog.findOne({ _id: req.params.blogID }, async function(err, foundBlog) {
 			if (err) {
-				console.log(err);
-				res.send(err);
+				handleError(res, err);
 				return;
 			}
 
-			var data = req.body;
-			var imageURL = {};
-			var imagePublidID = {};
-			var wordDocURL = {};
-			var wordDocPublidID = {};
-			var newBlog;
-			if (blog) {
-				newBlog = blog;
+			let newBlog;
+			let { blog, blogFile, blogImages, blogFileName } = req.body;
+
+			if (foundBlog) {
+				newBlog = foundBlog;
+				newBlog.postingDate = blog.postingDate;
+				newBlog.title = blog.title;
+				newBlog.resources = blog.resources;
+				newBlog.about = blog.about;
+				newBlog.eventColor = blog.eventColor;
+				newBlog.image = blog.image;
+				newBlog.wordDoc = blog.wordDoc;
+				newBlog.keywords = blog.keywords;
 			} else {
-				newBlog = new Blog();
+				newBlog = new Blog(blog);
 			}
-			if (req.files.image !== undefined) {
-				if (newBlog.image.publicID) {
-					await cloudinary.uploader.destroy(newBlog.image.publicID, function(error) {
-						// TO DO: handle error here
-						if (error) {
-							console.log(error);
-							res.send(false);
-							return;
-						}
-					});
-				}
-				await cloudinary.v2.uploader.upload(req.files.image.path, function(error, result) {
-					if (error) {
-						console.log(error);
-						res.send(error);
-						return;
-					}
-					newBlog.image = { url: result.url, publicID: result.public_id };
-				});
-			}
-			if (req.files.blogFile !== undefined) {
+			newBlog.userID = userID;
+
+			if (blogFile.localPath) {
 				// Delete old wordDoc
 				if (newBlog.wordDoc.publicID) {
 					await cloudinary.uploader.destroy(
 						newBlog.wordDoc.publicID,
-						function(error) {
-							// TO DO: handle error here
-							if (error) {
-								console.log(error);
-								res.send(false);
+						function(result) {
+							if (result.error) {
+								handleError(res, result);
 								return;
 							}
 						},
 						{ resource_type: "raw" }
 					);
 				}
-				await cloudinary.v2.uploader.upload(req.files.blogFile.path, { resource_type: "raw" }, function(error, result) {
+				// Upload new file
+				await cloudinary.v2.uploader.upload(blogFile.localPath, { resource_type: "raw" }, function(error, result) {
 					if (error) {
-						console.log(error);
-						res.send(error);
+						handleError(res, error);
 						return;
 					}
-					newBlog.wordDoc = { url: result.url, publicID: result.public_id, name: req.files.blogFile.name };
+					newBlog.wordDoc = { url: result.url, publicID: result.public_id, name: blogFileName };
 				});
 			}
 
-			newBlog.userID = userID;
-			newBlog.postingDate = data.postingDate;
-			newBlog.title = data.title;
-			newBlog.resources = data.resources;
-			newBlog.about = data.about;
-			newBlog.eventColor = data.eventColor;
-			newBlog.keywords = [
-				{
-					keyword: data.keyword1,
-					keywordDifficulty: data.keywordDifficulty1,
-					keywordSearchVolume: data.keywordSearchVolume1
-				},
-				{
-					keyword: data.keyword2,
-					keywordDifficulty: data.keywordDifficulty2,
-					keywordSearchVolume: data.keywordSearchVolume2
-				},
-				{
-					keyword: data.keyword3,
-					keywordDifficulty: data.keywordDifficulty3,
-					keywordSearchVolume: data.keywordSearchVolume3
+			if (blogImages.length !== 0) {
+				// Delete old image
+				if (newBlog.image.publicID) {
+					await cloudinary.uploader.destroy(newBlog.image.publicID, function(result) {
+						if (result.error) {
+							handleError(res, result);
+							return;
+						}
+					});
 				}
-			];
+
+				// Upload new image
+				await cloudinary.v2.uploader.upload(blogImages[0].imagePreviewUrl, function(error, result) {
+					if (error) {
+						handleError(res, error);
+						return;
+					}
+					newBlog.image = { url: result.url, publicID: result.public_id };
+				});
+			}
 
 			newBlog.save().then(result => {
 				res.send(true);
@@ -129,7 +111,6 @@ module.exports = {
 						await cloudinary.uploader.destroy(
 							blog.wordDoc.publicID,
 							function(error) {
-								// TO DO: handle error here
 								if (error) {
 									console.log(error);
 								}
