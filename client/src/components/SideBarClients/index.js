@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setUser, updateAccounts, changePage } from "../../redux/actions/";
+
 import SearchColumn from "../SearchColumn/";
 import "../../css/sideBar.css";
 
@@ -57,18 +62,20 @@ class ClientSideBar extends Component {
 		}
 		this.setState({ clients: users });
 	}
-	userClicked(event) {
+	userClicked = event => {
 		// ID of clicked event is the index of in activeUsers of the clicked user
 		const temp = this.state.clients[event.target.id];
 		this.setState({ clickedUser: temp });
 		axios.post("/api/signInAsUser", temp).then(res => {
 			if (res.data) {
+				/*this.props.setUser(res.data.user);
+				this.props.updateAccounts(res.data.accounts);*/
 				window.location.reload();
 			} else {
 				// To Do: handle error
 			}
 		});
-	}
+	};
 	render() {
 		return (
 			<div className="side-bar animate-left">
@@ -87,4 +94,22 @@ function compare(a, b) {
 	if (a.fullName > b.fullName) return 1;
 	return 0;
 }
-export default ClientSideBar;
+
+function mapStateToProps(state) {
+	return {
+		user: state.user
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			setUser: setUser,
+			updateAccounts: updateAccounts,
+			changePage: changePage
+		},
+		dispatch
+	);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClientSideBar);

@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Account = require("../models/Account");
 const Plan = require("../models/Plan");
 const cloudinary = require("cloudinary");
 
@@ -62,13 +63,16 @@ module.exports = {
 		if (currentUser.role === "manager") {
 			//if (String(currentUser._id) === clientUser.writer.id) {
 			currentUser.signedInAsUser = { id: clientUser._id, fullName: clientUser.fullName };
-			currentUser.save().then(result => res.send(true));
-			/*} else {
+			Account.find({ userID: clientUser._id }, function(err, accounts) {
+				currentUser.save().then(result => res.send({ success: true, user: result, accounts: accounts }));
+			}); /*} else {
 				handleError(res, "User is a manager, but the client is not a client of this manager!");
 		}*/
 		} else if (currentUser.role === "admin") {
 			currentUser.signedInAsUser = { id: clientUser._id, fullName: clientUser.fullName };
-			currentUser.save().then(result => res.send(true));
+			Account.find({ userID: clientUser._id }, function(err, accounts) {
+				currentUser.save().then(result => res.send({ success: true, user: result, accounts: accounts }));
+			});
 		} else {
 			handleError(res, "HACKER ALERT!!!!");
 		}

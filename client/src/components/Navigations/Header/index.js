@@ -31,8 +31,8 @@ class Header extends Component {
 	logout = () => {
 		axios.get("/api/logout").then(res => {
 			if (res.data.success) {
-				//	this.props.setUser(undefined);
-				//this.props.updateAccounts([]);
+				this.props.setUser(null);
+				this.props.updateAccounts([]);
 				this.props.changePage("");
 			} else {
 				alert("something went wrong. Please load the page!");
@@ -114,8 +114,7 @@ function mapStateToProps(state) {
 	return {
 		activePage: state.activePage,
 		user: state.user,
-		clientSideBar: state.clientSideBar,
-		accountSideBar: state.accountSideBar
+		clientSideBar: state.clientSideBar
 	};
 }
 function mapDispatchToProps(dispatch) {
