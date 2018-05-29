@@ -30,7 +30,7 @@ class PostingOptions extends Component {
 			: this.props.clickedCalendarDate,
 		deleteImagesArray: [],
 		linkImagesArray: [],
-		timezone: "America/Vancouver"
+		timezone: this.props.timezone
 	};
 	componentWillReceiveProps(nextProps) {
 		this.setState({
@@ -115,7 +115,6 @@ class PostingOptions extends Component {
 			timezone
 		} = this.state;
 		const { postFinishedSavingCallback, setSaving, accounts, canEditPost } = this.props;
-
 		const returnOfCarouselOptions = carouselOptions(socialType);
 
 		const linkPreviewCanShow = returnOfCarouselOptions[0];

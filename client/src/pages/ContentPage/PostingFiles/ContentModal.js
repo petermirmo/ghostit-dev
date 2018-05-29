@@ -29,6 +29,8 @@ class ContentModal extends Component {
 	};
 
 	render() {
+		const { timezone } = this.props;
+
 		if (this.state.saving) {
 			return <Loader />;
 		}
@@ -40,7 +42,12 @@ class ContentModal extends Component {
 		// Check if this is a blog placeholder
 		if (activeTab === "blog") {
 			modalBody = (
-				<CreateBlog clickedCalendarDate={clickedCalendarDate} callback={saveBlogCallback} setSaving={this.setSaving} />
+				<CreateBlog
+					clickedCalendarDate={clickedCalendarDate}
+					callback={saveBlogCallback}
+					setSaving={this.setSaving}
+					timezone={timezone}
+				/>
 			);
 		} else if (activeTab === "instagram") {
 			modalBody = (
@@ -52,6 +59,7 @@ class ContentModal extends Component {
 						setSaving={this.setSaving}
 						socialType={activeTab}
 						canEditPost={true}
+						timezone={timezone}
 					/>
 				</div>
 			);
@@ -76,6 +84,7 @@ class ContentModal extends Component {
 							setSaving={this.setSaving}
 							socialType={activeTab}
 							canEditPost={true}
+							timezone={timezone}
 						/>
 					</div>
 				);

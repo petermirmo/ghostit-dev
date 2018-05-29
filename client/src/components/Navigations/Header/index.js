@@ -98,7 +98,10 @@ class Header extends Component {
 					</div>
 				</div>
 
-				{(activePage === "content" || activePage === "strategy" || activePage === "subscribe") &&
+				{(activePage === "content" ||
+					activePage === "strategy" ||
+					activePage === "subscribe" ||
+					activePage === "accounts") &&
 					user.signedInAsUser && (
 						<div className="signed-in-as center">
 							<p>Logged in as: {user.signedInAsUser.fullName}</p>
