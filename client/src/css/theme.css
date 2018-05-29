@@ -119,15 +119,19 @@
 }
 .close-dark {
 	color: var(--red-theme-color);
-	position: fixed;
-	top: 60px;
-	right: 30px;
-	font-size: 30pt;
-}
-.close-dark:hover {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	font-size: 20pt;
+
 	text-decoration: none;
 	cursor: pointer;
-	color: var(--blue-theme-color);
+
+	-webkit-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.close-dark:hover {
+	transform: scale(1.1);
 }
 .close-dark:focus {
 	text-decoration: none;

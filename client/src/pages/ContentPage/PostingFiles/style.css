@@ -24,11 +24,11 @@
 .posting-textarea {
 	outline: 0;
 	float: left;
-	width: 100%;
+	width: stretch;
 	max-width: 100%;
 
 	border-radius: 4px;
-	margin: 10px 0 10px 0;
+	margin: 10px 10px 10px 0;
 	background: transparent;
 	overflow: auto;
 }
