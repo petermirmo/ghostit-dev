@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Textarea from "react-textarea-autosize";
 import axios from "axios";
 
 import ImagesDiv from "../../Divs/ImagesDiv/";
@@ -192,13 +193,13 @@ class CreateBlogComponent extends Component {
 						placeholder="Search Volume"
 						className="create-blog-form-keyword"
 					/>
-					<textarea
+					<Textarea
 						value={blog.resources}
 						onChange={event => this.handleBlogFormChange(event.target.value, "resources")}
 						form="createBlogForm"
 						placeholder="Resources"
 					/>
-					<textarea
+					<Textarea
 						value={blog.about}
 						onChange={event => this.handleBlogFormChange(event.target.value, "about")}
 						form="createBlogForm"
