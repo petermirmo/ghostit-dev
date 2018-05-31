@@ -152,6 +152,7 @@ function tradeCodeForToken(codeResult, account, accounts, counter, callback) {
 				if (counter < 10) {
 					getFbCode(account, accounts, counter, callback);
 				} else {
+					console.log(tokenResult);
 					console.log("failed");
 				}
 				return undefined;
@@ -176,8 +177,9 @@ function pageTokenCallback(accessToken, accounts) {
 				if (account.socialID === page.id) {
 					for (let i = 0; i < accounts.length; i++) {
 						accounts[i].accessToken = page.access_token;
-						accounts[i].renewDate = new Date();
+						accounts[i].lastRenewed = new Date();
 						accounts[i].save().then(resu => {
+							console.log(resu);
 							console.log("success");
 						});
 					}
@@ -190,8 +192,9 @@ function accessTokenCallback(accessToken, accounts) {
 	if (accessToken) {
 		for (let i = 0; i < accounts.length; i++) {
 			accounts[i].accessToken = accessToken;
-			accounts[i].renewDate = new Date();
+			accounts[i].lastRenewed = new Date();
 			accounts[i].save().then(resu => {
+				console.log(resu);
 				console.log("success");
 			});
 		}

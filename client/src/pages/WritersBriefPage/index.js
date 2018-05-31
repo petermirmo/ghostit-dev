@@ -17,7 +17,7 @@ class WritersBrief extends Component {
 		let newWritersBrief = {
 			cycleStartDate: new moment(),
 			cycleEndDate: new moment(),
-			socialPosts: { facebook: "", instagram: "", twitter: "", linkedin: "" },
+			socialPostsDescriptions: { facebook: "", instagram: "", twitter: "", linkedin: "" },
 			blogPosts: [],
 			emailNewsletters: []
 		};

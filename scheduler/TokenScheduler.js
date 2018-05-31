@@ -4,8 +4,8 @@ var facebook = require("./facebook");
 var linkedin = require("./linkedin");
 module.exports = {
 	main: function() {
-		// Get all accounts that have not been updated in 21 days
-		Account.find({ lastRenewed: { $lt: new Date() - 1814400000 }, socialType: "facebook" }, function(err, oldAccounts) {
+		// Get all accounts that have not been updated in 2 days
+		Account.find({ lastRenewed: { $lt: new Date() - 172800000 }, socialType: "facebook" }, function(err, oldAccounts) {
 			let arrayOfUniqueSocialIDs = getRidOfDuplicateSocialIDs(oldAccounts);
 
 			// Loop through all accounts

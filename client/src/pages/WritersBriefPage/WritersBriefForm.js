@@ -14,20 +14,20 @@ class WritersBriefForm extends Component {
 	componentWillReceiveProps(nextProps) {
 		this.setState({ writersBrief: nextProps.writersBrief });
 	}
-	handleChange = () => {};
+
+	handleChangeSocialDescription = (value, index) => {
+		let { writersBrief } = this.state;
+		writersBrief["socialPostsDescriptions"][index] = value;
+		this.setState({ writersBrief: writersBrief });
+	};
+
 	handleDateChange = (date, index) => {
 		let { writersBrief } = this.state;
 		writersBrief[index] = date;
 		this.setState({ writersBrief: writersBrief });
 	};
-	addNewIndexToWritersBriefArray = index => {
-		let { writersBrief } = this.state;
-		let array = writersBrief[index];
 
-		array.push({ type: undefined, notes: "" });
-		this.setState({ [index]: array });
-	};
-	updateSocialTextarea = event => {
+	updateSocialPostsActiveTab = event => {
 		// Remove active class from last tab
 		let { socialCategories } = this.state;
 		for (let index in socialCategories) {
@@ -38,7 +38,7 @@ class WritersBriefForm extends Component {
 	};
 	render() {
 		let { writersBrief, socialCategories } = this.state;
-		let { cycleStartDate, cycleEndDate, socialPosts } = writersBrief;
+		let { cycleStartDate, cycleEndDate, socialPostsDescriptions } = writersBrief;
 
 		let activeTab;
 		for (let index in socialCategories) {
@@ -62,13 +62,13 @@ class WritersBriefForm extends Component {
 					dateFormat="MMMM Do YYYY"
 				/>
 
-				<NavigationBar updateParentState={this.updateSocialTextarea} categories={socialCategories} />
+				<NavigationBar updateParentState={this.updateSocialPostsActiveTab} categories={socialCategories} />
 				<p>Social Media Notes and Instructions ({activeTab}):</p>
 				<Textarea
 					className="textarea-social"
-					placeholder="- funny and upbeat"
-					value={socialPosts[activeTab]}
-					onChange={event => this.something("index", event.target.value)}
+					placeholder="- funny and upbeat &#10;- 15 facebook posts per month"
+					value={socialPostsDescriptions[activeTab]}
+					onChange={event => this.handleChangeSocialDescription(event.target.value, activeTab)}
 				/>
 
 				<div className="container-something">
