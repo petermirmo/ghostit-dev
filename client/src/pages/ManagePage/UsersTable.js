@@ -13,7 +13,6 @@ class UsersTable extends Component {
 		clientUsers: [],
 		managerUsers: [],
 		adminUsers: [],
-		activeTab: "client",
 		activeUsers: [],
 		untouchedActiveUsers: [],
 		clickedUser: undefined,
@@ -21,14 +20,13 @@ class UsersTable extends Component {
 		plans: undefined,
 		userCategories: { admin: false, manager: false, client: true, demo: false }
 	};
-	constructor(props) {
-		super(props);
 
+	componentDidMount() {
 		this.getUsers();
 		this.getPlans();
 	}
 	getUsers = () => {
-		const { activeTab } = this.state;
+		const { userCategories } = this.state;
 		axios.get("/api/users").then(res => {
 			if (!res) {
 				// If res sends back false the user is not an admin and is likely a hacker
@@ -57,20 +55,14 @@ class UsersTable extends Component {
 				clientUsers.sort(compare);
 				managerUsers.sort(compare);
 				adminUsers.sort(compare);
-				switch (activeTab) {
-					case "demo":
-						activeUsers = demoUsers;
-						break;
-					case "client":
-						activeUsers = clientUsers;
-						break;
-					case "manager":
-						activeUsers = managerUsers;
-						break;
-					case "admin":
-						activeUsers = adminUsers;
-						break;
-					default:
+				if (userCategories["demo"]) {
+					activeUsers = demoUsers;
+				} else if (userCategories["client"]) {
+					activeUsers = clientUsers;
+				} else if (userCategories["manager"]) {
+					activeUsers = managerUsers;
+				} else if (userCategories["admin"]) {
+					activeUsers = adminUsers;
 				}
 
 				this.setState({
@@ -91,21 +83,24 @@ class UsersTable extends Component {
 	};
 	updateUsers = event => {
 		// Remove active class from last tab
-		if (this.state.activeTab) {
-			document.getElementById(this.state.activeTab).className = "";
+		let { userCategories } = this.state;
+		for (let index in userCategories) {
+			userCategories[index] = false;
 		}
-		event.target.className = "active";
+		userCategories[event.target.id] = true;
+
 		let users;
-		if (event.target.id === "admin") {
+		if (userCategories["admin"]) {
 			users = this.state.adminUsers;
-		} else if (event.target.id === "manager") {
+		} else if (userCategories["manager"]) {
 			users = this.state.managerUsers;
-		} else if (event.target.id === "client") {
+		} else if (userCategories["client"]) {
 			users = this.state.clientUsers;
-		} else if (event.target.id === "demo") {
+		} else if (userCategories["demo"]) {
 			users = this.state.demoUsers;
 		}
-		this.setState({ activeTab: event.target.id, activeUsers: users, untouchedActiveUsers: users });
+
+		this.setState({ activeUsers: users, untouchedActiveUsers: users, userCategories: userCategories });
 	};
 	searchUsers = event => {
 		const { untouchedActiveUsers } = this.state;
@@ -160,7 +155,7 @@ class UsersTable extends Component {
 		this.setState({ editting: !this.state.editting });
 	};
 	render() {
-		const { clickedUser, managerUsers, plans, activeTab, editting, activeUsers, userCategories } = this.state;
+		const { clickedUser, managerUsers, plans, editting, activeUsers, userCategories } = this.state;
 		let objectArry = [];
 
 		for (let index in clickedUser) {
@@ -208,7 +203,7 @@ class UsersTable extends Component {
 		}
 		return (
 			<div>
-				<NavigationBar updateParentState={this.updateUsers} categories={userCategories} setActive={activeTab} />
+				<NavigationBar updateParentState={this.updateUsers} categories={userCategories} />
 				<ManageColumn
 					objectList={activeUsers}
 					searchObjects={this.searchUsers}

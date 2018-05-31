@@ -7,13 +7,6 @@ class DropDownAttribute extends Component {
 		untouchedDropdownList: this.props.dropdownList,
 		inputValue: this.props.value
 	};
-	constructor(props) {
-		super(props);
-
-		this.showDropDownList = this.showDropDownList.bind(this);
-		this.sortDropdown = this.sortDropdown.bind(this);
-		this.updateDropdown = this.updateDropdown.bind(this);
-	}
 
 	componentDidMount() {
 		document.addEventListener("mousedown", this.handleClickOutside);
@@ -31,55 +24,53 @@ class DropDownAttribute extends Component {
 			this.setState({ showDropdown: false });
 		}
 	};
-	showDropDownList(event) {
+	showDropDownList = event => {
 		this.setState({ showDropdown: true });
-	}
-	sortDropdown(event) {
+	};
+	sortDropdown = event => {
+		let { untouchedDropdownList } = this.state;
 		let dropdownList = [];
-		for (let index in this.state.untouchedDropdownList) {
+
+		for (let index in untouchedDropdownList) {
 			// Check to see if index is an object or not
 			let indexValue;
-			if (this.state.untouchedDropdownList[index].name) {
-				indexValue = this.state.untouchedDropdownList[index].name;
+			if (untouchedDropdownList[index].name) {
+				indexValue = untouchedDropdownList[index].name;
 			} else {
-				indexValue = this.state.untouchedDropdownList[index];
+				indexValue = untouchedDropdownList[index];
 			}
 			if (indexValue.includes(event.target.value)) {
 				dropdownList.push(indexValue);
 			}
 		}
 		this.setState({ inputValue: event.target.value, dropdownList: dropdownList });
-	}
-	updateDropdown(index, value, id) {
+	};
+	updateDropdown = (index, value, id) => {
 		this.setState({ showDropdown: false, inputValue: value });
 
 		// event.target.id is the id of the writer while event.target.innerhtml is the name of the writer
 		this.props.updateParentState(index, value, id);
-	}
+	};
 	render() {
 		let dropDownContent = [];
+		let { dropdownList, showDropdown, inputValue } = this.state;
+		let { label } = this.props;
 
-		for (let index in this.state.dropdownList) {
-			if (this.state.dropdownList[index].id) {
+		for (let index in dropdownList) {
+			if (dropdownList[index].id) {
 				dropDownContent.push(
 					<p
-						id={this.state.dropdownList[index].id}
+						id={dropdownList[index].id}
 						key={index}
-						onClick={event => this.updateDropdown(this.props.label, event.target.innerHTML, event.target.id)}
+						onClick={event => this.updateDropdown(label, event.target.innerHTML, event.target.id)}
 					>
-						{this.state.dropdownList[index].value
-							? this.state.dropdownList[index].value
-							: this.state.dropdownList[index].id}
+						{dropdownList[index].value ? dropdownList[index].value : dropdownList[index].id}
 					</p>
 				);
 			} else {
 				dropDownContent.push(
-					<p
-						id={this.state.dropdownList[index]}
-						key={index}
-						onClick={event => this.updateDropdown(this.props.label, event.target.innerHTML)}
-					>
-						{this.state.dropdownList[index]}
+					<p id={dropdownList[index]} key={index} onClick={event => this.updateDropdown(label, dropdownList[index])}>
+						{dropdownList[index]}
 					</p>
 				);
 			}
@@ -87,15 +78,15 @@ class DropDownAttribute extends Component {
 		return (
 			<div className="row" ref={this.setWrapperRef}>
 				<span className="user-attribute-label">
-					<h4>{this.props.label + ":"}</h4>
+					<h4>{label + ":"}</h4>
 					<div className="user-attribute-dropdown">
 						<input
 							className="user-attribute-dropdown-input"
 							onChange={this.sortDropdown}
 							onClick={this.showDropDownList}
-							value={this.state.inputValue}
+							value={inputValue}
 						/>
-						{this.state.showDropdown && <div className="dropdown-list center">{dropDownContent}</div>}
+						{showDropdown && <div className="dropdown-list center">{dropDownContent}</div>}
 					</div>
 				</span>
 			</div>

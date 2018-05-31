@@ -165,7 +165,7 @@ class OnboardingModal extends Component {
 								<p className="onboarding-info">
 									All we need is the name of 3 or more competitors! We will do the rest!
 									<br />
-									Note: This information is used to outrank your competition in google searches!
+									Note: This information is only used to outrank your competition in Google searches!
 								</p>
 							</div>
 						)}
@@ -183,7 +183,8 @@ class OnboardingModal extends Component {
 								<p className="onboarding-info">
 									Example: We sell to tech companies, 1-15 employees based in US, UK, Canada and Australia. The decision
 									maker in these companies are marketing managers and the problems they are looking to solve are content
-									marketing strategy, content marketing production, user acquisition, generating more website inbound.
+									marketing strategy, content marketing production, user acquisition and generating organic website
+									inbound.
 								</p>
 							</div>
 						)}
@@ -199,9 +200,9 @@ class OnboardingModal extends Component {
 									title="Tell Us About Your Brand!"
 								/>
 								<p className="onboarding-info">
-									Example: Our brand voice is fun somewhat cheeky, educational, informative and actionable.
+									Example: Our brand is fun, somewhat cheeky, informative and actionable.
 									<br />
-									We look for insparation like Ahrefs, nerd wallet, hubspot.
+									We look for insparation like Ahrefs, nerd wallet and hubspot.
 									<br />
 									Things we look to avoid: generic, non-actionable, non-value additive content.
 								</p>

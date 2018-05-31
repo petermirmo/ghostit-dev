@@ -1,4 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Varela);
+@import url(https://fonts.googleapis.com/css?family=Lato);
+@import url(https://fonts.googleapis.com/css?family=Butterfly+Kids);
 
 @import url("htmlTags.css");
 @import url("confirmAlert.css");
@@ -39,7 +43,7 @@
 	--extra-large-font-size: 17pt;
 	--gigantic-font-size: 20pt;
 
-	--font-theme: "Open Sans";
+	--font-theme: "Lato";
 }
 .modal {
 	position: fixed;

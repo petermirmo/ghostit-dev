@@ -8,12 +8,34 @@ import "./style.css";
 class WritersBrief extends Component {
 	state = {
 		pastWritersBriefs: [],
-		writersBrief: { cycleStartDate: new moment() }
+		writersBrief: undefined
 	};
+	componentDidMount() {
+		// Delete this whole function when done testing
+		let { pastWritersBriefs } = this.state;
+
+		let newWritersBrief = {
+			cycleStartDate: new moment(),
+			cycleEndDate: new moment(),
+			socialPosts: { facebook: "", instagram: "", twitter: "", linkedin: "" },
+			blogPosts: [],
+			emailNewsletters: []
+		};
+		pastWritersBriefs.unshift(newWritersBrief);
+
+		this.setState({ pastWritersBriefs: pastWritersBriefs, writersBrief: newWritersBrief });
+	}
 	createNewWritersBrief = () => {
 		let { pastWritersBriefs } = this.state;
-		let date = new moment();
-		pastWritersBriefs.unshift({ cycleStartDate: date });
+
+		let newWritersBrief = {
+			cycleStartDate: new moment(),
+			cycleEndDate: new moment(),
+			socialPosts: [],
+			blogPosts: [],
+			emailNewsletters: []
+		};
+		pastWritersBriefs.unshift(newWritersBrief);
 
 		this.setState({ pastWritersBriefs: pastWritersBriefs });
 	};
@@ -23,12 +45,17 @@ class WritersBrief extends Component {
 	render() {
 		const { user } = this.props;
 		const { pastWritersBriefs, writersBrief } = this.state;
+
 		const adminManagerOrDemo = user.role === "admin" || user.role === "manager" || user.role === "demo";
 
 		let pastWritersBriefsButtons = [];
 		for (let index in pastWritersBriefs) {
 			let active;
-			if (pastWritersBriefs[index].cycleStartDate === writersBrief.cycleStartDate) active = "active";
+			if (writersBrief) {
+				if (pastWritersBriefs[index].cycleStartDate === writersBrief.cycleStartDate) {
+					active = "active";
+				}
+			}
 			pastWritersBriefsButtons.push(
 				<button
 					key={index}
@@ -50,7 +77,7 @@ class WritersBrief extends Component {
 					)}
 					{pastWritersBriefsButtons}
 				</div>
-				{writersBrief.cycleStartDate && <WritersBriefForm writersBrief={writersBrief} />}
+				{writersBrief && <WritersBriefForm writersBrief={writersBrief} />}
 			</div>
 		);
 	}
