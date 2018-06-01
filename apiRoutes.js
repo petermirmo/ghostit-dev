@@ -155,6 +155,8 @@ module.exports = app => {
 	app.delete("/api/blog/delete/:blogID", (req, res) => blogFunctions.deleteBlog(req, res));
 	// Get all placeholder blogs
 	app.get("/api/blogs", (req, res) => blogFunctions.getBlogs(req, res));
+	// Get all placeholder blogs in writers brief
+	app.get("/api/blogsInBriefs", (req, res) => blogFunctions.getBlogsInBriefs(req, res));
 
 	// Delete file in cloudinary using pulbic id
 	app.delete("/api/delete/file/:publicID", (req, res) => generalFunctions.deleteFile(req, res));

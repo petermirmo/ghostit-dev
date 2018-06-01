@@ -43,7 +43,7 @@ class ContentModal extends Component {
 		if (activeTab === "blog") {
 			modalBody = (
 				<CreateBlog
-					clickedCalendarDate={clickedCalendarDate}
+					postingDate={clickedCalendarDate}
 					callback={saveBlogCallback}
 					setSaving={this.setSaving}
 					timezone={timezone}

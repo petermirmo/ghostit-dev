@@ -87,6 +87,7 @@ module.exports = {
 			});
 		});
 	},
+	getBlogsInBriefs(req, res) {},
 	getBlogs(req, res) {
 		let userID = req.user._id;
 		if (req.user.signedInAsUser) {

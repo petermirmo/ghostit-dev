@@ -7,20 +7,20 @@
 @import url("htmlTags.css");
 @import url("confirmAlert.css");
 :root {
-	--blue-theme-color: #34bbe6;
-	--purple-theme-color: #ae56fa;
+	--blue-theme-color: #00a8ff;
+	--purple-theme-color: #8c7ae6;
 	--orange-theme-color: #fd651c;
-	--green-theme-color: #a3e048;
+	--green-theme-color: #4cd137;
 	--yellow-theme-color: #ffff00;
 	--pink-theme-color: #d23be7;
 	--red-theme-color: #e6261f;
 
-	--grey-theme-color: #bfbfbf;
+	--grey-theme-color: #dcdde1;
 	--black-theme-color: #000;
 	--white-theme-color: #fff;
 
 	--light-blue-theme-color: #b3e6ff;
-	--light-purple-theme-color: #c483fb;
+	--light-purple-theme-color: #9c88ff;
 
 	--light-light-blue-theme-color: #d1f0ff;
 	--light-light-purple-theme-color: #dbb5fd;
@@ -28,11 +28,11 @@
 	--super-light-blue-theme-color: #e6f7ff;
 
 	--dark-pink-theme-color: #b719cc;
-	--dark-blue-theme-color: #19a1cc;
-	--dark-green-theme-color: #496d12;
+	--dark-blue-theme-color: #0097e6;
+	--dark-green-theme-color: #44bd32;
 
-	--light-grey-theme-color: #d9d9d9;
-	--dark-grey-theme-color: #737373;
+	--light-grey-theme-color: #f5f6fa;
+	--dark-grey-theme-color: #718093;
 
 	--off-black-theme-color: #666666;
 

@@ -1,19 +1,41 @@
 import React, { Component } from "react";
+import axios from "axios";
 import Textarea from "react-textarea-autosize";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import NavigationBar from "../../components/Navigations/NavigationBar";
+import CreateBlog from "../ContentPage/PostingFiles/CreateBlog/";
+import Loader from "../../components/Notifications/Loader/";
+import SearchColumn from "../../components/SearchColumn/";
 
 class WritersBriefForm extends Component {
 	state = {
 		writersBrief: this.props.writersBrief,
-		socialCategories: { facebook: true, instagram: false, twitter: false, linkedin: false }
+		socialCategories: { facebook: true, instagram: false, twitter: false, linkedin: false },
+		blogPosts: [],
+		saving: false
 	};
+	componentDidMount() {
+		this.getBlogsInBrief();
+		this._ismounted = true;
+	}
+	componentWillUnmount() {
+		this._ismounted = false;
+	}
 	componentWillReceiveProps(nextProps) {
 		this.setState({ writersBrief: nextProps.writersBrief });
 	}
+	getBlogsInBrief = () => {
+		axios.get("/api/blogsInBriefs").then(res => {
+			let { blogs } = res.data;
+
+			if (this._ismounted) {
+				this.setState({ websitePosts: blogs });
+			}
+		});
+	};
 
 	handleChangeSocialDescription = (value, index) => {
 		let { writersBrief } = this.state;
@@ -36,6 +58,12 @@ class WritersBriefForm extends Component {
 		socialCategories[event.target.id] = true;
 		this.setState({ socialCategories: socialCategories });
 	};
+
+	setSaving = () => {
+		this.setState({ saving: true });
+	};
+
+	blogPostClicked = () => {};
 	render() {
 		let { writersBrief, socialCategories } = this.state;
 		let { cycleStartDate, cycleEndDate, socialPostsDescriptions } = writersBrief;
@@ -71,13 +99,23 @@ class WritersBriefForm extends Component {
 					onChange={event => this.handleChangeSocialDescription(event.target.value, activeTab)}
 				/>
 
-				<div className="container-something">
+				<div className="container-placeholder">
+					<SearchColumn objectList={[]} searchObjects={this.searchUsers} handleClickedObject={this.blogPostClicked} />
+
 					<button
 						className="fa fa-plus fa-2x add-new"
 						onClick={() => this.addNewIndexToWritersBriefArray("blogPosts")}
 					/>
+
+					<CreateBlog blog={this.props.clickedCalendarEvent} callback={() => {}} setSaving={this.setSaving} />
 				</div>
-				<div className="container-something">
+				<div className="container-placeholder">
+					<SearchColumn
+						objectList={[]}
+						searchObjects={this.searchUsers}
+						handleClickedObject={this.emailNewsletterClicked}
+					/>
+
 					<button
 						className="fa fa-plus fa-2x add-new"
 						onClick={() => this.addNewIndexToWritersBriefArray("emailNewsletters")}

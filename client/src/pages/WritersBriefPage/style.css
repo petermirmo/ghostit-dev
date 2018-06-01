@@ -13,6 +13,9 @@
 	font-size: var(--large-font-size);
 	padding: 10px;
 }
+.writers-brief-button:hover {
+	background-color: var(--green-theme-color);
+}
 .writers-brief-button.active {
 	background-color: var(--blue-theme-color);
 }
@@ -52,8 +55,8 @@
 .textarea-social:focus {
 	border: 1px solid var(--blue-theme-color);
 }
-.container-something {
-	height: 100px;
+.container-placeholder {
+	min-height: 100px;
 	width: stretch;
 	margin: 20px;
 	border-radius: 4px;
@@ -62,7 +65,7 @@
 
 .add-new {
 	float: left;
-	margin: 10px 0 0 10px;
+	margin: 10px 0 0 20px;
 	color: var(--white-theme-color);
 	background-color: var(--blue-theme-color);
 }

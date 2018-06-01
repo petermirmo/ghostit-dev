@@ -17,9 +17,7 @@ class WritersBrief extends Component {
 		let newWritersBrief = {
 			cycleStartDate: new moment(),
 			cycleEndDate: new moment(),
-			socialPostsDescriptions: { facebook: "", instagram: "", twitter: "", linkedin: "" },
-			blogPosts: [],
-			emailNewsletters: []
+			socialPostsDescriptions: { facebook: "", instagram: "", twitter: "", linkedin: "" }
 		};
 		pastWritersBriefs.unshift(newWritersBrief);
 
@@ -31,9 +29,7 @@ class WritersBrief extends Component {
 		let newWritersBrief = {
 			cycleStartDate: new moment(),
 			cycleEndDate: new moment(),
-			socialPosts: [],
-			blogPosts: [],
-			emailNewsletters: []
+			socialPostsDescriptions: { facebook: "", instagram: "", twitter: "", linkedin: "" }
 		};
 		pastWritersBriefs.unshift(newWritersBrief);
 

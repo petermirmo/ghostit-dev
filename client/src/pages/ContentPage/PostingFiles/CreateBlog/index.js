@@ -20,7 +20,7 @@ class CreateBlogComponent extends Component {
 
 					about: "",
 					resources: "",
-					postingDate: this.props.clickedCalendarDate
+					postingDate: this.props.postingDate
 				},
 		blogImages: [],
 		blogFile: {},
