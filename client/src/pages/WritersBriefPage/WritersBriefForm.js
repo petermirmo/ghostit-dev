@@ -15,10 +15,16 @@ class WritersBriefForm extends Component {
 		writersBrief: this.props.writersBrief,
 		socialCategories: { facebook: true, instagram: false, twitter: false, linkedin: false },
 		blogPosts: [],
+		notification: {
+			on: false,
+			title: "",
+			message: "",
+			type: "danger"
+		},
 		saving: false
 	};
 	componentDidMount() {
-		this.getBlogsInBrief();
+		//this.getBlogsInBrief();
 		this._ismounted = true;
 	}
 	componentWillUnmount() {
@@ -27,6 +33,7 @@ class WritersBriefForm extends Component {
 	componentWillReceiveProps(nextProps) {
 		this.setState({ writersBrief: nextProps.writersBrief });
 	}
+
 	getBlogsInBrief = () => {
 		axios.get("/api/blogsInBriefs").then(res => {
 			let { blogs } = res.data;
@@ -36,17 +43,20 @@ class WritersBriefForm extends Component {
 			}
 		});
 	};
+	blogPostClicked = () => {};
 
-	handleChangeSocialDescription = (value, index) => {
+	saveWritersBrief = () => {
+		this.setState({ saving: true });
 		let { writersBrief } = this.state;
-		writersBrief["socialPostsDescriptions"][index] = value;
-		this.setState({ writersBrief: writersBrief });
-	};
-
-	handleDateChange = (date, index) => {
-		let { writersBrief } = this.state;
-		writersBrief[index] = date;
-		this.setState({ writersBrief: writersBrief });
+		axios.post("/api/writersBrief", { writersBrief: writersBrief }).then(res => {
+			if (this._ismounted) {
+				this.setState({ saving: false });
+			}
+			let { success, errorMessage } = res.data;
+			if (!success) {
+				this.notify({ type: "danger", message: errorMessage, title: "error :(" });
+			}
+		});
 	};
 
 	updateSocialPostsActiveTab = event => {
@@ -62,10 +72,42 @@ class WritersBriefForm extends Component {
 	setSaving = () => {
 		this.setState({ saving: true });
 	};
+	notify = notificationObject => {
+		const { title, message, type } = notificationObject;
 
-	blogPostClicked = () => {};
+		let { notification } = this.state;
+		notification.on = !notification.on;
+
+		if (title) notification.title = title;
+		if (message) notification.message = message;
+		if (type) notification.type = type;
+
+		this.setState({ notification: notification });
+
+		if (notification.on) {
+			setTimeout(() => {
+				let { notification } = this.state;
+				notification.on = false;
+				this.setState({ notification: notification });
+			}, 1500);
+		}
+	};
+
+	handleChangeSocialDescription = (value, index) => {
+		let { writersBrief } = this.state;
+		writersBrief["socialPostsDescriptions"][index] = value;
+		this.setState({ writersBrief: writersBrief });
+		this.props.updateWritersBrief(writersBrief);
+	};
+
+	handleDateChange = (date, index) => {
+		let { writersBrief } = this.state;
+		writersBrief[index] = date;
+		this.setState({ writersBrief: writersBrief });
+		this.props.updateWritersBrief(writersBrief);
+	};
 	render() {
-		let { writersBrief, socialCategories } = this.state;
+		let { writersBrief, socialCategories, saving } = this.state;
 		let { cycleStartDate, cycleEndDate, socialPostsDescriptions } = writersBrief;
 
 		let activeTab;
@@ -74,30 +116,35 @@ class WritersBriefForm extends Component {
 		}
 		return (
 			<div className="writers-brief-form center">
-				<p className="date-label center">Content cycle start: </p>
-				<DatePicker
-					className="date-picker center"
-					selected={cycleStartDate}
-					onChange={date => this.handleDateChange(date, "cycleStartDate")}
-					dateFormat="MMMM Do YYYY"
-				/>
+				<div className="container-placeholder">
+					<p className="date-label center">Content cycle start: </p>
+					<DatePicker
+						className="date-picker center"
+						selected={cycleStartDate}
+						onChange={date => this.handleDateChange(date, "cycleStartDate")}
+						dateFormat="MMMM Do YYYY"
+					/>
 
-				<p className="date-label">Content cycle end: </p>
-				<DatePicker
-					className="date-picker center"
-					selected={cycleEndDate}
-					onChange={date => this.handleDateChange(date, "cycleEndDate")}
-					dateFormat="MMMM Do YYYY"
-				/>
+					<p className="date-label">Content cycle end: </p>
+					<DatePicker
+						className="date-picker center"
+						selected={cycleEndDate}
+						onChange={date => this.handleDateChange(date, "cycleEndDate")}
+						dateFormat="MMMM Do YYYY"
+					/>
 
-				<NavigationBar updateParentState={this.updateSocialPostsActiveTab} categories={socialCategories} />
-				<p>Social Media Notes and Instructions ({activeTab}):</p>
-				<Textarea
-					className="textarea-social"
-					placeholder="- funny and upbeat &#10;- 15 facebook posts per month"
-					value={socialPostsDescriptions[activeTab]}
-					onChange={event => this.handleChangeSocialDescription(event.target.value, activeTab)}
-				/>
+					<NavigationBar updateParentState={this.updateSocialPostsActiveTab} categories={socialCategories} />
+					<p>Social Media Notes and Instructions ({activeTab}):</p>
+					<Textarea
+						className="textarea-social"
+						placeholder="- funny and upbeat &#10;- 15 facebook posts per month"
+						value={socialPostsDescriptions[activeTab]}
+						onChange={event => this.handleChangeSocialDescription(event.target.value, activeTab)}
+					/>
+					<button className="bright-save-button" onClick={() => this.saveWritersBrief()}>
+						Save Writer's Brief
+					</button>
+				</div>
 
 				<div className="container-placeholder">
 					<SearchColumn objectList={[]} searchObjects={this.searchUsers} handleClickedObject={this.blogPostClicked} />
@@ -121,6 +168,7 @@ class WritersBriefForm extends Component {
 						onClick={() => this.addNewIndexToWritersBriefArray("emailNewsletters")}
 					/>
 				</div>
+				{saving && <Loader />}
 			</div>
 		);
 	}

@@ -178,9 +178,9 @@ class PostingOptions extends Component {
 				<TimePicker timeForPost={time} callback={this.handleChange} canEdit={canEditPost} />
 
 				{canEditPost && (
-					<div className="save-post-button-background center">
+					<div className="bright-save-button-background center">
 						<button
-							className="save-post-button center"
+							className="bright-save-button center"
 							onClick={() => {
 								let dateToPostInUtcTime = convertDateAndTimeToUtcTme(date, time, timezone);
 

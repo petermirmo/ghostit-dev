@@ -232,7 +232,7 @@ class CreateBlogComponent extends Component {
 					/>
 					{fileDiv}
 				</form>
-				<button className="save-post-button" onClick={event => this.saveBlog()}>
+				<button className="bright-save-button" onClick={event => this.saveBlog()}>
 					Save Blog
 				</button>
 			</div>

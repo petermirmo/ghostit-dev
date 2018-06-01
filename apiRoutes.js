@@ -17,6 +17,7 @@ const generalFunctions = require("./services/generalFunctions");
 const strategyFunctions = require("./services/strategyFunctions");
 const adminFunctions = require("./services/adminFunctions");
 const planFunctions = require("./services/planFunctions");
+const writersBriefFunctions = require("./services/writersBriefFunctions");
 
 module.exports = app => {
 	// Login user
@@ -155,8 +156,6 @@ module.exports = app => {
 	app.delete("/api/blog/delete/:blogID", (req, res) => blogFunctions.deleteBlog(req, res));
 	// Get all placeholder blogs
 	app.get("/api/blogs", (req, res) => blogFunctions.getBlogs(req, res));
-	// Get all placeholder blogs in writers brief
-	app.get("/api/blogsInBriefs", (req, res) => blogFunctions.getBlogsInBriefs(req, res));
 
 	// Delete file in cloudinary using pulbic id
 	app.delete("/api/delete/file/:publicID", (req, res) => generalFunctions.deleteFile(req, res));
@@ -170,7 +169,16 @@ module.exports = app => {
 	// Sign up to plan
 	app.post("/api/signUpToPlan", (req, res) => planFunctions.signUpToPlan(req, res));
 
+	// Get proper timezone, either yours or the user you are signed in as
 	app.get("/api/timezone", (req, res) => userFunctions.getTimezone(req, res));
+
+	// Save writers brief
+	app.post("/api/writersBrief", (req, res) => writersBriefFunctions.saveWritersBrief(req, res));
+	// Get all placeholder blogs in writers brief
+	app.get("/api/blogsInBriefs", (req, res) => writersBriefFunctions.getBlogsInBriefs(req, res));
+	// Get all writers briefs
+	app.get("/api/writersBriefs", (req, res) => writersBriefFunctions.getWritersBriefs(req, res));
+
 	// Admin routes!!!!!
 
 	// Get all users

@@ -1,11 +1,12 @@
 .navigation-container {
+	background-color: transparent;
+	margin: 10px 0 10px 0;
+	padding: 0;
+}
+.navigation-option-container {
 	display: inline-block;
-	width: 15%;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	padding-right: 5px;
-	padding-left: 5px;
-	margin-top: 4px;
 }
 
 .nagivation-option {
@@ -14,11 +15,9 @@
 
 	cursor: pointer;
 
-	display: block;
 	border-radius: 4px;
 	overflow: hidden;
 	padding: 2px;
-
 	text-decoration: none;
 	text-align: center;
 	font-size: var(--large-font-size);

@@ -15,10 +15,10 @@
 	--yellow-theme-color: #ffff00;
 
 	--light-blue-theme-color: #80d3ff;
-	--light-purple-theme-color: #9c88ff;
-	--light-light-blue-theme-color: #d1f0ff;
+	--light-light-blue-theme-color: #b2e4ff;
 	--super-light-blue-theme-color: #e6f7ff;
 
+	--light-purple-theme-color: #9c88ff;
 	--light-light-purple-theme-color: #dbb5fd;
 
 	--dark-blue-theme-color: #0097e6;
@@ -299,4 +299,19 @@
 	background-color: var(--blue-theme-color);
 	cursor: pointer;
 	color: var(--white-theme-color);
+}
+
+.bright-save-button {
+	font-size: var(--large-font-size);
+	background-color: var(--pink-theme-color);
+	min-width: 30%;
+	padding: 10px 0 10px 0;
+	margin: 20px 0 10px 0;
+	border-radius: 4px;
+	transition: all 1s ease;
+
+	position: sticky;
+}
+.bright-save-button:hover {
+	transform: scale(1.1);
 }

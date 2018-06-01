@@ -37,20 +37,6 @@
 .posting-textarea:focus {
 	border: 1px solid var(--blue-theme-color);
 }
-.save-post-button-background {
+.bright-save-button-background {
 	width: 100%;
-}
-.save-post-button {
-	font-size: var(--large-font-size);
-	background-color: var(--pink-theme-color);
-	min-width: 30%;
-	padding: 10px 0 10px 0;
-	margin: 20px 0 10px 0;
-	border-radius: 4px;
-	transition: all 1s ease;
-
-	position: sticky;
-}
-.save-post-button:hover {
-	transform: scale(1.1);
 }

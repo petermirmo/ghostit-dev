@@ -7,14 +7,14 @@ class NavBar extends Component {
 		let categoryDivs = [];
 		for (let index in categories) {
 			categoryDivs.push(
-				<li className="navigation-container" key={index} onClick={this.props.updateParentState}>
+				<li className="navigation-option-container" key={index} onClick={this.props.updateParentState}>
 					<a className={categories[index] ? "nagivation-option active" : "nagivation-option"} id={index}>
 						{index}
 					</a>
 				</li>
 			);
 		}
-		return <ul>{categoryDivs}</ul>;
+		return <ul className="navigation-container center">{categoryDivs}</ul>;
 	}
 }
 
