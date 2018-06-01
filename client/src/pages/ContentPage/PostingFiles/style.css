@@ -12,14 +12,13 @@
 	border-radius: 4px 4px 0 0;
 }
 .account-tab button {
-	padding: 15px 0 15px 0;
+	padding: 10px 0 10px 0;
 	width: 100%;
 	background-color: transparent;
 	color: inherit;
 }
 .active-account-tab {
 	background-color: var(--green-theme-color);
-	color: var(--black-theme-color) !important;
 }
 .posting-textarea {
 	outline: 0;

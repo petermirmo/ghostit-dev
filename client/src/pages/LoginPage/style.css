@@ -46,7 +46,7 @@
 .login-input {
 	font-family: var(--font-theme);
 	font-size: var(--large-font-size);
-	color: var(--font-theme-color);
+	color: var(--black-theme-color);
 
 	width: 90%;
 

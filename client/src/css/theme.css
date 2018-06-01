@@ -5,38 +5,35 @@
 @import url(https://fonts.googleapis.com/css?family=Butterfly+Kids);
 
 @import url("htmlTags.css");
-@import url("confirmAlert.css");
 :root {
 	--blue-theme-color: #00a8ff;
-	--purple-theme-color: #8c7ae6;
-	--orange-theme-color: #fd651c;
 	--green-theme-color: #4cd137;
-	--yellow-theme-color: #ffff00;
+	--orange-theme-color: #fd651c;
 	--pink-theme-color: #d23be7;
+	--purple-theme-color: #8c7ae6;
 	--red-theme-color: #e6261f;
-
-	--grey-theme-color: #dcdde1;
-	--black-theme-color: #000;
-	--white-theme-color: #fff;
+	--yellow-theme-color: #ffff00;
 
 	--light-blue-theme-color: #80d3ff;
 	--light-purple-theme-color: #9c88ff;
-
 	--light-light-blue-theme-color: #d1f0ff;
-	--light-light-purple-theme-color: #dbb5fd;
-
 	--super-light-blue-theme-color: #e6f7ff;
 
-	--dark-pink-theme-color: #b719cc;
+	--light-light-purple-theme-color: #dbb5fd;
+
 	--dark-blue-theme-color: #0097e6;
 	--dark-green-theme-color: #44bd32;
+	--dark-pink-theme-color: #b719cc;
+
+	--black-theme-color: #000;
+	--grey-theme-color: #c0c1c6;
+	--white-theme-color: #fff;
 
 	--light-grey-theme-color: #f5f6fa;
 	--dark-grey-theme-color: #718093;
 
 	--off-black-theme-color: #666666;
 
-	--font-theme-color: #000;
 	--regular-font-size: 11pt;
 	--twelve-font-size: 12pt;
 	--large-font-size: 13pt;
@@ -64,7 +61,11 @@
 	background-color: var(--white-theme-color);
 	margin: auto;
 	padding: 0;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 2);
+	box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
+	-o-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
+
 	-webkit-animation-name: animatetop;
 	-webkit-animation-duration: 0.4s;
 	animation-name: animatetop;
