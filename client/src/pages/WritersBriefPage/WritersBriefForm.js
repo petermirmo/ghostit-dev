@@ -137,7 +137,7 @@ class WritersBriefForm extends Component {
 					<p>Social Media Notes and Instructions ({activeTab}):</p>
 					<Textarea
 						className="textarea-social"
-						placeholder="- funny and upbeat &#10;- 15 facebook posts per month"
+						placeholder="- funny and upbeat &#10;- 15 posts per month"
 						value={socialPostsDescriptions[activeTab]}
 						onChange={event => this.handleChangeSocialDescription(event.target.value, activeTab)}
 					/>

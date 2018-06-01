@@ -37,6 +37,3 @@
 .posting-textarea:focus {
 	border: 1px solid var(--blue-theme-color);
 }
-.bright-save-button-background {
-	width: 100%;
-}

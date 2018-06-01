@@ -66,10 +66,10 @@
 	-webkit-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
 	-o-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
 
-	-webkit-animation-name: animatetop;
-	-webkit-animation-duration: 0.4s;
-	animation-name: animatetop;
-	animation-duration: 0.4s;
+	-webkit-animation-name: animateright;
+	-webkit-animation-duration: 0.2s;
+	animation-name: animateright;
+	animation-duration: 0.2s;
 
 	width: 50%;
 	margin-bottom: 200px;
@@ -91,10 +91,9 @@
 	text-align: center;
 	overflow: auto;
 }
-/* Add Animation */
-@-webkit-keyframes animatetop {
+@keyframes animatetop {
 	from {
-		top: -300px;
+		top: -50px;
 		opacity: 0;
 	}
 	to {
@@ -103,13 +102,23 @@
 	}
 }
 
-@keyframes animatetop {
+@keyframes animateright {
 	from {
-		top: -300px;
+		right: -50px;
 		opacity: 0;
 	}
 	to {
-		top: 0;
+		right: 0;
+		opacity: 1;
+	}
+}
+@keyframes animateleft {
+	from {
+		left: -50px;
+		opacity: 0;
+	}
+	to {
+		left: 0;
 		opacity: 1;
 	}
 }
@@ -200,30 +209,10 @@
 	animation: animateright 0.4s;
 }
 .center {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-}
-@keyframes animateright {
-	from {
-		right: -300px;
-		opacity: 0;
-	}
-	to {
-		right: 0;
-		opacity: 1;
-	}
-}
-@keyframes animateleft {
-	from {
-		left: -300px;
-		opacity: 0;
-	}
-	to {
-		left: 0;
-		opacity: 1;
-	}
+	display: block !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	text-align: center !important;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -301,6 +290,8 @@
 	color: var(--white-theme-color);
 }
 
+.bright-save-button-background {
+}
 .bright-save-button {
 	font-size: var(--large-font-size);
 	background-color: var(--pink-theme-color);
@@ -309,8 +300,6 @@
 	margin: 20px 0 10px 0;
 	border-radius: 4px;
 	transition: all 1s ease;
-
-	position: sticky;
 }
 .bright-save-button:hover {
 	transform: scale(1.1);
