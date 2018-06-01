@@ -1,6 +1,6 @@
 .login-background {
 	background-color: var(--blue-theme-color);
-	background: linear-gradient(180deg, var(--blue-theme-color), var(--white-theme-color)150%);
+	background: linear-gradient(170deg, var(--blue-theme-color)60%, var(--white-theme-color)0%);
 
 	width: 100%;
 	height: 100vh !important;

@@ -10,7 +10,7 @@ header {
 .navbar {
 	overflow: hidden;
 	background-color: var(--blue-theme-color);
-	background: linear-gradient(to top, var(--blue-theme-color), #80d6fe 150%);
+	background: linear-gradient(to top, var(--blue-theme-color), var(--light-blue-theme-color) 150%);
 	font-family: var(--font-theme);
 	padding-right: 10%;
 	color: var(--light-light-blue-theme-color);
