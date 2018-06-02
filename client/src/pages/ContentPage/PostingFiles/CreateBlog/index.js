@@ -33,6 +33,27 @@ class CreateBlogComponent extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.blog) {
 			this.setState({ blog: nextProps.blog, blogImages: [], blogFile: {}, imagesToDelete: [], saving: false });
+		} else {
+			this.setState({
+				blog: {
+					_id: undefined,
+					title: "",
+					keywords: [
+						{ keyword: "", keywordDifficulty: 0, keywordSearchVolume: 0 },
+						{ keyword: "", keywordDifficulty: 0, keywordSearchVolume: 0 },
+						{ keyword: "", keywordDifficulty: 0, keywordSearchVolume: 0 }
+					],
+
+					about: "",
+					resources: "",
+					dueDate: nextProps.postingDate,
+					postingDate: nextProps.postingDate
+				},
+				blogImages: [],
+				blogFile: {},
+				imagesToDelete: [],
+				saving: false
+			});
 		}
 	}
 

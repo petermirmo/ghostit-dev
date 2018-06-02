@@ -8,7 +8,7 @@
 	background-color: var(--blue-theme-color);
 	border: none;
 	color: var(--white-theme-color);
-	width: 100%;
+	width: stretch;
 	text-align: center;
 }
 .image-container {

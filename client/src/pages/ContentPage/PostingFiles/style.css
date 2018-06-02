@@ -24,12 +24,11 @@
 	outline: 0;
 	float: left;
 	width: stretch;
-	max-width: 100%;
 	min-height: 100px;
 
 	border: 1px solid var(--grey-theme-color);
 	border-radius: 4px;
-	margin: 10px 10px 10px 0;
+	margin: 10px 0 10px 0;
 	background: transparent;
 	overflow: auto;
 	resize: none;

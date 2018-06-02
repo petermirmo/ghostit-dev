@@ -124,6 +124,13 @@ class WritersBriefForm extends Component {
 		this.props.updateWritersBrief(writersBrief);
 		this.getBlogsInBrief();
 	};
+	newBlog = () => {
+		this.setState({ clickedBlogIndex: undefined });
+	};
+	updateBlogs = () => {
+		this.getBlogsInBrief();
+		this.setState({ saving: false });
+	};
 	render() {
 		let { writersBrief, socialCategories, saving, blogs, clickedBlogIndex } = this.state;
 		let { cycleStartDate, cycleEndDate, socialPostsDescriptions } = writersBrief;
@@ -132,6 +139,10 @@ class WritersBriefForm extends Component {
 		for (let index in socialCategories) {
 			if (socialCategories[index]) activeTab = index;
 		}
+
+		let activeBlog;
+		if (blogs[clickedBlogIndex]) activeBlog = blogs[clickedBlogIndex];
+
 		return (
 			<div className="writers-brief-form center">
 				<div className="container-placeholder center">
@@ -170,13 +181,8 @@ class WritersBriefForm extends Component {
 						searchObjects={this.searchUsers}
 						handleClickedObject={this.blogPostClicked}
 					/>
-					<button
-						className="fa fa-plus fa-2x add-new"
-						onClick={() => this.addNewIndexToWritersBriefArray("blogPosts")}
-					/>
-					{clickedBlogIndex && (
-						<CreateBlog blog={blogs[clickedBlogIndex]} callback={() => {}} setSaving={this.setSaving} />
-					)}
+					<button className="fa fa-plus fa-2x add-new" onClick={() => this.newBlog()} />
+					<CreateBlog blog={activeBlog} callback={this.updateBlogs} setSaving={this.setSaving} />
 				</div>
 
 				<div className="container-placeholder center">
@@ -186,10 +192,7 @@ class WritersBriefForm extends Component {
 						handleClickedObject={this.emailNewsletterClicked}
 					/>
 
-					<button
-						className="fa fa-plus fa-2x add-new"
-						onClick={() => this.addNewIndexToWritersBriefArray("emailNewsletters")}
-					/>
+					<button className="fa fa-plus fa-2x add-new" />
 				</div>
 				{saving && <Loader />}
 			</div>
