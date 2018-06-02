@@ -175,7 +175,7 @@ module.exports = app => {
 	// Save writers brief
 	app.post("/api/writersBrief", (req, res) => writersBriefFunctions.saveWritersBrief(req, res));
 	// Get all placeholder blogs in writers brief
-	app.get("/api/blogsInBriefs", (req, res) => writersBriefFunctions.getBlogsInBriefs(req, res));
+	app.post("/api/blogsInBriefs", (req, res) => writersBriefFunctions.getBlogsInBriefs(req, res));
 	// Get all writers briefs
 	app.get("/api/writersBriefs", (req, res) => writersBriefFunctions.getWritersBriefs(req, res));
 

@@ -63,7 +63,17 @@ module.exports = {
 			res.send({ success: true, writersBriefs: writersBriefs });
 		});
 	},
-	getBlogsInBriefs(req, res) {}
+	getBlogsInBriefs(req, res) {
+		let { cycleStartDate, cycleEndDate } = req.body;
+		Blog.find({ postingDate: { $lt: cycleEndDate }, postingDate: { $gt: cycleStartDate } }, function(err, blogs) {
+			if (err) {
+				handleError(res, err);
+				return;
+			} else {
+				res.send({ success: true, blogs: blogs });
+			}
+		});
+	}
 };
 
 function handleError(res, errorMessage) {

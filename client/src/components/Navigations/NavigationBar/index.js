@@ -6,6 +6,7 @@ class NavBar extends Component {
 		const { categories } = this.props;
 		let categoryDivs = [];
 		for (let index in categories) {
+			if (!index) break;
 			categoryDivs.push(
 				<li className="navigation-option-container" key={index} onClick={this.props.updateParentState}>
 					<a className={categories[index] ? "nagivation-option active" : "nagivation-option"} id={index}>

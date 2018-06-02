@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Textarea from "react-textarea-autosize";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 import axios from "axios";
 
 import ImagesDiv from "../../Divs/ImagesDiv/";
@@ -20,6 +22,7 @@ class CreateBlogComponent extends Component {
 
 					about: "",
 					resources: "",
+					dueDate: this.props.postingDate,
 					postingDate: this.props.postingDate
 				},
 		blogImages: [],
@@ -27,6 +30,11 @@ class CreateBlogComponent extends Component {
 		imagesToDelete: [],
 		saving: false
 	};
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.blog) {
+			this.setState({ blog: nextProps.blog, blogImages: [], blogFile: {}, imagesToDelete: [], saving: false });
+		}
+	}
 
 	saveBlog = () => {
 		let { blog, imagesToDelete, blogImages, blogFile } = this.state;
@@ -107,6 +115,11 @@ class CreateBlogComponent extends Component {
 
 	render() {
 		const { blog, blogFile, blogImages } = this.state;
+		let { postingDate, dueDate } = blog;
+
+		postingDate = new moment(postingDate);
+		dueDate = new moment(dueDate);
+
 		let fileDiv;
 		if (blog.wordDoc) {
 			fileDiv = <h4>{blog.wordDoc.name}</h4>;
@@ -205,7 +218,20 @@ class CreateBlogComponent extends Component {
 						form="createBlogForm"
 						placeholder="About(notes)"
 					/>
-
+					<p className="date-label">Due Date:</p>
+					<DatePicker
+						className="date-picker center"
+						selected={dueDate}
+						onChange={date => this.handleBlogFormChange(date, "dueDate")}
+						dateFormat="MMMM Do YYYY"
+					/>
+					<p className="date-label">Posting Date:</p>
+					<DatePicker
+						className="date-picker center"
+						selected={postingDate}
+						onChange={date => this.handleBlogFormChange(date, "postingDate")}
+						dateFormat="MMMM Do YYYY"
+					/>
 					<ImagesDiv
 						postImages={images}
 						setPostImages={this.setPostImages}
@@ -214,7 +240,6 @@ class CreateBlogComponent extends Component {
 						pushToImageDeleteArray={this.pushToImageDeleteArray}
 						canEdit={true}
 					/>
-
 					<label
 						htmlFor="blogUploadWordDoc"
 						className="custom-file-upload"

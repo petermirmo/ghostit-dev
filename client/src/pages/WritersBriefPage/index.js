@@ -27,7 +27,12 @@ class WritersBrief extends Component {
 				writersBriefs[index].cycleStartDate = new moment(writersBriefs[index].cycleStartDate);
 				writersBriefs[index].cycleEndDate = new moment(writersBriefs[index].cycleEndDate);
 			}
-			if (this._ismounted) this.setState({ writersBriefs: writersBriefs });
+			writersBriefs.sort(compare);
+			let activeWritersBriefIndex;
+			if (writersBriefs.length > 0) activeWritersBriefIndex = 0;
+			if (this._ismounted) {
+				this.setState({ writersBriefs: writersBriefs, activeWritersBriefIndex: activeWritersBriefIndex });
+			}
 		});
 	};
 	createNewWritersBrief = () => {

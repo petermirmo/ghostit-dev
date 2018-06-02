@@ -14,39 +14,56 @@ class WritersBriefForm extends Component {
 	state = {
 		writersBrief: this.props.writersBrief,
 		socialCategories: { facebook: true, instagram: false, twitter: false, linkedin: false },
-		blogPosts: [],
+		blogs: [],
 		notification: {
 			on: false,
 			title: "",
 			message: "",
 			type: "danger"
 		},
+		clickedBlogIndex: undefined,
 		saving: false
 	};
 	componentDidMount() {
-		//this.getBlogsInBrief();
+		this.getBlogsInBrief();
 		this._ismounted = true;
 	}
 	componentWillUnmount() {
 		this._ismounted = false;
 	}
 	componentWillReceiveProps(nextProps) {
-		this.setState({ writersBrief: nextProps.writersBrief });
+		if (nextProps.writersBrief) {
+			this.setState({ writersBrief: nextProps.writersBrief, blogs: [], clickedBlogIndex: undefined });
+		}
 	}
 
 	getBlogsInBrief = () => {
-		axios.get("/api/blogsInBriefs").then(res => {
-			let { blogs } = res.data;
-
-			if (this._ismounted) {
-				this.setState({ websitePosts: blogs });
-			}
-		});
+		let { writersBrief } = this.state;
+		axios
+			.post("/api/blogsInBriefs", {
+				cycleStartDate: writersBrief.cycleStartDate,
+				cycleEndDate: writersBrief.cycleEndDate
+			})
+			.then(res => {
+				let { blogs, success, errorMessage } = res.data;
+				blogs.sort(compare);
+				if (success) {
+					if (this._ismounted) {
+						this.setState({ blogs: blogs });
+					}
+				} else {
+					this.notify({ type: "danger", message: errorMessage, title: "Error" });
+				}
+			});
 	};
-	blogPostClicked = () => {};
+	blogPostClicked = event => {
+		let clickedBlogIndex = event.target.id;
+		this.setState({ clickedBlogIndex: clickedBlogIndex });
+	};
 
 	saveWritersBrief = () => {
 		this.setState({ saving: true });
+
 		let { writersBrief } = this.state;
 		axios.post("/api/writersBrief", { writersBrief: writersBrief }).then(res => {
 			if (this._ismounted) {
@@ -105,9 +122,10 @@ class WritersBriefForm extends Component {
 		writersBrief[index] = date;
 		this.setState({ writersBrief: writersBrief });
 		this.props.updateWritersBrief(writersBrief);
+		this.getBlogsInBrief();
 	};
 	render() {
-		let { writersBrief, socialCategories, saving } = this.state;
+		let { writersBrief, socialCategories, saving, blogs, clickedBlogIndex } = this.state;
 		let { cycleStartDate, cycleEndDate, socialPostsDescriptions } = writersBrief;
 
 		let activeTab;
@@ -116,7 +134,7 @@ class WritersBriefForm extends Component {
 		}
 		return (
 			<div className="writers-brief-form center">
-				<div className="container-placeholder">
+				<div className="container-placeholder center">
 					<p className="date-label center">Content cycle start: </p>
 					<DatePicker
 						className="date-picker center"
@@ -146,17 +164,22 @@ class WritersBriefForm extends Component {
 					</button>
 				</div>
 
-				<div className="container-placeholder">
-					<SearchColumn objectList={[]} searchObjects={this.searchUsers} handleClickedObject={this.blogPostClicked} />
-
+				<div className="container-placeholder center">
+					<SearchColumn
+						objectList={blogs}
+						searchObjects={this.searchUsers}
+						handleClickedObject={this.blogPostClicked}
+					/>
 					<button
 						className="fa fa-plus fa-2x add-new"
 						onClick={() => this.addNewIndexToWritersBriefArray("blogPosts")}
 					/>
-
-					<CreateBlog blog={this.props.clickedCalendarEvent} callback={() => {}} setSaving={this.setSaving} />
+					{clickedBlogIndex && (
+						<CreateBlog blog={blogs[clickedBlogIndex]} callback={() => {}} setSaving={this.setSaving} />
+					)}
 				</div>
-				<div className="container-placeholder">
+
+				<div className="container-placeholder center">
 					<SearchColumn
 						objectList={[]}
 						searchObjects={this.searchUsers}
@@ -172,6 +195,12 @@ class WritersBriefForm extends Component {
 			</div>
 		);
 	}
+}
+
+function compare(a, b) {
+	if (a.title < b.title) return -1;
+	if (a.title > b.title) return 1;
+	return 0;
 }
 
 export default WritersBriefForm;

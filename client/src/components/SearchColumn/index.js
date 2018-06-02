@@ -9,8 +9,11 @@ class ManageColumn extends Component {
 		// User list is sent by parent in props
 		// Loop through and create a row for each user
 		for (var index in objectList) {
-			let name = objectList[index].name ? objectList[index].name : objectList[index].fullName;
-			if (!name) name = objectList[index]._id;
+			let name = objectList[index]._id;
+			if (objectList[index].name) name = objectList[index].name;
+			if (objectList[index].fullName) name = objectList[index].fullName;
+			if (objectList[index].title) name = objectList[index].title;
+
 			objectListDivs.push(
 				<p id={index} key={index} className="user-row center" onClick={handleClickedObject}>
 					{name}

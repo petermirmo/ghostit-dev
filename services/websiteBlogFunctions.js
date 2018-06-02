@@ -25,6 +25,7 @@ module.exports = {
 			if (foundBlog) {
 				newBlog = foundBlog;
 				newBlog.postingDate = blog.postingDate;
+				newBlog.dueDate = blog.dueDate;
 				newBlog.title = blog.title;
 				newBlog.resources = blog.resources;
 				newBlog.about = blog.about;

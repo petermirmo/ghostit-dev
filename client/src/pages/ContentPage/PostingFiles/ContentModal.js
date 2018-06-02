@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import "font-awesome/css/font-awesome.min.css";
 
 import { connect } from "react-redux";
@@ -43,7 +44,7 @@ class ContentModal extends Component {
 		if (activeTab === "blog") {
 			modalBody = (
 				<CreateBlog
-					postingDate={clickedCalendarDate}
+					postingDate={new moment(clickedCalendarDate)}
 					callback={saveBlogCallback}
 					setSaving={this.setSaving}
 					timezone={timezone}
