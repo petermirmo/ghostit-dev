@@ -64,8 +64,17 @@ module.exports = {
 		});
 	},
 	getBlogsInBriefs(req, res) {
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
+		}
 		let { cycleStartDate, cycleEndDate } = req.body;
-		Blog.find({ postingDate: { $lt: cycleEndDate }, postingDate: { $gt: cycleStartDate } }, function(err, blogs) {
+		Blog.find({ postingDate: { $lt: cycleEndDate }, postingDate: { $gt: cycleStartDate }, userID: userID }, function(
+			err,
+			blogs
+		) {
 			if (err) {
 				handleError(res, err);
 				return;
