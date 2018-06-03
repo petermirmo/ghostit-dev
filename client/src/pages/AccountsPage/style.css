@@ -31,24 +31,29 @@
 .connected-social-div {
 	text-align: left;
 	margin-top: 10px;
+
+	overflow: auto;
 }
+
 .connected-social-media-icon {
 	display: inline-block !important;
 	color: var(--white-theme-color);
 	text-align: center;
-	min-width: 55px;
-	max-width: 55px;
+	width: 55px;
 
 	border-radius: 50%;
 	padding: 10px 0 10px 0;
 	vertical-align: top;
+	float: left;
 }
 .connected-social {
 	display: inline-block !important;
 	color: var(--black-theme-color);
-	width: 73% !important;
+	width: 60% !important;
 
 	padding: 5px 0 0 10px;
+	float: left;
+	height: 100%;
 }
 .connected-social-div h4 {
 	text-align: left;
