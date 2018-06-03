@@ -156,7 +156,7 @@ class CreateBlogComponent extends Component {
 		}
 		return (
 			<div className="modal-body">
-				<form id="createBlogForm" className="create-blog-form">
+				<form className="create-blog-form">
 					<input
 						value={blog.title ? blog.title : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "title")}

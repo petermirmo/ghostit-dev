@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Textarea from "react-textarea-autosize";
+import moment from "moment";
+import axios from "axios";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -182,7 +183,12 @@ class WritersBriefForm extends Component {
 						handleClickedObject={this.blogPostClicked}
 					/>
 					<button className="fa fa-plus fa-2x add-new" onClick={() => this.newBlog()} />
-					<CreateBlog blog={activeBlog} callback={this.updateBlogs} setSaving={this.setSaving} />
+					<CreateBlog
+						blog={activeBlog}
+						callback={this.updateBlogs}
+						setSaving={this.setSaving}
+						postingDate={new moment()}
+					/>
 				</div>
 
 				<div className="container-placeholder center">
