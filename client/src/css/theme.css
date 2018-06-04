@@ -222,6 +222,7 @@
 /* Track */
 ::-webkit-scrollbar-track {
 	background: var(--light-blue-theme-color);
+	padding: 0 4px 0 4px !important;
 }
 
 /* Handle */
@@ -231,7 +232,7 @@
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #019ce5;
+	background: var(--dark-blue-theme-color);
 }
 .facebook {
 	background-color: #4267b2;
