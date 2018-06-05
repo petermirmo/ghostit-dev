@@ -24,11 +24,8 @@ module.exports = app => {
 
 	var middleware = function(req, res, next) {
 		if (!req.user) {
-			console.log("Not logged in");
 			res.send({ success: false, loggedIn: false });
 			return;
-		} else {
-			console.log("Logged in");
 		}
 		next();
 	};

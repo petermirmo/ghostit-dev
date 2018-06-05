@@ -95,7 +95,7 @@ class AccountsPage extends Component {
 			if (loggedIn === false) window.location.reload();
 
 			// If groups returns false, there was an error so just set to undefined
-			if (groups === false) {
+			if (!groups) {
 				groups = [];
 			}
 
@@ -124,7 +124,7 @@ class AccountsPage extends Component {
 			if (loggedIn === false) window.location.reload();
 
 			// If pageOrGroup returns false, there was an error so just set to []
-			if (pages === false) {
+			if (!pages) {
 				pages = [];
 			}
 
