@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
-var FB = require("fb");
+let FB = require("fb");
 
 module.exports = {
 	getFacebookGroups: function(req, res) {
@@ -62,14 +62,14 @@ module.exports = {
 
 					FB.api("me/accounts", "get", function(pages) {
 						// Init some values
-						for (var index in pages) {
+						for (let index in pages) {
 							pages[index].accountType = "page";
 							pages[index].socialType = "facebook";
 						}
-						res.send(pages);
+						res.send({ success: true, pages: pages });
 					});
 				} else {
-					res.send(false);
+					res.send({ success: false });
 				}
 			}
 		);

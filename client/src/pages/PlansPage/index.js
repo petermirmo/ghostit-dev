@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import PlanTable from "./PlanTable";
-import { roleCheck } from "../../extra/functions/CommonFunctions";
 
 import "./style.css";
 
@@ -13,11 +12,13 @@ class PlansPage extends Component {
 	constructor(props) {
 		super(props);
 
-		roleCheck("demo");
 		this.getUsersAssignedPlan();
 	}
 	getUsersAssignedPlan = () => {
 		axios.get("/api/user/plan").then(res => {
+			let { loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			this.setState({ usersPlan: res.data });
 		});
 	};

@@ -28,6 +28,9 @@ class UsersTable extends Component {
 	getUsers = () => {
 		const { userCategories } = this.state;
 		axios.get("/api/users").then(res => {
+			let { loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			if (!res) {
 				// If res sends back false the user is not an admin and is likely a hacker
 				window.location.replace("/content");
@@ -78,6 +81,9 @@ class UsersTable extends Component {
 	};
 	getPlans = () => {
 		axios.get("/api/plans").then(res => {
+			let { loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			this.setState({ plans: res.data });
 		});
 	};
@@ -141,6 +147,9 @@ class UsersTable extends Component {
 	};
 	saveUser = user => {
 		axios.post("/api/updateUser", user).then(res => {
+			let { loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			if (res.data) {
 				alert("success");
 				this.getUsers();

@@ -18,7 +18,9 @@ class PlansTable extends Component {
 	}
 	savePlan = plan => {
 		axios.post("/api/plan", plan).then(res => {
-			const { success } = res.data;
+			const { success, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			if (success) alert("Success");
 			else alert("Something went wrong message your local dev ninja (Peter)!");
 			this.getPlans();
@@ -26,6 +28,9 @@ class PlansTable extends Component {
 	};
 	getPlans = () => {
 		axios.get("/api/plans").then(res => {
+			let { loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			this.setState({ activePlans: res.data, untouchedPlans: res.data });
 		});
 	};

@@ -95,6 +95,9 @@ class PostingOptions extends Component {
 	}
 	getDataFromURL = link => {
 		axios.post("/api/link", { link: link }).then(res => {
+			let { loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			this.setState({ link: link, linkImagesArray: res.data });
 		});
 	};

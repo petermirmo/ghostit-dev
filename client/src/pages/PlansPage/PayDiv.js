@@ -106,7 +106,8 @@ class ChargeCardForm extends Component {
 			axios.post("/api/signUpToPlan", { stripeToken: stripeToken, plan: plan }).then(res => {
 				this.setState({ saving: false });
 
-				const { success, message, user } = res.data;
+				const { success, message, user, loggedIn } = res.data;
+				if (loggedIn === false) window.location.reload();
 
 				if (success) {
 					if (user) {

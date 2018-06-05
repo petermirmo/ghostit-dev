@@ -20,6 +20,18 @@ const planFunctions = require("./services/planFunctions");
 const writersBriefFunctions = require("./services/writersBriefFunctions");
 
 module.exports = app => {
+	// Middleware
+
+	var middleware = function(req, res, next) {
+		if (!req.user) {
+			console.log("Not logged in");
+			res.send({ success: false, loggedIn: false });
+			return;
+		} else {
+			console.log("Logged in");
+		}
+		next();
+	};
 	// Login user
 	app.post("/api/login", (req, res, next) => {
 		passport.authenticate("local-login", function(err, user, message) {
@@ -58,30 +70,30 @@ module.exports = app => {
 		})(req, res, next);
 	});
 	// Update user account
-	app.post("/api/user/id", (req, res) => userFunctions.updateUser(req, res));
+	app.post("/api/user/id", middleware, (req, res) => userFunctions.updateUser(req, res));
 	// Get current user
-	app.get("/api/user", (req, res) => userFunctions.currentUser(req, res));
+	app.get("/api/user", middleware, (req, res) => userFunctions.currentUser(req, res));
 	// Logout user
-	app.get("/api/logout", (req, res) => {
+	app.get("/api/logout", middleware, (req, res) => {
 		req.session.destroy();
 		res.send({ success: true });
 	});
 
 	// Middleware check
-	app.get("/api/isUserSignedIn", (req, res) => {
+	app.get("/api/isUserSignedIn", middleware, (req, res) => {
 		if (req.user) {
-			res.send([req.isAuthenticated(), req.user]);
+			res.send({ success: true, user: req.user });
 		} else {
-			res.send([req.isAuthenticated(), null]);
+			res.send({ success: false });
 		}
 	});
 
 	// Save account to database
-	app.post("/api/account", (req, res) => accountFunctions.saveAccount(req, res));
+	app.post("/api/account", middleware, (req, res) => accountFunctions.saveAccount(req, res));
 	// Delete account
-	app.delete("/api/account", (req, res) => accountFunctions.disconnectAccount(req, res));
+	app.delete("/api/account", middleware, (req, res) => accountFunctions.disconnectAccount(req, res));
 	// Get all accounts that a user has connected
-	app.get("/api/accounts", (req, res) => accountFunctions.getAccounts(req, res));
+	app.get("/api/accounts", middleware, (req, res) => accountFunctions.getAccounts(req, res));
 
 	// Add Facebook profile
 	app.get(
@@ -119,80 +131,80 @@ module.exports = app => {
 	);
 
 	// Get Facebook pages of profile accounts
-	app.get("/api/facebook/pages", (req, res) => facebookFunctions.getFacebookPages(req, res));
+	app.get("/api/facebook/pages", middleware, (req, res) => facebookFunctions.getFacebookPages(req, res));
 	// Get Facebook groups of profile accounts
-	app.get("/api/facebook/groups", (req, res) => facebookFunctions.getFacebookGroups(req, res));
+	app.get("/api/facebook/groups", middleware, (req, res) => facebookFunctions.getFacebookGroups(req, res));
 
 	// Add Linkedin account
-	app.get("/api/linkedin", (req, res) => linkedinFunctions.getLinkedinCode(req, res));
+	app.get("/api/linkedin", middleware, (req, res) => linkedinFunctions.getLinkedinCode(req, res));
 	// Linkedin callback
-	app.get("/api/linkedin/callback", (req, res) => linkedinFunctions.getLinkedinAccessToken(req, res));
+	app.get("/api/linkedin/callback", middleware, (req, res) => linkedinFunctions.getLinkedinAccessToken(req, res));
 	// Get Linkedin pages of profile account
-	app.get("/api/linkedin/pages", (req, res) => linkedinFunctions.getLinkedinPages(req, res));
+	app.get("/api/linkedin/pages", middleware, (req, res) => linkedinFunctions.getLinkedinPages(req, res));
 
 	// Get images from a URL and send back to client
-	app.post("/api/link", (req, res) => postFunctions.getImagesFromUrl(req, res));
+	app.post("/api/link", middleware, (req, res) => postFunctions.getImagesFromUrl(req, res));
 
 	// Save post
-	app.post("/api/post", (req, res) => postFunctions.savePost(req, res));
+	app.post("/api/post", middleware, (req, res) => postFunctions.savePost(req, res));
 	// Get all of user's posts
-	app.get("/api/posts", (req, res) => postFunctions.getPosts(req, res));
+	app.get("/api/posts", middleware, (req, res) => postFunctions.getPosts(req, res));
 	// Get post
-	app.get("/api/post/:postID", (req, res) => postFunctions.getPost(req, res));
+	app.get("/api/post/:postID", middleware, (req, res) => postFunctions.getPost(req, res));
 	// Update post
-	app.post("/api/post/update/:postID", (req, res) => postFunctions.updatePost(req, res));
+	app.post("/api/post/update/:postID", middleware, (req, res) => postFunctions.updatePost(req, res));
 	// Delete post
-	app.delete("/api/post/delete/:postID", (req, res) => postFunctions.deletePost(req, res));
+	app.delete("/api/post/delete/:postID", middleware, (req, res) => postFunctions.deletePost(req, res));
 	// Save post images
-	app.post("/api/post/images", fileParser, async (req, res) => postFunctions.uploadPostImages(req, res));
+	app.post("/api/post/images", fileParser, middleware, async (req, res) => postFunctions.uploadPostImages(req, res));
 	// Delete post images
-	app.post("/api/post/delete/images/:postID", (req, res) => postFunctions.deletePostImages(req, res));
+	app.post("/api/post/delete/images/:postID", middleware, (req, res) => postFunctions.deletePostImages(req, res));
 
 	// Create a blog placeholder
-	app.post("/api/blog", fileParser, async (req, res) => blogFunctions.saveBlog(req, res));
+	app.post("/api/blog", fileParser, middleware, async (req, res) => blogFunctions.saveBlog(req, res));
 	// Update blog
-	app.post("/api/blog/:blogID", fileParser, async (req, res) => blogFunctions.saveBlog(req, res));
+	app.post("/api/blog/:blogID", fileParser, middleware, async (req, res) => blogFunctions.saveBlog(req, res));
 	// Delete blog
-	app.delete("/api/blog/delete/:blogID", (req, res) => blogFunctions.deleteBlog(req, res));
+	app.delete("/api/blog/delete/:blogID", middleware, (req, res) => blogFunctions.deleteBlog(req, res));
 	// Get all placeholder blogs
-	app.get("/api/blogs", (req, res) => blogFunctions.getBlogs(req, res));
+	app.get("/api/blogs", middleware, (req, res) => blogFunctions.getBlogs(req, res));
 
 	// Delete file in cloudinary using pulbic id
-	app.delete("/api/delete/file/:publicID", (req, res) => generalFunctions.deleteFile(req, res));
+	app.delete("/api/delete/file/:publicID", middleware, (req, res) => generalFunctions.deleteFile(req, res));
 
 	// Create or update user's strategy
-	app.post("/api/strategy", (req, res) => strategyFunctions.saveStrategy(req, res));
-	app.get("/api/strategy", (req, res) => strategyFunctions.getStrategy(req, res));
+	app.post("/api/strategy", middleware, (req, res) => strategyFunctions.saveStrategy(req, res));
+	app.get("/api/strategy", middleware, (req, res) => strategyFunctions.getStrategy(req, res));
 
 	// Get public plans
-	app.get("/api/user/plan", (req, res) => planFunctions.getUserPlan(req, res));
+	app.get("/api/user/plan", middleware, (req, res) => planFunctions.getUserPlan(req, res));
 	// Sign up to plan
-	app.post("/api/signUpToPlan", (req, res) => planFunctions.signUpToPlan(req, res));
+	app.post("/api/signUpToPlan", middleware, (req, res) => planFunctions.signUpToPlan(req, res));
 
 	// Get proper timezone, either yours or the user you are signed in as
-	app.get("/api/timezone", (req, res) => userFunctions.getTimezone(req, res));
+	app.get("/api/timezone", middleware, (req, res) => userFunctions.getTimezone(req, res));
 
 	// Save writers brief
-	app.post("/api/writersBrief", (req, res) => writersBriefFunctions.saveWritersBrief(req, res));
+	app.post("/api/writersBrief", middleware, (req, res) => writersBriefFunctions.saveWritersBrief(req, res));
 	// Get all placeholder blogs in writers brief
-	app.post("/api/blogsInBriefs", (req, res) => writersBriefFunctions.getBlogsInBriefs(req, res));
+	app.post("/api/blogsInBriefs", middleware, (req, res) => writersBriefFunctions.getBlogsInBriefs(req, res));
 	// Get all writers briefs
-	app.get("/api/writersBriefs", (req, res) => writersBriefFunctions.getWritersBriefs(req, res));
+	app.get("/api/writersBriefs", middleware, (req, res) => writersBriefFunctions.getWritersBriefs(req, res));
 
 	// Admin routes!!!!!
 
 	// Get all users
-	app.get("/api/users", (req, res) => adminFunctions.getUsers(req, res));
+	app.get("/api/users", middleware, (req, res) => adminFunctions.getUsers(req, res));
 	// Admin update user
-	app.post("/api/updateUser", (req, res) => adminFunctions.updateUser(req, res));
+	app.post("/api/updateUser", middleware, (req, res) => adminFunctions.updateUser(req, res));
 	// Get clients
-	app.get("/api/clients", (req, res) => adminFunctions.getClients(req, res));
+	app.get("/api/clients", middleware, (req, res) => adminFunctions.getClients(req, res));
 	// Sign in as user
-	app.post("/api/signInAsUser", (req, res) => adminFunctions.signInAsUser(req, res));
+	app.post("/api/signInAsUser", middleware, (req, res) => adminFunctions.signInAsUser(req, res));
 	// Sign out as user
-	app.get("/api/signOutOfUserAccount", (req, res) => adminFunctions.signOutOfUserAccount(req, res));
+	app.get("/api/signOutOfUserAccount", middleware, (req, res) => adminFunctions.signOutOfUserAccount(req, res));
 	// Create a plan
-	app.post("/api/plan", (req, res) => adminFunctions.createPlan(req, res));
+	app.post("/api/plan", middleware, (req, res) => adminFunctions.createPlan(req, res));
 	// Get plans
-	app.get("/api/plans", (req, res) => adminFunctions.getPlans(req, res));
+	app.get("/api/plans", middleware, (req, res) => adminFunctions.getPlans(req, res));
 };

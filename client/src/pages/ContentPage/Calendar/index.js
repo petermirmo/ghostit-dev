@@ -46,13 +46,11 @@ class Calendar extends Component {
 	componentDidMount() {
 		this._ismounted = true;
 		axios.get("/api/timezone").then(res => {
-			let result = res.data;
-			let timezone = "America/Vancouver";
-			if (result.success) {
-				if (result.timezone) {
-					timezone = result.timezone;
-				}
-			}
+			let { timezone, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
+			if (!timezone) timezone = "America/Vancouver";
+
 			moment.tz.setDefault(timezone);
 
 			this.setState({ timezone: timezone });
@@ -74,7 +72,8 @@ class Calendar extends Component {
 		// Get all of user's posts to display in calendar
 		axios.get("/api/posts").then(res => {
 			// Set posts to state
-			let posts = res.data;
+			let { posts, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
 
 			for (let index in posts) {
 				if (posts[index].socialType === "facebook") {
@@ -97,7 +96,9 @@ class Calendar extends Component {
 
 	getBlogs = () => {
 		axios.get("/api/blogs").then(res => {
-			let blogs = res.data;
+			let { blogs, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			let blogEvents = [];
 			for (let index in blogs) {
 				blogEvents.push(this.convertBlogToCalendarEvent(blogs[index]));

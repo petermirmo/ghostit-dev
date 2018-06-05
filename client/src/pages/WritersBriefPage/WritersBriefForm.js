@@ -70,7 +70,9 @@ class WritersBriefForm extends Component {
 			if (this._ismounted) {
 				this.setState({ saving: false });
 			}
-			let { success, errorMessage } = res.data;
+			let { success, errorMessage, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			if (!success) {
 				this.notify({ type: "danger", message: errorMessage, title: "error :(" });
 			}

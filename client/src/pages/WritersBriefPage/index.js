@@ -22,7 +22,9 @@ class WritersBrief extends Component {
 
 	getWritersBriefs = () => {
 		axios.get("api/writersBriefs").then(res => {
-			let { writersBriefs } = res.data;
+			let { writersBriefs, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
 			for (let index in writersBriefs) {
 				writersBriefs[index].cycleStartDate = new moment(writersBriefs[index].cycleStartDate);
 				writersBriefs[index].cycleEndDate = new moment(writersBriefs[index].cycleEndDate);

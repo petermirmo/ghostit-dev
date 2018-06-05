@@ -50,7 +50,8 @@ class Login extends Component {
 
 		if (email && password) {
 			axios.post("/api/login", { email: email, password: password }).then(res => {
-				const { success, user, message } = res.data;
+				const { success, user, message, loggedIn } = res.data;
+				if (loggedIn === false) window.location.reload();
 
 				if (success) {
 					// Get all connected accounts of the user

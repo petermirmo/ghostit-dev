@@ -72,7 +72,7 @@ module.exports = {
 			newPost.color = backgroundColorOfPost;
 			newPost.status = "pending";
 
-			newPost.save().then(result => res.send(result));
+			newPost.save().then(result => res.send({ success: true, post: result }));
 		});
 	},
 	getPosts: function(req, res) {
@@ -86,7 +86,7 @@ module.exports = {
 
 		Post.find({ userID: userID }, function(err, posts) {
 			if (err) res.send(err);
-			res.send(posts);
+			res.send({ posts: posts });
 		});
 	},
 	getPost: function(req, res) {

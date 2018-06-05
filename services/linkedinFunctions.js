@@ -66,8 +66,7 @@ module.exports = {
 				var linkedinProfile = $in;
 
 				var newAccount = new Account();
-				res.redirect("/");
-				return;
+
 				let userID = req.user._id;
 				if (req.user.signedInAsUser) {
 					if (req.user.signedInAsUser.id) {

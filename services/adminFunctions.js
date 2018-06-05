@@ -39,7 +39,7 @@ module.exports = {
 				if (err) {
 					handleError(res, err);
 				} else {
-					res.send(users);
+					res.send({ users: users, success: true });
 				}
 			});
 		} else {

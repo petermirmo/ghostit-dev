@@ -40,9 +40,14 @@ class AccountsPage extends Component {
 	getUserAccounts = () => {
 		// Get all connected accounts of the user
 		axios.get("/api/accounts").then(res => {
-			// Set user's accounts to state
-			this.setState({ accounts: res.data });
-			this.props.updateAccounts(res.data);
+			let { accounts, success, loggedIn } = res.data;
+			if (success) {
+				// Set user's accounts to state
+				this.setState({ accounts: accounts });
+				this.props.updateAccounts(accounts);
+			} else {
+				if (loggedIn === false) window.location.reload();
+			}
 		});
 	};
 
@@ -53,23 +58,24 @@ class AccountsPage extends Component {
 			pageOrGroup: []
 		});
 		axios.get("/api/facebook/pages").then(res => {
-			var errorMessage = "";
+			let errorMessage = "";
 
-			var pageOrGroup = res.data.data;
+			let { pages, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
 
-			// If pageOrGroup returns false, there was an error so just set to undefined
-			if (pageOrGroup === false) {
-				pageOrGroup = [];
+			// If pages returns false, there was an error so just set to undefined
+			if (!pages) {
+				pages = [];
 			}
 
-			if (pageOrGroup.length === 0) {
+			if (pages.length === 0) {
 				errorMessage = "No Facebook pages found";
 			} else {
 				errorMessage = "Please connect your Facebook profile first.";
 			}
 			// Set data to state
 			this.setState({
-				pageOrGroup: pageOrGroup,
+				pageOrGroup: pages,
 
 				errorMessage: errorMessage
 			});
@@ -85,21 +91,22 @@ class AccountsPage extends Component {
 			let message;
 
 			// Set user's facebook groups to state
-			let pageOrGroup = res.data;
+			let { groups, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
 
-			// If pageOrGroup returns false, there was an error so just set to undefined
-			if (pageOrGroup === false) {
-				pageOrGroup = [];
+			// If groups returns false, there was an error so just set to undefined
+			if (groups === false) {
+				groups = [];
 			}
 
-			if (pageOrGroup.length === 0) {
+			if (groups.length === 0) {
 				message = "No Facebook pages found";
 			} else {
 				message = "Please connect your Facebook profile first.";
 			}
 			// Set data to state
 			this.setState({
-				pageOrGroup: pageOrGroup,
+				pageOrGroup: groups,
 				errorMessage: message
 			});
 		});
@@ -113,21 +120,22 @@ class AccountsPage extends Component {
 		axios.get("/api/linkedin/pages").then(res => {
 			let message;
 			// Check to see if array is empty or a profile account was found
-			let pageOrGroup = res.data;
+			let { pages, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
 
 			// If pageOrGroup returns false, there was an error so just set to []
-			if (pageOrGroup === false) {
-				pageOrGroup = [];
+			if (pages === false) {
+				pages = [];
 			}
 
-			if (pageOrGroup.length === 0) {
+			if (pages.length === 0) {
 				message = "No Linkedin pages found";
 			} else {
 				message = "Please connect your Linkedin profile first.";
 			}
 			// Set data to state
 			this.setState({
-				pageOrGroup: pageOrGroup,
+				pageOrGroup: pages,
 				errorMessage: message
 			});
 		});

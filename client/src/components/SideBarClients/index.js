@@ -15,23 +15,24 @@ class ClientSideBar extends Component {
 	};
 	constructor(props) {
 		super(props);
-		this.getMyClients = this.getMyClients.bind(this);
-		this.searchUsers = this.searchUsers.bind(this);
-		this.userClicked = this.userClicked.bind(this);
+
 		this.getMyClients();
 	}
-	getMyClients() {
+	getMyClients = () => {
 		axios.get("/api/clients").then(res => {
-			if (Array.isArray(res.data)) {
-				let clientAccounts = res.data;
-				clientAccounts.sort(compare);
-				this.setState({ clients: clientAccounts, untouchedClients: clientAccounts });
+			let { users, loggedIn, success } = res.data;
+
+			if (success) {
+				if (Array.isArray(users)) {
+					users.sort(compare);
+					this.setState({ clients: users, untouchedClients: users });
+				}
 			} else {
-				// To Do: handle error
+				if (loggedIn === false) window.location.reload();
 			}
 		});
-	}
-	searchUsers(event) {
+	};
+	searchUsers = event => {
 		let value = event.target.value;
 		if (value === "") {
 			this.setState({ activeUsers: this.state.untouchedClients });
@@ -61,19 +62,13 @@ class ClientSideBar extends Component {
 			}
 		}
 		this.setState({ clients: users });
-	}
+	};
 	userClicked = event => {
 		// ID of clicked event is the index of in activeUsers of the clicked user
 		const temp = this.state.clients[event.target.id];
 		this.setState({ clickedUser: temp });
 		axios.post("/api/signInAsUser", temp).then(res => {
-			if (res.data) {
-				/*this.props.setUser(res.data.user);
-				this.props.updateAccounts(res.data.accounts);*/
-				window.location.reload();
-			} else {
-				// To Do: handle error
-			}
+			window.location.reload();
 		});
 	};
 	render() {

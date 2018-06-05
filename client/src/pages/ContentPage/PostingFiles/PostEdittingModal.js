@@ -28,6 +28,9 @@ class PostEdittingModal extends Component {
 		}
 		if (deletePost) {
 			axios.delete("/api/post/delete/" + this.props.clickedCalendarEvent._id).then(res => {
+				let { loggedIn } = res.data;
+				if (loggedIn === false) window.location.reload();
+
 				if (res.data) {
 					this.props.savePostCallback();
 					this.props.close();

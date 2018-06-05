@@ -84,7 +84,7 @@ module.exports = {
 			}
 
 			newBlog.save().then(result => {
-				res.send(true);
+				res.send({ success: true });
 			});
 		});
 	},
@@ -97,9 +97,9 @@ module.exports = {
 		}
 		Blog.find({ userID: userID }, function(err, blogs) {
 			if (err) {
-				res.send(false);
+				res.send({ success: false });
 			}
-			res.send(blogs);
+			res.send({ success: true, blogs: blogs });
 		});
 	},
 	deleteBlog(req, res) {
@@ -128,7 +128,7 @@ module.exports = {
 						});
 					}
 					blog.remove().then(result => {
-						res.send(true);
+						res.send({ success: true });
 					});
 				} else {
 					handleError(res, "Hacker trying to delete posts");
@@ -141,6 +141,6 @@ module.exports = {
 };
 function handleError(res, errorMessage) {
 	console.log(errorMessage);
-	res.send(false);
+	res.send({ success: false, message: errorMessage });
 	return;
 }

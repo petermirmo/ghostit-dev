@@ -65,25 +65,29 @@ export async function savePost(
 			// Now we need to save images for post, Images are saved after post
 			// Becuse they are handled so differently in the database
 			// Text and images do not go well together
-			let post = res.data;
-			if (post._id && imagesToSave.length !== 0) {
-				// Make sure post actually saved
-				// Now we add images
+			let { post, success, loggedIn } = res.data;
+			if (success) {
+				if (post._id && imagesToSave.length !== 0) {
+					// Make sure post actually saved
+					// Now we add images
 
-				// Images must be uploaded via forms
-				let formData = new FormData();
-				formData.append("postID", post._id);
+					// Images must be uploaded via forms
+					let formData = new FormData();
+					formData.append("postID", post._id);
 
-				// Attach all images to formData
-				for (let i = 0; i < imagesToSave.length; i++) {
-					formData.append("file", imagesToSave[i]);
-				}
-				// Make post request for images
-				axios.post("/api/post/images", formData).then(res => {
+					// Attach all images to formData
+					for (let i = 0; i < imagesToSave.length; i++) {
+						formData.append("file", imagesToSave[i]);
+					}
+					// Make post request for images
+					axios.post("/api/post/images", formData).then(res => {
+						callback();
+					});
+				} else {
 					callback();
-				});
+				}
 			} else {
-				callback();
+				if (loggedIn === false) window.location.reload();
 			}
 		});
 }
@@ -117,13 +121,6 @@ export function convertDateAndTimeToUtcTme(date, time, timezone) {
 	postingDate.setMinutes(postingTime.getMinutes());
 
 	return switchDateToUsersTimezoneInUtcForm(postingDate, timezone);
-}
-export function roleCheck(role) {
-	axios.get("/api/isUserSignedIn").then(res => {
-		if (res.data[1].role !== role && res.data[1].role !== "admin") {
-			window.location.replace("/content");
-		}
-	});
 }
 export function carouselOptions(socialType) {
 	if (socialType === "facebook") {

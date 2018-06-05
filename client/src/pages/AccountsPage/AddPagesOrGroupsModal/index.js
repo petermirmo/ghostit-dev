@@ -15,26 +15,30 @@ class AddPagesOrGroupsModal extends Component {
 		});
 	};
 	addAccounts = () => {
-		const { pagesToAdd } = this.state;
-		if (pagesToAdd.length === 0 || !pagesToAdd) {
-			alert("You have not selected any pages to add!");
-		} else {
-			for (let index in pagesToAdd) {
-				let page = pagesToAdd[index];
-				// Add accountType and socialType
-				page.accountType = this.props.accountType;
-				page.socialType = this.props.socialType;
-				axios.post("/api/account", page).then(res => {
-					// Check to see if accounts were successfully saved
-					if (res.data) {
-						this.props.getUserAccounts();
-					} else {
-						alert("Account already added");
-					}
-				});
+		const { pagesToAdd, success, loggedIn } = this.state;
+		if (success) {
+			if (pagesToAdd.length === 0 || !pagesToAdd) {
+				alert("You have not selected any pages to add!");
+			} else {
+				for (let index in pagesToAdd) {
+					let page = pagesToAdd[index];
+					// Add accountType and socialType
+					page.accountType = this.props.accountType;
+					page.socialType = this.props.socialType;
+					axios.post("/api/account", page).then(res => {
+						// Check to see if accounts were successfully saved
+						if (res.data) {
+							this.props.getUserAccounts();
+						} else {
+							alert("Account already added");
+						}
+					});
+				}
+				this.props.close();
+				this.props.getUserAccounts();
 			}
-			this.props.close();
-			this.props.getUserAccounts();
+		} else {
+			if (loggedIn === false) window.location.reload();
 		}
 	};
 

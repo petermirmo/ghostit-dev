@@ -26,12 +26,14 @@ class Routes extends Component {
 	constructor(props) {
 		super(props);
 		axios.get("/api/user").then(res => {
-			if (res.data.success) {
-				const { user } = res.data;
+			let { success, user } = res.data;
+
+			if (success) {
 				// Get all connected accounts of the user
 				axios.get("/api/accounts").then(res => {
 					// Set user's accounts to state
-					props.updateAccounts(res.data);
+					let { accounts } = res.data;
+					props.updateAccounts(accounts);
 					props.setUser(user);
 					props.changePage("content");
 				});

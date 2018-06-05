@@ -14,9 +14,12 @@ class Header extends Component {
 
 	signOutOfUsersAccount = () => {
 		axios.get("/api/signOutOfUserAccount").then(res => {
-			if (res.data.success) {
-				this.props.setUser(res.data.user);
+			let { success, loggedIn, user } = res.data;
+			if (success) {
+				this.props.setUser(user);
 				window.location.reload();
+			} else {
+				if (loggedIn === false) window.location.reload();
 			}
 		});
 	};
@@ -30,12 +33,13 @@ class Header extends Component {
 	};
 	logout = () => {
 		axios.get("/api/logout").then(res => {
-			if (res.data.success) {
+			let { success, loggedIn } = res.data;
+			if (success) {
 				this.props.setUser(null);
 				this.props.updateAccounts([]);
 				this.props.changePage("");
 			} else {
-				alert("something went wrong. Please load the page!");
+				if (loggedIn === false) window.location.reload();
 			}
 		});
 	};

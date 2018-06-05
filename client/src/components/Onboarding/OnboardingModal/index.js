@@ -31,7 +31,7 @@ class OnboardingModal extends Component {
 	constructor(props) {
 		super(props);
 		axios.get("/api/strategy").then(res => {
-			const { strategy, success } = res.data;
+			const { strategy, loggedIn, success } = res.data;
 			if (success) {
 				const { competitors, audience, styleAndStructure, brandVoice, notes } = strategy;
 				let tempCompetitors = [];
@@ -51,6 +51,8 @@ class OnboardingModal extends Component {
 						notes: notes
 					}
 				});
+			} else {
+				if (loggedIn === false) window.location.reload();
 			}
 		});
 	}

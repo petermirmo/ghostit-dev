@@ -45,10 +45,10 @@ module.exports = {
 		Account.find({ userID: userID }, function(err, accounts) {
 			if (err) {
 				console.log(err);
-				res.send(false);
+				res.send({ success: false });
 				return;
 			}
-			res.send(accounts);
+			res.send({ success: true, accounts: accounts });
 		});
 	}
 };

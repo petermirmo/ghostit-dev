@@ -32,8 +32,11 @@ class Content extends Component {
 
 		const { fullName, email, website, password } = this.state;
 		axios.post("/api/user/id", { fullName: fullName, email: email, website: website, password: password }).then(res => {
-			if (res.data.success) {
-				let user = res.data.result;
+			let { loggedIn, success, result } = res.data;
+			if (loggedIn === false) window.location.reload();
+
+			if (success) {
+				let user = result;
 				this.setState({
 					saving: false,
 					fullName: user.fullName,
