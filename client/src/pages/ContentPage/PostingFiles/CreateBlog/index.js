@@ -133,15 +133,6 @@ class CreateBlogComponent extends Component {
 		blog.image = undefined;
 		this.setState({ imagesToDelete: imagesToDelete, blog: blog, blogImages: [] });
 	};
-	downloadFile = event => {
-		event.preventDefault();
-		let { blogFile, blog } = this.state;
-
-		var link = document.createElement("a");
-		link.download = blog.wordDoc.name;
-		link.href = blog.wordDoc.url;
-		link.click();
-	};
 
 	render() {
 		const { blog, blogFile, blogImages } = this.state;
@@ -152,7 +143,11 @@ class CreateBlogComponent extends Component {
 
 		let fileDiv;
 		if (blog.wordDoc) {
-			fileDiv = <h4>{blog.wordDoc.name}</h4>;
+			fileDiv = (
+				<a download href={blog.wordDoc.url}>
+					{blog.wordDoc.name}
+				</a>
+			);
 		}
 		if (blogFile.name) {
 			fileDiv = <h4>{blogFile.name}</h4>;
@@ -275,7 +270,7 @@ class CreateBlogComponent extends Component {
 						className="custom-file-upload"
 						style={{ marginBottom: "10px", marginTop: "5px" }}
 					>
-						Upload Word Document
+						Upload Word Document or pdf
 					</label>
 					<input
 						id="blogUploadWordDoc"
@@ -286,7 +281,6 @@ class CreateBlogComponent extends Component {
 						onChange={event => this.showFile(event)}
 					/>
 					{fileDiv}
-					{fileDiv && <button onClick={event => this.downloadFile(event)}>Click me!</button>}
 				</form>
 				<button className="bright-save-button" onClick={event => this.saveBlog()}>
 					Save Blog

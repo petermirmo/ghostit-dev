@@ -52,14 +52,20 @@ module.exports = {
 						{ resource_type: "raw" }
 					);
 				}
+
 				// Upload new file
-				await cloudinary.v2.uploader.upload(blogFile.localPath, { resource_type: "raw" }, function(error, result) {
-					if (error) {
-						handleError(res, error);
-						return;
+				await cloudinary.v2.uploader.upload(
+					blogFile.localPath,
+					{ resource_type: "raw", public_id: blogFileName },
+					function(error, result) {
+						console.log(result);
+						if (error) {
+							handleError(res, error);
+							return;
+						}
+						newBlog.wordDoc = { url: result.url, publicID: result.public_id, name: blogFileName };
 					}
-					newBlog.wordDoc = { url: result.url, publicID: result.public_id, name: blogFileName };
-				});
+				);
 			}
 
 			if (blogImages.length !== 0) {

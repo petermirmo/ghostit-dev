@@ -1,8 +1,6 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
 const cloudinary = require("cloudinary");
-const fs = require("fs");
-const request = require("request");
 
 module.exports = {
 	deleteFile: function(req, res) {
