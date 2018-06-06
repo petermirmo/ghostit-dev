@@ -60,7 +60,8 @@ module.exports = {
 					// Use facebook profile access token to get account pages
 					FB.setAccessToken(account.accessToken);
 
-					FB.api("me/accounts", "get", function(pages) {
+					FB.api("me/accounts", "get", function(results) {
+						let pages = results.data;
 						// Init some values
 						for (let index in pages) {
 							pages[index].accountType = "page";
