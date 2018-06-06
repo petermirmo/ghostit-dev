@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Blog = require("../models/Blog");
+const Newsletter = require("../models/Newsletter");
 const WritersBrief = require("../models/WritersBrief");
 
 module.exports = {
@@ -82,6 +83,26 @@ module.exports = {
 				res.send({ success: true, blogs: blogs });
 			}
 		});
+	},
+	getNewslettersInBriefs(req, res) {
+		let userID = req.user._id;
+		if (req.user.signedInAsUser) {
+			if (req.user.signedInAsUser.id) {
+				userID = req.user.signedInAsUser.id;
+			}
+		}
+		let { cycleStartDate, cycleEndDate } = req.body;
+		Newsletter.find(
+			{ postingDate: { $lt: cycleEndDate }, postingDate: { $gt: cycleStartDate }, userID: userID },
+			function(err, newsletters) {
+				if (err) {
+					handleError(res, err);
+					return;
+				} else {
+					res.send({ success: true, newsletters: newsletters });
+				}
+			}
+		);
 	}
 };
 

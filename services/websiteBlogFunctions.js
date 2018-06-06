@@ -58,7 +58,6 @@ module.exports = {
 					blogFile.localPath,
 					{ resource_type: "raw", public_id: blogFileName },
 					function(error, result) {
-						console.log(result);
 						if (error) {
 							handleError(res, error);
 							return;

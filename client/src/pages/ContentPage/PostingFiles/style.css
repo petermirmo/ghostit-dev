@@ -4,10 +4,10 @@
 	background-color: var(--blue-theme-color);
 }
 .account-tab {
-	width: 15%;
+	width: 12%;
 	display: inline-block;
-	margin: 10px 0 0 20px;
-	background-color: var(--blue-theme-color);
+	margin: 10px 10px 0 10px;
+	background-color: transparent;
 	color: var(--white-theme-color);
 	border-radius: 4px 4px 0 0;
 }

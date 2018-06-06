@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import ContentModal from "../PostingFiles/ContentModal";
 import PostEdittingModal from "../PostingFiles/PostEdittingModal";
 import BlogEdittingModal from "../PostingFiles/BlogEdittingModal";
+import NewsletterEdittingModal from "../PostingFiles/NewsletterEdittingModal";
 import NavigationBar from "../../../components/Navigations/NavigationBar/";
 import "./style.css";
 
@@ -22,7 +23,7 @@ class Calendar extends Component {
 		twitterPosts: [],
 		linkedinPosts: [],
 		websitePosts: [],
-		emailNewsletterPosts: [],
+		newsletterPosts: [],
 
 		clickedDate: new Date(),
 
@@ -53,11 +54,12 @@ class Calendar extends Component {
 
 			moment.tz.setDefault(timezone);
 
-			this.setState({ timezone: timezone });
+			if (this._ismounted) this.setState({ timezone: timezone });
 		});
 
 		this.getPosts();
 		this.getBlogs();
+		this.getNewsletters();
 	}
 
 	componentWillUnmount() {
@@ -108,6 +110,7 @@ class Calendar extends Component {
 			}
 		});
 	};
+
 	convertBlogToCalendarEvent = blog => {
 		let date = new Date(blog.postingDate);
 
@@ -117,6 +120,33 @@ class Calendar extends Component {
 		calendarEvent.socialType = "blog";
 		calendarEvent.backgroundColor = blog.eventColor;
 		calendarEvent.title = blog.title || "(no title)";
+
+		return calendarEvent;
+	};
+
+	getNewsletters = () => {
+		axios.get("/api/newsletters").then(res => {
+			let { newsletters, loggedIn } = res.data;
+			if (loggedIn === false) window.location.reload();
+
+			let newsletterEvents = [];
+			for (let index in newsletters) {
+				newsletterEvents.push(this.convertNewsletterToCalendarEvent(newsletters[index]));
+			}
+			if (this._ismounted) {
+				this.setState({ newsletterPosts: newsletterEvents });
+			}
+		});
+	};
+	convertNewsletterToCalendarEvent = newsletter => {
+		let date = new Date(newsletter.postingDate);
+
+		let calendarEvent = newsletter;
+		calendarEvent.start = date;
+		calendarEvent.end = date;
+		calendarEvent.socialType = "newsletter";
+		calendarEvent.backgroundColor = newsletter.eventColor;
+		calendarEvent.title = newsletter.notes || "(no title)";
 
 		return calendarEvent;
 	};
@@ -143,6 +173,8 @@ class Calendar extends Component {
 		// Open editting modal
 		if (clickedCalendarEvent.socialType === "blog") {
 			this.setState({ blogEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
+		} else if (clickedCalendarEvent.socialType === "newsletter") {
+			this.setState({ newsletterEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
 		} else {
 			this.setState({ postEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
 		}
@@ -160,7 +192,8 @@ class Calendar extends Component {
 		this.setState({
 			blogEdittingModal: false,
 			contentModal: false,
-			postEdittingModal: false
+			postEdittingModal: false,
+			newsletterEdittingModal: false
 		});
 	};
 	updateTabState = event => {
@@ -184,12 +217,7 @@ class Calendar extends Component {
 			this.setState({ calendarEventCategories: calendarEventCategories });
 		}
 	};
-	savePostCallback = () => {
-		this.getPosts();
-	};
-	saveBlogCallback = () => {
-		this.getBlogs();
-	};
+
 	render() {
 		const {
 			calendarEventCategories,
@@ -198,7 +226,7 @@ class Calendar extends Component {
 			linkedinPosts,
 			instagramPosts,
 			websitePosts,
-			emailNewsletterPosts,
+			newsletterPosts,
 			timezone
 		} = this.state;
 		const { All, Facebook, Twitter, Linkedin, Instagram, Blog, Newsletter } = calendarEventCategories;
@@ -231,8 +259,8 @@ class Calendar extends Component {
 			}
 		}
 		if (Newsletter || All) {
-			for (let index in emailNewsletterPosts) {
-				events.push(emailNewsletterPosts[index]);
+			for (let index in newsletterPosts) {
+				events.push(newsletterPosts[index]);
 			}
 		}
 
@@ -254,11 +282,15 @@ class Calendar extends Component {
 						timezone={timezone}
 						close={this.closeModals}
 						savePostCallback={() => {
-							this.savePostCallback();
+							this.getPosts();
 							this.closeModals();
 						}}
 						saveBlogCallback={() => {
-							this.saveBlogCallback();
+							this.getBlogs();
+							this.closeModals();
+						}}
+						saveNewsletterCallback={() => {
+							this.getNewsletters();
 							this.closeModals();
 						}}
 					/>
@@ -274,6 +306,13 @@ class Calendar extends Component {
 				{this.state.blogEdittingModal && (
 					<BlogEdittingModal
 						updateCalendarBlogs={this.getBlogs}
+						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						close={this.closeModals}
+					/>
+				)}
+				{this.state.newsletterEdittingModal && (
+					<NewsletterEdittingModal
+						updateCalendarNewsletters={this.getNewsletters}
 						clickedCalendarEvent={this.state.clickedCalendarEvent}
 						close={this.closeModals}
 					/>

@@ -80,5 +80,8 @@ li a.active {
 }
 textarea {
 	font-family: var(--font-theme);
-	font-size: var(--regular-font-size);
+	font-size: var(--twelve-font-size) !important;
+}
+input {
+	font-size: var(--twelve-font-size) !important;
 }

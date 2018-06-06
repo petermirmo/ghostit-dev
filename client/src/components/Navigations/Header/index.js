@@ -53,6 +53,7 @@ class Header extends Component {
 		}
 
 		let isAdmin = user.role === "admin";
+		let isManager = user.role === "manager";
 		return (
 			<header>
 				<div className="navbar">
@@ -73,17 +74,16 @@ class Header extends Component {
 						</a>
 
 						<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
-							Strategy
+							Your Questionnaire
 						</a>
 
 						<a className={"header-button" + this.isActive("accounts")} onClick={() => changePage("accounts")}>
 							Social Profiles
 						</a>
-						{isAdmin && (
-							<button
-								className={"header-icon fa fa-edit" + this.isActive("writersBrief")}
-								onClick={() => changePage("writersBrief")}
-							/>
+						{(isAdmin || isManager) && (
+							<a className={"header-button" + this.isActive("writersBrief")} onClick={() => changePage("writersBrief")}>
+								Monthly Strategy
+							</a>
 						)}
 						{isAdmin && (
 							<button

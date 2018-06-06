@@ -160,87 +160,85 @@ class CreateBlogComponent extends Component {
 		}
 		return (
 			<div className="modal-body">
-				<form className="create-blog-form">
+				<form className="create-placeholder-form">
 					<input
 						value={blog.title ? blog.title : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "title")}
 						type="text"
 						placeholder="Working Title"
-						className="create-blog-form-regular"
+						className="create-placeholder-form-regular"
 					/>
 					<input
 						value={blog.keywords[0].keyword ? blog.keywords[0].keyword : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 0, "keyword")}
 						type="text"
 						placeholder="Keyword"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[0].keywordDifficulty ? blog.keywords[0].keywordDifficulty : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 0, "keywordDifficulty")}
 						type="number"
 						placeholder="Keyword Difficulty"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[0].keywordSearchVolume ? blog.keywords[0].keywordSearchVolume : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 0, "keywordSearchVolume")}
 						type="number"
 						placeholder="Search Volume"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[1].keyword ? blog.keywords[1].keyword : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 1, "keyword")}
 						type="text"
 						placeholder="Keyword"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[1].keywordDifficulty ? blog.keywords[1].keywordDifficulty : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 1, "keywordDifficulty")}
 						type="number"
 						placeholder="Keyword Difficulty"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[1].keywordSearchVolume ? blog.keywords[1].keywordSearchVolume : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 1, "keywordSearchVolume")}
 						type="number"
 						placeholder="Search Volume"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[2].keyword ? blog.keywords[2].keyword : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 2, "keyword")}
 						type="text"
 						placeholder="Keyword"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[2].keywordDifficulty ? blog.keywords[2].keywordDifficulty : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 2, "keywordDifficulty")}
 						type="number"
 						placeholder="Keyword Difficulty"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<input
 						value={blog.keywords[2].keywordSearchVolume ? blog.keywords[2].keywordSearchVolume : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "keywords", 2, "keywordSearchVolume")}
 						type="number"
 						placeholder="Search Volume"
-						className="create-blog-form-keyword"
+						className="create-placeholder-form-keyword"
 					/>
 					<Textarea
 						value={blog.resources}
 						onChange={event => this.handleBlogFormChange(event.target.value, "resources")}
-						form="createBlogForm"
 						placeholder="Resources"
 					/>
 					<Textarea
 						value={blog.about}
 						onChange={event => this.handleBlogFormChange(event.target.value, "about")}
-						form="createBlogForm"
 						placeholder="About(notes)"
 					/>
 					<p className="date-label">Due Date:</p>
@@ -277,7 +275,7 @@ class CreateBlogComponent extends Component {
 						type="file"
 						name="blogWordDoc"
 						placeholder="Working Title"
-						className="create-blog-form-regular"
+						className="create-placeholder-form-regular"
 						onChange={event => this.showFile(event)}
 					/>
 					{fileDiv}

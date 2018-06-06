@@ -13,6 +13,7 @@ const accountFunctions = require("./services/accountFunctions");
 const userFunctions = require("./services/userFunctions");
 const postFunctions = require("./services/postFunctions");
 const blogFunctions = require("./services/websiteBlogFunctions");
+const newsletterFunctions = require("./services/newsletterFunctions");
 const generalFunctions = require("./services/generalFunctions");
 const strategyFunctions = require("./services/strategyFunctions");
 const adminFunctions = require("./services/adminFunctions");
@@ -166,6 +167,19 @@ module.exports = app => {
 	// Get all placeholder blogs
 	app.get("/api/blogs", middleware, (req, res) => blogFunctions.getBlogs(req, res));
 
+	// Create a newsletter placeholder
+	app.post("/api/newsletter", fileParser, middleware, async (req, res) => newsletterFunctions.saveNewsletter(req, res));
+	// Update newsletter
+	app.post("/api/newsletter/:newsletterID", fileParser, middleware, async (req, res) =>
+		newsletterFunctions.saveNewsletter(req, res)
+	);
+	// Delete newsletter
+	app.delete("/api/newsletter/delete/:newsletterID", middleware, (req, res) =>
+		newsletterFunctions.deleteNewsletter(req, res)
+	);
+	// Get all placeholder newsletters
+	app.get("/api/newsletters", middleware, (req, res) => newsletterFunctions.getNewsletters(req, res));
+
 	// Delete file in cloudinary using pulbic id
 	app.delete("/api/delete/file/:publicID", middleware, (req, res) => generalFunctions.deleteFile(req, res));
 
@@ -185,6 +199,10 @@ module.exports = app => {
 	app.post("/api/writersBrief", middleware, (req, res) => writersBriefFunctions.saveWritersBrief(req, res));
 	// Get all placeholder blogs in writers brief
 	app.post("/api/blogsInBriefs", middleware, (req, res) => writersBriefFunctions.getBlogsInBriefs(req, res));
+	// Get all placeholder newsletters in writers brief
+	app.post("/api/newslettersInBriefs", middleware, (req, res) =>
+		writersBriefFunctions.getNewslettersInBriefs(req, res)
+	);
 	// Get all writers briefs
 	app.get("/api/writersBriefs", middleware, (req, res) => writersBriefFunctions.getWritersBriefs(req, res));
 

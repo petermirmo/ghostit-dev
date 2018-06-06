@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import NavigationBar from "../../components/Navigations/NavigationBar";
 import CreateBlog from "../ContentPage/PostingFiles/CreateBlog/";
+import CreateNewsletter from "../ContentPage/PostingFiles/CreateNewsletter/";
 import Loader from "../../components/Notifications/Loader/";
 import SearchColumn from "../../components/SearchColumn/";
 
@@ -16,6 +17,7 @@ class WritersBriefForm extends Component {
 		writersBrief: this.props.writersBrief,
 		socialCategories: { facebook: true, instagram: false, twitter: false, linkedin: false },
 		blogs: [],
+		newsletters: [],
 		notification: {
 			on: false,
 			title: "",
@@ -23,9 +25,11 @@ class WritersBriefForm extends Component {
 			type: "danger"
 		},
 		clickedBlogIndex: undefined,
+		clickedNewsletterIndex: undefined,
 		saving: false
 	};
 	componentDidMount() {
+		this.getNewslettersInBrief();
 		this.getBlogsInBrief();
 		this._ismounted = true;
 	}
@@ -57,9 +61,34 @@ class WritersBriefForm extends Component {
 				}
 			});
 	};
+
+	getNewslettersInBrief = () => {
+		let { writersBrief } = this.state;
+		axios
+			.post("/api/newslettersInBriefs", {
+				cycleStartDate: writersBrief.cycleStartDate,
+				cycleEndDate: writersBrief.cycleEndDate
+			})
+			.then(res => {
+				let { newsletters, success, errorMessage } = res.data;
+
+				newsletters.sort(compare);
+				if (success) {
+					if (this._ismounted) {
+						this.setState({ newsletters: newsletters });
+					}
+				} else {
+					this.notify({ type: "danger", message: errorMessage, title: "Error" });
+				}
+			});
+	};
 	blogPostClicked = event => {
 		let clickedBlogIndex = event.target.id;
 		this.setState({ clickedBlogIndex: clickedBlogIndex });
+	};
+	newsletterPostClicked = event => {
+		let clickedNewsletterIndex = event.target.id;
+		this.setState({ clickedNewsletterIndex: clickedNewsletterIndex });
 	};
 
 	saveWritersBrief = () => {
@@ -126,16 +155,32 @@ class WritersBriefForm extends Component {
 		this.setState({ writersBrief: writersBrief });
 		this.props.updateWritersBrief(writersBrief);
 		this.getBlogsInBrief();
+		this.getNewslettersInBriefs();
 	};
 	newBlog = () => {
 		this.setState({ clickedBlogIndex: undefined });
+	};
+	newNewsletter = () => {
+		this.setState({ clickedNewsletterIndex: undefined });
 	};
 	updateBlogs = () => {
 		this.getBlogsInBrief();
 		this.setState({ saving: false });
 	};
+	updateNewsletters = () => {
+		this.getNewslettersInBrief();
+		this.setState({ saving: false });
+	};
 	render() {
-		let { writersBrief, socialCategories, saving, blogs, clickedBlogIndex } = this.state;
+		let {
+			writersBrief,
+			socialCategories,
+			saving,
+			blogs,
+			clickedBlogIndex,
+			newsletters,
+			clickedNewsletterIndex
+		} = this.state;
 		let { cycleStartDate, cycleEndDate, socialPostsDescriptions } = writersBrief;
 
 		let activeTab;
@@ -145,6 +190,9 @@ class WritersBriefForm extends Component {
 
 		let activeBlog;
 		if (blogs[clickedBlogIndex]) activeBlog = blogs[clickedBlogIndex];
+
+		let activeNewsletter;
+		if (newsletters[clickedNewsletterIndex]) activeNewsletter = newsletters[clickedNewsletterIndex];
 
 		return (
 			<div className="writers-brief-form center">
@@ -179,11 +227,7 @@ class WritersBriefForm extends Component {
 				</div>
 
 				<div className="container-placeholder center">
-					<SearchColumn
-						objectList={blogs}
-						searchObjects={this.searchUsers}
-						handleClickedObject={this.blogPostClicked}
-					/>
+					<SearchColumn objectList={blogs} handleClickedObject={this.blogPostClicked} />
 					<button className="fa fa-plus fa-2x add-new" onClick={() => this.newBlog()} />
 					<CreateBlog
 						blog={activeBlog}
@@ -194,13 +238,14 @@ class WritersBriefForm extends Component {
 				</div>
 
 				<div className="container-placeholder center">
-					<SearchColumn
-						objectList={[]}
-						searchObjects={this.searchUsers}
-						handleClickedObject={this.emailNewsletterClicked}
+					<SearchColumn objectList={newsletters} handleClickedObject={this.newsletterPostClicked} />
+					<button className="fa fa-plus fa-2x add-new" onClick={() => this.newNewsletter()} />
+					<CreateNewsletter
+						newsletter={activeNewsletter}
+						callback={this.updateNewsletters}
+						setSaving={this.setSaving}
+						postingDate={new moment()}
 					/>
-
-					<button className="fa fa-plus fa-2x add-new" />
 				</div>
 				{saving && <Loader />}
 			</div>

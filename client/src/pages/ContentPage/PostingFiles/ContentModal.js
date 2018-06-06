@@ -5,6 +5,7 @@ import "font-awesome/css/font-awesome.min.css";
 import { connect } from "react-redux";
 
 import CreateBlog from "./CreateBlog/";
+import CreateNewsletter from "./CreateNewsletter/";
 import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Notifications/Loader/";
 import PostingOptions from "./PostingOptions";
@@ -15,7 +16,7 @@ class ContentModal extends Component {
 	state = {
 		saving: false,
 		activeTab: "facebook",
-		categories: ["facebook", "twitter", "linkedin", "instagram", "blog"]
+		categories: ["facebook", "twitter", "linkedin", "blog", "newsletter", "instagram"]
 	};
 
 	switchTabState = activeTab => {
@@ -36,7 +37,14 @@ class ContentModal extends Component {
 			return <Loader />;
 		}
 		const { activeTab } = this.state;
-		const { close, clickedCalendarDate, accounts, savePostCallback, saveBlogCallback } = this.props;
+		const {
+			close,
+			clickedCalendarDate,
+			accounts,
+			savePostCallback,
+			saveBlogCallback,
+			saveNewsletterCallback
+		} = this.props;
 
 		let modalBody;
 
@@ -49,6 +57,17 @@ class ContentModal extends Component {
 					setSaving={this.setSaving}
 					timezone={timezone}
 				/>
+			);
+		} else if (activeTab === "newsletter") {
+			modalBody = (
+				<div className="modal-body">
+					<CreateNewsletter
+						postingDate={new moment(clickedCalendarDate)}
+						callback={saveNewsletterCallback}
+						setSaving={this.setSaving}
+						timezone={timezone}
+					/>
+				</div>
 			);
 		} else if (activeTab === "instagram") {
 			modalBody = (

@@ -13,6 +13,7 @@ class ManageColumn extends Component {
 			if (objectList[index].name) name = objectList[index].name;
 			if (objectList[index].fullName) name = objectList[index].fullName;
 			if (objectList[index].title) name = objectList[index].title;
+			if (objectList[index].notes) name = objectList[index].notes;
 
 			objectListDivs.push(
 				<p id={index} key={index} className="user-row center" onClick={handleClickedObject}>
