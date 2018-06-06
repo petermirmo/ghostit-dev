@@ -9,7 +9,9 @@
 
 .input-container {
 	margin-top: 20px;
+	min-width: 95%;
 	width: 95%;
+	max-width: 95%;
 	background-color: var(--light-blue-theme-color);
 }
 
