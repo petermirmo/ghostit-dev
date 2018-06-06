@@ -18,6 +18,8 @@
 	box-sizing: border-box;
 
 	width: stretch;
+	min-width: stretch;
+	max-width: stretch;
 	min-height: 100px;
 
 	margin: 7px 7px 4px 7px;
