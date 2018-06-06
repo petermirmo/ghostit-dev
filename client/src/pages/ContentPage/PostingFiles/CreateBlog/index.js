@@ -133,6 +133,15 @@ class CreateBlogComponent extends Component {
 		blog.image = undefined;
 		this.setState({ imagesToDelete: imagesToDelete, blog: blog, blogImages: [] });
 	};
+	downloadFile = event => {
+		event.preventDefault();
+		let { blogFile, blog } = this.state;
+
+		var link = document.createElement("a");
+		link.download = blog.wordDoc.name;
+		link.href = blog.wordDoc.url;
+		link.click();
+	};
 
 	render() {
 		const { blog, blogFile, blogImages } = this.state;
@@ -277,6 +286,7 @@ class CreateBlogComponent extends Component {
 						onChange={event => this.showFile(event)}
 					/>
 					{fileDiv}
+					{fileDiv && <button onClick={event => this.downloadFile(event)}>Click me!</button>}
 				</form>
 				<button className="bright-save-button" onClick={event => this.saveBlog()}>
 					Save Blog

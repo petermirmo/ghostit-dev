@@ -33,6 +33,7 @@ class Routes extends Component {
 				axios.get("/api/accounts").then(res => {
 					// Set user's accounts to state
 					let { accounts } = res.data;
+					if (!accounts) accounts = [];
 					props.updateAccounts(accounts);
 					props.setUser(user);
 					props.changePage("content");
