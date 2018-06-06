@@ -14,7 +14,7 @@ class StrategyForm extends Component {
 		questionnaire: {
 			placeholder: "Example",
 			className: "input-textarea",
-			title: "Onboarding Questionnaire",
+			title: "Keywords You're Trying To Rank For",
 			value: ""
 		},
 		audience: {
