@@ -23,10 +23,10 @@
 	width: 50%;
 	height: auto;
 	background-color: var(--white-theme-color);
-	position: fixed;
 
 	text-align: center;
-	margin: 20px 25% 0 25%;
+	margin: 20px 25% 20px 25%;
+	padding: 20px 0 20px 0;
 
 	border-radius: 10px;
 	box-shadow: 0 0 10px 0;
@@ -34,13 +34,10 @@
 
 .form-box {
 	width: 80%;
-	height: 70%;
 	background-color: var(--white-theme-color);
 
 	text-align: center;
 	margin: auto;
-
-	margin-top: 5%;
 }
 
 .login-input {
@@ -68,7 +65,6 @@
 .login-switch {
 	cursor: pointer;
 	width: 40%;
-	margin: 0 0 10px 0;
 	display: inline;
 	color: var(--dark-grey-theme-color);
 }
@@ -78,7 +74,7 @@
 	color: var(--blue-theme-color);
 }
 .submit-colorful {
-	background-color: var(--pink-theme-color) !important;
+	background-color: var(--blue-theme-color) !important;
 	padding: 5px;
 	width: 40% !important;
 	margin: 0 0 10px 0;
@@ -89,7 +85,32 @@
 .submit-colorful:hover {
 	transform: scale(1.1);
 }
+.submit-blue {
+	border-radius: 5px;
+	padding: 10px 20px 10px 20px;
+	margin: 10px 0 10px 0;
+
+	background-color: var(--blue-theme-color);
+	cursor: pointer;
+
+	width: auto;
+
+	font-size: var(--twelve-font-size);
+	color: var(--white-theme-color);
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+
+.submit-blue:hover {
+	background-color: var(--dark-blue-theme-color) !important;
+}
 
 .password {
 	-webkit-text-security: disc;
+}
+.forgot-password {
+	color: var(--purple-theme-color);
+	text-decoration: underline;
+	cursor: pointer;
 }

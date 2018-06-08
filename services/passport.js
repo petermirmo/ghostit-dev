@@ -2,6 +2,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
 const LinkedInStrategy = require("passport-linkedin").Strategy;
+const bcrypt = require("bcrypt-nodejs");
+
 const keys = require("../config/keys");
 
 const User = require("../models/User");
@@ -36,8 +38,16 @@ module.exports = function(passport) {
 						return done(false, false, "Something went wrong :(. Please refresh the page and try again!");
 					} else if (!user) {
 						return done(false, false, "No account was found with this email address!");
-					} else if (!user.validPassword(password)) {
-						return done(false, false, "Invalid password! :(");
+					} else if (!bcrypt.compareSync(password, user.password)) {
+						if (bcrypt.compareSync(password, user.tempPassword)) {
+							user.password = user.tempPassword;
+							user.tempPassword = undefined;
+							user.save().then(result => {
+								return done(false, result, "Success");
+							});
+						} else {
+							return done(false, false, "Invalid password! :(");
+						}
 					} else {
 						return done(false, user, "Success");
 					}

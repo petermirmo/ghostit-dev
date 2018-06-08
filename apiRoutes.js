@@ -19,6 +19,7 @@ const strategyFunctions = require("./services/strategyFunctions");
 const adminFunctions = require("./services/adminFunctions");
 const planFunctions = require("./services/planFunctions");
 const writersBriefFunctions = require("./services/writersBriefFunctions");
+const SendMailFunctions = require("./MailFiles/SendMailFunctions");
 
 module.exports = app => {
 	// Middleware
@@ -206,6 +207,8 @@ module.exports = app => {
 	// Get all writers briefs
 	app.get("/api/writersBriefs", middleware, (req, res) => writersBriefFunctions.getWritersBriefs(req, res));
 
+	// Send email
+	app.post("/api/email/reset", (req, res) => SendMailFunctions.sendPasswordReset(req, res));
 	// Admin routes!!!!!
 
 	// Get all users

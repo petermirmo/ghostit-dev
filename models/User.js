@@ -7,6 +7,7 @@ const userSchema = new Schema({
 	role: String,
 	email: String,
 	password: String,
+	tempPassword: String,
 	fullName: String,
 	country: String,
 	timezone: String,

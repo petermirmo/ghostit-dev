@@ -13,7 +13,7 @@ let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class Login extends Component {
 	state = {
-		login: false,
+		login: "login",
 		fullName: "",
 		email: "",
 		website: "",
@@ -23,17 +23,21 @@ class Login extends Component {
 			on: false,
 			title: "Something went wrong!",
 			message: "",
-			notificationType: "danger"
+			type: "danger"
 		}
 	};
 
 	handleChange = (index, value) => {
 		this.setState({ [index]: value });
 	};
-	notify = message => {
+	notify = notificationObject => {
 		let { notification } = this.state;
+		let { message, title, type } = notificationObject;
 		notification.on = !notification.on;
 		if (message) notification.message = message;
+		if (title) notification.title = title;
+		if (type) notification.type = type;
+
 		this.setState({ notification: notification });
 
 		if (notification.on) {
@@ -50,8 +54,7 @@ class Login extends Component {
 
 		if (email && password) {
 			axios.post("/api/login", { email: email, password: password }).then(res => {
-				const { success, user, message, loggedIn } = res.data;
-				if (loggedIn === false) window.location.reload();
+				const { success, user, message } = res.data;
 
 				if (success) {
 					// Get all connected accounts of the user
@@ -61,7 +64,7 @@ class Login extends Component {
 						this.props.changePage("content");
 					});
 				} else {
-					this.notify(message);
+					this.notify({ message: message, type: "danger", title: "Something went wrong!" });
 				}
 			});
 		}
@@ -87,9 +90,25 @@ class Login extends Component {
 						this.props.setUser(user);
 						this.props.changePage("content");
 					} else {
-						this.notify(message);
+						this.notify({ message: message, type: "danger", title: "Something went wrong!" });
 					}
 				});
+		}
+	};
+	sendResetEmail = () => {
+		const { email } = this.state;
+		if (!email) {
+			this.notify({ message: "Please enter an email address!", type: "danger", title: "Something went wrong!" });
+			return;
+		} else {
+			axios.post("/api/email/reset", { email: email }).then(res => {
+				let { success, errorMessage } = res.data;
+				if (success) {
+					this.notify({ message: " ", type: "success", title: "Email Sent!" });
+				} else {
+					this.notify({ message: errorMessage, type: "danger", title: "Error!" });
+				}
+			});
 		}
 	};
 	render() {
@@ -97,18 +116,10 @@ class Login extends Component {
 
 		return (
 			<div className="login-background">
-				{notification.on && (
-					<Notification
-						title={notification.title}
-						message={notification.message}
-						notificationType={notification.notificationType}
-						callback={this.notify}
-					/>
-				)}
 				<img src={logo} alt="logo" />
 
 				<div className="login-box">
-					{login && (
+					{login === "login" && (
 						<div>
 							<form className="form-box" action="/api/auth/login" method="post">
 								<input
@@ -134,12 +145,12 @@ class Login extends Component {
 							</form>
 
 							<br />
-							<div className="login-switch center" href="#" onClick={event => this.handleChange("login", !login)}>
+							<div className="login-switch center" href="#" onClick={event => this.handleChange("login", "register")}>
 								New to Ghostit? <h4 className="login-switch-highlight"> Sign Up</h4>
 							</div>
 						</div>
 					)}
-					{!login && (
+					{login === "register" && (
 						<div>
 							<form className="form-box" action="api/user" method="post">
 								<input
@@ -187,12 +198,44 @@ class Login extends Component {
 							</form>
 
 							<br />
-							<div className="login-switch center" href="#" onClick={event => this.handleChange("login", !login)}>
+							<div className="login-switch center" href="#" onClick={event => this.handleChange("login", "login")}>
 								Have an account? <h4 className="login-switch-highlight"> Sign In</h4>
 							</div>
 						</div>
 					)}
+					{login === "forgotPassword" && (
+						<div>
+							<input
+								className="login-input"
+								value={email}
+								onChange={event => this.handleChange("email", event.target.value)}
+								type="text"
+								name="email"
+								placeholder="Email"
+								required
+							/>
+							<button className="submit-blue" onClick={this.sendResetEmail}>
+								Send Password Reset
+							</button>
+							<div className="login-switch center" href="#" onClick={event => this.handleChange("login", "login")}>
+								Back to <h4 className="login-switch-highlight"> Sign In</h4>
+							</div>
+						</div>
+					)}
 				</div>
+				{login !== "forgotPassword" && (
+					<p className="forgot-password center" onClick={event => this.handleChange("login", "forgotPassword")}>
+						Forgot password?
+					</p>
+				)}
+				{notification.on && (
+					<Notification
+						title={notification.title}
+						message={notification.message}
+						notificationType={notification.type}
+						callback={this.notify}
+					/>
+				)}
 			</div>
 		);
 	}

@@ -21,5 +21,8 @@ module.exports = {
 	cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
 
 	stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-	stripeSecretKey: process.env.STRIPE_SECRET_KEY
+	stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+
+	email: process.env.EMAIL,
+	emailPassword: process.env.EMAIL_PASSWORD
 };
