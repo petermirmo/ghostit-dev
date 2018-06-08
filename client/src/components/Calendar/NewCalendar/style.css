@@ -1,0 +1,41 @@
+.test {
+	display: flex;
+
+	background-color: var(--light-blue-theme-color);
+	flex-wrap: wrap;
+}
+.calendar-day-heading {
+	text-align: center;
+}
+.calendar-day {
+	min-height: 100px;
+}
+.calendar-day-heading,
+.calendar-day {
+	width: 12%;
+	background-color: var(--white-theme-color);
+	flex-grow: 1;
+	margin: 2px 2px 0 0;
+	padding: 4px;
+	cursor: pointer;
+}
+.calendar-day-heading:nth-child(7n),
+.calendar-day:nth-child(7n) {
+	margin-right: 0;
+}
+.calendar-day-heading:nth-child(7n + 1),
+.calendar-day:nth-child(7n + 1) {
+	margin-left: 0;
+}
+.faded-calendar-days {
+	background-color: var(--super-light-blue-theme-color);
+}
+
+.calendar-day-plus {
+	background-color: transparent;
+	color: var(--blue-theme-color);
+	float: right;
+}
+.calendar-day:hover .calendar-day-plus {
+	color: var(--pink-theme-color);
+}

@@ -39,12 +39,16 @@ module.exports = function(passport) {
 					} else if (!user) {
 						return done(false, false, "No account was found with this email address!");
 					} else if (!bcrypt.compareSync(password, user.password)) {
-						if (bcrypt.compareSync(password, user.tempPassword)) {
-							user.password = user.tempPassword;
-							user.tempPassword = undefined;
-							user.save().then(result => {
-								return done(false, result, "Success");
-							});
+						if (user.tempPassword) {
+							if (bcrypt.compareSync(password, user.tempPassword)) {
+								user.password = user.tempPassword;
+								user.tempPassword = undefined;
+								user.save().then(result => {
+									return done(false, result, "Success");
+								});
+							} else {
+								return done(false, false, "Invalid password! :(");
+							}
 						} else {
 							return done(false, false, "Invalid password! :(");
 						}
