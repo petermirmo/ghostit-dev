@@ -63,14 +63,12 @@ class NewCalendar extends Component {
 	addMonth = () => {
 		let { calendarDate } = this.state;
 		calendarDate.add(1, "months");
-		console.log(calendarDate);
 		this.setState({ calendarDate: calendarDate });
 	};
 
 	subtractMonth = () => {
 		let { calendarDate } = this.state;
 		calendarDate.subtract(1, "months");
-		console.log(calendarDate);
 		this.setState({ calendarDate: calendarDate });
 	};
 	render() {
