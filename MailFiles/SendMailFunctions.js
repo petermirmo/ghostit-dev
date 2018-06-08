@@ -25,8 +25,7 @@ module.exports = {
 					.substring(7);
 				user.tempPassword = user.generateHash(temporaryPassword);
 				user.save();
-				console.log(keys.email);
-				console.log(keys.emailPassword);
+
 				let mailOptions = {
 					from: "Ghostit <" + keys.email + ">",
 					to: email,
