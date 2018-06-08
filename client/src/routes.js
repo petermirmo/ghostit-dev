@@ -37,7 +37,7 @@ class Routes extends Component {
 					if (!accounts) accounts = [];
 					props.updateAccounts(accounts);
 					props.setUser(user);
-					props.changePage("newCalendar");
+					props.changePage("content");
 				});
 			}
 		});
