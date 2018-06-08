@@ -1,4 +1,31 @@
-.test {
+.calendar-header-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.calendar-header {
+	color: var(--black-theme-color);
+	opacity: 0.8;
+}
+.calendar-switch-month-button {
+	color: var(--black-theme-color);
+	opacity: 0.6;
+	background-color: transparent;
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+.calendar-switch-month-button:hover {
+	color: var(--blue-theme-color);
+}
+.left {
+	margin-left: 20%;
+}
+.right {
+	margin-right: 20%;
+}
+
+.calendar-table {
 	display: flex;
 
 	background-color: var(--light-blue-theme-color);

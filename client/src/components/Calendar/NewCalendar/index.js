@@ -21,7 +21,7 @@ class NewCalendar extends Component {
 		return dayHeadingsArray;
 	};
 	createCalendarDays = calendarDate => {
-		let slotArray = [];
+		let calendarDayArray = [];
 
 		let startOfMonth = Number(
 			moment(calendarDate.format("M"), "MM")
@@ -50,24 +50,47 @@ class NewCalendar extends Component {
 			calendarDay.add(index, "days");
 			// Now we have the days before the current month ex 27 28 29 30 1 2 3 4
 
-			slotArray.push(
+			calendarDayArray.push(
 				<div className={className} key={index + "day"}>
 					{calendarDay.date()}
 					<button className="fa fa-plus calendar-day-plus" />
 				</div>
 			);
 		}
-		return slotArray;
+
+		return calendarDayArray;
+	};
+	addMonth = () => {
+		let { calendarDate } = this.state;
+		calendarDate.add(1, "months");
+		console.log(calendarDate);
+		this.setState({ calendarDate: calendarDate });
+	};
+
+	subtractMonth = () => {
+		let { calendarDate } = this.state;
+		calendarDate.subtract(1, "months");
+		console.log(calendarDate);
+		this.setState({ calendarDate: calendarDate });
 	};
 	render() {
 		let { calendarDate } = this.state;
 
-		let slotArray = this.createCalendarDays(calendarDate);
+		let calendarDayArray = this.createCalendarDays(calendarDate);
 		let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
 		return (
-			<div className="test">
-				{dayHeadingsArray}
-				{slotArray}
+			<div>
+				<div className="calendar-header-container">
+					<button className="calendar-switch-month-button left fa fa-angle-left fa-4x" onClick={this.subtractMonth} />
+					<h1 className="calendar-header center">{calendarDate.format("MMMM")}</h1>
+
+					<button className="calendar-switch-month-button right fa fa-angle-right fa-4x" onClick={this.addMonth} />
+				</div>
+
+				<div className="calendar-table">
+					{dayHeadingsArray}
+					{calendarDayArray}
+				</div>
 			</div>
 		);
 	}
