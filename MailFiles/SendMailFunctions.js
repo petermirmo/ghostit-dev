@@ -25,9 +25,10 @@ module.exports = {
 					.substring(7);
 				user.tempPassword = user.generateHash(temporaryPassword);
 				user.save();
-
+				console.log(keys.email);
+				console.log(keys.emailPassword);
 				let mailOptions = {
-					from: "Ghostit <peter.mirmotahari@gmail.com>",
+					from: "Ghostit <" + keys.email + ">",
 					to: email,
 					subject: "Ghostit Password Reset",
 					text:
