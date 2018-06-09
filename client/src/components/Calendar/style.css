@@ -89,12 +89,17 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	overflow-x: hidden;
 
-	transition: all 0.4s ease;
-	-webkit-transition: all 0.4s ease;
+	transition: transform 0.4s ease;
+	-webkit-transition: transform 0.4s ease;
 }
 .calendar-post:hover {
-	white-space: nowrap;
+	white-space: normal;
+	text-overflow: none;
+	overflow: auto;
+	border-radius: 4px;
+	overflow-x: hidden;
 
 	transform: scale(1.1);
 }

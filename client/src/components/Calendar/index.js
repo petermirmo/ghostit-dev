@@ -72,7 +72,6 @@ class NewCalendar extends Component {
 
 			let postsForDay = [];
 			let content = "";
-
 			// Algorithm to get the posts for each day in the calendar
 			if (postsToDisplay) {
 				if (postsToDisplay[postToDisplayIndex]) {

@@ -36,7 +36,7 @@ class Content extends Component {
 			Linkedin: false,
 			Blog: false
 		},
-		timezone: "America/Vancouver"
+		timezone: ""
 	};
 	componentDidMount() {
 		this._ismounted = true;
