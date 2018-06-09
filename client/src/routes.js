@@ -16,7 +16,6 @@ import Strategy from "./pages/StrategyPage/";
 import Accounts from "./pages/AccountsPage/";
 import Manage from "./pages/ManagePage/";
 import Profile from "./pages/ProfilePage/";
-import NewCalendar from "./components/Calendar/";
 
 import Analytics from "./pages/AnalyticsPage/";
 import WritersBrief from "./pages/WritersBriefPage/";
@@ -37,7 +36,7 @@ class Routes extends Component {
 					if (!accounts) accounts = [];
 					props.updateAccounts(accounts);
 					props.setUser(user);
-					props.changePage("newCalendar");
+					props.changePage("content");
 				});
 			}
 		});
@@ -53,7 +52,6 @@ class Routes extends Component {
 				{activePage === "" && <LoginPage />}
 				{activePage === "subscribe" && <Plans />}
 				{activePage === "content" && <Content />}
-				{activePage === "newCalendar" && <NewCalendar />}
 				{activePage === "strategy" && <Strategy />}
 				{activePage === "analytics" && <Analytics />}
 				{activePage === "accounts" && <Accounts />}

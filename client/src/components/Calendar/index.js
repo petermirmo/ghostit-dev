@@ -1,264 +1,172 @@
 import React, { Component } from "react";
-import axios from "axios";
 import moment from "moment-timezone";
 
-import { connect } from "react-redux";
-
-import ContentModal from "../../pages/ContentPage/PostingFiles/ContentModal";
-import PostEdittingModal from "../../pages/ContentPage/PostingFiles/PostEdittingModal";
-import BlogEdittingModal from "../../pages/ContentPage/PostingFiles/BlogEdittingModal";
-import NewsletterEdittingModal from "../../pages/ContentPage/PostingFiles/NewsletterEdittingModal";
-import NavigationBar from "../Navigations/NavigationBar/";
-import NewCalendar from "./NewCalendar/";
 import "./style.css";
 
-class Content extends Component {
+class NewCalendar extends Component {
 	state = {
-		clickedPost: {},
-
-		facebookPosts: [],
-		twitterPosts: [],
-		linkedinPosts: [],
-		websitePosts: [],
-		newsletterPosts: [],
-
-		clickedDate: new Date(),
-
-		blogEdittingModal: false,
-		contentModal: false,
-		postEdittingModal: false,
-		newsletterEdittingModal: false,
-
-		calendarEventCategories: {
-			All: true,
-			Facebook: false,
-			Twitter: false,
-			Linkedin: false,
-			Blog: false
-		},
-		timezone: "America/Vancouver"
+		calendarDate: this.props.calendarDate,
+		timezone: this.props.timezone
 	};
-	componentDidMount() {
-		this._ismounted = true;
-		axios.get("/api/timezone").then(res => {
-			let { timezone, loggedIn } = res.data;
-			if (loggedIn === false) window.location.reload();
 
-			if (!timezone) timezone = this.state.timezone;
-			moment.tz.setDefault(timezone);
-			if (this._ismounted) this.setState({ timezone: timezone });
-		});
-
-		this.getPosts();
-		this.getBlogs();
-		this.getNewsletters();
+	componentWillReceiveProps(nextProps) {
+		const { timezone, calendarDate } = nextProps;
+		this.setState({ timezone: timezone, calendarDate: calendarDate });
 	}
+	createDayHeaders = daysOfWeek => {
+		let dayHeadingsArray = [];
+		for (let index = 1; index < 8; index++) {
+			dayHeadingsArray.push(
+				<div className="calendar-day-heading" key={index + "dayheading"}>
+					{moment()
+						.day(index)
+						.format("dddd")}
+				</div>
+			);
+		}
+		return dayHeadingsArray;
+	};
+	createCalendarDays = calendarDate => {
+		let calendarDayArray = [];
 
-	componentWillUnmount() {
-		this._ismounted = false;
-	}
+		// Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
+		let startOfMonth = Number(
+			moment(calendarDate.format("M"), "MM")
+				.startOf("month")
+				.format("d")
+		);
 
-	getPosts = () => {
-		let facebookPosts = [];
-		let twitterPosts = [];
-		let linkedinPosts = [];
+		// Used to see which day the month ends on, 29 or 30 or 31 ...
+		let endOfMonth = Number(
+			moment(calendarDate.format("M"), "MM")
+				.endOf("month")
+				.date()
+		);
 
-		// Get all of user's posts to display in calendar
-		axios.get("/api/posts").then(res => {
-			// Set posts to state
-			let { posts, loggedIn } = res.data;
-			if (loggedIn === false) window.location.reload();
+		// To determine if 42 or 35 days in the calendar should be displayed
+		let lowerBound = 1;
+		if (startOfMonth === 0) lowerBound = -6;
 
-			for (let index in posts) {
-				if (posts[index].socialType === "facebook") {
-					facebookPosts.push(posts[index]);
-				} else if (posts[index].socialType === "twitter") {
-					twitterPosts.push(posts[index]);
-				} else if (posts[index].socialType === "linkedin") {
-					linkedinPosts.push(posts[index]);
+		const { postsToDisplay, onSelectDay, onSelectPost } = this.props;
+
+		postsToDisplay.sort(compare);
+		let postToDisplayIndex = 0;
+
+		for (let index = lowerBound; index <= 35; index++) {
+			// Set day to beginning of the month
+			let calendarDay = new moment(calendarDate);
+			calendarDay = calendarDay.date(1);
+
+			let className = "calendar-day";
+
+			// Check if index is before or after current month
+			if (index < startOfMonth || index > endOfMonth + startOfMonth - 1) {
+				className += " faded-calendar-days";
+			}
+
+			// Subtract the start date of current month
+			calendarDay.subtract(startOfMonth, "days");
+			// Add our index
+			calendarDay.add(index, "days");
+			// Now we have the days before the current month ex 27 28 29 30 1 2 3 4
+
+			let postsForDay = [];
+			let content = "";
+
+			// Algorithm to get the posts for each day in the calendar
+			if (postsToDisplay) {
+				if (postsToDisplay[postToDisplayIndex]) {
+					while (
+						moment(postsToDisplay[postToDisplayIndex].postingDate).format("YYYY-MM-DD") ===
+						calendarDay.format("YYYY-MM-DD")
+					) {
+						let post = postsToDisplay[postToDisplayIndex];
+						if (post.content) content = post.content;
+						if (post.title) content = post.title;
+						if (post.notes) content = post.notes;
+						let color = "var(--blue-theme-color)";
+						if (post.color) color = post.color;
+						if (post.eventColor) color = post.eventColor;
+
+						let icon;
+						if (post.socialType === "facebook") icon = "fa fa-facebook";
+						if (post.socialType === "twitter") icon = "fa fa-twitter";
+						if (post.socialType === "linkedin") icon = "fa fa-linkedin";
+						postsForDay.push(
+							<div
+								className="calendar-post"
+								onClick={event => {
+									event.stopPropagation();
+									onSelectPost(post);
+								}}
+								style={{ backgroundColor: color }}
+								key={postToDisplayIndex + "post"}
+							>
+								{icon && <div className={icon} />} {content}
+							</div>
+						);
+
+						postToDisplayIndex++;
+						if (postToDisplayIndex >= postsToDisplay.length) break;
+					}
+					if (postsToDisplay[postToDisplayIndex]) {
+						while (
+							moment(postsToDisplay[postToDisplayIndex].postingDate).format("YYYY-MM-DD") <
+							calendarDay.format("YYYY-MM-DD")
+						) {
+							postToDisplayIndex++;
+							if (postToDisplayIndex >= postsToDisplay.length) break;
+						}
+					}
 				}
 			}
-			if (this._ismounted) {
-				this.setState({
-					facebookPosts: facebookPosts,
-					twitterPosts: twitterPosts,
-					linkedinPosts: linkedinPosts
-				});
-			}
-		});
-	};
 
-	getBlogs = () => {
-		axios.get("/api/blogs").then(res => {
-			let { blogs, loggedIn } = res.data;
-			if (loggedIn === false) window.location.reload();
-
-			if (this._ismounted) {
-				this.setState({ websitePosts: blogs });
-			}
-		});
-	};
-
-	getNewsletters = () => {
-		axios.get("/api/newsletters").then(res => {
-			let { newsletters, loggedIn } = res.data;
-			if (loggedIn === false) window.location.reload();
-
-			if (this._ismounted) {
-				this.setState({ newsletterPosts: newsletters });
-			}
-		});
-	};
-
-	openModal = date => {
-		// Date for post is set to date clicked on calendar
-		// Time for post is set to current time
-		this.setState({ clickedDate: date, contentModal: true });
-	};
-	editPost = post => {
-		// Open editting modal
-		if (post.socialType === "blog") {
-			this.setState({ blogEdittingModal: true, clickedPost: post });
-		} else if (post.socialType === "newsletter") {
-			this.setState({ newsletterEdittingModal: true, clickedPost: post });
-		} else {
-			this.setState({ postEdittingModal: true, clickedPost: post });
+			calendarDayArray.push(
+				<div className={className} onClick={() => onSelectDay(calendarDay)} key={index + "day"}>
+					<div className="calendar-day-date">{calendarDay.date()}</div>
+					<button className="fa fa-plus calendar-day-plus" />
+					{postsForDay}
+				</div>
+			);
 		}
+		return calendarDayArray;
+	};
+	addMonth = () => {
+		let { calendarDate } = this.state;
+		calendarDate.add(1, "months");
+		this.setState({ calendarDate: calendarDate });
 	};
 
-	closeModals = () => {
-		this.setState({
-			blogEdittingModal: false,
-			contentModal: false,
-			postEdittingModal: false,
-			newsletterEdittingModal: false
-		});
-	};
-	updateTabState = event => {
-		// Category name is stored in html element id
-		let categoryName = event.target.id;
-		let calendarEventCategories = this.state.calendarEventCategories;
-		calendarEventCategories[categoryName] = !calendarEventCategories[categoryName];
-		calendarEventCategories["All"] = false;
-
-		if (categoryName === "All") {
-			this.setState({
-				calendarEventCategories: {
-					All: true,
-					Facebook: false,
-					Twitter: false,
-					Linkedin: false,
-					Blog: false
-				}
-			});
-		} else {
-			this.setState({ calendarEventCategories: calendarEventCategories });
-		}
+	subtractMonth = () => {
+		let { calendarDate } = this.state;
+		calendarDate.subtract(1, "months");
+		this.setState({ calendarDate: calendarDate });
 	};
 
 	render() {
-		const {
-			calendarEventCategories,
-			facebookPosts,
-			twitterPosts,
-			linkedinPosts,
-			instagramPosts,
-			websitePosts,
-			newsletterPosts,
-			timezone,
-			clickedPost,
-			clickedDate
-		} = this.state;
-		const { All, Facebook, Twitter, Linkedin, Instagram, Blog, Newsletter } = calendarEventCategories;
+		let { calendarDate } = this.state;
 
-		let postsToDisplay = [];
-
-		if (Facebook || All) {
-			for (let index in facebookPosts) {
-				postsToDisplay.push(facebookPosts[index]);
-			}
-		}
-		if (Twitter || All) {
-			for (let index in twitterPosts) {
-				postsToDisplay.push(twitterPosts[index]);
-			}
-		}
-		if (Linkedin || All) {
-			for (let index in linkedinPosts) {
-				postsToDisplay.push(linkedinPosts[index]);
-			}
-		}
-		if (Instagram || All) {
-			for (let index in instagramPosts) {
-				postsToDisplay.push(instagramPosts[index]);
-			}
-		}
-		if (Blog || All) {
-			for (let index in websitePosts) {
-				postsToDisplay.push(websitePosts[index]);
-			}
-		}
-		if (Newsletter || All) {
-			for (let index in newsletterPosts) {
-				postsToDisplay.push(newsletterPosts[index]);
-			}
-		}
+		let calendarDayArray = this.createCalendarDays(calendarDate);
+		let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
 		return (
-			<div id="wrapper">
-				<NavigationBar categories={calendarEventCategories} updateParentState={this.updateTabState} />
-				<NewCalendar
-					postsToDisplay={postsToDisplay}
-					calendarDate={new moment()}
-					onSelectDay={this.openModal}
-					onSelectPost={this.editPost}
-					timezone={timezone}
-				/>
-				{this.state.contentModal && (
-					<ContentModal
-						clickedCalendarDate={clickedDate}
-						timezone={timezone}
-						close={this.closeModals}
-						savePostCallback={() => {
-							this.getPosts();
-							this.closeModals();
-						}}
-						saveBlogCallback={() => {
-							this.getBlogs();
-							this.closeModals();
-						}}
-						saveNewsletterCallback={() => {
-							this.getNewsletters();
-							this.closeModals();
-						}}
-					/>
-				)}
-				{this.state.postEdittingModal && (
-					<PostEdittingModal
-						savePostCallback={() => this.getPosts()}
-						clickedPost={clickedPost}
-						timezone={timezone}
-						close={this.closeModals}
-					/>
-				)}
-				{this.state.blogEdittingModal && (
-					<BlogEdittingModal updateCalendarBlogs={this.getBlogs} clickedPost={clickedPost} close={this.closeModals} />
-				)}
-				{this.state.newsletterEdittingModal && (
-					<NewsletterEdittingModal
-						updateCalendarNewsletters={this.getNewsletters}
-						clickedPost={clickedPost}
-						close={this.closeModals}
-					/>
-				)}
+			<div className="calendar-container">
+				<div className="calendar-header-container">
+					<button className="calendar-switch-month-button left fa fa-angle-left fa-4x" onClick={this.subtractMonth} />
+					<h1 className="calendar-header center">{calendarDate.format("MMMM")}</h1>
+					<button className="calendar-switch-month-button right fa fa-angle-right fa-4x" onClick={this.addMonth} />
+				</div>
+
+				<div className="calendar-table">
+					{dayHeadingsArray}
+					{calendarDayArray}
+				</div>
 			</div>
 		);
 	}
 }
-
-function mapStateToProps(state) {
-	return {
-		user: state.user
-	};
+function compare(a, b) {
+	if (a.postingDate < b.postingDate) return -1;
+	if (a.postingDate > b.postingDate) return 1;
+	return 0;
 }
-
-export default connect(mapStateToProps)(Content);
+export default NewCalendar;

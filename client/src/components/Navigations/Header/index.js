@@ -72,11 +72,7 @@ class Header extends Component {
 						<a className={"header-button" + this.isActive("content")} onClick={() => changePage("content")}>
 							Calendar
 						</a>
-						{isAdmin && (
-							<a className={"header-button" + this.isActive("newCalendar")} onClick={() => changePage("newCalendar")}>
-								New Calendar
-							</a>
-						)}
+
 						{(isAdmin || isManager) && (
 							<a className={"header-button" + this.isActive("writersBrief")} onClick={() => changePage("writersBrief")}>
 								Monthly Strategy
