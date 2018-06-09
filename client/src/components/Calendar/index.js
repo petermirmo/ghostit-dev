@@ -10,8 +10,8 @@ class NewCalendar extends Component {
 	};
 
 	componentWillReceiveProps(nextProps) {
-		const { timezone, calendarDate } = nextProps;
-		this.setState({ timezone: timezone, calendarDate: calendarDate });
+		if (nextProps.timezone !== this.state.timezone)
+			this.setState({ calendarDate: nextProps.calendarDate, timezone: nextProps.timezone });
 	}
 	createDayHeaders = daysOfWeek => {
 		let dayHeadingsArray = [];
