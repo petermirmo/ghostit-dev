@@ -25,43 +25,50 @@ class PostingOptions extends Component {
 		timezone: this.props.timezone
 	};
 	componentWillReceiveProps(nextProps) {
-		this.setState({
-			id: nextProps.post ? nextProps.post._id : undefined,
-			postingToAccountId: nextProps.post ? nextProps.post.accountID : "",
-			link: nextProps.post ? nextProps.post.link : "",
-			linkImage: nextProps.post ? nextProps.post.linkImage : "",
-			postImages: nextProps.post ? nextProps.post.images : [],
-			accountType: nextProps.post ? nextProps.post.accountType : "",
-			socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
-			contentValue: nextProps.post ? nextProps.post.content : "",
-			date: nextProps.post ? moment(nextProps.post.postingDate) : nextProps.clickedCalendarDate,
-			linkImagesArray: []
-		});
+		if (this._ismounted)
+			this.setState({
+				id: nextProps.post ? nextProps.post._id : undefined,
+				postingToAccountId: nextProps.post ? nextProps.post.accountID : "",
+				link: nextProps.post ? nextProps.post.link : "",
+				linkImage: nextProps.post ? nextProps.post.linkImage : "",
+				postImages: nextProps.post ? nextProps.post.images : [],
+				accountType: nextProps.post ? nextProps.post.accountType : "",
+				socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
+				contentValue: nextProps.post ? nextProps.post.content : "",
+				date: nextProps.post ? moment(nextProps.post.postingDate) : nextProps.clickedCalendarDate,
+				linkImagesArray: []
+			});
 	}
 	componentDidMount() {
+		this._ismounted = true;
 		this.findLink(this.state.contentValue);
+	}
+	componentWillUnmount() {
+		this._ismounted = false;
 	}
 
 	setPostImages = imagesArray => {
-		this.setState({ postImages: imagesArray });
+		if (this._ismounted) this.setState({ postImages: imagesArray });
 	};
 
 	handleChange = (index, value) => {
-		this.setState({
-			[index]: value
-		});
+		if (this._ismounted)
+			this.setState({
+				[index]: value
+			});
 	};
 
 	updatePostingAccount = account => {
-		this.setState({
-			postingToAccountId: account._id,
-			accountType: account.accountType
-		});
+		if (this._ismounted)
+			this.setState({
+				postingToAccountId: account._id,
+				accountType: account.accountType
+			});
 	};
 	pushToImageDeleteArray = image => {
 		let temp = this.state.deleteImagesArray;
 		temp.push(image);
-		this.setState({ deleteImagesArray: temp });
+		if (this._ismounted) this.setState({ deleteImagesArray: temp });
 	};
 	findLink(textAreaString) {
 		// Url regular expression
@@ -85,8 +92,7 @@ class PostingOptions extends Component {
 		axios.post("/api/link", { link: link }).then(res => {
 			let { loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
-
-			this.setState({ link: link, linkImagesArray: res.data });
+			if (this._ismounted) this.setState({ link: link, linkImagesArray: res.data });
 		});
 	};
 

@@ -57,13 +57,6 @@ class NewCalendar extends Component {
 			let calendarDay = new moment(calendarDate);
 			calendarDay = calendarDay.date(1);
 
-			let className = "calendar-day";
-
-			// Check if index is before or after current month
-			if (index < startOfMonth || index > endOfMonth + startOfMonth - 1) {
-				className += " faded-calendar-days";
-			}
-
 			// Subtract the start date of current month
 			calendarDay.subtract(startOfMonth, "days");
 			// Add our index
@@ -119,6 +112,12 @@ class NewCalendar extends Component {
 						}
 					}
 				}
+			}
+			let className = "calendar-day";
+
+			// Check if index is before or after current month
+			if (index < startOfMonth || index > endOfMonth + startOfMonth - 1) {
+				className += " faded-calendar-days";
 			}
 
 			calendarDayArray.push(
