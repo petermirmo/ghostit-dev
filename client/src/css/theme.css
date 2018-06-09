@@ -315,8 +315,8 @@
 	padding: 4px;
 
 	border-radius: 4px;
-	border: 2px solid var(--light-grey-theme-color);
+	border: 1px solid var(--grey-theme-color);
 }
 .date-picker:focus {
-	border: 2px solid var(--blue-theme-color);
+	border: 1px solid var(--blue-theme-color);
 }

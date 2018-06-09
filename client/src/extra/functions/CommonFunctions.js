@@ -1,23 +1,6 @@
 import moment from "moment-timezone";
 import axios from "axios";
 
-export function switchDateToUsersTimezoneInUtcForm(postingDate, zone) {
-	let format = "YYYY/MM/DD HH:mm:ss ZZ";
-
-	let postingDateUtcOffset = postingDate.getTimezoneOffset();
-	let userTimezoneUtcOffset = -moment(postingDate)
-		.tz(zone)
-		.utcOffset();
-
-	let minutesToAdd = userTimezoneUtcOffset - postingDateUtcOffset;
-
-	let finalDate = moment(postingDate, format)
-		.add(minutesToAdd, "minutes")
-		.utcOffset(0)
-		.format();
-
-	return finalDate;
-}
 export async function savePost(
 	id,
 	content,
@@ -92,9 +75,7 @@ export async function savePost(
 		});
 }
 export function postChecks(postingToAccountId, dateToPostInUtcTime, link, currentImages, content) {
-	let currentUtcDate = moment()
-		.utcOffset(0)
-		.format();
+	let currentUtcDate = moment().utcOffset(0);
 	// Make sure that the date is not in the past
 	if (currentUtcDate > dateToPostInUtcTime) {
 		alert("Time travel is not yet possible! Please select a date in the future not in the past!");
@@ -112,15 +93,6 @@ export function postChecks(postingToAccountId, dateToPostInUtcTime, link, curren
 		return;
 	}
 	return true;
-}
-export function convertDateAndTimeToUtcTme(date, time, timezone) {
-	// Combine time and date into one date letiable
-	let postingDate = new Date(date);
-	let postingTime = new Date(time);
-	postingDate.setHours(postingTime.getHours());
-	postingDate.setMinutes(postingTime.getMinutes());
-
-	return switchDateToUsersTimezoneInUtcForm(postingDate, timezone);
 }
 export function carouselOptions(socialType) {
 	if (socialType === "facebook") {

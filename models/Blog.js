@@ -10,6 +10,7 @@ const blogSchema = new Schema({
 	resources: String,
 	about: String,
 	eventColor: String,
+	socialType: String,
 	image: {
 		url: String,
 		publicID: String

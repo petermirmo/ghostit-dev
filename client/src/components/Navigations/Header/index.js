@@ -108,6 +108,7 @@ class Header extends Component {
 
 				{(activePage === "content" ||
 					activePage === "strategy" ||
+					activePage === "newCalendar" ||
 					activePage === "subscribe" ||
 					activePage === "accounts") &&
 					user.signedInAsUser && (

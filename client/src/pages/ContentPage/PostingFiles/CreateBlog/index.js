@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Textarea from "react-textarea-autosize";
 import DatePicker from "react-datepicker";
-import moment from "moment";
+import moment from "moment-timezone";
 import axios from "axios";
 
 import ImagesDiv from "../../Divs/ImagesDiv/";

@@ -1,19 +1,13 @@
 import React, { Component } from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
 import axios from "axios";
 
-import DatePicker from "../Divs/DatePicker";
-import TimePicker from "../Divs/TimePicker";
+import DatePicker from "react-datepicker";
 import SelectAccountDiv from "../Divs/SelectAccountDiv/";
 import Carousel from "../Divs/Carousel";
 import ImagesDiv from "../Divs/ImagesDiv/";
-import {
-	savePost,
-	postChecks,
-	convertDateAndTimeToUtcTme,
-	carouselOptions
-} from "../../../extra/functions/CommonFunctions";
+import { savePost, postChecks, carouselOptions } from "../../../extra/functions/CommonFunctions";
 
 class PostingOptions extends Component {
 	state = {
@@ -25,10 +19,7 @@ class PostingOptions extends Component {
 		accountType: this.props.post ? this.props.post.accountType : "",
 		socialType: this.props.post ? this.props.post.socialType : this.props.socialType,
 		contentValue: this.props.post ? this.props.post.content : "",
-		time: this.props.post ? convertTimeAndDate(new Date(this.props.post.postingDate), this.props.timezone) : new Date(),
-		date: this.props.post
-			? convertTimeAndDate(new Date(this.props.post.postingDate), this.props.timezone)
-			: this.props.clickedCalendarDate,
+		date: this.props.post ? moment(this.props.post.postingDate) : this.props.clickedCalendarDate,
 		deleteImagesArray: [],
 		linkImagesArray: [],
 		timezone: this.props.timezone
@@ -43,10 +34,7 @@ class PostingOptions extends Component {
 			accountType: nextProps.post ? nextProps.post.accountType : "",
 			socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
 			contentValue: nextProps.post ? nextProps.post.content : "",
-			time: nextProps.post ? convertTimeAndDate(new Date(nextProps.post.postingDate), nextProps.timezone) : new Date(),
-			date: nextProps.post
-				? convertTimeAndDate(new Date(nextProps.post.postingDate), nextProps.timezone)
-				: nextProps.clickedCalendarDate,
+			date: nextProps.post ? moment(nextProps.post.postingDate) : nextProps.clickedCalendarDate,
 			linkImagesArray: []
 		});
 	}
@@ -109,15 +97,14 @@ class PostingOptions extends Component {
 			link,
 			linkImage,
 			linkImagesArray,
-			time,
 			postImages,
 			postingToAccountId,
 			accountType,
 			socialType,
-			date,
-			deleteImagesArray,
-			timezone
+			deleteImagesArray
 		} = this.state;
+		let { date } = this.state;
+
 		const { postFinishedSavingCallback, setSaving, accounts, canEditPost } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
 
@@ -177,17 +164,24 @@ class PostingOptions extends Component {
 							handleChange={this.handleChange}
 						/>
 					)}
-				<DatePicker clickedCalendarDate={date} callback={this.handleChange} canEdit={canEditPost} />
-				<TimePicker timeForPost={time} callback={this.handleChange} canEdit={canEditPost} />
-
+				<DatePicker
+					className="date-picker center"
+					selected={date}
+					onChange={date => this.handleChange("date", date)}
+					showTimeSelect
+					timeFormat="HH:mm"
+					timeIntervals={15}
+					dateFormat="LLL"
+					timeCaption="time"
+					disabled={!canEditPost}
+				/>
 				{canEditPost && (
 					<div className="bright-save-button-background center">
 						<button
 							className="bright-save-button center"
 							onClick={() => {
-								let dateToPostInUtcTime = convertDateAndTimeToUtcTme(date, time, timezone);
-
-								if (!postChecks(postingToAccountId, dateToPostInUtcTime, link, postImages, contentValue)) {
+								date = date.utcOffset(0);
+								if (!postChecks(postingToAccountId, date, link, postImages, contentValue)) {
 									return;
 								}
 
@@ -196,7 +190,7 @@ class PostingOptions extends Component {
 								savePost(
 									id,
 									contentValue,
-									dateToPostInUtcTime,
+									date,
 									link,
 									linkImage,
 									postImages,
@@ -216,25 +210,4 @@ class PostingOptions extends Component {
 		);
 	}
 }
-function convertTimeAndDate(date, timezone) {
-	// Don't mess with this date. Javascript dates are messed up and this makes it work.
-	// It is complicated and weird. Do not touch it.
-	let tempDate = new Date(
-		moment(date)
-			.toDate()
-			.getTime() +
-			moment()
-				.tz(timezone)
-				.utcOffset() *
-				60 *
-				1000 -
-			moment()
-				.tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
-				.utcOffset() *
-				60 *
-				1000
-	);
-	return tempDate;
-}
-
 export default PostingOptions;

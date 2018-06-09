@@ -8,6 +8,7 @@ const newsletterSchema = new Schema({
 	dueDate: String,
 	notes: String,
 	eventColor: String,
+	socialType: String,
 	wordDoc: {
 		url: String,
 		publicID: String,

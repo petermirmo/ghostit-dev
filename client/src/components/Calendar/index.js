@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import moment from "moment";
+import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 
@@ -14,8 +14,7 @@ import "./style.css";
 
 class Content extends Component {
 	state = {
-		edittingPost: {},
-		edittingImages: [],
+		clickedPost: {},
 
 		facebookPosts: [],
 		twitterPosts: [],
@@ -28,6 +27,7 @@ class Content extends Component {
 		blogEdittingModal: false,
 		contentModal: false,
 		postEdittingModal: false,
+		newsletterEdittingModal: false,
 
 		calendarEventCategories: {
 			All: true,
@@ -46,7 +46,6 @@ class Content extends Component {
 
 			if (!timezone) timezone = this.state.timezone;
 			moment.tz.setDefault(timezone);
-
 			if (this._ismounted) this.setState({ timezone: timezone });
 		});
 
@@ -94,12 +93,8 @@ class Content extends Component {
 			let { blogs, loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
 
-			let blogEvents = [];
-			for (let index in blogs) {
-				blogEvents.push(blogs[index]);
-			}
 			if (this._ismounted) {
-				this.setState({ websitePosts: blogEvents });
+				this.setState({ websitePosts: blogs });
 			}
 		});
 	};
@@ -109,29 +104,25 @@ class Content extends Component {
 			let { newsletters, loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
 
-			let newsletterEvents = [];
-			for (let index in newsletters) {
-				newsletterEvents.push(newsletters[index]);
-			}
 			if (this._ismounted) {
-				this.setState({ newsletterPosts: newsletterEvents });
+				this.setState({ newsletterPosts: newsletters });
 			}
 		});
 	};
 
-	openModal = slotinfo => {
+	openModal = date => {
 		// Date for post is set to date clicked on calendar
 		// Time for post is set to current time
-		this.setState({ clickedDate: slotinfo.start, contentModal: true });
+		this.setState({ clickedDate: date, contentModal: true });
 	};
-	editPost = clickedCalendarEvent => {
+	editPost = post => {
 		// Open editting modal
-		if (clickedCalendarEvent.socialType === "blog") {
-			this.setState({ blogEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
-		} else if (clickedCalendarEvent.socialType === "newsletter") {
-			this.setState({ newsletterEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
+		if (post.socialType === "blog") {
+			this.setState({ blogEdittingModal: true, clickedPost: post });
+		} else if (post.socialType === "newsletter") {
+			this.setState({ newsletterEdittingModal: true, clickedPost: post });
 		} else {
-			this.setState({ postEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
+			this.setState({ postEdittingModal: true, clickedPost: post });
 		}
 	};
 
@@ -174,54 +165,57 @@ class Content extends Component {
 			instagramPosts,
 			websitePosts,
 			newsletterPosts,
-			timezone
+			timezone,
+			clickedPost,
+			clickedDate
 		} = this.state;
 		const { All, Facebook, Twitter, Linkedin, Instagram, Blog, Newsletter } = calendarEventCategories;
 
-		let events = [];
+		let postsToDisplay = [];
 
 		if (Facebook || All) {
 			for (let index in facebookPosts) {
-				events.push(facebookPosts[index]);
+				postsToDisplay.push(facebookPosts[index]);
 			}
 		}
 		if (Twitter || All) {
 			for (let index in twitterPosts) {
-				events.push(twitterPosts[index]);
+				postsToDisplay.push(twitterPosts[index]);
 			}
 		}
 		if (Linkedin || All) {
 			for (let index in linkedinPosts) {
-				events.push(linkedinPosts[index]);
+				postsToDisplay.push(linkedinPosts[index]);
 			}
 		}
 		if (Instagram || All) {
 			for (let index in instagramPosts) {
-				events.push(instagramPosts[index]);
+				postsToDisplay.push(instagramPosts[index]);
 			}
 		}
 		if (Blog || All) {
 			for (let index in websitePosts) {
-				events.push(websitePosts[index]);
+				postsToDisplay.push(websitePosts[index]);
 			}
 		}
 		if (Newsletter || All) {
 			for (let index in newsletterPosts) {
-				events.push(newsletterPosts[index]);
+				postsToDisplay.push(newsletterPosts[index]);
 			}
 		}
 		return (
 			<div id="wrapper">
 				<NavigationBar categories={calendarEventCategories} updateParentState={this.updateTabState} />
 				<NewCalendar
-					events={events}
+					postsToDisplay={postsToDisplay}
 					calendarDate={new moment()}
-					onSelectSlot={this.openModal}
-					onSelectEvent={this.editPost}
+					onSelectDay={this.openModal}
+					onSelectPost={this.editPost}
+					timezone={timezone}
 				/>
 				{this.state.contentModal && (
 					<ContentModal
-						clickedCalendarDate={this.state.clickedDate}
+						clickedCalendarDate={clickedDate}
 						timezone={timezone}
 						close={this.closeModals}
 						savePostCallback={() => {
@@ -240,23 +234,19 @@ class Content extends Component {
 				)}
 				{this.state.postEdittingModal && (
 					<PostEdittingModal
-						savePostCallback={this.savePostCallback}
-						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						savePostCallback={() => this.getPosts()}
+						clickedPost={clickedPost}
 						timezone={timezone}
 						close={this.closeModals}
 					/>
 				)}
 				{this.state.blogEdittingModal && (
-					<BlogEdittingModal
-						updateCalendarBlogs={this.getBlogs}
-						clickedCalendarEvent={this.state.clickedCalendarEvent}
-						close={this.closeModals}
-					/>
+					<BlogEdittingModal updateCalendarBlogs={this.getBlogs} clickedPost={clickedPost} close={this.closeModals} />
 				)}
 				{this.state.newsletterEdittingModal && (
 					<NewsletterEdittingModal
 						updateCalendarNewsletters={this.getNewsletters}
-						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						clickedPost={clickedPost}
 						close={this.closeModals}
 					/>
 				)}

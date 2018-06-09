@@ -26,62 +26,19 @@ button {
 
 	border: none;
 }
-ul {
-	list-style-type: none;
-	margin: 0;
-	left: 0;
 
-	overflow: hidden;
-	text-align: center;
-
-	background-color: var(--white-theme-color);
-	margin: 10px 80px 10px 80px;
-}
-
-li {
-	display: inline-block;
-	width: 15%;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	padding-right: 5px;
-	padding-left: 5px;
-	margin-top: 4px;
-}
-
-li a {
-	color: var(--black-theme-color);
-	cursor: pointer;
-
-	display: block;
-	text-decoration: none;
-	text-align: center;
-	font-size: var(--large-font-size);
-	border-radius: 4px;
-
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	-webkit-transition: border-color 0.3s;
-	transition: border-color 0.3s;
-
-	border: 2px solid var(--light-grey-theme-color);
-}
-
-li a:hover:not(.active) {
-	border: 2px solid var(--blue-theme-color);
-	background-color: var(--blue-theme-color);
-	color: var(--white-theme-color);
-}
-
-li a.active {
-	border: 2px solid var(--blue-theme-color);
-	background-color: var(--blue-theme-color);
-	color: var(--white-theme-color);
-}
 textarea {
 	font-family: var(--font-theme);
 	font-size: var(--twelve-font-size) !important;
 }
 input {
 	font-size: var(--twelve-font-size) !important;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+li:hover {
+	background-color: var(--light-blue-theme-color) !important;
 }

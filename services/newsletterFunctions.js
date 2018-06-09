@@ -33,6 +33,7 @@ module.exports = {
 				newNewsletter = new Newsletter(newsletter);
 			}
 			newNewsletter.userID = userID;
+			newNewsletter.socialType = "newsletter";
 
 			if (newsletterFile.localPath) {
 				// Delete old wordDoc

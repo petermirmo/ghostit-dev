@@ -37,6 +37,7 @@ module.exports = {
 				newBlog = new Blog(blog);
 			}
 			newBlog.userID = userID;
+			newBlog.socialType = "blog";
 
 			if (blogFile.localPath) {
 				// Delete old wordDoc

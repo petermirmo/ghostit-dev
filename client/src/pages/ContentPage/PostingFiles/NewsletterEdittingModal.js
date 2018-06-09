@@ -13,11 +13,11 @@ class NewsletterEdittingModal extends Component {
 	state = {
 		deleteNewsletter: false,
 		notification: {},
-		newsletter: this.props.clickedCalendarEvent,
+		newsletter: this.props.clickedPost,
 		saving: false
 	};
 	componentWillReceiveProps(nextProps) {
-		this.setState({ newsletter: nextProps.clickedCalendarEvent });
+		this.setState({ newsletter: nextProps.clickedPost });
 	}
 	deleteNewsletterPopUp = () => {
 		this.setState({ deleteNewsletter: true });
@@ -59,7 +59,7 @@ class NewsletterEdittingModal extends Component {
 					</div>
 					<div className="modal-body">
 						<CreateNewsletter
-							newsletter={this.props.clickedCalendarEvent}
+							newsletter={this.props.clickedPost}
 							callback={() => {
 								this.props.updateCalendarNewsletters();
 								this.props.close();

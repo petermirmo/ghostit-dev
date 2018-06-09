@@ -4,6 +4,7 @@ export const nonEditableUserFields = [
 	"password",
 	"tempID",
 	"stripeCustomerID",
+	"stripeSubscriptionID",
 	"country",
 	"signedInAsUser",
 	"dateCreated"

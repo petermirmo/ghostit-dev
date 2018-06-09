@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import BigCalendar from "react-big-calendar";
-import moment from "moment";
+import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 
@@ -169,14 +169,14 @@ class Calendar extends Component {
 		// Time for post is set to current time
 		this.setState({ clickedDate: slotinfo.start, contentModal: true });
 	};
-	editPost = clickedCalendarEvent => {
+	editPost = clickedPost => {
 		// Open editting modal
-		if (clickedCalendarEvent.socialType === "blog") {
-			this.setState({ blogEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
-		} else if (clickedCalendarEvent.socialType === "newsletter") {
-			this.setState({ newsletterEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
+		if (clickedPost.socialType === "blog") {
+			this.setState({ blogEdittingModal: true, clickedPost: clickedPost });
+		} else if (clickedPost.socialType === "newsletter") {
+			this.setState({ newsletterEdittingModal: true, clickedPost: clickedPost });
 		} else {
-			this.setState({ postEdittingModal: true, clickedCalendarEvent: clickedCalendarEvent });
+			this.setState({ postEdittingModal: true, clickedPost: clickedPost });
 		}
 	};
 	eventStyleGetter = (event, start, end, isSelected) => {
@@ -298,7 +298,7 @@ class Calendar extends Component {
 				{this.state.postEdittingModal && (
 					<PostEdittingModal
 						savePostCallback={this.savePostCallback}
-						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						clickedPost={this.state.clickedPost}
 						timezone={timezone}
 						close={this.closeModals}
 					/>
@@ -306,14 +306,14 @@ class Calendar extends Component {
 				{this.state.blogEdittingModal && (
 					<BlogEdittingModal
 						updateCalendarBlogs={this.getBlogs}
-						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						clickedPost={this.state.clickedPost}
 						close={this.closeModals}
 					/>
 				)}
 				{this.state.newsletterEdittingModal && (
 					<NewsletterEdittingModal
 						updateCalendarNewsletters={this.getNewsletters}
-						clickedCalendarEvent={this.state.clickedCalendarEvent}
+						clickedPost={this.state.clickedPost}
 						close={this.closeModals}
 					/>
 				)}

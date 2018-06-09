@@ -22,12 +22,12 @@ class PostEdittingModal extends Component {
 	};
 	deletePost = deletePost => {
 		this.setState({ deletePost: false, saving: true });
-		if (!this.props.clickedCalendarEvent._id) {
+		if (!this.props.clickedPost._id) {
 			alert("Error cannot find post. Please contact our dev team immediately");
 			return;
 		}
 		if (deletePost) {
-			axios.delete("/api/post/delete/" + this.props.clickedCalendarEvent._id).then(res => {
+			axios.delete("/api/post/delete/" + this.props.clickedPost._id).then(res => {
 				let { loggedIn } = res.data;
 				if (loggedIn === false) window.location.reload();
 
@@ -49,10 +49,10 @@ class PostEdittingModal extends Component {
 		if (this.state.saving) {
 			return <Loader />;
 		}
-		const { close, savePostCallback, clickedCalendarEvent, accounts, timezone } = this.props;
+		const { close, savePostCallback, clickedPost, accounts, timezone } = this.props;
 
 		let modalFooter;
-		let canEditPost = clickedCalendarEvent.status !== "posted";
+		let canEditPost = clickedPost.status !== "posted";
 		if (canEditPost) {
 			modalFooter = (
 				<div className="modal-footer">
@@ -70,7 +70,7 @@ class PostEdittingModal extends Component {
 					<div className="modal-body">
 						<PostingOptions
 							setSaving={this.setSaving}
-							post={clickedCalendarEvent}
+							post={clickedPost}
 							canEditPost={canEditPost}
 							postFinishedSavingCallback={() => {
 								savePostCallback();
