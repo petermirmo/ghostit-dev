@@ -92,6 +92,7 @@ class NewCalendar extends Component {
 						if (post.socialType === "facebook") icon = "fa fa-facebook";
 						if (post.socialType === "twitter") icon = "fa fa-twitter";
 						if (post.socialType === "linkedin") icon = "fa fa-linkedin";
+
 						postsForDay.push(
 							<div
 								className="calendar-post"
@@ -102,7 +103,7 @@ class NewCalendar extends Component {
 								style={{ backgroundColor: color }}
 								key={postToDisplayIndex + "post"}
 							>
-								{icon && <div className={icon} />} {content}
+								{icon && <div className={icon} />} {new moment(post.postingDate).format("h:mm")} {content}
 							</div>
 						);
 
