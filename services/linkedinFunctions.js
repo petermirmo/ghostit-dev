@@ -39,7 +39,7 @@ module.exports = {
 							companies[index].socialType = "linkedin";
 							companies[index].access_token = account.accessToken;
 						}
-						res.send({ success: true, pages: pages });
+						res.send({ success: true, pages: companies });
 					});
 				} else {
 					res.send({ success: false });
