@@ -14,9 +14,9 @@ import "./style.css";
 class ContentModal extends Component {
 	state = {
 		saving: false,
-		activeTab: { name: "facebook", maxCharacters: 63206 },
+		activeTab: { name: "facebook" },
 		categories: [
-			{ name: "facebook", maxCharacters: 63206 },
+			{ name: "facebook" },
 			{ name: "twitter", maxCharacters: 280 },
 			{ name: "linkedin", maxCharacters: 700 },
 			{ name: "blog" },

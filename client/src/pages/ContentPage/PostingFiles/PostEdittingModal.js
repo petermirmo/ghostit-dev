@@ -61,9 +61,7 @@ class PostEdittingModal extends Component {
 			);
 		}
 		let maxCharacters;
-		if (clickedPost.socialType === "facebook") {
-			maxCharacters = 63206;
-		} else if (clickedPost.socialType === "twitter") {
+		if (clickedPost.socialType === "twitter") {
 			maxCharacters = 280;
 		} else if (clickedPost.socialType === "linkedin") {
 			maxCharacters = 700;
