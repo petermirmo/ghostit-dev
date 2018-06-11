@@ -60,6 +60,14 @@ class PostEdittingModal extends Component {
 				</div>
 			);
 		}
+		let maxCharacters;
+		if (clickedPost.socialType === "facebook") {
+			maxCharacters = 63206;
+		} else if (clickedPost.socialType === "twitter") {
+			maxCharacters = 280;
+		} else if (clickedPost.socialType === "linkedin") {
+			maxCharacters = 700;
+		}
 
 		return (
 			<div className="modal">
@@ -78,6 +86,7 @@ class PostEdittingModal extends Component {
 							}}
 							accounts={accounts}
 							timezone={timezone}
+							maxCharacters={maxCharacters}
 						/>
 					</div>
 

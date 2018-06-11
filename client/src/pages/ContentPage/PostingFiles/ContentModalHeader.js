@@ -7,13 +7,13 @@ class ContentModalHeader extends Component {
 		for (let index in categories) {
 			categoryDivs.push(
 				<div
-					className={activeTab === categories[index] ? "account-tab active-account-tab" : "account-tab"}
+					className={activeTab.name === categories[index].name ? "account-tab active-account-tab" : "account-tab"}
 					key={index}
 					onClick={this.props.updateParentState}
 				>
 					<button onClick={event => switchTabs(categories[index])}>
-						{categories[index].charAt(0).toUpperCase()}
-						{categories[index].slice(1)}
+						{categories[index].name.charAt(0).toUpperCase()}
+						{categories[index].name.slice(1)}
 					</button>
 				</div>
 			);

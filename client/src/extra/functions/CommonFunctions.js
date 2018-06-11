@@ -74,7 +74,11 @@ export async function savePost(
 			}
 		});
 }
-export function postChecks(postingToAccountId, dateToPostInUtcTime, link, currentImages, content) {
+export function postChecks(postingToAccountId, dateToPostInUtcTime, link, currentImages, content, maxCharacters) {
+	if (content.length > maxCharacters) {
+		alert("There are too many characters in this post!");
+		return false;
+	}
 	let currentUtcDate = moment().utcOffset(0);
 	// Make sure that the date is not in the past
 	if (currentUtcDate > dateToPostInUtcTime) {

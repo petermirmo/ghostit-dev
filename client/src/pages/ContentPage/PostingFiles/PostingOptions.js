@@ -111,7 +111,7 @@ class PostingOptions extends Component {
 		} = this.state;
 		let { date } = this.state;
 
-		const { postFinishedSavingCallback, setSaving, accounts, canEditPost } = this.props;
+		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
 
 		const linkPreviewCanShow = returnOfCarouselOptions[0];
@@ -134,7 +134,6 @@ class PostingOptions extends Component {
 				}
 			}
 		}
-
 		return (
 			<div className="posting-form">
 				<Textarea
@@ -147,6 +146,7 @@ class PostingOptions extends Component {
 					value={contentValue}
 					readOnly={!canEditPost}
 				/>
+				{maxCharacters && <h4>{maxCharacters - contentValue.length}</h4>}
 				<ImagesDiv
 					postImages={postImages}
 					setPostImages={this.setPostImages}
@@ -187,7 +187,7 @@ class PostingOptions extends Component {
 							className="bright-save-button center"
 							onClick={() => {
 								date = date.utcOffset(0);
-								if (!postChecks(postingToAccountId, date, link, postImages, contentValue)) {
+								if (!postChecks(postingToAccountId, date, link, postImages, contentValue, maxCharacters)) {
 									return;
 								}
 

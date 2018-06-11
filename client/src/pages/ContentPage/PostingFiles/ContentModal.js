@@ -14,8 +14,15 @@ import "./style.css";
 class ContentModal extends Component {
 	state = {
 		saving: false,
-		activeTab: "facebook",
-		categories: ["facebook", "twitter", "linkedin", "blog", "newsletter", "instagram"]
+		activeTab: { name: "facebook", maxCharacters: 63206 },
+		categories: [
+			{ name: "facebook", maxCharacters: 63206 },
+			{ name: "twitter", maxCharacters: 280 },
+			{ name: "linkedin", maxCharacters: 700 },
+			{ name: "blog" },
+			{ name: "newsletter" },
+			{ name: "instagram" }
+		]
 	};
 
 	switchTabState = activeTab => {
@@ -47,7 +54,7 @@ class ContentModal extends Component {
 		let modalBody;
 
 		// Check if this is a blog placeholder
-		if (activeTab === "blog") {
+		if (activeTab.name === "blog") {
 			modalBody = (
 				<CreateBlog
 					postingDate={clickedCalendarDate}
@@ -56,7 +63,7 @@ class ContentModal extends Component {
 					timezone={timezone}
 				/>
 			);
-		} else if (activeTab === "newsletter") {
+		} else if (activeTab.name === "newsletter") {
 			modalBody = (
 				<div className="modal-body">
 					<CreateNewsletter
@@ -67,7 +74,7 @@ class ContentModal extends Component {
 					/>
 				</div>
 			);
-		} else if (activeTab === "instagram") {
+		} else if (activeTab.name === "instagram") {
 			modalBody = (
 				<div className="modal-body">
 					<InstagramPosting
@@ -75,7 +82,7 @@ class ContentModal extends Component {
 						clickedCalendarDate={clickedCalendarDate}
 						postFinishedSavingCallback={savePostCallback}
 						setSaving={this.setSaving}
-						socialType={activeTab}
+						socialType={activeTab.name}
 						canEditPost={true}
 						timezone={timezone}
 					/>
@@ -88,7 +95,7 @@ class ContentModal extends Component {
 					.map(function(e) {
 						return e.socialType;
 					})
-					.indexOf(activeTab) !== -1
+					.indexOf(activeTab.name) !== -1
 			) {
 				modalBody = (
 					<div className="modal-body">
@@ -100,7 +107,8 @@ class ContentModal extends Component {
 								close();
 							}}
 							setSaving={this.setSaving}
-							socialType={activeTab}
+							socialType={activeTab.name}
+							maxCharacters={activeTab.maxCharacters}
 							canEditPost={true}
 							timezone={timezone}
 						/>
@@ -109,7 +117,7 @@ class ContentModal extends Component {
 			} else {
 				modalBody = (
 					<div className="modal-body center">
-						<h4>Connect {activeTab} Profile first!</h4>
+						<h4>Connect {activeTab.name} Profile first!</h4>
 					</div>
 				);
 			}
