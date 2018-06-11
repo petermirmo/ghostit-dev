@@ -51,6 +51,7 @@
 	margin: 0 2px 2px 0;
 	padding: 0;
 	cursor: pointer;
+	position: relative;
 }
 .calendar-day-heading:nth-child(7n),
 .calendar-day:nth-child(7n) {
@@ -88,13 +89,15 @@
 	margin: 10px 5px 10px 5px;
 	padding: 2px 10px 2px 10px;
 	color: var(--white-theme-color);
+	position: relative;
+	z-index: 1;
 
 	border-radius: 100px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 
-	transition: max-height 1s ease, border-radius 4s ease, min-width 1.4s ease, transform 1.4s ease;
-	-webkit-transition: max-height 1s ease, border-radius 4s ease, min-width 1.4s ease, transform 1.4s ease;
+	transition: max-height 2.5s ease, border-radius 4s ease, min-width 1.4s linear;
+	-webkit-transition: max-height 2.5s ease, border-radius 4s ease, min-width 1.4s linear;
 }
 
 .calendar-post:hover {
@@ -102,17 +105,18 @@
 
 	border-radius: 4px;
 	overflow-x: hidden;
-	position: relative;
-	z-index: 100;
+
+	z-index: 2;
 
 	min-width: 500px;
 	max-height: 250px;
 
-	transition: max-height 1s ease, border-radius 0.1s ease, min-width 0.8s ease, transform 2s ease;
-	-webkit-transition: max-height 1s ease, border-radius 0.1s ease, min-width 0.8s ease, transform 2s ease;
+	transition: max-height 2.5s ease, border-radius 0.1s ease, min-width 0.8s ease;
+	-webkit-transition: max-height 2.5s ease, border-radius 0.1s ease, min-width 0.8s ease;
 }
-.calendar-day:nth-child(7n) .calendar-post:hover,
-.calendar-day:nth-child(7n + 6) .calendar-post:hover,
-.calendar-day:nth-child(7n + 5) .calendar-post:hover {
-	transform: translateX(-350px);
+.calendar-day:nth-child(7n) .calendar-post,
+.calendar-day:nth-child(7n + 6) .calendar-post,
+.calendar-day:nth-child(7n + 5) .calendar-post {
+	position: absolute;
+	right: 0;
 }
