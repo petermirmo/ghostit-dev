@@ -117,6 +117,4 @@
 .calendar-day:nth-child(7n) .calendar-post,
 .calendar-day:nth-child(7n + 6) .calendar-post,
 .calendar-day:nth-child(7n + 5) .calendar-post {
-	position: absolute;
-	right: 0;
 }
