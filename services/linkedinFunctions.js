@@ -25,24 +25,24 @@ module.exports = {
 				if (err) return handleError(err);
 				if (account) {
 					// Use Linkedin profile access token to get account pages
-					var LI = Linkedin.init(account.accessToken);
+					let LI = Linkedin.init(account.accessToken);
 
 					// Get all companies that the user is an admin of
 					LI.companies.asAdmin(function(err, results) {
-						var companies = results.values;
+						let companies = results.values;
 						if (err) return handleError(err);
 						// Linkedin groups (companies) do not come with access tokens so we will use the
 						// user's profile access token
 						// We also want to set accountType and socialType
-						for (var index in companies) {
+						for (let index in companies) {
 							companies[index].accountType = "page";
 							companies[index].socialType = "linkedin";
 							companies[index].access_token = account.accessToken;
 						}
-						res.send(companies);
+						res.send({ success: true, pages: pages });
 					});
 				} else {
-					res.send(false);
+					res.send({ success: false });
 				}
 			}
 		);
