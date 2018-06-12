@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { changePage } from "../../../redux/actions/";
+
 import Notification from "../../../components/Notifications/Notification/";
 import IntroTab from "../OnboardingTabs/Intro/";
 import CompetitorsTab from "../OnboardingTabs/Competitors/";
@@ -231,7 +235,7 @@ class OnboardingModal extends Component {
 								<BookCall
 									setHeaderMessage={this.setHeaderMessage}
 									className="book-call-hyperlink"
-									link="https://calendly.com/ghostit/call-30"
+									link="https://calendly.com/ghostit/content/"
 									value="Book Your Call!"
 									title="Last Step!"
 								/>
@@ -271,4 +275,16 @@ class OnboardingModal extends Component {
 		);
 	}
 }
-export default OnboardingModal;
+
+function mapStateToProps(state) {
+	return {};
+}
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			changePage: changePage
+		},
+		dispatch
+	);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(OnboardingModal);

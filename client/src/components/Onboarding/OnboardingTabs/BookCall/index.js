@@ -13,12 +13,14 @@ class BookCall extends Component {
 	render() {
 		const { className, value, link } = this.props;
 		return (
-			<form action={link} target="_blank" method="get">
+			<form>
 				<button
 					className={className}
 					onClick={() => {
+						window.open(link);
 						this.props.changePage("strategy");
 					}}
+					type="submit"
 				>
 					{value}
 				</button>
