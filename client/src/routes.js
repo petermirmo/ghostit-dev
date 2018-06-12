@@ -43,6 +43,17 @@ class Routes extends Component {
 			}
 		});
 	}
+	signOutOfUsersAccount = () => {
+		axios.get("/api/signOutOfUserAccount").then(res => {
+			let { success, loggedIn, user } = res.data;
+			if (success) {
+				this.props.setUser(user);
+				window.location.reload();
+			} else {
+				if (loggedIn === false) window.location.reload();
+			}
+		});
+	};
 	openHeader = () => {
 		this.props.openHeaderSideBar(true);
 	};
@@ -63,6 +74,17 @@ class Routes extends Component {
 		if (headerSideBar) margin = { marginLeft: "20%" };
 		return (
 			<div>
+				{(activePage === "content" ||
+					activePage === "strategy" ||
+					activePage === "newCalendar" ||
+					activePage === "subscribe" ||
+					activePage === "accounts") &&
+					user.signedInAsUser && (
+						<div className="signed-in-as center">
+							<p>Logged in as: {user.signedInAsUser.fullName}</p>
+							<button className="fa fa-times" onClick={() => this.signOutOfUsersAccount()} />
+						</div>
+					)}
 				{accessClientButton}
 				{activePage !== "" &&
 					!headerSideBar && (
