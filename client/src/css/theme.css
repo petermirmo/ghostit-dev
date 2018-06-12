@@ -325,15 +325,19 @@
 }
 
 .my-client-button {
+	color: var(--blue-theme-color);
 	background-color: var(--white-theme-color);
+	font-size: var(--extra-large-font-size);
+
 	position: absolute;
 	left: 10px;
 	top: 80px;
+
 	padding: 4px 10px 4px 10px;
-	font-size: var(--extra-large-font-size);
 	z-index: 1;
+
+	border-radius: 4px;
 	border: 2px solid var(--blue-theme-color);
-	color: var(--blue-theme-color);
 
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;

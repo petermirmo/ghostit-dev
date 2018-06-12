@@ -1,14 +1,25 @@
 .activate-header-button {
-	position: absolute;
-	z-index: 1;
-	top: 10px;
-	left: 10px;
-	border-radius: 100px;
 	color: var(--blue-theme-color);
+	background-color: var(--white-theme-color);
+
+	top: 5px;
+	left: 5px;
+	position: absolute;
+	border-radius: 4px;
+
+	padding: 8px 12px 8px 12px;
+
+	z-index: 1;
 	cursor: pointer !important;
+
+	border: 2px solid var(--blue-theme-color);
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
 }
 .activate-header-button:hover {
-	color: var(--green-theme-color);
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
 }
 .header-navbar {
 	top: 0;
