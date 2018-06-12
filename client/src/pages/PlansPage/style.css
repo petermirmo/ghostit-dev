@@ -1,12 +1,16 @@
+.plans-page-background {
+	min-height: 100vh;
+	background: linear-gradient(120deg, var(--light-blue-theme-color)60%, var(--yellow-theme-color)0%);
+	overflow: auto;
+}
 .plan-page-title {
 	color: var(--black-theme-color);
 	margin: 0;
 	padding: 40px 0 20px 0;
 	font-size: var(--super-gigantic-font-size);
-	background: linear-gradient(to bottom, var(--light-light-blue-theme-color), var(--white-theme-color) 90%);
 }
 .plan-title-emphasis {
-	border-bottom: 2px solid var(--blue-theme-color) !important;
+	border-bottom: 2px solid var(--yellow-theme-color) !important;
 }
 .plan-description-title {
 }
