@@ -12,7 +12,11 @@ const cloudinary = require("cloudinary");
 module.exports = {
 	getImagesFromUrl: function(req, res) {
 		let url = req.body.link;
+
 		request(url, function(err, result, body) {
+			console.log(err);
+			console.log(result);
+			console.log(body);
 			if (err) {
 				console.log(err);
 				res.send(false);

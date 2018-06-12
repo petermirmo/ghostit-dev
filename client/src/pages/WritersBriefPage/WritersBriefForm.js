@@ -3,14 +3,12 @@ import Textarea from "react-textarea-autosize";
 import moment from "moment-timezone";
 import axios from "axios";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
 import NavigationBar from "../../components/Navigations/NavigationBar";
 import CreateBlog from "../ContentPage/PostingFiles/CreateBlog/";
 import CreateNewsletter from "../ContentPage/PostingFiles/CreateNewsletter/";
 import Loader from "../../components/Notifications/Loader/";
 import SearchColumn from "../../components/SearchColumn/";
+import DatePicker from "../../components/DatePicker/";
 
 class WritersBriefForm extends Component {
 	state = {
@@ -197,20 +195,20 @@ class WritersBriefForm extends Component {
 		return (
 			<div className="writers-brief-form center">
 				<div className="container-placeholder center">
-					<p className="date-label center">Content cycle start: </p>
+					<p className="date-label">Content cycle start: </p>
+
 					<DatePicker
-						className="date-picker center"
-						selected={cycleStartDate}
-						onChange={date => this.handleDateChange(date, "cycleStartDate")}
+						date={cycleStartDate}
 						dateFormat="MMMM Do YYYY"
+						onChange={date => this.handleDateChange(date, "cycleStartDate")}
 					/>
 
 					<p className="date-label">Content cycle end: </p>
+
 					<DatePicker
-						className="date-picker center"
-						selected={cycleEndDate}
-						onChange={date => this.handleDateChange(date, "cycleEndDate")}
+						date={cycleEndDate}
 						dateFormat="MMMM Do YYYY"
+						onChange={date => this.handleDateChange(date, "cycleEndDate")}
 					/>
 
 					<NavigationBar updateParentState={this.updateSocialPostsActiveTab} categories={socialCategories} />
