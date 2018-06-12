@@ -29,7 +29,7 @@
 	--grey-theme-color: #c0c1c6;
 	--white-theme-color: #fff;
 
-	--light-grey-theme-color: #f5f6fa;
+	--light-grey-theme-color: #dcdde1;
 	--dark-grey-theme-color: #718093;
 
 	--off-black-theme-color: #666666;
@@ -39,8 +39,24 @@
 	--large-font-size: 13pt;
 	--extra-large-font-size: 17pt;
 	--gigantic-font-size: 20pt;
+	--super-gigantic-font-size: 25pt;
 
 	--font-theme: "Lato";
+}
+
+.wrapper {
+	padding: 0;
+	margin: 0;
+
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	position: relative;
+
+	animation: animateleft 0.4s;
+	transition: margin 0.4s ease;
 }
 .modal {
 	position: fixed;
@@ -123,8 +139,20 @@
 	}
 }
 
+@keyframes headerSideBarAnimateLeft {
+	from {
+		left: -20%;
+		opacity: 0;
+	}
+	to {
+		left: 0;
+		opacity: 1;
+	}
+}
+
 .close {
 	color: var(--white-theme-color);
+	background-color: transparent;
 	float: right;
 	font-size: 28px;
 	font-weight: bold;
@@ -133,50 +161,25 @@
 }
 .close-dark {
 	color: var(--red-theme-color);
-	position: absolute;
-	top: 2px;
-	right: 2px;
-	font-size: 20pt;
-
-	text-decoration: none;
-	cursor: pointer;
-
-	-webkit-transition: all 0.4s ease;
-	transition: all 0.4s ease;
+	background-color: transparent;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	padding-top: 1px;
+	margin-right: 10px;
 }
+.close-dark:focus,
 .close-dark:hover {
-	transform: scale(1.1);
-}
-.close-dark:focus {
+	color: var(--blue-theme-color);
 	text-decoration: none;
 	cursor: pointer;
-	color: var(--blue-theme-color);
 }
+
 .close:hover,
 .close:focus {
-	color: #000;
+	color: var(--red-theme-color);
 	text-decoration: none;
 	cursor: pointer;
-}
-#wrapper {
-	padding: 50px 0 0 0;
-	margin: 0;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-
-	position: relative;
-	animation: animateleft 0.4s;
-}
-.container {
-	border-radius: 10px;
-	height: 80vh;
-	margin: 20px;
-	margin-top: 30px;
-	width: 50%;
-	border: 2px solid #b3e6ff;
-	background-color: #fff;
 }
 .container-full {
 	border-radius: 10px;
@@ -319,4 +322,23 @@
 }
 .date-picker:focus {
 	border: 1px solid var(--blue-theme-color);
+}
+
+.my-client-button {
+	background-color: var(--white-theme-color);
+	position: absolute;
+	left: 10px;
+	top: 70px;
+	padding: 4px 10px 4px 10px;
+	font-size: var(--extra-large-font-size);
+	z-index: 1;
+	border: 2px solid var(--blue-theme-color);
+	color: var(--blue-theme-color);
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+.my-client-button:hover {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
 }

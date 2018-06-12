@@ -1,7 +1,6 @@
 .navigation-container {
-	background-color: transparent;
-	margin: 10px 0 10px 0;
-	padding: 0;
+	padding: 20px 0 10px 0;
+	background-color: var(--light-light-blue-theme-color);
 }
 .navigation-option-container {
 	display: inline-block;

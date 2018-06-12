@@ -54,13 +54,13 @@ class Content extends Component {
 	render() {
 		const { fullName, email, website, password, saving } = this.state;
 		return (
-			<div id="wrapper" style={{ backgroundColor: "var(--light-blue-theme-color)" }}>
-				<div>
-					<div className="container center">
+			<div className="wrapper" style={this.props.margin}>
+				<div className="profile-background">
+					<div className="profile-container center">
 						<form>
 							<input
 								type="text"
-								className="profile-input center"
+								className="profile-input"
 								placeholder="Full Name"
 								style={{ marginTop: "7%" }}
 								onChange={event => this.handleChange("fullName", event.target.value)}
@@ -69,7 +69,7 @@ class Content extends Component {
 							/>
 							<input
 								type="text"
-								className="profile-input center"
+								className="profile-input"
 								placeholder="Email"
 								onChange={event => this.handleChange("email", event.target.value)}
 								value={email}
@@ -78,7 +78,7 @@ class Content extends Component {
 
 							<input
 								type="text"
-								className="profile-input center"
+								className="profile-input"
 								placeholder="Website"
 								onChange={event => this.handleChange("website", event.target.value)}
 								value={website}
@@ -87,7 +87,7 @@ class Content extends Component {
 
 							<input
 								type="password"
-								className="profile-input center"
+								className="profile-input"
 								placeholder="Password"
 								onChange={event => this.handleChange("password", event.target.value)}
 								value={password}
@@ -104,6 +104,7 @@ class Content extends Component {
 						</button>
 					</div>
 				</div>
+
 				{saving && <Loader />}
 			</div>
 		);

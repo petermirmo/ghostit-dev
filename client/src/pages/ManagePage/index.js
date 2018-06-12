@@ -15,7 +15,7 @@ class ManagePage extends Component {
 	};
 	render() {
 		return (
-			<div id="wrapper">
+			<div className="wrapper" style={this.props.margin} >
 				<div className="switch center">
 					{!this.state.userTable && (
 						<button className="switch-button active-switch" onClick={event => this.switchDivs(event)}>

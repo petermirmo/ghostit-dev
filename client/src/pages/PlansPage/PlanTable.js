@@ -58,7 +58,7 @@ class PlanTable extends Component {
 			price = this.state.price;
 		}
 		return (
-			<div className="plan-container center">
+			<div className="plan-container">
 				<div>
 					<div className="plan-row">
 						<p className="plan-row-label">Website Blog Posts </p>

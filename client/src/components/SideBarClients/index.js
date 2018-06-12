@@ -3,10 +3,10 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser, updateAccounts, changePage } from "../../redux/actions/";
+import { setUser, updateAccounts, changePage, openClientSideBar } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
-import "../../css/sideBar.css";
+import "./style.css";
 
 class ClientSideBar extends Component {
 	state = {
@@ -18,6 +18,9 @@ class ClientSideBar extends Component {
 
 		this.getMyClients();
 	}
+	closeClientSideBar = () => {
+		this.props.openClientSideBar(false);
+	};
 	getMyClients = () => {
 		axios.get("/api/clients").then(res => {
 			let { users, loggedIn, success } = res.data;
@@ -73,7 +76,10 @@ class ClientSideBar extends Component {
 	};
 	render() {
 		return (
-			<div className="side-bar animate-left">
+			<div className="side-bar">
+				<button className="close-dark" onClick={this.closeClientSideBar}>
+					&times;
+				</button>
 				<SearchColumn
 					objectList={this.state.clients}
 					searchObjects={this.searchUsers}
@@ -101,7 +107,8 @@ function mapDispatchToProps(dispatch) {
 		{
 			setUser: setUser,
 			updateAccounts: updateAccounts,
-			changePage: changePage
+			changePage: changePage,
+			openClientSideBar: openClientSideBar
 		},
 		dispatch
 	);

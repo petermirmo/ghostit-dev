@@ -5,7 +5,7 @@ import StrategyForm from "./StrategyForm";
 class StrategyPage extends Component {
 	render() {
 		return (
-			<div id="wrapper">
+			<div className="wrapper" style={this.props.margin} >
 				<div className="center">
 					<StrategyForm />
 				</div>

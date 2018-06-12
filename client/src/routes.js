@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faBars from "@fortawesome/fontawesome-free-solid/faBars";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, setUser, updateAccounts } from "./redux/actions/";
+import { changePage, setUser, updateAccounts, openHeaderSideBar, openClientSideBar } from "./redux/actions/";
 
 import LoginPage from "./pages/LoginPage/";
 
@@ -41,23 +43,43 @@ class Routes extends Component {
 			}
 		});
 	}
+	openHeader = () => {
+		this.props.openHeaderSideBar(true);
+	};
+	openClientSideBar = () => {
+		this.props.openClientSideBar(!this.props.clientSideBar);
+	};
 	render() {
-		const { activePage, clientSideBar } = this.props;
-
+		const { activePage, clientSideBar, headerSideBar, user } = this.props;
+		let accessClientButton;
+		if (user) {
+			accessClientButton = (user.role === "manager" || user.role === "admin") && (
+				<button className="my-client-button" onClick={() => this.openClientSideBar()}>
+					My Clients
+				</button>
+			);
+		}
+		let margin;
+		if (headerSideBar) margin = { marginLeft: "20%" };
 		return (
 			<div>
-				{activePage !== "" && <Header />}
+				{accessClientButton}
+				{activePage !== "" &&
+					!headerSideBar && (
+						<FontAwesomeIcon icon={faBars} size="2x" className="activate-header-button" onClick={this.openHeader} />
+					)}
+				{activePage !== "" && headerSideBar && <Header />}
 				{clientSideBar && <ClientsSideBar />}
 
-				{activePage === "" && <LoginPage />}
-				{activePage === "subscribe" && <Plans />}
-				{activePage === "content" && <Content />}
-				{activePage === "strategy" && <Strategy />}
-				{activePage === "analytics" && <Analytics />}
-				{activePage === "accounts" && <Accounts />}
-				{activePage === "writersBrief" && <WritersBrief />}
-				{activePage === "manage" && <Manage />}
-				{activePage === "profile" && <Profile />}
+				{activePage === "" && <LoginPage margin={margin} />}
+				{activePage === "subscribe" && <Plans margin={margin} />}
+				{activePage === "content" && <Content margin={margin} />}
+				{activePage === "strategy" && <Strategy margin={margin} />}
+				{activePage === "analytics" && <Analytics margin={margin} />}
+				{activePage === "accounts" && <Accounts margin={margin} />}
+				{activePage === "writersBrief" && <WritersBrief margin={margin} />}
+				{activePage === "manage" && <Manage margin={margin} />}
+				{activePage === "profile" && <Profile margin={margin} />}
 			</div>
 		);
 	}
@@ -68,10 +90,19 @@ function mapStateToProps(state) {
 		activePage: state.activePage,
 		user: state.user,
 		clientSideBar: state.clientSideBar,
-		accountSideBar: state.accountSideBar
+		headerSideBar: state.headerSideBar
 	};
 }
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ changePage: changePage, setUser: setUser, updateAccounts: updateAccounts }, dispatch);
+	return bindActionCreators(
+		{
+			changePage: changePage,
+			setUser: setUser,
+			updateAccounts: updateAccounts,
+			openHeaderSideBar: openHeaderSideBar,
+			openClientSideBar: openClientSideBar
+		},
+		dispatch
+	);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Routes);

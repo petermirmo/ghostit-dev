@@ -1,0 +1,15 @@
+label {
+	text-align: left;
+}
+.side-bar {
+	height: 100vh;
+	background-color: var(--white-theme-color);
+	position: fixed;
+	z-index: 100;
+	overflow: auto;
+
+	width: 25%;
+	box-shadow: 0 0 40px -10px var(--black-theme-color);
+
+	text-align: left;
+}

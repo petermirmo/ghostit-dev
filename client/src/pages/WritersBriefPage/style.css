@@ -5,6 +5,7 @@
 	width: 100%;
 	max-width: 100% !important;
 	overflow: auto;
+	padding-top: 20px;
 }
 .writers-brief-button {
 	background-color: var(--light-blue-theme-color);

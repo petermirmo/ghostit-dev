@@ -23,3 +23,10 @@ export const updateAccounts = value => {
 		payload: value
 	};
 };
+
+export const openHeaderSideBar = value => {
+	return {
+		type: "HEADER_SIDE_BAR",
+		payload: value
+	};
+};

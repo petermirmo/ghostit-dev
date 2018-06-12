@@ -97,7 +97,7 @@ class WritersBrief extends Component {
 			);
 		}
 		return (
-			<div id="wrapper">
+			<div className="wrapper" style={this.props.margin} >
 				<div className="past-writers-brief-container">
 					{adminManagerOrDemo && (
 						<button className="new-writers-brief" onClick={() => this.createNewWritersBrief()}>

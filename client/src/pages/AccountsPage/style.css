@@ -1,6 +1,7 @@
 .accounts-wrapper {
 	display: block;
 	text-align: center;
+	margin-left: 50px;
 }
 .account-column {
 	width: 20%;

@@ -204,7 +204,7 @@ class Content extends Component {
 			}
 		}
 		return (
-			<div id="wrapper">
+			<div className="wrapper" style={this.props.margin}>
 				<NavigationBar categories={calendarEventCategories} updateParentState={this.updateTabState} />
 				<NewCalendar
 					postsToDisplay={postsToDisplay}

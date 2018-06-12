@@ -211,7 +211,7 @@ class AccountsPage extends Component {
 			}
 		}
 		return (
-			<div id="wrapper">
+			<div className="wrapper" style={this.props.margin}>
 				<div className="accounts-wrapper">
 					<div className="account-column">
 						<button
@@ -288,7 +288,6 @@ class AccountsPage extends Component {
 function mapStateToProps(state) {
 	return {
 		clientSideBar: state.clientSideBar,
-		accountSideBar: state.accountSideBar,
 		accounts: state.accounts
 	};
 }
