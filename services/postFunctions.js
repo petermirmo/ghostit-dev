@@ -14,9 +14,6 @@ module.exports = {
 		let url = req.body.link;
 
 		request(url, function(err, result, body) {
-			console.log(err);
-			console.log(result);
-			console.log(body);
 			if (err) {
 				console.log(err);
 				res.send(false);
@@ -32,6 +29,7 @@ module.exports = {
 			$("img").each(function(index, img) {
 				imgSrc.push(img.attribs.src);
 			});
+
 			res.send(imgSrc);
 		});
 	},

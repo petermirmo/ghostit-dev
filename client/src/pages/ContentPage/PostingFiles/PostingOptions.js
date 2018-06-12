@@ -72,27 +72,29 @@ class PostingOptions extends Component {
 	};
 	findLink(textAreaString) {
 		// Url regular expression
-		let urlRegularExpression = /((http|ftp|https):\\)?[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:~+#-]*[\w@?^=%&amp;~+#-])?/;
+		let urlRegularExpression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
+
+		let regex = new RegExp(urlRegularExpression);
 
 		// Finds url
-		let match = urlRegularExpression.exec(textAreaString);
-		let link;
+		let match = textAreaString.match(regex);
 
+		let link;
 		// Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
 		if (match !== null) {
-			if (match[0].substring(0, 7) === "http://" || match[0].substring(0, 8) === "https://") {
-				link = match[0];
-			} else {
-				link = "http://" + match[0];
-			}
+			link = match[0];
 			this.getDataFromURL(link);
 		}
 	}
 	getDataFromURL = link => {
+		let { linkImage } = this.state;
 		axios.post("/api/link", { link: link }).then(res => {
 			let { loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
-			if (this._ismounted) this.setState({ link: link, linkImagesArray: res.data });
+			if (this._ismounted && res.data) {
+				if (!linkImage) linkImage = res.data[0];
+				this.setState({ link: link, linkImagesArray: res.data, linkImage: linkImage });
+			}
 		});
 	};
 

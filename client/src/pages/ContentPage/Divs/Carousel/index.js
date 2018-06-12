@@ -30,7 +30,7 @@ class Carousel extends Component {
 		this.setState({ activeImageIndex: activeImageIndex });
 	};
 	render() {
-		const { linkPreviewCanEdit, linkImage } = this.props;
+		let { linkPreviewCanEdit, linkImage } = this.props;
 		return (
 			<div className="carousel-container">
 				<div className="carousel">
