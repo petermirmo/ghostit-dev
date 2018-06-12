@@ -34,7 +34,7 @@ class PlansPage extends Component {
 				<p className="plan-page-description">
 					<span className="plan-description-title">What are you waiting for? </span>
 					<br />
-					Click the plus buttons to the right to increase your content needs!
+					Click the plus buttons to the right to customize your plan!
 				</p>
 				<PlanTable usersPlan={this.state.usersPlan} />
 			</div>
