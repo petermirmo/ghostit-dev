@@ -2,10 +2,10 @@
 	display: inline-block;
 	border-bottom: 2px solid var(--light-blue-theme-color);
 	white-space: nowrap;
-	width: 100%;
+	width: stretch;
 	max-width: 100% !important;
 	overflow: auto;
-	padding-top: 20px;
+	padding: 20px 0 0 40px;
 }
 .writers-brief-button {
 	background-color: var(--light-blue-theme-color);

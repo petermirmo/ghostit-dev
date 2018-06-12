@@ -14,7 +14,7 @@
 	--red-theme-color: #e6261f;
 	--yellow-theme-color: #ffff00;
 
-	--light-blue-theme-color: #80d3ff;
+	--light-blue-theme-color: #3dc0ff;
 	--light-light-blue-theme-color: #b2e4ff;
 	--super-light-blue-theme-color: #e6f7ff;
 
@@ -328,7 +328,7 @@
 	background-color: var(--white-theme-color);
 	position: absolute;
 	left: 10px;
-	top: 70px;
+	top: 80px;
 	padding: 4px 10px 4px 10px;
 	font-size: var(--extra-large-font-size);
 	z-index: 1;
