@@ -182,7 +182,7 @@ class DatePicker extends Component {
 	};
 	render() {
 		let { inputValue, calendarDropdown, hourDropdown, minuteDropdown, amPmDropdown } = this.state;
-		let { date } = this.props;
+		let { date, style } = this.props;
 
 		let calendarDays = this.createCalendarDays(date);
 		let dayHeaders = this.createDayHeaders();
@@ -197,7 +197,7 @@ class DatePicker extends Component {
 					{inputValue}
 				</div>
 				{calendarDropdown && (
-					<div className="dropdown-calendar">
+					<div className="dropdown-calendar" style={style}>
 						<div className="date-picker-calendar-month-container">
 							<button
 								className="date-picker-calendar-month-switch-button left fa fa-angle-left fa-3x"

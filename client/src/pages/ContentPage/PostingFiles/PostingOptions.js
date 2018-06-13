@@ -177,6 +177,9 @@ class PostingOptions extends Component {
 					date={date}
 					dateFormat="MMMM Do YYYY HH:mm A"
 					onChange={date => this.handleChange("date", date)}
+					style={{
+						bottom: "-80px"
+					}}
 				/>
 				{canEditPost && (
 					<div className="bright-save-button-background center">
