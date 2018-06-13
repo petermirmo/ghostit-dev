@@ -8,7 +8,7 @@ import CreateBlog from "../ContentPage/PostingFiles/CreateBlog/";
 import CreateNewsletter from "../ContentPage/PostingFiles/CreateNewsletter/";
 import Loader from "../../components/Notifications/Loader/";
 import SearchColumn from "../../components/SearchColumn/";
-import DatePicker from "../../components/DatePicker/";
+import DateTimePicker from "../../components/DateTimePicker/";
 
 class WritersBriefForm extends Component {
 	state = {
@@ -197,7 +197,7 @@ class WritersBriefForm extends Component {
 				<div className="container-placeholder center">
 					<p className="date-label">Content cycle start: </p>
 
-					<DatePicker
+					<DateTimePicker
 						date={cycleStartDate}
 						dateFormat="MMMM Do YYYY"
 						onChange={date => this.handleDateChange(date, "cycleStartDate")}
@@ -205,7 +205,7 @@ class WritersBriefForm extends Component {
 
 					<p className="date-label">Content cycle end: </p>
 
-					<DatePicker
+					<DateTimePicker
 						date={cycleEndDate}
 						dateFormat="MMMM Do YYYY"
 						onChange={date => this.handleDateChange(date, "cycleEndDate")}
