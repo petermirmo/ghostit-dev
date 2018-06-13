@@ -1,4 +1,5 @@
 .posting-form {
+	overflow: visible;
 }
 .content-header {
 	background-color: var(--blue-theme-color);

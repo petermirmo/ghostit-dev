@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "font-awesome/css/font-awesome.min.css";
-
 import { connect } from "react-redux";
 
 import CreateBlog from "./CreateBlog/";

@@ -3,7 +3,7 @@ import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
 import axios from "axios";
 
-import DatePicker from "react-datepicker";
+import DateTimePicker from "../../../components/DateTimePicker";
 import SelectAccountDiv from "../Divs/SelectAccountDiv/";
 import Carousel from "../Divs/Carousel";
 import ImagesDiv from "../Divs/ImagesDiv/";
@@ -172,17 +172,8 @@ class PostingOptions extends Component {
 							handleChange={this.handleChange}
 						/>
 					)}
-				<DatePicker
-					className="date-picker center"
-					selected={date}
-					onChange={date => this.handleChange("date", date)}
-					showTimeSelect
-					timeFormat="HH:mm"
-					timeIntervals={15}
-					dateFormat="LLL"
-					timeCaption="time"
-					disabled={!canEditPost}
-				/>
+
+				<DateTimePicker date={date} dateFormat="MMMM Do YYYY" onChange={date => this.handleChange("date", date)} />
 				{canEditPost && (
 					<div className="bright-save-button-background center">
 						<button
