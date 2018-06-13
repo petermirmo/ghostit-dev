@@ -38,7 +38,7 @@ class Routes extends Component {
 					if (!accounts) accounts = [];
 					props.updateAccounts(accounts);
 					props.setUser(user);
-					props.changePage("content");
+					props.changePage("writersBrief");
 				});
 			}
 		});
@@ -77,6 +77,7 @@ class Routes extends Component {
 				{(activePage === "content" ||
 					activePage === "strategy" ||
 					activePage === "newCalendar" ||
+					activePage === "writersBrief" ||
 					activePage === "subscribe" ||
 					activePage === "accounts") &&
 					user.signedInAsUser && (

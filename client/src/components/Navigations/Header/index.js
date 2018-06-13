@@ -109,6 +109,7 @@ class HeaderSideBar extends Component {
 				{(activePage === "content" ||
 					activePage === "strategy" ||
 					activePage === "newCalendar" ||
+					activePage === "writersBrief" ||
 					activePage === "subscribe" ||
 					activePage === "accounts") &&
 					user.signedInAsUser && (

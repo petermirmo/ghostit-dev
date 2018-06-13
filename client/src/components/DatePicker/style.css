@@ -2,26 +2,134 @@
 	position: relative;
 	display: inline-block;
 	margin-right: 20px;
+	cursor: pointer;
+	background-color: var(--white-theme-color);
+
+	padding: 4px 10px 4px 10px;
 }
 
 .dropdown-calendar {
-	display: none;
 	position: absolute;
-	background-color: #f9f9f9;
-	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	padding: 12px 16px;
+	min-width: 200px;
+	box-shadow: 0 0 16px 0px rgba(0, 0, 0, 0.2);
+	left: 0;
+
 	z-index: 1;
+	padding: 10px;
+	background-color: var(--white-theme-color);
+
+	display: flex;
+	flex-wrap: wrap;
 }
+
 .date-picker-dropdown-header {
+	border-bottom: 1px solid var(--blue-theme-color);
+	color: var(--dark-grey-theme-color);
+	flex-grow: 1;
+	width: 13%;
+	padding: 4px 0 4px 0;
 }
+
+.date-picker-calendar-month-container {
+	background-color: var(--white-theme-color);
+	width: 100%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.date-picker-calendar-month {
+	flex-grow: 1;
+
+	color: var(--black-theme-color);
+	opacity: 0.8;
+}
+.date-picker-calendar-month-switch-button {
+	flex-grow: 1;
+
+	color: var(--blue-theme-color);
+	background-color: transparent;
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+.date-picker-calendar-month-switch-button:hover {
+	color: var(--green-theme-color);
+}
+.left {
+	margin-right: 20px;
+}
+.right {
+	margin-left: 20px;
+}
+
 .date-picker-day {
+	background-color: var(--white-theme-color);
+
+	flex-grow: 1;
+	width: 13%;
+	padding: 4px 0 4px 0;
+	cursor: pointer;
+}
+.date-picker-day:hover {
+	background-color: var(--light-blue-theme-color);
+	color: var(--white-theme-color);
+}
+.date-picker-day.active {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
 }
 .faded-date-picker-days {
+	background-color: var(--super-light-blue-theme-color);
 }
 .date-picker-date {
 }
 
-.date-picker-dropdown:hover .dropdown-calendar {
+.time-dropdown {
+	border: 1px solid var(--grey-theme-color);
+	padding: 5px 0 5px 0;
+	margin: 10px 5px 0 5px;
+	flex-grow: 1;
+	cursor: pointer;
+	position: relative;
+
+	display: inline-block;
+}
+.hour {
+}
+.minute {
+	margin-right: 20px;
+}
+.ampm {
+}
+
+.time-dropdown-container {
+	background-color: var(--white-theme-color);
+	border: 1px solid var(--grey-theme-color);
+
+	position: absolute;
 	display: block;
+	right: 0;
+	left: -1px;
+
+	margin-top: 5px;
+
+	width: 100%;
+	max-height: 135px;
+
+	overflow: auto;
+}
+.time-dropdown-item {
+}
+.time-dropdown-item:hover {
+	background-color: var(--light-grey-theme-color);
+}
+.finished-button {
+	background-color: var(--blue-theme-color);
+
+	padding: 4px 20px 4px 20px;
+	margin: 10px 0 0 0;
+}
+.finished-button:hover {
+	background-color: var(--dark-blue-theme-color);
 }

@@ -153,7 +153,7 @@ class WritersBriefForm extends Component {
 		this.setState({ writersBrief: writersBrief });
 		this.props.updateWritersBrief(writersBrief);
 		this.getBlogsInBrief();
-		this.getNewslettersInBriefs();
+		this.getNewslettersInBrief();
 	};
 	newBlog = () => {
 		this.setState({ clickedBlogIndex: undefined });
