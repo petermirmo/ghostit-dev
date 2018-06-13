@@ -173,7 +173,11 @@ class PostingOptions extends Component {
 						/>
 					)}
 
-				<DateTimePicker date={date} dateFormat="MMMM Do YYYY" onChange={date => this.handleChange("date", date)} />
+				<DateTimePicker
+					date={date}
+					dateFormat="MMMM Do YYYY HH:mm A"
+					onChange={date => this.handleChange("date", date)}
+				/>
 				{canEditPost && (
 					<div className="bright-save-button-background center">
 						<button
