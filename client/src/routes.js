@@ -74,18 +74,19 @@ class Routes extends Component {
 		if (headerSideBar) margin = { marginLeft: "20%" };
 		return (
 			<div>
-				{(activePage === "content" ||
-					activePage === "strategy" ||
-					activePage === "newCalendar" ||
-					activePage === "writersBrief" ||
-					activePage === "subscribe" ||
-					activePage === "accounts") &&
-					user.signedInAsUser && (
-						<div className="signed-in-as center">
-							<p>Logged in as: {user.signedInAsUser.fullName}</p>
-							<button className="fa fa-times" onClick={() => this.signOutOfUsersAccount()} />
-						</div>
-					)}
+				{user &&
+					((activePage === "content" ||
+						activePage === "strategy" ||
+						activePage === "newCalendar" ||
+						activePage === "writersBrief" ||
+						activePage === "subscribe" ||
+						activePage === "accounts") &&
+						user.signedInAsUser && (
+							<div className="signed-in-as center">
+								<p>Logged in as: {user.signedInAsUser.fullName}</p>
+								<button className="fa fa-times" onClick={() => this.signOutOfUsersAccount()} />
+							</div>
+						))}
 				{accessClientButton}
 				{activePage !== "" &&
 					!headerSideBar && (
