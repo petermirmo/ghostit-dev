@@ -14,24 +14,27 @@ class SelectAccountDiv extends Component {
 			if (account.familyName) name += " " + account.familyName.charAt(0).toUpperCase() + account.familyName.slice(1);
 			if (account.username) name = account.username;
 
-			let className = "select-accounts-posting-div";
+			let className = "account-container";
 
 			if (activeAccount === String(account._id)) {
 				className += " common-active";
 			}
 			// Push div to array
-			let div = (
-				<div key={index} className={className} onClick={event => setActiveAccount(account)}>
-					<h4>{name}</h4>
-					<p>{account.accountType}</p>
+
+			accountsListDiv.push(
+				<div className={className} onClick={event => setActiveAccount(account)} key={index}>
+					<div className={"account-icon fa fa-" + account.socialType + " " + account.socialType} />
+					<div className="account-title-type-container">
+						<div className="account-name">{name}</div>
+						<div className="account-type">{account.accountType}</div>
+					</div>
 				</div>
 			);
-			accountsListDiv.push(div);
 		}
 		return (
-			<div className="center select-accounts-container">
+			<div className="select-accounts-container">
 				{canEdit && <h4 className="select-accounts-header">Choose an account to post to!</h4>}
-				{accountsListDiv}
+				<div className="accounts-container">{accountsListDiv}</div>
 			</div>
 		);
 	}

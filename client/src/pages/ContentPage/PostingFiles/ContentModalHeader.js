@@ -9,16 +9,14 @@ class ContentModalHeader extends Component {
 				<div
 					className={activeTab.name === categories[index].name ? "account-tab active-account-tab" : "account-tab"}
 					key={index}
-					onClick={this.props.updateParentState}
+					onClick={event => switchTabs(categories[index])}
 				>
-					<button onClick={event => switchTabs(categories[index])}>
-						{categories[index].name.charAt(0).toUpperCase()}
-						{categories[index].name.slice(1)}
-					</button>
+					{categories[index].name.charAt(0).toUpperCase()}
+					{categories[index].name.slice(1)}
 				</div>
 			);
 		}
-		return <div className="row content-header">{categoryDivs}</div>;
+		return <div className="content-modal-header">{categoryDivs}</div>;
 	}
 }
 

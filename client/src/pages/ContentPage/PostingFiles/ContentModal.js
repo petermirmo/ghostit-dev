@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "font-awesome/css/font-awesome.min.css";
+
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { changePage } from "../../../redux/actions/";
 
 import CreateBlog from "./CreateBlog/";
 import CreateNewsletter from "./CreateNewsletter/";
@@ -97,26 +100,24 @@ class ContentModal extends Component {
 					.indexOf(activeTab.name) !== -1
 			) {
 				modalBody = (
-					<div className="modal-body">
-						<PostingOptions
-							accounts={accounts}
-							clickedCalendarDate={clickedCalendarDate}
-							postFinishedSavingCallback={() => {
-								savePostCallback();
-								close();
-							}}
-							setSaving={this.setSaving}
-							socialType={activeTab.name}
-							maxCharacters={activeTab.maxCharacters}
-							canEditPost={true}
-							timezone={timezone}
-						/>
-					</div>
+					<PostingOptions
+						accounts={accounts}
+						clickedCalendarDate={clickedCalendarDate}
+						postFinishedSavingCallback={() => {
+							savePostCallback();
+							close();
+						}}
+						setSaving={this.setSaving}
+						socialType={activeTab.name}
+						maxCharacters={activeTab.maxCharacters}
+						canEditPost={true}
+						timezone={timezone}
+					/>
 				);
 			} else {
 				modalBody = (
-					<div className="modal-body center">
-						<h4>Connect {activeTab.name} Profile first!</h4>
+					<div className="connect-accounts-button" onClick={() => this.props.changePage("accounts")}>
+						Connect Accounts!
 					</div>
 				);
 			}
@@ -124,16 +125,15 @@ class ContentModal extends Component {
 
 		return (
 			<div className="modal">
-				<div className="modal-content" style={{ textAlign: "center" }}>
-					<span className="close-dark fa fa-times fa-10x" onClick={() => close("contentModal")} />
-					<div className="modal-header">
-						<ContentModalHeader
-							categories={this.state.categories}
-							switchTabs={this.switchTabState}
-							activeTab={activeTab}
-						/>
-					</div>
-					{modalBody}
+				<div className="content-modal">
+					<span className="content-close fa fa-times fa-10x" onClick={() => close("contentModal")} />
+					<ContentModalHeader
+						categories={this.state.categories}
+						switchTabs={this.switchTabState}
+						activeTab={activeTab}
+						accounts={accounts}
+					/>
+					<div className="content-modal-body">{modalBody}</div>
 				</div>
 			</div>
 		);
@@ -144,5 +144,15 @@ function mapStateToProps(state) {
 		accounts: state.accounts
 	};
 }
-
-export default connect(mapStateToProps)(ContentModal);
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			changePage: changePage
+		},
+		dispatch
+	);
+}
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ContentModal);

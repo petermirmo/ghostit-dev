@@ -33,16 +33,14 @@ class Carousel extends Component {
 		let { linkPreviewCanEdit, linkImage } = this.props;
 		return (
 			<div className="carousel-container">
-				<div className="carousel">
-					<div className="carousel-image-container">
-						{linkPreviewCanEdit && (
-							<button className="carousel-previous-button fa fa-arrow-left" onClick={() => this.changeImage(-1)} />
-						)}
-						<img alt=" No images at this url!" src={linkImage} className="carousel-image" />
-						{linkPreviewCanEdit && (
-							<button className="carousel-next-button fa fa-arrow-right" onClick={() => this.changeImage(1)} />
-						)}
-					</div>
+				<div className="carousel-image-container">
+					{linkPreviewCanEdit && (
+						<button className="carousel-previous-button fa fa-arrow-left" onClick={() => this.changeImage(-1)} />
+					)}
+					<img alt=" No images at this url!" src={linkImage} className="carousel-image" />
+					{linkPreviewCanEdit && (
+						<button className="carousel-next-button fa fa-arrow-right" onClick={() => this.changeImage(1)} />
+					)}
 				</div>
 			</div>
 		);

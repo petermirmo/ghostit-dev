@@ -55,15 +55,15 @@ export async function savePost(
 					// Now we add images
 
 					// Images must be uploaded via forms
-					let formData = new FormData();
-					formData.append("postID", post._id);
+					let test = [];
 
 					// Attach all images to formData
 					for (let i = 0; i < imagesToSave.length; i++) {
-						formData.append("file", imagesToSave[i]);
+						test.push(imagesToSave[i].currentTarget.result);
 					}
+
 					// Make post request for images
-					axios.post("/api/post/images", formData).then(res => {
+					axios.post("/api/post/images", { postID: post._id, images: test }).then(res => {
 						callback();
 					});
 				} else {

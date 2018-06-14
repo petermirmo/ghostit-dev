@@ -1,32 +1,47 @@
 .date-picker-dropdown {
-	position: relative;
 	display: inline-block;
-	margin-right: 20px;
+	position: relative;
+
 	background-color: var(--white-theme-color);
 
-	padding: 4px 10px 4px 10px;
-}
+	border-bottom: 1px solid var(--grey-theme-color);
+	vertical-align: middle;
 
+	margin-right: 20px;
+	padding: 4px 10px 4px 10px;
+
+	cursor: pointer;
+}
+.date-picker-dropdown:hover {
+	border-color: var(--blue-theme-color);
+}
 .dropdown-calendar {
 	position: absolute;
-	min-width: 200px;
-	box-shadow: 0 0 16px 0px rgba(0, 0, 0, 0.2);
-
 	left: 0;
 
-	z-index: 1;
-	padding: 10px;
+	display: flex;
+	display: -webkit-flex;
+
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+
 	background-color: var(--white-theme-color);
+
+	padding: 10px;
 	margin-bottom: 100px;
 
-	display: flex;
-	flex-wrap: wrap;
+	min-width: 200px;
+
+	box-shadow: 0 0 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
 }
 
 .date-picker-dropdown-header {
 	border-bottom: 1px solid var(--blue-theme-color);
 	color: var(--dark-grey-theme-color);
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
 	width: 13%;
 	padding: 4px 0 4px 0;
 }
@@ -36,17 +51,21 @@
 	width: 100%;
 
 	display: flex;
+	display: -webkit-flex;
+
 	align-items: center;
 	justify-content: center;
 }
 .date-picker-calendar-month {
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
 
 	color: var(--black-theme-color);
 	opacity: 0.8;
 }
 .date-picker-calendar-month-switch-button {
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
 
 	color: var(--blue-theme-color);
 	background-color: transparent;
@@ -67,9 +86,14 @@
 .date-picker-day {
 	background-color: var(--white-theme-color);
 
+	text-align: center;
+
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
 	width: 13%;
 	padding: 4px 0 4px 0;
+
 	cursor: pointer;
 }
 .date-picker-day:hover {
@@ -87,14 +111,19 @@
 }
 
 .time-dropdown {
-	border: 1px solid var(--grey-theme-color);
-	padding: 5px 0 5px 0;
-	margin: 10px 5px 0 5px;
-	flex-grow: 1;
-	cursor: pointer;
 	position: relative;
 
-	display: inline-block;
+	text-align: center;
+
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	padding: 5px 0 5px 0;
+	margin: 10px 5px 0 5px;
+
+	border: 1px solid var(--grey-theme-color);
+
+	cursor: pointer;
 }
 .hour {
 }

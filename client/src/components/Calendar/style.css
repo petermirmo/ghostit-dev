@@ -4,6 +4,8 @@
 }
 .calendar-header-container {
 	display: flex;
+	display: -webkit-flex;
+
 	align-items: center;
 	justify-content: center;
 }
@@ -30,9 +32,11 @@
 
 .calendar-table {
 	display: flex;
+	display: -webkit-flex;
 
 	background-color: var(--light-blue-theme-color);
 	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
 }
 .calendar-day-heading {
 	text-align: center;

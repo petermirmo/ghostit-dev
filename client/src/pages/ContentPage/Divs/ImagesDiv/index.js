@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faImages from "@fortawesome/fontawesome-free-solid/faImages";
 import "./style.css";
 
 class ImagesDiv extends Component {
@@ -25,16 +26,13 @@ class ImagesDiv extends Component {
 		for (let index = 0; index < images.length; index++) {
 			let reader = new FileReader();
 			let image = images[index];
-			reader.onloadend = () => {
-				let imageObject = {
+			reader.onloadend = image => {
+				temp.push({
 					image: image,
 					imagePreviewUrl: reader.result
-				};
-				temp.push(imageObject);
+				});
 
-				if (index + 1 === images.length) {
-					this.props.setPostImages(temp);
-				}
+				this.props.setPostImages(temp);
 			};
 
 			reader.readAsDataURL(image);
@@ -64,7 +62,7 @@ class ImagesDiv extends Component {
 			fileUploadDiv = (
 				<div>
 					<label htmlFor="file-upload" className="custom-file-upload">
-						Upload Images! (Up to {this.props.imageLimit})
+						<FontAwesomeIcon icon={faImages} className="image-upload-icon" />
 					</label>
 
 					<input id="file-upload" type="file" onChange={event => this.showImages(event)} multiple />
@@ -74,27 +72,22 @@ class ImagesDiv extends Component {
 
 		// Show preview images
 		let imagesDiv = [];
-		let imageClass;
-		if (canEdit === true) {
-			imageClass = "image-container delete-image-container";
-		} else {
-			imageClass = "image-container ";
-		}
 		for (let index in postImages) {
 			let imageURL = postImages[index].imagePreviewUrl;
-			if (postImages[index].imagePreviewUrl === undefined) {
+			if (!postImages[index].imagePreviewUrl) {
 				imageURL = postImages[index].url;
 			}
-			let imageTag = (
-				<div key={index} className={imageClass} onClick={event => this.removePhoto(index)}>
-					<img key={index} src={imageURL} alt="error" />
-					<i className="fa fa-times fa-3x" />
+			imagesDiv.push(
+				<div key={index} className="image-container">
+					<img key={index} src={imageURL} alt="error" className="image" />
+					{canEdit && (
+						<div className="delete-image-icon fa fa-times fa-3x" onClick={event => this.removePhoto(index)} />
+					)}
 				</div>
 			);
-			imagesDiv.push(imageTag);
 		}
 		return (
-			<div>
+			<div className="images-container">
 				{fileUploadDiv}
 				{imagesDiv}
 			</div>

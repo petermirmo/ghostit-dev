@@ -102,31 +102,25 @@ module.exports = {
 	},
 	uploadPostImages: function(req, res) {
 		let postID = req.body.postID;
-		Post.findOne({ _id: postID }, async function(err, post) {
-			if (err) res.send(false);
+		let { images } = req.body;
 
-			if (Array.isArray(req.files.file)) {
-				// There are multiple files
-				for (let i = 0; i < req.files.file.length; i++) {
-					// Must be await so results are not duplicated
-					await cloudinary.v2.uploader.upload(req.files.file[i].path, function(error, result) {
-						post.images.push({
-							url: result.url,
-							publicID: result.public_id
-						});
-					});
-				}
-				post.save().then(result => res.send(true));
-			} else {
-				// Only one file
-				await cloudinary.v2.uploader.upload(req.files.file.path, function(error, result) {
+		Post.findOne({ _id: postID }, async function(err, post) {
+			if (err) {
+				console.log(err);
+				res.send(false);
+				return;
+			}
+			// There are multiple files
+			for (let index in images) {
+				// Must be await so results are not duplicated
+				await cloudinary.v2.uploader.upload(images[index], function(error, result) {
 					post.images.push({
 						url: result.url,
 						publicID: result.public_id
 					});
-					post.save().then(result => res.send(true));
 				});
 			}
+			post.save().then(result => res.send(true));
 		});
 	},
 	deletePostImages: async function(req, res) {

@@ -81,19 +81,22 @@ class PostingOptions extends Component {
 
 		let link;
 		// Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
-		if (match !== null) {
+		if (match) {
 			link = match[0];
 			this.getDataFromURL(link);
+		} else {
+			this.setState({ link: "" });
 		}
 	}
-	getDataFromURL = link => {
-		let { linkImage } = this.state;
-		axios.post("/api/link", { link: link }).then(res => {
+	getDataFromURL = newLink => {
+		let { linkImage, link } = this.state;
+		axios.post("/api/link", { link: newLink }).then(res => {
 			let { loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
 			if (this._ismounted && res.data) {
 				if (!linkImage) linkImage = res.data[0];
-				this.setState({ link: link, linkImagesArray: res.data, linkImage: linkImage });
+				if (link !== newLink) linkImage = res.data[0];
+				this.setState({ link: newLink, linkImagesArray: res.data, linkImage: linkImage });
 			}
 		});
 	};
@@ -148,14 +151,25 @@ class PostingOptions extends Component {
 					value={contentValue}
 					readOnly={!canEditPost}
 				/>
-				{maxCharacters && <h4>{maxCharacters - contentValue.length}</h4>}
-				<ImagesDiv
-					postImages={postImages}
-					setPostImages={this.setPostImages}
-					imageLimit={4}
-					canEdit={canEditPost}
-					pushToImageDeleteArray={this.pushToImageDeleteArray}
-				/>
+				<div className="post-images-and-carousel">
+					<ImagesDiv
+						postImages={postImages}
+						setPostImages={this.setPostImages}
+						imageLimit={4}
+						canEdit={canEditPost}
+						pushToImageDeleteArray={this.pushToImageDeleteArray}
+					/>
+					{linkPreviewCanShow &&
+						link && (
+							<Carousel
+								linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+								linkImagesArray={linkImagesArray}
+								linkImage={linkImage}
+								handleChange={this.handleChange}
+							/>
+						)}
+				</div>
+				{maxCharacters && <div className="max-characters">{maxCharacters - contentValue.length}</div>}
 
 				<SelectAccountDiv
 					activePageAccountsArray={activePageAccountsArray}
@@ -163,28 +177,19 @@ class PostingOptions extends Component {
 					setActiveAccount={this.updatePostingAccount}
 					canEdit={canEditPost}
 				/>
-				{linkPreviewCanShow &&
-					link && (
-						<Carousel
-							linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-							linkImagesArray={linkImagesArray}
-							linkImage={linkImage}
-							handleChange={this.handleChange}
-						/>
-					)}
-
-				<DateTimePicker
-					date={date}
-					dateFormat="MMMM Do YYYY HH:mm A"
-					onChange={date => this.handleChange("date", date)}
-					style={{
-						bottom: "-80px"
-					}}
-				/>
-				{canEditPost && (
-					<div className="bright-save-button-background center">
+				<div className="time-picker-and-save-post">
+					<DateTimePicker
+						date={date}
+						dateFormat="MMMM Do YYYY hh:mm A"
+						onChange={date => this.handleChange("date", date)}
+						style={{
+							bottom: "-80px"
+						}}
+						canEdit={canEditPost}
+					/>
+					{canEditPost && (
 						<button
-							className="bright-save-button center"
+							className="schedule-post-button"
 							onClick={() => {
 								date = date.utcOffset(0);
 								if (!postChecks(postingToAccountId, date, link, postImages, contentValue, maxCharacters)) {
@@ -208,10 +213,10 @@ class PostingOptions extends Component {
 								);
 							}}
 						>
-							Save Post
+							Schedule Post!
 						</button>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 		);
 	}
