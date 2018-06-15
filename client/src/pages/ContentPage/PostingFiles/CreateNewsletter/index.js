@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Textarea from "react-textarea-autosize";
-import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 import axios from "axios";
 
+import DateTimePicker from "../../../../components/DateTimePicker";
 import "./style.css";
 
 class CreateNewsletter extends Component {
@@ -15,7 +15,7 @@ class CreateNewsletter extends Component {
 					notes: "",
 					dueDate: this.props.postingDate,
 					postingDate: this.props.postingDate
-				},
+			  },
 		newsletterFile: {},
 		saving: false
 	};
@@ -117,58 +117,62 @@ class CreateNewsletter extends Component {
 		let fileDiv;
 		if (newsletter.wordDoc) {
 			fileDiv = (
-				<a download href={newsletter.wordDoc.url}>
+				<a download href={newsletter.wordDoc.url} className="uploaded-file">
 					{newsletter.wordDoc.name}
 				</a>
 			);
 		}
 		if (newsletterFile.name) {
-			fileDiv = <h4>{newsletterFile.name}</h4>;
+			fileDiv = <h4 className="uploaded-file">{newsletterFile.name}</h4>;
 		}
 		return (
 			<div className="modal-body">
-				<form className="create-placeholder-form">
+				<div className="create-placeholder-form">
 					<Textarea
 						value={newsletter.notes}
 						onChange={event => this.handleBlogFormChange(event.target.value, "notes")}
 						placeholder="Notes"
 						className="newsletter-about"
 					/>
-					<p className="date-label">Due Date:</p>
-					<DatePicker
-						className="date-picker center"
-						selected={dueDate}
-						onChange={date => this.handleBlogFormChange(date, "dueDate")}
-						dateFormat="MMMM Do YYYY"
-					/>
-					<p className="date-label">Posting Date:</p>
-					<DatePicker
-						className="date-picker center"
-						selected={postingDate}
-						onChange={date => this.handleBlogFormChange(date, "postingDate")}
-						dateFormat="MMMM Do YYYY"
-					/>
+					<div className="dates-container">
+						<p className="blog-date-label">Due Date:</p>
+						<DateTimePicker
+							date={dueDate}
+							onChange={date => this.handleBlogFormChange(date, "dueDate")}
+							dateFormat="MMMM Do YYYY"
+							style={{
+								bottom: "-80px"
+							}}
+						/>
+						<p className="blog-date-label">Posting Date:</p>
+						<DateTimePicker
+							date={postingDate}
+							onChange={date => this.handleBlogFormChange(date, "postingDate")}
+							dateFormat="MMMM Do YYYY"
+							style={{
+								bottom: "-80px"
+							}}
+						/>
+					</div>
+					<div className="image-file-save-container">
+						<label htmlFor="newsletterUploadWordDoc" className="custom-file-upload">
+							Upload Word Document or pdf
+						</label>
+						<input
+							id="newsletterUploadWordDoc"
+							type="file"
+							name="newsletterWordDoc"
+							placeholder="Working Title"
+							className="create-newsletter-form-regular"
+							onChange={event => this.showFile(event)}
+						/>
+						{fileDiv}
 
-					<label
-						htmlFor="newsletterUploadWordDoc"
-						className="custom-file-upload"
-						style={{ marginBottom: "10px", marginTop: "5px" }}
-					>
-						Upload Word Document or pdf
-					</label>
-					<input
-						id="newsletterUploadWordDoc"
-						type="file"
-						name="newsletterWordDoc"
-						placeholder="Working Title"
-						className="create-newsletter-form-regular"
-						onChange={event => this.showFile(event)}
-					/>
-					{fileDiv}
-				</form>
-				<button className="bright-save-button" onClick={event => this.saveNewsletter()}>
-					Save Newsletter
-				</button>
+						<button className="blog-save-button" onClick={event => this.saveNewsletter()}>
+							Schedule Newsletter Reminder!
+						</button>
+					</div>
+				</div>
 			</div>
 		);
 	}

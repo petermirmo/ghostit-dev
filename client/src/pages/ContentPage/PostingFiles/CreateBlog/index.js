@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Textarea from "react-textarea-autosize";
-import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 import axios from "axios";
 
 import ImagesDiv from "../../Divs/ImagesDiv/";
+import DateTimePicker from "../../../../components/DateTimePicker";
 import "./style.css";
 
 class CreateBlogComponent extends Component {
@@ -24,7 +24,7 @@ class CreateBlogComponent extends Component {
 					resources: "",
 					dueDate: this.props.postingDate,
 					postingDate: this.props.postingDate
-				},
+			  },
 		blogImages: [],
 		blogFile: {},
 		imagesToDelete: [],
@@ -144,13 +144,13 @@ class CreateBlogComponent extends Component {
 		let fileDiv;
 		if (blog.wordDoc) {
 			fileDiv = (
-				<a download href={blog.wordDoc.url}>
+				<a download href={blog.wordDoc.url} className="uploaded-file">
 					{blog.wordDoc.name}
 				</a>
 			);
 		}
 		if (blogFile.name) {
-			fileDiv = <h4>{blogFile.name}</h4>;
+			fileDiv = <h4 className="uploaded-file">{blogFile.name}</h4>;
 		}
 		let images = [];
 		if (blog.image) {
@@ -160,7 +160,7 @@ class CreateBlogComponent extends Component {
 		}
 		return (
 			<div className="modal-body">
-				<form className="create-placeholder-form">
+				<div className="create-placeholder-form">
 					<input
 						value={blog.title ? blog.title : ""}
 						onChange={event => this.handleBlogFormChange(event.target.value, "title")}
@@ -241,48 +241,56 @@ class CreateBlogComponent extends Component {
 						onChange={event => this.handleBlogFormChange(event.target.value, "about")}
 						placeholder="About(notes)"
 					/>
-					<p className="date-label">Due Date:</p>
-					<DatePicker
-						className="date-picker center"
-						selected={dueDate}
-						onChange={date => this.handleBlogFormChange(date, "dueDate")}
-						dateFormat="MMMM Do YYYY"
-					/>
-					<p className="date-label">Posting Date:</p>
-					<DatePicker
-						className="date-picker center"
-						selected={postingDate}
-						onChange={date => this.handleBlogFormChange(date, "postingDate")}
-						dateFormat="MMMM Do YYYY"
-					/>
-					<ImagesDiv
-						postImages={images}
-						setPostImages={this.setPostImages}
-						imageLimit={1}
-						divID={"blogImagesDiv"}
-						pushToImageDeleteArray={this.pushToImageDeleteArray}
-						canEdit={true}
-					/>
-					<label
-						htmlFor="blogUploadWordDoc"
-						className="custom-file-upload"
-						style={{ marginBottom: "10px", marginTop: "5px" }}
-					>
-						Upload Word Document or pdf
-					</label>
-					<input
-						id="blogUploadWordDoc"
-						type="file"
-						name="blogWordDoc"
-						placeholder="Working Title"
-						className="create-placeholder-form-regular"
-						onChange={event => this.showFile(event)}
-					/>
-					{fileDiv}
-				</form>
-				<button className="bright-save-button" onClick={event => this.saveBlog()}>
-					Save Blog
-				</button>
+					<div className="dates-container">
+						<p className="blog-date-label">Due Date:</p>
+						<DateTimePicker
+							date={dueDate}
+							onChange={date => this.handleBlogFormChange(date, "dueDate")}
+							dateFormat="MMMM Do YYYY"
+							style={{
+								bottom: "-80px"
+							}}
+						/>
+						<p className="blog-date-label">Posting Date:</p>
+						<DateTimePicker
+							date={postingDate}
+							onChange={date => this.handleBlogFormChange(date, "postingDate")}
+							dateFormat="MMMM Do YYYY"
+							style={{
+								bottom: "-80px"
+							}}
+						/>
+					</div>
+					<div className="image-file-save-container">
+						<ImagesDiv
+							postImages={images}
+							setPostImages={this.setPostImages}
+							imageLimit={1}
+							divID={"blogImagesDiv"}
+							pushToImageDeleteArray={this.pushToImageDeleteArray}
+							canEdit={true}
+						/>
+						<label
+							htmlFor="blogUploadWordDoc"
+							className="custom-file-upload"
+							style={{ marginBottom: "10px", marginTop: "5px" }}
+						>
+							Upload Word Document or pdf
+						</label>
+						<input
+							id="blogUploadWordDoc"
+							type="file"
+							name="blogWordDoc"
+							placeholder="Working Title"
+							className="upload-blog-file"
+							onChange={event => this.showFile(event)}
+						/>
+						{fileDiv}
+						<button className="blog-save-button" onClick={event => this.saveBlog()}>
+							Schedule Blog Reminder!
+						</button>
+					</div>
+				</div>
 			</div>
 		);
 	}

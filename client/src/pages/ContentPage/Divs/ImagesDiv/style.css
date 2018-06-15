@@ -1,9 +1,9 @@
 .images-container {
-	flex-grow: 100;
-	-webkit-flex-grow: 100;
-
 	display: flex;
 	display: -webkit-flex;
+
+	flex-grow: 100;
+	-webkit-flex-grow: 100;
 
 	margin-bottom: 8px;
 
@@ -11,7 +11,7 @@
 }
 .custom-file-upload {
 	float: left;
-	color: var(--white-theme-color);
+	color: var(--black-theme-color);
 
 	padding: 20px;
 	margin-left: 8px;
@@ -24,13 +24,16 @@
 }
 .custom-file-upload:hover {
 	border: 2px dashed var(--blue-theme-color);
+	color: var(--blue-theme-color);
+
 	opacity: 1;
 }
 .custom-file-upload:hover .image-upload-icon {
 	background-color: var(--blue-theme-color);
 }
 .image-upload-icon {
-	background-color: var(--black-theme-color);
+	background-color: transparent !important;
+
 	padding: 4px;
 }
 
