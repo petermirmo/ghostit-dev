@@ -1,5 +1,7 @@
 .create-placeholder-form {
 	display: flex;
+	display: -webkit-flex;
+
 	flex-flow: row wrap;
 
 	width: stretch;
@@ -68,9 +70,11 @@
 }
 .image-file-save-container {
 	display: flex;
+	display: -webkit-flex;
 
 	align-items: center;
 	justify-content: center;
+
 	width: stretch;
 
 	margin-top: 10px;
@@ -83,6 +87,7 @@
 	font-size: var(--large-font-size);
 
 	display: flex;
+	display: -webkit-flex;
 
 	border-radius: 200px;
 

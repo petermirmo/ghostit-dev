@@ -21,6 +21,7 @@
 	max-height: 150px;
 	max-width: 150px;
 	display: flex;
+	display: -webkit-flex;
 }
 .carousel-previous-button,
 .carousel-next-button {
