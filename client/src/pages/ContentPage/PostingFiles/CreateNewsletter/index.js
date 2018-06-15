@@ -140,18 +140,12 @@ class CreateNewsletter extends Component {
 							date={dueDate}
 							onChange={date => this.handleBlogFormChange(date, "dueDate")}
 							dateFormat="MMMM Do YYYY"
-							style={{
-								bottom: "-80px"
-							}}
 						/>
 						<p className="blog-date-label">Posting Date:</p>
 						<DateTimePicker
 							date={postingDate}
 							onChange={date => this.handleBlogFormChange(date, "postingDate")}
 							dateFormat="MMMM Do YYYY"
-							style={{
-								bottom: "-80px"
-							}}
 						/>
 					</div>
 					<div className="image-file-save-container">

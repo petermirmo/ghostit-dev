@@ -5,7 +5,7 @@
 	flex-flow: row wrap;
 
 	width: stretch;
-	overflow: auto;
+	height: stretch;
 
 	padding: 20px;
 }
