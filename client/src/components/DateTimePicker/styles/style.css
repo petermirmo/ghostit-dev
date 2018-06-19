@@ -1,0 +1,166 @@
+.date-picker-dropdown {
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	display: inline-block;
+	position: relative;
+
+	background-color: transparent;
+
+	border-bottom: 1px solid var(--grey-theme-color);
+
+	padding: 4px 10px 4px 10px;
+
+	cursor: pointer;
+}
+.date-picker-dropdown:hover {
+	border-color: var(--blue-theme-color);
+}
+.dropdown-calendar {
+	position: absolute;
+	left: 0;
+
+	display: flex;
+	display: -webkit-flex;
+
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+
+	background-color: var(--white-theme-color);
+
+	padding: 10px;
+	margin-bottom: 100px;
+
+	min-width: 200px;
+
+	box-shadow: 0 0 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.date-picker-dropdown-header {
+	border-bottom: 1px solid var(--blue-theme-color);
+	color: var(--dark-grey-theme-color);
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	width: 13%;
+	padding: 4px 0 4px 0;
+}
+
+.date-picker-calendar-month-container {
+	background-color: var(--white-theme-color);
+	width: 100%;
+
+	display: flex;
+	display: -webkit-flex;
+
+	align-items: center;
+	justify-content: center;
+}
+.date-picker-calendar-month {
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	color: var(--black-theme-color);
+	opacity: 0.8;
+}
+.date-picker-calendar-month-switch-button {
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	color: var(--blue-theme-color);
+	background-color: transparent;
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+.date-picker-calendar-month-switch-button:hover {
+	color: var(--green-theme-color);
+}
+.left {
+	margin-right: 20px;
+}
+.right {
+	margin-left: 20px;
+}
+
+.date-picker-day {
+	background-color: var(--white-theme-color);
+
+	text-align: center;
+
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	width: 13%;
+	padding: 4px 0 4px 0;
+
+	cursor: pointer;
+}
+.date-picker-day:hover {
+	background-color: var(--light-blue-theme-color);
+	color: var(--white-theme-color);
+}
+.date-picker-day.active {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
+}
+.faded-date-picker-days {
+	background-color: var(--super-light-blue-theme-color);
+}
+.date-picker-date {
+}
+
+.time-dropdown {
+	position: relative;
+
+	text-align: center;
+
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	padding: 5px 0 5px 0;
+	margin: 10px 5px 0 5px;
+
+	border: 1px solid var(--grey-theme-color);
+
+	cursor: pointer;
+}
+.hour {
+}
+.minute {
+	margin-right: 20px;
+}
+.ampm {
+}
+
+.time-dropdown-container {
+	background-color: var(--white-theme-color);
+	border: 1px solid var(--grey-theme-color);
+
+	position: absolute;
+	display: block;
+	right: 0;
+	left: -1px;
+
+	margin-top: 5px;
+
+	width: 100%;
+	max-height: 135px;
+
+	overflow: auto;
+}
+.time-dropdown-item {
+}
+.time-dropdown-item:hover {
+	background-color: var(--light-grey-theme-color);
+}
+.finished-button {
+	background-color: var(--blue-theme-color);
+
+	padding: 4px 20px 4px 20px;
+	margin: 10px 0 0 0;
+}
+.finished-button:hover {
+	background-color: var(--dark-blue-theme-color);
+}

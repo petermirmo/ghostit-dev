@@ -1,6 +1,7 @@
 .navigation-container {
 	padding: 20px 0 10px 0;
 	background-color: var(--light-light-blue-theme-color);
+	text-align: center;
 }
 .navigation-option-container {
 	display: inline-block;

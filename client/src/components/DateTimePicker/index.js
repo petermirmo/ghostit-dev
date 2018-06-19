@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
-import "./style.css";
+
+import "./styles/";
 
 class DatePicker extends Component {
 	state = {
@@ -158,17 +159,21 @@ class DatePicker extends Component {
 		let tempDate = new moment(date);
 
 		let minuteDivs = [];
-		let newDate = new moment(tempDate.subtract(12, "hours"));
+		let isAM = tempDate.format("HH") < 12;
 
+		let newDate = new moment(tempDate);
+		if (!isAM) newDate = new moment(tempDate.subtract(12, "hours"));
 		minuteDivs.push(
-			<div className="time-dropdown-item" key={"amPM"} onClick={() => this.props.onChange(newDate)}>
+			<div className="time-dropdown-item" key="am" onClick={() => this.props.onChange(newDate)}>
 				{newDate.format("A")}
 			</div>
 		);
-		let newDate2 = new moment(newDate).add(12, "hours");
+		let newDate2 = new moment(newDate);
+		isAM = newDate.format("HH") < 12;
+		if (isAM) newDate2 = new moment(newDate).add(12, "hours");
 
 		minuteDivs.push(
-			<div className="time-dropdown-item" key={"pm"} onClick={() => this.props.onChange(newDate2)}>
+			<div className="time-dropdown-item" key="pm" onClick={() => this.props.onChange(newDate2)}>
 				{newDate2.format("A")}
 			</div>
 		);

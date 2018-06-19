@@ -21,8 +21,9 @@ import Profile from "./pages/ProfilePage/";
 
 import Analytics from "./pages/AnalyticsPage/";
 import WritersBrief from "./pages/WritersBriefPage/";
+import "font-awesome/css/font-awesome.min.css";
 
-import "./css/theme.css";
+import "./css/";
 
 class Routes extends Component {
 	constructor(props) {
@@ -43,6 +44,7 @@ class Routes extends Component {
 			}
 		});
 	}
+
 	signOutOfUsersAccount = () => {
 		axios.get("/api/signOutOfUserAccount").then(res => {
 			let { success, loggedIn, user } = res.data;
@@ -129,4 +131,7 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Routes);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Routes);

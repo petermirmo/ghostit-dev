@@ -1,0 +1,40 @@
+.notification {
+	padding: 20px;
+	color: white;
+	width: 20%;
+	top: 80px;
+	right: 80px;
+	z-index: 10000;
+	position: fixed;
+	border-radius: 4px;
+	text-align: left;
+}
+.notifcation-title {
+	margin: 0;
+	padding: 0;
+}
+.notification.success {
+	background-color: var(--green-theme-color);
+	color: var(--white-theme-color);
+}
+.notification.info {
+	background-color: var(--light-blue-theme-color);
+	color: var(--white-theme-color);
+}
+.notification.danger {
+	background-color: var(--red-theme-color);
+}
+
+.closebtn {
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+}
+
+.closebtn:hover {
+	color: black;
+}

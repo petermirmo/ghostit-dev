@@ -7,7 +7,7 @@ import { updateAccounts } from "../../redux/actions/";
 
 import AddPageOrGroupModal from "./AddPagesOrGroupsModal/";
 import ConfirmAlert from "../../components/Notifications/ConfirmAlert/";
-import "./style.css";
+import "./styles/";
 
 class AccountsPage extends Component {
 	state = {
@@ -294,4 +294,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({ updateAccounts: updateAccounts }, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AccountsPage);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(AccountsPage);

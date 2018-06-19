@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import { changePage, setUser, updateAccounts } from "../../redux/actions/";
 import logo from "./logo.png";
 import Notification from "../../components/Notifications/Notification/";
-import "./style.css";
+import "./styles/";
 
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -248,4 +248,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({ changePage: changePage, setUser: setUser, updateAccounts: updateAccounts }, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Login);

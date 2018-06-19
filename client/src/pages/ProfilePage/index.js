@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { setUser } from "../../redux/actions/";
 
 import Loader from "../../components/Notifications/Loader/";
-import "./style.css";
+import "./styles/";
 
 class Content extends Component {
 	state = {
@@ -120,4 +120,7 @@ function mapDispatchToProps(dispatch) {
 	return bindActionCreators({ setUser: setUser }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Content);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Content);

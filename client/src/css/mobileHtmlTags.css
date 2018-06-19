@@ -1,0 +1,44 @@
+input {
+	font-family: var(--font-theme);
+	font-size: var(--large-font-size);
+
+	outline: none;
+	border: none;
+}
+body {
+	font-family: var(--font-theme);
+	color: var(--black-theme-color);
+	min-height: 100%;
+
+	padding: 0;
+	margin: 0;
+
+	background-color: var(--white-theme-color);
+}
+
+button {
+	color: var(--white-theme-color);
+	font-family: var(--font-theme);
+	font-size: var(--regular-font-size);
+
+	cursor: pointer;
+	outline: 0;
+
+	border: none;
+}
+
+textarea {
+	font-family: var(--font-theme);
+	font-size: var(--twelve-font-size) !important;
+}
+input {
+	font-size: var(--twelve-font-size) !important;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+li:hover {
+	background-color: var(--light-blue-theme-color) !important;
+}

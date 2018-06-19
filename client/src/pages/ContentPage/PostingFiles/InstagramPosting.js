@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
-//import axios from "axios";
-
-//import ImagesDiv from "../Divs/ImagesDiv/";
-import "font-awesome/css/font-awesome.min.css";
-
-import "./style.css";
+import "./styles/";
 
 class InstagramPosting extends Component {
 	state = {

@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "font-awesome/css/font-awesome.min.css";
-
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateNewsletter from "./CreateNewsletter/";
 import Loader from "../../../components/Notifications/Loader/";
-import "./style.css";
+import "./styles/";
 
 class NewsletterEdittingModal extends Component {
 	state = {

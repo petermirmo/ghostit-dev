@@ -13,7 +13,6 @@ const secure = require("express-force-https");
 
 const Schema = mongoose.Schema;
 const multer = require("multer");
-
 // Image uploads
 const cloudinary = require("cloudinary");
 // Connect to cloudinary
@@ -80,5 +79,5 @@ if (process.env.NODE_ENV === "production") {
 	});
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 app.listen(PORT);

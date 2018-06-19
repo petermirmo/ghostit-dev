@@ -4,7 +4,8 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import WritersBriefForm from "./WritersBriefForm";
-import "./style.css";
+
+import "./styles/";
 
 class WritersBrief extends Component {
 	state = {
@@ -97,7 +98,7 @@ class WritersBrief extends Component {
 			);
 		}
 		return (
-			<div className="wrapper" style={this.props.margin} >
+			<div className="wrapper" style={this.props.margin}>
 				<div className="past-writers-brief-container">
 					{adminManagerOrDemo && (
 						<button className="new-writers-brief" onClick={() => this.createNewWritersBrief()}>

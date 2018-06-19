@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import "../style.css";
+import "./styles/";
 
 class CompetitorsTab extends Component {
 	constructor(props) {

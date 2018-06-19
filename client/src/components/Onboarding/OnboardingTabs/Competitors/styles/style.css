@@ -1,0 +1,13 @@
+.add-competitor {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
+	margin: 10px 10px 10px 10px;
+	float: left;
+}
+.add-competitor:hover {
+	background-color: var(--dark-blue-theme-color);
+}
+.icon-container {
+	width: 100%;
+	display: inline-block;
+}

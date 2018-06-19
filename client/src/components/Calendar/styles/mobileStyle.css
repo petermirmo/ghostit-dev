@@ -12,10 +12,13 @@
 .calendar-header {
 	color: var(--black-theme-color);
 	opacity: 0.8;
+	font-size: var(--extra-large-font-size);
 }
 .calendar-switch-month-button {
 	color: var(--blue-theme-color);
 	background-color: transparent;
+
+	transform: scale(0.8);
 
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
@@ -40,12 +43,14 @@
 }
 .calendar-day-heading {
 	text-align: center;
+	margin-top: 2px !important;
+	font-size: var(--small-font-size);
+
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 .calendar-day {
 	min-height: 80px;
-}
-.calendar-day-heading {
-	margin-top: 2px !important;
 }
 .calendar-day-heading,
 .calendar-day {
@@ -70,12 +75,13 @@
 .calendar-day-date {
 	margin: 4px;
 	display: inline-block;
+	font-size: var(--small-font-size);
 }
 .calendar-day-plus {
 	background-color: transparent;
 	color: var(--blue-theme-color);
 	float: right;
-	margin: 4px;
+	margin-top: 4px;
 
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;

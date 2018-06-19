@@ -22,7 +22,6 @@
 
 .social-media-connect {
 	padding: 1px;
-	margin-left: 5px;
 	width: 45%;
 	text-align: center;
 	color: var(--white-theme-color);
@@ -30,30 +29,34 @@
 	margin-bottom: 10px;
 }
 .connected-social-div {
-	text-align: left;
+	display: flex;
+	display: -webkit-flex;
+
+	align-items: center;
+	justify-content: center;
 	margin-top: 10px;
 
 	overflow: auto;
 }
 
 .connected-social-media-icon {
-	display: inline-block !important;
+	display: inline-block;
+
 	color: var(--white-theme-color);
 	text-align: center;
 	width: 55px;
 
-	border-radius: 50%;
 	padding: 10px 0 10px 0;
 	vertical-align: top;
 	float: left;
+
+	border-radius: 50%;
 }
 .connected-social {
-	display: inline-block !important;
+	display: inline-block;
 	color: var(--black-theme-color);
-	width: 60% !important;
+	width: 60%;
 
-	padding: 5px 0 0 10px;
-	float: left;
 	height: 100%;
 }
 .connected-social-div h4 {
@@ -61,7 +64,6 @@
 	color: var(--black-theme-color);
 	font-weight: normal;
 	margin: 0;
-	padding: 0;
 }
 .connected-social-div p {
 	text-align: left;
@@ -69,5 +71,4 @@
 	font-weight: normal;
 	font-size: var(--regular-font-size);
 	margin: 0;
-	padding: 0;
 }

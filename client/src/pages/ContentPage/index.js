@@ -10,7 +10,7 @@ import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
 import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
 import NavigationBar from "../../components/Navigations/NavigationBar/";
 import NewCalendar from "../../components/Calendar/";
-import "./style.css";
+import "./styles/";
 
 class Content extends Component {
 	state = {

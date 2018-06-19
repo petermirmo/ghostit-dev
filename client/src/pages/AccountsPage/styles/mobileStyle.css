@@ -1,0 +1,80 @@
+.accounts-wrapper {
+	display: block;
+	text-align: center;
+}
+.account-column {
+	width: 48%;
+	display: inline-block !important;
+	margin-left: 5px;
+	vertical-align: top;
+}
+.account-column:first-child {
+	margin-left: 0;
+}
+
+.social-header-button {
+	width: 100%;
+	margin: 20px 0 10px 0;
+	padding: 6px;
+	font-size: var(--large-font-size);
+}
+
+.social-media-connect {
+	padding: 1px;
+	width: 90%;
+	text-align: center;
+	color: var(--white-theme-color);
+	text-decoration: none;
+	margin-bottom: 10px;
+}
+.connected-social-div {
+	display: flex;
+	display: -webkit-flex;
+
+	align-items: center;
+	justify-content: center;
+	margin-top: 10px;
+
+	overflow: auto;
+}
+
+.connected-social-media-icon {
+	display: inline-block;
+
+	color: var(--white-theme-color);
+	text-align: center;
+	width: 55px;
+
+	padding: 10px 0 10px 0;
+	vertical-align: top;
+	float: left;
+
+	border-radius: 50%;
+}
+.connected-social {
+	display: inline-block;
+
+	align-items: center;
+	justify-content: center;
+
+	color: var(--black-theme-color);
+	width: 60%;
+
+	height: 100%;
+}
+.connected-social-div h4 {
+	text-align: left;
+	color: var(--black-theme-color);
+	font-weight: normal;
+	margin: 0;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.connected-social-div p {
+	text-align: left;
+	color: var(--dark-grey-theme-color);
+	font-weight: normal;
+	font-size: var(--regular-font-size);
+	margin: 0;
+}

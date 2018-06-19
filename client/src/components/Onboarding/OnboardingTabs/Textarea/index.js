@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import "./style.css";
-
 class TextareaTab extends Component {
 	constructor(props) {
 		super(props);

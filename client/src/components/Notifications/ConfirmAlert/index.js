@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import "./style.css";
+import "./styles/";
 
 class ConfirmAlert extends Component {
 	render() {

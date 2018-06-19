@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { setUser, updateAccounts, changePage, openClientSideBar } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
-import "./style.css";
+import "./styles/";
 
 class ClientSideBar extends Component {
 	state = {
@@ -114,4 +114,7 @@ function mapDispatchToProps(dispatch) {
 	);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClientSideBar);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ClientSideBar);

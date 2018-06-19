@@ -10,7 +10,7 @@ import IntroTab from "../OnboardingTabs/Intro/";
 import CompetitorsTab from "../OnboardingTabs/Competitors/";
 import TextareaTab from "../OnboardingTabs/Textarea/";
 import BookCall from "../OnboardingTabs/BookCall/";
-import "./style.css";
+import "./styles/";
 
 class OnboardingModal extends Component {
 	state = {
@@ -287,4 +287,7 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(OnboardingModal);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(OnboardingModal);

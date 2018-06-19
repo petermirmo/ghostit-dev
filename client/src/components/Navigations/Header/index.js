@@ -11,8 +11,7 @@ import faCogs from "@fortawesome/fontawesome-free-solid/faCogs";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage, setUser, updateAccounts, openClientSideBar, openHeaderSideBar } from "../../../redux/actions/";
-
-import "./style.css";
+import "./styles/";
 
 class HeaderSideBar extends Component {
 	closeHeaderSideBar = () => {
@@ -142,4 +141,7 @@ function mapDispatchToProps(dispatch) {
 		dispatch
 	);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderSideBar);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(HeaderSideBar);

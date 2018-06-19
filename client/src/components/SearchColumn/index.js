@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import "./style.css";
+import "./styles/";
 
 class ManageColumn extends Component {
 	render() {
 		const { objectList, handleClickedObject, searchObjects, styleOverride } = this.props;
-		var objectListDivs = [];
+		let objectListDivs = [];
 
 		// User list is sent by parent in props
 		// Loop through and create a row for each user
-		for (var index in objectList) {
+		for (let index in objectList) {
 			let name = objectList[index]._id;
 			if (objectList[index].name) name = objectList[index].name;
 			if (objectList[index].fullName) name = objectList[index].fullName;

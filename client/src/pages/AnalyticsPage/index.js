@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-
-import "./style.css";
+import "./styles/";
 
 class Analytics extends Component {
 	render() {
 		return (
-			<div className="wrapper" style={this.props.margin} >
+			<div className="wrapper" style={this.props.margin}>
 				<div className="coming-soon center">Coming Soon!!!</div>
 			</div>
 		);

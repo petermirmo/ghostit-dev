@@ -8,8 +8,7 @@ import PostingOptions from "./PostingOptions";
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import Loader from "../../../components/Notifications/Loader/";
-
-import "./style.css";
+import "./styles/";
 
 class PostEdittingModal extends Component {
 	state = {

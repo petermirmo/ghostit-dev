@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage } from "../../../../redux/actions/";
-import "./style.css";
+import "./styles/";
 
 class BookCall extends Component {
 	constructor(props) {
@@ -35,4 +35,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({ changePage: changePage }, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(BookCall);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(BookCall);

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./style.css";
+import "./styles/";
 
 class NavBar extends Component {
 	render() {
@@ -15,7 +15,7 @@ class NavBar extends Component {
 				</div>
 			);
 		}
-		return <ul className="navigation-container center">{categoryDivs}</ul>;
+		return <ul className="navigation-container">{categoryDivs}</ul>;
 	}
 }
 

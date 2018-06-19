@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import "./style.css";
-
 class IntroTab extends Component {
 	constructor(props) {
 		super(props);

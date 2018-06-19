@@ -2,9 +2,6 @@ import React, { Component } from "react";
 
 import PayDiv from "./PayDiv";
 
-import "./style.css";
-import "font-awesome/css/font-awesome.min.css";
-
 class PlanTable extends Component {
 	state = {
 		websiteBlogPosts: 0,

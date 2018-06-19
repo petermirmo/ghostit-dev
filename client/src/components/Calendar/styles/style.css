@@ -1,0 +1,107 @@
+.calendar-container {
+	overflow-x: hidden;
+	margin-bottom: 50px;
+}
+.calendar-header-container {
+	display: flex;
+	display: -webkit-flex;
+
+	align-items: center;
+	justify-content: center;
+}
+.calendar-header {
+	color: var(--black-theme-color);
+	opacity: 0.8;
+}
+.calendar-switch-month-button {
+	color: var(--blue-theme-color);
+	background-color: transparent;
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+.calendar-switch-month-button:hover {
+	color: var(--green-theme-color);
+}
+.left {
+	margin-left: 20%;
+}
+.right {
+	margin-right: 20%;
+}
+
+.calendar-table {
+	display: flex;
+	display: -webkit-flex;
+
+	background-color: var(--light-blue-theme-color);
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+}
+.calendar-day-heading {
+	text-align: center;
+}
+.calendar-day {
+	min-height: 15vh;
+}
+.calendar-day-heading {
+	margin-top: 2px !important;
+}
+.calendar-day-heading,
+.calendar-day {
+	width: 13%;
+	background-color: var(--white-theme-color);
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	margin: 0 2px 2px 0;
+	padding: 0;
+	cursor: pointer;
+}
+.calendar-day-heading:nth-child(7n),
+.calendar-day:nth-child(7n) {
+	margin-right: 0;
+}
+.calendar-day-heading:nth-child(7n + 1),
+.calendar-day:nth-child(7n + 1) {
+	margin-left: 0;
+}
+.faded-calendar-days {
+	background-color: var(--super-light-blue-theme-color);
+}
+.calendar-day-date {
+	margin: 4px;
+	display: inline-block;
+}
+.calendar-day-plus {
+	background-color: transparent;
+	color: var(--blue-theme-color);
+	float: right;
+	margin: 4px;
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+.calendar-day:hover .calendar-day-plus {
+	color: var(--green-theme-color);
+	transform: scale(1.4) !important;
+}
+.calendar-post {
+	width: stretch;
+	min-width: 0;
+	max-height: 20px;
+
+	margin: 10px 5px 10px 5px;
+	padding: 2px 10px 2px 10px;
+	color: var(--white-theme-color);
+
+	border-radius: 100px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	transition: transform 1s ease;
+}
+
+.calendar-post:hover {
+	transform: scale(1.1);
+}

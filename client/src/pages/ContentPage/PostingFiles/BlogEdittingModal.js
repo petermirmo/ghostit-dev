@@ -7,7 +7,7 @@ import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateBlog from "./CreateBlog/";
 import Loader from "../../../components/Notifications/Loader/";
-import "./style.css";
+import "./styles/";
 
 class BlogEdittingModal extends Component {
 	state = {

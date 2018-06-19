@@ -11,7 +11,7 @@ import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Notifications/Loader/";
 import PostingOptions from "./PostingOptions";
 import InstagramPosting from "./InstagramPosting";
-import "./style.css";
+import "./styles/";
 
 class ContentModal extends Component {
 	state = {

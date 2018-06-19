@@ -2,8 +2,7 @@ import React, { Component } from "react";
 
 import UsersTable from "./UsersTable";
 import PlansTable from "./PlansTable";
-
-import "./style.css";
+import "./styles/";
 
 class ManagePage extends Component {
 	state = {
@@ -15,7 +14,7 @@ class ManagePage extends Component {
 	};
 	render() {
 		return (
-			<div className="wrapper" style={this.props.margin} >
+			<div className="wrapper" style={this.props.margin}>
 				<div className="switch center">
 					{!this.state.userTable && (
 						<button className="switch-button active-switch" onClick={event => this.switchDivs(event)}>

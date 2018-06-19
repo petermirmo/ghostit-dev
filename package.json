@@ -51,5 +51,8 @@
 		"stripe": "^5.8.0",
 		"twitter": "^1.7.1",
 		"xoauth2": "^1.2.0"
+	},
+	"devDependencies": {
+		"css-loader": "^0.28.11"
 	}
 }

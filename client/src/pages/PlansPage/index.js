@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import PlanTable from "./PlanTable";
-
-import "./style.css";
+import "./styles/";
 
 class PlansPage extends Component {
 	state = {

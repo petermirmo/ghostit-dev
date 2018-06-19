@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import SocialMediaDiv from "./SocialMediaDiv";
-import "./style.css";
+import "./styles/";
 
 class AddPagesOrGroupsModal extends Component {
 	state = {

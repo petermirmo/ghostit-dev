@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 
-import "./style.css";
+import "./styles/";
 
 class NewCalendar extends Component {
 	state = {
@@ -13,7 +13,7 @@ class NewCalendar extends Component {
 		if (nextProps.timezone !== this.state.timezone)
 			this.setState({ calendarDate: nextProps.calendarDate, timezone: nextProps.timezone });
 	}
-	createDayHeaders = daysOfWeek => {
+	createDayHeaders = () => {
 		let dayHeadingsArray = [];
 		for (let index = 1; index < 8; index++) {
 			dayHeadingsArray.push(
