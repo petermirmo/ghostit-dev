@@ -4,7 +4,7 @@ import axios from "axios";
 
 import CompetitorsTab from "../../components/Onboarding/OnboardingTabs/Competitors/";
 
-import "font-awesome/css/font-awesome.min.css";
+
 import Loader from "../../components/Notifications/Loader/";
 
 import { strategyFormFields } from "../../extra/constants/Common";

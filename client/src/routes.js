@@ -21,7 +21,6 @@ import Profile from "./pages/ProfilePage/";
 
 import Analytics from "./pages/AnalyticsPage/";
 import WritersBrief from "./pages/WritersBriefPage/";
-import "font-awesome/css/font-awesome.min.css";
 
 import "./css/";
 
