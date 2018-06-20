@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
+import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
 
 import "./styles/";
 
@@ -123,7 +127,9 @@ class NewCalendar extends Component {
 			calendarDayArray.push(
 				<div className={className} onClick={() => onSelectDay(calendarDay)} key={index + "day"}>
 					<div className="calendar-day-date">{calendarDay.date()}</div>
-					<button className="fa fa-plus calendar-day-plus" />
+					<span className="calendar-day-plus">
+						<FontAwesomeIcon icon={faPlus} color="var(--blue-theme-color)" />
+					</span>
 					{postsForDay}
 				</div>
 			);
@@ -150,9 +156,13 @@ class NewCalendar extends Component {
 		return (
 			<div className="calendar-container">
 				<div className="calendar-header-container">
-					<button className="calendar-switch-month-button left fa fa-angle-left fa-4x" onClick={this.subtractMonth} />
+					<span className="calendar-switch-month-button left" onClick={this.subtractMonth}>
+						<FontAwesomeIcon icon={faAngleLeft} size="4x" color="var(--blue-theme-color)" />
+					</span>
 					<h1 className="calendar-header center">{calendarDate.format("MMMM")}</h1>
-					<button className="calendar-switch-month-button right fa fa-angle-right fa-4x" onClick={this.addMonth} />
+					<span className="calendar-switch-month-button right" onClick={this.addMonth}>
+						<FontAwesomeIcon icon={faAngleRight} size="4x" color="var(--blue-theme-color)" />
+					</span>
 				</div>
 
 				<div className="calendar-table">

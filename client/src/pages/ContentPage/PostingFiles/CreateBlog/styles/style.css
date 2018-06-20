@@ -37,7 +37,10 @@
 	box-sizing: border-box;
 }
 .create-placeholder-form textarea {
-	width: stretch;
+	width: 100%;
+
+	box-sizing: border-box;
+
 	min-height: 50px;
 
 	margin-top: 5px;

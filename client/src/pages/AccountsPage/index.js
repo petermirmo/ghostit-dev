@@ -1,4 +1,10 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
+import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedIn";
+import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -163,16 +169,27 @@ class AccountsPage extends Component {
 		if (account.familyName) name += " " + account.familyName.charAt(0).toUpperCase() + account.familyName.slice(1);
 		if (account.username !== "" && account.username) name = account.username;
 
+		let icon = faFacebook;
+		let color = "#4267b2";
+		if (account.socialType === "twitter") {
+			icon = faTwitter;
+			color = "#1da1f2";
+		} else if (account.socialType === "linkedin") {
+			icon = faLinkedin;
+			color = "#0077b5";
+		}
 		connectedAccountsDivArray.push(
 			<div className="connected-social-div" key={connectedAccountsDivArray.length + account.socialType}>
-				<div className={"fa fa-" + account.socialType + " fa-2x connected-social-media-icon " + account.socialType} />
-				<div className="connected-social center ">
+				<span className="connected-social-media-icon">
+					<FontAwesomeIcon icon={icon} size="2x" color={color} />
+				</span>
+				<div className="connected-social center">
 					<h4>{name}</h4>
-					<p>
-						{account.accountType.charAt(0).toUpperCase() + account.accountType.slice(1)}
-						<button className="fa fa-trash delete" onClick={event => this.deleteConfirm(account)} />
-					</p>
+					<p>{account.accountType.charAt(0).toUpperCase() + account.accountType.slice(1)}</p>
 				</div>
+				<span onClick={event => this.deleteConfirm(account)} className="disconnect-social-account">
+					<FontAwesomeIcon icon={faTrash} color="var(--red-theme-color)" />
+				</span>
 			</div>
 		);
 	};

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
-
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateBlog from "./CreateBlog/";
@@ -55,7 +53,9 @@ class BlogEdittingModal extends Component {
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-header">
-						<span className="close-dark fa fa-times" onClick={() => this.props.close()} />
+						<span className="close-dark" onClick={() => this.props.close()}>
+							&times;
+						</span>
 					</div>
 					<div className="modal-body">
 						<CreateBlog

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage } from "../../../redux/actions/";
@@ -126,7 +125,9 @@ class ContentModal extends Component {
 		return (
 			<div className="modal">
 				<div className="content-modal">
-					<span className="content-close fa fa-times fa-10x" onClick={() => close("contentModal")} />
+					<span className="content-close" onClick={() => close("contentModal")}>
+						&times;
+					</span>
 					<ContentModalHeader
 						categories={this.state.categories}
 						switchTabs={this.switchTabState}

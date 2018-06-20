@@ -25,20 +25,15 @@ module.exports = {
 				use: [{ loader: "style-loader" }, { loader: "css-loader" }]
 			},
 			{
-				test: /\.(png|jpg|gif|ico)$/,
-				use: [
-					{
-						loader: "file-loader",
-						options: {}
-					}
-				]
+				test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
+				loader: "file-loader?name=[name].[ext]"
 			}
 		]
 	},
 	plugins: [new HtmlWebpackPlugin({ template: "./public/index.html" })],
 	devServer: {
 		proxy: {
-			"/api/*": "http://localhost:6000"
+			"/api/*": "http://localhost:5000"
 		}
 	}
 };

@@ -1,8 +1,11 @@
+.writers-brief-page-container {
+	overflow: hidden;
+}
 .past-writers-brief-container {
 	display: inline-block;
 	border-bottom: 2px solid var(--light-blue-theme-color);
 	white-space: nowrap;
-	width: stretch;
+	width: 100%;
 	max-width: 100% !important;
 	overflow: auto;
 	padding: 20px 0 0 70px;

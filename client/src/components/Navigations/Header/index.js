@@ -7,6 +7,7 @@ import faCalendar from "@fortawesome/fontawesome-free-solid/faCalendar";
 import faDoorOpen from "@fortawesome/fontawesome-free-solid/faDoorOpen";
 import faFileAlt from "@fortawesome/fontawesome-free-solid/faFileAlt";
 import faCogs from "@fortawesome/fontawesome-free-solid/faCogs";
+import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -83,7 +84,7 @@ class HeaderSideBar extends Component {
 						)}
 
 						<a className={"header-button" + this.isActive("accounts")} onClick={() => changePage("accounts")}>
-							<div className="fa fa-plus" /> Social Profiles
+							<FontAwesomeIcon icon={faPlus} /> Social Profiles
 						</a>
 						<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
 							<FontAwesomeIcon icon={faFileAlt} /> Your Questionnaire

@@ -5,7 +5,7 @@
 }
 .account-column {
 	width: 20%;
-	display: inline-block !important;
+	display: inline-block;
 	margin-left: 2%;
 	vertical-align: top;
 }
@@ -22,7 +22,7 @@
 
 .social-media-connect {
 	padding: 1px;
-	width: 45%;
+	width: 90%;
 	text-align: center;
 	color: var(--white-theme-color);
 	text-decoration: none;
@@ -34,23 +34,18 @@
 
 	align-items: center;
 	justify-content: center;
-	margin-top: 10px;
+
+	margin: 5px 5% 5px 5%;
+
+	width: 90%;
 
 	overflow: auto;
 }
 
 .connected-social-media-icon {
-	display: inline-block;
-
 	color: var(--white-theme-color);
-	text-align: center;
-	width: 55px;
-
-	padding: 10px 0 10px 0;
-	vertical-align: top;
-	float: left;
-
-	border-radius: 50%;
+	padding: 0;
+	margin: 0;
 }
 .connected-social {
 	display: inline-block;
@@ -71,4 +66,7 @@
 	font-weight: normal;
 	font-size: var(--regular-font-size);
 	margin: 0;
+}
+.disconnect-social-account {
+	cursor: pointer;
 }

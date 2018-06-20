@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faCaretDown from "@fortawesome/fontawesome-free-solid/faCaretDown";
+import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
+import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
 import moment from "moment";
 
 import "./styles/";
@@ -204,28 +208,27 @@ class DatePicker extends Component {
 				{calendarDropdown && (
 					<div className="dropdown-calendar" style={style}>
 						<div className="date-picker-calendar-month-container">
-							<button
-								className="date-picker-calendar-month-switch-button left fa fa-angle-left fa-3x"
-								onClick={this.subtractMonth}
-							/>
+							<span className="date-picker-calendar-month-switch-button left" onClick={this.subtractMonth}>
+								<FontAwesomeIcon icon={faAngleLeft} size="3x" color="var(--blue-theme-color)" />
+							</span>
 							<h2 className="date-picker-calendar-month">{date.format("MMMM")}</h2>
-							<button
-								className="date-picker-calendar-month-switch-button right fa fa-angle-right fa-3x"
-								onClick={this.addMonth}
-							/>
+
+							<span className="date-picker-calendar-month-switch-button right" onClick={this.addMonth}>
+								<FontAwesomeIcon icon={faAngleRight} size="3x" color="var(--blue-theme-color)" />
+							</span>
 						</div>
 						{dayHeaders}
 						{calendarDays}
 						<div className="time-dropdown" onClick={() => this.setActive("hourDropdown")}>
-							{date.format("h")} <div className="fa fa-caret-down" />
+							{date.format("h")} <FontAwesomeIcon icon={faCaretDown} />
 							{hourDropdown && <div className="time-dropdown-container">{hours}</div>}
 						</div>
 						<div className="time-dropdown" onClick={() => this.setActive("minuteDropdown")}>
-							{date.format("mm")} <div className="fa fa-caret-down" />
+							{date.format("mm")} <FontAwesomeIcon icon={faCaretDown} />
 							{minuteDropdown && <div className="time-dropdown-container">{minutes}</div>}
 						</div>
 						<div className="time-dropdown" onClick={() => this.setActive("amPmDropdown")}>
-							{date.format("A")} <div className="fa fa-caret-down" />
+							{date.format("A")} <FontAwesomeIcon icon={faCaretDown} />
 							{amPmDropdown && <div className="time-dropdown-container">{amPM}</div>}
 						</div>
 						<button className="finished-button center" onClick={() => this.setActive("calendarDropdown")}>

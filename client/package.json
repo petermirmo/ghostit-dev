@@ -4,6 +4,8 @@
 	"private": true,
 	"dependencies": {
 		"@fortawesome/fontawesome": "^1.1.8",
+		"@fortawesome/fontawesome-free-brands": "^5.0.13",
+		"@fortawesome/fontawesome-free-regular": "^5.0.13",
 		"@fortawesome/fontawesome-free-solid": "^5.0.13",
 		"@fortawesome/react-fontawesome": "0.0.20",
 		"axios": "^0.17.1",
@@ -26,7 +28,7 @@
 		"url-loader": "^1.0.1"
 	},
 	"scripts": {
-		"start": "webpack-dev-server --mode development --hot",
+		"start": "webpack-dev-server --mode development --hot --port 3000",
 		"build": "webpack --mode production",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject"

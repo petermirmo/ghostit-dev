@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
 import { connect } from "react-redux";
 
 import PostingOptions from "./PostingOptions";
@@ -70,7 +69,9 @@ class PostEdittingModal extends Component {
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-header">
-						<span className="close-dark fa fa-times" onClick={() => close()} />
+						<span className="close-dark" onClick={() => close()}>
+							&times;
+						</span>
 					</div>
 					<div className="modal-body">
 						<PostingOptions

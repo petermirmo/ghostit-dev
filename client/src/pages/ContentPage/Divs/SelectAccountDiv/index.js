@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
+import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedIn";
+import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
 import "./styles/";
 
@@ -21,10 +26,20 @@ class SelectAccountDiv extends Component {
 				className += " common-active";
 			}
 			// Push div to array
-
+			let icon = faFacebook;
+			let color = "#4267b2";
+			if (account.socialType === "twitter") {
+				icon = faTwitter;
+				color = "#1da1f2";
+			} else if (account.socialType === "linkedin") {
+				icon = faLinkedin;
+				color = "#0077b5";
+			}
 			accountsListDiv.push(
 				<div className={className} onClick={event => setActiveAccount(account)} key={index}>
-					<div className={"account-icon fa fa-" + account.socialType + " " + account.socialType} />
+					<span className="account-icon">
+						<FontAwesomeIcon icon={icon} size="3x" color={color} />
+					</span>
 					<div className="account-title-type-container">
 						<div className="account-name">{name}</div>
 						<div className="account-type">{account.accountType}</div>

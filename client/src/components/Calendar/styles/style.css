@@ -14,14 +14,12 @@
 	opacity: 0.8;
 }
 .calendar-switch-month-button {
-	color: var(--blue-theme-color);
-	background-color: transparent;
-
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
 }
 .calendar-switch-month-button:hover {
-	color: var(--green-theme-color);
+	transform: scale(1.2);
+	cursor: pointer;
 }
 .left {
 	margin-left: 20%;
@@ -83,7 +81,6 @@
 	-webkit-transition: all 0.4s ease;
 }
 .calendar-day:hover .calendar-day-plus {
-	color: var(--green-theme-color);
 	transform: scale(1.4) !important;
 }
 .calendar-post {

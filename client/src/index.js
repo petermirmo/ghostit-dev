@@ -4,6 +4,7 @@ import Routes from "./routes";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reducers from "./redux/reducers/";
+require("../public/favicon.ico");
 
 function logger({ getState }) {
 	return next => action => {
