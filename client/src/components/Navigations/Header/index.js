@@ -94,6 +94,7 @@ class HeaderSideBar extends Component {
 								<FontAwesomeIcon icon={faCogs} /> Manage
 							</a>
 						)}
+
 						<a
 							className={"header-button dropdown-display-button " + this.isActive("profile")}
 							onClick={() => changePage("profile")}
@@ -103,6 +104,11 @@ class HeaderSideBar extends Component {
 						<a className="header-button" onClick={() => this.logout()}>
 							<FontAwesomeIcon icon={faSignOutAlt} /> Logout
 						</a>
+						{isAdmin && (
+							<a className={"header-button " + this.isActive("analytics")} onClick={() => changePage("analytics")}>
+								New Feature
+							</a>
+						)}
 					</div>
 				</div>
 

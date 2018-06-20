@@ -8,3 +8,9 @@
 	padding: 10px;
 	margin-bottom: 5%;
 }
+.activate-test-button {
+	background-color: var(--blue-theme-color);
+	margin: 0 35% 0 35%;
+	width: 30%;
+	height: 50px;
+}
