@@ -336,10 +336,6 @@
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
 }
-.activate-header-button:hover {
-	background-color: var(--blue-theme-color);
-	color: var(--white-theme-color);
-}
 .my-client-button {
 	color: var(--blue-theme-color);
 	background-color: var(--white-theme-color);
