@@ -4,7 +4,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato);
 @import url(https://fonts.googleapis.com/css?family=Butterfly+Kids);
 
-@import url("mobileHtmlTags.css");
+@import url("htmlTags.css");
 :root {
 	--blue-theme-color: #00a8ff;
 	--green-theme-color: #4cd137;
@@ -34,7 +34,6 @@
 
 	--off-black-theme-color: #666666;
 
-	--small-font-size: 10pt;
 	--regular-font-size: 11pt;
 	--twelve-font-size: 12pt;
 	--large-font-size: 13pt;
@@ -44,7 +43,6 @@
 
 	--font-theme: "Lato";
 }
-
 .wrapper {
 	padding: 0;
 	margin: 0;
@@ -58,6 +56,7 @@
 
 	animation: animateleft 0.4s;
 	transition: margin 0.4s ease;
+	-webkit-transition: margin 0.4s ease;
 }
 .modal {
 	position: fixed;
@@ -69,7 +68,7 @@
 	height: 100vh;
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0, 0, 0);
-	background-color: rgba(255, 255, 255, 0.3);
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Modal Content */
@@ -153,36 +152,19 @@
 }
 
 .close {
-	color: var(--white-theme-color);
+	color: var(--grey-theme-color);
 	background-color: transparent;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	padding-top: 1px;
-	margin-right: 10px;
+	position: absolute;
+	right: 5px;
+	top: 0;
+	cursor: pointer;
 }
-.close {
-	color: var(--red-theme-color);
-	background-color: transparent;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	padding-top: 1px;
-	margin-right: 10px;
-}
-.close:focus,
 .close:hover {
-	color: var(--blue-theme-color);
+	color: var(--red-theme-color);
 	text-decoration: none;
 	cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
-	color: var(--red-theme-color);
-	text-decoration: none;
-	cursor: pointer;
-}
 .container-full {
 	border-radius: 10px;
 	height: 100%;
@@ -273,9 +255,10 @@
 }
 .switch-active {
 	background-color: var(--blue-theme-color);
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
 	color: var(--white-theme-color);
+
+	transition: 0.4s;
+	-webkit-transition: 0.4s;
 }
 .left-switch {
 	border-radius: 20px 0 0 20px;
@@ -284,9 +267,17 @@
 	border-radius: 0 20px 20px 0;
 }
 .delete {
-	color: var(--red-theme-color);
+	color: var(--grey-theme-color);
 	background-color: transparent;
 	float: right;
+	cursor: pointer;
+	margin: 10px;
+
+	transition: color 0.4s ease;
+	-webkit-transition: color 0.4s ease;
+}
+.delete:hover {
+	color: var(--red-theme-color);
 }
 
 .connected-accounts-posting-div:hover {
@@ -305,6 +296,7 @@
 	margin: 20px 0 10px 0;
 	border-radius: 4px;
 	transition: all 1s ease;
+	-webkit-transition: all 1s ease;
 }
 .bright-save-button:hover {
 	transform: scale(1.1);
@@ -328,17 +320,32 @@
 	border: 1px solid var(--blue-theme-color);
 }
 
+.navigation-container {
+	display: flex;
+}
+.activate-header-button {
+	color: var(--blue-theme-color);
+	background-color: var(--white-theme-color);
+
+	padding: 8px 45px 8px 45px;
+
+	cursor: pointer;
+	border: 2px solid var(--blue-theme-color);
+	flex-grow: 1;
+
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+}
+.activate-header-button:hover {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
+}
 .my-client-button {
 	color: var(--blue-theme-color);
 	background-color: var(--white-theme-color);
 	font-size: var(--extra-large-font-size);
-
-	width: stretch;
-
-	padding: 10px 0 10px 0;
-
+	flex-grow: 1;
 	border: 2px solid var(--blue-theme-color);
-	border-bottom: none;
 
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
@@ -359,11 +366,12 @@
 	text-align: center;
 	display: inline-block;
 }
-.signed-in-as button {
-	padding: 0 0 0 20px;
-	margin: 0;
-	background-color: inherit;
+.sign-out-of-clients-account {
+	padding-left: 5px;
 	color: var(--red-theme-color);
-	text-align: center;
 	display: inline-block;
+	cursor: pointer;
+}
+.sign-out-of-clients-account:hover {
+	color: var(--dark-red-theme-color);
 }

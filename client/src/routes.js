@@ -76,28 +76,30 @@ class Routes extends Component {
 		if (headerSideBar) margin = { marginLeft: "20%" };
 		return (
 			<div>
-				{user &&
-					((activePage === "content" ||
-						activePage === "strategy" ||
-						activePage === "newCalendar" ||
-						activePage === "writersBrief" ||
-						activePage === "subscribe" ||
-						activePage === "accounts") &&
-						user.signedInAsUser && (
-							<div className="signed-in-as center">
-								<p>Logged in as: {user.signedInAsUser.fullName}</p>
-								<FontAwesomeIcon
-									icon={faTimes}
-									onClick={() => this.signOutOfUsersAccount()}
-									className="sign-out-of-clients-account"
-								/>
-							</div>
-						))}
-				{accessClientButton}
-				{activePage !== "" &&
-					!headerSideBar && (
-						<FontAwesomeIcon icon={faBars} size="2x" className="activate-header-button" onClick={this.openHeader} />
-					)}
+				<div className="navigation-container">
+					{user &&
+						((activePage === "content" ||
+							activePage === "strategy" ||
+							activePage === "newCalendar" ||
+							activePage === "writersBrief" ||
+							activePage === "subscribe" ||
+							activePage === "accounts") &&
+							user.signedInAsUser && (
+								<div className="signed-in-as center">
+									<p>Logged in as: {user.signedInAsUser.fullName}</p>
+									<FontAwesomeIcon
+										icon={faTimes}
+										onClick={() => this.signOutOfUsersAccount()}
+										className="sign-out-of-clients-account"
+									/>
+								</div>
+							))}
+					{accessClientButton}
+					{activePage !== "" &&
+						!headerSideBar && (
+							<FontAwesomeIcon icon={faBars} size="2x" className="activate-header-button" onClick={this.openHeader} />
+						)}
+				</div>
 				{activePage !== "" && headerSideBar && <Header />}
 				{clientSideBar && <ClientsSideBar />}
 
