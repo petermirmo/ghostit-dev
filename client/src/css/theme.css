@@ -321,6 +321,13 @@
 	border: 1px solid var(--blue-theme-color);
 }
 
+.navigation-container {
+	height: 0;
+	width: 0;
+	margin: 0;
+	padding: 0;
+}
+
 .my-client-button {
 	color: var(--blue-theme-color);
 	background-color: var(--white-theme-color);
