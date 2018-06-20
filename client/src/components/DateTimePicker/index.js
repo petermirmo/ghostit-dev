@@ -131,8 +131,11 @@ class DatePicker extends Component {
 		let tempDate = new moment(date);
 
 		let hourDivs = [];
+		let extraHours = 0;
+		let isPM = tempDate.format("HH") > 12;
+		if (isPM) extraHours = 12;
 		for (let index = 0; index <= 11; index++) {
-			let newDate = new moment(tempDate.hours(index));
+			let newDate = new moment(tempDate.hours(index + extraHours));
 
 			hourDivs.push(
 				<div className="time-dropdown-item" key={index + "hour"} onClick={() => this.props.onChange(newDate)}>
