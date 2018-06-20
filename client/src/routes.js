@@ -76,7 +76,7 @@ class Routes extends Component {
 		if (headerSideBar) margin = { marginLeft: "20%" };
 		return (
 			<div>
-				<div className="navigation-container">
+				<div className="main-navigation-container">
 					{user &&
 						((activePage === "content" ||
 							activePage === "strategy" ||

@@ -320,7 +320,7 @@
 	border: 1px solid var(--blue-theme-color);
 }
 
-.navigation-container {
+.main-navigation-container {
 	display: flex;
 }
 .activate-header-button {
