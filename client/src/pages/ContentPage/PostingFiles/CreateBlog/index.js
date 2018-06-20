@@ -235,13 +235,13 @@ class CreateBlogComponent extends Component {
 						value={blog.resources}
 						onChange={event => this.handleBlogFormChange(event.target.value, "resources")}
 						placeholder="Resources"
-						className="create-placeholder-form-keyword"
+						className="create-placeholder-form-textarea"
 					/>
 					<Textarea
 						value={blog.about}
 						onChange={event => this.handleBlogFormChange(event.target.value, "about")}
 						placeholder="About(notes)"
-						className="create-placeholder-form-keyword"
+						className="create-placeholder-form-textarea"
 					/>
 					<div className="dates-container">
 						<p className="blog-date-label">Due Date:</p>
