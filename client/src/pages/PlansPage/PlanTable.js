@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faMinus from "@fortawesome/fontawesome-free-solid/faMinus";
+import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import faCheckCircle from "@fortawesome/fontawesome-free-solid/faCheckCircle";
 
 import PayDiv from "./PayDiv";
 
@@ -59,69 +63,92 @@ class PlanTable extends Component {
 				<div>
 					<div className="plan-row">
 						<p className="plan-row-label">Website Blog Posts </p>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("websiteBlogPosts", 1, 1)}
-							className="fa fa-plus fa-2x plan-row-increment"
+							className="plan-row-increment"
+							icon={faPlus}
+							size="2x"
 						/>
 						<h2 className="plan-row-value">{this.state.websiteBlogPosts}</h2>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("websiteBlogPosts", -1, -1)}
-							className="fa fa-minus fa-2x plan-row-increment minus"
+							className="plan-row-increment minus"
+							icon={faMinus}
+							size="2x"
 						/>
 					</div>
 
 					<div className="plan-row">
 						<p className="plan-row-label">Social Posts (Facebook, Twitter, Linkedin) </p>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("socialPosts", 15, 1)}
-							className="fa fa-plus fa-2x plan-row-increment"
+							className="plan-row-increment"
+							icon={faPlus}
+							size="2x"
 						/>
 						<h2 className="plan-row-value">{this.state.socialPosts}</h2>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("socialPosts", -15, -1)}
-							className="fa fa-minus fa-2x plan-row-increment minus"
+							className="plan-row-increment minus"
+							icon={faMinus}
+							size="2x"
 						/>
 					</div>
 
 					<div className="plan-row">
 						<p className="plan-row-label">Instagram Posts </p>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("instagramPosts", 15, 2)}
-							className="fa fa-plus fa-2x plan-row-increment"
+							className="plan-row-increment"
+							icon={faPlus}
+							size="2x"
 						/>
 						<h2 className="plan-row-value">{this.state.instagramPosts}</h2>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("instagramPosts", -15, -2)}
-							className="fa fa-minus fa-2x plan-row-increment minus"
+							className="plan-row-increment minus"
+							icon={faMinus}
+							size="2x"
 						/>
 					</div>
 
 					<div className="plan-row">
 						<p className="plan-row-label">Email Newsletters </p>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("emailNewsletters", 1, 1)}
-							className="fa fa-plus fa-2x plan-row-increment"
+							className="plan-row-increment"
+							icon={faPlus}
+							size="2x"
 						/>
 						<h2 className="plan-row-value">{this.state.emailNewsletters}</h2>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("emailNewsletters", -1, -1)}
-							className="fa fa-minus fa-2x plan-row-increment minus"
+							className="plan-row-increment minus"
+							icon={faMinus}
+							size="2x"
 						/>
 					</div>
 
 					<div className="plan-row">
 						<p className="plan-row-label">E-books </p>
-						<button onClick={() => this.increment("eBooks", 1, 1)} className="fa fa-plus fa-2x plan-row-increment" />
+						<FontAwesomeIcon
+							onClick={() => this.increment("eBooks", 1, 1)}
+							className="plan-row-increment"
+							icon={faPlus}
+							size="2x"
+						/>
 						<h2 className="plan-row-value">{this.state.eBooks}</h2>
-						<button
+						<FontAwesomeIcon
 							onClick={() => this.increment("eBooks", -1, -1)}
-							className="fa fa-minus fa-2x plan-row-increment minus"
+							className="plan-row-increment minus"
+							icon={faMinus}
+							size="2x"
 						/>
 					</div>
 
 					<div className="plan-row">
 						<p className="plan-row-label">Content Marketing Strategy </p>
-						<div className="fa fa-check-circle fa-2x checkmark" />
+						<FontAwesomeIcon className="checkmark" icon={faCheckCircle} size="2x" />
 					</div>
 
 					<div className="plan-row">

@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faCheck from "@fortawesome/fontawesome-free-solid/faCheck";
+import faPlusCircle from "@fortawesome/fontawesome-free-solid/faPlusCircle";
 import axios from "axios";
 
 import SearchColumn from "../../components/SearchColumn/";
@@ -88,7 +91,7 @@ class PlansTable extends Component {
 					searchObjects={this.searchPlans}
 					styleOverride={{ marginTop: "20px" }}
 				/>
-				<button className="fa fa-plus fa-2x create-plan-button" onClick={this.planFormActive} />
+				<FontAwesomeIcon onClick={this.planFormActive} className="create-plan-button" icon={faPlusCircle} size="2x" />
 				{planFormActive && (
 					<PlanForm updateParentState={this.cancel} savePlan={this.savePlan} clickedObject={clickedPlan} />
 				)}

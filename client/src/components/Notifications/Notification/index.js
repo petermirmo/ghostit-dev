@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+
 import "./styles/";
 
 class Notification extends Component {
@@ -7,9 +10,7 @@ class Notification extends Component {
 
 		return (
 			<div className={"notification " + notificationType}>
-				<span className="closebtn" onClick={this.props.callback}>
-					&times;
-				</span>
+				<FontAwesomeIcon icon={faTimes} className="closebtn" onClick={this.props.callback} />
 				<h4 className="notifcation-title">{title}</h4>
 				{message}
 			</div>

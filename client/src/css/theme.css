@@ -57,6 +57,7 @@
 
 	animation: animateleft 0.4s;
 	transition: margin 0.4s ease;
+	-webkit-transition: margin 0.4s ease;
 }
 .modal {
 	position: fixed;
@@ -152,36 +153,19 @@
 }
 
 .close {
-	color: var(--white-theme-color);
+	color: var(--grey-theme-color);
 	background-color: transparent;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	padding-top: 1px;
-	margin-right: 10px;
+	position: absolute;
+	right: 5px;
+	top: 0;
+	cursor: pointer;
 }
-.close-dark {
+.close:hover {
 	color: var(--red-theme-color);
-	background-color: transparent;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	padding-top: 1px;
-	margin-right: 10px;
-}
-.close-dark:focus,
-.close-dark:hover {
-	color: var(--blue-theme-color);
 	text-decoration: none;
 	cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
-	color: var(--red-theme-color);
-	text-decoration: none;
-	cursor: pointer;
-}
 .container-full {
 	border-radius: 10px;
 	height: 100%;
@@ -272,9 +256,10 @@
 }
 .switch-active {
 	background-color: var(--blue-theme-color);
-	-webkit-transition: 0.4s;
-	transition: 0.4s;
 	color: var(--white-theme-color);
+
+	transition: 0.4s;
+	-webkit-transition: 0.4s;
 }
 .left-switch {
 	border-radius: 20px 0 0 20px;
@@ -283,9 +268,17 @@
 	border-radius: 0 20px 20px 0;
 }
 .delete {
-	color: var(--red-theme-color);
+	color: var(--grey-theme-color);
 	background-color: transparent;
 	float: right;
+	cursor: pointer;
+	margin: 10px;
+
+	transition: color 0.4s ease;
+	-webkit-transition: color 0.4s ease;
+}
+.delete:hover {
+	color: var(--red-theme-color);
 }
 
 .connected-accounts-posting-div:hover {
@@ -304,6 +297,7 @@
 	margin: 20px 0 10px 0;
 	border-radius: 4px;
 	transition: all 1s ease;
+	-webkit-transition: all 1s ease;
 }
 .bright-save-button:hover {
 	transform: scale(1.1);
@@ -361,11 +355,12 @@
 	text-align: center;
 	display: inline-block;
 }
-.signed-in-as button {
-	padding: 0 0 0 20px;
-	margin: 0;
-	background-color: inherit;
+.sign-out-of-clients-account {
+	padding-left: 5px;
 	color: var(--red-theme-color);
-	text-align: center;
 	display: inline-block;
+	cursor: pointer;
+}
+.sign-out-of-clients-account:hover {
+	color: var(--dark-red-theme-color);
 }

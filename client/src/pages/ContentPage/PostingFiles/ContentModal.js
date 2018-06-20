@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -125,9 +127,8 @@ class ContentModal extends Component {
 		return (
 			<div className="modal">
 				<div className="content-modal">
-					<span className="content-close" onClick={() => close("contentModal")}>
-						&times;
-					</span>
+					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={() => close("contentModal")} />
+
 					<ContentModalHeader
 						categories={this.state.categories}
 						switchTabs={this.switchTabState}

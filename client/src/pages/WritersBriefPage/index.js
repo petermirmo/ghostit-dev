@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import moment from "moment-timezone";
+import axios from "axios";
 
 import { connect } from "react-redux";
 import WritersBriefForm from "./WritersBriefForm";
@@ -103,7 +105,7 @@ class WritersBrief extends Component {
 					<div className="past-writers-brief-container">
 						{adminManagerOrDemo && (
 							<button className="new-writers-brief" onClick={() => this.createNewWritersBrief()}>
-								<span className="fa fa-plus" /> New Writers Brief
+								<FontAwesomeIcon icon={faPlus} /> New Writers Brief
 							</button>
 						)}
 						{writersBriefsButtons}

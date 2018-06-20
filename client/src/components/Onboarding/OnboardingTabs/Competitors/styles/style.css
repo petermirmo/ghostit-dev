@@ -1,13 +1,13 @@
+.competitor-input {
+}
 .add-competitor {
-	background-color: var(--blue-theme-color);
-	color: var(--white-theme-color);
-	margin: 10px 10px 10px 10px;
+	cursor: pointer;
 	float: left;
+	margin: 10px 0 0 20px;
+	border-radius: 100px;
+	color: var(--blue-theme-color);
+	background-color: var(--white-theme-color);
 }
 .add-competitor:hover {
-	background-color: var(--dark-blue-theme-color);
-}
-.icon-container {
-	width: 100%;
-	display: inline-block;
+	color: var(--dark-blue-theme-color);
 }

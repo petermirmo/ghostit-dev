@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import axios from "axios";
 
 import Notification from "../../../components/Notifications/Notification";
@@ -53,9 +56,7 @@ class BlogEdittingModal extends Component {
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-header">
-						<span className="close-dark" onClick={() => this.props.close()}>
-							&times;
-						</span>
+						<FontAwesomeIcon icon={faTimes} className="close" size="2x" onClick={() => this.props.close()} />
 					</div>
 					<div className="modal-body">
 						<CreateBlog
@@ -69,7 +70,7 @@ class BlogEdittingModal extends Component {
 					</div>
 
 					<div className="modal-footer">
-						<button onClick={this.deleteBlogPopUp} className="fa fa-trash fa-2x delete" />
+						<FontAwesomeIcon onClick={this.deleteBlogPopUp} className="delete" icon={faTrash} size="2x" />
 					</div>
 				</div>
 				{this.state.notification.on && (

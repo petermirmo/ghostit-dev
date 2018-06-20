@@ -4,7 +4,6 @@ import axios from "axios";
 
 import CompetitorsTab from "../../components/Onboarding/OnboardingTabs/Competitors/";
 
-
 import Loader from "../../components/Notifications/Loader/";
 
 import { strategyFormFields } from "../../extra/constants/Common";
@@ -150,7 +149,7 @@ class StrategyForm extends Component {
 					<div key={index}>
 						<h3 className="form-title">{this.state[index].title}</h3>
 						<br />
-						<div className="input-container center">
+						<div className="input-container">
 							<Textarea
 								id={index}
 								type="text"
@@ -170,7 +169,7 @@ class StrategyForm extends Component {
 				<h3 className="form-title">Competitors</h3>
 				<br />
 
-				<div className="input-container center">
+				<div className="input-container">
 					<CompetitorsTab
 						competitors={competitors}
 						handleFormChange={this.handleFormChange}

@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faLongArrowAltLeft from "@fortawesome/fontawesome-free-solid/faLongArrowAltLeft";
+import faLongArrowAltRight from "@fortawesome/fontawesome-free-solid/faLongArrowAltRight";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -138,15 +142,15 @@ class OnboardingModal extends Component {
 			<div className="modal center">
 				<div className="modal-content onboarding-modal">
 					{activePageNumber === totalPageNumber && (
-						<p
+						<FontAwesomeIcon
+							icon={faTimes}
 							className="onboarding-close"
 							onClick={() => {
 								this.props.changePage("strategy");
 								close();
 							}}
-						>
-							&times;
-						</p>
+							size="2x"
+						/>
 					)}
 					<div className="modal-header onboarding-header">
 						<p className="active-page-of-total">
@@ -246,7 +250,10 @@ class OnboardingModal extends Component {
 					<div className="modal-footer onboarding-footer">
 						{activePageNumber !== 1 && (
 							<button className="back-button" onClick={() => this.changeTab(-1, "animate-left")}>
-								<span className="fa fa-long-arrow-left fa-2x back-button-icon" /> Back
+								<span className="back-button-icon">
+									<FontAwesomeIcon icon={faLongArrowAltLeft} size="2x" />
+								</span>{" "}
+								Back
 							</button>
 						)}
 						{activePageNumber !== totalPageNumber && (
@@ -258,7 +265,10 @@ class OnboardingModal extends Component {
 									this.changeTab(1, "animate-right");
 								}}
 							>
-								Next <span className="fa fa-long-arrow-right fa-2x next-button-icon" />
+								Next
+								<span className="next-button-icon">
+									<FontAwesomeIcon icon={faLongArrowAltRight} size="2x" />
+								</span>
 							</button>
 						)}
 					</div>

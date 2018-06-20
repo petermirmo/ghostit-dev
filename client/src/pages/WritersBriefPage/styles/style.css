@@ -57,11 +57,13 @@
 }
 
 .add-new {
+	cursor: pointer;
 	float: left;
 	margin: 10px 0 0 20px;
-	color: var(--white-theme-color);
-	background-color: var(--blue-theme-color);
+	border-radius: 100px;
+	color: var(--blue-theme-color);
+	background-color: var(--white-theme-color);
 }
 .add-new:hover {
-	background-color: var(--dark-blue-theme-color);
+	color: var(--dark-blue-theme-color);
 }

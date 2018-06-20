@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faPlusCircle from "@fortawesome/fontawesome-free-solid/faPlusCircle";
+
 import "./styles/";
 
 class CompetitorsTab extends Component {
@@ -33,9 +36,12 @@ class CompetitorsTab extends Component {
 		return (
 			<div className="competitor-input">
 				{competitorDivs}
-				<div className="icon-container">
-					<button onClick={() => this.addCompetitor()} className="fa fa-plus fa-2x add-competitor" />
-				</div>
+				<FontAwesomeIcon
+					icon={faPlusCircle}
+					size="2x"
+					className="add-competitor"
+					onClick={() => this.addCompetitor()}
+				/>
 			</div>
 		);
 	}

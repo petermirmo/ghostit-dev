@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faImages from "@fortawesome/fontawesome-free-solid/faImages";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import "./styles/";
 
 class ImagesDiv extends Component {
@@ -81,7 +82,12 @@ class ImagesDiv extends Component {
 				<div key={index} className="image-container">
 					<img key={index} src={imageURL} alt="error" className="image" />
 					{canEdit && (
-						<div className="delete-image-icon fa fa-times fa-3x" onClick={event => this.removePhoto(index)} />
+						<FontAwesomeIcon
+							icon={faTimes}
+							className="delete-image-icon"
+							onClick={event => this.removePhoto(index)}
+							size="3x"
+						/>
 					)}
 				</div>
 			);

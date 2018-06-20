@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import axios from "axios";
 
 import SocialMediaDiv from "./SocialMediaDiv";
@@ -49,9 +51,8 @@ class AddPagesOrGroupsModal extends Component {
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center", width: "35%" }}>
 					<div className={socialType + " modal-header"}>
-						<span className="close" onClick={() => this.props.close()}>
-							&times;
-						</span>
+						<FontAwesomeIcon icon={faTimes} className="close" onClick={() => this.props.close()} />
+
 						<h2 className="connect-header">
 							Connect {socialType.charAt(0).toUpperCase() + socialType.slice(1)}{" "}
 							{accountType.charAt(0).toUpperCase() + accountType.slice(1)}

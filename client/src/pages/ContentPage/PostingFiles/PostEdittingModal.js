@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -54,7 +57,7 @@ class PostEdittingModal extends Component {
 		if (canEditPost) {
 			modalFooter = (
 				<div className="modal-footer">
-					<button onClick={this.deletePostPopUp} className="fa fa-trash fa-2x delete" />
+					<FontAwesomeIcon onClick={this.deletePostPopUp} className="delete" icon={faTrash} size="2x" />
 				</div>
 			);
 		}
@@ -69,9 +72,7 @@ class PostEdittingModal extends Component {
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center" }}>
 					<div className="modal-header">
-						<span className="close-dark" onClick={() => close()}>
-							&times;
-						</span>
+						<FontAwesomeIcon icon={faTimes} className="close" size="2x" onClick={() => close()} />
 					</div>
 					<div className="modal-body">
 						<PostingOptions

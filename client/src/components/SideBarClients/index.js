@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -77,9 +79,8 @@ class ClientSideBar extends Component {
 	render() {
 		return (
 			<div className="side-bar">
-				<button className="close-dark" onClick={this.closeClientSideBar}>
-					&times;
-				</button>
+				<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={this.closeClientSideBar} />
+
 				<SearchColumn
 					objectList={this.state.clients}
 					searchObjects={this.searchUsers}

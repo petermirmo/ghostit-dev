@@ -161,7 +161,7 @@
 	padding-top: 1px;
 	margin-right: 10px;
 }
-.close-dark {
+.close {
 	color: var(--red-theme-color);
 	background-color: transparent;
 	float: right;
@@ -170,8 +170,8 @@
 	padding-top: 1px;
 	margin-right: 10px;
 }
-.close-dark:focus,
-.close-dark:hover {
+.close:focus,
+.close:hover {
 	color: var(--blue-theme-color);
 	text-decoration: none;
 	cursor: pointer;

@@ -14,11 +14,13 @@
 	opacity: 0.8;
 }
 .calendar-switch-month-button {
+	color: var(--blue-theme-color);
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
 }
 .calendar-switch-month-button:hover {
-	transform: scale(1.2);
+	color: var(--green-theme-color);
+	transform: scale(1.1);
 	cursor: pointer;
 }
 .left {
@@ -81,7 +83,8 @@
 	-webkit-transition: all 0.4s ease;
 }
 .calendar-day:hover .calendar-day-plus {
-	transform: scale(1.4) !important;
+	color: var(--green-theme-color);
+	transform: scale(1.4);
 }
 .calendar-post {
 	width: stretch;
@@ -96,7 +99,8 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	transition: transform 1s ease;
+	transition: transform 0.4s ease;
+	-webkit-transition: transform 0.4s ease;
 }
 
 .calendar-post:hover {

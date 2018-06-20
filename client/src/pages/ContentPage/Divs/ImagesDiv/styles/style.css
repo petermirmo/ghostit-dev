@@ -51,6 +51,7 @@
 }
 
 .delete-image-icon {
+	color: var(--red-theme-color) !important;
 	position: absolute;
 	display: none;
 
@@ -60,7 +61,7 @@
 	left: 0;
 	top: 0;
 	height: 100%;
-	width: 100%;
+	min-width: 100%;
 }
 
 .image-container:hover .delete-image-icon {

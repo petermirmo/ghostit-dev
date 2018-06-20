@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
+import faCheck from "@fortawesome/fontawesome-free-solid/faCheck";
 
 import NonEditableAttribute from "./NonEditableAttribute";
 import EditableAttribute from "./EditableAttribute";
@@ -60,26 +64,20 @@ class ObjectEditTable extends Component {
 			buttons = (
 				<div>
 					{!editting && (
-						<button
-							id="edittingButton"
-							onClick={this.props.editObject}
-							className="fa fa-edit fa-2x attribute-footer-button"
-						/>
+						<button onClick={this.props.editObject} className="attribute-footer-button">
+							<FontAwesomeIcon icon={faEdit} size="2x" />
+						</button>
 					)}
 
 					{editting && (
-						<button
-							id="saveButton"
-							onClick={() => this.props.saveObject(this.state.updatedObject)}
-							className="fa fa-check fa-2x attribute-footer-button"
-						/>
+						<button onClick={() => this.props.saveObject(this.state.updatedObject)} className="attribute-footer-button">
+							<FontAwesomeIcon icon={faCheck} size="2x" />
+						</button>
 					)}
 					{editting && (
-						<button
-							id="cancelButton"
-							onClick={this.props.editObject}
-							className="fa fa-times fa-2x attribute-footer-button"
-						/>
+						<button onClick={this.props.editObject} className="attribute-footer-button">
+							<FontAwesomeIcon icon={faTimes} size="2x" />
+						</button>
 					)}
 				</div>
 			);

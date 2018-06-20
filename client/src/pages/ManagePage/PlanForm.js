@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faCheck from "@fortawesome/fontawesome-free-solid/faCheck";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTrash";
 import { nonEditablePlanFields } from "../../extra/constants/PlanConstants";
 
 class PlanForm extends Component {
@@ -13,7 +16,7 @@ class PlanForm extends Component {
 					eBooks: 0,
 					name: "peter_is_cool",
 					price: 0
-				}
+			  }
 	};
 	constructor(props) {
 		super(props);
@@ -80,8 +83,13 @@ class PlanForm extends Component {
 				</span>
 				{planAttributes}
 				<div className="plan-form-footer">
-					<button onClick={() => savePlan(attributes)} className="fa fa-check fa-2x attribute-footer-button" />
-					<button onClick={updateParentState} className="fa fa-times fa-2x attribute-footer-button" />
+					<FontAwesomeIcon
+						onClick={() => savePlan(attributes)}
+						className="attribute-footer-button"
+						icon={faCheck}
+						size="2x"
+					/>
+					<FontAwesomeIcon onClick={updateParentState} className="attribute-footer-button" icon={faTimes} size="2x" />
 				</div>
 			</div>
 		);

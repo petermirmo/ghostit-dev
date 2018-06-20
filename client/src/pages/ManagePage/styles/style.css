@@ -48,7 +48,10 @@
 .create-plan-button {
 	float: left;
 	margin: 20px 20px 20px 50px;
-	background-color: var(--blue-theme-color);
+	border-radius: 100px;
+	background-color: var(--white-theme-color);
+	color: var(--blue-theme-color);
+	cursor: pointer;
 }
 .plan-form-footer {
 	margin-top: 10px;

@@ -8,6 +8,7 @@ import faDoorOpen from "@fortawesome/fontawesome-free-solid/faDoorOpen";
 import faFileAlt from "@fortawesome/fontawesome-free-solid/faFileAlt";
 import faCogs from "@fortawesome/fontawesome-free-solid/faCogs";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -63,9 +64,7 @@ class HeaderSideBar extends Component {
 		return (
 			<div className="header-navbar">
 				<div className="navbar">
-					<button className="close" onClick={this.closeHeaderSideBar}>
-						&times;
-					</button>
+					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={this.closeHeaderSideBar} />
 					<div className="main-nav">
 						{(user.role === "demo" || isAdmin) && (
 							<a className={"header-button" + this.isActive("subscribe")} onClick={() => changePage("subscribe")}>
@@ -115,7 +114,11 @@ class HeaderSideBar extends Component {
 					user.signedInAsUser && (
 						<div className="signed-in-as center">
 							<p>Logged in as: {user.signedInAsUser.fullName}</p>
-							<button className="fa fa-times" onClick={() => this.signOutOfUsersAccount()} />
+							<FontAwesomeIcon
+								icon={faTimes}
+								onClick={() => this.signOutOfUsersAccount()}
+								className="sign-out-of-clients-account"
+							/>
 						</div>
 					)}
 			</div>

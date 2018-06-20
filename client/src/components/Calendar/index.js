@@ -4,6 +4,9 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+import faFacebookF from "@fortawesome/fontawesome-free-brands/faFacebookF";
+import faLinkedinIn from "@fortawesome/fontawesome-free-brands/faLinkedinIn";
+import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitter";
 
 import "./styles/";
 
@@ -85,9 +88,9 @@ class NewCalendar extends Component {
 						if (post.eventColor) color = post.eventColor;
 
 						let icon;
-						if (post.socialType === "facebook") icon = "fa fa-facebook";
-						if (post.socialType === "twitter") icon = "fa fa-twitter";
-						if (post.socialType === "linkedin") icon = "fa fa-linkedin";
+						if (post.socialType === "facebook") icon = faFacebookF;
+						if (post.socialType === "twitter") icon = faTwitter;
+						if (post.socialType === "linkedin") icon = faLinkedinIn;
 
 						postsForDay.push(
 							<div
@@ -99,7 +102,7 @@ class NewCalendar extends Component {
 								style={{ backgroundColor: color }}
 								key={postToDisplayIndex + "post"}
 							>
-								{icon && <div className={icon} />} {new moment(post.postingDate).format("h:mm")} {content}
+								{icon && <FontAwesomeIcon icon={icon} />} {new moment(post.postingDate).format("h:mm")} {content}
 							</div>
 						);
 
@@ -127,9 +130,7 @@ class NewCalendar extends Component {
 			calendarDayArray.push(
 				<div className={className} onClick={() => onSelectDay(calendarDay)} key={index + "day"}>
 					<div className="calendar-day-date">{calendarDay.date()}</div>
-					<span className="calendar-day-plus">
-						<FontAwesomeIcon icon={faPlus} color="var(--blue-theme-color)" />
-					</span>
+					<FontAwesomeIcon icon={faPlus} className="calendar-day-plus" />
 					{postsForDay}
 				</div>
 			);
@@ -156,13 +157,19 @@ class NewCalendar extends Component {
 		return (
 			<div className="calendar-container">
 				<div className="calendar-header-container">
-					<span className="calendar-switch-month-button left" onClick={this.subtractMonth}>
-						<FontAwesomeIcon icon={faAngleLeft} size="4x" color="var(--blue-theme-color)" />
-					</span>
+					<FontAwesomeIcon
+						icon={faAngleLeft}
+						size="4x"
+						className="calendar-switch-month-button left"
+						onClick={this.subtractMonth}
+					/>
 					<h1 className="calendar-header center">{calendarDate.format("MMMM")}</h1>
-					<span className="calendar-switch-month-button right" onClick={this.addMonth}>
-						<FontAwesomeIcon icon={faAngleRight} size="4x" color="var(--blue-theme-color)" />
-					</span>
+					<FontAwesomeIcon
+						icon={faAngleRight}
+						size="4x"
+						className="calendar-switch-month-button right"
+						onClick={this.addMonth}
+					/>
 				</div>
 
 				<div className="calendar-table">

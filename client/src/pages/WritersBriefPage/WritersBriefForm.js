@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faPlusCircle from "@fortawesome/fontawesome-free-solid/faPlusCircle";
 import Textarea from "react-textarea-autosize";
 import moment from "moment-timezone";
 import axios from "axios";
@@ -226,7 +228,7 @@ class WritersBriefForm extends Component {
 
 				<div className="container-placeholder center">
 					<SearchColumn objectList={blogs} handleClickedObject={this.blogPostClicked} />
-					<button className="fa fa-plus fa-2x add-new" onClick={() => this.newBlog()} />
+					<FontAwesomeIcon icon={faPlusCircle} size="3x" className="add-new" onClick={() => this.newBlog()} />
 					<CreateBlog
 						blog={activeBlog}
 						callback={this.updateBlogs}
@@ -237,7 +239,7 @@ class WritersBriefForm extends Component {
 
 				<div className="container-placeholder center">
 					<SearchColumn objectList={newsletters} handleClickedObject={this.newsletterPostClicked} />
-					<button className="fa fa-plus fa-2x add-new" onClick={() => this.newNewsletter()} />
+					<FontAwesomeIcon icon={faPlusCircle} size="3x" className="add-new" onClick={() => this.newNewsletter()} />
 					<CreateNewsletter
 						newsletter={activeNewsletter}
 						callback={this.updateNewsletters}

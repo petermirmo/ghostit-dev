@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faBars from "@fortawesome/fontawesome-free-solid/faBars";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -85,7 +86,11 @@ class Routes extends Component {
 						user.signedInAsUser && (
 							<div className="signed-in-as center">
 								<p>Logged in as: {user.signedInAsUser.fullName}</p>
-								<button className="fa fa-times" onClick={() => this.signOutOfUsersAccount()} />
+								<FontAwesomeIcon
+									icon={faTimes}
+									onClick={() => this.signOutOfUsersAccount()}
+									className="sign-out-of-clients-account"
+								/>
 							</div>
 						))}
 				{accessClientButton}
