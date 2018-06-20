@@ -12,6 +12,11 @@
 .accounts-container {
 	display: flex;
 	display: -webkit-flex;
+
+	overflow: hidden;
+
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
 }
 .account-container {
 	display: flex;
@@ -19,7 +24,6 @@
 
 	flex-grow: 1;
 	-webkit-flex-grow: 1;
-	width: 1px;
 
 	margin-right: 10px;
 

@@ -6,8 +6,6 @@
 
 	width: stretch;
 	height: stretch;
-
-	padding: 20px;
 }
 .create-placeholder-form input {
 	flex-grow: 1;
@@ -37,7 +35,10 @@
 	box-sizing: border-box;
 }
 .create-placeholder-form textarea {
-	width: stretch;
+	width: 100%;
+
+	box-sizing: border-box;
+
 	min-height: 50px;
 
 	margin-top: 5px;
@@ -57,6 +58,9 @@
 	align-items: center;
 	justify-content: center;
 
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+
 	width: stretch;
 
 	padding-top: 10px;
@@ -72,8 +76,8 @@
 	display: flex;
 	display: -webkit-flex;
 
-	align-items: center;
-	justify-content: center;
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
 
 	width: stretch;
 
