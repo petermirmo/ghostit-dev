@@ -38,7 +38,7 @@
 	text-align: left;
 	margin: 5px 0 0 0;
 	display: block;
-	height: 40px;
+	min-height: 40px;
 	border-bottom: 2px solid var(--light-blue-theme-color);
 }
 .plan-row:last-child {

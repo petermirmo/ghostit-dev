@@ -1,11 +1,14 @@
+.writers-brief-page-container {
+	overflow: hidden;
+}
 .past-writers-brief-container {
 	display: inline-block;
 	border-bottom: 2px solid var(--light-blue-theme-color);
 	white-space: nowrap;
-	width: stretch;
+	width: 100%;
 	max-width: 100% !important;
 	overflow: auto;
-	padding: 20px 0 0 70px;
+	padding: 20px 0 0 0;
 }
 .writers-brief-button {
 	background-color: var(--light-blue-theme-color);
@@ -54,11 +57,13 @@
 }
 
 .add-new {
+	cursor: pointer;
 	float: left;
 	margin: 10px 0 0 20px;
-	color: var(--white-theme-color);
-	background-color: var(--blue-theme-color);
+	border-radius: 100px;
+	color: var(--blue-theme-color);
+	background-color: var(--white-theme-color);
 }
 .add-new:hover {
-	background-color: var(--dark-blue-theme-color);
+	color: var(--dark-blue-theme-color);
 }
