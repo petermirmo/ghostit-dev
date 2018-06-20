@@ -132,7 +132,7 @@ class CreateNewsletter extends Component {
 						value={newsletter.notes}
 						onChange={event => this.handleBlogFormChange(event.target.value, "notes")}
 						placeholder="Notes"
-						className="newsletter-about"
+						className="newsletter-about create-placeholder-form-textarea"
 					/>
 					<div className="dates-container">
 						<p className="blog-date-label">Due Date:</p>
