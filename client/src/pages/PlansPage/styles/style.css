@@ -12,24 +12,27 @@
 .plan-title-emphasis {
 	border-bottom: 2px solid var(--yellow-theme-color) !important;
 }
-.plan-description-title {
+.pricing-container {
+	display: flex;
+	-webkit-display: flex;
+
+	align-items: flex-start;
+	align-content: flex-start;
+
+	flex-wrap: nowrap;
+	-webkit-flex-wrap: nowrap;
 }
 .plan-page-description {
 	background-color: var(--light-light-blue-theme-color);
-	overflow: hidden;
-	float: left;
 	padding: 20px;
-	margin: 20px 20px 20px 20px !important;
-	width: 25%;
 	border-radius: 20px;
 	text-align: center;
+	margin: 20px;
+	min-width: 35%;
 }
 .plan-container {
-	padding: 20px 5% 20px 0;
-	margin: 0;
-	width: 60%;
-	border-radius: 4px;
-	float: right;
+	flex-grow: 1;
+	margin: 20px;
 }
 .plan-row {
 	text-align: left;

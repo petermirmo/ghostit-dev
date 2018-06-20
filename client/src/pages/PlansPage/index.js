@@ -26,15 +26,15 @@ class PlansPage extends Component {
 	};
 	render() {
 		return (
-			<div className="wrapper" style={this.props.margin}>
-				<div className="plans-page-background">
-					<p className="plan-page-title center">
-						Get Started With Ghostit <span className="plan-title-emphasis">Now</span>
-					</p>
+			<div className="wrapper plans-page-background" style={this.props.margin}>
+				<p className="plan-page-title center">
+					Get Started With Ghostit <span className="plan-title-emphasis">Now</span>
+				</p>
+				<div className="pricing-container">
 					<p className="plan-page-description">
 						<span className="plan-description-title">What are you waiting for? </span>
 						<br />
-						Click the plus buttons to the right to customize your plan!
+						Click the plus and minus buttons to customize your plan!
 					</p>
 					<PlanTable usersPlan={this.state.usersPlan} />
 				</div>
