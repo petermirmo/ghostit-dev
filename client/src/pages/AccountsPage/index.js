@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
-import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedIn";
+import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
