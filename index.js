@@ -11,8 +11,6 @@ const MongoStore = require("connect-mongo")(session);
 const User = require("./models/User");
 const secure = require("express-force-https");
 
-const Schema = mongoose.Schema;
-const multer = require("multer");
 // Image uploads
 const cloudinary = require("cloudinary");
 // Connect to cloudinary
@@ -21,8 +19,6 @@ cloudinary.config({
 	api_key: keys.cloudinaryApiKey,
 	api_secret: keys.cloudinaryApiSecret
 });
-
-const router = express.Router();
 
 // Post scheduler
 const PostScheduler = require("./scheduler/PostScheduler");
