@@ -69,15 +69,16 @@ class AccountsPage extends Component {
 			let { pages, loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
 
+			if (pages) {
+				if (pages.length === 0) {
+					errorMessage = "No Facebook pages found";
+				}
+			} else {
+				errorMessage = "Please connect your Facebook profile first.";
+			}
 			// If pages returns false, there was an error so just set to undefined
 			if (!pages) {
 				pages = [];
-			}
-
-			if (pages.length === 0) {
-				errorMessage = "No Facebook pages found";
-			} else {
-				errorMessage = "Please connect your Facebook profile first.";
 			}
 			// Set data to state
 			this.setState({
@@ -100,16 +101,18 @@ class AccountsPage extends Component {
 			let { groups, loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
 
+			if (groups) {
+				if (groups.length === 0) {
+					errorMessage = "No Facebook groups found";
+				}
+			} else {
+				errorMessage = "Please connect your Facebook profile first.";
+			}
 			// If groups returns false, there was an error so just set to undefined
 			if (!groups) {
 				groups = [];
 			}
 
-			if (groups.length === 0) {
-				message = "No Facebook pages found";
-			} else {
-				message = "Please connect your Facebook profile first.";
-			}
 			// Set data to state
 			this.setState({
 				pageOrGroup: groups,
@@ -129,15 +132,16 @@ class AccountsPage extends Component {
 			let { pages, loggedIn } = res.data;
 			if (loggedIn === false) window.location.reload();
 
+			if (pages) {
+				if (pages.length === 0) {
+					errorMessage = "No Linkedin pages found";
+				}
+			} else {
+				errorMessage = "Please connect your Linkedin profile first.";
+			}
 			// If pageOrGroup returns false, there was an error so just set to []
 			if (!pages) {
 				pages = [];
-			}
-
-			if (pages.length === 0) {
-				message = "No Linkedin pages found";
-			} else {
-				message = "Please connect your Linkedin profile first.";
 			}
 			// Set data to state
 			this.setState({
