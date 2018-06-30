@@ -22,17 +22,6 @@ const writersBriefFunctions = require("./services/writersBriefFunctions");
 const SendMailFunctions = require("./MailFiles/SendMailFunctions");
 
 module.exports = app => {
-	// Force http://foo.com/foo to http://www.foo.com/foo
-	app.all(/.*/, function(req, res, next) {
-		let host = req.header("host");
-		if (host.match(/^www\..*/i)) {
-			next();
-		} else {
-			res.redirect(301, "http://www." + host);
-		}
-	});
-	app.use(express.static(__dirname + "/public"));
-
 	// Middleware
 
 	var middleware = function(req, res, next) {
