@@ -22,8 +22,6 @@ const writersBriefFunctions = require("./services/writersBriefFunctions");
 const SendMailFunctions = require("./MailFiles/SendMailFunctions");
 
 module.exports = app => {
-	// Middleware
-
 	var middleware = function(req, res, next) {
 		if (!req.user) {
 			res.send({ success: false, loggedIn: false });

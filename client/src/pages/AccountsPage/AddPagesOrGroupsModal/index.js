@@ -51,7 +51,7 @@ class AddPagesOrGroupsModal extends Component {
 			<div className="modal">
 				<div className="modal-content" style={{ textAlign: "center", width: "35%" }}>
 					<div className={socialType + " modal-header"}>
-						<FontAwesomeIcon icon={faTimes} className="close" onClick={() => this.props.close()} />
+						<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={() => this.props.close()} />
 
 						<h2 className="connect-header">
 							Connect {socialType.charAt(0).toUpperCase() + socialType.slice(1)}{" "}
