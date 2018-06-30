@@ -14,7 +14,7 @@
 	opacity: 0.8;
 }
 .calendar-switch-month-button {
-	color: var(--blue-theme-color);
+	color: var(--turqoise-theme-color);
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
 }
@@ -75,7 +75,7 @@
 }
 .calendar-day-plus {
 	background-color: transparent;
-	color: var(--blue-theme-color);
+	color: var(--turqoise-theme-color);
 	float: right;
 	margin: 4px;
 

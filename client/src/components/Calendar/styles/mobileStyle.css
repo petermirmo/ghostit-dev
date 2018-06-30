@@ -15,7 +15,7 @@
 	font-size: var(--extra-large-font-size);
 }
 .calendar-switch-month-button {
-	color: var(--blue-theme-color);
+	color: var(--turqoise-theme-color);
 	background-color: transparent;
 
 	transform: scale(0.8);
@@ -79,7 +79,7 @@
 }
 .calendar-day-plus {
 	background-color: transparent;
-	color: var(--blue-theme-color);
+	color: var(--turqoise-theme-color);
 	float: right;
 	margin-top: 4px;
 

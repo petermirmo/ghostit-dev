@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === "production") {
 		PostScheduler.main();
 	});
 
-	schedule.scheduleJob("0 0 1 * *", function() {
+	schedule.scheduleJob("0 0 * * 0", function() {
 		console.log("starting");
 		TokenScheduler.main();
 	});
