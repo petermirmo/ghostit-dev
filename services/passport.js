@@ -92,7 +92,12 @@ module.exports = function(passport) {
 							newUser.dateCreated = new Date();
 
 							newUser.save().then(user => {
-								sendEmail(result, "Your account is waiting for you.", "Welcome to Ghostit!", () => {});
+								sendEmail(
+									user,
+									"Your account is waiting for you. https://www.platform.ghostit.co",
+									"Welcome to Ghostit!",
+									() => {}
+								);
 								done(null, user, "Success!");
 							});
 						}
