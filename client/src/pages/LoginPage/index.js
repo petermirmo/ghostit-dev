@@ -63,6 +63,7 @@ class Login extends Component {
 						this.props.setUser(user);
 						this.props.updateAccounts(accounts);
 						this.props.changePage("content");
+						props.openHeaderSideBar(true);
 					});
 				} else {
 					this.notify({ message: message, type: "danger", title: "Something went wrong!" });
@@ -90,6 +91,7 @@ class Login extends Component {
 						this.props.updateAccounts([]);
 						this.props.setUser(user);
 						this.props.changePage("content");
+						props.openHeaderSideBar(true);
 					} else {
 						this.notify({ message: message, type: "danger", title: "Something went wrong!" });
 					}

@@ -47,7 +47,6 @@ module.exports = function(passport) {
 								user.password = user.tempPassword;
 								user.tempPassword = undefined;
 								user.save().then(result => {
-									sendEmail(result, result.email, "Your account is waiting for you.", "Welcome to Ghostit!", () => {});
 									return done(false, result, "Success");
 								});
 							} else {
@@ -92,7 +91,10 @@ module.exports = function(passport) {
 							newUser.website = req.body.website;
 							newUser.dateCreated = new Date();
 
-							newUser.save().then(user => done(null, user, "Success!"));
+							newUser.save().then(user => {
+								sendEmail(result, "Your account is waiting for you.", "Welcome to Ghostit!", () => {});
+								done(null, user, "Success!");
+							});
 						}
 					});
 				} else {

@@ -40,6 +40,7 @@ class Routes extends Component {
 					props.updateAccounts(accounts);
 					props.setUser(user);
 					props.changePage("content");
+					props.openHeaderSideBar(true);
 				});
 			}
 		});
