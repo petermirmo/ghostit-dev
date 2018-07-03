@@ -3,11 +3,14 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const TwitterStrategy = require("passport-twitter").Strategy;
 const LinkedInStrategy = require("passport-linkedin").Strategy;
 const bcrypt = require("bcrypt-nodejs");
+const nodemailer = require("nodemailer");
 
 const keys = require("../config/keys");
 
 const User = require("../models/User");
 const Account = require("../models/Account");
+
+const { sendEmail } = require("../MailFiles/sendEmail");
 
 module.exports = function(passport) {
 	passport.serializeUser((user, done) => {
@@ -44,6 +47,7 @@ module.exports = function(passport) {
 								user.password = user.tempPassword;
 								user.tempPassword = undefined;
 								user.save().then(result => {
+									sendEmail(result, result.email, "Your account is waiting for you.", "Welcome to Ghostit!", () => {});
 									return done(false, result, "Success");
 								});
 							} else {
