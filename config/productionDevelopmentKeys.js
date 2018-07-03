@@ -1,6 +1,4 @@
 module.exports = {
-	googleClientID: process.env.GOOGLE_CLIENT_ID,
-	googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
 	mongoDevelopentURI: process.env.MONGO_URI,
 	cookieKey: process.env.COOKIE_KEY,
 
@@ -24,5 +22,7 @@ module.exports = {
 	stripeSecretKey: process.env.STRIPE_SECRET_KEY,
 
 	email: process.env.EMAIL,
-	emailPassword: process.env.EMAIL_PASSWORD
+	googleClientId: process.env.GOOGLE_CLIENT_ID,
+	googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+	googleRefreshToken: process.env.GOOGLE_REFRESH_TOKEN
 };
