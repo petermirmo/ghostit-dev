@@ -29,6 +29,11 @@ module.exports = app => {
 		}
 		next();
 	};
+	app.get("/*", function(req, res, next) {
+		if (req.headers.host.match(/^www/) == null) res.redirect("http://www." + req.headers.host + req.url, 301);
+		else next();
+	});
+
 	// Login user
 	app.post("/api/login", (req, res, next) => {
 		passport.authenticate("local-login", function(err, user, message) {
