@@ -248,7 +248,10 @@ function mapStateToProps(state) {
 	return { activePage: state.activePage };
 }
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ changePage: changePage, setUser: setUser, updateAccounts: updateAccounts }, dispatch);
+	return bindActionCreators(
+		{ changePage: changePage, setUser: setUser, updateAccounts: updateAccounts, openHeaderSideBar: openHeaderSideBar },
+		dispatch
+	);
 }
 export default connect(
 	mapStateToProps,
