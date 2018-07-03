@@ -30,7 +30,7 @@ module.exports = app => {
 		next();
 	};
 	app.get("/*", function(req, res, next) {
-		if (req.headers.host.match(/^www/) == null) res.redirect("http://www." + req.headers.host + req.url, 301);
+		if (req.headers.host.match(/^www/) == null) res.redirect(301, "http://www." + req.headers.host + req.url);
 		else next();
 	});
 

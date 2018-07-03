@@ -2,12 +2,16 @@
 	background-color: var(--white-theme-color);
 
 	position: relative;
-	display: inline-block;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
 
 	margin-left: 15%;
 
 	width: 70%;
-	height: 80%;
+	height: 80vh;
+
+	margin-top: 10vh;
 
 	overflow: visible;
 

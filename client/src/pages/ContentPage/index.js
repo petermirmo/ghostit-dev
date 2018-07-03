@@ -22,7 +22,7 @@ class Content extends Component {
 		websitePosts: [],
 		newsletterPosts: [],
 
-		clickedDate: new Date(),
+		clickedDate: new moment(),
 
 		blogEdittingModal: false,
 		contentModal: false,
@@ -38,6 +38,7 @@ class Content extends Component {
 		},
 		timezone: ""
 	};
+
 	componentDidMount() {
 		this._ismounted = true;
 		axios.get("/api/timezone").then(res => {

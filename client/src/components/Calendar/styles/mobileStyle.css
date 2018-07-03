@@ -1,6 +1,6 @@
 .calendar-container {
 	overflow-x: hidden;
-	margin-bottom: 50px;
+	padding-bottom: 50px;
 }
 .calendar-header-container {
 	display: flex;

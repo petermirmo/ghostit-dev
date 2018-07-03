@@ -139,6 +139,7 @@ class PostingOptions extends Component {
 				}
 			}
 		}
+
 		return (
 			<div className="posting-form">
 				<Textarea
@@ -191,8 +192,8 @@ class PostingOptions extends Component {
 						<button
 							className="schedule-post-button"
 							onClick={() => {
-								date = date.utcOffset(0);
-								if (!postChecks(postingToAccountId, date, link, postImages, contentValue, maxCharacters)) {
+								let newDate = new moment(date).utcOffset(0);
+								if (!postChecks(postingToAccountId, newDate, link, postImages, contentValue, maxCharacters)) {
 									return;
 								}
 
@@ -201,7 +202,7 @@ class PostingOptions extends Component {
 								savePost(
 									id,
 									contentValue,
-									date,
+									newDate,
 									link,
 									linkImage,
 									postImages,
