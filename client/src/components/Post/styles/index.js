@@ -1,4 +1,4 @@
-let { mobileAndTabletcheck } = require("../../../../../extra/functions/CommonFunctions");
+let { mobileAndTabletcheck } = require("../../../extra/functions/CommonFunctions");
 
 if (mobileAndTabletcheck()) {
 	module.exports = require("./mobileStyle.css");

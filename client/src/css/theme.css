@@ -1,10 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Poppins);
 @import url(https://fonts.googleapis.com/css?family=Varela);
 @import url(https://fonts.googleapis.com/css?family=Lato);
 @import url(https://fonts.googleapis.com/css?family=Butterfly+Kids);
 
-@import url("htmlTags.css");
 :root {
 	--blue-theme-color: #00a8ff;
 	--green-theme-color: #4cd137;
@@ -40,19 +40,15 @@
 	--large-font-size: 13pt;
 	--extra-large-font-size: 17pt;
 	--gigantic-font-size: 20pt;
+	--medium-gigantic-font-size: 23pt;
 	--super-gigantic-font-size: 25pt;
 
-	--font-theme: "Lato";
+	--font-theme: "lato";
 }
 
 .wrapper {
 	padding: 0;
 	margin: 0;
-
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
 
 	position: relative;
 
@@ -66,10 +62,16 @@
 
 	right: 0;
 	top: 0;
+
 	width: 100%;
 
 	height: 100%;
 	min-height: 100vh;
+
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0, 0, 0);
 	background-color: rgba(0, 0, 0, 0.4);
@@ -87,10 +89,8 @@
 	-webkit-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
 	-o-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
 
-	-webkit-animation-name: animateright;
-	-webkit-animation-duration: 0.2s;
-	animation-name: animateright;
-	animation-duration: 0.2s;
+	-webkit-animation: animateright 0.2s;
+	animation: animateright 0.2s;
 
 	width: 50%;
 	margin: 10vh auto 200px auto;
@@ -373,4 +373,42 @@
 }
 .sign-out-of-clients-account:hover {
 	color: var(--dark-red-theme-color);
+}
+
+input {
+	outline: none;
+	border: 1px solid var(--grey-theme-color);
+
+	font-size: var(--twelve-font-size);
+	font-family: var(--font-theme);
+}
+input:focus {
+	border-color: var(--blue-theme-color);
+}
+body {
+	min-height: 100%;
+
+	padding: 0;
+	margin: 0;
+
+	font-family: var(--font-theme);
+	color: var(--black-theme-color);
+}
+
+button {
+	color: var(--white-theme-color);
+	font-family: var(--font-theme);
+	font-size: var(--regular-font-size);
+
+	cursor: pointer;
+	outline: 0;
+
+	border: none;
+}
+
+textarea {
+	font-size: var(--twelve-font-size);
+}
+textarea:focus {
+	border-color: var(--blue-theme-color);
 }

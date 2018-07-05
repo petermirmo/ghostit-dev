@@ -6,7 +6,7 @@ import axios from "axios";
 
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
-import CreateNewsletter from "./CreateNewsletter/";
+import CreateNewsletter from "../../../components/CreateNewsletter/";
 import Loader from "../../../components/Notifications/Loader/";
 import "./styles/";
 

@@ -6,11 +6,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage } from "../../../redux/actions/";
 
-import CreateBlog from "./CreateBlog/";
-import CreateNewsletter from "./CreateNewsletter/";
+import CreateBlog from "../../../components/CreateBlog/";
+import CreateNewsletter from "../../../components/CreateNewsletter/";
 import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Notifications/Loader/";
-import PostingOptions from "./PostingOptions";
+import Post from "../../../components/Post";
 import InstagramPosting from "./InstagramPosting";
 import "./styles/";
 
@@ -101,7 +101,7 @@ class ContentModal extends Component {
 					.indexOf(activeTab.name) !== -1
 			) {
 				modalBody = (
-					<PostingOptions
+					<Post
 						accounts={accounts}
 						clickedCalendarDate={clickedCalendarDate}
 						postFinishedSavingCallback={() => {

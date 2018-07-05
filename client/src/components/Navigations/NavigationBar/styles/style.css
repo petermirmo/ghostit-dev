@@ -1,17 +1,16 @@
 .navigation-container {
-	padding: 20px 0 10px 0;
+	position: relative;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	background-color: var(--light-light-blue-theme-color);
-	text-align: center;
+	padding: 30px 80px 10px 80px;
 }
 .navigation-option-container {
-	display: inline-block;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-
-	width: 15%;
-	padding-right: 5px;
-	padding-left: 5px;
-	margin-top: 4px;
+	flex-grow: 1;
+	margin: 0 10px 0 10px;
+	flex-basis: 0;
 }
 
 .nagivation-option {
@@ -19,11 +18,9 @@
 	background-color: var(--turqoise-theme-color);
 
 	cursor: pointer;
-	display: block;
+
 	border-radius: 4px;
-	overflow: hidden;
-	padding: 2px;
-	text-decoration: none;
+
 	text-align: center;
 	font-size: var(--large-font-size);
 	white-space: nowrap;
@@ -37,11 +34,9 @@
 
 .nagivation-option:hover:not(.active) {
 	background-color: var(--green-theme-color);
-	border: none;
 	transform: translateY(-2px);
 }
 .nagivation-option.active {
 	transform: translateY(-2px);
 	background-color: var(--blue-theme-color);
-	border: none;
 }

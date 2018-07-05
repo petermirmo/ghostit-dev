@@ -19,3 +19,12 @@ export const strategyFormFields = [
 	"notes",
 	"competitors"
 ];
+
+export const postingTypes = [
+	{ name: "facebook" },
+	{ name: "twitter", maxCharacters: 280 },
+	{ name: "linkedin", maxCharacters: 700 },
+	{ name: "blog" },
+	{ name: "newsletter" },
+	{ name: "instagram" }
+];

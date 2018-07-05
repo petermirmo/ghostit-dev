@@ -8,11 +8,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage, setUser, updateAccounts, openHeaderSideBar, openClientSideBar } from "./redux/actions/";
 
-import LoginPage from "./pages/LoginPage/";
-
 import Header from "./components/Navigations/Header/";
 import ClientsSideBar from "./components/SideBarClients/";
 
+import LoginPage from "./pages/LoginPage/";
 import Plans from "./pages/PlansPage/";
 import Content from "./pages/ContentPage/";
 import Strategy from "./pages/StrategyPage/";
@@ -39,7 +38,7 @@ class Routes extends Component {
 					if (!accounts) accounts = [];
 					props.updateAccounts(accounts);
 					props.setUser(user);
-					props.changePage("content");
+					props.changePage("analytics");
 					props.openHeaderSideBar(true);
 				});
 			}
@@ -75,6 +74,7 @@ class Routes extends Component {
 		}
 		let margin;
 		if (headerSideBar) margin = { marginLeft: "20%" };
+
 		return (
 			<div>
 				<div className="main-navigation-container">

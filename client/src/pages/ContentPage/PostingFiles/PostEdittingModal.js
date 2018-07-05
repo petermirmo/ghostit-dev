@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
-import PostingOptions from "./PostingOptions";
+import Post from "../../../components/Post";
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import Loader from "../../../components/Notifications/Loader/";
@@ -75,7 +75,7 @@ class PostEdittingModal extends Component {
 						<FontAwesomeIcon icon={faTimes} className="close" size="2x" onClick={() => close()} />
 					</div>
 					<div className="modal-body">
-						<PostingOptions
+						<Post
 							setSaving={this.setSaving}
 							post={clickedPost}
 							canEditPost={canEditPost}

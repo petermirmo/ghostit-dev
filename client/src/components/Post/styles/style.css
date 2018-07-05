@@ -1,0 +1,76 @@
+.posting-form {
+	padding: 20px 20px 0 20px;
+}
+.posting-textarea {
+	display: block;
+	min-height: 100px;
+	width: 100%;
+
+	resize: none;
+	outline: 0;
+
+	box-sizing: border-box;
+
+	border-left: 1px solid var(--grey-theme-color);
+	border-right: 1px solid var(--grey-theme-color);
+	border-top: 1px solid var(--grey-theme-color);
+	border-bottom: none;
+}
+.posting-textarea:focus {
+	border-color: var(--blue-theme-color);
+}
+.posting-textarea:focus + .post-images-and-carousel {
+	border-color: var(--blue-theme-color);
+}
+.post-images-and-carousel {
+	display: flex;
+	display: -webkit-flex;
+
+	align-items: center;
+	justify-content: center;
+
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+
+	width: stretch;
+
+	padding-top: 20px;
+
+	border-left: 1px solid var(--grey-theme-color);
+	border-right: 1px solid var(--grey-theme-color);
+	border-bottom: 1px solid var(--grey-theme-color);
+}
+.max-characters {
+	display: inline-block;
+	margin-left: 20px;
+}
+.time-picker-and-save-post {
+	display: flex;
+	display: -webkit-flex;
+
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+
+	margin-top: 20px;
+
+	width: 40%;
+	text-align: center;
+}
+.schedule-post-button {
+	position: relative;
+	font-size: var(--extra-large-font-size);
+
+	padding: 10px 0 10px 0;
+	margin-top: 10px;
+
+	min-width: 100%;
+
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+
+	border-radius: 100px;
+	background-color: var(--blue-theme-color);
+}
+.schedule-post-button:hover {
+	background-color: var(--dark-blue-theme-color);
+}

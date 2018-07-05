@@ -6,8 +6,8 @@ import moment from "moment-timezone";
 import axios from "axios";
 
 import NavigationBar from "../../components/Navigations/NavigationBar";
-import CreateBlog from "../ContentPage/PostingFiles/CreateBlog/";
-import CreateNewsletter from "../ContentPage/PostingFiles/CreateNewsletter/";
+import CreateBlog from "../../components/CreateBlog/";
+import CreateNewsletter from "../../components/CreateNewsletter/";
 import Loader from "../../components/Notifications/Loader/";
 import SearchColumn from "../../components/SearchColumn/";
 import DateTimePicker from "../../components/DateTimePicker/";

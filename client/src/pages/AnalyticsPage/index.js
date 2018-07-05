@@ -1,24 +1,26 @@
 import React, { Component } from "react";
 
 import OptionModal from "../../components/OptionModal";
+import CampaignModal from "../../components/CampaignModal";
 import "./styles/";
 
 class Analytics extends Component {
 	state = {
-		optionalModal: false
+		optionModal: false,
+		campaignModal: true
 	};
-	openSomething = boolean => {
-		this.setState({ optionalModal: boolean });
+	handleChange = (value, index) => {
+		this.setState({ [index]: value });
 	};
 	render() {
-		const { optionalModal } = this.state;
+		const { optionModal, campaignModal } = this.state;
 		return (
 			<div className="wrapper" style={this.props.margin}>
-				<div className="coming-soon center">Coming Soon!!!</div>
-				<button className="activate-test-button" onClick={() => this.openSomething(true)}>
+				<button className="activate-test-button" onClick={() => this.handleChange(true, "optionModal")}>
 					Click Here!
 				</button>
-				{optionalModal && <OptionModal something={this.openSomething} />}
+				{optionModal && <OptionModal handleChange={this.handleChange} />}
+				{campaignModal && <CampaignModal handleChange={this.handleChange} />}
 			</div>
 		);
 	}

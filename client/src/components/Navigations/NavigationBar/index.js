@@ -15,7 +15,7 @@ class NavBar extends Component {
 				</div>
 			);
 		}
-		return <ul className="navigation-container">{categoryDivs}</ul>;
+		return <div className="navigation-container">{categoryDivs}</div>;
 	}
 }
 

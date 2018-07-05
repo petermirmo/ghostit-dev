@@ -68,7 +68,7 @@ class InstagramPosting extends Component {
 
 		return (
 			<div>
-				<div className="coming-soon center">Coming Soon!!!</div>
+				<div className="connect-accounts-button center">Coming Soon!!!</div>
 			</div>
 		);
 	}

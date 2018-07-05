@@ -3,11 +3,11 @@ import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
 import axios from "axios";
 
-import DateTimePicker from "../../../components/DateTimePicker";
-import SelectAccountDiv from "../Divs/SelectAccountDiv/";
-import Carousel from "../Divs/Carousel";
-import ImagesDiv from "../Divs/ImagesDiv/";
-import { savePost, postChecks, carouselOptions } from "../../../extra/functions/CommonFunctions";
+import DateTimePicker from "../DateTimePicker";
+import SelectAccountDiv from "../SelectAccountDiv/";
+import Carousel from "../Carousel";
+import ImagesDiv from "../ImagesDiv/";
+import { savePost, postChecks, carouselOptions } from "../../extra/functions/CommonFunctions";
 
 class PostingOptions extends Component {
 	state = {

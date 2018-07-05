@@ -3,7 +3,7 @@ import Textarea from "react-textarea-autosize";
 import moment from "moment-timezone";
 import axios from "axios";
 
-import DateTimePicker from "../../../../components/DateTimePicker";
+import DateTimePicker from "../DateTimePicker";
 import "./styles/";
 
 class CreateNewsletter extends Component {

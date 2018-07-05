@@ -3,8 +3,8 @@ import Textarea from "react-textarea-autosize";
 import moment from "moment-timezone";
 import axios from "axios";
 
-import ImagesDiv from "../../Divs/ImagesDiv/";
-import DateTimePicker from "../../../../components/DateTimePicker";
+import ImagesDiv from "../ImagesDiv/";
+import DateTimePicker from "../DateTimePicker";
 import "./styles/";
 
 class CreateBlogComponent extends Component {
