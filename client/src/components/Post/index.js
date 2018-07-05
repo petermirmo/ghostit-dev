@@ -9,6 +9,8 @@ import Carousel from "../Carousel";
 import ImagesDiv from "../ImagesDiv/";
 import { savePost, postChecks, carouselOptions } from "../../extra/functions/CommonFunctions";
 
+import "./styles";
+
 class PostingOptions extends Component {
 	state = {
 		id: this.props.post ? this.props.post._id : undefined,
