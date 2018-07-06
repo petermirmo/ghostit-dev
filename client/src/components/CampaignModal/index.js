@@ -65,12 +65,23 @@ class CampaignModal extends Component {
 				</div>
 			);
 		}
+
 		let postDivs = [];
 		for (let index in posts) {
 			postDivs.push(
 				<div className="post-container" key={index + "post"}>
-					<Post dateLowerBound={startingDate} dateUpperBound={endDate} />
-
+					<Post
+						accounts={[]}
+						clickedCalendarDate={new moment()}
+						postFinishedSavingCallback={() => {}}
+						setSaving={() => {}}
+						socialType={"facebook"}
+						maxCharacters={undefined}
+						canEditPost={true}
+						timezone={"America/Vancouver"}
+						dateLowerBound={startingDate}
+						dateUpperBound={endDate}
+					/>
 					{index != posts.length - 1 && (
 						<div className="dots-plus-container">
 							<div className="dot1" />
