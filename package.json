@@ -42,6 +42,7 @@
 		"passport-local": "^1.0.0",
 		"passport-twitter": "^1.0.4",
 		"request": "^2.83.0",
+		"socket.io": "^2.1.1",
 		"stripe": "^5.8.0",
 		"twitter": "^1.7.1",
 		"xoauth2": "^1.2.0"

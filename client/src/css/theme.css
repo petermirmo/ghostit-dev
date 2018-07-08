@@ -408,7 +408,11 @@ button {
 
 textarea {
 	font-size: var(--twelve-font-size);
+	font-family: var(--font-theme);
 }
 textarea:focus {
 	border-color: var(--blue-theme-color);
+}
+div {
+	font-family: var(--font-theme);
 }

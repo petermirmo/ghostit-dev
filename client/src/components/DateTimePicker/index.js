@@ -3,7 +3,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faCaretDown from "@fortawesome/fontawesome-free-solid/faCaretDown";
 import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
-import moment from "moment";
+import moment from "moment-timezone";
 
 import "./styles/";
 

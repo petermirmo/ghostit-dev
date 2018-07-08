@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
-import moment from "moment";
+import moment from "moment-timezone";
+import io from "socket.io-client";
 
 import DateTimePicker from "../DateTimePicker";
 import Post from "../Post";
@@ -23,6 +24,20 @@ class CampaignModal extends Component {
 			color4: { className: "color4", border: "color4-border", active: false }
 		}
 	};
+	componentDidMount() {
+		this.initSocket();
+	}
+
+	initSocket = () => {
+		const { campaign } = this.state;
+		let socket;
+		if (process.env.NODE_ENV === "development") socket = io("http://localhost:5000");
+		else socket = io();
+
+		socket.emit("new_campaign", { campaign });
+
+		this.setState({ socket });
+	};
 
 	handleChange = (value, index, index2) => {
 		if (index2) {
@@ -33,11 +48,34 @@ class CampaignModal extends Component {
 		} else this.setState({ [index]: value });
 	};
 	newPost = () => {
-		const { posts } = this.state;
+		const { posts, socket } = this.state;
 		const { startingDate, endDate } = this.state.campaign;
 
-		posts.push(posts.length);
-		this.setState({ posts: posts });
+		posts.push(
+			<div className="post-container" key={posts.length + "post"}>
+				<Post
+					accounts={[]}
+					clickedCalendarDate={new moment()}
+					postFinishedSavingCallback={() => {}}
+					setSaving={() => {}}
+					socialType={"facebook"}
+					maxCharacters={undefined}
+					canEditPost={true}
+					timezone={"America/Vancouver"}
+					dateLowerBound={startingDate}
+					dateUpperBound={endDate}
+				/>
+				<div className="dots-plus-container">
+					<div className="dot1" />
+					<div className="dot2" />
+					<div className="dot3" />
+				</div>
+			</div>
+		);
+
+		socket.emit("new_post", post => {});
+
+		this.setState({ posts });
 	};
 
 	render() {
@@ -57,38 +95,11 @@ class CampaignModal extends Component {
 						}
 						colors[index].active = true;
 						colors[index].border += " active";
-						this.setState({ colors: colors });
+						this.setState({ colors });
 					}}
 					key={index}
 				>
 					<div className={color.className} />
-				</div>
-			);
-		}
-
-		let postDivs = [];
-		for (let index in posts) {
-			postDivs.push(
-				<div className="post-container" key={index + "post"}>
-					<Post
-						accounts={[]}
-						clickedCalendarDate={new moment()}
-						postFinishedSavingCallback={() => {}}
-						setSaving={() => {}}
-						socialType={"facebook"}
-						maxCharacters={undefined}
-						canEditPost={true}
-						timezone={"America/Vancouver"}
-						dateLowerBound={startingDate}
-						dateUpperBound={endDate}
-					/>
-					{index != posts.length - 1 && (
-						<div className="dots-plus-container">
-							<div className="dot1" />
-							<div className="dot2" />
-							<div className="dot3" />
-						</div>
-					)}
 				</div>
 			);
 		}
@@ -132,15 +143,9 @@ class CampaignModal extends Component {
 						</div>
 					</div>
 
-					<div className="posts-container">{postDivs}</div>
+					<div className="posts-container">{posts}</div>
 
-					<div className="dots-plus-container">
-						<div className="dot1" />
-						<div className="dot2" />
-						<div className="dot3" />
-
-						<FontAwesomeIcon icon={faPlus} className="plus-icon" onClick={this.newPost} />
-					</div>
+					<FontAwesomeIcon icon={faPlus} className="plus-icon" onClick={this.newPost} />
 				</div>
 			</div>
 		);

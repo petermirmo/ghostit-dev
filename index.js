@@ -11,6 +11,13 @@ const MongoStore = require("connect-mongo")(session);
 const User = require("./models/User");
 const secure = require("express-force-https");
 
+// Socket imports
+const path = require("path");
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+const SocketManager = require("./sockets/SocketManager");
+io.on("connection", SocketManager);
+
 // Image uploads
 const cloudinary = require("cloudinary");
 // Connect to cloudinary
@@ -76,4 +83,4 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+server.listen(PORT);
