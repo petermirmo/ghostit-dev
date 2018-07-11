@@ -79,7 +79,7 @@
 
 /* Modal Content */
 .modal-content {
-	position: relative;
+	position: fixed;
 	background-color: var(--white-theme-color);
 	margin: auto;
 	padding: 0;
@@ -325,7 +325,6 @@
 .date-picker:focus {
 	border: 1px solid var(--blue-theme-color);
 }
-
 .main-navigation-container {
 	padding: 0;
 	margin: 0;
@@ -355,6 +354,9 @@
 }
 
 .signed-in-as {
+	position: absolute;
+	top: 0;
+	z-index: 1;
 	width: 100%;
 	background-color: var(--green-theme-color);
 }

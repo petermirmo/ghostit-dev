@@ -11,7 +11,7 @@ import "./styles/";
 class CampaignModal extends Component {
 	state = {
 		campaign: {
-			startingDate: new moment(),
+			startDate: new moment(),
 			endDate: new moment(),
 			name: ""
 		},
@@ -31,10 +31,15 @@ class CampaignModal extends Component {
 	initSocket = () => {
 		const { campaign } = this.state;
 		let socket;
+
 		if (process.env.NODE_ENV === "development") socket = io("http://localhost:5000");
 		else socket = io();
 
-		socket.emit("new_campaign", { campaign });
+		socket.emit("new_campaign", campaign);
+
+		socket.on("campaign_saved", function(savedCampaign) {
+			console.log(savedCampaign);
+		});
 
 		this.setState({ socket });
 	};
@@ -49,7 +54,7 @@ class CampaignModal extends Component {
 	};
 	newPost = () => {
 		const { posts, socket } = this.state;
-		const { startingDate, endDate } = this.state.campaign;
+		const { startDate, endDate } = this.state.campaign;
 
 		posts.push(
 			<div className="post-container" key={posts.length + "post"}>
@@ -62,7 +67,7 @@ class CampaignModal extends Component {
 					maxCharacters={undefined}
 					canEditPost={true}
 					timezone={"America/Vancouver"}
-					dateLowerBound={startingDate}
+					dateLowerBound={startDate}
 					dateUpperBound={endDate}
 				/>
 				<div className="dots-plus-container">
@@ -80,7 +85,7 @@ class CampaignModal extends Component {
 
 	render() {
 		const { colors, posts } = this.state;
-		const { startingDate, endDate, name } = this.state.campaign;
+		const { startDate, endDate, name } = this.state.campaign;
 
 		let colorDivs = [];
 		for (let index in colors) {
@@ -127,9 +132,9 @@ class CampaignModal extends Component {
 							<div className="date-and-label-container">
 								<div>Campaign Start Date:</div>
 								<DateTimePicker
-									date={startingDate}
+									date={startDate}
 									dateFormat="MMMM Do YYYY hh:mm A"
-									onChange={date => this.handleChange(date, "campaign", "startingDate")}
+									onChange={date => this.handleChange(date, "campaign", "startDate")}
 								/>
 							</div>
 							<div className="date-and-label-container">

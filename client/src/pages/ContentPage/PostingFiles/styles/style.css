@@ -1,7 +1,7 @@
 .content-modal {
 	background-color: var(--white-theme-color);
 
-	position: relative;
+	position: fixed;
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
