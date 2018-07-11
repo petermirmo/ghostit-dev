@@ -36,7 +36,7 @@ class SelectAccountDiv extends Component {
 				color = "#0077b5";
 			}
 			accountsListDiv.push(
-				<div className={className} onClick={event => handleChange(account, "postingToAccountId")} key={index}>
+				<div className={className} onClick={event => handleChange(account)} key={index}>
 					<span className="account-icon">
 						<FontAwesomeIcon icon={icon} size="3x" color={color} />
 					</span>

@@ -2,12 +2,11 @@
 	background-color: var(--white-theme-color);
 
 	position: fixed;
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-start;
 
+	display: flex;
+	justify-content: space-between;
 	width: 70%;
-	height: 80vh;
+	min-height: 80vh;
 
 	margin-top: 10vh;
 
@@ -24,9 +23,14 @@
 	animation-duration: 0.2s;
 }
 .content-modal-header {
-	display: inline-block;
-	overflow: auto;
-	height: 100%;
+	display: flex;
+
+	justify-content: space-between;
+	align-items: stretch;
+
+	flex-direction: column;
+
+	min-height: 100%;
 	min-width: 20%;
 }
 .account-tab {
@@ -37,7 +41,7 @@
 	justify-content: center;
 
 	width: stretch;
-	min-height: 15%;
+	height: 100%;
 
 	color: var(--black-theme-color);
 	background-color: var(--super-light-blue-theme-color);
@@ -52,9 +56,6 @@
 	border-right: 4px solid var(--blue-theme-color);
 }
 .content-modal-body {
-	display: inline-block;
-
-	float: right;
 	width: 80%;
 	height: 100%;
 }

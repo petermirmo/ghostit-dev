@@ -33,7 +33,7 @@ class ImagesDiv extends Component {
 					imagePreviewUrl: reader.result
 				});
 
-				this.props.handleChange(temp, "images");
+				this.props.handleChange(temp);
 			};
 
 			reader.readAsDataURL(image);
@@ -50,7 +50,7 @@ class ImagesDiv extends Component {
 		postImages.splice(index, 1);
 
 		// Update state
-		this.props.handleChange(postImages, "images");
+		this.props.handleChange(postImages);
 	};
 
 	render() {

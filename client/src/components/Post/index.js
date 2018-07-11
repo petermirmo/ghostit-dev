@@ -49,7 +49,7 @@ class PostingOptions extends Component {
 		this._ismounted = false;
 	}
 
-	handleChange = (index, value) => {
+	handleChange = (value, index) => {
 		if (this._ismounted)
 			this.setState({
 				[index]: value
@@ -138,15 +138,15 @@ class PostingOptions extends Component {
 					placeholder="Success doesn't write itself!"
 					onChange={event => {
 						this.findLink(event.target.value);
-						this.handleChange("contentValue", event.target.value);
+						this.handleChange(event.target.value, "contentValue");
 					}}
 					value={contentValue}
 					readOnly={!canEditPost}
 				/>
 				<div className="post-images-and-carousel">
 					<ImagesDiv
-						images={images}
-						setPostImages={this.handleChange}
+						postImages={images}
+						handleChange={images => this.handleChange(images, "images")}
 						imageLimit={4}
 						canEdit={canEditPost}
 						pushToImageDeleteArray={this.pushToImageDeleteArray}
@@ -157,7 +157,7 @@ class PostingOptions extends Component {
 								linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
 								linkImagesArray={linkImagesArray}
 								linkImage={linkImage}
-								handleChange={this.handleChange}
+								handleChange={image => this.handleChange(image, "linkImage")}
 							/>
 						)}
 				</div>
@@ -166,14 +166,14 @@ class PostingOptions extends Component {
 				<SelectAccountDiv
 					activePageAccountsArray={activePageAccountsArray}
 					activeAccount={postingToAccountId}
-					setActiveAccount={this.handleChange}
+					handleChange={account => this.handleChange(account._id, "postingToAccountId")}
 					canEdit={canEditPost}
 				/>
 				<div className="time-picker-and-save-post">
 					<DateTimePicker
 						date={date}
 						dateFormat="MMMM Do YYYY hh:mm A"
-						onChange={date => this.handleChange("date", date)}
+						handleChange={date => this.handleChange(date, "date")}
 						style={{
 							bottom: "-80px"
 						}}

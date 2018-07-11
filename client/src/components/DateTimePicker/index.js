@@ -108,7 +108,7 @@ class DatePicker extends Component {
 			}
 
 			calendarDayArray.push(
-				<div className={className} onClick={() => this.props.onChange(calendarDay)} key={index + "day"}>
+				<div className={className} onClick={() => this.props.handleChange(calendarDay)} key={index + "day"}>
 					<div className="date-picker-date">{calendarDay.date()}</div>
 				</div>
 			);
@@ -119,13 +119,13 @@ class DatePicker extends Component {
 	addMonth = () => {
 		let { date } = this.props;
 		date.add(1, "months");
-		this.props.onChange(date);
+		this.props.handleChange(date);
 	};
 
 	subtractMonth = () => {
 		let { date } = this.props;
 		date.subtract(1, "months");
-		this.props.onChange(date);
+		this.props.handleChange(date);
 	};
 	hourDropdown = date => {
 		let tempDate = new moment(date);
@@ -138,7 +138,7 @@ class DatePicker extends Component {
 			let newDate = new moment(tempDate.hours(index + extraHours));
 
 			hourDivs.push(
-				<div className="time-dropdown-item" key={index + "hour"} onClick={() => this.props.onChange(newDate)}>
+				<div className="time-dropdown-item" key={index + "hour"} onClick={() => this.props.handleChange(newDate)}>
 					{tempDate.format("h")}
 				</div>
 			);
@@ -154,7 +154,7 @@ class DatePicker extends Component {
 			let newDate = new moment(tempDate.minutes(index));
 
 			minuteDivs.push(
-				<div className="time-dropdown-item" key={index + "minute"} onClick={() => this.props.onChange(newDate)}>
+				<div className="time-dropdown-item" key={index + "minute"} onClick={() => this.props.handleChange(newDate)}>
 					{tempDate.format("mm")}
 				</div>
 			);
@@ -171,7 +171,7 @@ class DatePicker extends Component {
 		let newDate = new moment(tempDate);
 		if (!isAM) newDate = new moment(tempDate.subtract(12, "hours"));
 		minuteDivs.push(
-			<div className="time-dropdown-item" key="am" onClick={() => this.props.onChange(newDate)}>
+			<div className="time-dropdown-item" key="am" onClick={() => this.props.handleChange(newDate)}>
 				{newDate.format("A")}
 			</div>
 		);
@@ -180,7 +180,7 @@ class DatePicker extends Component {
 		if (isAM) newDate2 = new moment(newDate).add(12, "hours");
 
 		minuteDivs.push(
-			<div className="time-dropdown-item" key="pm" onClick={() => this.props.onChange(newDate2)}>
+			<div className="time-dropdown-item" key="pm" onClick={() => this.props.handleChange(newDate2)}>
 				{newDate2.format("A")}
 			</div>
 		);

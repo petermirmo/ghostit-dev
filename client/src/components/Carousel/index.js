@@ -29,7 +29,7 @@ class Carousel extends Component {
 		} else if (activeImageIndex <= 0) {
 			activeImageIndex = linkImagesArray.length - 1;
 		}
-		this.props.handleChange("linkImage", linkImagesArray[activeImageIndex]);
+		this.props.handleChange(linkImagesArray[activeImageIndex]);
 		this.setState({ activeImageIndex: activeImageIndex });
 	};
 	render() {
