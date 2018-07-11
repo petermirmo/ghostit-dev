@@ -25,14 +25,14 @@ class CreateBlogComponent extends Component {
 					dueDate: this.props.postingDate,
 					postingDate: this.props.postingDate
 			  },
-		blogImages: [],
+		images: [],
 		blogFile: {},
 		imagesToDelete: [],
 		saving: false
 	};
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.blog) {
-			this.setState({ blog: nextProps.blog, blogImages: [], blogFile: {}, imagesToDelete: [], saving: false });
+			this.setState({ blog: nextProps.blog, images: [], blogFile: {}, imagesToDelete: [], saving: false });
 		} else {
 			this.setState({
 				blog: {
@@ -49,7 +49,7 @@ class CreateBlogComponent extends Component {
 					dueDate: nextProps.postingDate,
 					postingDate: nextProps.postingDate
 				},
-				blogImages: [],
+				images: [],
 				blogFile: {},
 				imagesToDelete: [],
 				saving: false
@@ -58,7 +58,7 @@ class CreateBlogComponent extends Component {
 	}
 
 	saveBlog = () => {
-		let { blog, imagesToDelete, blogImages, blogFile } = this.state;
+		let { blog, imagesToDelete, images, blogFile } = this.state;
 
 		this.props.setSaving();
 
@@ -70,17 +70,15 @@ class CreateBlogComponent extends Component {
 		// Check if we are updating a blog or creating a new blog
 
 		if (!blog._id) {
-			axios
-				.post("/api/blog", { blog: blog, blogImages: blogImages, blogFile: blogFile, blogFileName: blogFile.name })
-				.then(res => {
-					this.props.callback();
-				});
+			axios.post("/api/blog", { blog, images, blogFile, blogFileName: blogFile.name }).then(res => {
+				this.props.callback();
+			});
 		} else {
 			axios
 				.post("/api/blog/" + blog._id, {
-					blog: blog,
-					blogImages: blogImages,
-					blogFile: blogFile,
+					blog,
+					images,
+					blogFile,
 					blogFileName: blogFile.name
 				})
 				.then(res => {
@@ -107,7 +105,7 @@ class CreateBlogComponent extends Component {
 
 		reader.onloadend = () => {
 			blogFile.localPath = reader.result;
-			this.setState({ blogFile: blogFile });
+			this.setState({ blogFile });
 		};
 
 		reader.readAsDataURL(blogFile);
@@ -124,18 +122,16 @@ class CreateBlogComponent extends Component {
 		}
 		this.setState({ blog: blog });
 	};
-	setPostImages = imagesArray => {
-		this.setState({ blogImages: imagesArray });
-	};
+
 	pushToImageDeleteArray = image => {
 		let { imagesToDelete, blog } = this.state;
 		imagesToDelete.push(image);
 		blog.image = undefined;
-		this.setState({ imagesToDelete: imagesToDelete, blog: blog, blogImages: [] });
+		this.setState({ imagesToDelete: imagesToDelete, blog: blog, images: [] });
 	};
 
 	render() {
-		const { blog, blogFile, blogImages } = this.state;
+		const { blog, blogFile, images } = this.state;
 		let { postingDate, dueDate } = blog;
 
 		postingDate = new moment(postingDate);
@@ -152,11 +148,11 @@ class CreateBlogComponent extends Component {
 		if (blogFile.name) {
 			fileDiv = <h4 className="uploaded-file">{blogFile.name}</h4>;
 		}
-		let images = [];
+		let imagesTemp = [];
 		if (blog.image) {
-			images.push(blog.image);
-		} else if (blogImages) {
-			images = blogImages;
+			imagesTemp.push(blog.image);
+		} else if (images) {
+			imagesTemp = images;
 		}
 		return (
 			<div className="modal-body">
@@ -265,10 +261,10 @@ class CreateBlogComponent extends Component {
 					</div>
 					<div className="image-file-save-container">
 						<ImagesDiv
-							postImages={images}
+							postImages={imagesTemp}
 							setPostImages={this.setPostImages}
 							imageLimit={1}
-							divID={"blogImagesDiv"}
+							divID={"imagesDiv"}
 							pushToImageDeleteArray={this.pushToImageDeleteArray}
 							canEdit={true}
 						/>

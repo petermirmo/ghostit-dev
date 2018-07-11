@@ -119,7 +119,7 @@ class HeaderSideBar extends Component {
 					activePage === "subscribe" ||
 					activePage === "accounts") &&
 					user.signedInAsUser && (
-						<div className="signed-in-as center">
+						<div className="signed-in-as-header center">
 							<p>Logged in as: {user.signedInAsUser.fullName}</p>
 							<FontAwesomeIcon
 								icon={faTimes}

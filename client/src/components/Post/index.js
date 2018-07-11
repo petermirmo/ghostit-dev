@@ -17,7 +17,7 @@ class PostingOptions extends Component {
 		postingToAccountId: this.props.post ? this.props.post.accountID : "",
 		link: this.props.post ? this.props.post.link : "",
 		linkImage: this.props.post ? this.props.post.linkImage : "",
-		postImages: this.props.post ? this.props.post.images : [],
+		images: this.props.post ? this.props.post.images : [],
 		accountType: this.props.post ? this.props.post.accountType : "",
 		socialType: this.props.post ? this.props.post.socialType : this.props.socialType,
 		contentValue: this.props.post ? this.props.post.content : "",
@@ -33,7 +33,7 @@ class PostingOptions extends Component {
 				postingToAccountId: nextProps.post ? nextProps.post.accountID : "",
 				link: nextProps.post ? nextProps.post.link : "",
 				linkImage: nextProps.post ? nextProps.post.linkImage : "",
-				postImages: nextProps.post ? nextProps.post.images : [],
+				images: nextProps.post ? nextProps.post.images : [],
 				accountType: nextProps.post ? nextProps.post.accountType : "",
 				socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
 				contentValue: nextProps.post ? nextProps.post.content : "",
@@ -49,10 +49,6 @@ class PostingOptions extends Component {
 		this._ismounted = false;
 	}
 
-	setPostImages = imagesArray => {
-		if (this._ismounted) this.setState({ postImages: imagesArray });
-	};
-
 	handleChange = (index, value) => {
 		if (this._ismounted)
 			this.setState({
@@ -60,13 +56,6 @@ class PostingOptions extends Component {
 			});
 	};
 
-	updatePostingAccount = account => {
-		if (this._ismounted)
-			this.setState({
-				postingToAccountId: account._id,
-				accountType: account.accountType
-			});
-	};
 	pushToImageDeleteArray = image => {
 		let temp = this.state.deleteImagesArray;
 		temp.push(image);
@@ -110,7 +99,7 @@ class PostingOptions extends Component {
 			link,
 			linkImage,
 			linkImagesArray,
-			postImages,
+			images,
 			postingToAccountId,
 			accountType,
 			socialType,
@@ -156,8 +145,8 @@ class PostingOptions extends Component {
 				/>
 				<div className="post-images-and-carousel">
 					<ImagesDiv
-						postImages={postImages}
-						setPostImages={this.setPostImages}
+						images={images}
+						setPostImages={this.handleChange}
 						imageLimit={4}
 						canEdit={canEditPost}
 						pushToImageDeleteArray={this.pushToImageDeleteArray}
@@ -177,7 +166,7 @@ class PostingOptions extends Component {
 				<SelectAccountDiv
 					activePageAccountsArray={activePageAccountsArray}
 					activeAccount={postingToAccountId}
-					setActiveAccount={this.updatePostingAccount}
+					setActiveAccount={this.handleChange}
 					canEdit={canEditPost}
 				/>
 				<div className="time-picker-and-save-post">
@@ -195,7 +184,7 @@ class PostingOptions extends Component {
 							className="schedule-post-button"
 							onClick={() => {
 								let newDate = new moment(date).utcOffset(0);
-								if (!postChecks(postingToAccountId, newDate, link, postImages, contentValue, maxCharacters)) {
+								if (!postChecks(postingToAccountId, newDate, link, images, contentValue, maxCharacters)) {
 									return;
 								}
 
@@ -207,7 +196,7 @@ class PostingOptions extends Component {
 									newDate,
 									link,
 									linkImage,
-									postImages,
+									images,
 									postingToAccountId,
 									socialType,
 									accountType,

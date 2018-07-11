@@ -10,7 +10,7 @@ import "./styles/";
 class SelectAccountDiv extends Component {
 	render() {
 		let accountsListDiv = [];
-		const { activePageAccountsArray, activeAccount, setActiveAccount, canEdit } = this.props;
+		const { activePageAccountsArray, activeAccount, handleChange, canEdit } = this.props;
 		// To select which account to post to
 		for (let index in activePageAccountsArray) {
 			let name;
@@ -36,7 +36,7 @@ class SelectAccountDiv extends Component {
 				color = "#0077b5";
 			}
 			accountsListDiv.push(
-				<div className={className} onClick={event => setActiveAccount(account)} key={index}>
+				<div className={className} onClick={event => handleChange(account, "postingToAccountId")} key={index}>
 					<span className="account-icon">
 						<FontAwesomeIcon icon={icon} size="3x" color={color} />
 					</span>
