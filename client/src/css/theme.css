@@ -81,16 +81,9 @@
 .modal-content {
 	position: fixed;
 	background-color: var(--white-theme-color);
-	margin: auto;
-	padding: 0;
 
-	box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
-	-moz-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
-	-webkit-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
-	-o-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
-
-	-webkit-animation: animateright 0.2s;
-	animation: animateright 0.2s;
+	-webkit-animation: animateOpacity 0.2s;
+	animation: animateOpacity 0.2s;
 
 	width: 50%;
 	margin: 10vh auto 200px auto;
@@ -124,6 +117,14 @@
 	}
 }
 
+@keyframes animateOpacity {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
 @keyframes animateright {
 	from {
 		right: -50px;

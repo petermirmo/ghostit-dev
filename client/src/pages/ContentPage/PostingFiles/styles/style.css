@@ -17,10 +17,8 @@
 	-webkit-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
 	-o-box-shadow: 0 0 50px 10px rgba(0, 0, 0, 0.2);
 
-	-webkit-animation-name: animateright;
-	-webkit-animation-duration: 0.2s;
-	animation-name: animateright;
-	animation-duration: 0.2s;
+	-webkit-animation: animateOpacity 0.2s;
+	animation: animateOpacity 0.2s;
 }
 .content-modal-header {
 	display: flex;
