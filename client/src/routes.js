@@ -38,7 +38,7 @@ class Routes extends Component {
 					if (!accounts) accounts = [];
 					props.updateAccounts(accounts);
 					props.setUser(user);
-					props.changePage("analytics");
+					props.changePage("content");
 					props.openHeaderSideBar(true);
 				});
 			}
