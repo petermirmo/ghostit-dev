@@ -166,7 +166,10 @@ class PostingOptions extends Component {
 				<SelectAccountDiv
 					activePageAccountsArray={activePageAccountsArray}
 					activeAccount={postingToAccountId}
-					handleChange={account => this.handleChange(account._id, "postingToAccountId")}
+					handleChange={account => {
+						this.handleChange(account._id, "postingToAccountId");
+						this.handleChange(account.accountType, "accountType");
+					}}
 					canEdit={canEditPost}
 				/>
 				<div className="time-picker-and-save-post">

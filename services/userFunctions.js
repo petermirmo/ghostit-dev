@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Plan = require("../models/Plan");
+const Post = require("../models/Post");
 
 module.exports = {
 	updateUser: function(req, res) {

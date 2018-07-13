@@ -60,6 +60,7 @@ class Login extends Component {
 					// Get all connected accounts of the user
 					axios.get("/api/accounts").then(res => {
 						let { accounts } = res.data;
+						if (!accounts) accounts = [];
 						this.props.setUser(user);
 						this.props.updateAccounts(accounts);
 						this.props.changePage("content");
