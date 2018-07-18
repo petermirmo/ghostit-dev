@@ -1,15 +1,23 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const passport = require("passport");
+const mongoose = require("mongoose"); // Connect to mongo
+const passport = require("passport"); // For Login and Register
 const keys = require("./config/keys");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const session = require("express-session");
+const bodyParser = require("body-parser"); // Needer for auth to read frontend cookies
+const morgan = require("morgan"); // Every request is console logged
+const session = require("express-session"); // Create sessions in backend
 const cookieParser = require("cookie-parser");
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo")(session); // Store sessions in mongo securely
 const User = require("./models/User");
-const secure = require("express-force-https");
+const secure = require("express-force-https"); // force https so http does not work
+
+var allowCrossDomain = function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+	res.header("Access-Control-Allow-Headers", "Content-Type");
+	next();
+};
+app.use(allowCrossDomain);
 
 // Socket imports
 const path = require("path");
@@ -26,14 +34,6 @@ cloudinary.config({
 	api_key: keys.cloudinaryApiKey,
 	api_secret: keys.cloudinaryApiSecret
 });
-
-var allowCrossDomain = function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-	res.header("Access-Control-Allow-Headers", "Content-Type");
-	next();
-};
-app.use(allowCrossDomain);
 
 // Post scheduler
 const PostScheduler = require("./scheduler/PostScheduler");

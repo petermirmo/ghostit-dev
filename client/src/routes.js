@@ -27,6 +27,7 @@ import "./css/";
 class Routes extends Component {
 	constructor(props) {
 		super(props);
+
 		axios.get("/api/user").then(res => {
 			let { success, user } = res.data;
 

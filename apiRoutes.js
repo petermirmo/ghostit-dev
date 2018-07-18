@@ -29,10 +29,6 @@ module.exports = app => {
 		}
 		next();
 	};
-	app.get("/*", function(req, res, next) {
-		if (req.headers.host.match(/^www/) == null) res.redirect(301, "http://www." + req.headers.host + req.url);
-		else next();
-	});
 
 	// Login user
 	app.post("/api/login", (req, res, next) => {
