@@ -29,7 +29,8 @@ export async function savePost(
 	socialType,
 	accountType,
 	callback,
-	deleteImagesArray
+	deleteImagesArray,
+	campaignID
 ) {
 	if (deleteImagesArray) {
 		if (deleteImagesArray.length !== 0) {
@@ -54,12 +55,13 @@ export async function savePost(
 		.post("/api/post", {
 			id: id,
 			accountID: accountIdToPostTo,
-			content: content,
+			content,
 			postingDate: dateToPostInUtcTime,
-			link: link,
+			link,
 			linkImage: linkPreviewImage,
-			accountType: accountType,
-			socialType: socialType
+			accountType,
+			socialType,
+			campaignID
 		})
 		.then(res => {
 			// Now we need to save images for post, Images are saved after post
@@ -81,10 +83,10 @@ export async function savePost(
 
 					// Make post request for images
 					axios.post("/api/post/images", { postID: post._id, images: test }).then(res => {
-						callback();
+						callback(post);
 					});
 				} else {
-					callback();
+					callback(post);
 				}
 			} else {
 				if (loggedIn === false) window.location.reload();

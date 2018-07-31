@@ -3,6 +3,9 @@ import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
 import axios from "axios";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import DateTimePicker from "../DateTimePicker";
 import SelectAccountDiv from "../SelectAccountDiv/";
 import Carousel from "../Carousel";
@@ -21,25 +24,31 @@ class PostingOptions extends Component {
 		accountType: this.props.post ? this.props.post.accountType : "",
 		socialType: this.props.post ? this.props.post.socialType : this.props.socialType,
 		contentValue: this.props.post ? this.props.post.content : "",
-		date: this.props.post ? moment(this.props.post.postingDate) : this.props.clickedCalendarDate,
+		date: this.props.post
+			? new moment(this.props.post.postingDate)
+			: new moment() > new moment(this.props.clickedCalendarDate)
+				? new moment()
+				: new moment(this.props.clickedCalendarDate),
 		deleteImagesArray: [],
 		linkImagesArray: [],
-		timezone: this.props.timezone
+		timezone: this.props.timezone,
+		somethingChanged: false
 	};
 	componentWillReceiveProps(nextProps) {
-		if (this._ismounted)
-			this.setState({
-				id: nextProps.post ? nextProps.post._id : undefined,
-				postingToAccountId: nextProps.post ? nextProps.post.accountID : "",
-				link: nextProps.post ? nextProps.post.link : "",
-				linkImage: nextProps.post ? nextProps.post.linkImage : "",
-				images: nextProps.post ? nextProps.post.images : [],
-				accountType: nextProps.post ? nextProps.post.accountType : "",
-				socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
-				contentValue: nextProps.post ? nextProps.post.content : "",
-				date: nextProps.post ? moment(nextProps.post.postingDate) : nextProps.clickedCalendarDate,
-				linkImagesArray: []
-			});
+		if (nextProps.campaignID) {
+			let { campaignDateLowerBound, campaignDateUpperBound } = nextProps;
+			let { date } = this.state;
+			if (campaignDateLowerBound) {
+				if (new moment(campaignDateLowerBound) > new moment(date)) {
+					this.setState({ date: new moment(campaignDateLowerBound) });
+				}
+			}
+			if (campaignDateUpperBound) {
+				if (new moment(campaignDateUpperBound) < new moment(date)) {
+					this.setState({ date: new moment(campaignDateUpperBound) });
+				}
+			}
+		}
 	}
 	componentDidMount() {
 		this._ismounted = true;
@@ -52,7 +61,8 @@ class PostingOptions extends Component {
 	handleChange = (value, index) => {
 		if (this._ismounted)
 			this.setState({
-				[index]: value
+				[index]: value,
+				somethingChanged: true
 			});
 	};
 
@@ -103,11 +113,12 @@ class PostingOptions extends Component {
 			postingToAccountId,
 			accountType,
 			socialType,
-			deleteImagesArray
+			deleteImagesArray,
+			somethingChanged
 		} = this.state;
 		let { date } = this.state;
 
-		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
+		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters, campaignID } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
 
 		const linkPreviewCanShow = returnOfCarouselOptions[0];
@@ -181,39 +192,51 @@ class PostingOptions extends Component {
 							bottom: "-80px"
 						}}
 						canEdit={canEditPost}
+						dateLowerBound={campaignID ? new moment(this.props.campaignDateLowerBound) : undefined}
+						dateUpperBound={campaignID ? new moment(this.props.campaignDateUpperBound) : undefined}
 					/>
-					{canEditPost && (
-						<button
-							className="schedule-post-button"
-							onClick={() => {
-								let newDate = new moment(date).utcOffset(0);
-								if (!postChecks(postingToAccountId, newDate, link, images, contentValue, maxCharacters)) {
-									return;
-								}
+					{canEditPost &&
+						somethingChanged && (
+							<button
+								className="schedule-post-button"
+								onClick={() => {
+									let newDate = new moment(date).utcOffset(0);
+									if (!postChecks(postingToAccountId, newDate, link, images, contentValue, maxCharacters)) {
+										return;
+									}
 
-								setSaving();
+									setSaving();
 
-								savePost(
-									id,
-									contentValue,
-									newDate,
-									link,
-									linkImage,
-									images,
-									postingToAccountId,
-									socialType,
-									accountType,
-									postFinishedSavingCallback,
-									deleteImagesArray
-								);
-							}}
-						>
-							Schedule Post!
-						</button>
-					)}
+									savePost(
+										id,
+										contentValue,
+										newDate,
+										link,
+										linkImage,
+										images,
+										postingToAccountId,
+										socialType,
+										accountType,
+										postFinishedSavingCallback,
+										deleteImagesArray,
+										campaignID
+									);
+									this.setState({ somethingChanged: false });
+								}}
+							>
+								Schedule Post!
+							</button>
+						)}
 				</div>
 			</div>
 		);
 	}
 }
-export default PostingOptions;
+
+function mapStateToProps(state) {
+	return {
+		campaignDateLowerBound: state.campaignDateLowerBound,
+		campaignDateUpperBound: state.campaignDateUpperBound
+	};
+}
+export default connect(mapStateToProps)(PostingOptions);

@@ -1,46 +1,97 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+
 import moment from "moment-timezone";
 import io from "socket.io-client";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { changeCampaignDateLowerBound, changeCampaignDateUpperBound } from "../../redux/actions/";
+
 import DateTimePicker from "../DateTimePicker";
 import Post from "../Post";
+import Loader from "../Notifications/Loader";
+import ConfirmAlert from "../Notifications/ConfirmAlert/";
+
 import "./styles/";
 
 class CampaignModal extends Component {
 	state = {
-		campaign: {
-			startDate: new moment(),
-			endDate: new moment(),
-			name: ""
-		},
+		campaign: this.props.campaign
+			? this.props.campaign
+			: {
+					startDate:
+						new moment() > new moment(this.props.clickedCalendarDate)
+							? new moment()
+							: new moment(this.props.clickedCalendarDate),
+					endDate:
+						new moment() > new moment(this.props.clickedCalendarDate)
+							? new moment()
+							: new moment(this.props.clickedCalendarDate),
+					name: "",
+					userID: this.props.user._id,
+					color: "var(--campaign-color1)"
+			  },
 		posts: [],
 		postIndex: undefined,
 		colors: {
-			color1: { className: "color1", border: "color1-border", active: false },
-			color2: { className: "color2", border: "color2-border", active: false },
-			color3: { className: "color3", border: "color3-border", active: false },
-			color4: { className: "color4", border: "color4-border", active: false }
-		}
+			color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1" },
+			color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2" },
+			color3: { className: "color3", border: "color3-border", color: "var(--campaign-color3" },
+			color4: { className: "color4", border: "color4-border", color: "var(--campaign-color4" }
+		},
+		saving: true,
+		postAccountPicker: false,
+		somethingChanged: false,
+		confirmDelete: false
 	};
 	componentDidMount() {
 		this.initSocket();
+
+		let { campaign, changeCampaignDateLowerBound, changeCampaignDateUpperBound } = this.props;
+		if (campaign) {
+			if (campaign.posts) {
+				for (let index in campaign.posts) {
+					let post = campaign.posts[index];
+					if (post.socialType === "facebook") this.newPost("facebook", undefined, post);
+					else if (post.socialType === "linkedin") this.newPost("linkedin", 700, post);
+					else if (post.socialType === "twitter") this.newPost("twitter", 280, post);
+				}
+			}
+		}
+
+		changeCampaignDateLowerBound(this.state.campaign.startDate);
+		changeCampaignDateUpperBound(this.state.campaign.endDate);
 	}
 
 	initSocket = () => {
-		const { campaign } = this.state;
+		let { campaign, somethingChanged } = this.state;
 		let socket;
 
 		if (process.env.NODE_ENV === "development") socket = io("http://localhost:5000");
 		else socket = io();
 
-		socket.emit("new_campaign", campaign);
+		if (!this.props.campaign) {
+			socket.emit("new_campaign", campaign);
 
-		socket.on("campaign_saved", function(savedCampaign) {
-			console.log(savedCampaign);
-		});
+			socket.on("new_campaign_saved", campaignID => {
+				campaign._id = campaignID;
 
+				this.setState({ campaign, saving: false });
+			});
+		} else this.setState({ saving: false });
+
+		setInterval(() => {
+			let { campaign, somethingChanged, socket } = this.state;
+
+			if (somethingChanged && campaign && socket) {
+				socket.emit("campaign_editted", campaign);
+				socket.on("campaign_saved", emitObject => {});
+			}
+		}, 1000);
 		this.setState({ socket });
 	};
 
@@ -50,25 +101,45 @@ class CampaignModal extends Component {
 			object[index2] = value;
 
 			this.setState({ [index]: object });
-		} else this.setState({ [index]: value });
+		} else {
+			this.setState({ [index]: value });
+		}
 	};
-	newPost = () => {
-		const { posts, socket } = this.state;
-		const { startDate, endDate } = this.state.campaign;
+
+	handleCampaignChange = (value, index) => {
+		if (index) {
+			let { campaign, socket } = this.state;
+			campaign[index] = value;
+
+			this.setState({ campaign, somethingChanged: true });
+		}
+	};
+	newPost = (socialType, maxCharacters, post) => {
+		const { posts, socket, campaign } = this.state;
+		const { accounts, timezone, clickedCalendarDate } = this.props;
+		const { startDate, endDate } = campaign;
 
 		posts.push(
 			<div className="post-container" key={posts.length + "post"}>
 				<Post
-					accounts={[]}
-					clickedCalendarDate={new moment()}
-					postFinishedSavingCallback={() => {}}
-					setSaving={() => {}}
-					socialType={"facebook"}
-					maxCharacters={undefined}
+					accounts={accounts}
+					clickedCalendarDate={clickedCalendarDate}
+					postFinishedSavingCallback={savedPost => {
+						socket.emit("new_post", { campaign, post: savedPost });
+						socket.on("post_added", emitObject => {
+							campaign.posts = emitObject.campaignPosts;
+							this.setState({ campaign, saving: false });
+						});
+					}}
+					setSaving={() => {
+						this.setState({ saving: true });
+					}}
+					socialType={socialType}
+					maxCharacters={maxCharacters}
 					canEditPost={true}
-					timezone={"America/Vancouver"}
-					dateLowerBound={startDate}
-					dateUpperBound={endDate}
+					timezone={timezone}
+					campaignID={campaign._id}
+					post={post ? post : undefined}
 				/>
 				<div className="dots-plus-container">
 					<div className="dot1" />
@@ -77,30 +148,43 @@ class CampaignModal extends Component {
 				</div>
 			</div>
 		);
+		this.setState({ posts, postAccountPicker: false });
+	};
+	closeCampaign = () => {
+		this.props.close(false, "campaignModal");
 
-		socket.emit("new_post", post => {});
+		let { socket, campaign } = this.state;
+		socket.emit("close", campaign);
 
-		this.setState({ posts });
+		this.props.updateCampaigns();
+	};
+
+	deleteCampaign = response => {
+		let { socket, campaign } = this.state;
+
+		if (response) {
+			socket.emit("delete", campaign);
+			this.props.close(false, "campaignModal");
+			this.props.updateCampaigns();
+		}
+		this.setState({ confirmDelete: false });
 	};
 
 	render() {
-		const { colors, posts } = this.state;
-		const { startDate, endDate, name } = this.state.campaign;
+		const { colors, posts, saving, postAccountPicker, confirmDelete, campaign } = this.state;
+		const { startDate, endDate, name } = campaign;
 
 		let colorDivs = [];
 		for (let index in colors) {
 			let color = colors[index];
+
+			let className = color.border;
+			if (color.color == campaign.color) className += " active";
 			colorDivs.push(
 				<div
-					className={color.border}
+					className={className}
 					onClick={() => {
-						for (let index2 in colors) {
-							colors[index2].active = false;
-							colors[index2].border = colors[index2].border.replace(" active", "");
-						}
-						colors[index].active = true;
-						colors[index].border += " active";
-						this.setState({ colors });
+						this.handleCampaignChange(colors[index].color, "color");
 					}}
 					key={index}
 				>
@@ -110,39 +194,49 @@ class CampaignModal extends Component {
 		}
 
 		return (
-			<div className="modal" onClick={event => this.props.handleChange(false, "campaignModal")}>
+			<div className="modal" onClick={this.closeCampaign}>
 				<div className="campaign-modal" onClick={event => event.stopPropagation()}>
+					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={this.closeCampaign} />
 					<div className="campaign-information-container">
 						<div className="name-color-container">
 							<div className="name-container">
-								<div>Campaign Name:</div>
+								<div>Name:</div>
 								<input
-									onChange={event => this.handleChange(event.target.value, "campaign", "name")}
+									onChange={event => this.handleCampaignChange(event.target.value, "name")}
 									value={name}
 									className="name-input"
-									placeholder="Name"
+									placeholder="My Awesome Product Launch!"
 								/>
 							</div>
 							<div className="color-picker-container">
-								<div>Campaign Color:</div>
+								<div>Color:</div>
 								<div className="colors">{colorDivs}</div>
 							</div>
 						</div>
 						<div className="dates-container">
 							<div className="date-and-label-container">
-								<div>Campaign Start Date:</div>
+								<div>Start Date:</div>
 								<DateTimePicker
-									date={startDate}
+									date={new moment(startDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
-									onChange={date => this.handleChange(date, "campaign", "startDate")}
+									handleChange={date => {
+										this.handleCampaignChange(date, "startDate");
+										this.props.changeCampaignDateLowerBound(date);
+									}}
+									dateLowerBound={new moment()}
+									dateUpperBound={new moment(endDate)}
 								/>
 							</div>
 							<div className="date-and-label-container">
-								<div>Campaign End Date:</div>
+								<div>End Date:</div>
 								<DateTimePicker
-									date={endDate}
+									date={new moment(endDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
-									onChange={date => this.handleChange(date, "campaign", "endDate")}
+									handleChange={date => {
+										this.handleCampaignChange(date, "endDate");
+										this.props.changeCampaignDateUpperBound(date);
+									}}
+									dateLowerBound={new moment(startDate)}
 								/>
 							</div>
 						</div>
@@ -150,10 +244,66 @@ class CampaignModal extends Component {
 
 					<div className="posts-container">{posts}</div>
 
-					<FontAwesomeIcon icon={faPlus} className="plus-icon" onClick={this.newPost} />
+					{postAccountPicker && (
+						<div className="account-nav-bar-container">
+							<div className="account-option" onClick={() => this.newPost("facebook")}>
+								Facebook
+							</div>
+							<div className="account-option" onClick={() => this.newPost("twitter", 280)}>
+								Twitter
+							</div>
+							<div className="account-option" onClick={() => this.newPost("linkedin", 700)}>
+								LinkedIn
+							</div>
+						</div>
+					)}
+					{!postAccountPicker && (
+						<FontAwesomeIcon
+							icon={faPlus}
+							className="plus-icon"
+							onClick={() => this.handleChange(true, "postAccountPicker")}
+						/>
+					)}
+					<div className="modal-footer">
+						<FontAwesomeIcon
+							onClick={() => this.handleChange(true, "confirmDelete")}
+							className="delete"
+							icon={faTrash}
+							size="2x"
+						/>
+					</div>
+					{confirmDelete && (
+						<ConfirmAlert
+							title="Delete Campaign"
+							message="Are you sure you want to delete this campaign? Deleting this campaign will also delete all posts in it."
+							callback={this.deleteCampaign}
+						/>
+					)}
 				</div>
+
+				{saving && <Loader />}
 			</div>
 		);
 	}
 }
-export default CampaignModal;
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			changeCampaignDateLowerBound,
+			changeCampaignDateUpperBound
+		},
+		dispatch
+	);
+}
+
+function mapStateToProps(state) {
+	return {
+		accounts: state.accounts,
+		user: state.user
+	};
+}
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CampaignModal);

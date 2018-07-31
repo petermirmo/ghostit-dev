@@ -16,9 +16,6 @@
 	border-top: 1px solid var(--grey-theme-color);
 	border-bottom: none;
 }
-.posting-textarea:focus {
-	border-color: var(--blue-theme-color);
-}
 .posting-textarea:focus + .post-images-and-carousel {
 	border-color: var(--blue-theme-color);
 }

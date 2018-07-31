@@ -51,9 +51,6 @@
 .active-tab {
 	height: 100%;
 }
-.onboarding-textarea:focus {
-	border-color: var(--blue-theme-color);
-}
 .onboarding-info {
 	color: var(--dark-grey-theme-color);
 	text-align: left;

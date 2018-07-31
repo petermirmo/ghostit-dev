@@ -25,7 +25,7 @@ class OptionModal extends Component {
 	render() {
 		return (
 			<div className="modal">
-				<div ref={this.setWrapperRef}>
+				<div ref={this.setWrapperRef} className="option-container">
 					<div
 						className="option1"
 						onClick={() => {
@@ -35,7 +35,15 @@ class OptionModal extends Component {
 					>
 						Create a Campaign
 					</div>
-					<div className="option2">Create a single post</div>
+					<div
+						className="option2"
+						onClick={() => {
+							this.props.handleChange(true, "contentModal");
+							this.props.handleChange(false, "optionModal");
+						}}
+					>
+						Create a single post
+					</div>
 				</div>
 			</div>
 		);

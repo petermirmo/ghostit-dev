@@ -1,25 +1,23 @@
+.option-container {
+	position: fixed;
+	top: 20%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
 .option1 {
-	top: 25%;
 	left: 18%;
 
 	animation: optionModalAnimationOption1 0.2s;
 	-webkit-animation: optionModalAnimationOption1 0.2s;
 }
 .option2 {
-	top: 25%;
 	right: 18%;
 
 	animation: optionModalAnimationOption2 0.2s;
 	-webkit-animation: optionModalAnimationOption2 0.2s;
-}
-.option1:hover,
-.option2:hover {
-	top: 24%;
-
-	color: var(--white-theme-color);
-	font-size: var(--medium-gigantic-font-size);
-
-	background-color: var(--turqoise-theme-color);
 }
 
 .option1,
@@ -29,12 +27,10 @@
 	justify-content: center;
 	align-items: center;
 
-	height: 50%;
-	width: 30%;
+	padding: 100px;
+	margin: 20px;
 
 	border-radius: 2px;
-
-	position: absolute;
 
 	font-size: var(--gigantic-font-size);
 
@@ -44,6 +40,15 @@
 	-webkit-transition: all 0.2s ease;
 
 	cursor: pointer;
+}
+
+.option1:hover,
+.option2:hover {
+	top: 24%;
+
+	color: var(--white-theme-color);
+
+	background-color: var(--turqoise-theme-color);
 }
 
 @keyframes optionModalAnimationOption1 {

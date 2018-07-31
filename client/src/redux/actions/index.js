@@ -30,3 +30,17 @@ export const openHeaderSideBar = value => {
 		payload: value
 	};
 };
+
+export const changeCampaignDateLowerBound = value => {
+	return {
+		type: "CAMPAIGN_DATE_LOWER_BOUND",
+		payload: value
+	};
+};
+
+export const changeCampaignDateUpperBound = value => {
+	return {
+		type: "CAMPAIGN_DATE_UPPER_BOUND",
+		payload: value
+	};
+};

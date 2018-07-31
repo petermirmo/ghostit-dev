@@ -77,18 +77,10 @@ class HeaderSideBar extends Component {
 							<FontAwesomeIcon icon={faCalendar} /> Calendar
 						</a>
 
-						{(isAdmin || isManager) && (
-							<a className={"header-button" + this.isActive("writersBrief")} onClick={() => changePage("writersBrief")}>
-								<FontAwesomeIcon icon={faFileAlt} /> Monthly Strategy
-							</a>
-						)}
-
 						<a className={"header-button" + this.isActive("accounts")} onClick={() => changePage("accounts")}>
 							<FontAwesomeIcon icon={faPlus} /> Social Profiles
 						</a>
-						<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
-							<FontAwesomeIcon icon={faFileAlt} /> Your Questionnaire
-						</a>
+
 						{isAdmin && (
 							<a className={"header-button " + this.isActive("manage")} onClick={() => changePage("manage")}>
 								<FontAwesomeIcon icon={faCogs} /> Manage

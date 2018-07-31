@@ -12,6 +12,7 @@ const linkedinFunctions = require("./services/linkedinFunctions");
 const accountFunctions = require("./services/accountFunctions");
 const userFunctions = require("./services/userFunctions");
 const postFunctions = require("./services/postFunctions");
+const campaignFunctions = require("./services/campaignFunctions");
 const blogFunctions = require("./services/websiteBlogFunctions");
 const newsletterFunctions = require("./services/newsletterFunctions");
 const generalFunctions = require("./services/generalFunctions");
@@ -30,22 +31,30 @@ module.exports = app => {
 		next();
 	};
 
+	if (process.env.NODE_ENV === "production") {
+		app.get("/*", function(req, res, next) {
+			if (req.headers.host.match(/^www/) == null) res.redirect(301, "http://www." + req.headers.host + req.url);
+			else next();
+		});
+	}
 	// Login user
 	app.post("/api/login", (req, res, next) => {
 		passport.authenticate("local-login", function(err, user, message) {
 			let success = true;
+
 			if (err) success = false;
 			if (!user) success = false;
+
 			if (success) {
 				req.logIn(user, function(err) {
 					if (err) {
 						success = false;
 						message = "Could not log you in! :( Please refresh the page and try again :)";
 					}
-					res.send({ success: success, user: user, message: message });
+					res.send({ success, user, message });
 				});
 			} else {
-				res.send({ success: success, message: message });
+				res.send({ success, message });
 			}
 		})(req, res, next);
 	});
@@ -157,6 +166,9 @@ module.exports = app => {
 	app.post("/api/post/images", fileParser, middleware, async (req, res) => postFunctions.uploadPostImages(req, res));
 	// Delete post images
 	app.post("/api/post/delete/images/:postID", middleware, (req, res) => postFunctions.deletePostImages(req, res));
+
+	// Get all of user's campaigns
+	app.get("/api/campaigns", middleware, (req, res) => campaignFunctions.getCampaigns(req, res));
 
 	// Create a blog placeholder
 	app.post("/api/blog", fileParser, middleware, async (req, res) => blogFunctions.saveBlog(req, res));

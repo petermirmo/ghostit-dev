@@ -70,14 +70,14 @@ class CreateBlogComponent extends Component {
 		// Check if we are updating a blog or creating a new blog
 
 		if (!blog._id) {
-			axios.post("/api/blog", { blog, images, blogFile, blogFileName: blogFile.name }).then(res => {
+			axios.post("/api/blog", { blog, blogImages: images, blogFile, blogFileName: blogFile.name }).then(res => {
 				this.props.callback();
 			});
 		} else {
 			axios
 				.post("/api/blog/" + blog._id, {
 					blog,
-					images,
+					blogImages: images,
 					blogFile,
 					blogFileName: blogFile.name
 				})
@@ -243,7 +243,7 @@ class CreateBlogComponent extends Component {
 						<p className="blog-date-label">Due Date:</p>
 						<DateTimePicker
 							date={dueDate}
-							onChange={date => this.handleBlogFormChange(date, "dueDate")}
+							handleChange={date => this.handleBlogFormChange(date, "dueDate")}
 							dateFormat="MMMM Do YYYY"
 							style={{
 								bottom: "-80px"
@@ -252,7 +252,7 @@ class CreateBlogComponent extends Component {
 						<p className="blog-date-label">Posting Date:</p>
 						<DateTimePicker
 							date={postingDate}
-							onChange={date => this.handleBlogFormChange(date, "postingDate")}
+							handleChange={date => this.handleBlogFormChange(date, "postingDate")}
 							dateFormat="MMMM Do YYYY"
 							style={{
 								bottom: "-80px"

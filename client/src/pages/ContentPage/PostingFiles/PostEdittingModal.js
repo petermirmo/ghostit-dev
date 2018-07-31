@@ -23,12 +23,12 @@ class PostEdittingModal extends Component {
 	};
 	deletePost = deletePost => {
 		this.setState({ deletePost: false, saving: true });
-		if (!this.props.clickedPost._id) {
+		if (!this.props.clickedEvent._id) {
 			alert("Error cannot find post. Please contact our dev team immediately");
 			return;
 		}
 		if (deletePost) {
-			axios.delete("/api/post/delete/" + this.props.clickedPost._id).then(res => {
+			axios.delete("/api/post/delete/" + this.props.clickedEvent._id).then(res => {
 				let { loggedIn } = res.data;
 				if (loggedIn === false) window.location.reload();
 
@@ -50,10 +50,10 @@ class PostEdittingModal extends Component {
 		if (this.state.saving) {
 			return <Loader />;
 		}
-		const { close, savePostCallback, clickedPost, accounts, timezone } = this.props;
+		const { close, savePostCallback, clickedEvent, accounts, timezone } = this.props;
 
 		let modalFooter;
-		let canEditPost = clickedPost.status !== "posted";
+		let canEditPost = clickedEvent.status !== "posted";
 		if (canEditPost) {
 			modalFooter = (
 				<div className="modal-footer">
@@ -62,9 +62,9 @@ class PostEdittingModal extends Component {
 			);
 		}
 		let maxCharacters;
-		if (clickedPost.socialType === "twitter") {
+		if (clickedEvent.socialType === "twitter") {
 			maxCharacters = 280;
-		} else if (clickedPost.socialType === "linkedin") {
+		} else if (clickedEvent.socialType === "linkedin") {
 			maxCharacters = 700;
 		}
 
@@ -77,7 +77,7 @@ class PostEdittingModal extends Component {
 					<div className="modal-body">
 						<Post
 							setSaving={this.setSaving}
-							post={clickedPost}
+							post={clickedEvent}
 							canEditPost={canEditPost}
 							postFinishedSavingCallback={() => {
 								savePostCallback();

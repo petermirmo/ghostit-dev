@@ -14,11 +14,6 @@
 	min-width: 100%;
 
 	padding: 4px;
-
-	border: 1px solid var(--grey-theme-color);
-}
-.create-placeholder-form input:focus {
-	border: 1px solid var(--blue-theme-color);
 }
 .create-placeholder-form-keyword {
 	min-width: 30% !important;

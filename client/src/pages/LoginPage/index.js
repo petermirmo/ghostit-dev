@@ -53,7 +53,7 @@ class Login extends Component {
 		const { email, password } = this.state;
 
 		if (email && password) {
-			axios.post("/api/login", { email: email, password: password }).then(res => {
+			axios.post("/api/login", { email, password }).then(res => {
 				const { success, user, message } = res.data;
 
 				if (success) {
@@ -67,7 +67,7 @@ class Login extends Component {
 						this.props.openHeaderSideBar(true);
 					});
 				} else {
-					this.notify({ message: message, type: "danger", title: "Something went wrong!" });
+					this.notify({ message, type: "danger", title: "Something went wrong!" });
 				}
 			});
 		}

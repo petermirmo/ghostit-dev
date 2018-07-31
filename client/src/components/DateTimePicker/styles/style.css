@@ -84,6 +84,11 @@
 	margin-left: 20px;
 }
 
+.past-calendar-date {
+	opacity: 0.4;
+	cursor: default !important;
+}
+.past-calendar-date,
 .date-picker-day {
 	background-color: var(--white-theme-color);
 
@@ -109,6 +114,10 @@
 	background-color: var(--super-light-blue-theme-color);
 }
 .date-picker-date {
+}
+
+.time-container {
+	display: flex;
 }
 
 .time-dropdown {

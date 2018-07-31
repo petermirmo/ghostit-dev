@@ -14,11 +14,11 @@ class BlogEdittingModal extends Component {
 	state = {
 		deleteblog: false,
 		notification: {},
-		blog: this.props.clickedPost,
+		blog: this.props.clickedEvent,
 		saving: false
 	};
 	componentWillReceiveProps(nextProps) {
-		this.setState({ blog: nextProps.clickedPost });
+		this.setState({ blog: nextProps.clickedEvent });
 	}
 	deleteBlogPopUp = () => {
 		this.setState({ deleteblog: true });
@@ -60,7 +60,7 @@ class BlogEdittingModal extends Component {
 					</div>
 					<div className="modal-body">
 						<CreateBlog
-							blog={this.props.clickedPost}
+							blog={this.props.clickedEvent}
 							callback={() => {
 								this.props.updateCalendarBlogs();
 								this.props.close();

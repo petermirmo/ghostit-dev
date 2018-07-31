@@ -138,13 +138,13 @@ class CreateNewsletter extends Component {
 						<p className="blog-date-label">Due Date:</p>
 						<DateTimePicker
 							date={dueDate}
-							onChange={date => this.handleBlogFormChange(date, "dueDate")}
+							handleChange={date => this.handleBlogFormChange(date, "dueDate")}
 							dateFormat="MMMM Do YYYY"
 						/>
 						<p className="blog-date-label">Posting Date:</p>
 						<DateTimePicker
 							date={postingDate}
-							onChange={date => this.handleBlogFormChange(date, "postingDate")}
+							handleChange={date => this.handleBlogFormChange(date, "postingDate")}
 							dateFormat="MMMM Do YYYY"
 						/>
 					</div>

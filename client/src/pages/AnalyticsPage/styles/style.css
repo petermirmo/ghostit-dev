@@ -1,8 +1,0 @@
-.activate-test-button {
-	position: absolute;
-
-	background-color: var(--blue-theme-color);
-	margin: 20% 35% 0 35%;
-	width: 30%;
-	height: 50px;
-}

@@ -32,9 +32,6 @@
 
 	resize: none;
 }
-.input-textarea:focus {
-	border: 1px solid var(--blue-theme-color);
-}
 .strategy-input-theme {
 	font-size: var(--regular-font-size);
 	width: 30%;

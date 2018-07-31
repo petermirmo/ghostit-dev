@@ -1,16 +1,16 @@
 .campaign-modal {
+	position: relative;
 	display: flex;
 
 	justify-content: flex-start;
 	align-items: center;
 	flex-direction: column;
 
-	min-height: 80%;
+	min-height: 80vh;
 	min-width: 80%;
 
 	padding: 25px 0 20px 0;
 	margin-top: 5vh;
-	margin-bottom: 5vh;
 
 	border-radius: 2px;
 
@@ -102,26 +102,26 @@
 .color1-border:hover,
 .color1-border.active,
 .color1 {
-	background-color: var(--purple-theme-color);
-	border-color: var(--purple-theme-color);
+	background-color: var(--campaign-color1);
+	border-color: var(--campaign-color1);
 }
 .color2-border:hover,
 .color2-border.active,
 .color2 {
-	background-color: var(--pink-theme-color);
-	border-color: var(--pink-theme-color);
+	background-color: var(--campaign-color2);
+	border-color: var(--campaign-color2);
 }
 .color3-border:hover,
 .color3-border.active,
 .color3 {
-	background-color: var(--turqoise-theme-color);
-	border-color: var(--turqoise-theme-color);
+	background-color: var(--campaign-color3);
+	border-color: var(--campaign-color3);
 }
 .color4-border:hover,
 .color4-border.active,
 .color4 {
-	background-color: var(--green-theme-color);
-	border-color: var(--green-theme-color);
+	background-color: var(--campaign-color4);
+	border-color: var(--campaign-color4);
 }
 
 .dates-container {
@@ -141,6 +141,32 @@
 	width: 50%;
 
 	padding: 5px 20px 5px 20px;
+}
+
+.account-nav-bar-container {
+	display: flex;
+
+	justify-content: center;
+	align-items: center;
+
+	width: 70%;
+
+	margin: 20px 0 20px 0;
+
+	border: 2px solid var(--blue-theme-color);
+}
+.account-option {
+	flex: 1;
+
+	text-align: center;
+
+	padding: 20px 0 20px 0;
+
+	cursor: pointer;
+}
+.account-option:hover {
+	background-color: var(--light-blue-theme-color);
+	color: var(--white-theme-color);
 }
 
 .posts-container {
@@ -209,11 +235,9 @@
 
 @keyframes campaignModalAnimation {
 	from {
-		left: 8%;
 		opacity: 0;
 	}
 	to {
-		left: 10%;
 		opacity: 1;
 	}
 }

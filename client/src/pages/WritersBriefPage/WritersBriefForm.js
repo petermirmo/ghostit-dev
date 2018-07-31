@@ -202,7 +202,7 @@ class WritersBriefForm extends Component {
 					<DateTimePicker
 						date={cycleStartDate}
 						dateFormat="MMMM Do YYYY"
-						onChange={date => this.handleDateChange(date, "cycleStartDate")}
+						handleChange={date => this.handleDateChange(date, "cycleStartDate")}
 					/>
 
 					<p className="date-label">Content cycle end: </p>
@@ -210,7 +210,7 @@ class WritersBriefForm extends Component {
 					<DateTimePicker
 						date={cycleEndDate}
 						dateFormat="MMMM Do YYYY"
-						onChange={date => this.handleDateChange(date, "cycleEndDate")}
+						handleChange={date => this.handleDateChange(date, "cycleEndDate")}
 					/>
 
 					<NavigationBar updateParentState={this.updateSocialPostsActiveTab} categories={socialCategories} />

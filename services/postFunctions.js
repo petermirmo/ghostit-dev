@@ -74,6 +74,7 @@ module.exports = {
 			newPost.accountType = post.accountType;
 			newPost.socialType = post.socialType;
 			newPost.color = backgroundColorOfPost;
+			newPost.campaignID = post.campaignID;
 			newPost.status = "pending";
 
 			newPost.save().then(result => res.send({ success: true, post: result }));
@@ -88,7 +89,7 @@ module.exports = {
 			}
 		}
 
-		Post.find({ userID: userID }, function(err, posts) {
+		Post.find({ userID: userID, campaignID: undefined }, function(err, posts) {
 			if (err) res.send(err);
 			res.send({ posts: posts });
 		});
