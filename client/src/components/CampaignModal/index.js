@@ -222,9 +222,12 @@ class CampaignModal extends Component {
 									handleChange={date => {
 										this.handleCampaignChange(date, "startDate");
 										this.props.changeCampaignDateLowerBound(date);
+										if (date >= new moment(endDate)) {
+											this.handleCampaignChange(date, "endDate");
+											this.props.changeCampaignDateUpperBound(date);
+										}
 									}}
 									dateLowerBound={new moment()}
-									dateUpperBound={new moment(endDate)}
 								/>
 							</div>
 							<div className="date-and-label-container">
@@ -235,8 +238,12 @@ class CampaignModal extends Component {
 									handleChange={date => {
 										this.handleCampaignChange(date, "endDate");
 										this.props.changeCampaignDateUpperBound(date);
+										if (date >= new moment(startDate)) {
+											this.handleCampaignChange(date, "startDate");
+											this.props.changeCampaignDateLowerBound(date);
+										}
 									}}
-									dateLowerBound={new moment(startDate)}
+									dateLowerBound={new moment()}
 								/>
 							</div>
 						</div>
