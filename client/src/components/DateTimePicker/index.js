@@ -251,7 +251,7 @@ class DatePicker extends Component {
 								{date.format("A")} <FontAwesomeIcon icon={faCaretDown} />
 								{amPmDropdown && <div className="time-dropdown-container">{amPM}</div>}
 							</div>
-							<button className="finished-button center" onClick={() => this.setActive("calendarDropdown")}>
+							<button className="finished-button" onClick={() => this.setActive("calendarDropdown")}>
 								Done!
 							</button>
 						</div>
