@@ -4,14 +4,15 @@
 
 	padding: 4px 10px 4px 10px;
 
-	border-bottom: 1px solid var(--grey-theme-color);
-
 	background-color: transparent;
 
 	cursor: pointer;
 	user-select: none;
 }
-.date-picker-dropdown:hover {
+.display-date {
+	border-bottom: 1px solid var(--grey-theme-color);
+}
+.display-date:hover {
 	border-color: var(--blue-theme-color);
 }
 .dropdown-calendar {

@@ -238,7 +238,7 @@ class CampaignModal extends Component {
 									handleChange={date => {
 										this.handleCampaignChange(date, "endDate");
 										this.props.changeCampaignDateUpperBound(date);
-										if (date >= new moment(startDate)) {
+										if (date <= new moment(startDate)) {
 											this.handleCampaignChange(date, "startDate");
 											this.props.changeCampaignDateLowerBound(date);
 										}

@@ -53,6 +53,15 @@ class PostingOptions extends Component {
 	componentDidMount() {
 		this._ismounted = true;
 		this.findLink(this.state.contentValue);
+
+		let { campaignID, campaignDateLowerBound, campaignDateUpperBound } = this.props;
+		let { date } = this.state;
+
+		if (campaignID) {
+			if (date < new moment(campaignDateLowerBound) || date > new moment(campaignDateUpperBound)) {
+				this.setState({ date: new moment(campaignDateLowerBound) });
+			}
+		}
 	}
 	componentWillUnmount() {
 		this._ismounted = false;
