@@ -296,7 +296,7 @@ class Calendar extends Component {
 				</div>
 
 				<div className="calendar-table">
-					{dayHeadingsArray}
+					<div className="calendar-day-titles-container">{dayHeadingsArray}</div>
 					{calendarWeekArray}
 				</div>
 			</div>
