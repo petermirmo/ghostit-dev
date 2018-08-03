@@ -88,21 +88,7 @@ module.exports = {
 			}
 		}
 
-		Post.find({ status: "error" }, function(err, posts) {
-			for (let index in posts) {
-				let post = posts[index];
-
-				if (
-					post.userID !== "5acfa9409f3e9e06ac173ce9" &&
-					post.userID !== "5acfa9409f3e9e06ac173dc8" &&
-					post.userID !== "5acfa9409f3e9e06ac173dcb"
-				) {
-					//post.status = "pending";
-					//post.save();
-					User.findOne({ _id: post.userID }, function(err, user) {});
-				}
-			}
-
+		Post.find({ userID: userID, campaignID: undefined }, function(err, posts) {
 			if (err) res.send(err);
 			res.send({ posts: posts });
 		});
