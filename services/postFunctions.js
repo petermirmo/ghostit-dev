@@ -1,6 +1,5 @@
 const request = require("request");
 const cheerio = require("cheerio");
-const fs = require("fs");
 
 const Post = require("../models/Post");
 const Blog = require("../models/Blog");

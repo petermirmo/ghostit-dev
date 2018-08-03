@@ -106,15 +106,7 @@ module.exports = app => {
 	app.get(
 		"/api/facebook",
 		passport.authenticate("facebook", {
-			scope: [
-				"public_profile",
-				"email",
-				"user_managed_groups",
-				"publish_pages",
-				"manage_pages",
-				"business_management",
-				"publish_actions"
-			]
+			scope: ["public_profile", "email", "publish_pages", "manage_pages", "business_management"]
 		})
 	);
 	// Facebook callback
