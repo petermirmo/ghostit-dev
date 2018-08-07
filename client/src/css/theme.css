@@ -30,8 +30,9 @@
 	--grey-theme-color: #c0c1c6;
 	--white-theme-color: #fff;
 
+	--light-light-grey-theme-color: #fbfcfc;
 	--light-grey-theme-color: #dcdde1;
-	--dark-grey-theme-color: #718093;
+	--dark-grey-theme-color: #95a5a6;
 
 	--off-black-theme-color: #666666;
 
@@ -320,7 +321,7 @@
 .date-label {
 	margin: 0 20px 0 0;
 	padding: 0;
-	font-size: var(--twelve-font-size);
+	font-size: var(--regular-font-size);
 	display: inline-block;
 	background-color: transparent;
 }
@@ -399,6 +400,7 @@ body {
 
 	font-family: var(--font-theme);
 	color: var(--black-theme-color);
+	font-size: var(--regular-font-size);
 }
 
 button {
@@ -416,14 +418,14 @@ input {
 	outline: none;
 	border: 1px solid var(--grey-theme-color);
 
-	font-size: var(--twelve-font-size);
+	font-size: var(--regular-font-size);
 	font-family: var(--font-theme);
 }
 input:focus {
 	border-color: var(--blue-theme-color);
 }
 textarea {
-	font-size: var(--twelve-font-size);
+	font-size: var(--regular-font-size);
 	font-family: var(--font-theme);
 	border: 1px solid var(--grey-theme-color) !important;
 }
@@ -432,4 +434,5 @@ textarea:focus {
 }
 div {
 	font-family: var(--font-theme);
+	font-size: var(--regular-font-size);
 }

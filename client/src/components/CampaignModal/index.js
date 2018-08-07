@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
@@ -141,11 +140,6 @@ class CampaignModal extends Component {
 					campaignID={campaign._id}
 					post={post ? post : undefined}
 				/>
-				<div className="dots-plus-container">
-					<div className="dot1" />
-					<div className="dot2" />
-					<div className="dot3" />
-				</div>
 			</div>
 		);
 		this.setState({ posts, postAccountPicker: false });
@@ -200,7 +194,7 @@ class CampaignModal extends Component {
 					<div className="campaign-information-container">
 						<div className="name-color-container">
 							<div className="name-container">
-								<div>Name:</div>
+								<div>Name your campaign:</div>
 								<input
 									onChange={event => this.handleCampaignChange(event.target.value, "name")}
 									value={name}
@@ -209,13 +203,13 @@ class CampaignModal extends Component {
 								/>
 							</div>
 							<div className="color-picker-container">
-								<div>Color:</div>
+								<div>Select a color for your campaign:</div>
 								<div className="colors">{colorDivs}</div>
 							</div>
 						</div>
 						<div className="dates-container">
 							<div className="date-and-label-container">
-								<div>Start Date:</div>
+								<div>When do you want your campaign to start?</div>
 								<DateTimePicker
 									date={new moment(startDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
@@ -231,7 +225,7 @@ class CampaignModal extends Component {
 								/>
 							</div>
 							<div className="date-and-label-container">
-								<div>End Date:</div>
+								<div>When do you want your campaign to end?</div>
 								<DateTimePicker
 									date={new moment(endDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
@@ -264,13 +258,7 @@ class CampaignModal extends Component {
 							</div>
 						</div>
 					)}
-					{!postAccountPicker && (
-						<FontAwesomeIcon
-							icon={faPlus}
-							className="plus-icon"
-							onClick={() => this.handleChange(true, "postAccountPicker")}
-						/>
-					)}
+					{!postAccountPicker && <div className="test">here</div>}
 					<div className="modal-footer">
 						<FontAwesomeIcon
 							onClick={() => this.handleChange(true, "confirmDelete")}
