@@ -38,6 +38,7 @@ class CampaignModal extends Component {
 			  },
 		posts: [],
 		activePostKey: undefined,
+		nextPostKey: 0, // incrementing key so each post has a unique id regardless of posts being deleted
 		colors: {
 			color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1" },
 			color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2" },
@@ -119,11 +120,11 @@ class CampaignModal extends Component {
 		}
 	};
 	newPost = (socialType, maxCharacters, post) => {
-		const { posts, socket, campaign, activePostKey } = this.state;
+		const { posts, socket, campaign, activePostKey, nextPostKey } = this.state;
 		const { accounts, timezone, clickedCalendarDate } = this.props;
 		const { startDate, endDate } = campaign;
 
-		let key = posts.length+"post";
+		let key = nextPostKey+"post";
 
 		posts.push(
 			<div className="post-container" key={key}>
@@ -149,7 +150,7 @@ class CampaignModal extends Component {
 				/>
 			</div>
 		);
-		this.setState({ posts, postAccountPicker: false, activePostKey: key });
+		this.setState({ posts, postAccountPicker: false, activePostKey: key , nextPostKey: nextPostKey+1});
 	};
 	closeCampaign = () => {
 		this.props.close(false, "campaignModal");
