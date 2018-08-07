@@ -19,10 +19,12 @@ import "./styles/";
 
 class CampaignModal extends Component {
 	state = {
-		campaign: this.props.campaign
+		campaign: this.props.campaign // only defined if clicked on an existing campaign to edit
 			? this.props.campaign
 			: {
 					startDate:
+					// maybe better to set new moment() to a var then use that instead so it's not called 4 times in a row
+					// not sure if that's possible / actually better in this scope though
 						new moment() > new moment(this.props.clickedCalendarDate)
 							? new moment()
 							: new moment(this.props.clickedCalendarDate),
@@ -107,6 +109,7 @@ class CampaignModal extends Component {
 
 	handleCampaignChange = (value, index) => {
 		if (index) {
+			// does socket need to be available in this function?
 			let { campaign, socket } = this.state;
 			campaign[index] = value;
 

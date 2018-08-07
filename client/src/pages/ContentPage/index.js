@@ -320,6 +320,7 @@ class Content extends Component {
 }
 
 function mapStateToProps(state) {
+	// at this moment (aug 7 2018), user variable is never used so might be not be worth mapping it
 	return {
 		user: state.user
 	};
