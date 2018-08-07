@@ -1,1 +1,11 @@
 What exactly are the sockets being used for in components/CampaignModal/index.js?
+
+Need to build functionality for creating a custom task in campaigns.
+
+
+Campaign posts model:
+postList: array of objects
+  {
+  post_key: string,
+  post_type: string,
+  }

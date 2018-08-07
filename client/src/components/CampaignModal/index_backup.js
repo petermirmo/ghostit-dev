@@ -37,7 +37,7 @@ class CampaignModal extends Component {
 					color: "var(--campaign-color1)"
 			  },
 		posts: [],
-		activePostKey: undefined,
+		postIndex: undefined,
 		colors: {
 			color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1" },
 			color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2" },
@@ -48,8 +48,7 @@ class CampaignModal extends Component {
 		postAccountPicker: false,
 		somethingChanged: false,
 		confirmDelete: false,
-		firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
-		newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
+		firstPostChosen: false // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
 	};
 	componentDidMount() {
 		this.initSocket();
@@ -119,14 +118,12 @@ class CampaignModal extends Component {
 		}
 	};
 	newPost = (socialType, maxCharacters, post) => {
-		const { posts, socket, campaign, activePostKey } = this.state;
+		const { posts, socket, campaign } = this.state;
 		const { accounts, timezone, clickedCalendarDate } = this.props;
 		const { startDate, endDate } = campaign;
 
-		let key = posts.length+"post";
-
 		posts.push(
-			<div className="post-container" key={key}>
+			<div className="post-container" key={posts.length + "post"}>
 				<Post
 					accounts={accounts}
 					clickedCalendarDate={clickedCalendarDate}
@@ -149,7 +146,7 @@ class CampaignModal extends Component {
 				/>
 			</div>
 		);
-		this.setState({ posts, postAccountPicker: false, activePostKey: key });
+		this.setState({ posts, postAccountPicker: false });
 	};
 	closeCampaign = () => {
 		this.props.close(false, "campaignModal");
@@ -183,30 +180,8 @@ class CampaignModal extends Component {
 		}
 	}
 
-	addPost = post_type => {
-		// need to add Custom post_type
-		this.setState({ newPostPromptActive: false });
-		if (post_type === "twitter") {
-			this.newPost("twitter", 280);
-		} else if (post_type === "facebook") {
-			this.newPost("facebook");
-		} else if (post_type === "linkedin") {
-			this.newPost("linkedin", 700);
-		}
-	}
-
-	selectPost = (e, post_key) => {
-		e.preventDefault();
-		this.setState({ activePostKey: post_key });
-	}
-
-	newPostPrompt = (e) => {
-		e.preventDefault();
-		this.setState({ newPostPromptActive: true });
-	}
-
 	render() {
-		const { colors, posts, saving, postAccountPicker, confirmDelete, campaign, firstPostChosen, activePostKey, newPostPromptActive } = this.state;
+		const { colors, posts, saving, postAccountPicker, confirmDelete, campaign, firstPostChosen } = this.state;
 		const { startDate, endDate, name } = campaign;
 
 		console.log(posts);
@@ -286,42 +261,7 @@ class CampaignModal extends Component {
 						</div>
 					</div>
 
-					{firstPostChosen && (
-						<div className="post-list-container">
-							{posts.map(post_obj => (
-								<div className="post-list-entry" key={post_obj.key + "list-entry"}>
-									<button onClick={(e) => this.selectPost(e, post_obj.key)}>
-										{post_obj.props.children.props.socialType + " post"}
-									</button>
-								</div>
-							))}
-							<div className="post-list-entry" key="new_post_button">
-								<button onClick={(e) => this.newPostPrompt(e)}>
-									+
-								</button>
-							</div>
-						</div>
-					)}
-
-					{newPostPromptActive && (
-						<div className="new-post-prompt">
-							<div className="account-option" onClick={() => this.addPost("facebook")}>
-								Facebook
-							</div>
-							<div className="account-option" onClick={() => this.addPost("twitter")}>
-								Twitter
-							</div>
-							<div className="account-option" onClick={() => this.addPost("linkedin")}>
-								LinkedIn
-							</div>
-						</div>
-					)}
-
-					{activePostKey && (
-						<div className="posts-container">
-							{ posts.filter(post_obj => { return post_obj.key === activePostKey } ) }
-						</div>
-					)}
+					<div className="posts-container">{posts}</div>
 
 					{!firstPostChosen && (
 						<div className="first-post-prompt">
