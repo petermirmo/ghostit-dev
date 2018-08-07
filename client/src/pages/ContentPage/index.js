@@ -27,10 +27,10 @@ class Content extends Component {
 		clickedDate: new moment(),
 
 		blogEdittingModal: false,
-		contentModal: false,
+		contentModal: false, // modal after selecting post from the optionModal
 		postEdittingModal: false,
 		newsletterEdittingModal: false,
-		optionModal: false,
+		optionModal: false, // modal to pick between campaign or post
 		campaignModal: false,
 
 		calendarEventCategories: {
