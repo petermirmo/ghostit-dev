@@ -140,6 +140,7 @@ class Login extends Component {
 									value={password}
 									onChange={event => this.handleChange("password", event.target.value)}
 									name="password"
+									type="password"
 									placeholder="Password"
 									required
 								/>
