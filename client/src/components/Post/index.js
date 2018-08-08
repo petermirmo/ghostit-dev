@@ -49,6 +49,16 @@ class PostingOptions extends Component {
 				}
 			}
 		}
+
+		if (nextProps.post) {
+			this.setState({ contentValue: nextProps.post.content });
+		} else {
+			this.setState({ contentValue: "" });
+		}
+
+		if (nextProps.socialType !== this.state.socialType) {
+			this.setState({ socialType: nextProps.socialType });
+		}
 	}
 	componentDidMount() {
 		this._ismounted = true;
@@ -119,17 +129,14 @@ class PostingOptions extends Component {
 			linkImage,
 			linkImagesArray,
 			images,
+			socialType,
 			postingToAccountId,
 			accountType,
 			deleteImagesArray,
 			somethingChanged
 		} = this.state;
-		const socialType = this.props.socialType;
 		let { date } = this.state;
-		console.log("displayed post state: ");
-		console.log(this.state);
-		console.log("displayed post props: ");
-		console.log(this.props);
+
 		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters, campaignID } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
 
