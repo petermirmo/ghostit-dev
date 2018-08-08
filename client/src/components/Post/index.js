@@ -112,6 +112,7 @@ class PostingOptions extends Component {
 	};
 
 	render() {
+		console.log(this.state);
 		const {
 			id,
 			contentValue,

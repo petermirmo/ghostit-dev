@@ -119,39 +119,70 @@ class CampaignModal extends Component {
 			this.setState({ campaign, somethingChanged: true });
 		}
 	};
+
+	updatePost = (key, updatedPost) => {
+		const { posts } = this.state;
+		for (let index in posts) {
+			if (posts[index].key === key) {
+				posts[index].post = updatedPost;
+				this.setState({ posts });
+				return;
+			}
+		}
+	}
+
 	newPost = (socialType, maxCharacters, post) => {
 		const { posts, socket, campaign, activePostKey, nextPostKey } = this.state;
 		const { accounts, timezone, clickedCalendarDate } = this.props;
 		const { startDate, endDate } = campaign;
 
-		let key = nextPostKey+"post";
+		let key = nextPostKey;
 
 		posts.push(
-			<div className="post-container" key={key}>
-				<Post
-					accounts={accounts}
-					clickedCalendarDate={clickedCalendarDate}
-					postFinishedSavingCallback={savedPost => {
-						socket.emit("new_post", { campaign, post: savedPost });
-						socket.on("post_added", emitObject => {
-							campaign.posts = emitObject.campaignPosts;
-							this.setState({ campaign, saving: false });
-						});
-					}}
-					setSaving={() => {
-						this.setState({ saving: true });
-					}}
-					socialType={socialType}
-					maxCharacters={maxCharacters}
-					canEditPost={true}
-					timezone={timezone}
-					campaignID={campaign._id}
-					post={post ? post : undefined}
-				/>
-			</div>
+			{
+				key,
+				socialType,
+				maxCharacters,
+				post: undefined
+			}
 		);
 		this.setState({ posts, postAccountPicker: false, activePostKey: key , nextPostKey: nextPostKey+1});
 	};
+
+	postToPostComponent = post_obj => {
+		const { posts, socket, campaign, activePostKey, nextPostKey } = this.state;
+		const { accounts, timezone, clickedCalendarDate } = this.props;
+		const { startDate, endDate } = campaign;
+
+		post_obj = post_obj[0];
+
+		console.log(post_obj);
+
+		return (
+			<Post
+				accounts={accounts}
+				clickedCalendarDate={clickedCalendarDate}
+				postFinishedSavingCallback={savedPost => {
+					socket.emit("new_post", { campaign, post: savedPost });
+					this.updatePost(post_obj.key, savedPost);
+					socket.on("post_added", emitObject => {
+						campaign.posts = emitObject.campaignPosts;
+						this.setState({ campaign, saving: false });
+					});
+				}}
+				setSaving={() => {
+					this.setState({ saving: true });
+				}}
+				socialType={post_obj.socialType}
+				maxCharacters={post_obj.maxCharacters}
+				canEditPost={true}
+				timezone={timezone}
+				campaignID={campaign._id}
+				post={post_obj.post}
+			/>
+		)
+	}
+
 	closeCampaign = () => {
 		this.props.close(false, "campaignModal");
 
@@ -291,7 +322,7 @@ class CampaignModal extends Component {
 							{posts.map(post_obj => (
 								<div className="post-list-entry" key={post_obj.key + "list-entry"}>
 									<button onClick={(e) => this.selectPost(e, post_obj.key)}>
-										{post_obj.props.children.props.socialType + " post"}
+										{post_obj.socialType + " post"}
 									</button>
 								</div>
 							))}
@@ -317,9 +348,9 @@ class CampaignModal extends Component {
 						</div>
 					)}
 
-					{activePostKey && (
+					{activePostKey !== undefined && (
 						<div className="posts-container">
-							{ posts.filter(post_obj => { return post_obj.key === activePostKey } ) }
+							{ this.postToPostComponent(posts.filter(post_obj => { return post_obj.key === activePostKey } )) }
 						</div>
 					)}
 
