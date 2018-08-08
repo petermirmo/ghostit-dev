@@ -126,10 +126,10 @@ class PostingOptions extends Component {
 			somethingChanged
 		} = this.state;
 		let { date } = this.state;
-
-		console.log("displayed post:");
+		console.log("displayed post state: ");
 		console.log(this.state);
-
+		console.log("displayed post props: ");
+		console.log(this.props);
 		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters, campaignID } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
 

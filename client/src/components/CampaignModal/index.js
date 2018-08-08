@@ -149,17 +149,6 @@ class CampaignModal extends Component {
 			key,
 			accounts,
 			clickedCalendarDate,
-			postFinishedSavingCallback: savedPost => {
-				socket.emit("new_post", { campaign, post: savedPost });
-				this.updatePost(key, savedPost);
-				socket.on("post_added", emitObject => {
-					campaign.posts = emitObject.campaignPosts;
-					this.setState({ campaign, saving: false });
-				});
-			},
-			setSaving: () => {
-				this.setState({ saving: true });
-			},
 			socialType,
 			maxCharacters,
 			canEditPost: true,
@@ -226,20 +215,27 @@ class CampaignModal extends Component {
 	}
 
 	getActivePost = () => {
-		const { activePostKey, posts } = this.state;
+		const { activePostKey, posts, socket, campaign } = this.state;
 		for (let index in posts) {
 			if (posts[index].key === activePostKey) {
 				const post = posts[index];
 				console.log("active post:");
 				console.log(post);
-				console.log("campaign: ");
-				console.log(this.state.campaign);
 				return (
 					<Post
 						accounts={post.accounts}
 						clickedCalendarDate={post.clickedCalendarDate}
-						postFinishedSavingCallback={post.postFinishedSavingCallback}
-						setSaving={post.setSaving}
+						postFinishedSavingCallback={savedPost => {
+							socket.emit("new_post", { campaign, post: savedPost });
+							this.updatePost(post.key, savedPost);
+							socket.on("post_added", emitObject => {
+								campaign.posts = emitObject.campaignPosts;
+								this.setState({ campaign, saving: false });
+							});
+						}}
+						setSaving={() => {
+							this.setState({ saving: true });
+						}}
 						socialType={post.socialType}
 						maxCharacters={post.maxCharacters}
 						canEditPost={post.canEditPost}
