@@ -173,6 +173,7 @@ class CampaignModal extends Component {
 	};
 
 	firstPost = post_type => {
+		// function called when selecting type of first post so that the page knows to render the post list
 		// need to add Custom post_type
 		this.setState({ firstPostChosen: true });
 		if (post_type === "twitter") {
@@ -209,8 +210,6 @@ class CampaignModal extends Component {
 	render() {
 		const { colors, posts, saving, postAccountPicker, confirmDelete, campaign, firstPostChosen, activePostKey, newPostPromptActive } = this.state;
 		const { startDate, endDate, name } = campaign;
-
-		console.log(posts);
 
 		let colorDivs = [];
 		for (let index in colors) {
