@@ -121,14 +121,11 @@ class PostingOptions extends Component {
 			images,
 			postingToAccountId,
 			accountType,
-			socialType,
 			deleteImagesArray,
 			somethingChanged
 		} = this.state;
+		const socialType = this.props.socialType;
 		let { date } = this.state;
-		if (this.props.socialType !== socialType) {
-			this.setState({ socialType: this.props.socialType });
-		}
 		console.log("displayed post state: ");
 		console.log(this.state);
 		console.log("displayed post props: ");
@@ -156,9 +153,6 @@ class PostingOptions extends Component {
 				}
 			}
 		}
-
-		console.log("activepageaccountsarray: ");
-		console.log(activePageAccountsArray);
 
 		return (
 			<div className="posting-form">
