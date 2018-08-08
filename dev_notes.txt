@@ -3,3 +3,5 @@ Need to build functionality for creating a custom task in campaigns.
 When creating a post, start on facebook, look at the accounts available (all your facebook accounts) then
   change to twitter. The accounts available are still the facebook accounts.
   Need some way for the post modal to refresh itself or something.
+
+Bottom row of calendar is displaying the second half of the week a little out of line with the rest of the calendar.
