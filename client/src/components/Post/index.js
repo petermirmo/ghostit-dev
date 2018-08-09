@@ -49,15 +49,25 @@ class PostingOptions extends Component {
 				}
 			}
 		}
-
-		if (nextProps.post) {
-			this.setState({ contentValue: nextProps.post.content });
-		} else {
-			this.setState({ contentValue: "" });
-		}
-
-		if (nextProps.socialType !== this.state.socialType) {
-			this.setState({ socialType: nextProps.socialType });
+		if (nextProps.newActivePost) {
+			// want to set state back to default values if just creating a new post within a campaign
+			// but don't want to accidentally set state back to default values other times
+			const new_state = {
+				id: nextProps.post ? nextProps.post._id : undefined,
+				postingToAccountId: nextProps.post ? nextProps.post.accountID : "",
+				link: nextProps.post ? nextProps.post.link : "",
+				linkImage: nextProps.post ? nextProps.post.linkImage : "",
+				images: nextProps.post ? nextProps.post.images : [],
+				accountType: nextProps.post ? nextProps.post.accountType : "",
+				socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
+				contentValue: nextProps.post ? nextProps.post.content : "",
+				date: nextProps.post
+					? new moment(nextProps.post.postingDate)
+					: new moment() > new moment(this.props.clickedCalendarDate)
+						? new moment()
+						: new moment(this.props.clickedCalendarDate)
+			};
+			this.setState(new_state);
 		}
 	}
 	componentDidMount() {

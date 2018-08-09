@@ -122,7 +122,7 @@ class CampaignModal extends Component {
 
 	updatePost = (key, updatedPost) => {
 		const { posts } = this.state;
-		for (let index in posts) {
+		for (let index = 0; index < posts.length; index++) {
 			if (posts[index].key === key) {
 				let new_post = JSON.parse(JSON.stringify(posts[index]));
 				new_post.post = updatedPost;
@@ -219,10 +219,10 @@ class CampaignModal extends Component {
 		for (let index in posts) {
 			if (posts[index].key === activePostKey) {
 				const post = posts[index];
-				console.log("active post:");
-				console.log(post);
+
 				return (
 					<Post
+						newActivePost={true}
 						accounts={post.accounts}
 						clickedCalendarDate={post.clickedCalendarDate}
 						postFinishedSavingCallback={savedPost => {
@@ -397,7 +397,6 @@ class CampaignModal extends Component {
 							</div>
 						</div>
 					)}
-					{!postAccountPicker && <div className="test">here</div>}
 					<div className="modal-footer">
 						<FontAwesomeIcon
 							onClick={() => this.handleChange(true, "confirmDelete")}
