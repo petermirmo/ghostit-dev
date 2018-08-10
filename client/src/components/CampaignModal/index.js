@@ -375,8 +375,26 @@ class CampaignModal extends Component {
 						</div>
 					</div>
 					<div className="post-navigation-and-post-container">
-						<div className="post-navigation-container">
-							{firstPostChosen && (
+						{!firstPostChosen && (
+							<div className="campaign-start-container">
+								<div className="new-campaign-post-selection-write-up">How do you want to start off your campaign?</div>
+
+								<div className="new-post-prompt">
+									<div className="account-option" onClick={() => this.firstPost("facebook")}>
+										Facebook
+									</div>
+									<div className="account-option" onClick={() => this.firstPost("twitter")}>
+										Twitter
+									</div>
+									<div className="account-option" onClick={() => this.firstPost("linkedin")}>
+										LinkedIn
+									</div>
+								</div>
+							</div>
+						)}
+
+						{firstPostChosen && (
+							<div className="post-navigation-container">
 								<div className="post-list-container">
 									{posts.map(post_obj => {
 										return (
@@ -400,41 +418,24 @@ class CampaignModal extends Component {
 									)}
 									{newPostPromptActive && <FontAwesomeIcon icon={faArrowDown} size="2x" key="new_post_button" />}
 								</div>
-							)}
 
-							{newPostPromptActive && (
-								<div className="new-post-prompt">
-									<div className="account-option" onClick={() => this.addPost("facebook")}>
-										Facebook Post
+								{newPostPromptActive && (
+									<div className="new-post-prompt">
+										<div className="account-option" onClick={() => this.addPost("facebook")}>
+											Facebook Post
+										</div>
+										<div className="account-option" onClick={() => this.addPost("twitter")}>
+											Twitter Post
+										</div>
+										<div className="account-option" onClick={() => this.addPost("linkedin")}>
+											LinkedIn Post
+										</div>
 									</div>
-									<div className="account-option" onClick={() => this.addPost("twitter")}>
-										Twitter Post
-									</div>
-									<div className="account-option" onClick={() => this.addPost("linkedin")}>
-										LinkedIn Post
-									</div>
-								</div>
-							)}
-						</div>
-
-						{activePostKey !== undefined && <div className="posts-container">{this.getActivePost()}</div>}
-
-						{!firstPostChosen && (
-							<div className="first-post-prompt">
-								How do you want to start off your campaign?
-								<div className="account-first-post-container">
-									<div className="account-option" onClick={() => this.firstPost("facebook")}>
-										Facebook
-									</div>
-									<div className="account-option" onClick={() => this.firstPost("twitter")}>
-										Twitter
-									</div>
-									<div className="account-option" onClick={() => this.firstPost("linkedin")}>
-										LinkedIn
-									</div>
-								</div>
+								)}
 							</div>
 						)}
+
+						{activePostKey !== undefined && <div className="post-container">{this.getActivePost()}</div>}
 
 						{postAccountPicker && (
 							<div className="account-nav-bar-container">
