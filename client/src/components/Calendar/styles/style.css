@@ -55,13 +55,13 @@
 }
 .calendar-day-heading,
 .calendar-day {
+	width: 13%;
+	background-color: var(--white-theme-color);
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
 
-	max-width: 14.15%;
 	margin: 0 2px 2px 0;
 	padding: 0;
-	background-color: var(--white-theme-color);
-
 	cursor: pointer;
 }
 .calendar-day-heading:nth-child(7n),
@@ -96,17 +96,24 @@
 .first-index-campaign {
 	margin-left: 2px;
 }
+.last-index-campaign {
+	width: calc(100%) !important;
+}
 .first-index-campaign,
+.last-index-campaign,
 .campaign {
-	position: relative;
 	display: flex;
-	justify-content: center;
+
+	justify-content: space-around;
 	align-items: center;
+
 	width: calc(100% + 2px);
 	min-height: 30px;
+
 	margin-bottom: 4px;
 }
 .calendar-post {
+	flex-grow: 0.9;
 	max-height: 20px;
 
 	padding: 2px 10px 2px 10px;
@@ -116,6 +123,7 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
+
 	transition: transform 0.4s ease;
 	-webkit-transition: transform 0.4s ease;
 }

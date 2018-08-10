@@ -147,6 +147,65 @@
 	padding: 5px 20px 5px 20px;
 }
 
+.post-navigation-and-post-container {
+	display: flex;
+
+	min-width: 100%;
+
+	border-bottom: 0.5px solid var(--dark-grey-theme-color);
+}
+.post-navigation-container {
+	flex-basis: 0;
+	flex-grow: 1;
+
+	display: flex;
+
+	justify-content: flex-start;
+	align-items: center;
+
+	flex-direction: column;
+
+	padding: 20px;
+
+	border-right: 0.5px solid var(--dark-grey-theme-color);
+	background-color: var(--light-light-grey-theme-color);
+}
+.post-list-container {
+	display: flex;
+
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	width: 100%;
+}
+.post-list-entry {
+	width: 90%;
+
+	padding: 10px;
+	margin-bottom: 10px;
+
+	border-radius: 10px;
+	border: 2px solid var(--grey-theme-color);
+}
+.new-post-button {
+	cursor: pointer;
+}
+.new-post-prompt {
+	display: flex;
+}
+
+.posts-container {
+	flex-basis: 0;
+	flex-grow: 3;
+	display: flex;
+	flex-direction: column;
+}
+.post-container {
+	display: flex;
+	flex-direction: column;
+}
+
 .account-first-post-container {
 	display: flex;
 
@@ -184,17 +243,6 @@
 .account-option:hover {
 	background-color: var(--light-blue-theme-color);
 	color: var(--white-theme-color);
-}
-
-.posts-container {
-	display: flex;
-	flex-direction: column;
-
-	width: 100%;
-}
-.post-container {
-	display: flex;
-	flex-direction: column;
 }
 
 @keyframes campaignModalAnimation {

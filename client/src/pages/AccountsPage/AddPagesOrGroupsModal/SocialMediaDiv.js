@@ -51,7 +51,7 @@ class socialMediaDiv extends Component {
 				</div>
 			);
 		}
-		console.log(activeDivs);
+
 		return (
 			<div>
 				{pagesMessage}

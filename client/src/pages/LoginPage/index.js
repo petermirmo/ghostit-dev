@@ -164,7 +164,7 @@ class Login extends Component {
 									onChange={event => this.handleChange("fullName", event.target.value)}
 									type="text"
 									name="fullName"
-									placeholder="Full Name"
+									placeholder="Company Name"
 									required
 								/>
 

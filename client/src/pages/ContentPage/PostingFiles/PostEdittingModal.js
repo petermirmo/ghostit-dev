@@ -51,7 +51,7 @@ class PostEdittingModal extends Component {
 			return <Loader />;
 		}
 		const { close, savePostCallback, clickedEvent, accounts, timezone } = this.props;
-		console.log(clickedEvent);
+
 		let modalFooter;
 		let canEditPost = clickedEvent.status !== "posted";
 		if (canEditPost) {
