@@ -1,5 +1,6 @@
 Need to build functionality for creating a custom task in campaigns.
 
+(on my school laptop)
 Bottom row of calendar is displaying the second half of the week a little out of line with the rest of the calendar.
 
 (components/CampaignModal)
@@ -16,24 +17,9 @@ Need campaigns and their respective posts to be deleted in the DB whenever a use
 User might not want to delete campaign when they leave the modal so we should prompt them to publish, delete, or revert to previous campaign attributes/posts if they were just editing an existing one?
 Maybe have a system that saves them as drafts where the posts aren't considered 'active' until they are published properly.
 
-A campaign in DB is being saved as:
-{
-    "_id": {
-        "$oid": "5b6bf8f966ac6113e895031f"
-    },
-    "startDate": {
-        "$date": "2018-08-15T08:17:04.067Z"
-    },
-    "endDate": {
-        "$date": "2018-08-18T06:59:04.067Z"
-    },
-    "name": "yay",
-    "userID": {
-        "$oid": "5b47bbef91b71202904eeef6"
-    },
-    "color": "var(--campaign-color1", <<-------------- should this be "var(--campaign-color1)"? (missing parenthesis?)
-    "posts": [
-    etc......
-}
 
-From Kimia's interface, should we add the extra instruction box to every (non-custom task) post as well? (I think so)
+From Kimia's interface, need to add the extra instruction box to every (non-custom task) post as well.
+
+When hovering over a date that has a post / campaign on it, when the cursor is over the post / campaign, the (+) shouldn't light up since it wouldn't get 'clicked' in that position.
+
+When referring to a socialType's maxCharacters (such as 280 for twitter), we should probably have that stored as a const somewhere in case the website modifies their maximum post length in the future.

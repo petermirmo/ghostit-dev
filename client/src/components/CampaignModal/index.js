@@ -62,11 +62,10 @@ class CampaignModal extends Component {
 		let { campaign, changeCampaignDateLowerBound, changeCampaignDateUpperBound } = this.props;
 		if (campaign) {
 			if (campaign.posts) {
-				for (let index in campaign.posts) {
-					let post = campaign.posts[index];
-					if (post.socialType === "facebook") this.newPost("facebook", undefined, post);
-					else if (post.socialType === "linkedin") this.newPost("linkedin", 700, post);
-					else if (post.socialType === "twitter") this.newPost("twitter", 280, post);
+				if (campaign.posts.length > 0) {
+					this.fillPosts(campaign.posts);
+					let next_post_key = "" + campaign.posts.length + "post";
+					this.setState({ firstPostChosen: true, activePostKey: "0post", nextPostKey: next_post_key }); // maybe shouldn't hardcode but because setState is asychnronous, this will do for now
 				}
 			}
 		}
@@ -74,6 +73,37 @@ class CampaignModal extends Component {
 		changeCampaignDateLowerBound(this.state.campaign.startDate);
 		changeCampaignDateUpperBound(this.state.campaign.endDate);
 	}
+
+	fillPosts = campaign_posts => {
+		const { campaign } = this.state;
+		const { accounts, timezone, clickedCalendarDate } = this.props;
+
+		const posts = [];
+		// function called when a user clicks on an existing campaign to edit.
+		for (let i = 0; i < campaign_posts.length; i++) {
+			const current_post = campaign_posts[i];
+			let key = i + "post";
+			let maxCharacters = undefined;
+			if (current_post.socialType === "twitter") maxCharacters = 280;
+			else if (current_post.socialType === "linkedin") maxCharacters = 700;
+
+			let new_post = {
+				key,
+				accounts,
+				clickedCalendarDate,
+				socialType: current_post.socialType,
+				maxCharacters,
+				canEditPost: true,
+				timezone,
+				campaignID: campaign._id,
+				post: current_post
+			};
+
+			posts.push(new_post);
+		}
+
+		this.setState({ posts });
+	};
 
 	initSocket = () => {
 		let { campaign, somethingChanged } = this.state;
