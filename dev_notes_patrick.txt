@@ -18,9 +18,7 @@ User might not want to delete campaign when they leave the modal so we should pr
 Maybe have a system that saves them as drafts where the posts aren't considered 'active' until they are published properly.
 
 
-From Kimia's interface, should we add the extra instruction box to every (non-custom task) post as well? (I think so)
-
-Editing a campaign needs to function properly.
+From Kimia's interface, need to add the extra instruction box to every (non-custom task) post as well.
 
 When hovering over a date that has a post / campaign on it, when the cursor is over the post / campaign, the (+) shouldn't light up since it wouldn't get 'clicked' in that position.
 
