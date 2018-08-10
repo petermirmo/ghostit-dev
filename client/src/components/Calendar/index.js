@@ -62,10 +62,8 @@ class Calendar extends Component {
 				// Subtract the start date of current month
 				calendarDay.subtract(firstDayOfMonth, "days");
 				// Add our index
-
-				//
-
 				calendarDay.add(weekIndex * 7 + dayIndex, "days");
+
 				calendarDays.push(
 					<div
 						className={
