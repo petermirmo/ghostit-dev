@@ -96,6 +96,16 @@ class HeaderSideBar extends Component {
 						<a className="header-button" onClick={() => this.logout()}>
 							<FontAwesomeIcon icon={faSignOutAlt} /> Logout
 						</a>
+						{(isAdmin || isManager) && (
+							<a className={"header-button" + this.isActive("writersBrief")} onClick={() => changePage("writersBrief")}>
+								<FontAwesomeIcon icon={faFileAlt} /> Monthly Strategy
+							</a>
+						)}
+						{(isAdmin || isManager) && (
+							<a className={"header-button" + this.isActive("strategy")} onClick={() => changePage("strategy")}>
+								<FontAwesomeIcon icon={faFileAlt} /> Your Questionnaire
+							</a>
+						)}
 						{isAdmin && (
 							<a className={"header-button " + this.isActive("analytics")} onClick={() => changePage("analytics")}>
 								New Feature
