@@ -23,8 +23,8 @@ class CampaignModal extends Component {
 			? this.props.campaign
 			: {
 					startDate:
-					// maybe better to set new moment() to a var then use that instead so it's not called 4 times in a row
-					// not sure if that's possible / actually better in this scope though
+						// maybe better to set new moment() to a var then use that instead so it's not called 4 times in a row
+						// not sure if that's possible / actually better in this scope though
 						new moment() > new moment(this.props.clickedCalendarDate)
 							? new moment()
 							: new moment(this.props.clickedCalendarDate),
@@ -33,17 +33,21 @@ class CampaignModal extends Component {
 							? new moment()
 							: new moment(this.props.clickedCalendarDate),
 					name: "",
-					userID: this.props.user._id,
+					userID: this.props.user.signedInAsUser
+						? this.props.user.signedInAsUser.id
+							? this.props.user.signedInAsUser.id
+							: this.props.user._id
+						: this.props.user._id,
 					color: "var(--campaign-color1)"
 			  },
 		posts: [],
 		activePostKey: undefined,
 		nextPostKey: 0, // incrementing key so each post has a unique id regardless of posts being deleted
 		colors: {
-			color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1" },
-			color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2" },
-			color3: { className: "color3", border: "color3-border", color: "var(--campaign-color3" },
-			color4: { className: "color4", border: "color4-border", color: "var(--campaign-color4" }
+			color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1)" },
+			color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2)" },
+			color3: { className: "color3", border: "color3-border", color: "var(--campaign-color3)" },
+			color4: { className: "color4", border: "color4-border", color: "var(--campaign-color4)" }
 		},
 		saving: true,
 		postAccountPicker: false,
@@ -127,16 +131,12 @@ class CampaignModal extends Component {
 				let new_post = JSON.parse(JSON.stringify(posts[index]));
 				new_post.post = updatedPost;
 				this.setState({
-					posts: [
-						...posts.slice(0,index),
-						new_post,
-						...posts.slice(index+1)
-					]
+					posts: [...posts.slice(0, index), new_post, ...posts.slice(index + 1)]
 				});
 				return;
 			}
 		}
-	}
+	};
 
 	newPost = (socialType, maxCharacters, post) => {
 		const { posts, socket, campaign, activePostKey, nextPostKey } = this.state;
@@ -156,7 +156,12 @@ class CampaignModal extends Component {
 			campaignID: campaign._id,
 			post: undefined
 		};
-		this.setState({ posts: [...this.state.posts, new_post], postAccountPicker: false, activePostKey: key , nextPostKey: nextPostKey+1});
+		this.setState({
+			posts: [...this.state.posts, new_post],
+			postAccountPicker: false,
+			activePostKey: key,
+			nextPostKey: nextPostKey + 1
+		});
 	};
 
 	closeCampaign = () => {
@@ -190,7 +195,7 @@ class CampaignModal extends Component {
 		} else if (post_type === "linkedin") {
 			this.newPost("linkedin", 700);
 		}
-	}
+	};
 
 	addPost = post_type => {
 		// need to add Custom post_type
@@ -202,17 +207,17 @@ class CampaignModal extends Component {
 		} else if (post_type === "linkedin") {
 			this.newPost("linkedin", 700);
 		}
-	}
+	};
 
 	selectPost = (e, post_key) => {
 		e.preventDefault();
 		this.setState({ activePostKey: post_key });
-	}
+	};
 
-	newPostPrompt = (e) => {
+	newPostPrompt = e => {
 		e.preventDefault();
 		this.setState({ newPostPromptActive: true });
-	}
+	};
 
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign } = this.state;
@@ -243,14 +248,24 @@ class CampaignModal extends Component {
 						campaignID={post.campaignID}
 						post={post.post}
 					/>
-				)
+				);
 			}
 		}
-		return (<div></div>);
-	}
+		return <div />;
+	};
 
 	render() {
-		const { colors, posts, saving, postAccountPicker, confirmDelete, campaign, firstPostChosen, activePostKey, newPostPromptActive } = this.state;
+		const {
+			colors,
+			posts,
+			saving,
+			postAccountPicker,
+			confirmDelete,
+			campaign,
+			firstPostChosen,
+			activePostKey,
+			newPostPromptActive
+		} = this.state;
 		const { startDate, endDate, name } = campaign;
 
 		let colorDivs = [];
@@ -333,16 +348,12 @@ class CampaignModal extends Component {
 							{posts.map(post_obj => {
 								return (
 									<div className="post-list-entry" key={post_obj.key + "list-entry"}>
-										<button onClick={(e) => this.selectPost(e, post_obj.key)}>
-											{post_obj.socialType + " post"}
-										</button>
+										<button onClick={e => this.selectPost(e, post_obj.key)}>{post_obj.socialType + " post"}</button>
 									</div>
 								);
 							})}
 							<div className="post-list-entry" key="new_post_button">
-								<button onClick={(e) => this.newPostPrompt(e)}>
-									+
-								</button>
+								<button onClick={e => this.newPostPrompt(e)}>+</button>
 							</div>
 						</div>
 					)}
@@ -361,11 +372,7 @@ class CampaignModal extends Component {
 						</div>
 					)}
 
-					{activePostKey !== undefined && (
-						<div className="posts-container">
-							{ this.getActivePost() }
-						</div>
-					)}
+					{activePostKey !== undefined && <div className="posts-container">{this.getActivePost()}</div>}
 
 					{!firstPostChosen && (
 						<div className="first-post-prompt">

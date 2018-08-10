@@ -141,7 +141,7 @@ class Content extends Component {
 				campaignArray[index].campaign.posts = campaignArray[index].posts;
 				campaignArray[index] = campaignArray[index].campaign;
 			}
-
+			console.log(campaignArray);
 			if (this._ismounted) {
 				this.setState({ campaigns: campaignArray });
 			}
