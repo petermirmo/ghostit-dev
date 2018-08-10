@@ -191,8 +191,31 @@
 .new-post-button {
 	cursor: pointer;
 }
+
 .new-post-prompt {
 	display: flex;
+	width: 100%;
+
+	margin-top: 20px;
+}
+.account-option {
+	flex: 1;
+
+	text-align: center;
+
+	padding: 10px;
+	margin: 0 10px 0 10px;
+
+	border-radius: 10px;
+	border: 1px solid var(--grey-theme-color);
+
+	cursor: pointer;
+}
+.account-option:hover {
+	background-color: var(--blue-theme-color);
+	color: var(--white-theme-color);
+
+	border-color: transparent;
 }
 
 .posts-container {
@@ -230,19 +253,6 @@
 	margin: 20px 0 20px 0;
 
 	border: 2px solid var(--blue-theme-color);
-}
-.account-option {
-	flex: 1;
-
-	text-align: center;
-
-	padding: 20px 0 20px 0;
-
-	cursor: pointer;
-}
-.account-option:hover {
-	background-color: var(--light-blue-theme-color);
-	color: var(--white-theme-color);
 }
 
 @keyframes campaignModalAnimation {

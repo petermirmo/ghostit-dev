@@ -3,6 +3,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import faArrowDown from "@fortawesome/fontawesome-free-solid/faArrowDown";
 
 import moment from "moment-timezone";
 import io from "socket.io-client";
@@ -388,26 +389,29 @@ class CampaignModal extends Component {
 											</div>
 										);
 									})}
-									<FontAwesomeIcon
-										onClick={e => this.newPostPrompt(e)}
-										className="new-post-button"
-										icon={faPlus}
-										size="2x"
-										key="new_post_button"
-									/>
+									{!newPostPromptActive && (
+										<FontAwesomeIcon
+											onClick={e => this.newPostPrompt(e)}
+											className="new-post-button"
+											icon={faPlus}
+											size="2x"
+											key="new_post_button"
+										/>
+									)}
+									{newPostPromptActive && <FontAwesomeIcon icon={faArrowDown} size="2x" key="new_post_button" />}
 								</div>
 							)}
 
 							{newPostPromptActive && (
 								<div className="new-post-prompt">
 									<div className="account-option" onClick={() => this.addPost("facebook")}>
-										Facebook
+										Facebook Post
 									</div>
 									<div className="account-option" onClick={() => this.addPost("twitter")}>
-										Twitter
+										Twitter Post
 									</div>
 									<div className="account-option" onClick={() => this.addPost("linkedin")}>
-										LinkedIn
+										LinkedIn Post
 									</div>
 								</div>
 							)}
