@@ -40,6 +40,7 @@ export async function savePost(
 
 	// Get current images
 	let imagesToSave = [];
+
 	for (let i = 0; i < postImages.length; i++) {
 		if (!postImages[i].url) imagesToSave.push(postImages[i].image);
 	}
@@ -78,7 +79,8 @@ export async function savePost(
 
 					// Attach all images to formData
 					for (let i = 0; i < imagesToSave.length; i++) {
-						test.push(imagesToSave[i].currentTarget.result);
+						if (imagesToSave[i].currentTarget) test.push(imagesToSave[i].currentTarget.result);
+						else if (imagesToSave[i].target) test.push(imagesToSave[i].target.result);
 					}
 
 					// Make post request for images

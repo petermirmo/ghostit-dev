@@ -381,13 +381,13 @@ class CampaignModal extends Component {
 
 								<div className="new-post-prompt">
 									<div className="account-option" onClick={() => this.firstPost("facebook")}>
-										Facebook
+										Facebook<br />Post
 									</div>
 									<div className="account-option" onClick={() => this.firstPost("twitter")}>
-										Twitter
+										Twitter<br />Post
 									</div>
 									<div className="account-option" onClick={() => this.firstPost("linkedin")}>
-										LinkedIn
+										LinkedIn<br />Post
 									</div>
 								</div>
 							</div>
@@ -422,13 +422,13 @@ class CampaignModal extends Component {
 								{newPostPromptActive && (
 									<div className="new-post-prompt">
 										<div className="account-option" onClick={() => this.addPost("facebook")}>
-											Facebook Post
+											Facebook<br />Post
 										</div>
 										<div className="account-option" onClick={() => this.addPost("twitter")}>
-											Twitter Post
+											Twitter<br />Post
 										</div>
 										<div className="account-option" onClick={() => this.addPost("linkedin")}>
-											LinkedIn Post
+											LinkedIn<br />Post
 										</div>
 									</div>
 								)}

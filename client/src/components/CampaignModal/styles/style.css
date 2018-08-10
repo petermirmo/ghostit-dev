@@ -155,7 +155,10 @@
 	width: 100%;
 }
 .new-campaign-post-selection-write-up {
+	margin-top: 20px;
 	text-align: center;
+
+	font-size: var(--large-font-size);
 }
 
 .post-navigation-and-post-container {
@@ -202,7 +205,9 @@
 
 	cursor: pointer;
 }
-.new-post-button {
+
+.new-post-button:hover {
+	color: var(--blue-theme-color);
 	cursor: pointer;
 }
 
@@ -211,7 +216,7 @@
 	display: flex;
 
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 
 	width: 100%;
 	max-width: 500px;
