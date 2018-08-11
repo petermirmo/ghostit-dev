@@ -12,7 +12,6 @@ import NavigationBar from "../../components/Navigations/NavigationBar/";
 import Calendar from "../../components/Calendar/";
 import OptionModal from "../../components/OptionModal";
 import CampaignModal from "../../components/CampaignModal";
-import "./styles/";
 
 class Content extends Component {
 	state = {

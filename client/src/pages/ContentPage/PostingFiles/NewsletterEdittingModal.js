@@ -12,7 +12,7 @@ import "./styles/";
 
 class NewsletterEdittingModal extends Component {
 	state = {
-		deleteNewsletter: false,
+		confirmDelete: false,
 		notification: {},
 		newsletter: this.props.clickedEvent,
 		saving: false
@@ -21,10 +21,10 @@ class NewsletterEdittingModal extends Component {
 		this.setState({ newsletter: nextProps.clickedEvent });
 	}
 	deleteNewsletterPopUp = () => {
-		this.setState({ deleteNewsletter: true });
+		this.setState({ confirmDelete: true });
 	};
 	deleteNewsletter = deleteNewsletter => {
-		this.setState({ deleteNewsletter: false, saving: true });
+		this.setState({ confirmDelete: false, saving: true });
 		if (!this.state.newsletter) {
 			alert("Error cannot find newsletter. Please contact our dev team immediately");
 			return;
@@ -40,6 +40,11 @@ class NewsletterEdittingModal extends Component {
 					});
 				}
 			});
+		} else {
+			this.setState({
+				confirmDelete: false,
+				saving: false
+			});
 		}
 	};
 	hideNotification = () => {
@@ -53,8 +58,8 @@ class NewsletterEdittingModal extends Component {
 			return <Loader />;
 		}
 		return (
-			<div className="modal">
-				<div className="modal-content" style={{ textAlign: "center" }}>
+			<div className="modal" onClick={this.props.close}>
+				<div className="modal-content" onClick={e => e.stopPropagation()}>
 					<div className="modal-header">
 						<FontAwesomeIcon onClick={() => this.props.close()} className="close" icon={faTimes} size="2x" />
 					</div>
@@ -81,8 +86,9 @@ class NewsletterEdittingModal extends Component {
 						callback={this.hideNotification}
 					/>
 				)}
-				{this.state.deleteNewsletter && (
+				{this.state.confirmDelete && (
 					<ConfirmAlert
+						close={() => this.setState({ confirmDelete: false })}
 						title="Delete Newsletter"
 						message="Are you sure you want to delete this newsletter?"
 						callback={this.deleteNewsletter}

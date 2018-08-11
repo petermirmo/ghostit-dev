@@ -12,7 +12,7 @@ import "./styles/";
 
 class BlogEdittingModal extends Component {
 	state = {
-		deleteblog: false,
+		confirmDelete: false,
 		notification: {},
 		blog: this.props.clickedEvent,
 		saving: false
@@ -21,10 +21,10 @@ class BlogEdittingModal extends Component {
 		this.setState({ blog: nextProps.clickedEvent });
 	}
 	deleteBlogPopUp = () => {
-		this.setState({ deleteblog: true });
+		this.setState({ confirmDelete: true });
 	};
 	deleteBlog = deleteBlog => {
-		this.setState({ deleteblog: false, saving: true });
+		this.setState({ confirmDelete: false, saving: true });
 		if (!this.state.blog) {
 			alert("Error cannot find blog. Please contact our dev team immediately");
 			return;
@@ -40,6 +40,11 @@ class BlogEdittingModal extends Component {
 					});
 				}
 			});
+		} else {
+			this.setState({
+				deleteBlog: false,
+				saving: false
+			});
 		}
 	};
 	hideNotification = () => {
@@ -53,8 +58,8 @@ class BlogEdittingModal extends Component {
 			return <Loader />;
 		}
 		return (
-			<div className="modal">
-				<div className="modal-content" style={{ textAlign: "center" }}>
+			<div className="modal" onClick={this.props.close}>
+				<div className="modal-content" onClick={e => e.stopPropagation()}>
 					<div className="modal-header">
 						<FontAwesomeIcon icon={faTimes} className="close" size="2x" onClick={() => this.props.close()} />
 					</div>
@@ -81,8 +86,9 @@ class BlogEdittingModal extends Component {
 						callback={this.hideNotification}
 					/>
 				)}
-				{this.state.deleteblog && (
+				{this.state.confirmDelete && (
 					<ConfirmAlert
+						close={() => this.setState({ confirmDelete: false })}
 						title="Delete Blog"
 						message="Are you sure you want to delete this blog?"
 						callback={this.deleteBlog}

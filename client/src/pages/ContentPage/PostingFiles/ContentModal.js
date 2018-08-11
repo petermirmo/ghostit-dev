@@ -125,8 +125,8 @@ class ContentModal extends Component {
 		}
 
 		return (
-			<div className="modal">
-				<div className="content-modal">
+			<div className="modal" onClick={this.props.close}>
+				<div className="post-modal" onClick={e => e.stopPropagation()}>
 					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={() => close("contentModal")} />
 
 					<ContentModalHeader
@@ -135,7 +135,7 @@ class ContentModal extends Component {
 						activeTab={activeTab}
 						accounts={accounts}
 					/>
-					<div className="content-modal-body">{modalBody}</div>
+					<div className="post-modal-body">{modalBody}</div>
 				</div>
 			</div>
 		);

@@ -74,8 +74,10 @@ class Calendar extends Component {
 						onClick={() => onSelectDay(calendarDay)}
 						key={weekIndex + "week" + dayIndex + "day"}
 					>
-						<div className="calendar-day-date">{calendarDay.date()}</div>
-						<FontAwesomeIcon icon={faPlus} className="calendar-day-plus" />
+						<div className="date-plus-container">
+							<div className="calendar-day-date">{calendarDay.date()}</div>
+							<FontAwesomeIcon icon={faPlus} className="calendar-day-plus" />
+						</div>
 						{calendarCampaignsArray[loopDay]}
 					</div>
 				);

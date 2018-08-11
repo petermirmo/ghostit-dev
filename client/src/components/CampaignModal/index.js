@@ -321,7 +321,7 @@ class CampaignModal extends Component {
 
 		return (
 			<div className="modal" onClick={this.closeCampaign}>
-				<div className="campaign-modal" onClick={event => event.stopPropagation()}>
+				<div className="campaign-modal" onClick={e => e.stopPropagation()}>
 					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={this.closeCampaign} />
 					<div className="campaign-information-container">
 						<div className="name-color-container">
@@ -374,26 +374,27 @@ class CampaignModal extends Component {
 							</div>
 						</div>
 					</div>
-					<div className="post-navigation-and-post-container">
-						{!firstPostChosen && (
-							<div className="campaign-start-container">
-								<div className="new-campaign-post-selection-write-up">How do you want to start off your campaign?</div>
 
-								<div className="new-post-prompt">
-									<div className="account-option" onClick={() => this.firstPost("facebook")}>
-										Facebook<br />Post
-									</div>
-									<div className="account-option" onClick={() => this.firstPost("twitter")}>
-										Twitter<br />Post
-									</div>
-									<div className="account-option" onClick={() => this.firstPost("linkedin")}>
-										LinkedIn<br />Post
-									</div>
+					{!firstPostChosen && (
+						<div className="campaign-start-container">
+							<div className="new-campaign-post-selection-write-up">How do you want to start off your campaign?</div>
+
+							<div className="new-post-prompt">
+								<div className="account-option" onClick={() => this.firstPost("facebook")}>
+									Facebook<br />Post
+								</div>
+								<div className="account-option" onClick={() => this.firstPost("twitter")}>
+									Twitter<br />Post
+								</div>
+								<div className="account-option" onClick={() => this.firstPost("linkedin")}>
+									LinkedIn<br />Post
 								</div>
 							</div>
-						)}
+						</div>
+					)}
 
-						{firstPostChosen && (
+					{firstPostChosen && (
+						<div className="post-navigation-and-post-container">
 							<div className="post-navigation-container">
 								<div className="post-list-container">
 									{posts.map(post_obj => {
@@ -403,7 +404,10 @@ class CampaignModal extends Component {
 												key={post_obj.key + "list-entry"}
 												onClick={e => this.selectPost(e, post_obj.key)}
 											>
-												{post_obj.socialType.charAt(0).toUpperCase() + post_obj.socialType.slice(1) + " Post"}
+												{post_obj.socialType.charAt(0).toUpperCase() +
+													post_obj.socialType.slice(1) +
+													" Post - " +
+													new moment(post_obj.postingDate).format("lll")}
 											</div>
 										);
 									})}
@@ -433,24 +437,24 @@ class CampaignModal extends Component {
 									</div>
 								)}
 							</div>
-						)}
 
-						{activePostKey !== undefined && <div className="post-container">{this.getActivePost()}</div>}
+							{activePostKey !== undefined && <div className="post-container">{this.getActivePost()}</div>}
 
-						{postAccountPicker && (
-							<div className="account-nav-bar-container">
-								<div className="account-option" onClick={() => this.newPost("facebook")}>
-									Facebook
+							{postAccountPicker && (
+								<div className="account-nav-bar-container">
+									<div className="account-option" onClick={() => this.newPost("facebook")}>
+										Facebook
+									</div>
+									<div className="account-option" onClick={() => this.newPost("twitter", 280)}>
+										Twitter
+									</div>
+									<div className="account-option" onClick={() => this.newPost("linkedin", 700)}>
+										LinkedIn
+									</div>
 								</div>
-								<div className="account-option" onClick={() => this.newPost("twitter", 280)}>
-									Twitter
-								</div>
-								<div className="account-option" onClick={() => this.newPost("linkedin", 700)}>
-									LinkedIn
-								</div>
-							</div>
-						)}
-					</div>
+							)}
+						</div>
+					)}
 
 					<div className="modal-footer">
 						<FontAwesomeIcon
@@ -462,9 +466,11 @@ class CampaignModal extends Component {
 					</div>
 					{confirmDelete && (
 						<ConfirmAlert
+							close={() => this.setState({ confirmDelete: false })}
 							title="Delete Campaign"
 							message="Are you sure you want to delete this campaign? Deleting this campaign will also delete all posts in it."
 							callback={this.deleteCampaign}
+							close={() => this.setState({ confirmDelete: false })}
 						/>
 					)}
 				</div>

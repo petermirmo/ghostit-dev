@@ -16,7 +16,7 @@ class ContentModalHeader extends Component {
 				</div>
 			);
 		}
-		return <div className="content-modal-header">{categoryDivs}</div>;
+		return <div className="post-modal-header">{categoryDivs}</div>;
 	}
 }
 

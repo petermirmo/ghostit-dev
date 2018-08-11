@@ -295,7 +295,7 @@ class AccountsPage extends Component {
 					/>
 				)}
 				{deleteAccount && (
-					<ConfirmAlert
+					<ConfirmAlert close={() => this.setState({ confirmDelete: false })}
 						title="Delete Account"
 						message="Are you sure you want to delete this social account from our software?"
 						callback={this.disconnectAccount}

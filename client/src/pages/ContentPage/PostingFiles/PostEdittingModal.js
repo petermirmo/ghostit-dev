@@ -15,14 +15,15 @@ import "./styles/";
 class PostEdittingModal extends Component {
 	state = {
 		notification: {},
-		saving: false
+		saving: false,
+		confirmDelete: false
 	};
 
 	deletePostPopUp = () => {
-		this.setState({ deletePost: true });
+		this.setState({ confirmDelete: true });
 	};
 	deletePost = deletePost => {
-		this.setState({ deletePost: false, saving: true });
+		this.setState({ confirmDelete: false, saving: true });
 		if (!this.props.clickedEvent._id) {
 			alert("Error cannot find post. Please contact our dev team immediately");
 			return;
@@ -40,6 +41,11 @@ class PostEdittingModal extends Component {
 						notification: { on: true, notificationType: "danger", title: "Something went wrong", message: "" }
 					});
 				}
+			});
+		} else {
+			this.setState({
+				confirmDelete: false,
+				saving: false
 			});
 		}
 	};
@@ -69,8 +75,8 @@ class PostEdittingModal extends Component {
 		}
 
 		return (
-			<div className="modal">
-				<div className="modal-content" style={{ textAlign: "center" }}>
+			<div className="modal" onClick={this.props.close}>
+				<div className="modal-content" onClick={e => e.stopPropagation()}>
 					<div className="modal-header">
 						<FontAwesomeIcon icon={faTimes} className="close" size="2x" onClick={() => close()} />
 					</div>
@@ -99,8 +105,9 @@ class PostEdittingModal extends Component {
 						callback={this.hideNotification}
 					/>
 				)}
-				{this.state.deletePost && (
+				{this.state.confirmDelete && (
 					<ConfirmAlert
+						close={() => this.setState({ confirmDelete: false })}
 						title="Delete Post"
 						message="Are you sure you want to delete this post?"
 						callback={this.deletePost}

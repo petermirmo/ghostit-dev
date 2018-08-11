@@ -31,12 +31,12 @@
 	--white-theme-color: #fff;
 
 	--light-light-grey-theme-color: #fbfcfc;
-	--light-grey-theme-color: #dcdde1;
+	--light-grey-theme-color: #e0e0e0;
 	--dark-grey-theme-color: #95a5a6;
 
 	--off-black-theme-color: #666666;
 
-	--test-theme-color: #adadad;
+	--test-theme-color: #e0e0e0;
 
 	--campaign-color1: #da86f1;
 	--campaign-color2: #b0acf0;
@@ -109,10 +109,8 @@
 }
 
 .modal-footer {
-	padding: 0;
-	background-color: var(--white-theme-color);
-	text-align: center;
-	overflow: auto;
+	background-color: transparent;
+	width: 100%;
 }
 @keyframes animatetop {
 	from {
@@ -282,14 +280,14 @@
 	border-radius: 0 20px 20px 0;
 }
 .delete {
-	position: absolute;
-	bottom: 0;
-	right: 0;
+	float: right;
+	padding: 10px;
 
 	color: var(--grey-theme-color);
+
 	background-color: transparent;
+
 	cursor: pointer;
-	margin: 10px;
 
 	transition: color 0.4s ease;
 	-webkit-transition: color 0.4s ease;

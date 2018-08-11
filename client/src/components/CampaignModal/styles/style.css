@@ -2,19 +2,18 @@
 	position: relative;
 	display: flex;
 
-	justify-content: flex-start;
+	justify-content: space-between;
 	align-items: center;
 	flex-direction: column;
 
 	min-height: 80vh;
 	min-width: 80%;
 
-	padding: 0 0 20px 0;
 	margin-top: 5vh;
 
 	border-radius: 2px;
 
-	background-color: var(--light-light-grey-theme-color);
+	background-color: var(--white-theme-color);
 
 	transition: all 0.2s ease;
 	-webkit-transition: all 0.2s ease;
@@ -33,7 +32,7 @@
 
 	background-color: var(--white-theme-color);
 
-	border-bottom: 0.5px solid var(--dark-grey-theme-color);
+	border-bottom: 0.5px solid var(--light-grey-theme-color);
 }
 .name-color-container {
 	display: flex;
@@ -147,15 +146,19 @@
 	padding: 5px 20px 5px 20px;
 }
 .campaign-start-container {
+	flex-grow: 1;
+
 	display: flex;
 	flex-direction: column;
 
 	justify-content: center;
 	align-items: center;
+
 	width: 100%;
+
+	padding-top: 20px;
 }
 .new-campaign-post-selection-write-up {
-	margin-top: 20px;
 	text-align: center;
 
 	font-size: var(--large-font-size);
@@ -181,8 +184,9 @@
 
 	overflow: hidden;
 
-	border-right: 0.5px solid var(--dark-grey-theme-color);
-	border-bottom: 0.5px solid var(--dark-grey-theme-color);
+	border-right: 0.5px solid var(--light-grey-theme-color);
+	border-bottom: 0.5px solid var(--light-grey-theme-color);
+
 	background-color: var(--light-light-grey-theme-color);
 }
 .post-list-container {
@@ -201,7 +205,7 @@
 	margin-bottom: 10px;
 
 	border-radius: 10px;
-	border: 2px solid var(--grey-theme-color);
+	border: 1px solid var(--light-grey-theme-color);
 
 	cursor: pointer;
 }
@@ -249,7 +253,7 @@
 	display: flex;
 	flex-direction: column;
 
-	border-bottom: 0.5px solid var(--dark-grey-theme-color);
+	border-bottom: 0.5px solid var(--light-grey-theme-color);
 }
 
 .account-nav-bar-container {

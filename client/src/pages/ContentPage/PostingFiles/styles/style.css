@@ -1,4 +1,4 @@
-.content-modal {
+.post-modal {
 	background-color: var(--white-theme-color);
 
 	position: fixed;
@@ -20,7 +20,7 @@
 	-webkit-animation: animateOpacity 0.2s;
 	animation: animateOpacity 0.2s;
 }
-.content-modal-header {
+.post-modal-header {
 	display: flex;
 
 	justify-content: space-between;
@@ -53,7 +53,7 @@
 	opacity: 0.9;
 	border-right: 4px solid var(--blue-theme-color);
 }
-.content-modal-body {
+.post-modal-body {
 	width: 80%;
 	height: 100%;
 }

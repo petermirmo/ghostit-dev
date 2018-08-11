@@ -1,4 +1,4 @@
-.content-modal {
+.post-modal {
 	background-color: var(--white-theme-color);
 
 	position: relative;
@@ -19,7 +19,7 @@
 	animation-name: animateright;
 	animation-duration: 0.2s;
 }
-.content-modal-header {
+.post-modal-header {
 	display: inline-block;
 	overflow: auto;
 	height: 100%;
@@ -47,7 +47,7 @@
 	opacity: 0.9;
 	border-right: 4px solid var(--blue-theme-color);
 }
-.content-modal-body {
+.post-modal-body {
 	display: inline-block;
 
 	float: right;
