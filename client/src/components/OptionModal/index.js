@@ -3,32 +3,14 @@ import React, { Component } from "react";
 import "./styles/";
 
 class OptionModal extends Component {
-	componentDidMount() {
-		document.addEventListener("mousedown", this.handleClickOutside);
-	}
-
-	componentWillUnmount() {
-		document.removeEventListener("mousedown", this.handleClickOutside);
-	}
-	setWrapperRef = node => {
-		this.wrapperRef = node;
-	};
-
-	handleClickOutside = event => {
-		if (!this.wrapperRef) return;
-
-		if (this.wrapperRef.contains(event.target)) return;
-
-		this.props.handleChange(false, "optionModal");
-	};
-
 	render() {
 		return (
-			<div className="modal">
-				<div ref={this.setWrapperRef} className="option-container">
+			<div className="modal" onClick={() => this.props.handleChange(false, "optionModal")}>
+				<div className="option-container">
 					<div
 						className="option1"
-						onClick={() => {
+						onClick={e => {
+							e.stopPropagation();
 							this.props.handleChange(true, "campaignModal");
 							this.props.handleChange(false, "optionModal");
 						}}
@@ -37,7 +19,8 @@ class OptionModal extends Component {
 					</div>
 					<div
 						className="option2"
-						onClick={() => {
+						onClick={e => {
+							e.stopPropagation();
 							this.props.handleChange(true, "contentModal");
 							this.props.handleChange(false, "optionModal");
 						}}

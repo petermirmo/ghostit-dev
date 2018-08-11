@@ -4,6 +4,7 @@
 @import url(https://fonts.googleapis.com/css?family=Varela);
 @import url(https://fonts.googleapis.com/css?family=Lato);
 @import url(https://fonts.googleapis.com/css?family=Butterfly+Kids);
+@import url(https://fonts.googleapis.com/css?family=Varela+Round);
 
 :root {
 	--blue-theme-color: #00a8ff;
@@ -51,7 +52,7 @@
 	--medium-gigantic-font-size: 23pt;
 	--super-gigantic-font-size: 25pt;
 
-	--font-theme: "lato";
+	--font-theme: "Varela Round";
 }
 
 .wrapper {

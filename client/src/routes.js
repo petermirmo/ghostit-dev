@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changePage, setUser, updateAccounts, openHeaderSideBar, openClientSideBar } from "./redux/actions/";
 
+import LoaderWedge from "./components/Notifications/LoaderWedge";
+
 import Header from "./components/Navigations/Header/";
 import ClientsSideBar from "./components/SideBarClients/";
 
@@ -25,6 +27,9 @@ import WritersBrief from "./pages/WritersBriefPage/";
 import "./css/";
 
 class Routes extends Component {
+	state = {
+		datebaseConnection: false
+	};
 	constructor(props) {
 		super(props);
 
@@ -40,7 +45,10 @@ class Routes extends Component {
 					props.updateAccounts(accounts);
 					props.setUser(user);
 					props.changePage("content");
+					this.setState({ datebaseConnection: true });
 				});
+			} else {
+				this.setState({ datebaseConnection: true });
 			}
 		});
 	}
@@ -63,6 +71,7 @@ class Routes extends Component {
 		this.props.openClientSideBar(!this.props.clientSideBar);
 	};
 	render() {
+		const { datebaseConnection } = this.state;
 		const { activePage, clientSideBar, headerSideBar, user } = this.props;
 		let accessClientButton;
 		if (user) {
@@ -74,6 +83,8 @@ class Routes extends Component {
 		}
 		let margin;
 		if (headerSideBar) margin = { marginLeft: "20%" };
+
+		if (!datebaseConnection) return <LoaderWedge />;
 
 		return (
 			<div>
