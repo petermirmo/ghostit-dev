@@ -75,6 +75,7 @@ module.exports = {
 			newPost.color = backgroundColorOfPost;
 			newPost.campaignID = post.campaignID;
 			newPost.status = "pending";
+			newPost.instructions = post.instructions;
 
 			newPost.save().then(result => res.send({ success: true, post: result }));
 		});

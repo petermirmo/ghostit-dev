@@ -24,6 +24,7 @@ class PostingOptions extends Component {
 		accountType: this.props.post ? this.props.post.accountType : "",
 		socialType: this.props.post ? this.props.post.socialType : this.props.socialType,
 		contentValue: this.props.post ? this.props.post.content : "",
+		instructionValue: this.props.post && this.props.post.instructions ? this.props.post.instructions : "",
 		date: this.props.post
 			? new moment(this.props.post.postingDate)
 			: new moment() > new moment(this.props.clickedCalendarDate)
@@ -61,6 +62,7 @@ class PostingOptions extends Component {
 				accountType: nextProps.post ? nextProps.post.accountType : "",
 				socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
 				contentValue: nextProps.post ? nextProps.post.content : "",
+				instructionValue: nextProps.post && nextProps.post.instructions ? nextProps.post.instructions : "",
 				date: nextProps.post
 					? new moment(nextProps.post.postingDate)
 					: new moment() > new moment(this.props.clickedCalendarDate)
@@ -135,6 +137,7 @@ class PostingOptions extends Component {
 		const {
 			id,
 			contentValue,
+			instructionValue,
 			link,
 			linkImage,
 			linkImagesArray,
@@ -224,6 +227,15 @@ class PostingOptions extends Component {
 						dateLowerBound={campaignID ? new moment(this.props.campaignDateLowerBound) : undefined}
 						dateUpperBound={campaignID ? new moment(this.props.campaignDateUpperBound) : undefined}
 					/>
+					<Textarea
+						className="posting-textarea"
+						placeholder="Include any comments or instructions here."
+						onChange={event => {
+							this.handleChange(event.target.value, "instructionValue");
+						}}
+						value={instructionValue}
+						readOnly={!canEditPost}
+					/>
 					{canEditPost &&
 						somethingChanged && (
 							<button
@@ -248,7 +260,8 @@ class PostingOptions extends Component {
 										accountType,
 										postFinishedSavingCallback,
 										deleteImagesArray,
-										campaignID
+										campaignID,
+										instructionValue
 									);
 									this.setState({ somethingChanged: false });
 								}}

@@ -30,7 +30,8 @@ export async function savePost(
 	accountType,
 	callback,
 	deleteImagesArray,
-	campaignID
+	campaignID,
+	instructions=""
 ) {
 	if (deleteImagesArray) {
 		if (deleteImagesArray.length !== 0) {
@@ -57,6 +58,7 @@ export async function savePost(
 			id: id,
 			accountID: accountIdToPostTo,
 			content,
+			instructions,
 			postingDate: dateToPostInUtcTime,
 			link,
 			linkImage: linkPreviewImage,

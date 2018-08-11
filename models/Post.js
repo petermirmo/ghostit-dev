@@ -7,6 +7,7 @@ const postSchema = new Schema(
 		userID: String,
 		accountID: String,
 		content: String,
+		instructions: String,
 		link: String,
 		linkImage: String,
 		postingDate: String,
