@@ -44,11 +44,13 @@ module.exports = socket => {
 			if (campaign.posts.length === 0) {
 				Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
 					if (foundCampaign) foundCampaign.remove();
+					socket.disconnect();
 				});
 			}
 		} else {
 			Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
 				if (foundCampaign) foundCampaign.remove();
+				socket.disconnect();
 			});
 		}
 	});

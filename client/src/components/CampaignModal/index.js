@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changeCampaignDateLowerBound, changeCampaignDateUpperBound } from "../../redux/actions/";
+import { getPostColor } from "../../extra/functions/CommonFunctions";
 
 import DateTimePicker from "../DateTimePicker";
 import Post from "../Post";
@@ -76,6 +77,18 @@ class CampaignModal extends Component {
 		changeCampaignDateLowerBound(this.state.campaign.startDate);
 		changeCampaignDateUpperBound(this.state.campaign.endDate);
 	}
+	componentWillUnmount() {
+		let { campaign, somethingChanged, socket } = this.state;
+
+		if (somethingChanged && campaign && socket) {
+			socket.emit("campaign_editted", campaign);
+			socket.on("campaign_saved", emitObject => {
+				socket.emit("close", campaign);
+
+				this.props.updateCampaigns();
+			});
+		}
+	}
 
 	fillPosts = campaign_posts => {
 		const { campaign } = this.state;
@@ -125,14 +138,6 @@ class CampaignModal extends Component {
 			});
 		} else this.setState({ saving: false });
 
-		setInterval(() => {
-			let { campaign, somethingChanged, socket } = this.state;
-
-			if (somethingChanged && campaign && socket) {
-				socket.emit("campaign_editted", campaign);
-				socket.on("campaign_saved", emitObject => {});
-			}
-		}, 1000);
 		this.setState({ socket });
 	};
 
@@ -195,15 +200,6 @@ class CampaignModal extends Component {
 			activePostKey: key,
 			nextPostKey: nextPostKey + 1
 		});
-	};
-
-	closeCampaign = () => {
-		this.props.close(false, "campaignModal");
-
-		let { socket, campaign } = this.state;
-		socket.emit("close", campaign);
-
-		this.props.updateCampaigns();
 	};
 
 	deleteCampaign = response => {
@@ -319,9 +315,14 @@ class CampaignModal extends Component {
 		}
 
 		return (
-			<div className="modal" onClick={this.closeCampaign}>
+			<div className="modal" onClick={() => this.props.close(false, "campaignModal")}>
 				<div className="campaign-modal" onClick={e => e.stopPropagation()}>
-					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={this.closeCampaign} />
+					<FontAwesomeIcon
+						icon={faTimes}
+						size="2x"
+						className="close"
+						onClick={() => this.props.close(false, "campaignModal")}
+					/>
 					<div className="campaign-information-container" style={{ borderColor: color }}>
 						<div className="name-color-container">
 							<div className="name-container">
@@ -402,12 +403,17 @@ class CampaignModal extends Component {
 												className="post-list-entry"
 												key={post_obj.key + "list-entry"}
 												onClick={e => this.selectPost(e, post_obj.key)}
-												style={{ borderColor: post_obj.post.color, backgroundColor: post_obj.post.color }}
+												style={{
+													borderColor: getPostColor(post_obj.socialType),
+													backgroundColor: getPostColor(post_obj.socialType)
+												}}
 											>
 												{post_obj.socialType.charAt(0).toUpperCase() +
 													post_obj.socialType.slice(1) +
 													" Post - " +
-													new moment(post_obj.post.postingDate).format("lll")}
+													new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format(
+														"lll"
+													)}
 											</div>
 										);
 									})}
@@ -418,24 +424,30 @@ class CampaignModal extends Component {
 											icon={faPlus}
 											size="2x"
 											key="new_post_button"
+											style={{ backgroundColor: color }}
 										/>
 									)}
-									{newPostPromptActive && <FontAwesomeIcon icon={faArrowDown} size="2x" key="new_post_button" />}
-								</div>
+									{newPostPromptActive && (
+										<FontAwesomeIcon icon={faArrowDown} size="2x" key="new_post_button" className="arrow-down" />
+									)}
 
-								{newPostPromptActive && (
-									<div className="new-post-prompt">
-										<div className="account-option" onClick={() => this.addPost("facebook")}>
-											Facebook<br />Post
+									{newPostPromptActive && (
+										<div className="new-post-prompt">
+											<div className="account-option" onClick={() => this.addPost("facebook")}>
+												Facebook<br />Post
+											</div>
+											<div className="account-option" onClick={() => this.addPost("twitter")}>
+												Twitter<br />Post
+											</div>
+											<div className="account-option" onClick={() => this.addPost("linkedin")}>
+												LinkedIn<br />Post
+											</div>
 										</div>
-										<div className="account-option" onClick={() => this.addPost("twitter")}>
-											Twitter<br />Post
-										</div>
-										<div className="account-option" onClick={() => this.addPost("linkedin")}>
-											LinkedIn<br />Post
-										</div>
+									)}
+									<div className="publish-as-recipe" style={{ backgroundColor: color }}>
+										Publish as recipe
 									</div>
-								)}
+								</div>
 							</div>
 
 							{activePostKey !== undefined && (

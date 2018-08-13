@@ -145,6 +145,8 @@ class Calendar extends Component {
 					dateIndexOfEvent.add(1, "days");
 				}
 
+				let indexToLoopCampaignPosts = 0;
+
 				while (
 					dateIndexOfEvent <= new moment(calendarEvent.endDate) &&
 					dateIndexOfEvent <= calendarEndDate &&
@@ -159,19 +161,18 @@ class Calendar extends Component {
 					// If first loop of while loop
 					if (firstLoop) {
 						calendarEvent.row = currentCalendarDayOfEvents.length;
-						campaignClassName = "first-index-campaign";
+						campaignClassName += " first-index-campaign";
 					}
 					// If last index of campaign
 					if (
 						dateIndexOfEvent.diff(new moment(calendarEvent.endDate), "days") === 0 ||
 						dateIndexOfEvent.diff(calendarEndDate, "days") === 0
 					) {
-						campaignClassName = "last-index-campaign";
+						campaignClassName += " last-index-campaign";
 					}
 
 					let campaignCalendarPosts = [];
 
-					let indexToLoopCampaignPosts = 0;
 					// Get each post for this day of the campaign to display in calendar
 					if (calendarEvent.posts) {
 						if (calendarEvent.posts[indexToLoopCampaignPosts]) {

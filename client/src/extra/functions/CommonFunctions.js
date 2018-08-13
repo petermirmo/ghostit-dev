@@ -31,7 +31,7 @@ export async function savePost(
 	callback,
 	deleteImagesArray,
 	campaignID,
-	instructions=""
+	instructions = ""
 ) {
 	if (deleteImagesArray) {
 		if (deleteImagesArray.length !== 0) {
@@ -134,5 +134,22 @@ export function carouselOptions(socialType) {
 		return [false, false];
 	} else if (socialType === "newsletter") {
 		return [false, false];
+	}
+}
+export function getPostColor(socialType) {
+	if (socialType === "facebook") {
+		return "#4267b2";
+	} else if (socialType === "twitter") {
+		return "#1da1f2";
+	} else if (socialType === "linkedin") {
+		return "#0077b5";
+	} else if (socialType === "instagram") {
+		return "#cd486b";
+	} else if (socialType === "blog") {
+		return "#e74c3c";
+	} else if (socialType === "newsletter") {
+		return "#fd651c";
+	} else {
+		return "var(--blue-theme-color)";
 	}
 }
