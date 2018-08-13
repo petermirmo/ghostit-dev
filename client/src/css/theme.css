@@ -95,7 +95,8 @@
 	animation: animateOpacity 0.2s;
 
 	width: 50%;
-	margin: 10vh auto 200px auto;
+	max-height: 90vh;
+	margin: 5vh auto 200px auto;
 
 	overflow: auto;
 }

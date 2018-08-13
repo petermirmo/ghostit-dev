@@ -245,7 +245,7 @@ class Calendar extends Component {
 		if (post.notes) content = post.notes;
 		let color = "var(--blue-theme-color)";
 		if (post.color) color = post.color;
-		if (post.eventColor) color = post.eventColor;
+		if (post.color) color = post.color;
 
 		let icon;
 		if (post.socialType === "facebook") icon = faFacebookF;

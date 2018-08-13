@@ -67,7 +67,8 @@ class CampaignModal extends Component {
 				if (campaign.posts.length > 0) {
 					this.fillPosts(campaign.posts);
 					let next_post_key = "" + campaign.posts.length + "post";
-					this.setState({ firstPostChosen: true, activePostKey: "0post", nextPostKey: next_post_key }); // maybe shouldn't hardcode but because setState is asychnronous, this will do for now
+					// maybe shouldn't hardcode but because setState is asychnronous, this will do for now
+					this.setState({ firstPostChosen: true, activePostKey: "0post", nextPostKey: next_post_key });
 				}
 			}
 		}
@@ -298,14 +299,12 @@ class CampaignModal extends Component {
 			activePostKey,
 			newPostPromptActive
 		} = this.state;
-		const { startDate, endDate, name } = campaign;
+		const { startDate, endDate, name, color } = campaign;
 
 		let colorDivs = [];
 		for (let index in colors) {
-			let color = colors[index];
-
-			let className = color.border;
-			if (color.color == campaign.color) className += " active";
+			let className = colors[index].border;
+			if (colors[index].color == color) className += " active";
 			colorDivs.push(
 				<div
 					className={className}
@@ -314,7 +313,7 @@ class CampaignModal extends Component {
 					}}
 					key={index}
 				>
-					<div className={color.className} />
+					<div className={colors[index].className} />
 				</div>
 			);
 		}
@@ -323,7 +322,7 @@ class CampaignModal extends Component {
 			<div className="modal" onClick={this.closeCampaign}>
 				<div className="campaign-modal" onClick={e => e.stopPropagation()}>
 					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={this.closeCampaign} />
-					<div className="campaign-information-container">
+					<div className="campaign-information-container" style={{ borderColor: color }}>
 						<div className="name-color-container">
 							<div className="name-container">
 								<div>Name your campaign:</div>
@@ -395,7 +394,7 @@ class CampaignModal extends Component {
 
 					{firstPostChosen && (
 						<div className="post-navigation-and-post-container">
-							<div className="post-navigation-container">
+							<div className="post-navigation-container" style={{ borderColor: color }}>
 								<div className="post-list-container">
 									{posts.map(post_obj => {
 										return (
@@ -403,11 +402,12 @@ class CampaignModal extends Component {
 												className="post-list-entry"
 												key={post_obj.key + "list-entry"}
 												onClick={e => this.selectPost(e, post_obj.key)}
+												style={{ borderColor: post_obj.post.color, backgroundColor: post_obj.post.color }}
 											>
 												{post_obj.socialType.charAt(0).toUpperCase() +
 													post_obj.socialType.slice(1) +
 													" Post - " +
-													new moment(post_obj.postingDate).format("lll")}
+													new moment(post_obj.post.postingDate).format("lll")}
 											</div>
 										);
 									})}
@@ -438,7 +438,11 @@ class CampaignModal extends Component {
 								)}
 							</div>
 
-							{activePostKey !== undefined && <div className="post-container">{this.getActivePost()}</div>}
+							{activePostKey !== undefined && (
+								<div className="post-container" style={{ borderColor: color }}>
+									{this.getActivePost()}
+								</div>
+							)}
 
 							{postAccountPicker && (
 								<div className="account-nav-bar-container">

@@ -28,7 +28,7 @@ module.exports = {
 				newNewsletter.dueDate = newsletter.dueDate;
 				newNewsletter.notes = newsletter.notes;
 				newNewsletter.wordDoc = newsletter.wordDoc;
-				newNewsletter.eventColor = newsletter.eventColor;
+				newNewsletter.color = newsletter.color;
 			} else {
 				newNewsletter = new Newsletter(newsletter);
 			}

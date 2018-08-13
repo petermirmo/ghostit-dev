@@ -62,7 +62,7 @@ class CreateBlogComponent extends Component {
 
 		this.props.setSaving();
 
-		blog.eventColor = "#e74c3c";
+		blog.color = "#e74c3c";
 
 		for (let index in imagesToDelete) {
 			axios.delete("/api/delete/file/" + imagesToDelete[index].publicID).then(res => {});

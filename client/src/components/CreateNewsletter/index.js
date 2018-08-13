@@ -45,7 +45,7 @@ class CreateNewsletter extends Component {
 
 		this.props.setSaving();
 
-		newsletter.eventColor = "#fd651c";
+		newsletter.color = "#fd651c";
 
 		// Check if we are updating a newsletter or creating a new newsletter
 

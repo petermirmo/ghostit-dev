@@ -10,7 +10,7 @@ const blogSchema = new Schema(
 		title: String,
 		resources: String,
 		about: String,
-		eventColor: String,
+		color: String,
 		socialType: String,
 		image: {
 			url: String,

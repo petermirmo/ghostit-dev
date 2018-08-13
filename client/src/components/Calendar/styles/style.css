@@ -60,8 +60,10 @@
 	flex-grow: 1;
 	-webkit-flex-grow: 1;
 
-	margin: 0 2px 2px 0;
 	padding: 0;
+
+	border-right: 1px solid var(--light-blue-theme-color);
+	border-bottom: 1px solid var(--light-blue-theme-color);
 }
 .calendar-day-heading:nth-child(7n),
 .calendar-day:nth-child(7n) {
@@ -97,34 +99,40 @@
 
 .first-index-campaign {
 	margin-left: 2px;
+	border-radius: 50px 0 0 50px;
+	padding: 0 5px 0 5px;
 }
 .last-index-campaign {
-	width: calc(100% - 2px) !important;
+	width: calc(100% - 1px) !important;
+	border-radius: 0 50px 50px 0;
 }
 .first-index-campaign,
 .last-index-campaign,
 .campaign {
+	flex-basis: 0;
 	display: flex;
 
 	justify-content: space-around;
 	align-items: center;
 
-	width: calc(100% + 2px);
+	width: calc(100% + 1px);
 	min-height: 30px;
 
 	margin-bottom: 2px;
 	cursor: pointer;
+
+	box-sizing: border-box;
 }
 .calendar-post {
-	flex-grow: 1;
 	max-height: 20px;
+	flex: 1;
 
 	padding: 2px 10px 2px 10px;
 	margin: 0 2px 2px 2px;
 
 	color: var(--white-theme-color);
 
-	border-radius: 2px;
+	border-radius: 100px;
 	overflow: hidden;
 	white-space: nowrap;
 

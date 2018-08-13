@@ -227,15 +227,7 @@ class PostingOptions extends Component {
 						dateLowerBound={campaignID ? new moment(this.props.campaignDateLowerBound) : undefined}
 						dateUpperBound={campaignID ? new moment(this.props.campaignDateUpperBound) : undefined}
 					/>
-					<Textarea
-						className="posting-textarea"
-						placeholder="Include any comments or instructions here."
-						onChange={event => {
-							this.handleChange(event.target.value, "instructionValue");
-						}}
-						value={instructionValue}
-						readOnly={!canEditPost}
-					/>
+
 					{canEditPost &&
 						somethingChanged && (
 							<button
@@ -270,6 +262,15 @@ class PostingOptions extends Component {
 							</button>
 						)}
 				</div>
+				<Textarea
+					className="instruction-textarea"
+					placeholder="Include any comments or instructions here."
+					onChange={event => {
+						this.handleChange(event.target.value, "instructionValue");
+					}}
+					value={instructionValue}
+					readOnly={!canEditPost}
+				/>
 			</div>
 		);
 	}

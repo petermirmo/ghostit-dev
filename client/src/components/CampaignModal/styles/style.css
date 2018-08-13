@@ -1,5 +1,5 @@
 .campaign-modal {
-	position: relative;
+	position: absolute;
 	display: flex;
 
 	justify-content: space-between;
@@ -7,13 +7,17 @@
 	flex-direction: column;
 
 	min-height: 80vh;
+	max-height: 90vh;
 	min-width: 80%;
 
-	margin-top: 5vh;
+	margin-top: 3vh;
+	padding-top: 20px;
 
 	border-radius: 2px;
 
 	background-color: var(--white-theme-color);
+
+	overflow: auto;
 
 	transition: all 0.2s ease;
 	-webkit-transition: all 0.2s ease;
@@ -23,12 +27,12 @@
 .campaign-information-container {
 	display: flex;
 
-	justify-content: space-between;
-	align-items: center;
+	justify-content: flex-start;
+	align-items: flex-start;
 
 	flex-direction: column;
 
-	min-width: 100%;
+	padding: 20px;
 
 	background-color: var(--white-theme-color);
 
@@ -49,16 +53,14 @@
 	align-items: center;
 
 	width: 50%;
-
-	padding: 5px 20px 5px 20px;
 }
 .name-input {
 	flex-grow: 1;
 
 	margin-left: 5px;
-	padding: 4px;
+	padding: 6px 6px 6px 10px;
 
-	border-radius: 6px;
+	border-radius: 100px;
 }
 .color-picker-container {
 	display: flex;
@@ -68,7 +70,7 @@
 
 	width: 50%;
 
-	padding: 5px 20px 5px 20px;
+	padding-left: 20px;
 }
 
 .colors {
@@ -77,8 +79,6 @@
 
 	justify-content: flex-start;
 	align-items: center;
-
-	padding-left: 20px;
 }
 .color1-border,
 .color2-border,
@@ -128,22 +128,17 @@
 }
 
 .dates-container {
+	flex-grow: 1;
 	display: flex;
 
 	justify-content: space-between;
 	align-items: center;
-
-	width: 100%;
 }
 .date-and-label-container {
 	display: flex;
 
 	justify-content: flex-start;
 	align-items: center;
-
-	width: 50%;
-
-	padding: 5px 20px 5px 20px;
 }
 .campaign-start-container {
 	flex-grow: 1;
@@ -170,9 +165,6 @@
 	min-width: 100%;
 }
 .post-navigation-container {
-	flex-basis: 0;
-	flex-grow: 2;
-
 	display: flex;
 
 	justify-content: flex-start;
@@ -205,7 +197,9 @@
 	margin-bottom: 10px;
 
 	border-radius: 10px;
-	border: 1px solid var(--light-grey-theme-color);
+	border: 1px solid var(--grey-theme-color);
+
+	color: var(--white-theme-color);
 
 	cursor: pointer;
 }
@@ -267,6 +261,13 @@
 	margin: 20px 0 20px 0;
 
 	border: 2px solid var(--blue-theme-color);
+}
+
+.new-post-button {
+	color: var(--blue-theme-color);
+}
+.new-post-button:hover {
+	color: var(--green-theme-color);
 }
 
 @keyframes campaignModalAnimation {
