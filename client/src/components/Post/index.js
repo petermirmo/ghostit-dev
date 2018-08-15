@@ -36,6 +36,14 @@ class PostingOptions extends Component {
 		somethingChanged: false
 	};
 	componentWillReceiveProps(nextProps) {
+		if (this.state.somethingChanged && nextProps.post && nextProps.post._id) {
+			if (nextProps.post._id !== this.state.id) {
+				// if we are changing to a different post, make sure somethingChanged is false so the schedule post button doesn't show
+				this.setState({ somethingChanged: false });
+			} else if (!nextProps.listOfChanges || nextProps.listOfChanges.length === 0) {
+				this.setState({ somethingChanged: false });
+			}
+		}
 		if (nextProps.campaignID) {
 			let { campaignDateLowerBound, campaignDateUpperBound } = nextProps;
 			let { date } = this.state;
@@ -70,6 +78,29 @@ class PostingOptions extends Component {
 						: new moment(this.props.clickedCalendarDate)
 			};
 			this.setState(new_state);
+		} else if (nextProps.socialType && nextProps.socialType !== this.state.socialType) {
+			this.setState({ socialType: nextProps.socialType });
+		}
+
+		if (nextProps.listOfChanges) {
+			// this is run when the campaignModal's state changes which results in a re-render of this
+			// Post component. this block will make sure all the previous unsaved changes to the Post component are reapplied
+			this.setState((prevState, nextProps) => {
+				let changes = {};
+				let somethingChanged = false;
+
+				for (let index in nextProps.listOfChanges) {
+					const change = nextProps.listOfChanges[index];
+					if (prevState[index] !== change) {
+						somethingChanged = true;
+						changes[index] = change;
+					}
+				}
+				if (somethingChanged) {
+					changes.somethingChanged = true;
+					return(changes);
+				}
+			});
 		}
 	}
 	componentDidMount() {
@@ -95,6 +126,9 @@ class PostingOptions extends Component {
 				[index]: value,
 				somethingChanged: true
 			});
+			if (this.props.backupChanges) {
+				this.props.backupChanges(value, index);
+			}
 	};
 
 	pushToImageDeleteArray = image => {
