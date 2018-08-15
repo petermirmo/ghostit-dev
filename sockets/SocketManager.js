@@ -17,7 +17,12 @@ module.exports = socket => {
 		let { campaign, post } = emitObject;
 		Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
 			if (foundCampaign) {
-				foundCampaign.posts.push(post._id);
+				let index = foundCampaign.posts.findIndex(post_obj => {
+					return post_obj._id == post._id;
+				});
+				if (index === -1) {
+					foundCampaign.posts.push(post._id);
+				}
 				foundCampaign.save((err, savedCampaign) => {
 					if (savedCampaign) socket.emit("post_added", { campaignPosts: savedCampaign.posts });
 				});
@@ -68,6 +73,45 @@ module.exports = socket => {
 					}
 				}
 				foundCampaign.remove();
+			}
+		});
+	});
+
+	socket.on("delete-post", emitObject => {
+		// listener that will delete the post id from its campaign and then delete the actual post
+		// does not delete single posts that aren't tied to a campaign.
+		const { post, campaign } = emitObject;
+		let removedFromCampaign = false;
+		let removedPost = false;
+		let newCampaign = undefined;
+		Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
+			if (foundCampaign) {
+				if (foundCampaign.posts) {
+					while ((index = foundCampaign.posts.findIndex(post_obj => { if (!post_obj) return false; return post_obj._id == post.post._id; })) !== -1) {
+						foundCampaign.posts = [...foundCampaign.posts.slice(0,index), ...foundCampaign.posts.slice(index+1)];
+					}
+					foundCampaign.save((err, savedCampaign) => {
+						if (err || !savedCampaign) {
+							socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+						} else {
+							removedFromCampaign = true;
+							newCampaign = savedCampaign;
+							Post.findOne({ _id: post.post._id }, (err, foundPost) => {
+								if (foundPost) {
+									foundPost.remove();
+									removedPost = true;
+									socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+								} else {
+									socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+								}
+							});
+						}
+					});
+				} else {
+					socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+				}
+			} else {
+				socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
 			}
 		});
 	});
