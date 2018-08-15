@@ -44,6 +44,7 @@ class CampaignModal extends Component {
 					color: "var(--campaign-color1)"
 			  },
 		posts: [],
+		listOfPostChanges: {},
 		activePostKey: undefined,
 		nextPostKey: 0, // incrementing key so each post has a unique id regardless of posts being deleted
 		colors: {
@@ -169,7 +170,8 @@ class CampaignModal extends Component {
 				let new_post = JSON.parse(JSON.stringify(posts[index]));
 				new_post.post = updatedPost;
 				this.setState({
-					posts: [...posts.slice(0, index), new_post, ...posts.slice(index + 1)]
+					posts: [...posts.slice(0, index), new_post, ...posts.slice(index + 1)],
+					listOfPostChanges: {}
 				});
 				return;
 			}
@@ -198,7 +200,8 @@ class CampaignModal extends Component {
 			posts: [...this.state.posts, new_post],
 			postAccountPicker: false,
 			activePostKey: key,
-			nextPostKey: nextPostKey + 1
+			nextPostKey: nextPostKey + 1,
+			listOfPostChanges: {}
 		});
 	};
 
@@ -240,7 +243,7 @@ class CampaignModal extends Component {
 
 	selectPost = (e, post_key) => {
 		e.preventDefault();
-		this.setState({ activePostKey: post_key });
+		this.setState({ activePostKey: post_key, listOfPostChanges: {} });
 	};
 
 	newPostPrompt = e => {
@@ -248,8 +251,23 @@ class CampaignModal extends Component {
 		this.setState({ newPostPromptActive: true });
 	};
 
+	backupPostChanges = (value, index) => {
+		// function that gets called by <Post/> function to store all the changes that have happened
+		// if the changes are saved, this list gets set back to empty
+		// if this component's (campaignModal) state changes which causes a re-render,
+		// we send this list of changes into the <Post/> component so it can re-execute those changes
+		// otherwise the <Post/> component would lose all unsaved changes everytime a campaign attribute changed
+		// say that when typing, this function would receive a series of calls such as:
+		// backupPostChanges("t", "content"), backupPostChanges("tw", "content"), backupPostChanges("twi", "content"),
+		// backupPostChanges("twit", "content"), etc..
+		// we should probably only store one copy of each index ("content") since only the most recent matters
+		const { listOfPostChanges } = this.state;
+		listOfPostChanges[index] = value;
+		this.setState({ listOfPostChanges });
+	}
+
 	getActivePost = () => {
-		const { activePostKey, posts, socket, campaign } = this.state;
+		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
 		for (let index in posts) {
 			if (posts[index].key === activePostKey) {
 				const post = posts[index];
@@ -276,6 +294,8 @@ class CampaignModal extends Component {
 						timezone={post.timezone}
 						campaignID={post.campaignID}
 						post={post.post}
+						listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
+						backupChanges={this.backupPostChanges}
 					/>
 				);
 			}

@@ -6,8 +6,6 @@ Bottom row of calendar is displaying the second half of the week a little out of
 (components/CampaignModal)
 Add an [x] div within the post list entries that has an onClick function that deletes the post from the db and campaign.
 
-Saving post within campaign after adding an image to it results in an error.
-
 (components/CampaignModal)
 Should we sort the list entries chronologically or leave it up to the users to create their posts in the correct order?
 We could also give the user the functionality to drag/drop the entries to re-order.
@@ -16,18 +14,11 @@ Need campaigns and their respective posts to be deleted in the DB whenever a use
 User might not want to delete campaign when they leave the modal so we should prompt them to publish, delete, or revert to previous campaign attributes/posts if they were just editing an existing one?
 Maybe have a system that saves them as drafts where the posts aren't considered 'active' until they are published properly.
 
-
-From Kimia's interface, need to add the extra instruction box to every (non-custom task) post as well.
-
-When hovering over a date that has a post / campaign on it, when the cursor is over the post / campaign, the (+) shouldn't light up since it wouldn't get 'clicked' in that position.
-
 When referring to a socialType's maxCharacters (such as 280 for twitter), we should probably have that stored as a const somewhere in case the website modifies their maximum post length in the future.
 
 Ability for the users to 'duplicate' a post in a campaign.
 
 Maybe add feedback that lets the user know when their post / campaign has been successfully saved.
-
-campaign post gets 'reset' when switching the campaign dates?
 
 campaign new posts should default to the time of the last post? or at least to the start of the campaign.
 
