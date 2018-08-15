@@ -12,6 +12,9 @@ const campaign = new Schema(
 		endDate: Date,
 		color: String,
 		name: String,
+		recipeID: {
+			type: Schema.Types.ObjectId
+		},
 		posts: [
 			{
 				id: Schema.Types.ObjectId
