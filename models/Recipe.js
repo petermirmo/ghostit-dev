@@ -8,7 +8,9 @@ const recipe = new Schema(
 			type: Schema.Types.ObjectId,
 			required: true
 		},
-		campaignLength: Number,
+		length: Number,
+		hour: Number,
+		minute: Number,
 		name: String,
 		image: {
 			url: String,
@@ -18,7 +20,7 @@ const recipe = new Schema(
 			{
 				socialType: String,
 				instructions: String,
-				customTask: Boolean
+				postingDate: String
 			}
 		]
 	},

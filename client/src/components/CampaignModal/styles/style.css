@@ -25,57 +25,52 @@
 .campaign-information-container {
 	display: flex;
 
-	justify-content: flex-start;
-	align-items: flex-start;
-
 	flex-direction: column;
 
-	padding: 20px;
+	width: 100%;
+
+	padding: 20px 20px 20px 0;
 
 	background-color: var(--white-theme-color);
-
 	border-bottom: 0.5px solid var(--light-grey-theme-color);
+
+	box-sizing: border-box;
 }
 .name-color-container {
+	flex-basis: 0;
+
+	flex: 1;
 	display: flex;
-
-	justify-content: space-between;
-	align-items: center;
-
-	width: 100%;
 }
 .name-container {
+	flex: 1;
 	display: flex;
 
-	justify-content: flex-start;
 	align-items: center;
-
-	width: 50%;
+	padding-left: 28px;
 }
 .name-input {
 	flex-grow: 1;
 
-	margin-left: 5px;
-	padding: 6px 6px 6px 10px;
+	padding: 4px 10px 4px 10px;
+	margin-left: 10px;
 
 	border-radius: 100px;
 }
 .color-picker-container {
+	flex: 1;
 	display: flex;
 
 	justify-content: flex-start;
 	align-items: center;
 
-	width: 50%;
-
-	padding-left: 20px;
+	padding-left: 28px;
 }
 
 .colors {
-	flex-grow: 1;
 	display: flex;
 
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 }
 .color1-border,
@@ -133,11 +128,15 @@
 	align-items: center;
 }
 .date-and-label-container {
+	flex: 1;
+
 	display: flex;
 
-	justify-content: flex-start;
 	align-items: center;
+
+	padding-left: 28px;
 }
+
 .campaign-start-container {
 	flex-grow: 1;
 

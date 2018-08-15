@@ -161,6 +161,8 @@ module.exports = app => {
 
 	// Get all of user's campaigns
 	app.get("/api/campaigns", middleware, (req, res) => campaignFunctions.getCampaigns(req, res));
+	// Save recipe
+	app.post("/api/recipe", middleware, (req, res) => campaignFunctions.saveRecipe(req, res));
 
 	// Create a blog placeholder
 	app.post("/api/blog", fileParser, middleware, async (req, res) => blogFunctions.saveBlog(req, res));

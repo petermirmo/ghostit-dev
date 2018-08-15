@@ -240,6 +240,39 @@ class PostingOptions extends Component {
 				</div>
 				{maxCharacters && <div className="max-characters">{maxCharacters - contentValue.length}</div>}
 
+				{canEditPost &&
+					somethingChanged && (
+						<button
+							className="schedule-post-button"
+							onClick={() => {
+								let newDate = new moment(date).utcOffset(0);
+								if (!postChecks(postingToAccountId, newDate, link, images, contentValue, maxCharacters)) {
+									return;
+								}
+
+								setSaving();
+
+								savePost(
+									id,
+									contentValue,
+									newDate,
+									link,
+									linkImage,
+									images,
+									postingToAccountId,
+									socialType,
+									accountType,
+									postFinishedSavingCallback,
+									deleteImagesArray,
+									campaignID,
+									instructionValue
+								);
+								this.setState({ somethingChanged: false });
+							}}
+						>
+							Schedule Post!
+						</button>
+					)}
 				<SelectAccountDiv
 					activePageAccountsArray={activePageAccountsArray}
 					activeAccount={postingToAccountId}
@@ -261,40 +294,6 @@ class PostingOptions extends Component {
 						dateLowerBound={campaignID ? new moment(this.props.campaignDateLowerBound) : undefined}
 						dateUpperBound={campaignID ? new moment(this.props.campaignDateUpperBound) : undefined}
 					/>
-
-					{canEditPost &&
-						somethingChanged && (
-							<button
-								className="schedule-post-button"
-								onClick={() => {
-									let newDate = new moment(date).utcOffset(0);
-									if (!postChecks(postingToAccountId, newDate, link, images, contentValue, maxCharacters)) {
-										return;
-									}
-
-									setSaving();
-
-									savePost(
-										id,
-										contentValue,
-										newDate,
-										link,
-										linkImage,
-										images,
-										postingToAccountId,
-										socialType,
-										accountType,
-										postFinishedSavingCallback,
-										deleteImagesArray,
-										campaignID,
-										instructionValue
-									);
-									this.setState({ somethingChanged: false });
-								}}
-							>
-								Schedule Post!
-							</button>
-						)}
 				</div>
 				<Textarea
 					className="instruction-textarea"

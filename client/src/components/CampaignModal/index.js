@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
@@ -345,6 +346,13 @@ class CampaignModal extends Component {
 		}
 		return <div />;
 	};
+	createRecipe = () => {
+		let { campaign, posts } = this.state;
+
+		axios.post("/api/recipe", { campaign, posts }).then(res => {
+			console.log(res.data);
+		});
+	};
 
 	render() {
 		const {
@@ -389,7 +397,7 @@ class CampaignModal extends Component {
 					<div className="campaign-information-container" style={{ borderColor: color }}>
 						<div className="name-color-container">
 							<div className="name-container">
-								<div>Name your campaign:</div>
+								<div className="label">Name:</div>
 								<input
 									onChange={event => this.handleCampaignChange(event.target.value, "name")}
 									value={name}
@@ -398,13 +406,13 @@ class CampaignModal extends Component {
 								/>
 							</div>
 							<div className="color-picker-container">
-								<div>Select a color for your campaign:</div>
+								<div className="label">Color:</div>
 								<div className="colors">{colorDivs}</div>
 							</div>
 						</div>
 						<div className="dates-container">
 							<div className="date-and-label-container">
-								<div>When do you want your campaign to start?</div>
+								<div className="label">Start Date: </div>
 								<DateTimePicker
 									date={new moment(startDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
@@ -420,7 +428,7 @@ class CampaignModal extends Component {
 								/>
 							</div>
 							<div className="date-and-label-container">
-								<div>When do you want your campaign to end?</div>
+								<div className="label">End Date: </div>
 								<DateTimePicker
 									date={new moment(endDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
@@ -516,7 +524,7 @@ class CampaignModal extends Component {
 											</div>
 										</div>
 									)}
-									<div className="publish-as-recipe" style={{ backgroundColor: color }}>
+									<div className="publish-as-recipe" style={{ backgroundColor: color }} onClick={this.createRecipe}>
 										Publish as recipe
 									</div>
 								</div>
