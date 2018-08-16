@@ -153,3 +153,10 @@ export function getPostColor(socialType) {
 		return "var(--blue-theme-color)";
 	}
 }
+export function getSocialCharacters(post_type) {
+	if (post_type === "twitter") {
+		return 280;
+	} else if (post_type === "linkedin") {
+		return 700;
+	} else return undefined;
+}

@@ -210,7 +210,7 @@ class DatePicker extends Component {
 	handleChange = () => {};
 	render() {
 		let { inputValue, calendarDropdown, hourDropdown, minuteDropdown, amPmDropdown, displayDate } = this.state;
-		let { date, style } = this.props;
+		let { date, style, disableTime } = this.props;
 
 		let calendarDays = this.createCalendarDays(displayDate);
 		let dayHeaders = this.createDayHeaders();
@@ -239,18 +239,24 @@ class DatePicker extends Component {
 						{dayHeaders}
 						{calendarDays}
 						<div className="time-container">
-							<div className="time-dropdown" onClick={() => this.setActive("hourDropdown")}>
-								{date.format("h")} <FontAwesomeIcon icon={faCaretDown} />
-								{hourDropdown && <div className="time-dropdown-container">{hours}</div>}
-							</div>
-							<div className="time-dropdown" onClick={() => this.setActive("minuteDropdown")}>
-								{date.format("mm")} <FontAwesomeIcon icon={faCaretDown} />
-								{minuteDropdown && <div className="time-dropdown-container">{minutes}</div>}
-							</div>
-							<div className="time-dropdown" onClick={() => this.setActive("amPmDropdown")}>
-								{date.format("A")} <FontAwesomeIcon icon={faCaretDown} />
-								{amPmDropdown && <div className="time-dropdown-container">{amPM}</div>}
-							</div>
+							{!disableTime && (
+								<div className="time-dropdown" onClick={() => this.setActive("hourDropdown")}>
+									{date.format("h")} <FontAwesomeIcon icon={faCaretDown} />
+									{hourDropdown && <div className="time-dropdown-container">{hours}</div>}
+								</div>
+							)}
+							{!disableTime && (
+								<div className="time-dropdown" onClick={() => this.setActive("minuteDropdown")}>
+									{date.format("mm")} <FontAwesomeIcon icon={faCaretDown} />
+									{minuteDropdown && <div className="time-dropdown-container">{minutes}</div>}
+								</div>
+							)}
+							{!disableTime && (
+								<div className="time-dropdown" onClick={() => this.setActive("amPmDropdown")}>
+									{date.format("A")} <FontAwesomeIcon icon={faCaretDown} />
+									{amPmDropdown && <div className="time-dropdown-container">{amPM}</div>}
+								</div>
+							)}
 							<button className="finished-button" onClick={() => this.setActive("calendarDropdown")}>
 								Done!
 							</button>

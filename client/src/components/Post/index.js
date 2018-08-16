@@ -15,25 +15,40 @@ import { savePost, postChecks, carouselOptions } from "../../extra/functions/Com
 import "./styles";
 
 class PostingOptions extends Component {
-	state = {
-		id: this.props.post ? this.props.post._id : undefined,
-		postingToAccountId: this.props.post ? this.props.post.accountID : "",
-		link: this.props.post ? this.props.post.link : "",
-		linkImage: this.props.post ? this.props.post.linkImage : "",
-		images: this.props.post ? this.props.post.images : [],
-		accountType: this.props.post ? this.props.post.accountType : "",
-		socialType: this.props.post ? this.props.post.socialType : this.props.socialType,
-		contentValue: this.props.post ? this.props.post.content : "",
-		instructionValue: this.props.post && this.props.post.instructions ? this.props.post.instructions : "",
-		date: this.props.post
-			? new moment(this.props.post.postingDate)
-			: new moment() > new moment(this.props.clickedCalendarDate)
+	constructor(props) {
+		super(props);
+
+		this.state = this.createState(props);
+	}
+	createState = props => {
+		let stateVariable = {};
+		if (props.post) stateVariable = props.post;
+		else
+			stateVariable = {
+				id: undefined,
+				accountID: "",
+				link: "",
+				linkImage: "",
+				images: [],
+				accountType: "",
+				socialType: props.socialType,
+				content: "",
+				instructions: ""
+			};
+		stateVariable.deleteImagesArray = [];
+		stateVariable.linkImagesArray = [];
+		stateVariable.timezone = props.timezone;
+		stateVariable.somethingChanged = false;
+		stateVariable.date = props.post
+			? new moment(props.post.postingDate)
+			: new moment() > new moment(props.clickedCalendarDate)
 				? new moment()
-				: new moment(this.props.clickedCalendarDate),
-		deleteImagesArray: [],
-		linkImagesArray: [],
-		timezone: this.props.timezone,
-		somethingChanged: false
+				: new moment(props.clickedCalendarDate);
+
+		if (props.recipePost) {
+			stateVariable.date = props.recipePost.postingDate;
+		}
+		return stateVariable;
 	};
 	componentWillReceiveProps(nextProps) {
 		if (this.state.somethingChanged && nextProps.post && nextProps.post._id) {
@@ -59,25 +74,7 @@ class PostingOptions extends Component {
 			}
 		}
 		if (nextProps.newActivePost) {
-			// want to set state back to default values if just creating a new post within a campaign
-			// but don't want to accidentally set state back to default values other times
-			const new_state = {
-				id: nextProps.post ? nextProps.post._id : undefined,
-				postingToAccountId: nextProps.post ? nextProps.post.accountID : "",
-				link: nextProps.post ? nextProps.post.link : "",
-				linkImage: nextProps.post ? nextProps.post.linkImage : "",
-				images: nextProps.post ? nextProps.post.images : [],
-				accountType: nextProps.post ? nextProps.post.accountType : "",
-				socialType: nextProps.post ? nextProps.post.socialType : nextProps.socialType,
-				contentValue: nextProps.post ? nextProps.post.content : "",
-				instructionValue: nextProps.post && nextProps.post.instructions ? nextProps.post.instructions : "",
-				date: nextProps.post
-					? new moment(nextProps.post.postingDate)
-					: new moment() > new moment(this.props.clickedCalendarDate)
-						? new moment()
-						: new moment(this.props.clickedCalendarDate)
-			};
-			this.setState(new_state);
+			this.setState(this.createState(nextProps));
 		} else if (nextProps.socialType && nextProps.socialType !== this.state.socialType) {
 			this.setState({ socialType: nextProps.socialType });
 		}
@@ -98,14 +95,14 @@ class PostingOptions extends Component {
 				}
 				if (somethingChanged) {
 					changes.somethingChanged = true;
-					return(changes);
+					return changes;
 				}
 			});
 		}
 	}
 	componentDidMount() {
 		this._ismounted = true;
-		this.findLink(this.state.contentValue);
+		this.findLink(this.state.content);
 
 		let { campaignID, campaignDateLowerBound, campaignDateUpperBound } = this.props;
 		let { date } = this.state;
@@ -126,9 +123,9 @@ class PostingOptions extends Component {
 				[index]: value,
 				somethingChanged: true
 			});
-			if (this.props.backupChanges) {
-				this.props.backupChanges(value, index);
-			}
+		if (this.props.backupChanges) {
+			this.props.backupChanges(value, index);
+		}
 	};
 
 	pushToImageDeleteArray = image => {
@@ -170,14 +167,14 @@ class PostingOptions extends Component {
 	render() {
 		const {
 			id,
-			contentValue,
-			instructionValue,
+			content,
+			instructions,
 			link,
 			linkImage,
 			linkImagesArray,
 			images,
 			socialType,
-			postingToAccountId,
+			accountID,
 			accountType,
 			deleteImagesArray,
 			somethingChanged
@@ -202,7 +199,7 @@ class PostingOptions extends Component {
 		} else {
 			for (let index in accounts) {
 				let account = accounts[index];
-				if (account._id === postingToAccountId) {
+				if (account._id === accountID) {
 					activePageAccountsArray.push(account);
 				}
 			}
@@ -215,9 +212,9 @@ class PostingOptions extends Component {
 					placeholder="Success doesn't write itself!"
 					onChange={event => {
 						this.findLink(event.target.value);
-						this.handleChange(event.target.value, "contentValue");
+						this.handleChange(event.target.value, "content");
 					}}
-					value={contentValue}
+					value={content}
 					readOnly={!canEditPost}
 				/>
 				<div className="post-images-and-carousel">
@@ -238,7 +235,7 @@ class PostingOptions extends Component {
 							/>
 						)}
 				</div>
-				{maxCharacters && <div className="max-characters">{maxCharacters - contentValue.length}</div>}
+				{maxCharacters && <div className="max-characters">{maxCharacters - content.length}</div>}
 
 				{canEditPost &&
 					somethingChanged && (
@@ -246,7 +243,7 @@ class PostingOptions extends Component {
 							className="schedule-post-button"
 							onClick={() => {
 								let newDate = new moment(date).utcOffset(0);
-								if (!postChecks(postingToAccountId, newDate, link, images, contentValue, maxCharacters)) {
+								if (!postChecks(accountID, newDate, link, images, content, maxCharacters)) {
 									return;
 								}
 
@@ -254,18 +251,18 @@ class PostingOptions extends Component {
 
 								savePost(
 									id,
-									contentValue,
+									content,
 									newDate,
 									link,
 									linkImage,
 									images,
-									postingToAccountId,
+									accountID,
 									socialType,
 									accountType,
 									postFinishedSavingCallback,
 									deleteImagesArray,
 									campaignID,
-									instructionValue
+									instructions
 								);
 								this.setState({ somethingChanged: false });
 							}}
@@ -275,9 +272,9 @@ class PostingOptions extends Component {
 					)}
 				<SelectAccountDiv
 					activePageAccountsArray={activePageAccountsArray}
-					activeAccount={postingToAccountId}
+					activeAccount={accountID}
 					handleChange={account => {
-						this.handleChange(account._id, "postingToAccountId");
+						this.handleChange(account._id, "accountID");
 						this.handleChange(account.accountType, "accountType");
 					}}
 					canEdit={canEditPost}
@@ -299,9 +296,9 @@ class PostingOptions extends Component {
 					className="instruction-textarea"
 					placeholder="Include any comments or instructions here."
 					onChange={event => {
-						this.handleChange(event.target.value, "instructionValue");
+						this.handleChange(event.target.value, "instructions");
 					}}
-					value={instructionValue}
+					value={instructions}
 					readOnly={!canEditPost}
 				/>
 			</div>

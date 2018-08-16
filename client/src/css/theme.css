@@ -47,6 +47,7 @@
 	--regular-font-size: 11pt;
 	--twelve-font-size: 12pt;
 	--large-font-size: 13pt;
+	--fifteen-font-size: 15pt;
 	--extra-large-font-size: 17pt;
 	--gigantic-font-size: 20pt;
 	--medium-gigantic-font-size: 23pt;
@@ -98,7 +99,30 @@
 
 	overflow: auto;
 }
+.large-modal {
+	position: absolute;
+	display: flex;
 
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+
+	min-height: 80vh;
+	max-height: 90vh;
+	min-width: 80%;
+
+	margin-top: 3vh;
+	padding-top: 20px;
+
+	border-radius: 2px;
+
+	background-color: var(--white-theme-color);
+
+	transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	animation: campaignModalAnimation 0.4s;
+	-webkit-animation: campaignModalAnimation 0.4s;
+}
 .modal-header {
 	margin: 0;
 }
@@ -393,6 +417,29 @@
 }
 .label {
 	font-weight: bolder;
+}
+
+.back-button {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+
+	padding: 4px 10px 4px 10px;
+
+	border-radius: 100px;
+	border: 1px solid var(--off-black-theme-color);
+
+	color: var(--off-black-theme-color);
+
+	cursor: pointer;
+
+	transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+}
+.back-button:hover {
+	color: var(--white-theme-color);
+	border-color: var(--blue-theme-color);
+	background-color: var(--blue-theme-color);
 }
 
 body {

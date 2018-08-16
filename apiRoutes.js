@@ -163,6 +163,8 @@ module.exports = app => {
 	app.get("/api/campaigns", middleware, (req, res) => campaignFunctions.getCampaigns(req, res));
 	// Save recipe
 	app.post("/api/recipe", middleware, (req, res) => campaignFunctions.saveRecipe(req, res));
+	// Get all recipes
+	app.get("/api/recipes", middleware, (req, res) => campaignFunctions.getRecipes(req, res));
 
 	// Create a blog placeholder
 	app.post("/api/blog", fileParser, middleware, async (req, res) => blogFunctions.saveBlog(req, res));

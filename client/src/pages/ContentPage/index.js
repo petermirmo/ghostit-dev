@@ -12,6 +12,7 @@ import NavigationBar from "../../components/Navigations/NavigationBar/";
 import Calendar from "../../components/Calendar/";
 import OptionModal from "../../components/OptionModal";
 import CampaignModal from "../../components/CampaignModal";
+import RecipeModal from "../../components/RecipeModal";
 
 class Content extends Component {
 	state = {
@@ -31,6 +32,9 @@ class Content extends Component {
 		newsletterEdittingModal: false,
 		optionModal: false, // modal to pick between campaign or post
 		campaignModal: false,
+		recipeModal: false,
+
+		recipe: undefined,
 
 		calendarEventCategories: {
 			All: true,
@@ -215,7 +219,8 @@ class Content extends Component {
 			timezone,
 			clickedEvent,
 			clickedDate,
-			campaigns
+			campaigns,
+			recipe
 		} = this.state;
 		const { All, Facebook, Twitter, Linkedin, Instagram, Blog, Newsletter } = calendarEventCategories;
 
@@ -307,11 +312,16 @@ class Content extends Component {
 				{this.state.campaignModal && (
 					<CampaignModal
 						close={this.closeModals}
+						handleChange={this.handleChange}
 						timezone={timezone}
 						clickedCalendarDate={clickedDate}
 						updateCampaigns={this.getCampaigns}
 						campaign={clickedEvent}
+						recipe={recipe}
 					/>
+				)}
+				{this.state.recipeModal && (
+					<RecipeModal close={this.closeModals} handleChange={this.handleChange} clickedCalendarDate={clickedDate} />
 				)}
 			</div>
 		);

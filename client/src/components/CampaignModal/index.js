@@ -5,6 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faArrowDown from "@fortawesome/fontawesome-free-solid/faArrowDown";
+import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
 
 import moment from "moment-timezone";
 import io from "socket.io-client";
@@ -12,12 +13,12 @@ import io from "socket.io-client";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { changeCampaignDateLowerBound, changeCampaignDateUpperBound } from "../../redux/actions/";
-import { getPostColor } from "../../extra/functions/CommonFunctions";
+import { getPostColor, getSocialCharacters } from "../../extra/functions/CommonFunctions";
 
 import DateTimePicker from "../DateTimePicker";
 import Post from "../Post";
 import Loader from "../Notifications/Loader";
-import ConfirmAlert from "../Notifications/ConfirmAlert/";
+import ConfirmAlert from "../Notifications/ConfirmAlert";
 
 import "./styles/";
 
@@ -64,7 +65,7 @@ class CampaignModal extends Component {
 	componentDidMount() {
 		this.initSocket();
 
-		let { campaign, changeCampaignDateLowerBound, changeCampaignDateUpperBound } = this.props;
+		let { campaign, changeCampaignDateLowerBound, changeCampaignDateUpperBound, recipe } = this.props;
 		if (campaign) {
 			if (campaign.posts) {
 				if (campaign.posts.length > 0) {
@@ -74,6 +75,25 @@ class CampaignModal extends Component {
 					this.setState({ firstPostChosen: true, activePostKey: "0post", nextPostKey: next_post_key });
 				}
 			}
+		}
+
+		if (recipe) {
+			let { campaign } = this.state;
+			campaign.name = recipe.name;
+			campaign.color = recipe.color;
+			recipe.startDate.set("hour", recipe.hour);
+			recipe.startDate.set("minute", recipe.minute);
+			recipe.endDate = new moment(recipe.startDate).add(recipe.length, "millisecond");
+
+			campaign.startDate = recipe.startDate;
+			campaign.endDate = recipe.endDate;
+
+			for (let index in recipe.posts) {
+				this.newPost(recipe.posts[index].socialType, recipe.posts[index]);
+			}
+			if (recipe.posts) this.setState({ firstPostChosen: true });
+
+			this.setState({ campaign });
 		}
 
 		changeCampaignDateLowerBound(this.state.campaign.startDate);
@@ -101,16 +121,12 @@ class CampaignModal extends Component {
 		for (let i = 0; i < campaign_posts.length; i++) {
 			const current_post = campaign_posts[i];
 			let key = i + "post";
-			let maxCharacters = undefined;
-			if (current_post.socialType === "twitter") maxCharacters = 280;
-			else if (current_post.socialType === "linkedin") maxCharacters = 700;
 
 			let new_post = {
 				key,
 				accounts,
 				clickedCalendarDate,
 				socialType: current_post.socialType,
-				maxCharacters,
 				canEditPost: true,
 				timezone,
 				campaignID: campaign._id,
@@ -179,30 +195,33 @@ class CampaignModal extends Component {
 		}
 	};
 
-	newPost = (socialType, maxCharacters, post) => {
+	newPost = (socialType, recipePost) => {
 		const { posts, socket, campaign, activePostKey, nextPostKey } = this.state;
 		const { accounts, timezone, clickedCalendarDate } = this.props;
 		const { startDate, endDate } = campaign;
 
 		let key = nextPostKey + "post";
+		if (recipePost) recipePost.postingDate = new moment(startDate).add(recipePost.postingDate, "millisecond");
 
 		let new_post = {
 			key,
 			accounts,
 			clickedCalendarDate,
 			socialType,
-			maxCharacters,
 			canEditPost: true,
 			timezone,
 			campaignID: campaign._id,
-			post: undefined
+			post: undefined,
+			recipePost
 		};
 		this.setState({
 			posts: [...this.state.posts, new_post],
 			postAccountPicker: false,
 			activePostKey: key,
 			nextPostKey: nextPostKey + 1,
-			listOfPostChanges: {}
+			listOfPostChanges: {},
+			newPostPromptActive: false,
+			firstPostChosen: true
 		});
 	};
 
@@ -215,31 +234,6 @@ class CampaignModal extends Component {
 			this.props.updateCampaigns();
 		}
 		this.setState({ confirmDelete: false });
-	};
-
-	firstPost = post_type => {
-		// function called when selecting type of first post so that the page knows to render the post list
-		// need to add Custom post_type
-		this.setState({ firstPostChosen: true });
-		if (post_type === "twitter") {
-			this.newPost("twitter", 280);
-		} else if (post_type === "facebook") {
-			this.newPost("facebook");
-		} else if (post_type === "linkedin") {
-			this.newPost("linkedin", 700);
-		}
-	};
-
-	addPost = post_type => {
-		// need to add Custom post_type
-		this.setState({ newPostPromptActive: false });
-		if (post_type === "twitter") {
-			this.newPost("twitter", 280);
-		} else if (post_type === "facebook") {
-			this.newPost("facebook");
-		} else if (post_type === "linkedin") {
-			this.newPost("linkedin", 700);
-		}
 	};
 
 	selectPost = (e, post_key) => {
@@ -265,7 +259,7 @@ class CampaignModal extends Component {
 		const { listOfPostChanges } = this.state;
 		listOfPostChanges[index] = value;
 		this.setState({ listOfPostChanges });
-	}
+	};
 
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
@@ -290,13 +284,14 @@ class CampaignModal extends Component {
 							this.setState({ saving: true });
 						}}
 						socialType={post.socialType}
-						maxCharacters={post.maxCharacters}
+						maxCharacters={getSocialCharacters(post.socialType)}
 						canEditPost={post.canEditPost}
 						timezone={post.timezone}
 						campaignID={post.campaignID}
 						post={post.post}
 						listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
 						backupChanges={this.backupPostChanges}
+						recipePost={post.recipePost}
 					/>
 				);
 			}
@@ -344,13 +339,18 @@ class CampaignModal extends Component {
 
 		return (
 			<div className="modal" onClick={() => this.props.close(false, "campaignModal")}>
-				<div className="campaign-modal" onClick={e => e.stopPropagation()}>
-					<FontAwesomeIcon
-						icon={faTimes}
-						size="2x"
-						className="close"
-						onClick={() => this.props.close(false, "campaignModal")}
-					/>
+				<div className="large-modal" onClick={e => e.stopPropagation()}>
+					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={() => this.props.close()} />
+					<div
+						className="back-button"
+						onClick={() => {
+							this.props.handleChange(false, "campaignModal");
+							this.props.handleChange(true, "recipeModal");
+						}}
+					>
+						<FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" onClick={() => this.props.close()} /> Back
+						to Recipes
+					</div>
 					<div className="campaign-information-container" style={{ borderColor: color }}>
 						<div className="name-color-container">
 							<div className="name-container">
@@ -408,13 +408,13 @@ class CampaignModal extends Component {
 							<div className="new-campaign-post-selection-write-up">How do you want to start off your campaign?</div>
 
 							<div className="new-post-prompt">
-								<div className="account-option" onClick={() => this.firstPost("facebook")}>
+								<div className="account-option" onClick={() => this.newPost("facebook")}>
 									Facebook<br />Post
 								</div>
-								<div className="account-option" onClick={() => this.firstPost("twitter")}>
+								<div className="account-option" onClick={() => this.newPost("twitter")}>
 									Twitter<br />Post
 								</div>
-								<div className="account-option" onClick={() => this.firstPost("linkedin")}>
+								<div className="account-option" onClick={() => this.newPost("linkedin")}>
 									LinkedIn<br />Post
 								</div>
 							</div>
@@ -426,6 +426,9 @@ class CampaignModal extends Component {
 							<div className="post-navigation-container" style={{ borderColor: color }}>
 								<div className="post-list-container">
 									{posts.map(post_obj => {
+										let postDate = post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate;
+										if (post_obj.recipePost) postDate = post_obj.recipePost.postingDate;
+
 										return (
 											<div
 												className="post-list-entry"
@@ -439,9 +442,7 @@ class CampaignModal extends Component {
 												{post_obj.socialType.charAt(0).toUpperCase() +
 													post_obj.socialType.slice(1) +
 													" Post - " +
-													new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format(
-														"lll"
-													)}
+													new moment(postDate).format("lll")}
 											</div>
 										);
 									})}
@@ -461,13 +462,13 @@ class CampaignModal extends Component {
 
 									{newPostPromptActive && (
 										<div className="new-post-prompt">
-											<div className="account-option" onClick={() => this.addPost("facebook")}>
+											<div className="account-option" onClick={() => this.newPost("facebook")}>
 												Facebook<br />Post
 											</div>
-											<div className="account-option" onClick={() => this.addPost("twitter")}>
+											<div className="account-option" onClick={() => this.newPost("twitter")}>
 												Twitter<br />Post
 											</div>
-											<div className="account-option" onClick={() => this.addPost("linkedin")}>
+											<div className="account-option" onClick={() => this.newPost("linkedin")}>
 												LinkedIn<br />Post
 											</div>
 										</div>
@@ -489,10 +490,10 @@ class CampaignModal extends Component {
 									<div className="account-option" onClick={() => this.newPost("facebook")}>
 										Facebook
 									</div>
-									<div className="account-option" onClick={() => this.newPost("twitter", 280)}>
+									<div className="account-option" onClick={() => this.newPost("twitter")}>
 										Twitter
 									</div>
-									<div className="account-option" onClick={() => this.newPost("linkedin", 700)}>
+									<div className="account-option" onClick={() => this.newPost("linkedin")}>
 										LinkedIn
 									</div>
 								</div>

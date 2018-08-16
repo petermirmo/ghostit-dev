@@ -12,6 +12,7 @@ const recipe = new Schema(
 		hour: Number,
 		minute: Number,
 		name: String,
+		color: String,
 		image: {
 			url: String,
 			publicID: String

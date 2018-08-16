@@ -23,7 +23,7 @@
 	width: 50%;
 	min-height: 30vh;
 
-	padding: 20px;
+	padding: 20px 20px 20px 20px;
 
 	border-radius: 4px;
 
@@ -32,11 +32,13 @@
 	background-color: var(--white-theme-color);
 }
 .confirm-title {
-	font-size: var(--extra-large-font-size);
+	font-size: var(--fifteen-font-size);
 	font-weight: bold;
 }
 .confirm-message {
-	font-size: var(--extra-large-font-size);
+	font-size: var(--large-font-size);
+
+	text-align: center;
 }
 
 .options-container {

@@ -63,7 +63,7 @@
 	border-radius: 0 0 20px 20px;
 	background-color: var(--pink-theme-color) !important;
 }
-.back-button {
+.bottom-back-button {
 	float: left;
 	margin: 10px 0 10px 20px;
 	text-align: right;
@@ -73,7 +73,7 @@
 	margin: 10px 20px 10px 0;
 	text-align: left;
 }
-.back-button,
+.bottom-back-button,
 .next-button {
 	display: flex;
 	align-items: center;
@@ -86,7 +86,7 @@
 	transition: all 1s ease;
 	-webkit-transition: all 1s ease;
 }
-.back-button-icon {
+.bottom-back-button-icon {
 	margin-right: 10px;
 	float: left;
 }
@@ -94,7 +94,7 @@
 	margin-left: 10px;
 	float: right;
 }
-.back-button:hover,
+.bottom-back-button:hover,
 .next-button:hover {
 	background-color: var(--dark-pink-theme-color);
 }

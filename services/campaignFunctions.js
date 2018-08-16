@@ -55,6 +55,7 @@ module.exports = {
 
 		recipe.userID = userID;
 		recipe.name = campaign.name;
+		recipe.color = campaign.color;
 		recipe.length = new moment(campaign.endDate).diff(new moment(campaign.startDate));
 		recipe.hour = new moment(campaign.startDate).format("hh");
 		recipe.minute = new moment(campaign.startDate).format("mm");

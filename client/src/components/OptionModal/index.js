@@ -11,7 +11,7 @@ class OptionModal extends Component {
 						className="option1"
 						onClick={e => {
 							e.stopPropagation();
-							this.props.handleChange(true, "campaignModal");
+							this.props.handleChange(true, "recipeModal");
 							this.props.handleChange(false, "optionModal");
 						}}
 					>

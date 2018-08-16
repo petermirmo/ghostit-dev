@@ -1,27 +1,3 @@
-.campaign-modal {
-	position: absolute;
-	display: flex;
-
-	justify-content: space-between;
-	align-items: center;
-	flex-direction: column;
-
-	min-height: 80vh;
-	max-height: 90vh;
-	min-width: 80%;
-
-	margin-top: 3vh;
-	padding-top: 20px;
-
-	border-radius: 2px;
-
-	background-color: var(--white-theme-color);
-
-	transition: all 0.2s ease;
-	-webkit-transition: all 0.2s ease;
-	animation: campaignModalAnimation 0.4s;
-	-webkit-animation: campaignModalAnimation 0.4s;
-}
 .campaign-information-container {
 	display: flex;
 
