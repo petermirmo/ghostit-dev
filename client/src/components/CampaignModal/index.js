@@ -35,8 +35,8 @@ class CampaignModal extends Component {
 							: new moment(this.props.clickedCalendarDate),
 					endDate:
 						new moment() > new moment(this.props.clickedCalendarDate)
-							? new moment()
-							: new moment(this.props.clickedCalendarDate),
+							? new moment().add(15, "minutes")
+							: new moment(this.props.clickedCalendarDate).add(15, "minutes"),
 					name: "",
 					userID: this.props.user.signedInAsUser
 						? this.props.user.signedInAsUser.id
@@ -57,7 +57,7 @@ class CampaignModal extends Component {
 		},
 		saving: true,
 		postAccountPicker: false,
-		somethingChanged: false,
+		somethingChanged: this.props.campaign ? false : true,
 		confirmDelete: false,
 		firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
 		newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
@@ -70,7 +70,7 @@ class CampaignModal extends Component {
 			if (campaign.posts) {
 				if (campaign.posts.length > 0) {
 					this.fillPosts(campaign.posts);
-					let next_post_key = "" + campaign.posts.length + "post";
+					let next_post_key = campaign.posts.length;
 					// maybe shouldn't hardcode but because setState is asychnronous, this will do for now
 					this.setState({ firstPostChosen: true, activePostKey: "0post", nextPostKey: next_post_key });
 				}
@@ -234,6 +234,57 @@ class CampaignModal extends Component {
 			this.props.updateCampaigns();
 		}
 		this.setState({ confirmDelete: false });
+	};
+
+	deletePost = (e, post_key) => {
+		e.preventDefault();
+		const { posts, socket, campaign } = this.state;
+		const index = posts.findIndex(post_obj => {
+			return post_obj.key === post_key;
+		});
+		if (index === -1) {
+			console.log("couldn't find post to delete.");
+			return;
+		} else if (!posts[index].post) {
+			// post hasn't been scheduled yet so don't need to delete it from DB
+			this.setState(prevState => {
+				let next_active_post_index = index === 0 ? 1 : 0;
+				return {
+					posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
+					somethingChanged: true,
+					activePostKey: prevState.posts.length > 1 ? prevState.posts[next_active_post_index].key : undefined,
+					firstPostChosen: prevState.posts.length <= 1 ? false : true
+				};
+			});
+		} else {
+			socket.emit("delete-post", { post: posts[index], campaign });
+			socket.on("post-deleted", emitObject => {
+				socket.off("post-deleted");
+				const { removedPost, removedFromCampaign, newCampaign } = emitObject;
+				if (!removedPost) {
+					console.log("failed to remove post from db");
+				}
+				if (!removedFromCampaign) {
+					console.log("failed to remove post from campaign in db");
+				}
+				if (removedPost && removedFromCampaign) {
+					if (!newCampaign) {
+						console.log("post removed from db and in campaign in db but no newCampaign object???");
+					} else {
+						this.setState(prevState => {
+							let next_active_post_index = index === 0 ? 1 : 0;
+							return {
+								posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
+								campaign: newCampaign,
+								somethingChanged: true,
+								activePostKey: prevState.posts.length > 1 ? prevState.posts[next_active_post_index].key : undefined,
+								firstPostChosen: prevState.posts.length <= 1 ? false : true
+							};
+						});
+					}
+				}
+			});
+		}
 	};
 
 	selectPost = (e, post_key) => {
@@ -430,19 +481,30 @@ class CampaignModal extends Component {
 										if (post_obj.recipePost) postDate = post_obj.recipePost.postingDate;
 
 										return (
-											<div
-												className="post-list-entry"
-												key={post_obj.key + "list-entry"}
-												onClick={e => this.selectPost(e, post_obj.key)}
-												style={{
-													borderColor: getPostColor(post_obj.socialType),
-													backgroundColor: getPostColor(post_obj.socialType)
-												}}
-											>
-												{post_obj.socialType.charAt(0).toUpperCase() +
-													post_obj.socialType.slice(1) +
-													" Post - " +
-													new moment(postDate).format("lll")}
+											<div className="post-list-entry-with-delete" key={post_obj.key + "list-div"}>
+												<div
+													className="post-list-entry"
+													key={post_obj.key + "list-entry"}
+													onClick={e => this.selectPost(e, post_obj.key)}
+													style={{
+														borderColor: getPostColor(post_obj.socialType),
+														backgroundColor: getPostColor(post_obj.socialType)
+													}}
+												>
+													{post_obj.socialType.charAt(0).toUpperCase() +
+														post_obj.socialType.slice(1) +
+														" Post - " +
+														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format(
+															"lll"
+														)}
+												</div>
+												<button
+													className="delete-post-button"
+													key={post_obj.key + "delete-btn"}
+													onClick={e => this.deletePost(e, post_obj.key)}
+												>
+													X
+												</button>
 											</div>
 										);
 									})}

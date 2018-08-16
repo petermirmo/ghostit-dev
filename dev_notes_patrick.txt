@@ -25,3 +25,7 @@ campaign new posts should default to the time of the last post? or at least to t
 if campaign post date/time is later than campaign end date, prompt user if they want to change end time to that posting time.
 
 when campaign is short, cant make a new post because cant give it a time.
+
+highlight the post list entry that belongs to the active post.
+
+clicking delete post on a post that hasn't been saved.
