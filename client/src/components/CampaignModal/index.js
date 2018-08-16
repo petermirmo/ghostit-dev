@@ -34,8 +34,8 @@ class CampaignModal extends Component {
 							: new moment(this.props.clickedCalendarDate),
 					endDate:
 						new moment() > new moment(this.props.clickedCalendarDate)
-							? new moment()
-							: new moment(this.props.clickedCalendarDate),
+							? new moment().add(15, 'minutes')
+							: new moment(this.props.clickedCalendarDate).add(15, 'minutes'),
 					name: "",
 					userID: this.props.user.signedInAsUser
 						? this.props.user.signedInAsUser.id
@@ -226,6 +226,20 @@ class CampaignModal extends Component {
 		if (index === -1) {
 			console.log("couldn't find post to delete.");
 			return;
+		} else if (!posts[index].post) {
+			// post hasn't been scheduled yet so don't need to delete it from DB
+			this.setState(prevState => {
+				let next_active_post_index = index === 0 ? 1 : 0;
+				return ({
+					posts: [
+						...prevState.posts.slice(0,index),
+						...prevState.posts.slice(index+1)
+					],
+					somethingChanged: true,
+					activePostKey: prevState.posts.length > 1 ? prevState.posts[next_active_post_index].key : undefined,
+					firstPostChosen: prevState.posts.length <= 1 ? false : true
+				});
+			});
 		} else {
 			socket.emit("delete-post", {post: posts[index], campaign});
 			socket.on("post-deleted", emitObject => {
