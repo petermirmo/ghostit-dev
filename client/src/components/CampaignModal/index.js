@@ -56,7 +56,7 @@ class CampaignModal extends Component {
 		},
 		saving: true,
 		postAccountPicker: false,
-		somethingChanged: false,
+		somethingChanged: this.props.campaign ? false : true,
 		confirmDelete: false,
 		firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
 		newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
