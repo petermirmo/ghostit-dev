@@ -1,0 +1,74 @@
+.option-container {
+	position: fixed;
+	top: 20%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+.option1 {
+	left: 18%;
+
+	animation: optionModalAnimationOption1 0.2s;
+	-webkit-animation: optionModalAnimationOption1 0.2s;
+}
+.option2 {
+	right: 18%;
+
+	animation: optionModalAnimationOption2 0.2s;
+	-webkit-animation: optionModalAnimationOption2 0.2s;
+}
+
+.option1,
+.option2 {
+	display: flex;
+
+	justify-content: center;
+	align-items: center;
+
+	padding: 100px;
+	margin: 20px;
+
+	border-radius: 2px;
+
+	font-size: var(--gigantic-font-size);
+
+	background-color: var(--white-theme-color);
+
+	transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+
+	cursor: pointer;
+}
+
+.option1:hover,
+.option2:hover {
+	top: 24%;
+
+	color: var(--white-theme-color);
+
+	background-color: var(--turqoise-theme-color);
+}
+
+@keyframes optionModalAnimationOption1 {
+	from {
+		left: 14%;
+		opacity: 0;
+	}
+	to {
+		left: 18%;
+		opacity: 1;
+	}
+}
+
+@keyframes optionModalAnimationOption2 {
+	from {
+		left: 48%;
+		opacity: 0;
+	}
+	to {
+		left: 52%;
+		opacity: 1;
+	}
+}
