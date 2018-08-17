@@ -97,6 +97,7 @@ class RecipeModal extends Component {
 										e.stopPropagation();
 										this.setState({ pickDateModal: true, recipe, clientX: e.clientX, clientY: e.clientY });
 									}}
+									style={{ backgroundColor: recipe.color }}
 								>
 									<div className="recipe-name">{recipe.name}</div>
 								</div>

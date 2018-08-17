@@ -166,9 +166,15 @@
 	padding: 20px 0 60px 0;
 	overflow: auto;
 }
+.post-list-entry-with-delete {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-bottom: 10px;
+}
 .post-list-entry {
 	padding: 10px;
-	margin-bottom: 10px;
 
 	border-radius: 10px;
 	border: 1px solid var(--grey-theme-color);

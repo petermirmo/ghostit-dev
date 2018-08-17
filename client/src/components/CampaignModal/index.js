@@ -64,6 +64,8 @@ class CampaignModal extends Component {
 		newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
 	};
 	componentDidMount() {
+		this.initSocket();
+
 		let { campaign, changeCampaignDateLowerBound, changeCampaignDateUpperBound, recipe } = this.props;
 		if (campaign) {
 			if (campaign.posts) {
@@ -75,26 +77,8 @@ class CampaignModal extends Component {
 			}
 		}
 
-		if (recipe) {
-			let { campaign } = this.state;
-			campaign.name = recipe.name;
-			campaign.color = recipe.color;
-			campaign.startDate = recipe.startDate.set("hour", recipe.hour).set("minute", recipe.minute);
-			campaign.endDate = new moment(recipe.startDate).add(recipe.length, "millisecond");
-			campaign.recipeID = recipe._id;
-
-			for (let index in recipe.posts) {
-				this.newPost(recipe.posts[index].socialType, recipe.posts[index]);
-			}
-			if (recipe.posts) this.setState({ firstPostChosen: true });
-
-			this.setState({ campaign });
-		}
-
 		changeCampaignDateLowerBound(this.state.campaign.startDate);
 		changeCampaignDateUpperBound(this.state.campaign.endDate);
-
-		this.initSocket();
 	}
 	componentWillUnmount() {
 		let { campaign, somethingChanged, socket } = this.state;
@@ -132,18 +116,37 @@ class CampaignModal extends Component {
 
 	initSocket = () => {
 		let { campaign, somethingChanged } = this.state;
+		let { recipe } = this.props;
 		let socket;
 
 		if (process.env.NODE_ENV === "development") socket = io("http://localhost:5000");
 		else socket = io();
 
 		if (!this.props.campaign) {
+			if (recipe) {
+				campaign.name = recipe.name;
+				campaign.color = recipe.color;
+				campaign.startDate = recipe.startDate.set("hour", recipe.hour).set("minute", recipe.minute);
+				campaign.endDate = new moment(recipe.startDate).add(recipe.length, "millisecond");
+				campaign.recipeID = recipe._id;
+
+				this.setState({ campaign });
+			}
 			socket.emit("new_campaign", campaign);
 
 			socket.on("new_campaign_saved", campaignID => {
 				campaign._id = campaignID;
 
 				this.setState({ campaign, saving: false });
+
+				if (recipe) {
+					for (let index in recipe.posts) {
+						recipe.posts[index].campaignID = campaignID;
+						this.newPost(recipe.posts[index].socialType, recipe.posts[index]);
+					}
+
+					this.setState({ campaign });
+				}
 			});
 		} else this.setState({ saving: false });
 
@@ -190,7 +193,7 @@ class CampaignModal extends Component {
 	newPost = (socialType, recipePost) => {
 		const { posts, socket, campaign } = this.state;
 		const { timezone, clickedCalendarDate } = this.props;
-		const { startDate } = campaign;
+		const { startDate, _id } = campaign;
 
 		let postingDate = clickedCalendarDate;
 		let instructions;
@@ -207,7 +210,7 @@ class CampaignModal extends Component {
 					post: {
 						postingDate,
 						socialType,
-						campaignID: campaign._id,
+						campaignID: _id,
 						instructions
 					},
 					canEditPost: true,
@@ -244,14 +247,14 @@ class CampaignModal extends Component {
 		if (index === -1) {
 			console.log("couldn't find post to delete.");
 			return;
-		} else if (!posts[index].post) {
+		} else if (!posts[index].post._id) {
 			// post hasn't been scheduled yet so don't need to delete it from DB
+
 			this.setState(prevState => {
-				let next_active_post_index = index === 0 ? 1 : 0;
 				return {
 					posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
 					somethingChanged: true,
-					activePostKey: prevState.posts.length > 1 ? prevState.posts[next_active_post_index].key : undefined,
+					activePostKey: index - 1 < 0 ? 0 : index - 1,
 					firstPostChosen: prevState.posts.length <= 1 ? false : true
 				};
 			});
@@ -271,12 +274,11 @@ class CampaignModal extends Component {
 						console.log("post removed from db and in campaign in db but no newCampaign object???");
 					} else {
 						this.setState(prevState => {
-							let next_active_post_index = index === 0 ? 1 : 0;
 							return {
 								posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
 								campaign: newCampaign,
 								somethingChanged: true,
-								activePostKey: prevState.posts.length > 1 ? prevState.posts[next_active_post_index].key : undefined,
+								activePostKey: index - 1 < 0 ? 0 : index - 1,
 								firstPostChosen: prevState.posts.length <= 1 ? false : true
 							};
 						});
@@ -335,7 +337,6 @@ class CampaignModal extends Component {
 				maxCharacters={getSocialCharacters(post.socialType)}
 				canEditPost={true}
 				timezone={post.timezone}
-				campaignID={post.campaignID}
 				listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
 				backupChanges={this.backupPostChanges}
 			/>
@@ -367,6 +368,8 @@ class CampaignModal extends Component {
 			newPostPromptActive
 		} = this.state;
 		const { startDate, endDate, name, color } = campaign;
+
+		console.log(activePostKey);
 
 		let colorDivs = [];
 		for (let index in colors) {
@@ -494,13 +497,14 @@ class CampaignModal extends Component {
 															"lll"
 														)}
 												</div>
-												<button
-													className="delete-post-button"
-													key={post_obj.key + "delete-btn"}
+												<FontAwesomeIcon
+													className="delete"
+													key={post_obj.key + "delete"}
 													onClick={e => this.deletePost(e, post_obj.key)}
+													icon={faTrash}
 												>
 													X
-												</button>
+												</FontAwesomeIcon>
 											</div>
 										);
 									})}

@@ -42,6 +42,7 @@ class PostingOptions extends Component {
 			stateVariable.socialType = props.post.socialType ? props.post.socialType : props.socialType;
 			stateVariable.content = props.post.content ? props.post.content : "";
 			stateVariable.instructions = props.post.instructions ? props.post.instructions : "";
+			stateVariable.campaignID = props.post.campaignID ? props.post.campaignID : undefined;
 		}
 
 		stateVariable.deleteImagesArray = [];
@@ -68,17 +69,19 @@ class PostingOptions extends Component {
 				this.setState({ somethingChanged: false });
 			}
 		}
-		if (nextProps.campaignID) {
-			let { campaignDateLowerBound, campaignDateUpperBound } = nextProps;
-			let { date } = this.state;
-			if (campaignDateLowerBound) {
-				if (new moment(campaignDateLowerBound) > new moment(date)) {
-					this.setState({ date: new moment(campaignDateLowerBound) });
+		if (nextProps.post) {
+			if (nextProps.post.campaignID) {
+				let { campaignDateLowerBound, campaignDateUpperBound } = nextProps;
+				let { date } = this.state;
+				if (campaignDateLowerBound) {
+					if (new moment(campaignDateLowerBound) > new moment(date)) {
+						this.setState({ date: new moment(campaignDateLowerBound) });
+					}
 				}
-			}
-			if (campaignDateUpperBound) {
-				if (new moment(campaignDateUpperBound) < new moment(date)) {
-					this.setState({ date: new moment(campaignDateUpperBound) });
+				if (campaignDateUpperBound) {
+					if (new moment(campaignDateUpperBound) < new moment(date)) {
+						this.setState({ date: new moment(campaignDateUpperBound) });
+					}
 				}
 			}
 		}
@@ -186,11 +189,12 @@ class PostingOptions extends Component {
 			accountID,
 			accountType,
 			deleteImagesArray,
-			somethingChanged
+			somethingChanged,
+			campaignID
 		} = this.state;
 		let { date } = this.state;
 
-		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters, campaignID } = this.props;
+		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
 
 		const linkPreviewCanShow = returnOfCarouselOptions[0];
