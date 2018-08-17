@@ -28,4 +28,13 @@ when campaign is short, cant make a new post because cant give it a time.
 
 highlight the post list entry that belongs to the active post.
 
-clicking delete post on a post that hasn't been saved.
+Dates:
+  x let user pick any date that isn't in the past (including today's date)
+  if post time is outside of campaign start/end dates, prompt user when they try to schedule the post
+    give option to move start/end dates, or cancel the save
+  x when switching days on the date picker, have the time of day stay the same
+  when user tries to switch campaign start / end dates, check all post times first to make sure they fit
+
+clicking an account to post to doesn't give feedback that the account was chosen until something else is changed.
+
+prompt users when they try to delete a post.

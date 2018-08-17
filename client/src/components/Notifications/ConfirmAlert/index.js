@@ -9,10 +9,10 @@ class ConfirmAlert extends Component {
 					<div className="confirm-title">{this.props.title}</div>
 					<div className="confirm-message">{this.props.message}</div>
 					<div className="options-container">
-						<button onClick={() => this.props.callback(true)} className="confirm-button">
-							Delete
+						<button onClick={() => this.props.callback(true)} className={this.props.modify ? "cancel-button" : "confirm-button"}>
+							{this.props.modify ? "Modify" : "Delete"}
 						</button>
-						<button onClick={() => this.props.callback(false)} className="cancel-button">
+						<button onClick={() => this.props.callback(false)} className={this.props.modify ? "confirm-button" : "cancel-button"}>
 							Cancel
 						</button>
 					</div>

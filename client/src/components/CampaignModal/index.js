@@ -312,6 +312,20 @@ class CampaignModal extends Component {
 		this.setState({ listOfPostChanges });
 	};
 
+	modifyCampaignDates = (postingDate) => {
+		// function that gets passed to <Post/> as a prop
+		// <Post/> will use this function to push the campaign start/end dates in order to fit its posting date
+		const { campaign } = this.state;
+		if (campaign.startDate > postingDate) {
+			campaign.startDate = new moment(postingDate);
+		} else if (campaign.endDate < postingDate) {
+			campaign.endDate = new moment(postingDate);
+		} else {
+			console.log("attempting to modify campaign date so post date fits, but posting date already fits?");
+		}
+		this.setState({ campaign, somethingChanged: true });
+	}
+
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
 		for (let index in posts) {
@@ -343,6 +357,9 @@ class CampaignModal extends Component {
 						listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
 						backupChanges={this.backupPostChanges}
 						recipePost={post.recipePost}
+						campaignStartDate={campaign.startDate}
+						campaignEndDate={campaign.endDate}
+						modifyCampaignDates={this.modifyCampaignDates}
 					/>
 				);
 			}
@@ -358,6 +375,7 @@ class CampaignModal extends Component {
 	};
 
 	render() {
+		console.log(this.state.campaign);
 		const {
 			colors,
 			posts,
