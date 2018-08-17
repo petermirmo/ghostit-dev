@@ -51,31 +51,36 @@ module.exports = {
 		}
 
 		let { campaign, posts } = req.body;
-		let recipe = new Recipe();
 
-		recipe.userID = userID;
-		recipe.name = campaign.name;
-		recipe.color = campaign.color;
-		recipe.length = new moment(campaign.endDate).diff(new moment(campaign.startDate));
-		recipe.hour = new moment(campaign.startDate).format("hh");
-		recipe.minute = new moment(campaign.startDate).format("mm");
-		recipe.posts = [];
+		if (!campaign.recipeID) {
+			let recipe = new Recipe();
 
-		for (let index in posts) {
-			let post = posts[index];
-			recipe.posts.push({
-				socialType: post.socialType,
-				instructions: post.instructions,
-				postingDate: new moment(post.post.postingDate).diff(new moment(campaign.startDate))
+			recipe.userID = userID;
+			recipe.name = campaign.name;
+			recipe.color = campaign.color;
+			recipe.length = new moment(campaign.endDate).diff(new moment(campaign.startDate));
+			recipe.hour = new moment(campaign.startDate).format("hh");
+			recipe.minute = new moment(campaign.startDate).format("mm");
+			recipe.posts = [];
+
+			for (let index in posts) {
+				let post = posts[index];
+				recipe.posts.push({
+					socialType: post.post.socialType,
+					instructions: post.post.instructions,
+					postingDate: new moment(post.post.postingDate).diff(new moment(campaign.startDate))
+				});
+			}
+			recipe.save();
+
+			Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
+				foundCampaign.recipeID = recipe._id;
+				foundCampaign.save((err, savedCampaign) => {
+					res.send({ success: true, campaign: savedCampaign });
+				});
 			});
+		} else {
+			res.send({ success: false, message: "You cannot create a new recipe from an existing recipe." });
 		}
-		Campaign.findOne({ _id: campaign._id }, function(err, foundCampaign) {
-			foundCampaign.recipeID = recipe._id;
-			foundCampaign.save();
-		});
-
-		recipe.save();
-
-		res.send({ success: true });
 	}
 };

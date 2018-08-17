@@ -43,7 +43,8 @@ class CampaignModal extends Component {
 							? this.props.user.signedInAsUser.id
 							: this.props.user._id
 						: this.props.user._id,
-					color: "var(--campaign-color1)"
+					color: "var(--campaign-color1)",
+					recipeID: undefined
 			  },
 		posts: [],
 		listOfPostChanges: {},
@@ -63,8 +64,6 @@ class CampaignModal extends Component {
 		newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
 	};
 	componentDidMount() {
-		this.initSocket();
-
 		let { campaign, changeCampaignDateLowerBound, changeCampaignDateUpperBound, recipe } = this.props;
 		if (campaign) {
 			if (campaign.posts) {
@@ -80,12 +79,9 @@ class CampaignModal extends Component {
 			let { campaign } = this.state;
 			campaign.name = recipe.name;
 			campaign.color = recipe.color;
-			recipe.startDate.set("hour", recipe.hour);
-			recipe.startDate.set("minute", recipe.minute);
-			recipe.endDate = new moment(recipe.startDate).add(recipe.length, "millisecond");
-
-			campaign.startDate = recipe.startDate;
-			campaign.endDate = recipe.endDate;
+			campaign.startDate = recipe.startDate.set("hour", recipe.hour).set("minute", recipe.minute);
+			campaign.endDate = new moment(recipe.startDate).add(recipe.length, "millisecond");
+			campaign.recipeID = recipe._id;
 
 			for (let index in recipe.posts) {
 				this.newPost(recipe.posts[index].socialType, recipe.posts[index]);
@@ -97,6 +93,8 @@ class CampaignModal extends Component {
 
 		changeCampaignDateLowerBound(this.state.campaign.startDate);
 		changeCampaignDateUpperBound(this.state.campaign.endDate);
+
+		this.initSocket();
 	}
 	componentWillUnmount() {
 		let { campaign, somethingChanged, socket } = this.state;
@@ -347,7 +345,12 @@ class CampaignModal extends Component {
 		let { campaign, posts } = this.state;
 
 		axios.post("/api/recipe", { campaign, posts }).then(res => {
-			console.log(res.data);
+			const { success } = res.data;
+
+			if (res.data.campaign) {
+				campaign.recipeID = res.data.campaign.recipeID;
+				this.setState({ campaign });
+			}
 		});
 	};
 
@@ -383,7 +386,7 @@ class CampaignModal extends Component {
 		}
 
 		return (
-			<div className="modal" onClick={() => this.props.close(false, "campaignModal")}>
+			<div className="modal" onClick={() => this.props.close()}>
 				<div className="large-modal" onClick={e => e.stopPropagation()}>
 					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={() => this.props.close()} />
 					<div
@@ -393,8 +396,7 @@ class CampaignModal extends Component {
 							this.props.handleChange(true, "recipeModal");
 						}}
 					>
-						<FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" onClick={() => this.props.close()} /> Back
-						to Recipes
+						<FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" /> Back to Recipes
 					</div>
 					<div className="campaign-information-container" style={{ borderColor: color }}>
 						<div className="name-color-container">
@@ -529,9 +531,11 @@ class CampaignModal extends Component {
 											</div>
 										</div>
 									)}
-									<div className="publish-as-recipe" style={{ backgroundColor: color }} onClick={this.createRecipe}>
-										Publish as recipe
-									</div>
+									{!campaign.recipeID && (
+										<div className="publish-as-recipe" style={{ backgroundColor: color }} onClick={this.createRecipe}>
+											Publish as recipe
+										</div>
+									)}
 								</div>
 							</div>
 
