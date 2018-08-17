@@ -19,13 +19,13 @@ export function mobileAndTabletcheck() {
 	return check;
 }
 export async function savePost(
-	id,
+	_id,
 	content,
 	dateToPostInUtcTime,
 	link,
 	linkImage,
 	postImages,
-	accountIdToPostTo,
+	accountID,
 	socialType,
 	accountType,
 	callback,
@@ -35,7 +35,7 @@ export async function savePost(
 ) {
 	if (deleteImagesArray) {
 		if (deleteImagesArray.length !== 0) {
-			await axios.post("/api/post/delete/images/" + id, deleteImagesArray);
+			await axios.post("/api/post/delete/images/" + _id, deleteImagesArray);
 		}
 	}
 
@@ -55,8 +55,8 @@ export async function savePost(
 	// Everything seems okay, save post to database!
 	axios
 		.post("/api/post", {
-			id: id,
-			accountID: accountIdToPostTo,
+			_id,
+			accountID,
 			content,
 			instructions,
 			postingDate: dateToPostInUtcTime,

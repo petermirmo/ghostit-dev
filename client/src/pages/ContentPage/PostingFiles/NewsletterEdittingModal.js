@@ -72,6 +72,14 @@ class NewsletterEdittingModal extends Component {
 							}}
 							setSaving={this.setSaving}
 						/>
+						{this.state.confirmDelete && (
+							<ConfirmAlert
+								close={() => this.setState({ confirmDelete: false })}
+								title="Delete Newsletter"
+								message="Are you sure you want to delete this newsletter?"
+								callback={this.deleteNewsletter}
+							/>
+						)}
 					</div>
 
 					<div className="modal-footer">
@@ -84,14 +92,6 @@ class NewsletterEdittingModal extends Component {
 						title={this.state.notification.title}
 						message={this.state.notification.message}
 						callback={this.hideNotification}
-					/>
-				)}
-				{this.state.confirmDelete && (
-					<ConfirmAlert
-						close={() => this.setState({ confirmDelete: false })}
-						title="Delete Newsletter"
-						message="Are you sure you want to delete this newsletter?"
-						callback={this.deleteNewsletter}
 					/>
 				)}
 			</div>

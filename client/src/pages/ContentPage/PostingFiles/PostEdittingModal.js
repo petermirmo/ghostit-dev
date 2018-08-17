@@ -93,6 +93,14 @@ class PostEdittingModal extends Component {
 							timezone={timezone}
 							maxCharacters={maxCharacters}
 						/>
+						{this.state.confirmDelete && (
+							<ConfirmAlert
+								close={() => this.setState({ confirmDelete: false })}
+								title="Delete Post"
+								message="Are you sure you want to delete this post?"
+								callback={this.deletePost}
+							/>
+						)}
 					</div>
 
 					{modalFooter}
@@ -103,14 +111,6 @@ class PostEdittingModal extends Component {
 						title={this.state.notification.title}
 						message={this.state.notification.message}
 						callback={this.hideNotification}
-					/>
-				)}
-				{this.state.confirmDelete && (
-					<ConfirmAlert
-						close={() => this.setState({ confirmDelete: false })}
-						title="Delete Post"
-						message="Are you sure you want to delete this post?"
-						callback={this.deletePost}
 					/>
 				)}
 			</div>

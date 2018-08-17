@@ -17,13 +17,13 @@ const postSchema = new Schema(
 		errorMessage: String,
 		socialMediaID: String,
 		color: String,
+		campaignID: Schema.Types.ObjectId,
 		images: [
 			{
 				url: String,
 				publicID: String
 			}
-		],
-		campaignID: Schema.Types.ObjectId
+		]
 	},
 	{
 		timestamps: true

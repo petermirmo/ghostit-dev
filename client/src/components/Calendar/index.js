@@ -257,7 +257,7 @@ class Calendar extends Component {
 			<div
 				className="calendar-post"
 				style={{ backgroundColor: color }}
-				key={index + "post"}
+				key={index + "post3"}
 				onClick={event => {
 					event.stopPropagation();
 					openEvent();

@@ -48,7 +48,7 @@ class CampaignModal extends Component {
 		posts: [],
 		listOfPostChanges: {},
 		activePostKey: undefined,
-		nextPostKey: 0, // incrementing key so each post has a unique id regardless of posts being deleted
+
 		colors: {
 			color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1)" },
 			color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2)" },
@@ -70,9 +70,8 @@ class CampaignModal extends Component {
 			if (campaign.posts) {
 				if (campaign.posts.length > 0) {
 					this.fillPosts(campaign.posts);
-					let next_post_key = campaign.posts.length;
 					// maybe shouldn't hardcode but because setState is asychnronous, this will do for now
-					this.setState({ firstPostChosen: true, activePostKey: "0post", nextPostKey: next_post_key });
+					this.setState({ firstPostChosen: true, activePostKey: 0 });
 				}
 			}
 		}
@@ -114,22 +113,16 @@ class CampaignModal extends Component {
 
 	fillPosts = campaign_posts => {
 		const { campaign } = this.state;
-		const { accounts, timezone, clickedCalendarDate } = this.props;
+		const { timezone, clickedCalendarDate } = this.props;
 
 		const posts = [];
 		// function called when a user clicks on an existing campaign to edit.
 		for (let i = 0; i < campaign_posts.length; i++) {
 			const current_post = campaign_posts[i];
-			let key = i + "post";
 
 			let new_post = {
-				key,
-				accounts,
-				clickedCalendarDate,
-				socialType: current_post.socialType,
-				canEditPost: true,
+				key: i,
 				timezone,
-				campaignID: campaign._id,
 				post: current_post
 			};
 
@@ -188,7 +181,8 @@ class CampaignModal extends Component {
 				new_post.post = updatedPost;
 				this.setState({
 					posts: [...posts.slice(0, index), new_post, ...posts.slice(index + 1)],
-					listOfPostChanges: {}
+					listOfPostChanges: {},
+					somethingChanged: true
 				});
 				return;
 			}
@@ -196,30 +190,37 @@ class CampaignModal extends Component {
 	};
 
 	newPost = (socialType, recipePost) => {
-		const { posts, socket, campaign, activePostKey, nextPostKey } = this.state;
-		const { accounts, timezone, clickedCalendarDate } = this.props;
-		const { startDate, endDate } = campaign;
+		const { posts, socket, campaign } = this.state;
+		const { timezone, clickedCalendarDate } = this.props;
+		const { startDate } = campaign;
 
-		let key = nextPostKey + "post";
-		if (recipePost) recipePost.postingDate = new moment(startDate).add(recipePost.postingDate, "millisecond");
+		let postingDate = clickedCalendarDate;
+		let instructions;
 
-		let new_post = {
-			key,
-			accounts,
-			clickedCalendarDate,
-			socialType,
-			canEditPost: true,
-			timezone,
-			campaignID: campaign._id,
-			post: undefined,
-			recipePost
-		};
+		if (recipePost) {
+			postingDate = new moment(startDate).add(recipePost.postingDate, "millisecond");
+			instructions = recipePost.instructions;
+		}
+
 		this.setState({
-			posts: [...this.state.posts, new_post],
+			posts: [
+				...this.state.posts,
+				{
+					post: {
+						postingDate,
+						socialType,
+						campaignID: campaign._id,
+						instructions
+					},
+					canEditPost: true,
+					timezone,
+					key: posts.length
+				}
+			],
 			postAccountPicker: false,
-			activePostKey: key,
-			nextPostKey: nextPostKey + 1,
+			activePostKey: posts.length,
 			listOfPostChanges: {},
+
 			newPostPromptActive: false,
 			firstPostChosen: true
 		});
@@ -314,40 +315,33 @@ class CampaignModal extends Component {
 
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
-		for (let index in posts) {
-			if (posts[index].key === activePostKey) {
-				const post = posts[index];
+		const post = posts[activePostKey];
 
-				return (
-					<Post
-						newActivePost={true}
-						accounts={post.accounts}
-						clickedCalendarDate={post.clickedCalendarDate}
-						postFinishedSavingCallback={savedPost => {
-							socket.emit("new_post", { campaign, post: savedPost });
-							this.updatePost(post.key, savedPost);
-							socket.on("post_added", emitObject => {
-								campaign.posts = emitObject.campaignPosts;
-								this.setState({ campaign, saving: false });
-							});
-						}}
-						setSaving={() => {
-							this.setState({ saving: true });
-						}}
-						socialType={post.socialType}
-						maxCharacters={getSocialCharacters(post.socialType)}
-						canEditPost={post.canEditPost}
-						timezone={post.timezone}
-						campaignID={post.campaignID}
-						post={post.post}
-						listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
-						backupChanges={this.backupPostChanges}
-						recipePost={post.recipePost}
-					/>
-				);
-			}
-		}
-		return <div />;
+		return (
+			<Post
+				post={post.post}
+				newActivePost={true}
+				clickedCalendarDate={post.post.date}
+				postFinishedSavingCallback={savedPost => {
+					socket.emit("new_post", { campaign, post: savedPost });
+					this.updatePost(post.key, savedPost);
+					socket.on("post_added", emitObject => {
+						campaign.posts = emitObject.campaignPosts;
+						this.setState({ campaign, saving: false });
+					});
+				}}
+				setSaving={() => {
+					this.setState({ saving: true });
+				}}
+				socialType={post.post.socialType}
+				maxCharacters={getSocialCharacters(post.socialType)}
+				canEditPost={true}
+				timezone={post.timezone}
+				campaignID={post.campaignID}
+				listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
+				backupChanges={this.backupPostChanges}
+			/>
+		);
 	};
 	createRecipe = () => {
 		let { campaign, posts } = this.state;
@@ -487,12 +481,12 @@ class CampaignModal extends Component {
 													key={post_obj.key + "list-entry"}
 													onClick={e => this.selectPost(e, post_obj.key)}
 													style={{
-														borderColor: getPostColor(post_obj.socialType),
-														backgroundColor: getPostColor(post_obj.socialType)
+														borderColor: getPostColor(post_obj.post.socialType),
+														backgroundColor: getPostColor(post_obj.post.socialType)
 													}}
 												>
-													{post_obj.socialType.charAt(0).toUpperCase() +
-														post_obj.socialType.slice(1) +
+													{post_obj.post.socialType.charAt(0).toUpperCase() +
+														post_obj.post.socialType.slice(1) +
 														" Post - " +
 														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format(
 															"lll"
@@ -600,7 +594,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return {
-		accounts: state.accounts,
 		user: state.user
 	};
 }

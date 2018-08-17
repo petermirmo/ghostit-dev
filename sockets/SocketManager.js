@@ -87,12 +87,17 @@ module.exports = socket => {
 		Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
 			if (foundCampaign) {
 				if (foundCampaign.posts) {
-					while ((index = foundCampaign.posts.findIndex(post_obj => { if (!post_obj) return false; return post_obj._id == post.post._id; })) !== -1) {
-						foundCampaign.posts = [...foundCampaign.posts.slice(0,index), ...foundCampaign.posts.slice(index+1)];
+					while (
+						(index = foundCampaign.posts.findIndex(post_obj => {
+							if (!post_obj) return false;
+							return post_obj._id == post.post._id;
+						})) !== -1
+					) {
+						foundCampaign.posts = [...foundCampaign.posts.slice(0, index), ...foundCampaign.posts.slice(index + 1)];
 					}
 					foundCampaign.save((err, savedCampaign) => {
 						if (err || !savedCampaign) {
-							socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+							socket.emit("post-deleted", { removedFromCampaign, removedPost, newCampaign });
 						} else {
 							removedFromCampaign = true;
 							newCampaign = savedCampaign;
@@ -100,18 +105,18 @@ module.exports = socket => {
 								if (foundPost) {
 									foundPost.remove();
 									removedPost = true;
-									socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+									socket.emit("post-deleted", { removedFromCampaign, removedPost, newCampaign });
 								} else {
-									socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+									socket.emit("post-deleted", { removedFromCampaign, removedPost, newCampaign });
 								}
 							});
 						}
 					});
 				} else {
-					socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+					socket.emit("post-deleted", { removedFromCampaign, removedPost, newCampaign });
 				}
 			} else {
-				socket.emit("post-deleted", {removedFromCampaign, removedPost, newCampaign});
+				socket.emit("post-deleted", { removedFromCampaign, removedPost, newCampaign });
 			}
 		});
 	});
