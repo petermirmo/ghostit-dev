@@ -61,26 +61,24 @@ class NewsletterEdittingModal extends Component {
 			<div className="modal" onClick={this.props.close}>
 				<div className="modal-content" onClick={e => e.stopPropagation()}>
 					<div className="modal-header">
-						<FontAwesomeIcon onClick={() => this.props.close()} className="close" icon={faTimes} size="2x" />
+						<FontAwesomeIcon onClick={() => this.props.close()} className="close-scroll" icon={faTimes} size="2x" />
 					</div>
-					<div className="modal-body">
-						<CreateNewsletter
-							newsletter={this.props.clickedEvent}
-							callback={() => {
-								this.props.updateCalendarNewsletters();
-								this.props.close();
-							}}
-							setSaving={this.setSaving}
+					<CreateNewsletter
+						newsletter={this.props.clickedEvent}
+						callback={() => {
+							this.props.updateCalendarNewsletters();
+							this.props.close();
+						}}
+						setSaving={this.setSaving}
+					/>
+					{this.state.confirmDelete && (
+						<ConfirmAlert
+							close={() => this.setState({ confirmDelete: false })}
+							title="Delete Newsletter"
+							message="Are you sure you want to delete this newsletter?"
+							callback={this.deleteNewsletter}
 						/>
-						{this.state.confirmDelete && (
-							<ConfirmAlert
-								close={() => this.setState({ confirmDelete: false })}
-								title="Delete Newsletter"
-								message="Are you sure you want to delete this newsletter?"
-								callback={this.deleteNewsletter}
-							/>
-						)}
-					</div>
+					)}
 
 					<div className="modal-footer">
 						<FontAwesomeIcon onClick={this.deleteNewsletterPopUp} className="delete" icon={faTrash} size="2x" />

@@ -88,16 +88,22 @@
 /* Modal Content */
 .modal-content {
 	position: fixed;
-	background-color: var(--white-theme-color);
 
-	-webkit-animation: animateOpacity 0.2s;
-	animation: animateOpacity 0.2s;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+
+	flex-direction: column;
 
 	width: 50%;
 	max-height: 90vh;
 
 	margin: 5vh auto 200px auto;
 
+	background-color: var(--white-theme-color);
+
+	-webkit-animation: animateOpacity 0.2s;
+	animation: animateOpacity 0.2s;
 	overflow: hidden;
 }
 .large-modal {
@@ -129,7 +135,9 @@
 }
 
 .modal-body {
-	margin: 0;
+	position: relative;
+
+	width: 100%;
 }
 
 .modal-footer {
@@ -186,8 +194,11 @@
 		opacity: 1;
 	}
 }
-
-.close {
+.close-scroll {
+	right: 10px !important;
+}
+.close,
+.close-scroll {
 	color: var(--grey-theme-color);
 	background-color: transparent;
 	position: absolute;
@@ -196,7 +207,8 @@
 	cursor: pointer;
 	transform: scale(0.7);
 }
-.close:hover {
+.close:hover,
+.close-scroll:hover {
 	color: var(--red-theme-color);
 	text-decoration: none;
 	cursor: pointer;

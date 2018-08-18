@@ -23,50 +23,53 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 import "./styles/";
 
 class CampaignModal extends Component {
-	state = {
-		campaign: this.props.campaign // only defined if user clicked on an existing campaign to edit
-			? this.props.campaign
+	constructor(props) {
+		super(props);
+		let campaign = props.campaign // only defined if user clicked on an existing campaign to edit
+			? props.campaign
 			: {
 					startDate:
 						// maybe better to set new moment() to a var then use that instead so it's not called 4 times in a row
 						// not sure if that's possible / actually better in this scope though
-						new moment() > new moment(this.props.clickedCalendarDate)
-							? new moment()
-							: new moment(this.props.clickedCalendarDate),
+						new moment() > new moment(props.clickedCalendarDate) ? new moment() : new moment(props.clickedCalendarDate),
 					endDate:
-						new moment() > new moment(this.props.clickedCalendarDate)
+						new moment() > new moment(props.clickedCalendarDate)
 							? new moment().add(15, "minutes")
-							: new moment(this.props.clickedCalendarDate).add(15, "minutes"),
+							: new moment(props.clickedCalendarDate).add(15, "minutes"),
 					name: "",
-					userID: this.props.user.signedInAsUser
-						? this.props.user.signedInAsUser.id
-							? this.props.user.signedInAsUser.id
-							: this.props.user._id
-						: this.props.user._id,
+					userID: props.user.signedInAsUser
+						? props.user.signedInAsUser.id
+							? props.user.signedInAsUser.id
+							: props.user._id
+						: props.user._id,
 					color: "var(--campaign-color1)",
 					recipeID: undefined
-			  },
-		posts: [],
-		listOfPostChanges: {},
-		activePostKey: undefined,
+			  };
 
-		colors: {
-			color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1)" },
-			color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2)" },
-			color3: { className: "color3", border: "color3-border", color: "var(--campaign-color3)" },
-			color4: { className: "color4", border: "color4-border", color: "var(--campaign-color4)" }
-		},
-		saving: true,
-		postAccountPicker: false,
-		somethingChanged: this.props.campaign ? false : true,
-		confirmDelete: false,
-		firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
-		newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
-	};
+		let stateVariable = {
+			campaign,
+			posts: [],
+			listOfPostChanges: {},
+			activePostKey: undefined,
+
+			colors: {
+				color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1)" },
+				color2: { className: "color2", border: "color2-border", color: "var(--campaign-color2)" },
+				color3: { className: "color3", border: "color3-border", color: "var(--campaign-color3)" },
+				color4: { className: "color4", border: "color4-border", color: "var(--campaign-color4)" }
+			},
+			saving: true,
+			postAccountPicker: false,
+			somethingChanged: props.campaign ? false : true,
+			confirmDelete: false,
+			firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
+			newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
+		};
+
+		this.state = stateVariable;
+	}
 	componentDidMount() {
-		this.initSocket();
-
-		let { campaign, changeCampaignDateLowerBound, changeCampaignDateUpperBound, recipe } = this.props;
+		let { campaign } = this.props;
 		if (campaign) {
 			if (campaign.posts) {
 				if (campaign.posts.length > 0) {
@@ -77,11 +80,15 @@ class CampaignModal extends Component {
 			}
 		}
 
+		this.initSocket();
+
 		changeCampaignDateLowerBound(this.state.campaign.startDate);
 		changeCampaignDateUpperBound(this.state.campaign.endDate);
 	}
+
 	componentWillUnmount() {
 		let { campaign, somethingChanged, socket } = this.state;
+		console.log("unmounted");
 
 		if (somethingChanged && campaign && socket) {
 			socket.emit("campaign_editted", campaign);
@@ -92,27 +99,6 @@ class CampaignModal extends Component {
 			});
 		}
 	}
-
-	fillPosts = campaign_posts => {
-		const { campaign } = this.state;
-		const { timezone, clickedCalendarDate } = this.props;
-
-		const posts = [];
-		// function called when a user clicks on an existing campaign to edit.
-		for (let i = 0; i < campaign_posts.length; i++) {
-			const current_post = campaign_posts[i];
-
-			let new_post = {
-				key: i,
-				timezone,
-				post: current_post
-			};
-
-			posts.push(new_post);
-		}
-
-		this.setState({ posts });
-	};
 
 	initSocket = () => {
 		let { campaign, somethingChanged } = this.state;
@@ -153,39 +139,25 @@ class CampaignModal extends Component {
 		this.setState({ socket });
 	};
 
-	handleChange = (value, index, index2) => {
-		if (index2) {
-			let object = this.state[index];
-			object[index2] = value;
+	fillPosts = campaign_posts => {
+		const { campaign } = this.state;
+		const { timezone, clickedCalendarDate } = this.props;
 
-			this.setState({ [index]: object });
-		} else {
-			this.setState({ [index]: value });
+		const posts = [];
+		// function called when a user clicks on an existing campaign to edit.
+		for (let i = 0; i < campaign_posts.length; i++) {
+			const current_post = campaign_posts[i];
+
+			let new_post = {
+				key: i,
+				timezone,
+				post: current_post
+			};
+
+			posts.push(new_post);
 		}
-	};
 
-	handleCampaignChange = (value, index) => {
-		if (index) {
-			// does socket need to be available in this function?
-			let { campaign, socket } = this.state;
-			campaign[index] = value;
-
-			this.setState({ campaign, somethingChanged: true });
-		}
-	};
-
-	updatePost = updatedPost => {
-		const { posts, activePostKey } = this.state;
-
-		let new_post = posts[activePostKey];
-		new_post.post = updatedPost;
-
-		this.setState({
-			posts: [...posts.slice(0, activePostKey), new_post, ...posts.slice(activePostKey + 1)],
-			listOfPostChanges: {},
-			somethingChanged: true
-		});
-		return;
+		this.setState({ posts });
 	};
 
 	newPost = (socialType, recipePost) => {
@@ -234,6 +206,20 @@ class CampaignModal extends Component {
 			this.props.updateCampaigns();
 		}
 		this.setState({ confirmDelete: false });
+	};
+
+	updatePost = updatedPost => {
+		const { posts, activePostKey } = this.state;
+
+		let new_post = posts[activePostKey];
+		new_post.post = updatedPost;
+
+		this.setState({
+			posts: [...posts.slice(0, activePostKey), new_post, ...posts.slice(activePostKey + 1)],
+			listOfPostChanges: {},
+			somethingChanged: true
+		});
+		return;
 	};
 
 	deletePost = (e, index) => {
@@ -287,11 +273,6 @@ class CampaignModal extends Component {
 	selectPost = (e, post_key) => {
 		e.preventDefault();
 		this.setState({ activePostKey: post_key, listOfPostChanges: {} });
-	};
-
-	newPostPrompt = e => {
-		e.preventDefault();
-		this.setState({ newPostPromptActive: true });
 	};
 
 	backupPostChanges = (value, index) => {
@@ -351,6 +332,26 @@ class CampaignModal extends Component {
 		});
 	};
 
+	handleChange = (value, index, index2) => {
+		if (index2) {
+			let object = this.state[index];
+			object[index2] = value;
+
+			this.setState({ [index]: object });
+		} else {
+			this.setState({ [index]: value });
+		}
+	};
+
+	handleCampaignChange = (value, index) => {
+		if (index) {
+			let { campaign } = this.state;
+			campaign[index] = value;
+
+			this.setState({ campaign, somethingChanged: true });
+		}
+	};
+
 	render() {
 		const {
 			colors,
@@ -364,8 +365,6 @@ class CampaignModal extends Component {
 			newPostPromptActive
 		} = this.state;
 		const { startDate, endDate, name, color } = campaign;
-
-		console.log(activePostKey);
 
 		let colorDivs = [];
 		for (let index in colors) {
@@ -506,7 +505,7 @@ class CampaignModal extends Component {
 									})}
 									{!newPostPromptActive && (
 										<FontAwesomeIcon
-											onClick={e => this.newPostPrompt(e)}
+											onClick={e => this.handleChange(true, "newPostPromptActive")}
 											className="new-post-button"
 											icon={faPlus}
 											size="2x"
@@ -515,7 +514,13 @@ class CampaignModal extends Component {
 										/>
 									)}
 									{newPostPromptActive && (
-										<FontAwesomeIcon icon={faArrowDown} size="2x" key="new_post_button" className="arrow-down" />
+										<FontAwesomeIcon
+											icon={faArrowDown}
+											size="2x"
+											key="new_post_button"
+											className="arrow-down"
+											style={{ color }}
+										/>
 									)}
 
 									{newPostPromptActive && (

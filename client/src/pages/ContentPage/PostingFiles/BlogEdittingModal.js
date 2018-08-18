@@ -61,26 +61,24 @@ class BlogEdittingModal extends Component {
 			<div className="modal" onClick={this.props.close}>
 				<div className="modal-content" onClick={e => e.stopPropagation()}>
 					<div className="modal-header">
-						<FontAwesomeIcon icon={faTimes} className="close" size="2x" onClick={() => this.props.close()} />
+						<FontAwesomeIcon icon={faTimes} className="close-scroll" size="2x" onClick={() => this.props.close()} />
 					</div>
-					<div className="modal-body">
-						<CreateBlog
-							blog={this.props.clickedEvent}
-							callback={() => {
-								this.props.updateCalendarBlogs();
-								this.props.close();
-							}}
-							setSaving={this.setSaving}
+					<CreateBlog
+						blog={this.props.clickedEvent}
+						callback={() => {
+							this.props.updateCalendarBlogs();
+							this.props.close();
+						}}
+						setSaving={this.setSaving}
+					/>
+					{this.state.confirmDelete && (
+						<ConfirmAlert
+							close={() => this.setState({ confirmDelete: false })}
+							title="Delete Blog"
+							message="Are you sure you want to delete this blog?"
+							callback={this.deleteBlog}
 						/>
-						{this.state.confirmDelete && (
-							<ConfirmAlert
-								close={() => this.setState({ confirmDelete: false })}
-								title="Delete Blog"
-								message="Are you sure you want to delete this blog?"
-								callback={this.deleteBlog}
-							/>
-						)}
-					</div>
+					)}
 
 					<div className="modal-footer">
 						<FontAwesomeIcon onClick={this.deleteBlogPopUp} className="delete" icon={faTrash} size="2x" />

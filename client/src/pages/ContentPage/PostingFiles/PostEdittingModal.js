@@ -78,30 +78,28 @@ class PostEdittingModal extends Component {
 			<div className="modal" onClick={this.props.close}>
 				<div className="modal-content" onClick={e => e.stopPropagation()}>
 					<div className="modal-header">
-						<FontAwesomeIcon icon={faTimes} className="close" size="2x" onClick={() => close()} />
+						<FontAwesomeIcon icon={faTimes} className="close-scroll" size="2x" onClick={() => close()} />
 					</div>
-					<div className="modal-body">
-						<Post
-							setSaving={this.setSaving}
-							post={clickedEvent}
-							canEditPost={canEditPost}
-							postFinishedSavingCallback={() => {
-								savePostCallback();
-								close();
-							}}
-							accounts={accounts}
-							timezone={timezone}
-							maxCharacters={maxCharacters}
+					<Post
+						setSaving={this.setSaving}
+						post={clickedEvent}
+						canEditPost={canEditPost}
+						postFinishedSavingCallback={() => {
+							savePostCallback();
+							close();
+						}}
+						accounts={accounts}
+						timezone={timezone}
+						maxCharacters={maxCharacters}
+					/>
+					{this.state.confirmDelete && (
+						<ConfirmAlert
+							close={() => this.setState({ confirmDelete: false })}
+							title="Delete Post"
+							message="Are you sure you want to delete this post?"
+							callback={this.deletePost}
 						/>
-						{this.state.confirmDelete && (
-							<ConfirmAlert
-								close={() => this.setState({ confirmDelete: false })}
-								title="Delete Post"
-								message="Are you sure you want to delete this post?"
-								callback={this.deletePost}
-							/>
-						)}
-					</div>
+					)}
 
 					{modalFooter}
 				</div>

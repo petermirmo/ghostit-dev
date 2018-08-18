@@ -109,6 +109,7 @@ class RecipeModal extends Component {
 						<PickDateModal
 							callback={date => {
 								recipe.startDate = date;
+								this.props.handleChange(undefined, "clickedEvent");
 								this.props.handleChange(recipe, "recipe");
 								this.props.handleChange(false, "recipeModal");
 								this.props.handleChange(true, "campaignModal");
