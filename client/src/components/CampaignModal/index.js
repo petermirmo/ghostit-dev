@@ -174,20 +174,18 @@ class CampaignModal extends Component {
 		}
 	};
 
-	updatePost = (key, updatedPost) => {
-		const { posts } = this.state;
-		for (let index = 0; index < posts.length; index++) {
-			if (posts[index].key === key) {
-				let new_post = JSON.parse(JSON.stringify(posts[index]));
-				new_post.post = updatedPost;
-				this.setState({
-					posts: [...posts.slice(0, index), new_post, ...posts.slice(index + 1)],
-					listOfPostChanges: {},
-					somethingChanged: true
-				});
-				return;
-			}
-		}
+	updatePost = updatedPost => {
+		const { posts, activePostKey } = this.state;
+
+		let new_post = posts[activePostKey];
+		new_post.post = updatedPost;
+
+		this.setState({
+			posts: [...posts.slice(0, activePostKey), new_post, ...posts.slice(activePostKey + 1)],
+			listOfPostChanges: {},
+			somethingChanged: true
+		});
+		return;
 	};
 
 	newPost = (socialType, recipePost) => {
@@ -322,7 +320,7 @@ class CampaignModal extends Component {
 				clickedCalendarDate={post.post.date}
 				postFinishedSavingCallback={savedPost => {
 					socket.emit("new_post", { campaign, post: savedPost });
-					this.updatePost(post.key, savedPost);
+					this.updatePost(savedPost);
 					socket.on("post_added", emitObject => {
 						campaign.posts = emitObject.campaignPosts;
 						this.setState({ campaign, saving: false });
@@ -533,12 +531,12 @@ class CampaignModal extends Component {
 											</div>
 										</div>
 									)}
-									{!campaign.recipeID && (
-										<div className="publish-as-recipe" style={{ backgroundColor: color }} onClick={this.createRecipe}>
-											Publish as recipe
-										</div>
-									)}
 								</div>
+								{!campaign.recipeID && (
+									<div className="publish-as-recipe" style={{ backgroundColor: color }} onClick={this.createRecipe}>
+										Publish as recipe
+									</div>
+								)}
 							</div>
 
 							{activePostKey !== undefined && (
