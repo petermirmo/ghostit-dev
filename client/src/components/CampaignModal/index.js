@@ -88,7 +88,6 @@ class CampaignModal extends Component {
 
 	componentWillUnmount() {
 		let { campaign, somethingChanged, socket } = this.state;
-		console.log("unmounted");
 
 		if (somethingChanged && campaign && socket) {
 			socket.emit("campaign_editted", campaign);
@@ -469,15 +468,15 @@ class CampaignModal extends Component {
 					{firstPostChosen && (
 						<div className="post-navigation-and-post-container">
 							<div className="post-navigation-container" style={{ borderColor: color }}>
-								<div className="post-list-container">
+								<div className="list-container">
 									{posts.map((post_obj, index) => {
 										let postDate = post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate;
 										if (post_obj.recipePost) postDate = post_obj.recipePost.postingDate;
 
 										return (
-											<div className="post-list-entry-with-delete" key={index + "list-div"}>
+											<div className="list-entry-with-delete" key={index + "list-div"}>
 												<div
-													className="post-list-entry"
+													className="list-entry"
 													key={index + "list-entry"}
 													onClick={e => this.selectPost(e, index)}
 													style={{

@@ -147,47 +147,12 @@
 
 	flex-direction: column;
 
+	padding-bottom: 50px;
+
 	border-right: 0.5px solid var(--light-grey-theme-color);
 	border-bottom: 0.5px solid var(--light-grey-theme-color);
 
 	background-color: var(--light-light-grey-theme-color);
-}
-.post-list-container {
-	position: relative;
-	display: flex;
-
-	justify-content: flex-start;
-	align-items: center;
-	flex-direction: column;
-
-	flex-shrink: 0;
-
-	width: 100%;
-	height: 85%;
-
-	box-sizing: border-box;
-
-	margin: 0 20px 60px 20px;
-	padding: 20px 0 60px 0;
-	overflow: auto;
-}
-.post-list-entry-with-delete {
-	flex-shrink: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	margin-bottom: 10px;
-}
-.post-list-entry {
-	padding: 10px;
-
-	border-radius: 10px;
-	border: 1px solid var(--grey-theme-color);
-
-	color: var(--white-theme-color);
-
-	cursor: pointer;
 }
 
 .new-post-prompt {
@@ -267,6 +232,9 @@
 
 	padding: 8px;
 
+	margin-left: auto;
+	margin-right: auto;
+
 	background-color: var(--blue-theme-color);
 	color: var(--white-theme-color);
 
@@ -276,6 +244,9 @@
 }
 .arrow-down {
 	color: var(--blue-theme-color);
+
+	margin-left: auto;
+	margin-right: auto;
 }
 
 @keyframes campaignModalAnimation {

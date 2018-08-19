@@ -1,4 +1,4 @@
-.custom-campaign {
+.custom-campaign-button {
 	position: absolute;
 	top: 5px;
 	right: 40px;
@@ -15,7 +15,7 @@
 	transition: all 0.2s ease;
 	-webkit-transition: all 0.2s ease;
 }
-.custom-campaign:hover {
+.custom-campaign-button:hover {
 	color: var(--white-theme-color);
 	border-color: var(--blue-theme-color);
 	background-color: var(--blue-theme-color);

@@ -152,7 +152,7 @@
 
 	background-color: var(--light-light-grey-theme-color);
 }
-.post-list-container {
+.list-container {
 	position: relative;
 	display: flex;
 
@@ -171,7 +171,7 @@
 	padding: 20px 0 60px 0;
 	overflow: auto;
 }
-.post-list-entry-with-delete {
+.list-entry-with-delete {
 	flex-shrink: 0;
 	display: flex;
 	justify-content: center;
@@ -179,7 +179,7 @@
 
 	margin-bottom: 10px;
 }
-.post-list-entry {
+.list-entry {
 	padding: 10px;
 
 	border-radius: 10px;

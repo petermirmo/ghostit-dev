@@ -76,6 +76,7 @@
 	width: 100%;
 
 	min-height: 100vh;
+	height: 100%;
 
 	display: flex;
 	justify-content: center;
@@ -107,19 +108,19 @@
 	overflow: hidden;
 }
 .large-modal {
-	position: absolute;
+	position: fixed;
 	display: flex;
 
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	flex-direction: column;
 
 	min-height: 80vh;
 	max-height: 90vh;
 	min-width: 80%;
+	max-width: 80%;
 
 	margin-top: 3vh;
-	padding-top: 20px;
 
 	border-radius: 2px;
 
@@ -452,6 +453,47 @@
 	color: var(--white-theme-color);
 	border-color: var(--blue-theme-color);
 	background-color: var(--blue-theme-color);
+}
+
+.list-container {
+	display: flex;
+
+	justify-content: flex-start;
+	flex-direction: column;
+
+	width: 100%;
+	height: 100%;
+
+	box-sizing: border-box;
+
+	padding: 20px 20px 60px 20px;
+	overflow: auto;
+}
+.list-entry-with-delete {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-bottom: 10px;
+}
+.list-entry {
+	width: 100% !important;
+	padding: 10px;
+
+	border-radius: 10px;
+	border: 1px solid var(--grey-theme-color);
+
+	color: var(--white-theme-color);
+
+	cursor: pointer;
+}
+.title {
+	width: 100%;
+	text-align: center;
+
+	font-weight: bold;
+	font-size: var(--super-gigantic-font-size);
 }
 
 body {
