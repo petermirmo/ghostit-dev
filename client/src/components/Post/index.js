@@ -195,7 +195,6 @@ class PostingOptions extends Component {
 			instructions,
 			link,
 			linkImage,
-			linkImagesArray,
 			images,
 			socialType,
 			accountID,
@@ -206,7 +205,7 @@ class PostingOptions extends Component {
 		} = this.state;
 		let { date } = this.state;
 
-		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
+		const { postFinishedSavingCallback, setSaving, maxCharacters } = this.props;
 
 		let newDate = new moment(date).utcOffset(0);
 		if (!postChecks(accountID, newDate, link, images, content, maxCharacters)) {
@@ -384,8 +383,6 @@ class PostingOptions extends Component {
 
 function mapStateToProps(state) {
 	return {
-		campaignDateLowerBound: state.campaignDateLowerBound,
-		campaignDateUpperBound: state.campaignDateUpperBound,
 		accounts: state.accounts
 	};
 }
