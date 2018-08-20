@@ -2,17 +2,17 @@
 	display: inline-block;
 	position: relative;
 
-	background-color: var(--white-theme-color);
-
-	border-bottom: 1px solid var(--grey-theme-color);
-	vertical-align: middle;
-
-	margin-right: 20px;
 	padding: 4px 10px 4px 10px;
 
+	background-color: transparent;
+
 	cursor: pointer;
+	user-select: none;
 }
-.date-picker-dropdown:hover {
+.display-date {
+	border-bottom: 1px solid var(--grey-theme-color);
+}
+.display-date:hover {
 	border-color: var(--blue-theme-color);
 }
 .dropdown-calendar {
@@ -34,6 +34,7 @@
 
 	box-shadow: 0 0 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 1;
+	cursor: default;
 }
 
 .date-picker-dropdown-header {
@@ -72,6 +73,7 @@
 
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
+	cursor: pointer;
 }
 .date-picker-calendar-month-switch-button:hover {
 	color: var(--green-theme-color);
@@ -83,6 +85,11 @@
 	margin-left: 20px;
 }
 
+.past-calendar-date {
+	opacity: 0.4;
+	cursor: default !important;
+}
+.past-calendar-date,
 .date-picker-day {
 	background-color: var(--white-theme-color);
 
@@ -110,15 +117,24 @@
 .date-picker-date {
 }
 
+.time-container {
+	display: flex;
+}
+
 .time-dropdown {
 	position: relative;
 
 	text-align: center;
 
+	display: flex;
+
+	justify-content: space-between;
+	align-items: center;
+
 	flex-grow: 1;
 	-webkit-flex-grow: 1;
 
-	padding: 5px 0 5px 0;
+	padding: 5px;
 	margin: 10px 5px 0 5px;
 
 	border: 1px solid var(--grey-theme-color);
@@ -138,13 +154,17 @@
 	border: 1px solid var(--grey-theme-color);
 
 	position: absolute;
-	display: block;
+	display: flex;
+
+	flex-direction: column;
+
+	top: calc(100% - 5px);
 	right: 0;
 	left: -1px;
 
 	margin-top: 5px;
 
-	width: 100%;
+	min-width: 100%;
 	max-height: 135px;
 
 	overflow: auto;

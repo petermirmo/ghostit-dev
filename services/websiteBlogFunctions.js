@@ -29,7 +29,6 @@ module.exports = {
 				newBlog.title = blog.title;
 				newBlog.resources = blog.resources;
 				newBlog.about = blog.about;
-				newBlog.color = "#e74c3c";
 				newBlog.image = blog.image;
 				newBlog.wordDoc = blog.wordDoc;
 				newBlog.keywords = blog.keywords;
@@ -38,6 +37,7 @@ module.exports = {
 			}
 			newBlog.userID = userID;
 			newBlog.socialType = "blog";
+			newBlog.color = "#e74c3c";
 
 			if (blogFile.localPath) {
 				// Delete old wordDoc

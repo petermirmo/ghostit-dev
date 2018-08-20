@@ -23,21 +23,30 @@ class PostingOptions extends Component {
 		this.state = this.createState(props);
 	}
 	createState = props => {
-		let stateVariable = {};
-		if (props.post) stateVariable = props.post;
-		else
-			stateVariable = {
-				id: undefined,
-				accountID: "",
-				link: "",
-				linkImage: "",
-				images: [],
-				accountType: "",
-				socialType: props.socialType,
-				content: "",
-				instructions: ""
-			};
-		stateVariable.promptModifyCampaignDates = false;
+		let stateVariable = {
+			_id: undefined,
+			accountID: "",
+			link: "",
+			linkImage: "",
+			images: [],
+			accountType: "",
+			socialType: props.socialType,
+			content: "",
+			instructions: ""
+		};
+		if (props.post) {
+			stateVariable._id = props.post._id ? props.post._id : undefined;
+			stateVariable.accountID = props.post.accountID ? props.post.accountID : "";
+			stateVariable.link = props.post.link ? props.post.link : "";
+			stateVariable.linkImage = props.post.linkImage ? props.post.linkImage : "";
+			stateVariable.images = props.post.images ? props.post.images : [];
+			stateVariable.accountType = props.post.accountType ? props.post.accountType : "";
+			stateVariable.socialType = props.post.socialType ? props.post.socialType : props.socialType;
+			stateVariable.content = props.post.content ? props.post.content : "";
+			stateVariable.instructions = props.post.instructions ? props.post.instructions : "";
+			stateVariable.campaignID = props.post.campaignID ? props.post.campaignID : undefined;
+		}
+
 		stateVariable.deleteImagesArray = [];
 		stateVariable.linkImagesArray = [];
 		stateVariable.timezone = props.timezone;
@@ -55,24 +64,26 @@ class PostingOptions extends Component {
 	};
 	componentWillReceiveProps(nextProps) {
 		if (this.state.somethingChanged && nextProps.post && nextProps.post._id) {
-			if (nextProps.post._id !== this.state.id) {
+			if (nextProps.post._id !== this.state._id) {
 				// if we are changing to a different post, make sure somethingChanged is false so the schedule post button doesn't show
 				this.setState({ somethingChanged: false });
 			} else if (!nextProps.listOfChanges || nextProps.listOfChanges.length === 0) {
 				this.setState({ somethingChanged: false });
 			}
 		}
-		if (nextProps.campaignID) {
-			let { campaignDateLowerBound, campaignDateUpperBound } = nextProps;
-			let { date } = this.state;
-			if (campaignDateLowerBound) {
-				if (new moment(campaignDateLowerBound) > new moment(date)) {
-					this.setState({ date: new moment(campaignDateLowerBound) });
+		if (nextProps.post) {
+			if (nextProps.post.campaignID) {
+				let { campaignDateLowerBound, campaignDateUpperBound } = nextProps;
+				let { date } = this.state;
+				if (campaignDateLowerBound) {
+					if (new moment(campaignDateLowerBound) > new moment(date)) {
+						this.setState({ date: new moment(campaignDateLowerBound) });
+					}
 				}
-			}
-			if (campaignDateUpperBound) {
-				if (new moment(campaignDateUpperBound) < new moment(date)) {
-					this.setState({ date: new moment(campaignDateUpperBound) });
+				if (campaignDateUpperBound) {
+					if (new moment(campaignDateUpperBound) < new moment(date)) {
+						this.setState({ date: new moment(campaignDateUpperBound) });
+					}
 				}
 			}
 		}
@@ -179,7 +190,7 @@ class PostingOptions extends Component {
 
 	trySavePost = (campaignStartDate, campaignEndDate) => {
 		const {
-			id,
+			_id,
 			content,
 			instructions,
 			link,
@@ -213,7 +224,7 @@ class PostingOptions extends Component {
 		setSaving();
 
 		savePost(
-			id,
+			_id,
 			content,
 			newDate,
 			link,
@@ -243,7 +254,7 @@ class PostingOptions extends Component {
 
 	render() {
 		const {
-			id,
+			_id,
 			content,
 			instructions,
 			link,
@@ -374,7 +385,8 @@ class PostingOptions extends Component {
 function mapStateToProps(state) {
 	return {
 		campaignDateLowerBound: state.campaignDateLowerBound,
-		campaignDateUpperBound: state.campaignDateUpperBound
+		campaignDateUpperBound: state.campaignDateUpperBound,
+		accounts: state.accounts
 	};
 }
 export default connect(mapStateToProps)(PostingOptions);

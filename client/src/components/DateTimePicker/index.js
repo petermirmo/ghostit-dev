@@ -14,7 +14,7 @@ class DatePicker extends Component {
 		hourDropdown: false,
 		minuteDropdown: false,
 		amPmDropdown: false,
-		displayDate: this.props.date
+		displayDate: new moment(this.props.date)
 	};
 
 	componentWillReceiveProps(nextProps) {

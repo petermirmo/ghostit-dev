@@ -8,6 +8,8 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import LoaderSimpleCircle from "../Notifications/LoaderSimpleCircle";
 import PickDateModal from "../PickDateModal";
 
+import { getPostColor } from "../../extra/functions/CommonFunctions";
+
 import "./styles/";
 
 class RecipeModal extends Component {
@@ -22,7 +24,10 @@ class RecipeModal extends Component {
 
 		startDate: new moment(this.props.clickedCalendarDate),
 
-		pickDateModal: false
+		pickDateModal: false,
+
+		previewRecipeLocation: undefined,
+		activePost: undefined
 	};
 	componentDidMount() {
 		axios.get("/api/recipes").then(res => {
@@ -34,8 +39,101 @@ class RecipeModal extends Component {
 			this.setState({ usersRecipes, allRecipes, activeRecipes: allRecipes, loading: false });
 		});
 	}
+
+	createRecipeList = activeRecipes => {
+		const { previewRecipeLocation, activePost } = this.state;
+		let recipeArray = [];
+
+		let recipeIndex = 0;
+
+		for (let recipeRow = 0; recipeRow <= activeRecipes.length / 4; recipeRow++) {
+			let rowArray = [];
+
+			for (let recipeColumn = 0; recipeColumn <= 3; recipeColumn++) {
+				let recipeIndex2 = recipeIndex;
+				let recipe = activeRecipes[recipeIndex2];
+
+				// Preview when a recipe is clicked
+				if (previewRecipeLocation === recipeIndex2) {
+					recipeArray[recipeArray.length + 1] = (
+						<div
+							className="preview-recipe"
+							key={recipeRow + "preview_recipe" + recipeColumn}
+							style={{ backgroundColor: recipe.color }}
+						>
+							<div className="title">{recipe.name}</div>
+							<div className="recipe-navigation-and-post-preview-container">
+								<div className="preview-navigation-container">
+									<div className="list-container">
+										{recipe.posts.map((post_obj, index) => {
+											return (
+												<div className="list-entry-with-delete" key={index + "list-div"}>
+													<div
+														className="list-entry"
+														key={index + "list-entry"}
+														onClick={e => this.setState({ activePost: post_obj })}
+														style={{
+															borderColor: getPostColor(post_obj.socialType),
+															backgroundColor: getPostColor(post_obj.socialType)
+														}}
+													>
+														{post_obj.socialType.charAt(0).toUpperCase() + post_obj.socialType.slice(1) + " Post"}
+													</div>
+												</div>
+											);
+										})}
+									</div>
+								</div>
+								{activePost && (
+									<div className="post-preview">
+										<div className="label">Post Instructions : </div>
+										{activePost.instructions ? activePost.instructions : "This post has no instructions."}
+									</div>
+								)}
+							</div>
+						</div>
+					);
+				}
+
+				// Put in blank divs to account for empty slots in final row
+				if (!recipe) recipe = { _id: recipeIndex2 + "recipe", name: "", color: "transparent", cursor: "default" };
+				rowArray.push(
+					<div
+						className="recipe-container"
+						key={recipeIndex2 + "recipe"}
+						onClick={e => {
+							if (!activeRecipes[recipeIndex2]) return;
+							e.stopPropagation();
+							this.setState({ previewRecipeLocation: recipeIndex2, activePost: recipe.posts[0] });
+						}}
+						style={{ backgroundColor: recipe.color, cursor: recipe.cursor }}
+					>
+						<div className="recipe-name">{recipe.name}</div>
+					</div>
+				);
+				recipeIndex++;
+			}
+			if (recipeArray[recipeArray.length - 2] || recipeArray.length === 0 || recipeArray.length === 1) {
+				recipeArray.push(
+					<div className="recipes-container" key={recipeRow + "each_row"}>
+						{rowArray}
+					</div>
+				);
+			} else {
+				recipeArray[recipeArray.length - 2] = (
+					<div className="recipes-container" key={recipeRow + "each_row"}>
+						{rowArray}
+					</div>
+				);
+			}
+		}
+
+		return recipeArray;
+	};
 	render() {
 		let { activeRecipes, loading, recipe, pickDateModal, clientX, clientY, startDate } = this.state;
+
+		let recipeArray = this.createRecipeList(activeRecipes);
 
 		return (
 			<div className="modal" onClick={() => this.props.handleChange(false, "recipeModal")}>
@@ -53,9 +151,8 @@ class RecipeModal extends Component {
 						onClick={() => this.props.close(false, "recipeModal")}
 					/>
 					<div
-						className="custom-campaign"
+						className="custom-campaign-button"
 						onClick={e => {
-							e.stopPropagation();
 							this.props.handleChange(undefined, "recipe");
 							this.props.handleChange(true, "campaignModal");
 							this.props.handleChange(false, "recipeModal");
@@ -87,27 +184,13 @@ class RecipeModal extends Component {
 							Your Recipes
 						</div>
 					</div>
-					<div className="recipes-container">
-						{activeRecipes.map(recipe => {
-							return (
-								<div
-									className="recipe-container"
-									key={recipe._id}
-									onClick={e => {
-										e.stopPropagation();
-										this.setState({ pickDateModal: true, recipe, clientX: e.clientX, clientY: e.clientY });
-									}}
-								>
-									<div className="recipe-name">{recipe.name}</div>
-								</div>
-							);
-						})}
-					</div>
+					<div className="recipes-container-container">{recipeArray}</div>
 					{loading && <LoaderSimpleCircle />}
 					{pickDateModal && (
 						<PickDateModal
 							callback={date => {
 								recipe.startDate = date;
+								this.props.handleChange(undefined, "clickedEvent");
 								this.props.handleChange(recipe, "recipe");
 								this.props.handleChange(false, "recipeModal");
 								this.props.handleChange(true, "campaignModal");

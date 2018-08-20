@@ -182,6 +182,7 @@ class Content extends Component {
 			newsletterEdittingModal: false,
 			optionModal: false,
 			campaignModal: false,
+			recipeModal: false,
 			clickedEvent: undefined
 		});
 	};

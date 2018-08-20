@@ -127,7 +127,7 @@ class ContentModal extends Component {
 		return (
 			<div className="modal" onClick={this.props.close}>
 				<div className="post-modal" onClick={e => e.stopPropagation()}>
-					<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={() => close("contentModal")} />
+					<FontAwesomeIcon icon={faTimes} size="2x" className="close-scroll" onClick={() => close("contentModal")} />
 
 					<ContentModalHeader
 						categories={this.state.categories}

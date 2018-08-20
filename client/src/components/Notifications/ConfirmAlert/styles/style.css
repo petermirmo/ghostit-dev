@@ -20,7 +20,8 @@
 
 	justify-content: space-between;
 	align-items: center;
-	width: 50%;
+	min-width: 50%;
+	max-width: 50%;
 	min-height: 30vh;
 
 	padding: 20px 20px 20px 20px;
@@ -51,7 +52,7 @@
 
 .cancel-button,
 .confirm-button {
-	width: 30%;
+	min-width: 30%;
 
 	margin-top: 10px;
 	padding: 10px;

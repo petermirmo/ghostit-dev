@@ -35,9 +35,9 @@ module.exports = {
 	savePost: function(req, res) {
 		let post = req.body;
 
-		let newPost = new Post();
+		Post.findOne({ _id: post._id }, function(err, foundPost) {
+			let newPost = new Post();
 
-		Post.findOne({ _id: post.id }, function(err, foundPost) {
 			if (err) {
 				console.log(err);
 				res.send(false);

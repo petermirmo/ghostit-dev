@@ -1,5 +1,9 @@
 .posting-form {
-	padding: 20px 20px 0 20px;
+	padding: 20px 40px 20px 20px;
+
+	max-height: 80vh;
+
+	overflow: auto;
 }
 .posting-textarea {
 	display: block;
@@ -11,10 +15,7 @@
 
 	box-sizing: border-box;
 
-	border-left: 1px solid var(--grey-theme-color);
-	border-right: 1px solid var(--grey-theme-color);
-	border-top: 1px solid var(--grey-theme-color);
-	border-bottom: none;
+	border-bottom: none !important;
 }
 .posting-textarea:focus + .post-images-and-carousel {
 	border-color: var(--blue-theme-color);
@@ -48,9 +49,9 @@
 	flex-wrap: wrap;
 	-webkit-flex-wrap: wrap;
 
-	margin: 20px 0 20px 0;
+	padding: 20px 0 20px 0;
 
-	width: 100%;
+	width: 40%;
 	text-align: center;
 }
 .schedule-post-button {
@@ -70,4 +71,15 @@
 }
 .schedule-post-button:hover {
 	background-color: var(--dark-blue-theme-color);
+}
+
+.instruction-textarea {
+	display: block;
+	min-height: 100px;
+	width: 100%;
+
+	resize: none;
+	outline: 0;
+
+	box-sizing: border-box;
 }
