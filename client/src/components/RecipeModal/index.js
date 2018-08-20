@@ -6,7 +6,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import LoaderSimpleCircle from "../Notifications/LoaderSimpleCircle";
-import PickDateModal from "../PickDateModal";
+import DateTimePicker from "../DateTimePicker";
 
 import { getPostColor } from "../../extra/functions/CommonFunctions";
 
@@ -24,7 +24,7 @@ class RecipeModal extends Component {
 
 		startDate: new moment(this.props.clickedCalendarDate),
 
-		pickDateModal: false,
+		chooseRecipeDate: false,
 
 		previewRecipeLocation: undefined,
 		activePost: undefined
@@ -41,7 +41,7 @@ class RecipeModal extends Component {
 	}
 
 	createRecipeList = activeRecipes => {
-		const { previewRecipeLocation, activePost } = this.state;
+		const { previewRecipeLocation, activePost, chooseRecipeDate, startDate } = this.state;
 		let recipeArray = [];
 
 		let recipeIndex = 0;
@@ -61,7 +61,7 @@ class RecipeModal extends Component {
 							key={recipeRow + "preview_recipe" + recipeColumn}
 							style={{ backgroundColor: recipe.color }}
 						>
-							<div className="title">{recipe.name}</div>
+							<div className="title">{recipe.name ? recipe.name : "This recipe does not have a title."}</div>
 							<div className="recipe-navigation-and-post-preview-container">
 								<div className="preview-navigation-container">
 									<div className="list-container">
@@ -84,12 +84,40 @@ class RecipeModal extends Component {
 										})}
 									</div>
 								</div>
-								{activePost && (
-									<div className="post-preview">
-										<div className="label">Post Instructions : </div>
-										{activePost.instructions ? activePost.instructions : "This post has no instructions."}
+								<div className="recipe-post-and-use-container">
+									{activePost && (
+										<div className="post-preview">
+											<div className="label">Post Instructions : </div>
+											{activePost.instructions ? activePost.instructions : "This post has no instructions."}
+										</div>
+									)}
+									<div className="use-recipe-date-container">
+										{!chooseRecipeDate && (
+											<div className="use-this-recipe" onClick={() => this.setState({ chooseRecipeDate: true })}>
+												Use This Recipe
+											</div>
+										)}
+										{chooseRecipeDate && <div className="label">Choose Start Date: </div>}
+										{chooseRecipeDate && (
+											<DateTimePicker
+												date={new moment()}
+												dateFormat="MMMM Do YYYY"
+												handleChange={date => {
+													recipe.startDate = date;
+													this.props.handleChange(undefined, "clickedEvent");
+													this.props.handleChange(recipe, "recipe");
+													this.props.handleChange(false, "recipeModal");
+													this.props.handleChange(true, "campaignModal");
+												}}
+												dateLowerBound={new moment()}
+												disableTime={true}
+												style={{
+													bottom: "-80px"
+												}}
+											/>
+										)}
 									</div>
-								)}
+								</div>
 							</div>
 						</div>
 					);
@@ -131,19 +159,13 @@ class RecipeModal extends Component {
 		return recipeArray;
 	};
 	render() {
-		let { activeRecipes, loading, recipe, pickDateModal, clientX, clientY, startDate } = this.state;
+		let { activeRecipes, loading, recipe, clientX, clientY, startDate } = this.state;
 
 		let recipeArray = this.createRecipeList(activeRecipes);
 
 		return (
 			<div className="modal" onClick={() => this.props.handleChange(false, "recipeModal")}>
-				<div
-					className="large-modal"
-					onClick={e => {
-						e.stopPropagation();
-						this.setState({ pickDateModal: false });
-					}}
-				>
+				<div className="large-modal" onClick={e => e.stopPropagation()}>
 					<FontAwesomeIcon
 						icon={faTimes}
 						size="2x"
@@ -186,23 +208,6 @@ class RecipeModal extends Component {
 					</div>
 					<div className="recipes-container-container">{recipeArray}</div>
 					{loading && <LoaderSimpleCircle />}
-					{pickDateModal && (
-						<PickDateModal
-							callback={date => {
-								recipe.startDate = date;
-								this.props.handleChange(undefined, "clickedEvent");
-								this.props.handleChange(recipe, "recipe");
-								this.props.handleChange(false, "recipeModal");
-								this.props.handleChange(true, "campaignModal");
-							}}
-							close={() => {
-								this.setState({ pickDateModal: false });
-							}}
-							clientX={clientX}
-							clientY={clientY}
-							startDate={startDate}
-						/>
-					)}
 				</div>
 			</div>
 		);

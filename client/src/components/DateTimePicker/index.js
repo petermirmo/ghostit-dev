@@ -257,7 +257,13 @@ class DatePicker extends Component {
 									{amPmDropdown && <div className="time-dropdown-container">{amPM}</div>}
 								</div>
 							)}
-							<button className="finished-button" onClick={() => this.setActive("calendarDropdown")}>
+							<button
+								className="finished-button"
+								onClick={() => {
+									this.setActive("calendarDropdown");
+									this.props.handleChange(date);
+								}}
+							>
 								Done!
 							</button>
 						</div>
