@@ -178,9 +178,6 @@ class PostingOptions extends Component {
 	};
 
 	trySavePost = (campaignStartDate, campaignEndDate) => {
-		console.log("trySavePost");
-		console.log(campaignStartDate);
-		console.log(campaignEndDate);
 		const {
 			id,
 			content,
@@ -193,11 +190,12 @@ class PostingOptions extends Component {
 			accountID,
 			accountType,
 			deleteImagesArray,
-			somethingChanged
+			somethingChanged,
+			campaignID
 		} = this.state;
 		let { date } = this.state;
 
-		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters, campaignID } = this.props;
+		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
 
 		let newDate = new moment(date).utcOffset(0);
 		if (!postChecks(accountID, newDate, link, images, content, maxCharacters)) {
@@ -257,11 +255,12 @@ class PostingOptions extends Component {
 			accountType,
 			deleteImagesArray,
 			somethingChanged,
-			promptModifyCampaignDates
+			promptModifyCampaignDates,
+			campaignID
 		} = this.state;
 		let { date } = this.state;
 
-		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters, campaignID } = this.props;
+		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
 
 		const linkPreviewCanShow = returnOfCarouselOptions[0];

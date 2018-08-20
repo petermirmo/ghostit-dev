@@ -375,7 +375,6 @@ class CampaignModal extends Component {
 	};
 
 	render() {
-		console.log(this.state.campaign);
 		const {
 			colors,
 			posts,
