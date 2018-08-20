@@ -12,7 +12,6 @@ import io from "socket.io-client";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changeCampaignDateLowerBound, changeCampaignDateUpperBound } from "../../redux/actions/";
 import { getPostColor, getSocialCharacters } from "../../extra/functions/CommonFunctions";
 
 import DateTimePicker from "../DateTimePicker";
@@ -45,6 +44,13 @@ class CampaignModal extends Component {
 					color: "var(--campaign-color1)",
 					recipeID: undefined
 			  };
+
+		if (props.campaign) {
+			// if we are opening an existing campaign, that means the data was retrieved from the DB
+			// this means that the date objects will just be strings so we need to convert them to moment objects
+			campaign.startDate = new moment(campaign.startDate);
+			campaign.endDate = new moment(campaign.endDate);
+		}
 
 		let stateVariable = {
 			campaign,
@@ -81,9 +87,6 @@ class CampaignModal extends Component {
 		}
 
 		this.initSocket();
-
-		changeCampaignDateLowerBound(this.state.campaign.startDate);
-		changeCampaignDateUpperBound(this.state.campaign.endDate);
 	}
 
 	componentWillUnmount() {
@@ -289,6 +292,21 @@ class CampaignModal extends Component {
 		this.setState({ listOfPostChanges });
 	};
 
+	modifyCampaignDates = (postingDate) => {
+		// function that gets passed to <Post/> as a prop
+		// <Post/> will use this function to push the campaign start/end dates in order to fit its posting date
+		const { campaign, socket } = this.state;
+		if (campaign.startDate > postingDate) {
+			campaign.startDate = new moment(postingDate);
+		} else if (campaign.endDate < postingDate) {
+			campaign.endDate = new moment(postingDate);
+		} else {
+			console.log("attempting to modify campaign date so post date fits, but posting date already fits?");
+		}
+		socket.emit("campaign_editted", campaign); // make sure this saves in the DB in case the page crashes or reloads
+		this.setState({ campaign, somethingChanged: true });
+	}
+
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
 		const post = posts[activePostKey];
@@ -315,6 +333,9 @@ class CampaignModal extends Component {
 				timezone={post.timezone}
 				listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
 				backupChanges={this.backupPostChanges}
+				campaignStartDate={campaign.startDate}
+				campaignEndDate={campaign.endDate}
+				modifyCampaignDates={this.modifyCampaignDates}
 			/>
 		);
 	};
@@ -419,10 +440,8 @@ class CampaignModal extends Component {
 									dateFormat="MMMM Do YYYY hh:mm A"
 									handleChange={date => {
 										this.handleCampaignChange(date, "startDate");
-										this.props.changeCampaignDateLowerBound(date);
 										if (date >= new moment(endDate)) {
 											this.handleCampaignChange(date, "endDate");
-											this.props.changeCampaignDateUpperBound(date);
 										}
 									}}
 									dateLowerBound={new moment()}
@@ -435,10 +454,8 @@ class CampaignModal extends Component {
 									dateFormat="MMMM Do YYYY hh:mm A"
 									handleChange={date => {
 										this.handleCampaignChange(date, "endDate");
-										this.props.changeCampaignDateUpperBound(date);
 										if (date <= new moment(startDate)) {
 											this.handleCampaignChange(date, "startDate");
-											this.props.changeCampaignDateLowerBound(date);
 										}
 									}}
 									dateLowerBound={new moment()}
@@ -590,15 +607,6 @@ class CampaignModal extends Component {
 	}
 }
 
-function mapDispatchToProps(dispatch) {
-	return bindActionCreators(
-		{
-			changeCampaignDateLowerBound,
-			changeCampaignDateUpperBound
-		},
-		dispatch
-	);
-}
 
 function mapStateToProps(state) {
 	return {
@@ -606,6 +614,5 @@ function mapStateToProps(state) {
 	};
 }
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+	mapStateToProps
 )(CampaignModal);

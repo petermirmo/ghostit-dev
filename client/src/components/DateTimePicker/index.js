@@ -100,8 +100,8 @@ class DatePicker extends Component {
 			calendarDay.add(index, "days");
 			// Now we have the days before the current month ex 27 28 29 30 1 2 3 4
 
-			calendarDay.set("hour", 23);
-			calendarDay.set("minute", 59);
+			calendarDay.set("hour", this.props.date.get('hour'));
+			calendarDay.set("minute", this.props.date.get('minute'));
 
 			let className = "date-picker-day";
 
@@ -113,7 +113,7 @@ class DatePicker extends Component {
 				className += " active";
 			}
 
-			if ((calendarDay >= dateLowerBound || !dateLowerBound) && (calendarDay <= dateUpperBound || !dateUpperBound)) {
+			if ((calendarDay.format("YYYY-MM-DD") >= dateLowerBound.format("YYYY-MM-DD") || !dateLowerBound) && (calendarDay <= dateUpperBound || !dateUpperBound)) {
 				calendarDayArray.push(
 					<div className={className} onClick={() => this.props.handleChange(calendarDay)} key={index + "day"}>
 						<div className="date-picker-date">{calendarDay.date()}</div>

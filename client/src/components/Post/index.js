@@ -12,6 +12,8 @@ import Carousel from "../Carousel";
 import ImagesDiv from "../ImagesDiv/";
 import { savePost, postChecks, carouselOptions } from "../../extra/functions/CommonFunctions";
 
+import ConfirmAlert from "../Notifications/ConfirmAlert";
+
 import "./styles";
 
 class PostingOptions extends Component {
@@ -176,6 +178,79 @@ class PostingOptions extends Component {
 		});
 	};
 
+	postingDateWithinCampaign = () => {
+		// check to see if the posting date is within the scope of the start and end of campaign
+		const { date } = this.state;
+		const { campaignStartDate, campaignEndDate } = this.props;
+		if (date < campaignStartDate || date > campaignEndDate) {
+			return false;
+		}
+		return true;
+	};
+
+	trySavePost = (campaignStartDate, campaignEndDate) => {
+		const {
+			_id,
+			content,
+			instructions,
+			link,
+			linkImage,
+			images,
+			socialType,
+			accountID,
+			accountType,
+			deleteImagesArray,
+			somethingChanged,
+			campaignID
+		} = this.state;
+		let { date } = this.state;
+
+		const { postFinishedSavingCallback, setSaving, maxCharacters } = this.props;
+
+		let newDate = new moment(date).utcOffset(0);
+		if (!postChecks(accountID, newDate, link, images, content, maxCharacters)) {
+			return;
+		}
+
+		if (campaignStartDate && campaignEndDate) {
+			if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
+				// prompt user to cancel the save or modify campaign dates
+				this.setState({ promptModifyCampaignDates: true });
+				return;
+			}
+		}
+
+		setSaving();
+
+		savePost(
+			_id,
+			content,
+			newDate,
+			link,
+			linkImage,
+			images,
+			accountID,
+			socialType,
+			accountType,
+			postFinishedSavingCallback,
+			deleteImagesArray,
+			campaignID,
+			instructions
+		);
+		this.setState({ somethingChanged: false });
+	};
+
+	modifyCampaignDate = (response) => {
+		if (!response) {
+			this.setState({ promptModifyCampaignDates: false });
+			return;
+		}
+		const { date } = this.state;
+		this.setState({ promptModifyCampaignDates: false });
+		this.trySavePost();
+		this.props.modifyCampaignDates(date);
+	}
+
 	render() {
 		const {
 			_id,
@@ -190,6 +265,7 @@ class PostingOptions extends Component {
 			accountType,
 			deleteImagesArray,
 			somethingChanged,
+			promptModifyCampaignDates,
 			campaignID
 		} = this.state;
 		let { date } = this.state;
@@ -254,31 +330,7 @@ class PostingOptions extends Component {
 					somethingChanged && (
 						<button
 							className="schedule-post-button"
-							onClick={() => {
-								let newDate = new moment(date).utcOffset(0);
-								if (!postChecks(accountID, newDate, link, images, content, maxCharacters)) {
-									return;
-								}
-
-								setSaving();
-
-								savePost(
-									_id,
-									content,
-									newDate,
-									link,
-									linkImage,
-									images,
-									accountID,
-									socialType,
-									accountType,
-									postFinishedSavingCallback,
-									deleteImagesArray,
-									campaignID,
-									instructions
-								);
-								this.setState({ somethingChanged: false });
-							}}
+							onClick={() => this.trySavePost(this.props.campaignStartDate, this.props.campaignEndDate)}
 						>
 							Schedule Post!
 						</button>
@@ -301,8 +353,8 @@ class PostingOptions extends Component {
 							bottom: "-80px"
 						}}
 						canEdit={canEditPost}
-						dateLowerBound={campaignID ? new moment(this.props.campaignDateLowerBound) : undefined}
-						dateUpperBound={campaignID ? new moment(this.props.campaignDateUpperBound) : undefined}
+						dateLowerBound={(new moment())}
+						dateUpperBound={undefined}
 					/>
 				</div>
 				<Textarea
@@ -314,6 +366,16 @@ class PostingOptions extends Component {
 					value={instructions}
 					readOnly={!canEditPost}
 				/>
+				{promptModifyCampaignDates && (
+					<ConfirmAlert
+						close={() => this.setState({ promptModifyCampaignDates: false })}
+						title="Modify Campaign Dates"
+						message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
+						callback={this.modifyCampaignDate}
+						modify={true}
+						close={() => this.setState({ promptModifyCampaignDates: false })}
+					/>
+				)}
 			</div>
 		);
 	}
@@ -321,8 +383,6 @@ class PostingOptions extends Component {
 
 function mapStateToProps(state) {
 	return {
-		campaignDateLowerBound: state.campaignDateLowerBound,
-		campaignDateUpperBound: state.campaignDateUpperBound,
 		accounts: state.accounts
 	};
 }

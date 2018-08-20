@@ -45,33 +45,13 @@ function accounts(state = [], action) {
 	}
 }
 
-function campaignDateLowerBound(state = null, action) {
-	switch (action.type) {
-		case "CAMPAIGN_DATE_LOWER_BOUND":
-			return action.payload;
-		default:
-			return state;
-	}
-}
-
-function campaignDateUpperBound(state = null, action) {
-	switch (action.type) {
-		case "CAMPAIGN_DATE_UPPER_BOUND":
-			return action.payload;
-		default:
-			return state;
-	}
-}
-
 const rootReducer = combineReducers({
 	user: currentUser,
 	account: accountReducer,
 	activePage,
 	clientSideBar,
 	headerSideBar,
-	accounts,
-	campaignDateLowerBound,
-	campaignDateUpperBound
+	accounts
 });
 
 export default rootReducer;
