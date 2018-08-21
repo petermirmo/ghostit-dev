@@ -307,6 +307,51 @@ class CampaignModal extends Component {
 		this.setState({ campaign, somethingChanged: true });
 	}
 
+	tryChangingCampaignDates = (date, date_type) => {
+		/*
+		this.handleCampaignChange(date, "endDate");
+		if (date <= new moment(startDate)) {
+			this.handleCampaignChange(date, "startDate");
+		} */
+		// function that gets passed to <DateTimePicker/> which lets it modify <CampaignModal/>'s start and end dates
+		// before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
+		// for example, if you had a campaign from Sept 1 -> Sept 4 and a post on Sept 3,
+		// then you tried to change the campaign to Sept 1 -> Sept 2, the post on Sept 3 will no longer be within the campaign dates
+		// so we'll want to disallow this modification and let the user know what happened
+		// it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
+		const { campaign, posts } = this.state;
+		campaign[date_type] = date;
+		const { startDate, endDate } = campaign;
+		console.log(startDate);
+		console.log(endDate);
+
+		let count_invalid = 0;
+
+		for (let index in posts) {
+			const postingDate = new moment(posts[index].post.postingDate);
+			console.log(postingDate);
+			if (postingDate < startDate || postingDate > endDate) {
+				count_invalid++;
+			}
+		}
+
+		if (count_invalid === 0) {
+			if (date_type === "endDate") {
+				this.handleCampaignChange(date, "endDate");
+				if (date <= startDate) {
+					this.handleCampaignChange(date, "startDate");
+				}
+			} else {
+				this.handleCampaignChange(date, "startDate");
+				if (date >= endDate) {
+					this.handleCampaignChange(date, "endDate");
+				}
+			}
+		} else {
+			console.log(""+count_invalid+" posts would no longer fit within the campaign's start and end dates.");
+		}
+	}
+
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
 		const post = posts[activePostKey];
@@ -373,6 +418,7 @@ class CampaignModal extends Component {
 	};
 
 	render() {
+		console.log(this.state.posts);
 		const {
 			colors,
 			posts,
@@ -438,12 +484,7 @@ class CampaignModal extends Component {
 								<DateTimePicker
 									date={new moment(startDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
-									handleChange={date => {
-										this.handleCampaignChange(date, "startDate");
-										if (date >= new moment(endDate)) {
-											this.handleCampaignChange(date, "endDate");
-										}
-									}}
+									handleChange={date => { this.tryChangingCampaignDates(date, "startDate"); }}
 									dateLowerBound={new moment()}
 								/>
 							</div>
@@ -452,12 +493,7 @@ class CampaignModal extends Component {
 								<DateTimePicker
 									date={new moment(endDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
-									handleChange={date => {
-										this.handleCampaignChange(date, "endDate");
-										if (date <= new moment(startDate)) {
-											this.handleCampaignChange(date, "startDate");
-										}
-									}}
+									handleChange={date => { this.tryChangingCampaignDates(date, "endDate"); }}
 									dateLowerBound={new moment()}
 								/>
 							</div>

@@ -40,3 +40,5 @@ sometimes clicking an account to post to doesn't give feedback that the account 
 prompt users when they try to delete a post.
 
 do we need campaignDateLowerBound and campaignDateUpperBound in the store?
+
+in campaignModal, maybe get rid of post.key and change activePostKey to activePostIndex
