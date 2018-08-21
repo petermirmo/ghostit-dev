@@ -31,7 +31,7 @@ export async function savePost(
 	callback,
 	deleteImagesArray,
 	campaignID,
-	instructions = ""
+	instructions
 ) {
 	if (deleteImagesArray) {
 		if (deleteImagesArray.length !== 0) {
@@ -71,6 +71,7 @@ export async function savePost(
 			// Becuse they are handled so differently in the database
 			// Text and images do not go well together
 			let { post, success, loggedIn } = res.data;
+
 			if (success) {
 				if (post._id && imagesToSave.length !== 0) {
 					// Make sure post actually saved

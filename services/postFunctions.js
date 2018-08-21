@@ -74,7 +74,9 @@ module.exports = {
 			newPost.socialType = post.socialType;
 			newPost.color = backgroundColorOfPost;
 			newPost.campaignID = post.campaignID;
-			newPost.status = "pending";
+			if (post.socialType !== "custom") {
+				newPost.status = "pending";
+			}
 			newPost.instructions = post.instructions;
 
 			newPost.save().then(result => res.send({ success: true, post: result }));

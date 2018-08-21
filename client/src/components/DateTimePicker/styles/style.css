@@ -91,15 +91,15 @@
 }
 .past-calendar-date,
 .date-picker-day {
-	background-color: var(--white-theme-color);
-
-	text-align: center;
-
 	flex-grow: 1;
-	-webkit-flex-grow: 1;
 
 	width: 14%;
 	padding: 4px 0 4px 0;
+
+	background-color: transparent;
+
+	color: var(--black-theme-color);
+	text-align: center;
 
 	cursor: pointer;
 }
@@ -119,6 +119,7 @@
 
 .time-container {
 	display: flex;
+	color: var(--black-theme-color);
 }
 
 .time-dropdown {

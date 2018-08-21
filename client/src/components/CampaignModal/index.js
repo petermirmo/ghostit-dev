@@ -16,6 +16,7 @@ import { getPostColor, getSocialCharacters } from "../../extra/functions/CommonF
 
 import DateTimePicker from "../DateTimePicker";
 import Post from "../Post";
+import CustomTask from "../CustomTask";
 import Loader from "../Notifications/Loader";
 import ConfirmAlert from "../Notifications/ConfirmAlert";
 
@@ -151,7 +152,6 @@ class CampaignModal extends Component {
 			const current_post = campaign_posts[i];
 
 			let new_post = {
-				key: i,
 				timezone,
 				post: current_post
 			};
@@ -168,6 +168,7 @@ class CampaignModal extends Component {
 		const { startDate, _id } = campaign;
 
 		let postingDate = clickedCalendarDate;
+		if (clickedCalendarDate < campaign.startDate) postingDate = campaign.startDate;
 		let instructions;
 
 		if (recipePost) {
@@ -186,8 +187,7 @@ class CampaignModal extends Component {
 						instructions
 					},
 					canEditPost: true,
-					timezone,
-					key: posts.length
+					timezone
 				}
 			],
 			postAccountPicker: false,
@@ -272,9 +272,9 @@ class CampaignModal extends Component {
 		}
 	};
 
-	selectPost = (e, post_key) => {
+	selectPost = (e, arrayIndex) => {
 		e.preventDefault();
-		this.setState({ activePostKey: post_key, listOfPostChanges: {} });
+		this.setState({ activePostKey: arrayIndex, listOfPostChanges: {} });
 	};
 
 	backupPostChanges = (value, index) => {
@@ -292,7 +292,7 @@ class CampaignModal extends Component {
 		this.setState({ listOfPostChanges });
 	};
 
-	modifyCampaignDates = (postingDate) => {
+	modifyCampaignDates = postingDate => {
 		// function that gets passed to <Post/> as a prop
 		// <Post/> will use this function to push the campaign start/end dates in order to fit its posting date
 		const { campaign, socket } = this.state;
@@ -305,7 +305,7 @@ class CampaignModal extends Component {
 		}
 		socket.emit("campaign_editted", campaign); // make sure this saves in the DB in case the page crashes or reloads
 		this.setState({ campaign, somethingChanged: true });
-	}
+	};
 
 	tryChangingCampaignDates = (date, date_type) => {
 		/*
@@ -354,35 +354,63 @@ class CampaignModal extends Component {
 
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
-		const post = posts[activePostKey];
+		const post_obj = posts[activePostKey];
 
-		return (
-			<Post
-				post={post.post}
-				newActivePost={true}
-				clickedCalendarDate={post.post.date}
-				postFinishedSavingCallback={savedPost => {
-					socket.emit("new_post", { campaign, post: savedPost });
-					this.updatePost(savedPost);
-					socket.on("post_added", emitObject => {
-						campaign.posts = emitObject.campaignPosts;
-						this.setState({ campaign, saving: false });
-					});
-				}}
-				setSaving={() => {
-					this.setState({ saving: true });
-				}}
-				socialType={post.post.socialType}
-				maxCharacters={getSocialCharacters(post.socialType)}
-				canEditPost={true}
-				timezone={post.timezone}
-				listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
-				backupChanges={this.backupPostChanges}
-				campaignStartDate={campaign.startDate}
-				campaignEndDate={campaign.endDate}
-				modifyCampaignDates={this.modifyCampaignDates}
-			/>
-		);
+		if (post_obj.post.socialType === "custom") {
+			return (
+				<CustomTask
+					post={post_obj.post}
+					clickedCalendarDate={post_obj.post.postingDate}
+					postFinishedSavingCallback={savedPost => {
+						socket.emit("new_post", { campaign, post: savedPost });
+						this.updatePost(savedPost);
+						socket.on("post_added", emitObject => {
+							campaign.posts = emitObject.campaignPosts;
+							this.setState({ campaign, saving: false });
+						});
+					}}
+					setSaving={() => {
+						this.setState({ saving: true });
+					}}
+					socialType={post_obj.post.socialType}
+					canEditPost={true}
+					timezone={post_obj.timezone}
+					listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
+					backupChanges={this.backupPostChanges}
+					campaignStartDate={campaign.startDate}
+					campaignEndDate={campaign.endDate}
+					modifyCampaignDates={this.modifyCampaignDates}
+				/>
+			);
+		} else {
+			return (
+				<Post
+					post={post_obj.post}
+					newActivePost={true}
+					clickedCalendarDate={post_obj.post.postingDate}
+					postFinishedSavingCallback={savedPost => {
+						socket.emit("new_post", { campaign, post: savedPost });
+						this.updatePost(savedPost);
+						socket.on("post_added", emitObject => {
+							campaign.posts = emitObject.campaignPosts;
+							this.setState({ campaign, saving: false });
+						});
+					}}
+					setSaving={() => {
+						this.setState({ saving: true });
+					}}
+					socialType={post_obj.post.socialType}
+					maxCharacters={getSocialCharacters(post_obj.post.socialType)}
+					canEditPost={true}
+					timezone={post_obj.timezone}
+					listOfChanges={Object.keys(listOfPostChanges).length > 0 ? listOfPostChanges : undefined}
+					backupChanges={this.backupPostChanges}
+					campaignStartDate={campaign.startDate}
+					campaignEndDate={campaign.endDate}
+					modifyCampaignDates={this.modifyCampaignDates}
+				/>
+			);
+		}
 	};
 	createRecipe = () => {
 		let { campaign, posts } = this.state;
@@ -514,6 +542,9 @@ class CampaignModal extends Component {
 								<div className="account-option" onClick={() => this.newPost("linkedin")}>
 									LinkedIn<br />Post
 								</div>
+								<div className="account-option" onClick={() => this.newPost("custom")}>
+									Custom<br />Task
+								</div>
 							</div>
 						</div>
 					)}
@@ -586,6 +617,9 @@ class CampaignModal extends Component {
 											<div className="account-option" onClick={() => this.newPost("linkedin")}>
 												LinkedIn<br />Post
 											</div>
+											<div className="account-option" onClick={() => this.newPost("custom")}>
+												Custom<br />Task
+											</div>
 										</div>
 									)}
 								</div>
@@ -643,12 +677,9 @@ class CampaignModal extends Component {
 	}
 }
 
-
 function mapStateToProps(state) {
 	return {
 		user: state.user
 	};
 }
-export default connect(
-	mapStateToProps
-)(CampaignModal);
+export default connect(mapStateToProps)(CampaignModal);
