@@ -203,6 +203,7 @@ class WritersBriefForm extends Component {
 						date={cycleStartDate}
 						dateFormat="MMMM Do YYYY"
 						handleChange={date => this.handleDateChange(date, "cycleStartDate")}
+						dateLowerBound={new moment()}
 					/>
 
 					<p className="date-label">Content cycle end: </p>
@@ -211,6 +212,7 @@ class WritersBriefForm extends Component {
 						date={cycleEndDate}
 						dateFormat="MMMM Do YYYY"
 						handleChange={date => this.handleDateChange(date, "cycleEndDate")}
+						dateLowerBound={new moment()}
 					/>
 
 					<NavigationBar updateParentState={this.updateSocialPostsActiveTab} categories={socialCategories} />

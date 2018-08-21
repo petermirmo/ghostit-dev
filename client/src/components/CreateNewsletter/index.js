@@ -138,12 +138,14 @@ class CreateNewsletter extends Component {
 							date={dueDate}
 							handleChange={date => this.handleBlogFormChange(date, "dueDate")}
 							dateFormat="MMMM Do YYYY"
+							dateLowerBound={new moment()}
 						/>
 						<p className="blog-date-label">Posting Date:</p>
 						<DateTimePicker
 							date={postingDate}
 							handleChange={date => this.handleBlogFormChange(date, "postingDate")}
 							dateFormat="MMMM Do YYYY"
+							dateLowerBound={new moment()}
 						/>
 					</div>
 					<div className="image-file-save-container">
