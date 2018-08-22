@@ -195,25 +195,27 @@ class WritersBriefForm extends Component {
 		if (newsletters[clickedNewsletterIndex]) activeNewsletter = newsletters[clickedNewsletterIndex];
 
 		return (
-			<div className="writers-brief-form center">
-				<div className="container-placeholder center">
-					<p className="date-label">Content cycle start: </p>
+			<div className="writers-brief-form">
+				<div className="writers-brief-container">
+					<div className="dates-container">
+						<p className="date-label">Content cycle start: </p>
 
-					<DateTimePicker
-						date={cycleStartDate}
-						dateFormat="MMMM Do YYYY"
-						handleChange={date => this.handleDateChange(date, "cycleStartDate")}
-						dateLowerBound={new moment()}
-					/>
+						<DateTimePicker
+							date={cycleStartDate}
+							dateFormat="MMMM Do YYYY"
+							handleChange={date => this.handleDateChange(date, "cycleStartDate")}
+							dateLowerBound={new moment()}
+						/>
 
-					<p className="date-label">Content cycle end: </p>
+						<p className="date-label">Content cycle end: </p>
 
-					<DateTimePicker
-						date={cycleEndDate}
-						dateFormat="MMMM Do YYYY"
-						handleChange={date => this.handleDateChange(date, "cycleEndDate")}
-						dateLowerBound={new moment()}
-					/>
+						<DateTimePicker
+							date={cycleEndDate}
+							dateFormat="MMMM Do YYYY"
+							handleChange={date => this.handleDateChange(date, "cycleEndDate")}
+							dateLowerBound={new moment()}
+						/>
+					</div>
 
 					<NavigationBar updateParentState={this.updateSocialPostsActiveTab} categories={socialCategories} />
 					<p>Social Media Notes and Instructions ({activeTab}):</p>
@@ -228,7 +230,7 @@ class WritersBriefForm extends Component {
 					</button>
 				</div>
 
-				<div className="container-placeholder center">
+				<div className="container-placeholder">
 					<SearchColumn objectList={blogs} handleClickedObject={this.blogPostClicked} />
 					<FontAwesomeIcon icon={faPlusCircle} size="3x" className="add-new" onClick={() => this.newBlog()} />
 					<CreateBlog
@@ -239,7 +241,7 @@ class WritersBriefForm extends Component {
 					/>
 				</div>
 
-				<div className="container-placeholder center">
+				<div className="container-placeholder">
 					<SearchColumn objectList={newsletters} handleClickedObject={this.newsletterPostClicked} />
 					<FontAwesomeIcon icon={faPlusCircle} size="3x" className="add-new" onClick={() => this.newNewsletter()} />
 					<CreateNewsletter

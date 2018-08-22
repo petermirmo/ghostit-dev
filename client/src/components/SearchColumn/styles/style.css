@@ -1,19 +1,24 @@
 .user-column {
-	width: 20%;
-	display: inline-block;
-	margin-left: 20px;
-	margin-top: 10px;
-	float: left;
+	display: flex;
+
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
 }
 .user-row {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	display: block;
-	overflow: hidden;
+	display: flex;
+
+	width: 100%;
+
 	padding: 5px;
+	overflow: hidden;
+
+	box-sizing: border-box;
+
+	border-radius: 4px;
+
 	background-color: var(--pink-theme-color);
 	color: var(--white-theme-color);
-	border-radius: 4px;
 }
 .user-row:nth-child(even) {
 	background-color: var(--blue-theme-color);
