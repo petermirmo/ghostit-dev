@@ -246,6 +246,7 @@ class CreateBlogComponent extends Component {
 							style={{
 								bottom: "-80px"
 							}}
+							dateLowerBound={new moment()}
 						/>
 						<p className="blog-date-label">Posting Date:</p>
 						<DateTimePicker
@@ -255,6 +256,7 @@ class CreateBlogComponent extends Component {
 							style={{
 								bottom: "-80px"
 							}}
+							dateLowerBound={new moment()}
 						/>
 					</div>
 					<div className="image-file-save-container">
