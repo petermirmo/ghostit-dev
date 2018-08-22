@@ -213,9 +213,6 @@ class DatePicker extends Component {
 
 	handleChange = () => {};
 	render() {
-		console.log("date-picker state then props:");
-		console.log(this.state);
-		console.log(this.props);
 		let { inputValue, calendarDropdown, hourDropdown, minuteDropdown, amPmDropdown, displayDate, message } = this.state;
 		let { date, style, disableTime } = this.props;
 

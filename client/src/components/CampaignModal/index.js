@@ -321,8 +321,12 @@ class CampaignModal extends Component {
 		// so we'll want to disallow this modification and let the user know what happened
 		// it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
 		const { campaign, posts } = this.state;
-		campaign[date_type] = date;
-		const { startDate, endDate } = campaign;
+		const dates = {
+			startDate: campaign.startDate,
+			endDate: campaign.endDate
+		};
+		dates[date_type] = date;
+		const { startDate, endDate } = dates;
 
 		let count_invalid = 0;
 
@@ -448,9 +452,6 @@ class CampaignModal extends Component {
 	};
 
 	render() {
-		console.log("dates:");
-		console.log(this.state.campaign.startDate);
-		console.log(this.state.campaign.endDate);
 		const {
 			colors,
 			posts,
