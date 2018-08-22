@@ -14,12 +14,16 @@ class DatePicker extends Component {
 		hourDropdown: false,
 		minuteDropdown: false,
 		amPmDropdown: false,
-		displayDate: new moment(this.props.date)
+		displayDate: new moment(this.props.date),
+		message: ""
 	};
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.date && nextProps.dateFormat)
 			this.setState({ inputValue: nextProps.date.format(nextProps.dateFormat) });
+		if (nextProps.message) {
+			this.setState({ message: nextProps.message });
+		}
 	}
 	componentDidMount() {
 		document.addEventListener("mousedown", this.handleClickOutside);
@@ -209,7 +213,10 @@ class DatePicker extends Component {
 
 	handleChange = () => {};
 	render() {
-		let { inputValue, calendarDropdown, hourDropdown, minuteDropdown, amPmDropdown, displayDate } = this.state;
+		console.log("date-picker state then props:");
+		console.log(this.state);
+		console.log(this.props);
+		let { inputValue, calendarDropdown, hourDropdown, minuteDropdown, amPmDropdown, displayDate, message } = this.state;
 		let { date, style, disableTime } = this.props;
 
 		let calendarDays = this.createCalendarDays(displayDate);
@@ -236,6 +243,9 @@ class DatePicker extends Component {
 								<FontAwesomeIcon icon={faAngleRight} size="3x" color="var(--blue-theme-color)" />
 							</span>
 						</div>
+						{message && message !== "" && (
+							<div className="date-picker-message">{message}</div>
+						)}
 						{dayHeaders}
 						{calendarDays}
 						<div className="time-container">

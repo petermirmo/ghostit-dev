@@ -70,7 +70,8 @@ class CampaignModal extends Component {
 			somethingChanged: props.campaign ? false : true,
 			confirmDelete: false,
 			firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
-			newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
+			newPostPromptActive: false, // when user clicks + for a new post to their campaign, show post type options for them to select
+			datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
 		};
 
 		this.state = stateVariable;
@@ -322,22 +323,21 @@ class CampaignModal extends Component {
 		const { campaign, posts } = this.state;
 		campaign[date_type] = date;
 		const { startDate, endDate } = campaign;
-		console.log(startDate);
-		console.log(endDate);
 
 		let count_invalid = 0;
 
 		for (let index in posts) {
 			const postingDate = new moment(posts[index].post.postingDate);
-			console.log(postingDate);
 			if (postingDate < startDate || postingDate > endDate) {
 				count_invalid++;
 			}
 		}
 
 		if (count_invalid === 0) {
+			this.setState({ datePickerMessage: "" });
 			if (date_type === "endDate") {
 				this.handleCampaignChange(date, "endDate");
+				console.log("campaign end date changed");
 				if (date <= startDate) {
 					this.handleCampaignChange(date, "startDate");
 				}
@@ -348,7 +348,9 @@ class CampaignModal extends Component {
 				}
 			}
 		} else {
-			console.log(""+count_invalid+" posts would no longer fit within the campaign's start and end dates.");
+			let post_string = count_invalid > 1 ? " posts" : " post";
+			post_string = "Date/time change rejected due to " + count_invalid + post_string + " being outside the campaign scope.";
+			this.setState({ datePickerMessage: post_string });
 		}
 	}
 
@@ -446,7 +448,9 @@ class CampaignModal extends Component {
 	};
 
 	render() {
-		console.log(this.state.posts);
+		console.log("dates:");
+		console.log(this.state.campaign.startDate);
+		console.log(this.state.campaign.endDate);
 		const {
 			colors,
 			posts,
@@ -456,7 +460,8 @@ class CampaignModal extends Component {
 			campaign,
 			firstPostChosen,
 			activePostKey,
-			newPostPromptActive
+			newPostPromptActive,
+			datePickerMessage
 		} = this.state;
 		const { startDate, endDate, name, color } = campaign;
 
@@ -514,6 +519,7 @@ class CampaignModal extends Component {
 									dateFormat="MMMM Do YYYY hh:mm A"
 									handleChange={date => { this.tryChangingCampaignDates(date, "startDate"); }}
 									dateLowerBound={new moment()}
+									message={datePickerMessage}
 								/>
 							</div>
 							<div className="date-and-label-container">
@@ -523,6 +529,7 @@ class CampaignModal extends Component {
 									dateFormat="MMMM Do YYYY hh:mm A"
 									handleChange={date => { this.tryChangingCampaignDates(date, "endDate"); }}
 									dateLowerBound={new moment()}
+									message={datePickerMessage}
 								/>
 							</div>
 						</div>
