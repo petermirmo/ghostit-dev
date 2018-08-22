@@ -30,18 +30,33 @@
 }
 
 .writers-brief-form {
-}
+	display: flex;
 
-.container-placeholder {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.writers-brief-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	flex-direction: column;
+
+	flex-wrap: nowrap;
+
 	min-height: 100px;
 	width: 80%;
 	margin: 20px 0 20px 0;
 	padding: 20px 10px 10px 10px;
 	border-radius: 4px;
 	background-color: var(--light-light-blue-theme-color);
-	overflow: auto;
 }
-
+.dates-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .textarea-social {
 	width: 80%;
 	outline: 0;
@@ -56,13 +71,29 @@
 	border: 1px solid var(--blue-theme-color);
 }
 
+.container-placeholder {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+
+	flex-wrap: nowrap;
+
+	min-height: 100px;
+	width: 80%;
+	margin: 20px 0 20px 0;
+	padding: 20px 10px 10px 10px;
+	border-radius: 4px;
+	background-color: var(--light-light-blue-theme-color);
+}
+
 .add-new {
-	cursor: pointer;
-	float: left;
-	margin: 10px 0 0 20px;
+	margin: 10px;
+
 	border-radius: 100px;
 	color: var(--blue-theme-color);
 	background-color: var(--white-theme-color);
+
+	cursor: pointer;
 }
 .add-new:hover {
 	color: var(--dark-blue-theme-color);
