@@ -42,3 +42,7 @@ prompt users when they try to delete a post.
 do we need campaignDateLowerBound and campaignDateUpperBound in the store?
 
 in campaignModal, maybe get rid of post.key and change activePostKey to activePostIndex
+
+notification window shouldn't close when clicking inside of it (prompt user to modify campaign dates or delete campaign).
+
+add event listener to exit modals with escape key.

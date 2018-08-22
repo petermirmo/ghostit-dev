@@ -23,6 +23,8 @@ class DatePicker extends Component {
 			this.setState({ inputValue: nextProps.date.format(nextProps.dateFormat) });
 		if (nextProps.message) {
 			this.setState({ message: nextProps.message });
+		} else {
+			this.setState({ message: "" });
 		}
 	}
 	componentDidMount() {
@@ -39,6 +41,8 @@ class DatePicker extends Component {
 		if (this.wrapperRef.contains(event.target)) {
 			return;
 		}
+
+		this.setState({ message: "" });
 
 		let { hourDropdown, minuteDropdown, amPmDropdown, calendarDropdown } = this.state;
 		if (hourDropdown) {

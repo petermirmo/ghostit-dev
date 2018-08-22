@@ -341,7 +341,6 @@ class CampaignModal extends Component {
 			this.setState({ datePickerMessage: "" });
 			if (date_type === "endDate") {
 				this.handleCampaignChange(date, "endDate");
-				console.log("campaign end date changed");
 				if (date <= startDate) {
 					this.handleCampaignChange(date, "startDate");
 				}
