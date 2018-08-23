@@ -372,8 +372,7 @@ class PostingOptions extends Component {
 						title="Modify Campaign Dates"
 						message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
 						callback={this.modifyCampaignDate}
-						modify={true}
-						close={() => this.setState({ promptModifyCampaignDates: false })}
+						type="modify"
 					/>
 				)}
 			</div>

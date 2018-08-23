@@ -3,16 +3,28 @@ import "./styles/";
 
 class ConfirmAlert extends Component {
 	render() {
+		let firstButton = "Delete";
+		let firstButtonStyle = "confirm-button";
+		let secondButtonStyle = "cancel-button";
+		if (this.props.type) {
+			if (this.props.type === "modify") {
+				firstButton = "Modify";
+				firstButtonStyle = "cancel-button";
+				secondButtonStyle = "confirm-button";
+			} else if (this.props.type === "change-post") {
+				firstButton = "Discard";
+			}
+		}
 		return (
 			<div className="confirm-alert-background" onClick={this.props.close}>
 				<div className="confirm-alert">
 					<div className="confirm-title">{this.props.title}</div>
 					<div className="confirm-message">{this.props.message}</div>
 					<div className="options-container">
-						<button onClick={() => this.props.callback(true)} className={this.props.modify ? "cancel-button" : "confirm-button"}>
-							{this.props.modify ? "Modify" : "Delete"}
+						<button onClick={() => this.props.callback(true)} className={firstButtonStyle}>
+							{firstButton}
 						</button>
-						<button onClick={() => this.props.callback(false)} className={this.props.modify ? "confirm-button" : "cancel-button"}>
+						<button onClick={() => this.props.callback(false)} className={secondButtonStyle}>
 							Cancel
 						</button>
 					</div>

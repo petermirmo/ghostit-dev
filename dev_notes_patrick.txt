@@ -1,48 +1,33 @@
-Need to build functionality for creating a custom task in campaigns.
-
 (on my school laptop)
 Bottom row of calendar is displaying the second half of the week a little out of line with the rest of the calendar.
 
 (components/CampaignModal)
-Add an [x] div within the post list entries that has an onClick function that deletes the post from the db and campaign.
-
-(components/CampaignModal)
-Should we sort the list entries chronologically or leave it up to the users to create their posts in the correct order?
-We could also give the user the functionality to drag/drop the entries to re-order.
-
-Need campaigns and their respective posts to be deleted in the DB whenever a user exits the campaign without publishing it.
-User might not want to delete campaign when they leave the modal so we should prompt them to publish, delete, or revert to previous campaign attributes/posts if they were just editing an existing one?
-Maybe have a system that saves them as drafts where the posts aren't considered 'active' until they are published properly.
-
-When referring to a socialType's maxCharacters (such as 280 for twitter), we should probably have that stored as a const somewhere in case the website modifies their maximum post length in the future.
+Later think about sorting posts in a campaign chronologically on the fly.
+(when changing a post time, have its place in the list move if necessary).
 
 Ability for the users to 'duplicate' a post in a campaign.
 
 Maybe add feedback that lets the user know when their post / campaign has been successfully saved.
 
-campaign new posts should default to the time of the last post? or at least to the start of the campaign.
-
-if campaign post date/time is later than campaign end date, prompt user if they want to change end time to that posting time.
-
-when campaign is short, cant make a new post because cant give it a time.
-
 highlight the post list entry that belongs to the active post.
-
-Dates:
-  x let user pick any date that isn't in the past (including today's date)
-  x if post time is outside of campaign start/end dates, prompt user when they try to schedule the post
-    give option to move start/end dates, or cancel the save
-  x when switching days on the date picker, have the time of day stay the same
-  when user tries to switch campaign start / end dates, check all post times first to make sure they fit
 
 sometimes clicking an account to post to doesn't give feedback that the account was chosen until something else is changed.
 
 prompt users when they try to delete a post.
 
-do we need campaignDateLowerBound and campaignDateUpperBound in the store?
-
-in campaignModal, maybe get rid of post.key and change activePostKey to activePostIndex
-
 notification window shouldn't close when clicking inside of it (prompt user to modify campaign dates or delete campaign).
 
 add event listener to exit modals with escape key.
+
+give posts a title.
+show the title in the post list entries and on the calendar.
+
+when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
+
+highlight the current day on the calendar.
+
+
+to do next:
+-prompt users when switching posts within a campaign if their current post hasn't been saved.
+-prompt users when they try to delete a post.
+-give posts a title.
