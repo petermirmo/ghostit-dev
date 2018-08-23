@@ -1,16 +1,22 @@
-label {
-	text-align: left;
-}
 .side-bar {
-	height: 100vh;
-	background-color: var(--white-theme-color);
 	position: fixed;
 	top: 0;
-	z-index: 100;
-	overflow: auto;
+	left: 0;
+
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+
+	flex-direction: column;
 
 	width: 100%;
-	box-shadow: 0 0 40px -10px var(--black-theme-color);
+	height: 100vh;
+	max-height: 100vh;
 
-	text-align: left;
+	overflow: auto;
+
+	z-index: 100;
+
+	background-color: var(--white-theme-color);
+	box-shadow: 0 0 40px -10px var(--black-theme-color);
 }

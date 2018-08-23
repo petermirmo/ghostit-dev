@@ -12,7 +12,6 @@ import "./styles/";
 
 class ClientSideBar extends Component {
 	state = {
-		clients: [],
 		untouchedClients: []
 	};
 	constructor(props) {
@@ -30,49 +29,17 @@ class ClientSideBar extends Component {
 			if (success) {
 				if (Array.isArray(users)) {
 					users.sort(compare);
-					this.setState({ clients: users, untouchedClients: users });
+					this.setState({ untouchedClients: users });
 				}
 			} else {
 				if (loggedIn === false) window.location.reload();
 			}
 		});
 	};
-	searchUsers = event => {
-		let value = event.target.value;
-		if (value === "") {
-			this.setState({ activeUsers: this.state.untouchedClients });
-			return;
-		}
-		let stringArray = value.split(" ");
-
-		let users = [];
-		// Loop through all users
-		for (let index in this.state.untouchedClients) {
-			let matchFound = false;
-			// Loop through all words in the entered value
-			for (let j in stringArray) {
-				// Make sure we are not checking an empty string
-				if (stringArray[j] !== "") {
-					// Check to see if a part of the string matches user's fullName or email
-					if (
-						this.state.untouchedClients[index].fullName.includes(stringArray[j]) ||
-						this.state.untouchedClients[index].email.includes(stringArray[j])
-					) {
-						matchFound = true;
-					}
-				}
-			}
-			if (matchFound) {
-				users.push(this.state.untouchedClients[index]);
-			}
-		}
-		this.setState({ clients: users });
-	};
-	userClicked = event => {
+	userClicked = user => {
 		// ID of clicked event is the index of in activeUsers of the clicked user
-		const temp = this.state.clients[event.target.id];
-		this.setState({ clickedUser: temp });
-		axios.post("/api/signInAsUser", temp).then(res => {
+		this.setState({ clickedUser: user });
+		axios.post("/api/signInAsUser", user).then(res => {
 			window.location.reload();
 		});
 	};
@@ -82,8 +49,9 @@ class ClientSideBar extends Component {
 				<FontAwesomeIcon icon={faTimes} size="2x" className="close" onClick={this.closeClientSideBar} />
 
 				<SearchColumn
-					objectList={this.state.clients}
-					searchObjects={this.searchUsers}
+					objectList={this.state.untouchedClients}
+					indexSearch="fullName"
+					indexSearch2="email"
 					handleClickedObject={this.userClicked}
 					styleOverride={{ width: "90%", marginTop: "70px", position: "absolute" }}
 				/>

@@ -251,6 +251,7 @@ class WritersBriefForm extends Component {
 						postingDate={new moment()}
 					/>
 				</div>
+
 				{saving && <Loader />}
 			</div>
 		);
