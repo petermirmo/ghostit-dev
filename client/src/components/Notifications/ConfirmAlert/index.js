@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import "./styles/";
 
 class ConfirmAlert extends Component {
+	componentDidMount = () => {
+		document.addEventListener("keydown", this.handleKeyPress, false);
+	}
+	componentWillUnmount = () => {
+		document.removeEventListener("keydown", this.handleKeyPress, false);
+	}
+	handleKeyPress = event => {
+		if (event.keyCode === 27) {
+			// escape button pushed
+			this.props.close();
+		}
+	}
 	render() {
 		let firstButton = "Delete";
 		let firstButtonStyle = "confirm-button";

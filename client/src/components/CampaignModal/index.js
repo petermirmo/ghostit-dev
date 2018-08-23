@@ -80,6 +80,9 @@ class CampaignModal extends Component {
 	}
 	componentDidMount() {
 		let { campaign } = this.props;
+
+		document.addEventListener("keydown", this.handleKeyPress, false);
+
 		if (campaign) {
 			if (campaign.posts) {
 				if (campaign.posts.length > 0) {
@@ -96,6 +99,8 @@ class CampaignModal extends Component {
 	componentWillUnmount() {
 		let { campaign, somethingChanged, socket } = this.state;
 
+		document.removeEventListener("keydown", this.handleKeyPress, false);
+
 		if (somethingChanged && campaign && socket) {
 			socket.emit("campaign_editted", campaign);
 			socket.on("campaign_saved", emitObject => {
@@ -103,6 +108,25 @@ class CampaignModal extends Component {
 
 				this.props.updateCampaigns();
 			});
+		}
+	}
+
+	handleKeyPress = event => {
+		const { confirmDelete, promptChangeActivePost } = this.state;
+		if (confirmDelete || promptChangeActivePost) {
+			return;
+		}
+		if (event.keyCode === 27) {
+			// escape button pushed
+			this.props.close();
+		}
+	}
+
+	pauseEscapeListener = response => {
+		if (response) {
+			document.removeEventListener("keydown", this.handleKeyPress, false);
+		} else {
+			document.addEventListener("keydown", this.handleKeyPress, false);
 		}
 	}
 
@@ -405,6 +429,7 @@ class CampaignModal extends Component {
 					campaignStartDate={campaign.startDate}
 					campaignEndDate={campaign.endDate}
 					modifyCampaignDates={this.modifyCampaignDates}
+					pauseEscapeListener={this.pauseEscapeListener}
 				/>
 			);
 		} else {
@@ -433,6 +458,7 @@ class CampaignModal extends Component {
 					campaignStartDate={campaign.startDate}
 					campaignEndDate={campaign.endDate}
 					modifyCampaignDates={this.modifyCampaignDates}
+					pauseEscapeListener={this.pauseEscapeListener}
 				/>
 			);
 		}

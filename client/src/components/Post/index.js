@@ -35,7 +35,8 @@ class PostingOptions extends Component {
 			socialType: props.socialType,
 			content: "",
 			instructions: "",
-			name: temp_name
+			name: temp_name,
+			promptModifyCampaignDates: false
 		};
 		if (props.post) {
 			stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -237,6 +238,7 @@ class PostingOptions extends Component {
 		if (campaignStartDate && campaignEndDate) {
 			if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
 				// prompt user to cancel the save or modify campaign dates
+				if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(true);
 				this.setState({ promptModifyCampaignDates: true });
 				return;
 			}
@@ -264,6 +266,7 @@ class PostingOptions extends Component {
 	};
 
 	modifyCampaignDate = (response) => {
+		if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(false);
 		if (!response) {
 			this.setState({ promptModifyCampaignDates: false });
 			return;
@@ -401,7 +404,9 @@ class PostingOptions extends Component {
 				/>
 				{promptModifyCampaignDates && (
 					<ConfirmAlert
-						close={() => this.setState({ promptModifyCampaignDates: false })}
+						close={() =>{ if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(false);
+							 						this.setState({ promptModifyCampaignDates: false })
+												}}
 						title="Modify Campaign Dates"
 						message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
 						callback={this.modifyCampaignDate}

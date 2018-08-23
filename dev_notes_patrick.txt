@@ -17,8 +17,6 @@ prompt users when they try to delete a post.
 
 notification window shouldn't close when clicking inside of it (prompt user to modify campaign dates or delete campaign).
 
-add event listener to exit modals with escape key.
-
 when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
 
 highlight the current day on the calendar.
