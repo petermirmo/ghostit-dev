@@ -186,3 +186,8 @@
 .finished-button:hover {
 	background-color: var(--dark-blue-theme-color);
 }
+.date-picker-message {
+	color: var(--red-theme-color);
+	font-size: var(--small-font-size);
+	text-align: center;
+}

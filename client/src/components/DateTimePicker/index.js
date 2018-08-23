@@ -14,12 +14,18 @@ class DatePicker extends Component {
 		hourDropdown: false,
 		minuteDropdown: false,
 		amPmDropdown: false,
-		displayDate: new moment(this.props.date)
+		displayDate: new moment(this.props.date),
+		message: ""
 	};
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.date && nextProps.dateFormat)
 			this.setState({ inputValue: nextProps.date.format(nextProps.dateFormat) });
+		if (nextProps.message) {
+			this.setState({ message: nextProps.message });
+		} else {
+			this.setState({ message: "" });
+		}
 	}
 	componentDidMount() {
 		document.addEventListener("mousedown", this.handleClickOutside);
@@ -35,6 +41,8 @@ class DatePicker extends Component {
 		if (this.wrapperRef.contains(event.target)) {
 			return;
 		}
+
+		this.setState({ message: "" });
 
 		let { hourDropdown, minuteDropdown, amPmDropdown, calendarDropdown } = this.state;
 		if (hourDropdown) {
@@ -209,7 +217,7 @@ class DatePicker extends Component {
 
 	handleChange = () => {};
 	render() {
-		let { inputValue, calendarDropdown, hourDropdown, minuteDropdown, amPmDropdown, displayDate } = this.state;
+		let { inputValue, calendarDropdown, hourDropdown, minuteDropdown, amPmDropdown, displayDate, message } = this.state;
 		let { date, style, disableTime } = this.props;
 
 		let calendarDays = this.createCalendarDays(displayDate);
@@ -236,6 +244,9 @@ class DatePicker extends Component {
 								<FontAwesomeIcon icon={faAngleRight} size="3x" color="var(--blue-theme-color)" />
 							</span>
 						</div>
+						{message && message !== "" && (
+							<div className="date-picker-message">{message}</div>
+						)}
 						{dayHeaders}
 						{calendarDays}
 						<div className="time-container">

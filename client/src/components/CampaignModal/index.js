@@ -70,7 +70,8 @@ class CampaignModal extends Component {
 			somethingChanged: props.campaign ? false : true,
 			confirmDelete: false,
 			firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
-			newPostPromptActive: false // when user clicks + for a new post to their campaign, show post type options for them to select
+			newPostPromptActive: false, // when user clicks + for a new post to their campaign, show post type options for them to select
+			datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
 		};
 
 		this.state = stateVariable;
@@ -307,6 +308,55 @@ class CampaignModal extends Component {
 		this.setState({ campaign, somethingChanged: true });
 	};
 
+	tryChangingCampaignDates = (date, date_type) => {
+		/*
+		this.handleCampaignChange(date, "endDate");
+		if (date <= new moment(startDate)) {
+			this.handleCampaignChange(date, "startDate");
+		} */
+		// function that gets passed to <DateTimePicker/> which lets it modify <CampaignModal/>'s start and end dates
+		// before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
+		// for example, if you had a campaign from Sept 1 -> Sept 4 and a post on Sept 3,
+		// then you tried to change the campaign to Sept 1 -> Sept 2, the post on Sept 3 will no longer be within the campaign dates
+		// so we'll want to disallow this modification and let the user know what happened
+		// it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
+		const { campaign, posts } = this.state;
+		const dates = {
+			startDate: campaign.startDate,
+			endDate: campaign.endDate
+		};
+		dates[date_type] = date;
+		const { startDate, endDate } = dates;
+
+		let count_invalid = 0;
+
+		for (let index in posts) {
+			const postingDate = new moment(posts[index].post.postingDate);
+			if (postingDate < startDate || postingDate > endDate) {
+				count_invalid++;
+			}
+		}
+
+		if (count_invalid === 0) {
+			this.setState({ datePickerMessage: "" });
+			if (date_type === "endDate") {
+				this.handleCampaignChange(date, "endDate");
+				if (date <= startDate) {
+					this.handleCampaignChange(date, "startDate");
+				}
+			} else {
+				this.handleCampaignChange(date, "startDate");
+				if (date >= endDate) {
+					this.handleCampaignChange(date, "endDate");
+				}
+			}
+		} else {
+			let post_string = count_invalid > 1 ? " posts" : " post";
+			post_string = "Date/time change rejected due to " + count_invalid + post_string + " being outside the campaign scope.";
+			this.setState({ datePickerMessage: post_string });
+		}
+	}
+
 	getActivePost = () => {
 		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
 		const post_obj = posts[activePostKey];
@@ -410,7 +460,8 @@ class CampaignModal extends Component {
 			campaign,
 			firstPostChosen,
 			activePostKey,
-			newPostPromptActive
+			newPostPromptActive,
+			datePickerMessage
 		} = this.state;
 		const { startDate, endDate, name, color } = campaign;
 
@@ -466,13 +517,9 @@ class CampaignModal extends Component {
 								<DateTimePicker
 									date={new moment(startDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
-									handleChange={date => {
-										this.handleCampaignChange(date, "startDate");
-										if (date >= new moment(endDate)) {
-											this.handleCampaignChange(date, "endDate");
-										}
-									}}
+									handleChange={date => { this.tryChangingCampaignDates(date, "startDate"); }}
 									dateLowerBound={new moment()}
+									message={datePickerMessage}
 								/>
 							</div>
 							<div className="date-and-label-container">
@@ -480,13 +527,9 @@ class CampaignModal extends Component {
 								<DateTimePicker
 									date={new moment(endDate)}
 									dateFormat="MMMM Do YYYY hh:mm A"
-									handleChange={date => {
-										this.handleCampaignChange(date, "endDate");
-										if (date <= new moment(startDate)) {
-											this.handleCampaignChange(date, "startDate");
-										}
-									}}
+									handleChange={date => { this.tryChangingCampaignDates(date, "endDate"); }}
 									dateLowerBound={new moment()}
+									message={datePickerMessage}
 								/>
 							</div>
 						</div>
