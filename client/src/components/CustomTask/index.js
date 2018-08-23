@@ -25,7 +25,8 @@ class CustomTask extends Component {
 			images: [],
 			socialType: props.socialType,
 			content: "",
-			instructions: ""
+			instructions: "",
+			name: "Custom Task"
 		};
 		if (props.post) {
 			stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -34,6 +35,7 @@ class CustomTask extends Component {
 			stateVariable.content = props.post.content ? props.post.content : "";
 			stateVariable.instructions = props.post.instructions ? props.post.instructions : "";
 			stateVariable.campaignID = props.post.campaignID ? props.post.campaignID : undefined;
+			stateVariable.name = props.post.name ? props.post.name : "Custom Task";
 		}
 
 		stateVariable.deleteImagesArray = [];
@@ -129,7 +131,7 @@ class CustomTask extends Component {
 	};
 
 	trySavePost = (campaignStartDate, campaignEndDate) => {
-		const { _id, content, images, socialType, deleteImagesArray, somethingChanged, campaignID } = this.state;
+		const { _id, content, images, socialType, deleteImagesArray, somethingChanged, campaignID, name } = this.state;
 		let { date } = this.state;
 
 		const { postFinishedSavingCallback, setSaving } = this.props;
@@ -157,7 +159,8 @@ class CustomTask extends Component {
 			postFinishedSavingCallback,
 			deleteImagesArray,
 			campaignID,
-			content
+			content,
+			name
 		);
 
 		this.setState({ somethingChanged: false });
@@ -186,7 +189,8 @@ class CustomTask extends Component {
 			deleteImagesArray,
 			somethingChanged,
 			promptModifyCampaignDates,
-			campaignID
+			campaignID,
+			name
 		} = this.state;
 		let { date } = this.state;
 
@@ -194,6 +198,15 @@ class CustomTask extends Component {
 
 		return (
 			<div className="posting-form">
+				<div className="name-container">
+					<div className="label">Name:</div>
+					<input
+						onChange={event => this.handleChange(event.target.value, "name")}
+						value={name}
+						className="name-input"
+						placeholder={""}
+					/>
+				</div>
 				<Textarea
 					className="instruction-textarea"
 					placeholder="Describe this task!"
@@ -235,8 +248,7 @@ class CustomTask extends Component {
 						title="Modify Campaign Dates"
 						message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
 						callback={this.modifyCampaignDate}
-						modify={true}
-						close={() => this.setState({ promptModifyCampaignDates: false })}
+						type="modify"
 					/>
 				)}
 			</div>

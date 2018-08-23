@@ -19,16 +19,6 @@ notification window shouldn't close when clicking inside of it (prompt user to m
 
 add event listener to exit modals with escape key.
 
-give posts a title.
-show the title in the post list entries and on the calendar.
-
 when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
 
 highlight the current day on the calendar.
-
-
-to do next:
--prompt users when switching posts within a campaign if their current post hasn't been saved.
--prompt users when they try to delete a post.
--give posts a title.
-  -add social type icon to the post list entry

@@ -604,7 +604,7 @@ class CampaignModal extends Component {
 													:
 														(post_obj.post.socialType.charAt(0).toUpperCase() +
 														post_obj.post.socialType.slice(1) +
-														" Post - " +
+														((post_obj.post.socialType === "custom") ? " Task - " : " Post - ") +
 														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format("lll"))
 													}
 												</div>

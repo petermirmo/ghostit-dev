@@ -95,8 +95,9 @@ class PostingOptions extends Component {
 			this.setState(this.createState(nextProps));
 		} else if (nextProps.socialType && nextProps.socialType !== this.state.socialType) {
 			this.setState({ socialType: nextProps.socialType });
-			if (this.state.name === "Twitter Post" || this.state.name === "Facebook Post" ||
-						this.state.name === "Linkedin Post" || this.state.name === "Instagram Post") {
+			const { name } = this.state;
+			if (name === "Twitter Post" || name === "Facebook Post" ||
+						name === "Linkedin Post" || name === "Instagram Post") {
 					this.setState({ name: this.getTempName(nextProps.socialType) });
 				}
 		}
