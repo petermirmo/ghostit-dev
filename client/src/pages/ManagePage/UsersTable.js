@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
-import ManageColumn from "../../components/SearchColumn/";
+import SearchColumn from "../../components/SearchColumn/";
 import ObjectEditTable from "../../components/ObjectEditTable/";
 import NavigationBar from "../../components/Navigations/NavigationBar/";
 import { nonEditableUserFields, canShowUserFields } from "../../extra/constants/Common";
@@ -14,7 +14,7 @@ class UsersTable extends Component {
 		managerUsers: [],
 		adminUsers: [],
 		activeUsers: [],
-		untouchedActiveUsers: [],
+		untouchedUsers: [],
 		clickedUser: undefined,
 		editting: false,
 		plans: undefined,
@@ -74,7 +74,7 @@ class UsersTable extends Component {
 					managerUsers: managerUsers,
 					adminUsers: adminUsers,
 					activeUsers: activeUsers,
-					untouchedActiveUsers: activeUsers
+					untouchedUsers: activeUsers
 				});
 			}
 		});
@@ -106,44 +106,11 @@ class UsersTable extends Component {
 			users = this.state.demoUsers;
 		}
 
-		this.setState({ activeUsers: users, untouchedActiveUsers: users, userCategories: userCategories });
+		this.setState({ activeUsers: users, userCategories: userCategories });
 	};
-	searchUsers = event => {
-		const { untouchedActiveUsers } = this.state;
-		let value = event.target.value;
-		if (value === "") {
-			this.setState({ activeUsers: untouchedActiveUsers });
-			return;
-		}
-		let stringArray = value.split(" ");
-
-		let users = [];
-		// Loop through all users
-		for (var index in untouchedActiveUsers) {
-			let matchFound = false;
-			// Loop through all words in the entered value
-			for (var j in stringArray) {
-				// Make sure we are not checking an empty string
-				if (stringArray[j] !== "") {
-					// Check to see if a part of the string matches user's fullName or email
-					if (
-						untouchedActiveUsers[index].fullName.includes(stringArray[j]) ||
-						untouchedActiveUsers[index].email.includes(stringArray[j])
-					) {
-						matchFound = true;
-					}
-				}
-			}
-			if (matchFound) {
-				users.push(untouchedActiveUsers[index]);
-			}
-		}
-		this.setState({ activeUsers: users });
-	};
-	handleClickedUser = event => {
+	handleClickedUser = user => {
 		// ID of clicked event is the index of in activeUsers of the clicked user
-		const temp = this.state.activeUsers[event.target.id];
-		this.setState({ clickedUser: temp, editting: false });
+		this.setState({ clickedUser: user, editting: false });
 	};
 	saveUser = user => {
 		axios.post("/api/updateUser", user).then(res => {
@@ -202,7 +169,9 @@ class UsersTable extends Component {
 					canEdit: canEdit,
 					value:
 						this.state.clickedUser[index] === Object(clickedUser[index])
-							? clickedUser[index].name ? clickedUser[index].name : clickedUser[index].id
+							? clickedUser[index].name
+								? clickedUser[index].name
+								: clickedUser[index].id
 							: clickedUser[index],
 					dropdown: dropdown,
 					dropdownList: dropdownList,
@@ -213,11 +182,14 @@ class UsersTable extends Component {
 		return (
 			<div>
 				<NavigationBar updateParentState={this.updateUsers} categories={userCategories} />
-				<ManageColumn
-					objectList={activeUsers}
-					searchObjects={this.searchUsers}
-					handleClickedObject={this.handleClickedUser}
-				/>
+				<div className="search-container">
+					<SearchColumn
+						objectList={activeUsers}
+						handleClickedObject={this.handleClickedUser}
+						indexSearch="fullName"
+						indexSearch2="email"
+					/>
+				</div>
 				<div style={{ float: "right", width: "74%" }}>
 					<ObjectEditTable
 						objectArray={objectArry}
