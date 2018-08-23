@@ -31,3 +31,4 @@ to do next:
 -prompt users when switching posts within a campaign if their current post hasn't been saved.
 -prompt users when they try to delete a post.
 -give posts a title.
+  -add social type icon to the post list entry

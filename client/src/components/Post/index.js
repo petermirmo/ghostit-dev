@@ -23,6 +23,8 @@ class PostingOptions extends Component {
 		this.state = this.createState(props);
 	}
 	createState = props => {
+		let temp_name = this.getTempName(props.socialType);
+
 		let stateVariable = {
 			_id: undefined,
 			accountID: "",
@@ -32,7 +34,8 @@ class PostingOptions extends Component {
 			accountType: "",
 			socialType: props.socialType,
 			content: "",
-			instructions: ""
+			instructions: "",
+			name: temp_name
 		};
 		if (props.post) {
 			stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -45,6 +48,7 @@ class PostingOptions extends Component {
 			stateVariable.content = props.post.content ? props.post.content : "";
 			stateVariable.instructions = props.post.instructions ? props.post.instructions : "";
 			stateVariable.campaignID = props.post.campaignID ? props.post.campaignID : undefined;
+			stateVariable.name = props.post.name ? props.post.name : temp_name;
 		}
 
 		stateVariable.deleteImagesArray = [];
@@ -91,6 +95,10 @@ class PostingOptions extends Component {
 			this.setState(this.createState(nextProps));
 		} else if (nextProps.socialType && nextProps.socialType !== this.state.socialType) {
 			this.setState({ socialType: nextProps.socialType });
+			if (this.state.name === "Twitter Post" || this.state.name === "Facebook Post" ||
+						this.state.name === "Linkedin Post" || this.state.name === "Instagram Post") {
+					this.setState({ name: this.getTempName(nextProps.socialType) });
+				}
 		}
 
 		if (nextProps.listOfChanges) {
@@ -141,6 +149,18 @@ class PostingOptions extends Component {
 			this.props.backupChanges(value, index);
 		}
 	};
+
+	getTempName = socialType => {
+		let temp_name = "Twitter Post";
+		if (socialType === "facebook") {
+			temp_name = "Facebook Post";
+		} else if (socialType === "linkedin") {
+			temp_name = "LinkedIn Post";
+		} else if (socialType === "instagram") {
+			temp_name = "Instagram Post";
+		}
+		return temp_name;
+	}
 
 	pushToImageDeleteArray = image => {
 		let temp = this.state.deleteImagesArray;
@@ -201,9 +221,10 @@ class PostingOptions extends Component {
 			accountType,
 			deleteImagesArray,
 			somethingChanged,
-			campaignID
+			campaignID,
+			name,
+			date
 		} = this.state;
-		let { date } = this.state;
 
 		const { postFinishedSavingCallback, setSaving, maxCharacters } = this.props;
 
@@ -235,7 +256,8 @@ class PostingOptions extends Component {
 			postFinishedSavingCallback,
 			deleteImagesArray,
 			campaignID,
-			instructions
+			instructions,
+			name
 		);
 		this.setState({ somethingChanged: false });
 	};
@@ -266,9 +288,10 @@ class PostingOptions extends Component {
 			deleteImagesArray,
 			somethingChanged,
 			promptModifyCampaignDates,
-			campaignID
+			campaignID,
+			name,
+			date
 		} = this.state;
-		let { date } = this.state;
 
 		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
@@ -296,6 +319,15 @@ class PostingOptions extends Component {
 
 		return (
 			<div className="posting-form">
+				<div className="name-container">
+					<div className="label">Name:</div>
+					<input
+						onChange={event => this.handleChange(event.target.value, "name")}
+						value={name}
+						className="name-input"
+						placeholder={""}
+					/>
+				</div>
 				<Textarea
 					className="posting-textarea"
 					placeholder="Success doesn't write itself!"

@@ -598,12 +598,15 @@ class CampaignModal extends Component {
 														backgroundColor: getPostColor(post_obj.post.socialType)
 													}}
 												>
-													{post_obj.post.socialType.charAt(0).toUpperCase() +
+													{post_obj.post.name  ?
+														(post_obj.post.name + " - " +
+														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format("lll"))
+													:
+														(post_obj.post.socialType.charAt(0).toUpperCase() +
 														post_obj.post.socialType.slice(1) +
 														" Post - " +
-														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format(
-															"lll"
-														)}
+														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format("lll"))
+													}
 												</div>
 												<FontAwesomeIcon
 													className="delete"
