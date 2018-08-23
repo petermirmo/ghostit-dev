@@ -612,15 +612,18 @@ class CampaignModal extends Component {
 									{posts.map((post_obj, index) => {
 										let postDate = post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate;
 										if (post_obj.recipePost) postDate = post_obj.recipePost.postingDate;
-
+										let classStyle = "list-entry";
+										if (index === activePostIndex) {
+											classStyle = "list-entry active";
+										}
 										return (
 											<div className="list-entry-with-delete" key={index + "list-div"}>
 												<div
-													className="list-entry"
+													className={classStyle}
 													key={index + "list-entry"}
 													onClick={e => this.selectPost(e, index)}
 													style={{
-														borderColor: getPostColor(post_obj.post.socialType),
+														borderColor: (index === activePostIndex) ? color : getPostColor(post_obj.post.socialType),
 														backgroundColor: getPostColor(post_obj.post.socialType)
 													}}
 												>

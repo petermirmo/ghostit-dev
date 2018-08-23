@@ -251,6 +251,11 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+.list-entry {
+	border-width: 2px !important;
+}
+.list-entry.active {
+}
 
 @keyframes campaignModalAnimation {
 	from {
