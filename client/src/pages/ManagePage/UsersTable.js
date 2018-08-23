@@ -106,7 +106,7 @@ class UsersTable extends Component {
 			users = this.state.demoUsers;
 		}
 
-		this.setState({ untouchedUsers: users, userCategories: userCategories });
+		this.setState({ activeUsers: users, userCategories: userCategories });
 	};
 	handleClickedUser = user => {
 		// ID of clicked event is the index of in activeUsers of the clicked user
