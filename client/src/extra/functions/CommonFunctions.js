@@ -31,7 +31,8 @@ export async function savePost(
 	callback,
 	deleteImagesArray,
 	campaignID,
-	instructions
+	instructions,
+	name
 ) {
 	if (deleteImagesArray) {
 		if (deleteImagesArray.length !== 0) {
@@ -64,7 +65,8 @@ export async function savePost(
 			linkImage: linkPreviewImage,
 			accountType,
 			socialType,
-			campaignID
+			campaignID,
+			name
 		})
 		.then(res => {
 			// Now we need to save images for post, Images are saved after post

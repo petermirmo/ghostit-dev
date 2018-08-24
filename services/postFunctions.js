@@ -78,6 +78,7 @@ module.exports = {
 				newPost.status = "pending";
 			}
 			newPost.instructions = post.instructions;
+			newPost.name = post.name;
 
 			newPost.save().then(result => res.send({ success: true, post: result }));
 		});

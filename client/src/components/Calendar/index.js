@@ -241,9 +241,12 @@ class Calendar extends Component {
 
 	createPostCalendarDiv = (post, index, openEvent) => {
 		let content = "";
+		if (post.notes) content = post.notes;
 		if (post.content) content = post.content;
 		if (post.title) content = post.title;
-		if (post.notes) content = post.notes;
+		if (post.name && post.name !== "Facebook Post" && post.name !== "Twitter Post" &&
+					post.name !== "LinkedIn Post" && post.name !== "Instagram Post" && post.name !== "Custom Task")
+					 	content = post.name;
 		let color = "var(--blue-theme-color)";
 		if (post.color) color = post.color;
 		if (post.color) color = post.color;

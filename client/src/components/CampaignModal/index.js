@@ -57,7 +57,7 @@ class CampaignModal extends Component {
 			campaign,
 			posts: [],
 			listOfPostChanges: {},
-			activePostKey: undefined,
+			activePostIndex: undefined,
 
 			colors: {
 				color1: { className: "color1", border: "color1-border", color: "var(--campaign-color1)" },
@@ -71,6 +71,8 @@ class CampaignModal extends Component {
 			confirmDelete: false,
 			firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
 			newPostPromptActive: false, // when user clicks + for a new post to their campaign, show post type options for them to select
+			promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
+			nextChosenPostIndex: 0,
 			datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
 		};
 
@@ -78,12 +80,15 @@ class CampaignModal extends Component {
 	}
 	componentDidMount() {
 		let { campaign } = this.props;
+
+		document.addEventListener("keydown", this.handleKeyPress, false);
+
 		if (campaign) {
 			if (campaign.posts) {
 				if (campaign.posts.length > 0) {
 					this.fillPosts(campaign.posts);
 					// maybe shouldn't hardcode but because setState is asychnronous, this will do for now
-					this.setState({ firstPostChosen: true, activePostKey: 0 });
+					this.setState({ firstPostChosen: true, activePostIndex: 0 });
 				}
 			}
 		}
@@ -94,6 +99,8 @@ class CampaignModal extends Component {
 	componentWillUnmount() {
 		let { campaign, somethingChanged, socket } = this.state;
 
+		document.removeEventListener("keydown", this.handleKeyPress, false);
+
 		if (somethingChanged && campaign && socket) {
 			socket.emit("campaign_editted", campaign);
 			socket.on("campaign_saved", emitObject => {
@@ -101,6 +108,25 @@ class CampaignModal extends Component {
 
 				this.props.updateCampaigns();
 			});
+		}
+	}
+
+	handleKeyPress = event => {
+		const { confirmDelete, promptChangeActivePost } = this.state;
+		if (confirmDelete || promptChangeActivePost) {
+			return;
+		}
+		if (event.keyCode === 27) {
+			// escape button pushed
+			this.props.close();
+		}
+	}
+
+	pauseEscapeListener = response => {
+		if (response) {
+			document.removeEventListener("keydown", this.handleKeyPress, false);
+		} else {
+			document.addEventListener("keydown", this.handleKeyPress, false);
 		}
 	}
 
@@ -154,7 +180,8 @@ class CampaignModal extends Component {
 
 			let new_post = {
 				timezone,
-				post: current_post
+				post: current_post,
+				canEditPost: new moment(current_post.postingDate) > new moment() ? true : false
 			};
 
 			posts.push(new_post);
@@ -192,7 +219,7 @@ class CampaignModal extends Component {
 				}
 			],
 			postAccountPicker: false,
-			activePostKey: posts.length,
+			activePostIndex: posts.length,
 			listOfPostChanges: {},
 
 			newPostPromptActive: false,
@@ -212,13 +239,13 @@ class CampaignModal extends Component {
 	};
 
 	updatePost = updatedPost => {
-		const { posts, activePostKey } = this.state;
+		const { posts, activePostIndex } = this.state;
 
-		let new_post = posts[activePostKey];
+		let new_post = posts[activePostIndex];
 		new_post.post = updatedPost;
 
 		this.setState({
-			posts: [...posts.slice(0, activePostKey), new_post, ...posts.slice(activePostKey + 1)],
+			posts: [...posts.slice(0, activePostIndex), new_post, ...posts.slice(activePostIndex + 1)],
 			listOfPostChanges: {},
 			somethingChanged: true
 		});
@@ -228,6 +255,15 @@ class CampaignModal extends Component {
 	deletePost = (e, index) => {
 		e.preventDefault();
 		const { posts, socket, campaign } = this.state;
+
+		let nextActivePost = this.state.activePostIndex;
+		if (index === this.state.activePostIndex) {
+			// deleting the currently active post so we should make the post above it active
+			nextActivePost = index - 1 < 0 ? 0 : index - 1;
+		} else if (index < this.state.activePostIndex) {
+			// this makes it so the active post stays the same despite the array indexes being adjusted
+			nextActivePost = this.state.activePostIndex-1;
+		}
 
 		if (index === -1) {
 			console.log("couldn't find post to delete.");
@@ -239,8 +275,9 @@ class CampaignModal extends Component {
 				return {
 					posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
 					somethingChanged: true,
-					activePostKey: index - 1 < 0 ? 0 : index - 1,
-					firstPostChosen: prevState.posts.length <= 1 ? false : true
+					activePostIndex: nextActivePost,
+					firstPostChosen: prevState.posts.length <= 1 ? false : true,
+					listOfPostChanges: (index === prevState.activePostIndex) ? {} : prevState.listOfPostChanges
 				};
 			});
 		} else {
@@ -263,8 +300,9 @@ class CampaignModal extends Component {
 								posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
 								campaign: newCampaign,
 								somethingChanged: true,
-								activePostKey: index - 1 < 0 ? 0 : index - 1,
-								firstPostChosen: prevState.posts.length <= 1 ? false : true
+								activePostIndex: nextActivePost,
+								firstPostChosen: prevState.posts.length <= 1 ? false : true,
+								listOfPostChanges: (index === prevState.activePostIndex) ? {} : prevState.listOfPostChanges
 							};
 						});
 					}
@@ -275,8 +313,25 @@ class CampaignModal extends Component {
 
 	selectPost = (e, arrayIndex) => {
 		e.preventDefault();
-		this.setState({ activePostKey: arrayIndex, listOfPostChanges: {} });
+		const { listOfPostChanges, activePostIndex } = this.state;
+
+		if (activePostIndex === arrayIndex) {
+			return;
+		}
+		if (Object.keys(listOfPostChanges).length > 0) {
+			this.setState({ promptChangeActivePost: true, nextChosenPostIndex: arrayIndex });
+		} else {
+			this.setState({ activePostIndex: arrayIndex });
+		}
 	};
+
+	changeActivePost = (response) => {
+		if (!response) {
+			return;
+		}
+		const { nextChosenPostIndex } = this.state;
+		this.setState({ activePostIndex: nextChosenPostIndex, promptChangeActivePost: false, listOfPostChanges: {} });
+	}
 
 	backupPostChanges = (value, index) => {
 		// function that gets called by <Post/> function to store all the changes that have happened
@@ -288,8 +343,16 @@ class CampaignModal extends Component {
 		// backupPostChanges("t", "content"), backupPostChanges("tw", "content"), backupPostChanges("twi", "content"),
 		// backupPostChanges("twit", "content"), etc..
 		// we should probably only store one copy of each index ("content") since only the most recent matters
-		const { listOfPostChanges } = this.state;
-		listOfPostChanges[index] = value;
+		const { listOfPostChanges, posts, activePostIndex } = this.state;
+		const post = posts[activePostIndex];
+		if (index === "date" && value.isSame(post.post.postingDate)) {
+			delete listOfPostChanges[index];
+		} else if (post.post[index] === value) {
+			// same value that it originally was so no need to save its backup
+			delete listOfPostChanges[index];
+		} else {
+			listOfPostChanges[index] = value;
+		}
 		this.setState({ listOfPostChanges });
 	};
 
@@ -358,8 +421,8 @@ class CampaignModal extends Component {
 	}
 
 	getActivePost = () => {
-		const { activePostKey, posts, socket, campaign, listOfPostChanges } = this.state;
-		const post_obj = posts[activePostKey];
+		const { activePostIndex, posts, socket, campaign, listOfPostChanges } = this.state;
+		const post_obj = posts[activePostIndex];
 
 		if (post_obj.post.socialType === "custom") {
 			return (
@@ -385,6 +448,7 @@ class CampaignModal extends Component {
 					campaignStartDate={campaign.startDate}
 					campaignEndDate={campaign.endDate}
 					modifyCampaignDates={this.modifyCampaignDates}
+					pauseEscapeListener={this.pauseEscapeListener}
 				/>
 			);
 		} else {
@@ -413,10 +477,12 @@ class CampaignModal extends Component {
 					campaignStartDate={campaign.startDate}
 					campaignEndDate={campaign.endDate}
 					modifyCampaignDates={this.modifyCampaignDates}
+					pauseEscapeListener={this.pauseEscapeListener}
 				/>
 			);
 		}
 	};
+
 	createRecipe = () => {
 		let { campaign, posts } = this.state;
 
@@ -459,9 +525,12 @@ class CampaignModal extends Component {
 			confirmDelete,
 			campaign,
 			firstPostChosen,
-			activePostKey,
+			activePostIndex,
 			newPostPromptActive,
-			datePickerMessage
+			datePickerMessage,
+			nextChosenPostIndex,
+			promptChangeActivePost,
+			listOfPostChanges
 		} = this.state;
 		const { startDate, endDate, name, color } = campaign;
 
@@ -564,23 +633,54 @@ class CampaignModal extends Component {
 										let postDate = post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate;
 										if (post_obj.recipePost) postDate = post_obj.recipePost.postingDate;
 
+										let entryClassName = undefined;
+										let entryBorderColor = undefined;
+										if (index === activePostIndex) {
+											entryClassName = "list-entry active";
+											entryBorderColor = color;
+										} else {
+											entryClassName = "list-entry";
+											entryBorderColor = getPostColor(post_obj.post.socialType);
+										}
+
+										let savedBoxColor = "var(--green-theme-color)";
+										if (!post_obj.post._id) {
+											// post hasnt been saved yet since it doesn't have an _id
+											savedBoxColor = "var(--red-theme-color)";
+										} else if (index === activePostIndex) {
+											// check if active post has any changes since its last save
+											if (Object.keys(listOfPostChanges).length > 0) {
+												savedBoxColor = "var(--red-theme-color)";
+											}
+										}
+
 										return (
 											<div className="list-entry-with-delete" key={index + "list-div"}>
 												<div
-													className="list-entry"
+													className="saved-box"
+													key={index + "save-box"}
+													style={{
+														backgroundColor: savedBoxColor
+													}}>
+												</div>
+												<div
+													className={entryClassName}
 													key={index + "list-entry"}
 													onClick={e => this.selectPost(e, index)}
 													style={{
-														borderColor: getPostColor(post_obj.post.socialType),
+														borderColor: entryBorderColor,
 														backgroundColor: getPostColor(post_obj.post.socialType)
 													}}
 												>
-													{post_obj.post.socialType.charAt(0).toUpperCase() +
+													{post_obj.post.name  ?
+														(post_obj.post.name + " - " +
+														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format("lll"))
+													:
+														(post_obj.post.socialType.charAt(0).toUpperCase() +
 														post_obj.post.socialType.slice(1) +
-														" Post - " +
-														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format(
-															"lll"
-														)}
+														((post_obj.post.socialType === "custom") ? " Task - " : " Post - ") +
+														new moment(post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate).format("lll"))
+													}
 												</div>
 												<FontAwesomeIcon
 													className="delete"
@@ -637,7 +737,7 @@ class CampaignModal extends Component {
 								)}
 							</div>
 
-							{activePostKey !== undefined && (
+							{activePostIndex !== undefined && (
 								<div className="post-container" style={{ borderColor: color }}>
 									{this.getActivePost()}
 								</div>
@@ -673,11 +773,19 @@ class CampaignModal extends Component {
 							title="Delete Campaign"
 							message="Are you sure you want to delete this campaign? Deleting this campaign will also delete all posts in it."
 							callback={this.deleteCampaign}
-							close={() => this.setState({ confirmDelete: false })}
+							type="delete-campaign"
+						/>
+					)}
+					{promptChangeActivePost && (
+						<ConfirmAlert
+							close={() => this.setState({ promptChangeActivePost: false })}
+							title="Discard Unsaved Changes"
+							message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
+							callback={this.changeActivePost}
+							type="change-post"
 						/>
 					)}
 				</div>
-
 				{saving && <Loader />}
 			</div>
 		);

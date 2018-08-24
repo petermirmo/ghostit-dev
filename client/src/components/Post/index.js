@@ -23,6 +23,8 @@ class PostingOptions extends Component {
 		this.state = this.createState(props);
 	}
 	createState = props => {
+		let temp_name = this.getTempName(props.socialType);
+
 		let stateVariable = {
 			_id: undefined,
 			accountID: "",
@@ -32,7 +34,9 @@ class PostingOptions extends Component {
 			accountType: "",
 			socialType: props.socialType,
 			content: "",
-			instructions: ""
+			instructions: "",
+			name: temp_name,
+			promptModifyCampaignDates: false
 		};
 		if (props.post) {
 			stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -45,6 +49,7 @@ class PostingOptions extends Component {
 			stateVariable.content = props.post.content ? props.post.content : "";
 			stateVariable.instructions = props.post.instructions ? props.post.instructions : "";
 			stateVariable.campaignID = props.post.campaignID ? props.post.campaignID : undefined;
+			stateVariable.name = props.post.name ? props.post.name : temp_name;
 		}
 
 		stateVariable.deleteImagesArray = [];
@@ -91,27 +96,21 @@ class PostingOptions extends Component {
 			this.setState(this.createState(nextProps));
 		} else if (nextProps.socialType && nextProps.socialType !== this.state.socialType) {
 			this.setState({ socialType: nextProps.socialType });
+			const { name } = this.state;
+			if (name === "Twitter Post" || name === "Facebook Post" ||
+						name === "Linkedin Post" || name === "Instagram Post") {
+					this.setState({ name: this.getTempName(nextProps.socialType) });
+				}
 		}
 
 		if (nextProps.listOfChanges) {
 			// this is run when the campaignModal's state changes which results in a re-render of this
 			// Post component. this block will make sure all the previous unsaved changes to the Post component are reapplied
-			this.setState((prevState, nextProps) => {
-				let changes = {};
-				let somethingChanged = false;
-
-				for (let index in nextProps.listOfChanges) {
-					const change = nextProps.listOfChanges[index];
-					if (prevState[index] !== change) {
-						somethingChanged = true;
-						changes[index] = change;
-					}
-				}
-				if (somethingChanged) {
-					changes.somethingChanged = true;
-					return changes;
-				}
-			});
+			if (Object.keys(nextProps.listOfChanges).length > 0) {
+				this.setState({ ...nextProps.listOfChanges, somethingChanged: true });
+			} else {
+				this.setState({ somethingChanged: false });
+			}
 		}
 	}
 	componentDidMount() {
@@ -141,6 +140,18 @@ class PostingOptions extends Component {
 			this.props.backupChanges(value, index);
 		}
 	};
+
+	getTempName = socialType => {
+		let temp_name = "Twitter Post";
+		if (socialType === "facebook") {
+			temp_name = "Facebook Post";
+		} else if (socialType === "linkedin") {
+			temp_name = "LinkedIn Post";
+		} else if (socialType === "instagram") {
+			temp_name = "Instagram Post";
+		}
+		return temp_name;
+	}
 
 	pushToImageDeleteArray = image => {
 		let temp = this.state.deleteImagesArray;
@@ -201,9 +212,10 @@ class PostingOptions extends Component {
 			accountType,
 			deleteImagesArray,
 			somethingChanged,
-			campaignID
+			campaignID,
+			name,
+			date
 		} = this.state;
-		let { date } = this.state;
 
 		const { postFinishedSavingCallback, setSaving, maxCharacters } = this.props;
 
@@ -215,6 +227,7 @@ class PostingOptions extends Component {
 		if (campaignStartDate && campaignEndDate) {
 			if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
 				// prompt user to cancel the save or modify campaign dates
+				if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(true);
 				this.setState({ promptModifyCampaignDates: true });
 				return;
 			}
@@ -235,12 +248,14 @@ class PostingOptions extends Component {
 			postFinishedSavingCallback,
 			deleteImagesArray,
 			campaignID,
-			instructions
+			instructions,
+			name
 		);
 		this.setState({ somethingChanged: false });
 	};
 
 	modifyCampaignDate = (response) => {
+		if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(false);
 		if (!response) {
 			this.setState({ promptModifyCampaignDates: false });
 			return;
@@ -266,9 +281,10 @@ class PostingOptions extends Component {
 			deleteImagesArray,
 			somethingChanged,
 			promptModifyCampaignDates,
-			campaignID
+			campaignID,
+			name,
+			date
 		} = this.state;
-		let { date } = this.state;
 
 		const { postFinishedSavingCallback, setSaving, accounts, canEditPost, maxCharacters } = this.props;
 		const returnOfCarouselOptions = carouselOptions(socialType);
@@ -296,6 +312,15 @@ class PostingOptions extends Component {
 
 		return (
 			<div className="posting-form">
+				<div className="name-container">
+					<div className="label">Name:</div>
+					<input
+						onChange={event => this.handleChange(event.target.value, "name")}
+						value={name}
+						className="name-input"
+						placeholder={""}
+					/>
+				</div>
 				<Textarea
 					className="posting-textarea"
 					placeholder="Success doesn't write itself!"
@@ -368,12 +393,13 @@ class PostingOptions extends Component {
 				/>
 				{promptModifyCampaignDates && (
 					<ConfirmAlert
-						close={() => this.setState({ promptModifyCampaignDates: false })}
+						close={() =>{ if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(false);
+							 						this.setState({ promptModifyCampaignDates: false })
+												}}
 						title="Modify Campaign Dates"
 						message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
 						callback={this.modifyCampaignDate}
-						modify={true}
-						close={() => this.setState({ promptModifyCampaignDates: false })}
+						type="modify"
 					/>
 				)}
 			</div>

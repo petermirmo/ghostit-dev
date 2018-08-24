@@ -18,6 +18,7 @@ const postSchema = new Schema(
 		socialMediaID: String,
 		color: String,
 		campaignID: Schema.Types.ObjectId,
+		name: String,
 		images: [
 			{
 				url: String,

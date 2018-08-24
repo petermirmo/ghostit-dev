@@ -7,6 +7,21 @@
 	overflow: auto;
 	box-sizing: border-box;
 }
+.name-container {
+	flex: 1;
+	display: flex;
+
+	align-items: center;
+	padding-left: 28px;
+}
+.name-input {
+	flex-grow: 1;
+
+	padding: 4px 10px 4px 10px;
+	margin-left: 10px;
+
+	border-radius: 100px;
+}
 .posting-textarea {
 	display: block;
 	min-height: 100px;
