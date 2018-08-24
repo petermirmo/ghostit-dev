@@ -7,8 +7,6 @@ Ability for the users to 'duplicate' a post in a campaign.
 
 Maybe add feedback that lets the user know when their post / campaign has been successfully saved.
 
-highlight the post list entry that belongs to the active post.
-
 sometimes clicking an account to post to doesn't give feedback that the account was chosen until something else is changed.
 
 prompt users when they try to delete a post.
@@ -16,3 +14,8 @@ prompt users when they try to delete a post.
 when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
 
 highlight the current day on the calendar.
+
+exiting campaign modal while on an unsaved post should maybe prompt.
+
+next tasks:
+-feedback beside post entries whether they have been saved or not

@@ -256,6 +256,12 @@
 }
 .list-entry.active {
 }
+.saved-box {
+	min-width: 9px;
+	min-height: 85%;
+	margin-right: 5px;
+	border-radius: 2px;
+}
 
 @keyframes campaignModalAnimation {
 	from {

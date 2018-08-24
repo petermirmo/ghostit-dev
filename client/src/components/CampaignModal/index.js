@@ -256,6 +256,15 @@ class CampaignModal extends Component {
 		e.preventDefault();
 		const { posts, socket, campaign } = this.state;
 
+		let nextActivePost = this.state.activePostIndex;
+		if (index === this.state.activePostIndex) {
+			// deleting the currently active post so we should make the post above it active
+			nextActivePost = index - 1 < 0 ? 0 : index - 1;
+		} else if (index < this.state.activePostIndex) {
+			// this makes it so the active post stays the same despite the array indexes being adjusted
+			nextActivePost = this.state.activePostIndex-1;
+		}
+
 		if (index === -1) {
 			console.log("couldn't find post to delete.");
 			return;
@@ -266,8 +275,9 @@ class CampaignModal extends Component {
 				return {
 					posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
 					somethingChanged: true,
-					activePostIndex: index - 1 < 0 ? 0 : index - 1,
-					firstPostChosen: prevState.posts.length <= 1 ? false : true
+					activePostIndex: nextActivePost,
+					firstPostChosen: prevState.posts.length <= 1 ? false : true,
+					listOfPostChanges: (index === prevState.activePostIndex) ? {} : prevState.listOfPostChanges
 				};
 			});
 		} else {
@@ -290,8 +300,9 @@ class CampaignModal extends Component {
 								posts: [...prevState.posts.slice(0, index), ...prevState.posts.slice(index + 1)],
 								campaign: newCampaign,
 								somethingChanged: true,
-								activePostIndex: index - 1 < 0 ? 0 : index - 1,
-								firstPostChosen: prevState.posts.length <= 1 ? false : true
+								activePostIndex: nextActivePost,
+								firstPostChosen: prevState.posts.length <= 1 ? false : true,
+								listOfPostChanges: (index === prevState.activePostIndex) ? {} : prevState.listOfPostChanges
 							};
 						});
 					}
@@ -332,8 +343,16 @@ class CampaignModal extends Component {
 		// backupPostChanges("t", "content"), backupPostChanges("tw", "content"), backupPostChanges("twi", "content"),
 		// backupPostChanges("twit", "content"), etc..
 		// we should probably only store one copy of each index ("content") since only the most recent matters
-		const { listOfPostChanges } = this.state;
-		listOfPostChanges[index] = value;
+		const { listOfPostChanges, posts, activePostIndex } = this.state;
+		const post = posts[activePostIndex];
+		if (index === "date" && value.isSame(post.post.postingDate)) {
+			delete listOfPostChanges[index];
+		} else if (post.post[index] === value) {
+			// same value that it originally was so no need to save its backup
+			delete listOfPostChanges[index];
+		} else {
+			listOfPostChanges[index] = value;
+		}
 		this.setState({ listOfPostChanges });
 	};
 
@@ -510,7 +529,8 @@ class CampaignModal extends Component {
 			newPostPromptActive,
 			datePickerMessage,
 			nextChosenPostIndex,
-			promptChangeActivePost
+			promptChangeActivePost,
+			listOfPostChanges
 		} = this.state;
 		const { startDate, endDate, name, color } = campaign;
 
@@ -612,18 +632,43 @@ class CampaignModal extends Component {
 									{posts.map((post_obj, index) => {
 										let postDate = post_obj.post ? post_obj.post.postingDate : post_obj.clickedCalendarDate;
 										if (post_obj.recipePost) postDate = post_obj.recipePost.postingDate;
-										let classStyle = "list-entry";
+
+										let entryClassName = undefined;
+										let entryBorderColor = undefined;
 										if (index === activePostIndex) {
-											classStyle = "list-entry active";
+											entryClassName = "list-entry active";
+											entryBorderColor = color;
+										} else {
+											entryClassName = "list-entry";
+											entryBorderColor = getPostColor(post_obj.post.socialType);
 										}
+
+										let savedBoxColor = "var(--green-theme-color)";
+										if (!post_obj.post._id) {
+											// post hasnt been saved yet since it doesn't have an _id
+											savedBoxColor = "var(--red-theme-color)";
+										} else if (index === activePostIndex) {
+											// check if active post has any changes since its last save
+											if (Object.keys(listOfPostChanges).length > 0) {
+												savedBoxColor = "var(--red-theme-color)";
+											}
+										}
+
 										return (
 											<div className="list-entry-with-delete" key={index + "list-div"}>
 												<div
-													className={classStyle}
+													className="saved-box"
+													key={index + "save-box"}
+													style={{
+														backgroundColor: savedBoxColor
+													}}>
+												</div>
+												<div
+													className={entryClassName}
 													key={index + "list-entry"}
 													onClick={e => this.selectPost(e, index)}
 													style={{
-														borderColor: (index === activePostIndex) ? color : getPostColor(post_obj.post.socialType),
+														borderColor: entryBorderColor,
 														backgroundColor: getPostColor(post_obj.post.socialType)
 													}}
 												>
