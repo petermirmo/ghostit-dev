@@ -199,6 +199,8 @@ module.exports = app => {
 	app.get("/api/user/plan", middleware, (req, res) => planFunctions.getUserPlan(req, res));
 	// Sign up to plan
 	app.post("/api/signUpToPlan", middleware, (req, res) => planFunctions.signUpToPlan(req, res));
+	// Sign up to plan
+	app.post("/api/planPro", middleware, (req, res) => planFunctions.signUpToPlanPro(req, res));
 
 	// Get proper timezone, either yours or the user you are signed in as
 	app.get("/api/timezone", middleware, (req, res) => userFunctions.getTimezone(req, res));

@@ -14,7 +14,7 @@ import Header from "./components/Navigations/Header/";
 import ClientsSideBar from "./components/SideBarClients/";
 
 import LoginPage from "./pages/LoginPage/";
-import Plans from "./pages/PlansPage/";
+import Subscribe from "./pages/SubscribePage/";
 import Content from "./pages/ContentPage/";
 import Strategy from "./pages/StrategyPage/";
 import Accounts from "./pages/AccountsPage/";
@@ -44,7 +44,7 @@ class Routes extends Component {
 					if (!accounts) accounts = [];
 					props.updateAccounts(accounts);
 					props.setUser(user);
-					props.changePage("content");
+					props.changePage("subscribe");
 					this.setState({ datebaseConnection: true });
 				});
 			} else {
@@ -116,7 +116,7 @@ class Routes extends Component {
 				{clientSideBar && <ClientsSideBar />}
 
 				{activePage === "" && <LoginPage margin={margin} />}
-				{activePage === "subscribe" && <Plans margin={margin} />}
+				{activePage === "subscribe" && <Subscribe margin={margin} />}
 				{activePage === "content" && <Content margin={margin} />}
 				{activePage === "strategy" && <Strategy margin={margin} />}
 				{activePage === "analytics" && <Analytics margin={margin} />}

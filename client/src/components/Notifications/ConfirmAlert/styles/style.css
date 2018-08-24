@@ -33,7 +33,7 @@
 	background-color: var(--white-theme-color);
 }
 .confirm-title {
-	font-size: var(--fifteen-font-size);
+	font-size: var(--medium-large-font-size);
 	font-weight: bold;
 }
 .confirm-message {
