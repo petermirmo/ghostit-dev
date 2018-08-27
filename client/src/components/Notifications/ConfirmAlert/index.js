@@ -33,12 +33,18 @@ class ConfirmAlert extends Component {
           <div className="confirm-title">{this.props.title}</div>
           <div className="confirm-message">{this.props.message}</div>
           <div className="options-container">
-            <button onClick={() => this.props.callback(true)} className={firstButtonStyle}>
-							{firstButton}
-						</button>
-						<button onClick={() => this.props.callback(false)} className={secondButtonStyle}>
-							Cancel
-						</button>
+            <button
+              onClick={() => this.props.callback(true)}
+              className={firstButtonStyle}
+            >
+              {firstButton}
+            </button>
+            <button
+              onClick={() => this.props.callback(false)}
+              className={secondButtonStyle}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </div>
