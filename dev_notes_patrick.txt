@@ -40,3 +40,7 @@ whiteboard:
     (show a checkmark beside posts on the calendar that have been posted. show them for custom tasks as well but the only way to toggle the checkmark is for the user to open the task and mark it completed themselves.)
   - email reminders for custom task
     (in the custom task creation/editing ui, maybe let the user schedule those email alerts and choose which email to send them to. should we have a default reminder or should it default to no reminder and it's all up to the user to schedule them?)
+
+next tasks:
+  recipe edit and delete
+    switchnig recipe tabs should set "activeRecipeIndex" to undefined

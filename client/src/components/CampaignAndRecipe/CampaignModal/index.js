@@ -15,13 +15,13 @@ import { bindActionCreators } from "redux";
 import {
   getPostColor,
   getSocialCharacters
-} from "../../extra/functions/CommonFunctions";
+} from "../../../extra/functions/CommonFunctions";
 
-import DateTimePicker from "../DateTimePicker";
-import Post from "../Post";
-import CustomTask from "../CustomTask";
-import Loader from "../Notifications/Loader";
-import ConfirmAlert from "../Notifications/ConfirmAlert";
+import DateTimePicker from "../../DateTimePicker";
+import Post from "../../Post";
+import CustomTask from "../../CustomTask";
+import Loader from "../../Notifications/Loader";
+import ConfirmAlert from "../../Notifications/ConfirmAlert";
 
 import "./styles/";
 
