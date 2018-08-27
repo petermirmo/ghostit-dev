@@ -486,6 +486,11 @@ class CampaignModal extends Component {
 	createRecipe = () => {
 		let { campaign, posts } = this.state;
 
+		if (campaign.name === "") {
+			alert("To publish this campaign as a recipe, you must give it a name!");
+			return;
+		}
+
 		axios.post("/api/recipe", { campaign, posts }).then(res => {
 			const { success } = res.data;
 
