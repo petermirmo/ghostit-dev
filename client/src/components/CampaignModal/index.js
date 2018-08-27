@@ -380,6 +380,7 @@ class CampaignModal extends Component {
 
   changeActivePost = response => {
     if (!response) {
+      this.setState({ promptChangeActivePost: false });
       return;
     }
     const { nextChosenPostIndex } = this.state;
