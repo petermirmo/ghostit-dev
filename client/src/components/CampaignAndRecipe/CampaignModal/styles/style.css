@@ -1,4 +1,5 @@
 .campaign-information-container {
+  flex-shrink: 0;
   display: flex;
 
   flex-direction: column;
@@ -133,6 +134,7 @@
 }
 
 .post-navigation-and-post-container {
+  flex: 1;
   display: flex;
 
   min-width: 100%;
