@@ -35,13 +35,13 @@ class ConfirmAlert extends Component {
           <div className="options-container">
             <button
               onClick={() => this.props.callback(true)}
-              className={this.props.modify ? "cancel-button" : "confirm-button"}
+              className={firstButtonStyle}
             >
-              {this.props.modify ? "Modify" : "Delete"}
+              {firstButton}
             </button>
             <button
               onClick={() => this.props.callback(false)}
-              className={this.props.modify ? "confirm-button" : "cancel-button"}
+              className={secondButtonStyle}
             >
               Cancel
             </button>
