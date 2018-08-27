@@ -424,7 +424,7 @@
   font-weight: bolder;
 }
 
-.back-button {
+.back-button-top {
   position: absolute;
   top: 5px;
   left: 5px;
@@ -441,7 +441,7 @@
   transition: all 0.2s ease;
   -webkit-transition: all 0.2s ease;
 }
-.back-button:hover {
+.back-button-top:hover {
   color: var(--white-theme-color);
   border-color: var(--blue-theme-color);
   background-color: var(--blue-theme-color);

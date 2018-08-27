@@ -644,7 +644,7 @@ class CampaignModal extends Component {
             onClick={() => this.props.close()}
           />
           <div
-            className="back-button"
+            className="back-button-top"
             onClick={() => {
               this.props.handleChange(false, "campaignModal");
               this.props.handleChange(true, "recipeModal");
@@ -925,6 +925,16 @@ class CampaignModal extends Component {
               icon={faTrash}
               size="2x"
             />
+            <div
+              className="back-button-bottom"
+              onClick={() => this.props.close()}
+            >
+              <FontAwesomeIcon
+                className="back-button-arrow"
+                icon={faArrowLeft}
+              />{" "}
+              Back to Calendar
+            </div>
           </div>
           {confirmDelete && (
             <ConfirmAlert
