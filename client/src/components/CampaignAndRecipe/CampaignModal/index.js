@@ -3,8 +3,6 @@ import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
-import faArrowDown from "@fortawesome/fontawesome-free-solid/faArrowDown";
 import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
 
 import moment from "moment-timezone";
@@ -12,16 +10,16 @@ import io from "socket.io-client";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  getPostColor,
-  getSocialCharacters
-} from "../../../extra/functions/CommonFunctions";
+import { getSocialCharacters } from "../../../extra/functions/CommonFunctions";
 
-import DateTimePicker from "../../DateTimePicker";
 import Post from "../../Post";
 import CustomTask from "../../CustomTask";
 import Loader from "../../Notifications/Loader";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
+
+import PostTypePicker from "../CommonComponents/PostTypePicker";
+import PostList from "../CommonComponents/PostList";
+import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
 
 import "./styles/";
 
@@ -87,7 +85,6 @@ class CampaignModal extends Component {
         }
       },
       saving: true,
-      postAccountPicker: false,
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
       firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
@@ -250,7 +247,6 @@ class CampaignModal extends Component {
           timezone
         }
       ],
-      postAccountPicker: false,
       activePostIndex: posts.length,
       listOfPostChanges: {},
 
@@ -345,7 +341,7 @@ class CampaignModal extends Component {
                   ...prevState.posts.slice(0, index),
                   ...prevState.posts.slice(index + 1)
                 ],
-                campaign: newCampaign,
+                campaign: { ...prevState.campaign, posts: newCampaign.posts },
                 somethingChanged: true,
                 activePostIndex: nextActivePost,
                 firstPostChosen: prevState.posts.length <= 1 ? false : true,
@@ -604,7 +600,6 @@ class CampaignModal extends Component {
       colors,
       posts,
       saving,
-      postAccountPicker,
       confirmDelete,
       campaign,
       firstPostChosen,
@@ -616,23 +611,6 @@ class CampaignModal extends Component {
       listOfPostChanges
     } = this.state;
     const { startDate, endDate, name, color } = campaign;
-
-    let colorDivs = [];
-    for (let index in colors) {
-      let className = colors[index].border;
-      if (colors[index].color == color) className += " active";
-      colorDivs.push(
-        <div
-          className={className}
-          onClick={() => {
-            this.handleCampaignChange(colors[index].color, "color");
-          }}
-          key={index}
-        >
-          <div className={colors[index].className} />
-        </div>
-      );
-    }
 
     return (
       <div className="modal" onClick={() => this.props.close()}>
@@ -653,266 +631,41 @@ class CampaignModal extends Component {
             <FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" />{" "}
             Back to Recipes
           </div>
-          <div
-            className="campaign-information-container"
-            style={{ borderColor: color }}
-          >
-            <div className="name-color-container">
-              <div className="name-container">
-                <div className="label">Name:</div>
-                <input
-                  onChange={event =>
-                    this.handleCampaignChange(event.target.value, "name")
-                  }
-                  value={name}
-                  className="name-input"
-                  placeholder="My Awesome Product Launch!"
-                />
-              </div>
-              <div className="color-picker-container">
-                <div className="label">Color:</div>
-                <div className="colors">{colorDivs}</div>
-              </div>
-            </div>
-            <div className="dates-container">
-              <div className="date-and-label-container">
-                <div className="label">Start Date: </div>
-                <DateTimePicker
-                  date={new moment(startDate)}
-                  dateFormat="MMMM Do YYYY hh:mm A"
-                  handleChange={date => {
-                    this.tryChangingCampaignDates(date, "startDate");
-                  }}
-                  dateLowerBound={new moment()}
-                  message={datePickerMessage}
-                />
-              </div>
-              <div className="date-and-label-container">
-                <div className="label">End Date: </div>
-                <DateTimePicker
-                  date={new moment(endDate)}
-                  dateFormat="MMMM Do YYYY hh:mm A"
-                  handleChange={date => {
-                    this.tryChangingCampaignDates(date, "endDate");
-                  }}
-                  dateLowerBound={new moment()}
-                  message={datePickerMessage}
-                />
-              </div>
-            </div>
-          </div>
+          <CampaignRecipeHeader
+            campaign={campaign}
+            datePickerMessage={datePickerMessage}
+            colors={colors}
+            handleChange={this.handleCampaignChange}
+            tryChangingDates={this.tryChangingCampaignDates}
+          />
 
           {!firstPostChosen && (
             <div className="campaign-start-container">
               <div className="new-campaign-post-selection-write-up">
                 How do you want to start off your campaign?
               </div>
-
-              <div className="new-post-prompt">
-                <div
-                  className="account-option"
-                  onClick={() => this.newPost("facebook")}
-                >
-                  Facebook<br />Post
-                </div>
-                <div
-                  className="account-option"
-                  onClick={() => this.newPost("twitter")}
-                >
-                  Twitter<br />Post
-                </div>
-                <div
-                  className="account-option"
-                  onClick={() => this.newPost("linkedin")}
-                >
-                  LinkedIn<br />Post
-                </div>
-                <div
-                  className="account-option"
-                  onClick={() => this.newPost("custom")}
-                >
-                  Custom<br />Task
-                </div>
-              </div>
+              <PostTypePicker newPost={this.newPost} />
             </div>
           )}
 
           {firstPostChosen && (
             <div className="post-navigation-and-post-container">
-              <div
-                className="post-navigation-container"
-                style={{ borderColor: color }}
-              >
-                <div className="list-container">
-                  {posts.map((post_obj, index) => {
-                    let postDate = post_obj.post
-                      ? post_obj.post.postingDate
-                      : post_obj.clickedCalendarDate;
-                    if (post_obj.recipePost)
-                      postDate = post_obj.recipePost.postingDate;
-
-                    let entryClassName = undefined;
-                    let entryBorderColor = undefined;
-                    if (index === activePostIndex) {
-                      entryClassName = "list-entry active";
-                      entryBorderColor = color;
-                    } else {
-                      entryClassName = "list-entry";
-                      entryBorderColor = getPostColor(post_obj.post.socialType);
-                    }
-
-                    let savedBoxColor = "var(--green-theme-color)";
-                    if (!post_obj.post._id) {
-                      // post hasnt been saved yet since it doesn't have an _id
-                      savedBoxColor = "var(--red-theme-color)";
-                    } else if (index === activePostIndex) {
-                      // check if active post has any changes since its last save
-                      if (Object.keys(listOfPostChanges).length > 0) {
-                        savedBoxColor = "var(--red-theme-color)";
-                      }
-                    }
-
-                    return (
-                      <div
-                        className="list-entry-with-delete"
-                        key={index + "list-div"}
-                      >
-                        <div
-                          className="saved-box"
-                          key={index + "save-box"}
-                          style={{
-                            backgroundColor: savedBoxColor
-                          }}
-                        />
-                        <div
-                          className={entryClassName}
-                          key={index + "list-entry"}
-                          onClick={e => this.selectPost(e, index)}
-                          style={{
-                            borderColor: entryBorderColor,
-                            backgroundColor: getPostColor(
-                              post_obj.post.socialType
-                            )
-                          }}
-                        >
-                          {post_obj.post.name
-                            ? post_obj.post.name +
-                              " - " +
-                              new moment(
-                                post_obj.post
-                                  ? post_obj.post.postingDate
-                                  : post_obj.clickedCalendarDate
-                              ).format("lll")
-                            : post_obj.post.socialType.charAt(0).toUpperCase() +
-                              post_obj.post.socialType.slice(1) +
-                              (post_obj.post.socialType === "custom"
-                                ? " Task - "
-                                : " Post - ") +
-                              new moment(
-                                post_obj.post
-                                  ? post_obj.post.postingDate
-                                  : post_obj.clickedCalendarDate
-                              ).format("lll")}
-                        </div>
-                        <div className="delete-container">
-                          <FontAwesomeIcon
-                            className="delete"
-                            key={index + "delete"}
-                            onClick={e => this.deletePost(e, index)}
-                            icon={faTrash}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                  {!newPostPromptActive && (
-                    <FontAwesomeIcon
-                      onClick={e =>
-                        this.handleChange(true, "newPostPromptActive")
-                      }
-                      className="new-post-button"
-                      icon={faPlus}
-                      size="2x"
-                      key="new_post_button"
-                      style={{ backgroundColor: color }}
-                    />
-                  )}
-                  {newPostPromptActive && (
-                    <FontAwesomeIcon
-                      icon={faArrowDown}
-                      size="2x"
-                      key="new_post_button"
-                      className="arrow-down"
-                      style={{ color }}
-                    />
-                  )}
-
-                  {newPostPromptActive && (
-                    <div className="new-post-prompt">
-                      <div
-                        className="account-option"
-                        onClick={() => this.newPost("facebook")}
-                      >
-                        Facebook<br />Post
-                      </div>
-                      <div
-                        className="account-option"
-                        onClick={() => this.newPost("twitter")}
-                      >
-                        Twitter<br />Post
-                      </div>
-                      <div
-                        className="account-option"
-                        onClick={() => this.newPost("linkedin")}
-                      >
-                        LinkedIn<br />Post
-                      </div>
-                      <div
-                        className="account-option"
-                        onClick={() => this.newPost("custom")}
-                      >
-                        Custom<br />Task
-                      </div>
-                    </div>
-                  )}
-                </div>
-                {!campaign.recipeID && (
-                  <div
-                    className="publish-as-recipe"
-                    style={{ backgroundColor: color }}
-                    onClick={this.createRecipe}
-                  >
-                    Publish as recipe
-                  </div>
-                )}
-              </div>
+              <PostList
+                campaign={campaign}
+                posts={posts}
+                activePostIndex={activePostIndex}
+                listOfPostChanges={listOfPostChanges}
+                newPostPromptActive={newPostPromptActive}
+                newPost={this.newPost}
+                selectPost={this.selectPost}
+                deletePost={this.deletePost}
+                handleChange={this.handleChange}
+                createRecipe={this.createRecipe}
+              />
 
               {activePostIndex !== undefined && (
                 <div className="post-container" style={{ borderColor: color }}>
                   {this.getActivePost()}
-                </div>
-              )}
-
-              {postAccountPicker && (
-                <div className="account-nav-bar-container">
-                  <div
-                    className="account-option"
-                    onClick={() => this.newPost("facebook")}
-                  >
-                    Facebook
-                  </div>
-                  <div
-                    className="account-option"
-                    onClick={() => this.newPost("twitter")}
-                  >
-                    Twitter
-                  </div>
-                  <div
-                    className="account-option"
-                    onClick={() => this.newPost("linkedin")}
-                  >
-                    LinkedIn
-                  </div>
                 </div>
               )}
             </div>

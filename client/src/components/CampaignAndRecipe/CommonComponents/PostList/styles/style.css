@@ -1,0 +1,70 @@
+.post-navigation-container {
+  position: relative;
+
+  display: flex;
+
+  justify-content: flex-start;
+  align-items: center;
+
+  flex-direction: column;
+
+  padding-bottom: 50px;
+
+  border-right: 0.5px solid var(--light-grey-theme-color);
+  border-bottom: 0.5px solid var(--light-grey-theme-color);
+
+  background-color: var(--light-light-grey-theme-color);
+}
+.saved-box {
+  min-width: 9px;
+
+  margin-right: 5px;
+
+  border-radius: 2px;
+}
+.delete-container {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.new-post-button {
+  width: 25px !important;
+  height: 25px;
+
+  padding: 8px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: var(--blue-theme-color);
+  color: var(--white-theme-color);
+
+  border-radius: 100px;
+
+  cursor: pointer;
+}
+.arrow-down {
+  color: var(--blue-theme-color);
+
+  margin-left: auto;
+  margin-right: auto;
+}
+.publish-as-recipe {
+  position: absolute;
+  bottom: 5px;
+
+  width: 70%;
+
+  padding: 8px 0 8px 0;
+
+  border-radius: 20px;
+
+  background-color: var(--blue-theme-color);
+  color: var(--white-theme-color);
+
+  text-align: center;
+
+  cursor: pointer;
+}
