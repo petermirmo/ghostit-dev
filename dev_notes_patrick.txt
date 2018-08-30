@@ -51,8 +51,8 @@ whiteboard:
     (in the custom task creation/editing ui, maybe let the user schedule those email alerts and choose which email to send them to. should we have a default reminder or should it default to no reminder and it's all up to the user to schedule them?)
 
 next tasks:
-  segment campaign modal into smaller reusable components
   recipe edit and delete
-    make recipe editing modal separate from campaign modal
     switching recipe tabs should set "activeRecipeIndex" to undefined
-  after publishing recipe, publish button should turn into overwrite button maybe
+    modifyCampaignDates within RecipeEditorModal
+    
+  after publishing campaign as recipe, publish button should turn into overwrite button maybe

@@ -163,7 +163,8 @@ class RecipeEditorModal extends Component {
     this.setState(prevState => {
       return {
         posts: [...prevState.posts, post],
-        activePostIndex: prevState.posts.length
+        activePostIndex: prevState.posts.length,
+        newPostPromptActive: false
       };
     });
   };
@@ -185,8 +186,8 @@ class RecipeEditorModal extends Component {
     this.setState(prevState => {
       return {
         posts: [
-          prevState.posts.slice(0, index),
-          prevState.posts.slice(index + 1)
+          ...prevState.posts.slice(0, index),
+          ...prevState.posts.slice(index + 1)
         ],
         activePostIndex: nextActivePost,
         somethingChanged: true,
@@ -239,9 +240,9 @@ class RecipeEditorModal extends Component {
     // we should probably only store one copy of each index ("content") since only the most recent matters
     const { listOfPostChanges, posts, activePostIndex } = this.state;
     const post = posts[activePostIndex];
-    if (index === "date" && value.isSame(post.post.postingDate)) {
+    if (index === "date" && value.isSame(post.postingDate)) {
       delete listOfPostChanges[index];
-    } else if (post.post[index] === value) {
+    } else if (post[index] === value) {
       // same value that it originally was so no need to save its backup
       delete listOfPostChanges[index];
     } else {
@@ -291,6 +292,28 @@ class RecipeEditorModal extends Component {
     });
   };
 
+  savePostChanges = post_state => {
+    const { activePostIndex, posts } = this.state;
+
+    const post = Object.assign({}, posts[activePostIndex]);
+    post.name = post_state.name;
+    post.instructions = post_state.instructions;
+    post.postingDate = post_state.date;
+    post.socialType = post_state.socialType;
+
+    this.setState(prevState => {
+      return {
+        posts: [
+          ...prevState.posts.slice(0, activePostIndex),
+          post,
+          ...prevState.posts.slice(activePostIndex + 1)
+        ],
+        somethingChanged: true,
+        listOfPostChanges: {}
+      };
+    });
+  };
+
   getActivePost = () => {
     const { posts, activePostIndex, listOfPostChanges, recipe } = this.state;
     const post = posts[activePostIndex];
@@ -301,6 +324,7 @@ class RecipeEditorModal extends Component {
           clickedCalendarDate={post.postingDate}
           socialType={post.socialType}
           instructions={post.instructions}
+          name={post.name}
           listOfChanges={
             Object.keys(listOfPostChanges).length > 0
               ? listOfPostChanges
@@ -311,6 +335,8 @@ class RecipeEditorModal extends Component {
           campaignEndDate={recipe.endDate}
           modifyCampaignDates={this.modifyRecipeDates}
           pauseEscapeListener={this.pauseEscapeListener}
+          savePostChanges={this.savePostChanges}
+          canEditPost={true}
         />
       );
     } else {
@@ -320,6 +346,7 @@ class RecipeEditorModal extends Component {
           clickedCalendarDate={post.postingDate}
           socialType={post.socialType}
           instructions={post.instructions}
+          name={post.name}
           listOfChanges={
             Object.keys(listOfPostChanges).length > 0
               ? listOfPostChanges
@@ -330,6 +357,8 @@ class RecipeEditorModal extends Component {
           campaignEndDate={recipe.endDate}
           modifyCampaignDates={this.modifyRecipeDates}
           pauseEscapeListener={this.pauseEscapeListener}
+          savePostChanges={this.savePostChanges}
+          canEditPost={true}
         />
       );
     }
@@ -375,8 +404,6 @@ class RecipeEditorModal extends Component {
       somethingChanged
     } = this.state;
     const { startDate, endDate, name, color } = recipe;
-
-    console.log(this.state);
 
     return (
       <div className="modal" onClick={() => this.props.close()}>
@@ -429,7 +456,6 @@ class RecipeEditorModal extends Component {
                 selectPost={this.selectPost}
                 deletePost={this.deletePost}
                 handleChange={this.handleChange}
-                createRecipe={this.createRecipe}
               />
 
               {activePostIndex !== undefined && (

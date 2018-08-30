@@ -27,6 +27,7 @@ class PostList extends Component {
       handleChange,
       createRecipe
     } = this.props; // functions
+    console.log(posts);
     return (
       <div
         className="post-navigation-container"
