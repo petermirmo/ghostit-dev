@@ -159,3 +159,21 @@
   );
   border-radius: 0 0 4px 4px;
 }
+
+.recipe-edit-delete-container {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+}
+.recipe-delete-button,
+.recipe-edit-button {
+  margin-right: 10px;
+  cursor: pointer;
+  color: var(--white-theme-color);
+}
+.recipe-edit-button:hover {
+  color: var(--blue-theme-color);
+}
+.recipe-delete-button:hover {
+  color: var(--red-theme-color);
+}

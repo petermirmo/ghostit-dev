@@ -58,6 +58,7 @@
   overflow-x: hidden;
 }
 .preview-recipe {
+  position: relative;
   flex-shrink: 0;
 
   display: flex;

@@ -170,5 +170,23 @@ module.exports = {
         message: "You cannot create a new recipe from an existing recipe."
       });
     }
+  },
+  deleteRecipe: function(req, res) {
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+    let recipeID = req.params.recipeID;
+
+    Recipe.findOne({ _id: recipeID }, (err, foundRecipe) => {
+      if (foundRecipe) {
+        if (String(userID) === String(foundRecipe.userID)) {
+          foundRecipe.remove();
+          res.send({ success: true });
+        } else res.send({ success: false, message: "You have no power here." });
+      } else res.send({ success: false, message: "Could not find recipe :/" });
+    });
   }
 };

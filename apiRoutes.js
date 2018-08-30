@@ -220,6 +220,9 @@ module.exports = app => {
   app.get("/api/recipes", middleware, (req, res) =>
     campaignFunctions.getRecipes(req, res)
   );
+  app.delete("/api/recipe/:recipeID", middleware, (req, res) =>
+    campaignFunctions.deleteRecipe(req, res)
+  );
 
   // Create a blog placeholder
   app.post("/api/blog", fileParser, middleware, async (req, res) =>

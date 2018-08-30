@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
 import LoaderSimpleCircle from "../../Notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
+import ConfirmAlert from "../../Notifications/ConfirmAlert";
 
 import { getPostColor } from "../../../extra/functions/CommonFunctions";
 
@@ -27,9 +33,14 @@ class RecipeModal extends Component {
     chooseRecipeDate: false,
 
     previewRecipeLocation: undefined,
-    activePost: undefined
+    activePost: undefined,
+
+    promptDeleteRecipe: false
   };
   componentDidMount() {
+    this.getRecipes();
+  }
+  getRecipes = () => {
     axios.get("/api/recipes").then(res => {
       let { usersRecipes, allRecipes } = res.data;
 
@@ -43,7 +54,7 @@ class RecipeModal extends Component {
         loading: false
       });
     });
-  }
+  };
 
   createRecipeList = activeRecipes => {
     const {
@@ -129,19 +140,7 @@ class RecipeModal extends Component {
                         Use This Recipe
                       </div>
                     )}
-                    {!chooseRecipeDate && (
-                      <div
-                        className="use-this-recipe"
-                        onClick={() => {
-                          this.props.handleChange(undefined, "clickedEvent");
-                          this.props.handleChange(recipe, "recipe");
-                          this.props.handleChange(false, "recipeModal");
-                          this.props.handleChange(true, "recipeEditorModal");
-                        }}
-                      >
-                        Edit This Recipe
-                      </div>
-                    )}
+
                     {chooseRecipeDate && (
                       <div className="label">Choose Start Date: </div>
                     )}
@@ -165,6 +164,29 @@ class RecipeModal extends Component {
                     )}
                   </div>
                 </div>
+                {this.props.user._id === recipe.userID && (
+                  <div className="recipe-edit-delete-container">
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      className="recipe-edit-button"
+                      size="2x"
+                      onClick={() => {
+                        this.props.handleChange(undefined, "clickedEvent");
+                        this.props.handleChange(recipe, "recipe");
+                        this.props.handleChange(false, "recipeModal");
+                        this.props.handleChange(true, "recipeEditorModal");
+                      }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className="recipe-delete-button"
+                      size="2x"
+                      onClick={() =>
+                        this.setState({ promptDeleteRecipe: true })
+                      }
+                    />
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -218,6 +240,19 @@ class RecipeModal extends Component {
 
     return recipeArray;
   };
+  deleteRecipe = deleteResponse => {
+    if (deleteResponse) {
+      const { activeRecipes, previewRecipeLocation } = this.state;
+      const recipe = activeRecipes[previewRecipeLocation];
+      axios.delete("/api/recipe/" + recipe._id, { recipe }).then(res => {
+        this.getRecipes();
+        this.setState({
+          promptDeleteRecipe: false,
+          previewRecipeLocation: undefined
+        });
+      });
+    } else this.setState({ promptDeleteRecipe: false });
+  };
   render() {
     let {
       activeRecipes,
@@ -225,7 +260,8 @@ class RecipeModal extends Component {
       recipe,
       clientX,
       clientY,
-      startDate
+      startDate,
+      promptDeleteRecipe
     } = this.state;
 
     let recipeArray = this.createRecipeList(activeRecipes);
@@ -260,7 +296,10 @@ class RecipeModal extends Component {
                   : "recipe-navigation-option"
               }
               onClick={() => {
-                this.setState({ activeRecipes: this.state.allRecipes });
+                this.setState({
+                  activeRecipes: this.state.allRecipes,
+                  previewRecipeLocation: undefined
+                });
               }}
             >
               All Recipes
@@ -272,7 +311,10 @@ class RecipeModal extends Component {
                   : "recipe-navigation-option"
               }
               onClick={() => {
-                this.setState({ activeRecipes: this.state.usersRecipes });
+                this.setState({
+                  activeRecipes: this.state.usersRecipes,
+                  previewRecipeLocation: undefined
+                });
               }}
             >
               Your Recipes
@@ -280,10 +322,24 @@ class RecipeModal extends Component {
           </div>
           <div className="recipes-container-container">{recipeArray}</div>
           {loading && <LoaderSimpleCircle />}
+          {promptDeleteRecipe && (
+            <ConfirmAlert
+              close={() => this.setState({ promptDeleteRecipe: false })}
+              title="Delete Recipe"
+              message="Are you sure you want to delete this recipe?"
+              callback={this.deleteRecipe}
+            />
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default RecipeModal;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(RecipeModal);
