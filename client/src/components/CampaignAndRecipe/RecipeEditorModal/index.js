@@ -87,7 +87,9 @@ class RecipeEditorModal extends Component {
       newPostPromptActive: false, // when user clicks + for a new post to their campaign, show post type options for them to select
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       nextChosenPostIndex: 0,
-      datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
+      datePickerMessage: "", // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
+      promptDiscardPostChanges: false, // when user tries to exit the modal but there are unsaved post changes
+      promptDiscardRecipeChanges: false // when user tries to exit the modal but there are unsaved recipe changes
     };
 
     this.state = stateVariable;
@@ -254,6 +256,17 @@ class RecipeEditorModal extends Component {
   modifyRecipeDates = postingDate => {
     // function that gets passed to <Post/> as a prop
     // <Post/> will use this function to push the campaign start/end dates in order to fit its posting date
+    const { recipe } = this.state;
+    if (recipe.startDate > postingDate) {
+      recipe.startDate = new moment(postingDate);
+    } else if (recipe.endDate < postingDate) {
+      recipe.endDate = new moment(postingDate);
+    } else {
+      console.log(
+        "attempting to modify recipe date so post date fits, but posting date already fits?"
+      );
+    }
+    this.setState({ recipe, somethingChanged: true });
   };
 
   tryChangingRecipeDates = (date, date_type) => {
@@ -263,12 +276,76 @@ class RecipeEditorModal extends Component {
     // then you tried to change the campaign to Sept 1 -> Sept 2, the post on Sept 3 will no longer be within the campaign dates
     // so we'll want to disallow this modification and let the user know what happened
     // it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
+    const { recipe, posts } = this.state;
+    const dates = {
+      startDate: recipe.startDate,
+      endDate: recipe.endDate
+    };
+    dates[date_type] = date;
+    const { startDate, endDate } = dates;
+
+    let count_invalid = 0;
+
+    for (let index in posts) {
+      const postingDate = new moment(posts[index].post.postingDate);
+      if (postingDate < startDate || postingDate > endDate) {
+        count_invalid++;
+      }
+    }
+
+    if (count_invalid === 0) {
+      this.setState({ datePickerMessage: "" });
+      if (date_type === "endDate") {
+        this.handleRecipeChange(date, "endDate");
+        if (date <= startDate) {
+          this.handleRecipeChange(date, "startDate");
+        }
+      } else {
+        this.handleRecipeChange(date, "startDate");
+        if (date >= endDate) {
+          this.handleRecipeChange(date, "endDate");
+        }
+      }
+    } else {
+      let post_string = count_invalid > 1 ? " posts" : " post";
+      post_string =
+        "Date/time change rejected due to " +
+        count_invalid +
+        post_string +
+        " being outside the recipe scope.";
+      this.setState({ datePickerMessage: post_string });
+    }
+  };
+
+  closeChecks = () => {
+    const { listOfPostChanges, somethingChanged } = this.state;
+
+    if (Object.keys(listOfPostChanges).length > 0) {
+      // unsaved post changes
+      this.setState({ promptDiscardPostChanges: true });
+      return false;
+    } else if (somethingChanged) {
+      // unsaved recipe changes
+      this.setState({ promptDiscardRecipeChanges: true });
+      return false;
+    }
+
+    return true;
+  };
+
+  attemptToCloseModal = () => {
+    // function called when the user tries to close the modal
+    // we check to see if there are any unsaved changes on the current post and the recipe
+    if (!this.closeChecks()) {
+      return;
+    }
+    this.props.close();
   };
 
   saveRecipe = () => {
     const { posts, recipe } = this.state;
     if (posts.length < 1) {
-      alert("Cannot save an recipe with no posts.");
+      alert("Cannot save a recipe with no posts.");
       return;
     } else if (!recipe.name || recipe.name === "") {
       alert("Recipes must have a name.");
