@@ -12,10 +12,10 @@ const User = require("./models/User");
 const secure = require("express-force-https"); // force https so http does not work
 
 var allowCrossDomain = function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-	res.header("Access-Control-Allow-Headers", "Content-Type");
-	next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
 };
 app.use(allowCrossDomain);
 
@@ -30,29 +30,37 @@ io.on("connection", SocketManager);
 const cloudinary = require("cloudinary");
 // Connect to cloudinary
 cloudinary.config({
-	cloud_name: keys.cloudinaryName,
-	api_key: keys.cloudinaryApiKey,
-	api_secret: keys.cloudinaryApiSecret
+  cloud_name: keys.cloudinaryName,
+  api_key: keys.cloudinaryApiKey,
+  api_secret: keys.cloudinaryApiSecret
 });
 
-// Post scheduler
+// Schedulers
 const PostScheduler = require("./scheduler/PostScheduler");
 const TokenScheduler = require("./scheduler/TokenScheduler");
+const EmailScheduler = require("./scheduler/EmailScheduler");
 const schedule = require("node-schedule");
 
 if (process.env.NODE_ENV === "production") {
-	schedule.scheduleJob("*/2 * * * *", function() {
-		PostScheduler.main();
-	});
+  schedule.scheduleJob("*/2 * * * *", function() {
+    PostScheduler.main();
+  });
 
-	schedule.scheduleJob("0 0 * * 0", function() {
-		console.log("starting");
-		TokenScheduler.main();
-	});
+  schedule.scheduleJob("0 0 * * 0", function() {
+    console.log("starting");
+    TokenScheduler.main();
+  });
 }
 
+schedule.scheduleJob("* * * * *", function() {
+  EmailScheduler.main();
+});
+
 // Connect to database
-mongoose.connect(keys.mongoDevelopentURI);
+mongoose.connect(
+  keys.mongoDevelopentURI,
+  { useNewUrlParser: true }
+);
 var db = mongoose.connection;
 
 require("./services/passport")(passport);
@@ -64,12 +72,12 @@ app.use(bodyParser.json({ limit: "50mb" })); //Read data from html forms
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(
-	session({
-		secret: keys.cookieKey,
-		resave: true,
-		saveUninitialized: true,
-		store: new MongoStore({ mongooseConnection: db })
-	})
+  session({
+    secret: keys.cookieKey,
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({ mongooseConnection: db })
+  })
 );
 
 app.use(passport.initialize());
@@ -82,12 +90,12 @@ require("./apiRoutes")(app);
 
 // If using production then if a route is not found in express we send user to react routes
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static("client/build"));
+  app.use(express.static("client/build"));
 
-	const path = require("path");
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-	});
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
 }
 
 const PORT = process.env.PORT || 5000;

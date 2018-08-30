@@ -13,6 +13,8 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 
 import { savePost } from "../../extra/functions/CommonFunctions";
 
+import "./styles/";
+
 class CustomTask extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,8 @@ class CustomTask extends Component {
       socialType: props.socialType,
       content: "",
       instructions: "",
-      name: "Custom Task"
+      name: "Custom Task",
+      sendEmailReminder: true
     };
     if (props.post) {
       stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -42,6 +45,9 @@ class CustomTask extends Component {
         ? props.post.campaignID
         : undefined;
       stateVariable.name = props.post.name ? props.post.name : "Custom Task";
+      stateVariable.sendEmailReminder = props.post.sendEmailReminder
+        ? props.post.sendEmailReminder
+        : true;
     }
 
     stateVariable.deleteImagesArray = [];
@@ -155,7 +161,8 @@ class CustomTask extends Component {
       deleteImagesArray,
       somethingChanged,
       campaignID,
-      name
+      name,
+      sendEmailReminder
     } = this.state;
     let { date } = this.state;
 
@@ -187,7 +194,8 @@ class CustomTask extends Component {
       deleteImagesArray,
       campaignID,
       content,
-      name
+      name,
+      sendEmailReminder
     );
 
     this.setState({ somethingChanged: false });
@@ -218,7 +226,8 @@ class CustomTask extends Component {
       somethingChanged,
       promptModifyCampaignDates,
       campaignID,
-      name
+      name,
+      sendEmailReminder
     } = this.state;
     let { date } = this.state;
 
@@ -240,13 +249,6 @@ class CustomTask extends Component {
           value={content}
           readOnly={!canEditPost}
         />
-        <ImagesDiv
-          postImages={images}
-          handleChange={images => this.handleChange(images, "images")}
-          imageLimit={4}
-          canEdit={canEditPost}
-          pushToImageDeleteArray={this.pushToImageDeleteArray}
-        />
         {somethingChanged && (
           <button
             className="schedule-post-button"
@@ -257,9 +259,31 @@ class CustomTask extends Component {
               )
             }
           >
-            Schedule Post!
+            Save Task
           </button>
         )}
+        <div className="checkbox-and-writing-container">
+          <div
+            className="checkbox-box"
+            onClick={() =>
+              this.handleChange(!sendEmailReminder, "sendEmailReminder")
+            }
+          >
+            <div
+              className="checkbox-check"
+              style={{ display: sendEmailReminder ? undefined : "none" }}
+            />
+          </div>
+          Send an email reminder
+        </div>
+        <ImagesDiv
+          postImages={images}
+          handleChange={images => this.handleChange(images, "images")}
+          imageLimit={4}
+          canEdit={canEditPost}
+          pushToImageDeleteArray={this.pushToImageDeleteArray}
+        />
+
         <div className="time-picker-and-save-post">
           <DateTimePicker
             date={date}

@@ -59,12 +59,12 @@
 }
 .schedule-post-button {
   position: relative;
-  font-size: var(--extra-large-font-size);
+  font-size: var(--large-font-size);
 
-  padding: 10px 0 10px 0;
-  margin-top: 10px;
+  padding: 6px 0 6px 0;
+  margin: 10px 0 0 0;
 
-  min-width: 100%;
+  width: 100%;
 
   flex-grow: 1;
   -webkit-flex-grow: 1;

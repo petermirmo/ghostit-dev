@@ -25,6 +25,7 @@ module.exports = {
   stripeProfessionalYearlyID: process.env.STRIPE_PROFESSIONAL_YEARLY_ID,
 
   email: process.env.EMAIL,
+  emailPassword: process.env.EMAIL_PASSWORD,
   googleClientId: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
   googleRefreshToken: process.env.GOOGLE_REFRESH_TOKEN
