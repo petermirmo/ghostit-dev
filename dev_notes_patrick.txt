@@ -22,3 +22,37 @@ to publish a recipe, the campaign should have to have a name.
 after publishing a recipe, you should be able to publish it again which will overwrite the previous publish.
 
 how does editing / deleting recipes work, if at all?
+
+for recipe creation/editing, instead of using a calendar for day picking, just set
+  the recipe length then to schedule each post, select which day number to post to and the time.
+
+whiteboard:
+  - recipe uses #
+    (keep track of how many times each recipe has been used to make a campaign. if a campaign gets deleted that was based on that recipe, does the number go down? does the number only go up when the campaign is completed?)
+  - delete / edit recipes + force recipes to have names
+    (only the recipe creator should be able to do this. should it have a whole new page (manage recipes) dedicated to it? we can still use the campaign modal to do it, but pass an extra prop to it that makes it so the posts don't get scheduled in the DB and the campaign never gets created in the db.)
+  - exit campaign button
+    (??)
+  - ability to create colour for custom task
+    (should the user be able to use a full colour picker or should we just give more colours that are different from the campaign colours? what should the default colour be?)
+  - current calendar day
+    (highlight the border around the current calendar day. also if their calendar is empty, have a button on the day that says "Create your first campaign")
+  - saving checkmarks
+    (i assume this is the saved feedback we have implemented already?)
+  - campaign description
+    (campaign modal is starting to get cluttered / bloated so im not sure where to put the text box for this.)
+  - recipe ui improvements
+    (general ui improvements for recipe menus)
+  - recipe creation ???
+    (i cant read the third word)
+  - calendar event completed checkmarks / custom task completed
+    (show a checkmark beside posts on the calendar that have been posted. show them for custom tasks as well but the only way to toggle the checkmark is for the user to open the task and mark it completed themselves.)
+  - email reminders for custom task
+    (in the custom task creation/editing ui, maybe let the user schedule those email alerts and choose which email to send them to. should we have a default reminder or should it default to no reminder and it's all up to the user to schedule them?)
+
+next tasks:
+  segment campaign modal into smaller reusable components
+  recipe edit and delete
+    make recipe editing modal separate from campaign modal
+    switching recipe tabs should set "activeRecipeIndex" to undefined
+  after publishing recipe, publish button should turn into overwrite button maybe

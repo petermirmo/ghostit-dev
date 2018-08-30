@@ -249,7 +249,7 @@ class OnboardingModal extends Component {
 
 					<div className="modal-footer onboarding-footer">
 						{activePageNumber !== 1 && (
-							<button className="bottom-back-button" onClick={() => this.changeTab(-1, "animate-left")}>
+							<button className="bottom-back-button-top" onClick={() => this.changeTab(-1, "animate-left")}>
 								<span className="bottom-back-button-icon">
 									<FontAwesomeIcon icon={faLongArrowAltLeft} size="2x" />
 								</span>{" "}

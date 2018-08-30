@@ -1,0 +1,65 @@
+.campaign-start-container {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  padding-top: 20px;
+}
+.new-campaign-post-selection-write-up {
+  text-align: center;
+
+  font-size: var(--large-font-size);
+}
+
+.post-navigation-and-post-container {
+  flex: 1;
+  display: flex;
+
+  min-width: 100%;
+  min-height: 0;
+}
+
+.post-container {
+  flex-basis: 0;
+  flex-grow: 5;
+  display: flex;
+  flex-direction: column;
+
+  border-bottom: 0.5px solid var(--light-grey-theme-color);
+}
+
+.account-nav-bar-container {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 70%;
+
+  margin: 20px 0 20px 0;
+
+  border: 2px solid var(--blue-theme-color);
+}
+
+.delete-container {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes campaignModalAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
