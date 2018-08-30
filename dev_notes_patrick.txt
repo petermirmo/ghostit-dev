@@ -17,5 +17,8 @@ highlight the current day on the calendar.
 
 exiting campaign modal while on an unsaved post should maybe prompt.
 
-next tasks:
--feedback beside post entries whether they have been saved or not
+recipe's should save the post names and display them in the recipe preview.
+to publish a recipe, the campaign should have to have a name.
+after publishing a recipe, you should be able to publish it again which will overwrite the previous publish.
+
+how does editing / deleting recipes work, if at all?
