@@ -17,6 +17,9 @@ highlight the current day on the calendar.
 
 exiting campaign modal while on an unsaved post should maybe prompt.
 
+for recipe creation/editing, instead of using a calendar for day picking, just set
+  the recipe length then to schedule each post, select which day number to post to and the time.
+
 whiteboard:
   - recipe uses #
     (keep track of how many times each recipe has been used to make a campaign. if a campaign gets deleted that was based on that recipe, does the number go down? does the number only go up when the campaign is completed?)

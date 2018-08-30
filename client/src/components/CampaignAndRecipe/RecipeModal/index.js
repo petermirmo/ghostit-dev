@@ -129,6 +129,19 @@ class RecipeModal extends Component {
                         Use This Recipe
                       </div>
                     )}
+                    {!chooseRecipeDate && (
+                      <div
+                        className="use-this-recipe"
+                        onClick={() => {
+                          this.props.handleChange(undefined, "clickedEvent");
+                          this.props.handleChange(recipe, "recipe");
+                          this.props.handleChange(false, "recipeModal");
+                          this.props.handleChange(true, "recipeEditorModal");
+                        }}
+                      >
+                        Edit This Recipe
+                      </div>
+                    )}
                     {chooseRecipeDate && (
                       <div className="label">Choose Start Date: </div>
                     )}
