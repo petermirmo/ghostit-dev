@@ -55,7 +55,7 @@ module.exports = {
     if (recipe.recipeID) {
       // recipe exists in DB already so we just need to overwrite its attributes
       Recipe.findOne({ _id: recipe.recipeID }, (err, foundRecipe) => {
-        if (foundRecipe.userID != userID) {
+        if (String(foundRecipe.userID) != userID) {
           res.send({
             success: false,
             message: "Only the recipe creator can edit the recipe."

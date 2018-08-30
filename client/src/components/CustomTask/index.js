@@ -45,9 +45,7 @@ class CustomTask extends Component {
         ? props.post.campaignID
         : undefined;
       stateVariable.name = props.post.name ? props.post.name : "Custom Task";
-      stateVariable.sendEmailReminder = props.post.sendEmailReminder
-        ? props.post.sendEmailReminder
-        : true;
+      stateVariable.sendEmailReminder = props.post.emailReminder ? true : false;
     }
 
     stateVariable.deleteImagesArray = [];
