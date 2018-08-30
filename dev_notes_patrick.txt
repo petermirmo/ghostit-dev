@@ -17,6 +17,15 @@ highlight the current day on the calendar.
 
 exiting campaign modal while on an unsaved post should maybe prompt.
 
+recipe's should save the post names and display them in the recipe preview.
+to publish a recipe, the campaign should have to have a name.
+after publishing a recipe, you should be able to publish it again which will overwrite the previous publish.
+
+how does editing / deleting recipes work, if at all?
+
+for recipe creation/editing, instead of using a calendar for day picking, just set
+  the recipe length then to schedule each post, select which day number to post to and the time.
+
 whiteboard:
   - recipe uses #
     (keep track of how many times each recipe has been used to make a campaign. if a campaign gets deleted that was based on that recipe, does the number go down? does the number only go up when the campaign is completed?)
@@ -43,4 +52,7 @@ whiteboard:
 
 next tasks:
   recipe edit and delete
-    switchnig recipe tabs should set "activeRecipeIndex" to undefined
+    switching recipe tabs should set "activeRecipeIndex" to undefined
+    modifyCampaignDates within RecipeEditorModal
+    
+  after publishing campaign as recipe, publish button should turn into overwrite button maybe

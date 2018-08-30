@@ -208,8 +208,12 @@ module.exports = app => {
   app.get("/api/campaigns", middleware, (req, res) =>
     campaignFunctions.getCampaigns(req, res)
   );
-  // Save recipe
+  // Save campaign as recipe
   app.post("/api/recipe", middleware, (req, res) =>
+    campaignFunctions.saveCampaignAsRecipe(req, res)
+  );
+  // Save recipe using the RecipeEditorModal
+  app.post("/api/saveRecipe", middleware, (req, res) =>
     campaignFunctions.saveRecipe(req, res)
   );
   // Get all recipes
@@ -336,6 +340,4 @@ module.exports = app => {
   app.get("/api/plans", middleware, (req, res) =>
     adminFunctions.getPlans(req, res)
   );
-
-  app.get("/api/test", middleware, (req, res) => adminFunctions.test(req, res));
 };

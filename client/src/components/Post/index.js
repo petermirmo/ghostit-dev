@@ -72,6 +72,15 @@ class PostingOptions extends Component {
     stateVariable.linkImagesArray = [];
     stateVariable.timezone = props.timezone;
     stateVariable.somethingChanged = false;
+
+    if (props.recipeEditor) {
+      stateVariable.instructions = props.instructions;
+      stateVariable.date = new moment(props.postingDate);
+      stateVariable.socialType = props.socialType;
+      stateVariable.name =
+        props.name && props.name !== "" ? props.name : temp_name;
+    }
+
     stateVariable.date = props.post
       ? new moment(props.post.postingDate)
       : new moment() > new moment(props.clickedCalendarDate)
@@ -111,7 +120,7 @@ class PostingOptions extends Component {
         }
       }
     }
-    if (nextProps.newActivePost) {
+    if (nextProps.newActivePost || nextProps.recipeEditor) {
       this.setState(this.createState(nextProps));
     } else if (
       nextProps.socialType &&
@@ -363,16 +372,29 @@ class PostingOptions extends Component {
           placeholder="Title"
           readOnly={!canEditPost}
         />
-        <Textarea
-          className="posting-textarea"
-          placeholder="Success doesn't write itself!"
-          onChange={event => {
-            this.findLink(event.target.value);
-            this.handleChange(event.target.value, "content");
-          }}
-          value={content}
-          readOnly={!canEditPost}
-        />
+        {this.props.recipeEditor && (
+          <Textarea
+            className="posting-textarea"
+            placeholder="Describe this post here."
+            onChange={event => {
+              this.handleChange(event.target.value, "instructions");
+            }}
+            value={instructions}
+            readOnly={false}
+          />
+        )}
+        {!this.props.recipeEditor && (
+          <Textarea
+            className="posting-textarea"
+            placeholder="Success doesn't write itself!"
+            onChange={event => {
+              this.findLink(event.target.value);
+              this.handleChange(event.target.value, "content");
+            }}
+            value={content}
+            readOnly={!canEditPost}
+          />
+        )}
         <div className="post-images-and-carousel">
           <ImagesDiv
             postImages={images}
@@ -399,25 +421,30 @@ class PostingOptions extends Component {
           somethingChanged && (
             <button
               className="schedule-post-button"
-              onClick={() =>
-                this.trySavePost(
-                  this.props.campaignStartDate,
-                  this.props.campaignEndDate
-                )
+              onClick={
+                this.props.recipeEditor
+                  ? () => this.props.savePostChanges(this.state)
+                  : () =>
+                      this.trySavePost(
+                        this.props.campaignStartDate,
+                        this.props.campaignEndDate
+                      )
               }
             >
-              Schedule Post!
+              {this.props.recipeEditor ? "Save Changes" : "Schedule Post!"}
             </button>
           )}
-        <SelectAccountDiv
-          activePageAccountsArray={activePageAccountsArray}
-          activeAccount={accountID}
-          handleChange={account => {
-            this.handleChange(account._id, "accountID");
-            this.handleChange(account.accountType, "accountType");
-          }}
-          canEdit={canEditPost}
-        />
+        {!this.props.recipeEditor && (
+          <SelectAccountDiv
+            activePageAccountsArray={activePageAccountsArray}
+            activeAccount={accountID}
+            handleChange={account => {
+              this.handleChange(account._id, "accountID");
+              this.handleChange(account.accountType, "accountType");
+            }}
+            canEdit={canEditPost}
+          />
+        )}
         <div className="time-picker-and-save-post">
           <DateTimePicker
             date={date}
@@ -431,15 +458,17 @@ class PostingOptions extends Component {
             dateUpperBound={undefined}
           />
         </div>
-        <Textarea
-          className="instruction-textarea"
-          placeholder="Include any comments or instructions here."
-          onChange={event => {
-            this.handleChange(event.target.value, "instructions");
-          }}
-          value={instructions}
-          readOnly={!canEditPost}
-        />
+        {!this.props.recipeEditor && (
+          <Textarea
+            className="instruction-textarea"
+            placeholder="Include any comments or instructions here."
+            onChange={event => {
+              this.handleChange(event.target.value, "instructions");
+            }}
+            value={instructions}
+            readOnly={!canEditPost}
+          />
+        )}
         {promptModifyCampaignDates && (
           <ConfirmAlert
             close={() => {
