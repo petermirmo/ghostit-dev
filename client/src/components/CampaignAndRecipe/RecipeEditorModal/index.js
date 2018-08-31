@@ -89,7 +89,8 @@ class RecipeEditorModal extends Component {
       nextChosenPostIndex: 0,
       datePickerMessage: "", // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
       promptDiscardPostChanges: false, // when user tries to exit the modal but there are unsaved post changes
-      promptDiscardRecipeChanges: false // when user tries to exit the modal but there are unsaved recipe changes
+      promptDiscardRecipeChanges: false, // when user tries to exit the modal but there are unsaved recipe changes
+      nextPostSocialType: undefined // when user attempts to make a new post, but has unsaved changes to their curernt post, we store the socialType so that if they decide to discard those changes, we know which type of post to create
     };
 
     this.state = stateVariable;
@@ -155,22 +156,15 @@ class RecipeEditorModal extends Component {
   };
 
   newPost = socialType => {
-    const { recipe, posts, activePostIndex } = this.state;
+    const { recipe, posts, activePostIndex, listOfPostChanges } = this.state;
     if (Object.keys(listOfPostChanges).length > 0) {
       // check to make sure we don't discard any unsaved changes to the current post
-      if (
-        Object.keys(listOfPostChanges).length === 1 &&
-        listOfPostChanges.somethingChanged
-      ) {
-        // this is the scenario that happens when a newly created post that hasn't been edited
-        // is the activePost. we don't want to prompt users in this case.
-      } else {
-        this.setState({
-          promptChangeActivePost: true,
-          nextChosenPostIndex: undefined
-        });
-        return;
-      }
+      this.setState({
+        promptChangeActivePost: true,
+        nextChosenPostIndex: undefined,
+        nextPostSocialType: socialType
+      });
+      return;
     }
     const post = {
       postingDate: new moment(recipe.startDate),
@@ -183,8 +177,7 @@ class RecipeEditorModal extends Component {
         posts: [...prevState.posts, post],
         activePostIndex: prevState.posts.length,
         newPostPromptActive: false,
-        somethingChanged: true,
-        listOfPostChanges: { somethingChanged: true }
+        somethingChanged: true
       };
     });
   };
@@ -240,24 +233,27 @@ class RecipeEditorModal extends Component {
       this.setState({ promptChangeActivePost: false });
       return;
     }
-    const { nextChosenPostIndex, activePostIndex, posts } = this.state;
+    const {
+      nextChosenPostIndex,
+      activePostIndex,
+      posts,
+      nextPostSocialType
+    } = this.state;
 
-    if (nextChosenPostIndex === undefined) {
+    if (nextChosenPostIndex === undefined && nextPostSocialType) {
       // this occurs when the user is trying to create a new post and their currently active post has unsaved changes
+      this.setState(
+        {
+          listOfPostChanges: {},
+          promptChangeActivePost: false,
+          nextPostSocialType: undefined
+        },
+        () => {
+          this.newPost(nextPostSocialType);
+        }
+      );
     }
 
-    if (posts[activePostIndex].instructions === "") {
-      // switching off a post that has never been saved
-      // so to Discard changes means to delete the post
-      this.setState(prevState => {
-        return {
-          posts: [
-            ...prevState.posts.slice(0, activePostIndex),
-            ...prevState.posts.slice(activePostIndex + 1)
-          ]
-        };
-      });
-    }
     this.setState({
       activePostIndex: nextChosenPostIndex,
       promptChangeActivePost: false,
@@ -386,9 +382,20 @@ class RecipeEditorModal extends Component {
       alert("Recipes must have a name.");
       return;
     }
+    this.setState({ saving: true });
     axios.post("/api/saveRecipe", { recipe, posts }).then(res => {
+      // need error checking here so we can display error msg to user
+      // for example to let them know the save failed
       const { success } = res.data;
-      const dbRecipe = res.data.recipe;
+
+      this.setState({ saving: false });
+
+      if (!success) {
+        alert(res.data.message);
+        return;
+      }
+
+      const dbRecipe = res.data.recipe ? res.data.recipe : undefined;
 
       if (success && dbRecipe) {
         this.setState(prevState => {

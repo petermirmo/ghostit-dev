@@ -68,6 +68,16 @@ class PostList extends Component {
               }
             }
 
+            if (this.props.recipeEditor && post_obj.instructions === "") {
+              // posts cannot be saved in a recipe with instructions == ""
+              // so this post could never have been saved
+              // posts in recipes don't have an ID from getting saved in the DB so the check above
+              // wouldn't catch this in recipes
+              // problems may occur if later on we allow certain posts to have empty instructions
+              // so in that case we will have to add an extra clause based on how to tell what's been saved
+              savedBoxColor = "var(--red-theme-color)";
+            }
+
             return (
               <div className="list-entry-with-delete" key={index + "list-div"}>
                 <div
