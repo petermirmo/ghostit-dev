@@ -231,6 +231,7 @@ class CampaignModal extends Component {
         "millisecond"
       );
       instructions = recipePost.instructions;
+      name = recipePost.name;
     }
 
     this.setState({
@@ -238,6 +239,7 @@ class CampaignModal extends Component {
         ...this.state.posts,
         {
           post: {
+            name,
             postingDate,
             socialType,
             campaignID: _id,

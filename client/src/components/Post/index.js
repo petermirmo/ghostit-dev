@@ -75,17 +75,17 @@ class PostingOptions extends Component {
 
     if (props.recipeEditor) {
       stateVariable.instructions = props.instructions;
-      stateVariable.date = new moment(props.postingDate);
+      stateVariable.date = new moment(props.clickedCalendarDate);
       stateVariable.socialType = props.socialType;
       stateVariable.name =
         props.name && props.name !== "" ? props.name : temp_name;
+    } else {
+      stateVariable.date = props.post
+        ? new moment(props.post.postingDate)
+        : new moment() > new moment(props.clickedCalendarDate)
+          ? new moment()
+          : new moment(props.clickedCalendarDate);
     }
-
-    stateVariable.date = props.post
-      ? new moment(props.post.postingDate)
-      : new moment() > new moment(props.clickedCalendarDate)
-        ? new moment()
-        : new moment(props.clickedCalendarDate);
 
     if (props.recipePost) {
       stateVariable.date = props.recipePost.postingDate;
@@ -245,7 +245,38 @@ class PostingOptions extends Component {
     return true;
   };
 
+  trySavePostInRecipe = (campaignStartDate, campaignEndDate) => {
+    // function for saving a post within a recipe. the post does not get saved to the DB.
+    const { name, instructions } = this.state;
+
+    // validity checks
+    if (!name || name === "") {
+      alert("Posts must be named.");
+      return;
+    } else if (!instructions || instructions === "") {
+      alert(
+        "Posts cannot be empty. Please write some instructions in the text area."
+      );
+      return;
+    }
+
+    // date checking
+    if (campaignStartDate && campaignEndDate) {
+      if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
+        // prompt user to cancel the save or modify campaign dates
+        if (this.props.pauseEscapeListener)
+          this.props.pauseEscapeListener(true);
+        this.setState({ promptModifyCampaignDates: true });
+        return;
+      }
+    }
+
+    this.props.savePostChanges(this.state);
+    this.setState({ somethingChanged: false });
+  };
+
   trySavePost = (campaignStartDate, campaignEndDate) => {
+    // function for saving a post within a campaign. if all the fields are valid, the post is saved in the DB
     const {
       _id,
       content,
@@ -309,7 +340,11 @@ class PostingOptions extends Component {
     }
     const { date } = this.state;
     this.setState({ promptModifyCampaignDates: false });
-    this.trySavePost();
+    if (this.props.recipeEditor) {
+      this.trySavePostInRecipe();
+    } else {
+      this.trySavePost();
+    }
     this.props.modifyCampaignDates(date);
   };
 
@@ -423,7 +458,11 @@ class PostingOptions extends Component {
               className="schedule-post-button"
               onClick={
                 this.props.recipeEditor
-                  ? () => this.props.savePostChanges(this.state)
+                  ? () =>
+                      this.trySavePostInRecipe(
+                        this.props.campaignStartDate,
+                        this.props.campaignEndDate
+                      )
                   : () =>
                       this.trySavePost(
                         this.props.campaignStartDate,
