@@ -28,19 +28,15 @@ import "./styles/";
 class CampaignModal extends Component {
   constructor(props) {
     super(props);
+    let startDate =
+      new moment() > new moment(props.clickedCalendarDate)
+        ? new moment()
+        : new moment(props.clickedCalendarDate);
     let campaign = props.campaign // only defined if user clicked on an existing campaign to edit
       ? props.campaign
       : {
-          startDate:
-            // maybe better to set new moment() to a var then use that instead so it's not called 4 times in a row
-            // not sure if that's possible / actually better in this scope though
-            new moment() > new moment(props.clickedCalendarDate)
-              ? new moment()
-              : new moment(props.clickedCalendarDate),
-          endDate:
-            new moment() > new moment(props.clickedCalendarDate)
-              ? new moment().add(15, "minutes")
-              : new moment(props.clickedCalendarDate).add(15, "minutes"),
+          startDate,
+          endDate: startDate.add(7, "days"),
           name: "",
           userID: props.user.signedInAsUser
             ? props.user.signedInAsUser.id
@@ -51,13 +47,6 @@ class CampaignModal extends Component {
           recipeID: undefined
         };
 
-    if (props.campaign) {
-      // if we are opening an existing campaign, that means the data was retrieved from the DB
-      // this means that the date objects will just be strings so we need to convert them to moment objects
-      campaign.startDate = new moment(campaign.startDate);
-      campaign.endDate = new moment(campaign.endDate);
-    }
-
     let stateVariable = {
       campaign,
       posts: [],
@@ -67,7 +56,6 @@ class CampaignModal extends Component {
       saving: true,
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
-      firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
       newPostPromptActive: false, // when user clicks + for a new post to their campaign, show post type options for them to select
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       nextChosenPostIndex: 0,
@@ -85,11 +73,9 @@ class CampaignModal extends Component {
       if (campaign.posts) {
         if (campaign.posts.length > 0) {
           this.setState({
-            posts: fillPosts(campaign.posts)
+            posts: fillPosts(campaign.posts),
+            activePostIndex: 0
           });
-
-          // maybe shouldn't hardcode but because setState is asychnronous, this will do for now
-          this.setState({ firstPostChosen: true, activePostIndex: 0 });
         }
       }
     }
@@ -211,8 +197,7 @@ class CampaignModal extends Component {
       activePostIndex: posts.length,
       listOfPostChanges: {},
 
-      newPostPromptActive: false,
-      firstPostChosen: true
+      newPostPromptActive: false
     });
   };
 
@@ -304,7 +289,6 @@ class CampaignModal extends Component {
                 campaign: { ...prevState.campaign, posts: newCampaign.posts },
                 somethingChanged: true,
                 activePostIndex: nextActivePost,
-                firstPostChosen: prevState.posts.length <= 1 ? false : true,
                 listOfPostChanges:
                   index === prevState.activePostIndex
                     ? {}
@@ -560,7 +544,6 @@ class CampaignModal extends Component {
       saving,
       confirmDelete,
       campaign,
-      firstPostChosen,
       activePostIndex,
       newPostPromptActive,
       datePickerMessage,
@@ -570,8 +553,8 @@ class CampaignModal extends Component {
     } = this.state;
     const { startDate, endDate, name, color } = campaign;
 
-    console.log(firstPostChosen);
-    console.log(posts);
+    let firstPostChosen = Array.isArray(posts) && posts.length;
+
     return (
       <div className="modal" onClick={() => this.props.close()}>
         <div className="large-modal" onClick={e => e.stopPropagation()}>
