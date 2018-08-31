@@ -53,10 +53,9 @@ whiteboard:
 next tasks:
   recipe edit and delete
     campaign and recipe:
-      dates not working properly.
-      current post has changes, creating a new post doesn't account for those changes
-      if an attempt to save in the db is returned false, display the returned message to the user
-      if the user attempts to change to a different post from a new unsaved post, what should happen?
-      finish writing code for when user attempts to create a new post while their current post has unsaved changes.
+      need to sort recipe posts chronologically, but where should we do it?
+  creating campaign from a recipe:
+    user should be able to change the start date in a way that pushes all the post dates forward / back accordingly
+    maybe just a button that shows up if campaign.recipeID. that button pushes all dates/times accordingly.
 
   after publishing campaign as recipe, publish button should turn into overwrite button maybe

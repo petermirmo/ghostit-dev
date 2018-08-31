@@ -138,11 +138,12 @@ class RecipeEditorModal extends Component {
   fillPosts = recipe_posts => {
     // function called when a user clicks on an existing recipe to edit
     const { recipe } = this.state;
+    console.log(recipe_posts);
     let posts = [];
     for (let index in recipe_posts) {
       const current_post = recipe_posts[index];
       const post = {
-        postingDate: recipe.startDate.add(
+        postingDate: new moment(recipe.startDate).add(
           current_post.postingDate,
           "millisecond"
         ),
@@ -507,7 +508,6 @@ class RecipeEditorModal extends Component {
   };
 
   render() {
-    console.log(this.state);
     const {
       colors,
       posts,

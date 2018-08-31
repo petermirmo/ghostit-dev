@@ -71,7 +71,8 @@ module.exports = {
           foundRecipe.minute = new moment(recipe.startDate).format("mm");
           foundRecipe.posts = [];
           for (let index in posts) {
-            if (post.instructions === "") {
+            const post = posts[index];
+            if (posts[index].instructions === "") {
               res.send({
                 success: false,
                 message:
@@ -79,7 +80,6 @@ module.exports = {
               });
               return;
             }
-            let post = posts[index];
             foundRecipe.posts.push({
               socialType: post.socialType,
               instructions: post.instructions,
@@ -110,7 +110,7 @@ module.exports = {
       recipeToSave.minute = new moment(recipe.startDate).format("mm");
       recipeToSave.posts = [];
       for (let index in posts) {
-        let post = posts[index];
+        const post = posts[index];
         if (post.instructions === "") {
           res.send({
             success: false,
