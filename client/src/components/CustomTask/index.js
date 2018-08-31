@@ -26,7 +26,6 @@ class CustomTask extends Component {
       _id: undefined,
       images: [],
       socialType: props.socialType,
-      content: "",
       instructions: "",
       name: "Custom Task",
       sendEmailReminder: true
@@ -37,7 +36,6 @@ class CustomTask extends Component {
       stateVariable.socialType = props.post.socialType
         ? props.post.socialType
         : props.socialType;
-      stateVariable.content = props.post.content ? props.post.content : "";
       stateVariable.instructions = props.post.instructions
         ? props.post.instructions
         : "";
@@ -57,9 +55,6 @@ class CustomTask extends Component {
         ? new moment()
         : new moment(props.clickedCalendarDate);
 
-    if (props.recipePost) {
-      stateVariable.date = props.recipePost.postingDate;
-    }
     return stateVariable;
   };
   componentWillReceiveProps(nextProps) {
@@ -153,14 +148,14 @@ class CustomTask extends Component {
   trySavePost = (campaignStartDate, campaignEndDate) => {
     const {
       _id,
-      content,
       images,
       socialType,
       deleteImagesArray,
       somethingChanged,
       campaignID,
       name,
-      sendEmailReminder
+      sendEmailReminder,
+      instructions
     } = this.state;
     let { date } = this.state;
 
@@ -180,7 +175,7 @@ class CustomTask extends Component {
 
     savePost(
       _id,
-      content,
+      undefined,
       new moment(date).utcOffset(0),
       undefined,
       undefined,
@@ -191,7 +186,7 @@ class CustomTask extends Component {
       postFinishedSavingCallback,
       deleteImagesArray,
       campaignID,
-      content,
+      instructions,
       name,
       sendEmailReminder
     );
@@ -243,8 +238,10 @@ class CustomTask extends Component {
         <Textarea
           className="instruction-textarea"
           placeholder="Describe this task!"
-          onChange={event => this.handleChange(event.target.value, "content")}
-          value={content}
+          onChange={event =>
+            this.handleChange(event.target.value, "instructions")
+          }
+          value={instructions}
           readOnly={!canEditPost}
         />
         {somethingChanged && (

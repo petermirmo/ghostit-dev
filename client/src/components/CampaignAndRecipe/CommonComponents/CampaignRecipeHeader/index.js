@@ -7,8 +7,36 @@ import DateTimePicker from "../../../DateTimePicker";
 import "./styles/";
 
 class CampaignRecipeHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      colors: {
+        color1: {
+          className: "color1",
+          border: "color1-border",
+          color: "var(--campaign-color1)"
+        },
+        color2: {
+          className: "color2",
+          border: "color2-border",
+          color: "var(--campaign-color2)"
+        },
+        color3: {
+          className: "color3",
+          border: "color3-border",
+          color: "var(--campaign-color3)"
+        },
+        color4: {
+          className: "color4",
+          border: "color4-border",
+          color: "var(--campaign-color4)"
+        }
+      }
+    };
+  }
   render() {
-    const { campaign, datePickerMessage, colors } = this.props; // variables
+    const { colors } = this.state;
+    const { campaign, datePickerMessage } = this.props; // variables
     const { handleChange, tryChangingDates } = this.props; // functions
 
     let colorDivs = [];

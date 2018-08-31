@@ -21,6 +21,8 @@ import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
 import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
 
+import { fillPosts } from "../../../componentFunctions";
+
 import "./styles/";
 
 class CampaignModal extends Component {
@@ -62,28 +64,6 @@ class CampaignModal extends Component {
       listOfPostChanges: {},
       activePostIndex: undefined,
 
-      colors: {
-        color1: {
-          className: "color1",
-          border: "color1-border",
-          color: "var(--campaign-color1)"
-        },
-        color2: {
-          className: "color2",
-          border: "color2-border",
-          color: "var(--campaign-color2)"
-        },
-        color3: {
-          className: "color3",
-          border: "color3-border",
-          color: "var(--campaign-color3)"
-        },
-        color4: {
-          className: "color4",
-          border: "color4-border",
-          color: "var(--campaign-color4)"
-        }
-      },
       saving: true,
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
@@ -104,7 +84,10 @@ class CampaignModal extends Component {
     if (campaign) {
       if (campaign.posts) {
         if (campaign.posts.length > 0) {
-          this.fillPosts(campaign.posts);
+          this.setState({
+            posts: fillPosts(campaign.posts)
+          });
+
           // maybe shouldn't hardcode but because setState is asychnronous, this will do for now
           this.setState({ firstPostChosen: true, activePostIndex: 0 });
         }
@@ -193,28 +176,6 @@ class CampaignModal extends Component {
     this.setState({ socket });
   };
 
-  fillPosts = campaign_posts => {
-    const { campaign } = this.state;
-    const { timezone, clickedCalendarDate } = this.props;
-
-    const posts = [];
-    // function called when a user clicks on an existing campaign to edit.
-    for (let i = 0; i < campaign_posts.length; i++) {
-      const current_post = campaign_posts[i];
-
-      let new_post = {
-        timezone,
-        post: current_post,
-        canEditPost:
-          new moment(current_post.postingDate) > new moment() ? true : false
-      };
-
-      posts.push(new_post);
-    }
-
-    this.setState({ posts });
-  };
-
   newPost = (socialType, recipePost) => {
     const { posts, socket, campaign } = this.state;
     const { timezone, clickedCalendarDate } = this.props;
@@ -236,13 +197,12 @@ class CampaignModal extends Component {
     this.setState({
       posts: [
         ...this.state.posts,
+
         {
-          post: {
-            postingDate,
-            socialType,
-            campaignID: _id,
-            instructions
-          },
+          postingDate,
+          socialType,
+          campaignID: _id,
+          instructions,
           canEditPost: true,
           timezone
         }
@@ -269,8 +229,7 @@ class CampaignModal extends Component {
   updatePost = updatedPost => {
     const { posts, activePostIndex } = this.state;
 
-    let new_post = posts[activePostIndex];
-    new_post.post = updatedPost;
+    let new_post = { ...posts[activePostIndex], ...updatedPost };
 
     this.setState({
       posts: [
@@ -300,7 +259,7 @@ class CampaignModal extends Component {
     if (index === -1) {
       console.log("couldn't find post to delete.");
       return;
-    } else if (!posts[index].post._id) {
+    } else if (!posts[index]._id) {
       // post hasn't been scheduled yet so don't need to delete it from DB
 
       this.setState(prevState => {
@@ -399,9 +358,9 @@ class CampaignModal extends Component {
     // we should probably only store one copy of each index ("content") since only the most recent matters
     const { listOfPostChanges, posts, activePostIndex } = this.state;
     const post = posts[activePostIndex];
-    if (index === "date" && value.isSame(post.post.postingDate)) {
+    if (index === "date" && value.isSame(post.postingDate)) {
       delete listOfPostChanges[index];
-    } else if (post.post[index] === value) {
+    } else if (post[index] === value) {
       // same value that it originally was so no need to save its backup
       delete listOfPostChanges[index];
     } else {
@@ -490,11 +449,11 @@ class CampaignModal extends Component {
     } = this.state;
     const post_obj = posts[activePostIndex];
 
-    if (post_obj.post.socialType === "custom") {
+    if (post_obj.socialType === "custom") {
       return (
         <CustomTask
-          post={post_obj.post}
-          clickedCalendarDate={post_obj.post.postingDate}
+          post={post_obj}
+          clickedCalendarDate={post_obj.postingDate}
           postFinishedSavingCallback={savedPost => {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
@@ -506,7 +465,7 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
-          socialType={post_obj.post.socialType}
+          socialType={post_obj.socialType}
           canEditPost={true}
           timezone={post_obj.timezone}
           listOfChanges={
@@ -524,9 +483,9 @@ class CampaignModal extends Component {
     } else {
       return (
         <Post
-          post={post_obj.post}
+          post={post_obj}
           newActivePost={true}
-          clickedCalendarDate={post_obj.post.postingDate}
+          clickedCalendarDate={post_obj.postingDate}
           postFinishedSavingCallback={savedPost => {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
@@ -538,8 +497,8 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
-          socialType={post_obj.post.socialType}
-          maxCharacters={getSocialCharacters(post_obj.post.socialType)}
+          socialType={post_obj.socialType}
+          maxCharacters={getSocialCharacters(post_obj.socialType)}
           canEditPost={true}
           timezone={post_obj.timezone}
           listOfChanges={
@@ -612,6 +571,8 @@ class CampaignModal extends Component {
     } = this.state;
     const { startDate, endDate, name, color } = campaign;
 
+    console.log(firstPostChosen);
+    console.log(posts);
     return (
       <div className="modal" onClick={() => this.props.close()}>
         <div className="large-modal" onClick={e => e.stopPropagation()}>

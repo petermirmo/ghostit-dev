@@ -20,6 +20,8 @@ import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
 import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
 
+import { fillPosts } from "../../../componentFunctions";
+
 import "./styles/";
 
 class RecipeEditorModal extends Component {
@@ -58,28 +60,6 @@ class RecipeEditorModal extends Component {
       listOfPostChanges: {},
       activePostIndex: undefined,
 
-      colors: {
-        color1: {
-          className: "color1",
-          border: "color1-border",
-          color: "var(--campaign-color1)"
-        },
-        color2: {
-          className: "color2",
-          border: "color2-border",
-          color: "var(--campaign-color2)"
-        },
-        color3: {
-          className: "color3",
-          border: "color3-border",
-          color: "var(--campaign-color3)"
-        },
-        color4: {
-          className: "color4",
-          border: "color4-border",
-          color: "var(--campaign-color4)"
-        }
-      },
       saving: false,
       somethingChanged: props.recipe ? false : true,
       confirmDelete: false,
@@ -100,7 +80,7 @@ class RecipeEditorModal extends Component {
     if (recipe) {
       if (recipe.posts) {
         if (recipe.posts.length > 0) {
-          this.fillPosts(recipe.posts);
+          this.setState({ posts: fillPosts(recipe.posts, this.state.recipe) });
           this.setState({ firstPostChosen: true, activePostIndex: 0 });
         }
       }
@@ -130,26 +110,6 @@ class RecipeEditorModal extends Component {
     } else {
       document.addEventListener("keydown", this.handleKeyPress, false);
     }
-  };
-
-  fillPosts = recipe_posts => {
-    // function called when a user clicks on an existing recipe to edit
-    const { recipe } = this.state;
-    let posts = [];
-    for (let index in recipe_posts) {
-      const current_post = recipe_posts[index];
-      const post = {
-        postingDate: recipe.startDate.add(
-          current_post.postingDate,
-          "millisecond"
-        ),
-        socialType: current_post.socialType,
-        instructions: current_post.instructions,
-        name: current_post.name
-      };
-      posts.push(post);
-    }
-    this.setState({ posts });
   };
 
   newPost = socialType => {
