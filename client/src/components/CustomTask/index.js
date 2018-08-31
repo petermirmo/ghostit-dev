@@ -47,7 +47,6 @@ class CustomTask extends Component {
     }
 
     stateVariable.deleteImagesArray = [];
-    stateVariable.timezone = props.timezone;
     stateVariable.somethingChanged = false;
     stateVariable.date = props.post
       ? new moment(props.post.postingDate)

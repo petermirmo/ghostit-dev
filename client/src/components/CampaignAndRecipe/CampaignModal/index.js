@@ -178,7 +178,7 @@ class CampaignModal extends Component {
 
   newPost = (socialType, recipePost) => {
     const { posts, socket, campaign } = this.state;
-    const { timezone, clickedCalendarDate } = this.props;
+    const { clickedCalendarDate } = this.props;
     const { startDate, _id } = campaign;
 
     let postingDate = clickedCalendarDate;
@@ -204,7 +204,8 @@ class CampaignModal extends Component {
           campaignID: _id,
           instructions,
           canEditPost: true,
-          timezone
+          name:
+            socialType.charAt(0).toUpperCase() + socialType.slice(1) + " Post"
         }
       ],
       activePostIndex: posts.length,
@@ -467,7 +468,6 @@ class CampaignModal extends Component {
           }}
           socialType={post_obj.socialType}
           canEditPost={true}
-          timezone={post_obj.timezone}
           listOfChanges={
             Object.keys(listOfPostChanges).length > 0
               ? listOfPostChanges
@@ -500,7 +500,6 @@ class CampaignModal extends Component {
           socialType={post_obj.socialType}
           maxCharacters={getSocialCharacters(post_obj.socialType)}
           canEditPost={true}
-          timezone={post_obj.timezone}
           listOfChanges={
             Object.keys(listOfPostChanges).length > 0
               ? listOfPostChanges

@@ -27,8 +27,6 @@ class PostingOptions extends Component {
     this.state = this.createState(props);
   }
   createState = props => {
-    let temp_name = this.getTempName(props.socialType);
-
     let stateVariable = {
       _id: undefined,
       accountID: "",
@@ -39,7 +37,7 @@ class PostingOptions extends Component {
       socialType: props.socialType,
       content: "",
       instructions: "",
-      name: temp_name,
+      name: "",
       promptModifyCampaignDates: false
     };
     if (props.post) {
@@ -70,7 +68,6 @@ class PostingOptions extends Component {
 
     stateVariable.deleteImagesArray = [];
     stateVariable.linkImagesArray = [];
-    stateVariable.timezone = props.timezone;
     stateVariable.somethingChanged = false;
 
     if (props.recipeEditor) {
@@ -122,20 +119,6 @@ class PostingOptions extends Component {
     }
     if (nextProps.newActivePost || nextProps.recipeEditor) {
       this.setState(this.createState(nextProps));
-    } else if (
-      nextProps.socialType &&
-      nextProps.socialType !== this.state.socialType
-    ) {
-      this.setState({ socialType: nextProps.socialType });
-      const { name } = this.state;
-      if (
-        name === "Twitter Post" ||
-        name === "Facebook Post" ||
-        name === "Linkedin Post" ||
-        name === "Instagram Post"
-      ) {
-        this.setState({ name: this.getTempName(nextProps.socialType) });
-      }
     }
 
     if (nextProps.listOfChanges) {
@@ -181,18 +164,6 @@ class PostingOptions extends Component {
     if (this.props.backupChanges) {
       this.props.backupChanges(value, index);
     }
-  };
-
-  getTempName = socialType => {
-    let temp_name = "Twitter Post";
-    if (socialType === "facebook") {
-      temp_name = "Facebook Post";
-    } else if (socialType === "linkedin") {
-      temp_name = "LinkedIn Post";
-    } else if (socialType === "instagram") {
-      temp_name = "Instagram Post";
-    }
-    return temp_name;
   };
 
   pushToImageDeleteArray = image => {
