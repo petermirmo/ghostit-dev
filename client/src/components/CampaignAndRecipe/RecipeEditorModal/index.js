@@ -155,7 +155,23 @@ class RecipeEditorModal extends Component {
   };
 
   newPost = socialType => {
-    const { recipe } = this.state;
+    const { recipe, posts, activePostIndex } = this.state;
+    if (Object.keys(listOfPostChanges).length > 0) {
+      // check to make sure we don't discard any unsaved changes to the current post
+      if (
+        Object.keys(listOfPostChanges).length === 1 &&
+        listOfPostChanges.somethingChanged
+      ) {
+        // this is the scenario that happens when a newly created post that hasn't been edited
+        // is the activePost. we don't want to prompt users in this case.
+      } else {
+        this.setState({
+          promptChangeActivePost: true,
+          nextChosenPostIndex: undefined
+        });
+        return;
+      }
+    }
     const post = {
       postingDate: new moment(recipe.startDate),
       socialType,
@@ -225,6 +241,11 @@ class RecipeEditorModal extends Component {
       return;
     }
     const { nextChosenPostIndex, activePostIndex, posts } = this.state;
+
+    if (nextChosenPostIndex === undefined) {
+      // this occurs when the user is trying to create a new post and their currently active post has unsaved changes
+    }
+
     if (posts[activePostIndex].instructions === "") {
       // switching off a post that has never been saved
       // so to Discard changes means to delete the post
@@ -490,7 +511,6 @@ class RecipeEditorModal extends Component {
       activePostIndex,
       newPostPromptActive,
       datePickerMessage,
-      nextChosenPostIndex,
       promptChangeActivePost,
       promptDiscardPostChanges,
       promptDiscardRecipeChanges,
