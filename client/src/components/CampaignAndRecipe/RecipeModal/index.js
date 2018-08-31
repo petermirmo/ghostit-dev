@@ -34,7 +34,7 @@ class RecipeModal extends Component {
 
     previewRecipeLocation: undefined,
     activePost: undefined,
-
+    userID: undefined,
     promptDeleteRecipe: false
   };
   componentDidMount() {
@@ -51,7 +51,8 @@ class RecipeModal extends Component {
         usersRecipes,
         allRecipes,
         activeRecipes: allRecipes,
-        loading: false
+        loading: false,
+        userID: usersRecipes.length > 0 ? usersRecipes[0].userID : undefined
       });
     });
   };
@@ -61,7 +62,8 @@ class RecipeModal extends Component {
       previewRecipeLocation,
       activePost,
       chooseRecipeDate,
-      startDate
+      startDate,
+      userID
     } = this.state;
     let recipeArray = [];
 
@@ -140,7 +142,20 @@ class RecipeModal extends Component {
                         Use This Recipe
                       </div>
                     )}
-
+                    {!chooseRecipeDate &&
+                      recipe.userID == userID && (
+                        <div
+                          className="use-this-recipe"
+                          onClick={() => {
+                            this.props.handleChange(undefined, "clickedEvent");
+                            this.props.handleChange(recipe, "recipe");
+                            this.props.handleChange(false, "recipeModal");
+                            this.props.handleChange(true, "recipeEditorModal");
+                          }}
+                        >
+                          Edit This Recipe
+                        </div>
+                      )}
                     {chooseRecipeDate && (
                       <div className="label">Choose Start Date: </div>
                     )}
@@ -207,10 +222,17 @@ class RecipeModal extends Component {
             onClick={e => {
               if (!activeRecipes[recipeIndex2]) return;
               e.stopPropagation();
-              this.setState({
-                previewRecipeLocation: recipeIndex2,
-                activePost: recipe.posts[0]
-              });
+              if (previewRecipeLocation === recipeIndex2) {
+                this.setState({
+                  previewRecipeLocation: undefined,
+                  activePost: undefined
+                });
+              } else {
+                this.setState({
+                  previewRecipeLocation: recipeIndex2,
+                  activePost: recipe.posts[0]
+                });
+              }
             }}
             style={{ backgroundColor: recipe.color, cursor: recipe.cursor }}
           >
@@ -298,7 +320,8 @@ class RecipeModal extends Component {
               onClick={() => {
                 this.setState({
                   activeRecipes: this.state.allRecipes,
-                  previewRecipeLocation: undefined
+                  previewRecipeLocation: undefined,
+                  activePost: undefined
                 });
               }}
             >
@@ -313,7 +336,8 @@ class RecipeModal extends Component {
               onClick={() => {
                 this.setState({
                   activeRecipes: this.state.usersRecipes,
-                  previewRecipeLocation: undefined
+                  previewRecipeLocation: undefined,
+                  activePost: undefined
                 });
               }}
             >

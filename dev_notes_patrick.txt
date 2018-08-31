@@ -52,7 +52,10 @@ whiteboard:
 
 next tasks:
   recipe edit and delete
-    switching recipe tabs should set "activeRecipeIndex" to undefined
-    modifyCampaignDates within RecipeEditorModal
-    
+    campaign and recipe:
+      need to sort recipe posts chronologically, but where should we do it?
+  creating campaign from a recipe:
+    user should be able to change the start date in a way that pushes all the post dates forward / back accordingly
+    maybe just a button that shows up if campaign.recipeID. that button pushes all dates/times accordingly.
+
   after publishing campaign as recipe, publish button should turn into overwrite button maybe

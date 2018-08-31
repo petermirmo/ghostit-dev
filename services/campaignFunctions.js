@@ -71,7 +71,15 @@ module.exports = {
           foundRecipe.minute = new moment(recipe.startDate).format("mm");
           foundRecipe.posts = [];
           for (let index in posts) {
-            let post = posts[index];
+            const post = posts[index];
+            if (posts[index].instructions === "") {
+              res.send({
+                success: false,
+                message:
+                  "Posts in recipes are not allowed to be empty. Make sure they all have descriptions."
+              });
+              return;
+            }
             foundRecipe.posts.push({
               socialType: post.socialType,
               instructions: post.instructions,
@@ -102,7 +110,15 @@ module.exports = {
       recipeToSave.minute = new moment(recipe.startDate).format("mm");
       recipeToSave.posts = [];
       for (let index in posts) {
-        let post = posts[index];
+        const post = posts[index];
+        if (post.instructions === "") {
+          res.send({
+            success: false,
+            message:
+              "Posts in recipes are not allowed to be empty. Make sure they all have descriptions."
+          });
+          return;
+        }
         recipeToSave.posts.push({
           socialType: post.socialType,
           instructions: post.instructions,

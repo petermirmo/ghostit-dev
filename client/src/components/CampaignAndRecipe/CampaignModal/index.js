@@ -178,6 +178,7 @@ class CampaignModal extends Component {
         "millisecond"
       );
       instructions = recipePost.instructions;
+      name = recipePost.name;
     }
 
     this.setState({
