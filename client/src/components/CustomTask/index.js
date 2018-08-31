@@ -47,11 +47,20 @@ class CustomTask extends Component {
     stateVariable.deleteImagesArray = [];
     stateVariable.timezone = props.timezone;
     stateVariable.somethingChanged = false;
-    stateVariable.date = props.post
-      ? new moment(props.post.postingDate)
-      : new moment() > new moment(props.clickedCalendarDate)
-        ? new moment()
-        : new moment(props.clickedCalendarDate);
+
+    if (props.recipeEditor) {
+      stateVariable.instructions = props.instructions;
+      stateVariable.date = new moment(props.clickedCalendarDate);
+      stateVariable.socialType = props.socialType;
+      stateVariable.name =
+        props.name && props.name !== "" ? props.name : "Custom Task";
+    } else {
+      stateVariable.date = props.post
+        ? new moment(props.post.postingDate)
+        : new moment() > new moment(props.clickedCalendarDate)
+          ? new moment()
+          : new moment(props.clickedCalendarDate);
+    }
 
     if (props.recipePost) {
       stateVariable.date = props.recipePost.postingDate;
@@ -74,6 +83,10 @@ class CustomTask extends Component {
       if (nextProps.post.campaignID) {
         this.setState(this.createState(nextProps));
       }
+    }
+
+    if (nextProps.recipeEditor) {
+      this.setState(this.createState(nextProps));
     }
 
     if (nextProps.listOfChanges) {
@@ -146,6 +159,36 @@ class CustomTask extends Component {
     return true;
   };
 
+  trySavePostInRecipe = (campaignStartDate, campaignEndDate) => {
+    // function for saving a post within a recipe. the post does not get saved to the DB.
+    const { name, instructions } = this.state;
+
+    // validity checks
+    if (!name || name === "") {
+      alert("Posts must be named.");
+      return;
+    } else if (!instructions || instructions === "") {
+      alert(
+        "Posts cannot be empty. Please write some instructions in the text area."
+      );
+      return;
+    }
+
+    // date checking
+    if (campaignStartDate && campaignEndDate) {
+      if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
+        // prompt user to cancel the save or modify campaign dates
+        if (this.props.pauseEscapeListener)
+          this.props.pauseEscapeListener(true);
+        this.setState({ promptModifyCampaignDates: true });
+        return;
+      }
+    }
+
+    this.props.savePostChanges(this.state);
+    this.setState({ somethingChanged: false });
+  };
+
   trySavePost = (campaignStartDate, campaignEndDate) => {
     const {
       _id,
@@ -201,7 +244,11 @@ class CustomTask extends Component {
     }
     const { date } = this.state;
     this.setState({ promptModifyCampaignDates: false });
-    this.trySavePost();
+    if (this.props.recipeEditor) {
+      this.trySavePostInRecipe();
+    } else {
+      this.trySavePost();
+    }
     this.props.modifyCampaignDates(date);
   };
 
@@ -233,13 +280,26 @@ class CustomTask extends Component {
           placeholder="Title"
           readOnly={!canEditPost}
         />
-        <Textarea
-          className="instruction-textarea"
-          placeholder="Describe this task!"
-          onChange={event => this.handleChange(event.target.value, "content")}
-          value={content}
-          readOnly={!canEditPost}
-        />
+        {this.props.recipeEditor && (
+          <Textarea
+            className="instruction-textarea"
+            placeholder="Describe this task!"
+            onChange={event =>
+              this.handleChange(event.target.value, "instructions")
+            }
+            value={instructions}
+            readOnly={!canEditPost}
+          />
+        )}
+        {!this.props.recipeEditor && (
+          <Textarea
+            className="instruction-textarea"
+            placeholder="Describe this task!"
+            onChange={event => this.handleChange(event.target.value, "content")}
+            value={content}
+            readOnly={!canEditPost}
+          />
+        )}
         <ImagesDiv
           postImages={images}
           handleChange={images => this.handleChange(images, "images")}
@@ -250,14 +310,21 @@ class CustomTask extends Component {
         {somethingChanged && (
           <button
             className="schedule-post-button"
-            onClick={() =>
-              this.trySavePost(
-                this.props.campaignStartDate,
-                this.props.campaignEndDate
-              )
+            onClick={
+              this.props.recipeEditor
+                ? () =>
+                    this.trySavePostInRecipe(
+                      this.props.campaignStartDate,
+                      this.props.campaignEndDate
+                    )
+                : () =>
+                    this.trySavePost(
+                      this.props.campaignStartDate,
+                      this.props.campaignEndDate
+                    )
             }
           >
-            Schedule Post!
+            {this.props.recipeEditor ? "Save Changes" : "Schedule Post!"}
           </button>
         )}
         <div className="time-picker-and-save-post">

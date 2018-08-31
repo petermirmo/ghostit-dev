@@ -52,7 +52,8 @@ whiteboard:
 
 next tasks:
   recipe edit and delete
-    switching recipe tabs should set "activeRecipeIndex" to undefined
-    modifyCampaignDates within RecipeEditorModal
-    
+    new post within recipe editor should have a red box beside it + have a save post button
+    campaign and recipe:
+      current post has changes, creating a new post doesn't account for those changes
+
   after publishing campaign as recipe, publish button should turn into overwrite button maybe

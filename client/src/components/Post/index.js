@@ -75,17 +75,17 @@ class PostingOptions extends Component {
 
     if (props.recipeEditor) {
       stateVariable.instructions = props.instructions;
-      stateVariable.date = new moment(props.postingDate);
+      stateVariable.date = new moment(props.clickedCalendarDate);
       stateVariable.socialType = props.socialType;
       stateVariable.name =
         props.name && props.name !== "" ? props.name : temp_name;
+    } else {
+      stateVariable.date = props.post
+        ? new moment(props.post.postingDate)
+        : new moment() > new moment(props.clickedCalendarDate)
+          ? new moment()
+          : new moment(props.clickedCalendarDate);
     }
-
-    stateVariable.date = props.post
-      ? new moment(props.post.postingDate)
-      : new moment() > new moment(props.clickedCalendarDate)
-        ? new moment()
-        : new moment(props.clickedCalendarDate);
 
     if (props.recipePost) {
       stateVariable.date = props.recipePost.postingDate;

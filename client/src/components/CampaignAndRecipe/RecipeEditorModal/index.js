@@ -122,7 +122,7 @@ class RecipeEditorModal extends Component {
     }
     if (event.keyCode === 27) {
       // escape button pushed
-      this.props.close();
+      this.attemptToCloseModal();
     }
   };
 
@@ -166,7 +166,9 @@ class RecipeEditorModal extends Component {
       return {
         posts: [...prevState.posts, post],
         activePostIndex: prevState.posts.length,
-        newPostPromptActive: false
+        newPostPromptActive: false,
+        somethingChanged: true,
+        listOfPostChanges: { somethingChanged: true }
       };
     });
   };
@@ -222,7 +224,19 @@ class RecipeEditorModal extends Component {
       this.setState({ promptChangeActivePost: false });
       return;
     }
-    const { nextChosenPostIndex } = this.state;
+    const { nextChosenPostIndex, activePostIndex, posts } = this.state;
+    if (posts[activePostIndex].instructions === "") {
+      // switching off a post that has never been saved
+      // so to Discard changes means to delete the post
+      this.setState(prevState => {
+        return {
+          posts: [
+            ...prevState.posts.slice(0, activePostIndex),
+            ...prevState.posts.slice(activePostIndex + 1)
+          ]
+        };
+      });
+    }
     this.setState({
       activePostIndex: nextChosenPostIndex,
       promptChangeActivePost: false,
@@ -287,7 +301,7 @@ class RecipeEditorModal extends Component {
     let count_invalid = 0;
 
     for (let index in posts) {
-      const postingDate = new moment(posts[index].post.postingDate);
+      const postingDate = new moment(posts[index].postingDate);
       if (postingDate < startDate || postingDate > endDate) {
         count_invalid++;
       }
@@ -465,6 +479,7 @@ class RecipeEditorModal extends Component {
   };
 
   render() {
+    console.log(this.state);
     const {
       colors,
       posts,
@@ -477,19 +492,21 @@ class RecipeEditorModal extends Component {
       datePickerMessage,
       nextChosenPostIndex,
       promptChangeActivePost,
+      promptDiscardPostChanges,
+      promptDiscardRecipeChanges,
       listOfPostChanges,
       somethingChanged
     } = this.state;
     const { startDate, endDate, name, color } = recipe;
 
     return (
-      <div className="modal" onClick={() => this.props.close()}>
+      <div className="modal" onClick={() => this.attemptToCloseModal()}>
         <div className="large-modal" onClick={e => e.stopPropagation()}>
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => this.props.close()}
+            onClick={() => this.attemptToCloseModal()}
           />
           <div
             className="back-button-top"
@@ -552,7 +569,7 @@ class RecipeEditorModal extends Component {
             />
             <div
               className="back-button-bottom"
-              onClick={() => this.props.close()}
+              onClick={() => this.attemptToCloseModal()}
             >
               <FontAwesomeIcon
                 className="back-button-arrow"
@@ -576,6 +593,42 @@ class RecipeEditorModal extends Component {
               title="Discard Unsaved Changes"
               message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
               callback={this.changeActivePost}
+              type="change-post"
+            />
+          )}
+          {promptDiscardPostChanges && (
+            <ConfirmAlert
+              close={() => this.setState({ promptDiscardPostChanges: false })}
+              title="Unsaved Post Changes"
+              message="Your current post has unsaved changes. Cancel and save the post if you'd like to save those changes."
+              callback={response => {
+                if (!response) {
+                  this.setState({ promptDiscardPostChanges: false });
+                  return;
+                }
+                this.setState(
+                  { listOfPostChanges: {}, promptDiscardPostChanges: false },
+                  this.attemptToCloseModal
+                );
+              }}
+              type="change-post"
+            />
+          )}
+          {promptDiscardRecipeChanges && (
+            <ConfirmAlert
+              close={() => this.setState({ promptDiscardRecipeChanges: false })}
+              title="Unsaved Recipe Changes"
+              message="This recipe has unsaved changes. Cancel and save the recipe if you'd like to save those changes."
+              callback={response => {
+                if (!response) {
+                  this.setState({ promptDiscardRecipeChanges: false });
+                  return;
+                }
+                this.setState(
+                  { somethingChanged: false },
+                  this.attemptToCloseModal
+                );
+              }}
               type="change-post"
             />
           )}
