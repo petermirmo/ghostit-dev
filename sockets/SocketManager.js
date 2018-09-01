@@ -9,6 +9,22 @@ module.exports = socket => {
   socket.on("new_campaign", campaign => {
     new Campaign(campaign).save((err, result) => {
       if (!err) {
+        if (campaign.recipeID) {
+          Recipe.findOne({ _id: campaign.recipeID }, (err, foundRecipe) => {
+            if (foundRecipe) {
+              if (!foundRecipe.useCount) {
+                foundRecipe.useCount = 1;
+              } else {
+                foundRecipe.useCount = foundRecipe.useCount + 1;
+              }
+              foundRecipe.save();
+            } else {
+              console.log(
+                "campaign saved with a recipeID that could not be found (when attempting to increment the recipe.useCount)"
+              );
+            }
+          });
+        }
         socket.emit("new_campaign_saved", result._id);
       }
     });
@@ -50,13 +66,47 @@ module.exports = socket => {
     if (campaign.posts) {
       if (campaign.posts.length === 0) {
         Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
-          if (foundCampaign) foundCampaign.remove();
+          if (foundCampaign) {
+            if (foundCampaign.recipeID) {
+              Recipe.findOne(
+                { _id: foundCampaign.recipeID },
+                (err, foundRecipe) => {
+                  if (foundRecipe) {
+                    if (foundRecipe.useCount) {
+                      foundRecipe.useCount = foundRecipe.useCount - 1;
+                    } else {
+                      foundRecipe.useCount = 0;
+                    }
+                    foundRecipe.save();
+                  }
+                }
+              );
+            }
+            foundCampaign.remove();
+          }
           socket.disconnect();
         });
       }
     } else {
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
-        if (foundCampaign) foundCampaign.remove();
+        if (foundCampaign) {
+          if (foundCampaign.recipeID) {
+            Recipe.findOne(
+              { _id: foundCampaign.recipeID },
+              (err, foundRecipe) => {
+                if (foundRecipe) {
+                  if (foundRecipe.useCount) {
+                    foundRecipe.useCount = foundRecipe.useCount - 1;
+                  } else {
+                    foundRecipe.useCount = 0;
+                  }
+                  foundRecipe.save();
+                }
+              }
+            );
+          }
+          foundCampaign.remove();
+        }
         socket.disconnect();
       });
     }
@@ -73,6 +123,21 @@ module.exports = socket => {
               if (foundPost) foundPost.remove();
             });
           }
+        }
+        if (foundCampaign.recipeID) {
+          Recipe.findOne(
+            { _id: foundCampaign.recipeID },
+            (err, foundRecipe) => {
+              if (foundRecipe) {
+                if (!foundRecipe.useCount) {
+                  foundRecipe.useCount = 0;
+                } else {
+                  foundRecipe.useCount = foundRecipe.useCount - 1;
+                }
+                foundRecipe.save();
+              }
+            }
+          );
         }
         foundCampaign.remove();
       }
