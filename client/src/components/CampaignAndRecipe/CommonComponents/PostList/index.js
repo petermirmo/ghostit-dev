@@ -26,7 +26,7 @@ class PostList extends Component {
       handleChange(true, "promptChangeActivePost");
       handleChange(arrayIndex, "nextChosenPostIndex");
     } else {
-      handleChange(arrayIndex, "nextChosenPostIndex");
+      handleChange(arrayIndex, "activePostIndex");
     }
   };
   render() {
@@ -36,7 +36,8 @@ class PostList extends Component {
       posts,
       activePostIndex,
       listOfPostChanges,
-      recipeEditor
+      recipeEditor,
+      clickedCalendarDate
     } = this.props; // variables
     const {
       newPost,
@@ -98,7 +99,7 @@ class PostList extends Component {
                 <div
                   className={entryClassName}
                   key={index + "list-entry"}
-                  onClick={e => selectPost(e, index)}
+                  onClick={e => this.selectPost(index)}
                   style={{
                     borderColor: entryBorderColor,
                     backgroundColor: getPostColor(post_obj.socialType)
@@ -142,7 +143,7 @@ class PostList extends Component {
           {newPostPrompt && (
             <PostTypePicker
               newPost={socialType => {
-                newPost(socialType);
+                newPost(socialType, posts, campaign, clickedCalendarDate);
                 this.setState({ newPostPrompt: false });
               }}
             />

@@ -91,8 +91,6 @@ class Routes extends Component {
 
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
 
-    console.log(getKeyListenerFunction);
-
     let accessClientButton;
     if (user) {
       accessClientButton = (user.role === "manager" ||

@@ -25,3 +25,26 @@ export const fillPosts = some_posts => {
   post_obj.socialType.slice(1) +
   (post_obj.socialType === "custom" ? " Task - " : " Post - ") +
   new moment(post_obj.postingDate).format("lll");*/
+export const newPost = (socialType, posts, campaign, clickedCalendarDate) => {
+  const { startDate, _id } = campaign;
+
+  let postingDate = clickedCalendarDate;
+  if (clickedCalendarDate < new moment(campaign.startDate))
+    postingDate = campaign.startDate;
+
+  return {
+    posts: [
+      ...posts,
+
+      {
+        postingDate,
+        socialType,
+        campaignID: _id,
+        canEditPost: true,
+        name: socialType.charAt(0).toUpperCase() + socialType.slice(1) + " Post"
+      }
+    ],
+    activePostIndex: posts.length,
+    listOfPostChanges: {}
+  };
+};

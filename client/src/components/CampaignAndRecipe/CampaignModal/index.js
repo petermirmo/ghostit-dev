@@ -23,7 +23,7 @@ import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
 import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
 
-import { fillPosts } from "../../../componentFunctions";
+import { fillPosts, newPost } from "../../../componentFunctions";
 
 import "./styles/";
 
@@ -38,7 +38,7 @@ class CampaignModal extends Component {
       ? props.campaign
       : {
           startDate,
-          endDate: startDate.add(7, "days"),
+          endDate: new moment(startDate).add(7, "days"),
           name: "",
           userID: props.user.signedInAsUser
             ? props.user.signedInAsUser.id
@@ -111,8 +111,8 @@ class CampaignModal extends Component {
   }
 
   initSocket = () => {
-    let { campaign, somethingChanged } = this.state;
-    let { recipe } = this.props;
+    let { campaign, somethingChanged, posts } = this.state;
+    let { clickedCalendarDate } = this.props;
     let socket;
 
     if (process.env.NODE_ENV === "development")
@@ -120,77 +120,16 @@ class CampaignModal extends Component {
     else socket = io();
 
     if (!this.props.campaign) {
-      if (recipe) {
-        campaign.name = recipe.name;
-        campaign.color = recipe.color;
-        campaign.startDate = recipe.startDate
-          .set("hour", recipe.hour)
-          .set("minute", recipe.minute);
-        campaign.endDate = new moment(recipe.startDate).add(
-          recipe.length,
-          "millisecond"
-        );
-        campaign.recipeID = recipe._id;
-
-        this.setState({ campaign });
-      }
       socket.emit("new_campaign", campaign);
 
       socket.on("new_campaign_saved", campaignID => {
         campaign._id = campaignID;
 
         this.setState({ campaign, saving: false });
-
-        if (recipe) {
-          for (let index in recipe.posts) {
-            recipe.posts[index].campaignID = campaignID;
-            this.newPost(recipe.posts[index].socialType, recipe.posts[index]);
-          }
-
-          this.setState({ campaign });
-        }
       });
     } else this.setState({ saving: false });
 
     this.setState({ socket });
-  };
-
-  newPost = (socialType, recipePost) => {
-    const { posts, socket, campaign } = this.state;
-    const { clickedCalendarDate } = this.props;
-    const { startDate, _id } = campaign;
-
-    let postingDate = clickedCalendarDate;
-    if (clickedCalendarDate < campaign.startDate)
-      postingDate = campaign.startDate;
-    let instructions;
-
-    if (recipePost) {
-      postingDate = new moment(startDate).add(
-        recipePost.postingDate,
-        "millisecond"
-      );
-      instructions = recipePost.instructions;
-      name = recipePost.name;
-    }
-
-    this.setState({
-      posts: [
-        ...this.state.posts,
-
-        {
-          postingDate,
-          socialType,
-          campaignID: _id,
-          instructions,
-          canEditPost: true,
-          name:
-            socialType.charAt(0).toUpperCase() + socialType.slice(1) + " Post"
-        }
-      ],
-      activePostIndex: posts.length,
-      listOfPostChanges: {}
-    });
   };
 
   deleteCampaign = response => {
@@ -523,6 +462,7 @@ class CampaignModal extends Component {
       promptChangeActivePost,
       listOfPostChanges
     } = this.state;
+    const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
 
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
@@ -559,7 +499,12 @@ class CampaignModal extends Component {
               <div className="new-campaign-post-selection-write-up">
                 How do you want to start off your campaign?
               </div>
-              <PostTypePicker newPost={this.newPost} />
+              <PostTypePicker
+                newPost={socialType => {
+                  newPost(socialType, posts, campaign, clickedCalendarDate);
+                  this.setState({ newPostPrompt: false });
+                }}
+              />
             </div>
           )}
 
@@ -570,7 +515,12 @@ class CampaignModal extends Component {
                 posts={posts}
                 activePostIndex={activePostIndex}
                 listOfPostChanges={listOfPostChanges}
-                newPost={this.newPost}
+                clickedCalendarDate={clickedCalendarDate}
+                newPost={(socialType, posts, campaign, clickedCalendarDate) =>
+                  this.setState(
+                    newPost(socialType, posts, campaign, clickedCalendarDate)
+                  )
+                }
                 deletePost={this.deletePost}
                 handleChange={this.handleChange}
               />
