@@ -79,7 +79,20 @@ class Routes extends Component {
   };
   render() {
     const { datebaseConnection } = this.state;
-    const { activePage, clientSideBar, headerSideBar, user } = this.props;
+    const {
+      activePage,
+      clientSideBar,
+      headerSideBar,
+      user,
+      getKeyListenerFunction
+    } = this.props;
+
+    document.removeEventListener("keydown", getKeyListenerFunction[1], false);
+
+    document.addEventListener("keydown", getKeyListenerFunction[0], false);
+
+    console.log(getKeyListenerFunction);
+
     let accessClientButton;
     if (user) {
       accessClientButton = (user.role === "manager" ||
@@ -150,17 +163,18 @@ function mapStateToProps(state) {
     activePage: state.activePage,
     user: state.user,
     clientSideBar: state.clientSideBar,
-    headerSideBar: state.headerSideBar
+    headerSideBar: state.headerSideBar,
+    getKeyListenerFunction: state.getKeyListenerFunction
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage: changePage,
-      setUser: setUser,
-      updateAccounts: updateAccounts,
-      openHeaderSideBar: openHeaderSideBar,
-      openClientSideBar: openClientSideBar
+      changePage,
+      setUser,
+      updateAccounts,
+      openHeaderSideBar,
+      openClientSideBar
     },
     dispatch
   );

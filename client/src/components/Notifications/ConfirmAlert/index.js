@@ -1,19 +1,36 @@
 import React, { Component } from "react";
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { setKeyListenerFunction } from "../../../redux/actions/";
+
 import "./styles/";
 
 class ConfirmAlert extends Component {
   componentDidMount = () => {
-    document.addEventListener("keydown", this.handleKeyPress, false);
+    this._ismounted = true;
+
+    let { getKeyListenerFunction, setKeyListenerFunction } = this.props;
+
+    this.props.setKeyListenerFunction([
+      () => {
+        if (!this._ismounted) return;
+        if (event.keyCode === 27) {
+          this.props.close(); // escape button pushed
+        }
+      },
+      getKeyListenerFunction[0]
+    ]);
   };
   componentWillUnmount = () => {
-    document.removeEventListener("keydown", this.handleKeyPress, false);
+    this._ismounted = false;
+
+    this.props.setKeyListenerFunction([
+      this.props.getKeyListenerFunction[1],
+      this.props.getKeyListenerFunction[0]
+    ]);
   };
-  handleKeyPress = event => {
-    if (event.keyCode === 27) {
-      // escape button pushed
-      this.props.close();
-    }
-  };
+
   render() {
     let firstButton = "Delete";
     let firstButtonStyle = "confirm-button";
@@ -51,4 +68,22 @@ class ConfirmAlert extends Component {
     );
   }
 }
-export default ConfirmAlert;
+
+function mapStateToProps(state) {
+  return {
+    getKeyListenerFunction: state.getKeyListenerFunction
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setKeyListenerFunction
+    },
+    dispatch
+  );
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConfirmAlert);

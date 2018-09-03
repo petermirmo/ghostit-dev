@@ -10,6 +10,8 @@ import io from "socket.io-client";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { setKeyListenerFunction } from "../../../redux/actions/";
+
 import { getSocialCharacters } from "../../../extra/functions/CommonFunctions";
 
 import Post from "../../Post";
@@ -56,7 +58,6 @@ class CampaignModal extends Component {
       saving: true,
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
-      newPostPromptActive: false, // when user clicks + for a new post to their campaign, show post type options for them to select
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       nextChosenPostIndex: 0,
       datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
@@ -65,9 +66,9 @@ class CampaignModal extends Component {
     this.state = stateVariable;
   }
   componentDidMount() {
-    let { campaign } = this.props;
+    this._ismounted = true;
 
-    document.addEventListener("keydown", this.handleKeyPress, false);
+    let { campaign } = this.props;
 
     if (campaign) {
       if (campaign.posts) {
@@ -81,12 +82,22 @@ class CampaignModal extends Component {
     }
 
     this.initSocket();
+
+    let { getKeyListenerFunction, setKeyListenerFunction } = this.props;
+
+    this.props.setKeyListenerFunction([
+      () => {
+        if (!this._ismounted) return;
+        if (event.keyCode === 27) {
+          this.props.close(); // escape button pushed
+        }
+      },
+      getKeyListenerFunction[0]
+    ]);
   }
 
   componentWillUnmount() {
     let { campaign, somethingChanged, socket } = this.state;
-
-    document.removeEventListener("keydown", this.handleKeyPress, false);
 
     if (somethingChanged && campaign && socket) {
       socket.emit("campaign_editted", campaign);
@@ -96,26 +107,8 @@ class CampaignModal extends Component {
         this.props.updateCampaigns();
       });
     }
+    this._ismounted = false;
   }
-
-  handleKeyPress = event => {
-    const { confirmDelete, promptChangeActivePost } = this.state;
-    if (confirmDelete || promptChangeActivePost) {
-      return;
-    }
-    if (event.keyCode === 27) {
-      // escape button pushed
-      this.props.close();
-    }
-  };
-
-  pauseEscapeListener = response => {
-    if (response) {
-      document.removeEventListener("keydown", this.handleKeyPress, false);
-    } else {
-      document.addEventListener("keydown", this.handleKeyPress, false);
-    }
-  };
 
   initSocket = () => {
     let { campaign, somethingChanged } = this.state;
@@ -196,9 +189,7 @@ class CampaignModal extends Component {
         }
       ],
       activePostIndex: posts.length,
-      listOfPostChanges: {},
-
-      newPostPromptActive: false
+      listOfPostChanges: {}
     });
   };
 
@@ -299,23 +290,6 @@ class CampaignModal extends Component {
           }
         }
       });
-    }
-  };
-
-  selectPost = (e, arrayIndex) => {
-    e.preventDefault();
-    const { listOfPostChanges, activePostIndex } = this.state;
-
-    if (activePostIndex === arrayIndex) {
-      return;
-    }
-    if (Object.keys(listOfPostChanges).length > 0) {
-      this.setState({
-        promptChangeActivePost: true,
-        nextChosenPostIndex: arrayIndex
-      });
-    } else {
-      this.setState({ activePostIndex: arrayIndex });
     }
   };
 
@@ -462,7 +436,6 @@ class CampaignModal extends Component {
           campaignStartDate={campaign.startDate}
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
-          pauseEscapeListener={this.pauseEscapeListener}
         />
       );
     } else {
@@ -494,7 +467,6 @@ class CampaignModal extends Component {
           campaignStartDate={campaign.startDate}
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
-          pauseEscapeListener={this.pauseEscapeListener}
         />
       );
     }
@@ -546,7 +518,6 @@ class CampaignModal extends Component {
       confirmDelete,
       campaign,
       activePostIndex,
-      newPostPromptActive,
       datePickerMessage,
       nextChosenPostIndex,
       promptChangeActivePost,
@@ -554,7 +525,7 @@ class CampaignModal extends Component {
     } = this.state;
     const { startDate, endDate, name, color } = campaign;
 
-    let firstPostChosen = Array.isArray(posts) && posts.length;
+    let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
     return (
       <div className="modal" onClick={() => this.props.close()}>
@@ -599,12 +570,9 @@ class CampaignModal extends Component {
                 posts={posts}
                 activePostIndex={activePostIndex}
                 listOfPostChanges={listOfPostChanges}
-                newPostPromptActive={newPostPromptActive}
                 newPost={this.newPost}
-                selectPost={this.selectPost}
                 deletePost={this.deletePost}
                 handleChange={this.handleChange}
-                createRecipe={this.createRecipe}
               />
 
               {activePostIndex !== undefined && (
@@ -622,6 +590,14 @@ class CampaignModal extends Component {
               icon={faTrash}
               size="2x"
             />
+            <div
+              className="publish-as-recipe"
+              style={{ backgroundColor: color }}
+              onClick={this.createRecipe}
+            >
+              Save Recipe
+            </div>
+
             <div
               className="back-button-bottom"
               onClick={() => this.props.close()}
@@ -658,9 +634,21 @@ class CampaignModal extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setKeyListenerFunction
+    },
+    dispatch
+  );
+}
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    getKeyListenerFunction: state.getKeyListenerFunction
   };
 }
-export default connect(mapStateToProps)(CampaignModal);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CampaignModal);

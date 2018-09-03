@@ -12,18 +12,34 @@ import PostTypePicker from "../PostTypePicker";
 import "./styles/";
 
 class PostList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { newPostPrompt: false };
+  }
+  selectPost = arrayIndex => {
+    const { listOfPostChanges, activePostIndex, handleChange } = this.props;
+
+    if (activePostIndex === arrayIndex) {
+      return;
+    }
+    if (Object.keys(listOfPostChanges).length > 0) {
+      handleChange(true, "promptChangeActivePost");
+      handleChange(arrayIndex, "nextChosenPostIndex");
+    } else {
+      handleChange(arrayIndex, "nextChosenPostIndex");
+    }
+  };
   render() {
+    const { newPostPrompt } = this.state;
     const {
       campaign,
       posts,
       activePostIndex,
       listOfPostChanges,
-      newPostPromptActive,
       recipeEditor
     } = this.props; // variables
     const {
       newPost,
-      selectPost,
       deletePost,
       handleChange,
       createRecipe,
@@ -90,7 +106,7 @@ class PostList extends Component {
                 >
                   {post_obj.name +
                     " - " +
-                    new moment(post_obj.postingDate).format("lll")}{" "}
+                    new moment(post_obj.postingDate).format("lll")}
                 </div>
                 <div className="delete-container">
                   <FontAwesomeIcon
@@ -103,9 +119,9 @@ class PostList extends Component {
               </div>
             );
           })}
-          {!newPostPromptActive && (
+          {!newPostPrompt && (
             <FontAwesomeIcon
-              onClick={e => handleChange(true, "newPostPromptActive")}
+              onClick={() => this.setState({ newPostPrompt: true })}
               className="new-post-button"
               icon={faPlus}
               size="2x"
@@ -113,7 +129,7 @@ class PostList extends Component {
               style={{ backgroundColor: campaign.color }}
             />
           )}
-          {newPostPromptActive && (
+          {newPostPrompt && (
             <FontAwesomeIcon
               icon={faArrowDown}
               size="2x"
@@ -123,28 +139,15 @@ class PostList extends Component {
             />
           )}
 
-          {newPostPromptActive && <PostTypePicker newPost={newPost} />}
+          {newPostPrompt && (
+            <PostTypePicker
+              newPost={socialType => {
+                newPost(socialType);
+                this.setState({ newPostPrompt: false });
+              }}
+            />
+          )}
         </div>
-        {!campaign.recipeID &&
-          !recipeEditor && (
-            <div
-              className="publish-as-recipe"
-              style={{ backgroundColor: campaign.color }}
-              onClick={createRecipe}
-            >
-              Publish as recipe
-            </div>
-          )}
-        {recipeEditor &&
-          showRecipeSaveButton && (
-            <div
-              className="publish-as-recipe"
-              style={{ backgroundColor: campaign.color }}
-              onClick={saveRecipe}
-            >
-              Save Recipe
-            </div>
-          )}
       </div>
     );
   }

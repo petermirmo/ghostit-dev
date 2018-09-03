@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import axios from "axios";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-
 import DateTimePicker from "../DateTimePicker";
 import ImagesDiv from "../ImagesDiv/";
 import Textarea from "react-textarea-autosize";
@@ -176,8 +173,7 @@ class CustomTask extends Component {
     if (campaignStartDate && campaignEndDate) {
       if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
         // prompt user to cancel the save or modify campaign dates
-        if (this.props.pauseEscapeListener)
-          this.props.pauseEscapeListener(true);
+
         this.setState({ promptModifyCampaignDates: true });
         return;
       }
@@ -206,8 +202,6 @@ class CustomTask extends Component {
     if (campaignStartDate && campaignEndDate) {
       if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
         // prompt user to cancel the save or modify campaign dates
-        if (this.props.pauseEscapeListener)
-          this.props.pauseEscapeListener(true);
         this.setState({ promptModifyCampaignDates: true });
         return;
       }
@@ -237,7 +231,6 @@ class CustomTask extends Component {
   };
 
   modifyCampaignDate = response => {
-    if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(false);
     if (!response) {
       this.setState({ promptModifyCampaignDates: false });
       return;
@@ -281,7 +274,6 @@ class CustomTask extends Component {
           placeholder="Title"
           readOnly={!canEditPost}
         />
-<<<<<<< HEAD
         <Textarea
           className="instruction-textarea"
           placeholder="Describe this task!"
@@ -291,7 +283,6 @@ class CustomTask extends Component {
           value={instructions}
           readOnly={!canEditPost}
         />
-=======
         {this.props.recipeEditor && (
           <Textarea
             className="instruction-textarea"
@@ -312,7 +303,6 @@ class CustomTask extends Component {
             readOnly={!canEditPost}
           />
         )}
->>>>>>> 49a7eb550ec83086216ef95f8e537e2e30269088
         {somethingChanged && (
           <button
             className="schedule-post-button"
@@ -354,7 +344,6 @@ class CustomTask extends Component {
           canEdit={canEditPost}
           pushToImageDeleteArray={this.pushToImageDeleteArray}
         />
-
         <div className="time-picker-and-save-post">
           <DateTimePicker
             date={date}
@@ -369,11 +358,7 @@ class CustomTask extends Component {
         </div>
         {promptModifyCampaignDates && (
           <ConfirmAlert
-            close={() => {
-              if (this.props.pauseEscapeListener)
-                this.props.pauseEscapeListener(false);
-              this.setState({ promptModifyCampaignDates: false });
-            }}
+            close={() => this.setState({ promptModifyCampaignDates: false })}
             title="Modify Campaign Dates"
             message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
             callback={this.modifyCampaignDate}
