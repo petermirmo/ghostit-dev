@@ -2,29 +2,30 @@
 import moment from "moment-timezone";
 import axios from "axios";
 
-export const fillPosts = some_posts => {
+export const fillPosts = campaign => {
   // function called when a user clicks on an existing recipe to edit
   let posts = [];
-  for (let index in some_posts) {
-    let new_post = some_posts[index];
+  for (let index in campaign.posts) {
+    let new_post = campaign.posts[index];
     new_post.canEditPost = new moment(new_post.postingDate).isAfter(
       new moment()
     )
       ? true
       : false;
 
-    /*postingDate: recipe.startDate.add(
-        current_post.postingDate,
-        "millisecond"
-      )*/
+    if (campaign.beginDate) {
+      new_post.postingDate = createAppropriateDate(
+        campaign.beginDate,
+        campaign.startDate,
+        new_post.postingDate
+      );
+    }
+
     posts.push(new_post);
   }
   return posts;
 };
-/*  post_obj.socialType.charAt(0).toUpperCase() +
-  post_obj.socialType.slice(1) +
-  (post_obj.socialType === "custom" ? " Task - " : " Post - ") +
-  new moment(post_obj.postingDate).format("lll");*/
+
 export const newPost = (socialType, posts, campaign, clickedCalendarDate) => {
   const { startDate, _id } = campaign;
 
@@ -47,4 +48,15 @@ export const newPost = (socialType, posts, campaign, clickedCalendarDate) => {
     activePostIndex: posts.length,
     listOfPostChanges: {}
   };
+};
+
+export const createAppropriateDate = (
+  chosenStartDate,
+  recipeStartDate,
+  dateToModify
+) => {
+  return new moment(chosenStartDate).add(
+    new moment(dateToModify).diff(new moment(recipeStartDate)),
+    "milliseconds"
+  );
 };

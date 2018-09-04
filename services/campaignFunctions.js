@@ -139,7 +139,7 @@ module.exports = {
   saveCampaignAsRecipe: function(req, res) {
     // function called when a user makes a campaign in CampaignModal then tries to save it as a recipe
     // a different function is used when a user saves a campaign through the RecipeEditorModal
-    let userID = req.user._id;
+    const userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
         userID = req.user.signedInAsUser.id;
@@ -152,6 +152,7 @@ module.exports = {
       let recipe = new Recipe(campaign);
 
       recipe.userID = userID;
+      recipe.posts = posts;
 
       recipe.save();
 
@@ -162,9 +163,25 @@ module.exports = {
         });
       });
     } else {
-      res.send({
-        success: false,
-        message: "You cannot create a new recipe from an existing recipe."
+      Recipe.findOne({ _id: campaign.recipeID }, (err, recipe) => {
+        if (String(userID) === String(foundRecipe.userID)) {
+          for (let index in campaign) {
+            recipe[index] = campaign[index];
+          }
+          recipe.userID = userID;
+          recipe.posts = posts;
+
+          recipe.save();
+
+          Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
+            foundCampaign.recipeID = recipe._id;
+            foundCampaign.save((err, savedCampaign) => {
+              res.send({ success: true, campaign: savedCampaign });
+            });
+          });
+        } else {
+          res.send({ success: false, message: "Not your campaign!!" });
+        }
       });
     }
   },

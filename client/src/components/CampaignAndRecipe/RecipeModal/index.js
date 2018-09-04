@@ -142,20 +142,7 @@ class RecipeModal extends Component {
                         Use This Recipe
                       </div>
                     )}
-                    {!chooseRecipeDate &&
-                      recipe.userID == userID && (
-                        <div
-                          className="use-this-recipe"
-                          onClick={() => {
-                            this.props.handleChange(undefined, "clickedEvent");
-                            this.props.handleChange(recipe, "recipe");
-                            this.props.handleChange(false, "recipeModal");
-                            this.props.handleChange(true, "recipeEditorModal");
-                          }}
-                        >
-                          Edit This Recipe
-                        </div>
-                      )}
+
                     {chooseRecipeDate && (
                       <div className="label">Choose Start Date: </div>
                     )}
@@ -164,9 +151,8 @@ class RecipeModal extends Component {
                         date={new moment()}
                         dateFormat="MMMM Do YYYY"
                         handleChange={date => {
-                          recipe.startDate = date;
-                          this.props.handleChange(undefined, "clickedEvent");
-                          this.props.handleChange(recipe, "recipe");
+                          recipe.beginDate = date;
+                          this.props.handleChange(recipe, "clickedEvent");
                           this.props.handleChange(false, "recipeModal");
                           this.props.handleChange(true, "campaignModal");
                         }}
@@ -186,10 +172,9 @@ class RecipeModal extends Component {
                       className="recipe-edit-button"
                       size="2x"
                       onClick={() => {
-                        this.props.handleChange(undefined, "clickedEvent");
-                        this.props.handleChange(recipe, "recipe");
+                        this.props.handleChange(recipe, "clickedEvent");
                         this.props.handleChange(false, "recipeModal");
-                        this.props.handleChange(true, "recipeEditorModal");
+                        this.props.handleChange(true, "campaignModal");
                       }}
                     />
                     <FontAwesomeIcon

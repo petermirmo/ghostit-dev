@@ -23,13 +23,49 @@ import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
 import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
 
-import { fillPosts, newPost } from "../../../componentFunctions";
+import {
+  fillPosts,
+  newPost,
+  createAppropriateDate
+} from "../../../componentFunctions";
 
 import "./styles/";
 
 class CampaignModal extends Component {
   constructor(props) {
     super(props);
+    this.state = this.createStateVariable(this.props);
+  }
+  componentDidMount() {
+    this._ismounted = true;
+
+    this.initSocket();
+
+    this.props.setKeyListenerFunction([
+      () => {
+        if (!this._ismounted) return;
+        if (event.keyCode === 27) {
+          this.props.close(); // escape button pushed
+        }
+      },
+      this.props.getKeyListenerFunction[0]
+    ]);
+  }
+
+  componentWillUnmount() {
+    let { campaign, somethingChanged, socket } = this.state;
+
+    if (somethingChanged && campaign && socket) {
+      socket.emit("campaign_editted", campaign);
+      socket.on("campaign_saved", emitObject => {
+        socket.emit("close", campaign);
+
+        this.props.updateCampaigns();
+      });
+    }
+    this._ismounted = false;
+  }
+  createStateVariable = props => {
     let startDate =
       new moment() > new moment(props.clickedCalendarDate)
         ? new moment()
@@ -49,11 +85,29 @@ class CampaignModal extends Component {
           recipeID: undefined
         };
 
+    let activePostIndex;
+    let posts = [];
+
+    if (campaign.posts) {
+      if (campaign.posts.length > 0) {
+        posts = fillPosts(campaign);
+        activePostIndex = 0;
+      }
+    }
+    if (campaign.beginDate) {
+      campaign.endDate = createAppropriateDate(
+        campaign.beginDate,
+        campaign.startDate,
+        campaign.endDate
+      );
+      campaign.startDate = campaign.beginDate;
+    }
+
     let stateVariable = {
       campaign,
-      posts: [],
+      posts,
       listOfPostChanges: {},
-      activePostIndex: undefined,
+      activePostIndex,
 
       saving: true,
       somethingChanged: props.campaign ? false : true,
@@ -63,54 +117,8 @@ class CampaignModal extends Component {
       datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
     };
 
-    this.state = stateVariable;
-  }
-  componentDidMount() {
-    this._ismounted = true;
-
-    let {
-      campaign,
-      getKeyListenerFunction,
-      setKeyListenerFunction
-    } = this.props;
-
-    if (campaign) {
-      if (campaign.posts) {
-        if (campaign.posts.length > 0) {
-          this.setState({
-            posts: fillPosts(campaign.posts),
-            activePostIndex: 0
-          });
-        }
-      }
-    }
-
-    this.initSocket();
-
-    this.props.setKeyListenerFunction([
-      () => {
-        if (!this._ismounted) return;
-        if (event.keyCode === 27) {
-          this.props.close(); // escape button pushed
-        }
-      },
-      getKeyListenerFunction[0]
-    ]);
-  }
-
-  componentWillUnmount() {
-    let { campaign, somethingChanged, socket } = this.state;
-
-    if (somethingChanged && campaign && socket) {
-      socket.emit("campaign_editted", campaign);
-      socket.on("campaign_saved", emitObject => {
-        socket.emit("close", campaign);
-
-        this.props.updateCampaigns();
-      });
-    }
-    this._ismounted = false;
-  }
+    return stateVariable;
+  };
 
   initSocket = () => {
     let { campaign, somethingChanged, posts } = this.state;
@@ -449,7 +457,6 @@ class CampaignModal extends Component {
 
   render() {
     const {
-      colors,
       posts,
       saving,
       confirmDelete,
@@ -487,7 +494,6 @@ class CampaignModal extends Component {
           <CampaignRecipeHeader
             campaign={campaign}
             datePickerMessage={datePickerMessage}
-            colors={colors}
             handleChange={this.handleCampaignChange}
             tryChangingDates={this.tryChangingCampaignDates}
           />
