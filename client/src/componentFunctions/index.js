@@ -26,25 +26,40 @@ export const fillPosts = campaign => {
   return posts;
 };
 
-export const newPost = (socialType, posts, campaign, clickedCalendarDate) => {
+export const newPost = (
+  socialType,
+  posts,
+  campaign,
+  clickedCalendarDate,
+  listOfPostChanges
+) => {
   const { startDate, _id } = campaign;
 
   let postingDate = clickedCalendarDate;
   if (clickedCalendarDate < new moment(campaign.startDate))
     postingDate = campaign.startDate;
 
-  return {
-    posts: [
-      ...posts,
+  if (Object.keys(listOfPostChanges).length > 0) {
+    // current post has unsaved changes
+    return {
+      pendingPostType: socialType,
+      promptChangeActivePost: true
+    };
+  }
 
-      {
-        postingDate,
-        socialType,
-        campaignID: _id,
-        canEditPost: true,
-        name: socialType.charAt(0).toUpperCase() + socialType.slice(1) + " Post"
-      }
-    ],
+  const post = {
+    postingDate,
+    socialType,
+    campaignID: _id,
+    canEditPost: true,
+    name:
+      socialType.charAt(0).toUpperCase() +
+      socialType.slice(1) +
+      (socialType === "custom" ? " Task" : " Post")
+  };
+
+  return {
+    posts: [...posts, post],
     activePostIndex: posts.length,
     listOfPostChanges: {}
   };

@@ -116,7 +116,7 @@ class CampaignModal extends Component {
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
       nextChosenPostIndex: 0,
-      nextPostSocialType: undefined,
+      pendingPostType: undefined, // when user tries to create a new post, but their current post has unsaved changes
       datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
     };
 
@@ -268,23 +268,28 @@ class CampaignModal extends Component {
 
   changeActivePost = response => {
     if (!response) {
-      this.setState({ promptChangeActivePost: false });
+      this.setState({
+        promptChangeActivePost: false,
+        pendingPostType: undefined
+      });
       return;
     }
-    const { nextChosenPostIndex, nextPostSocialType } = this.state;
+    const {
+      pendingPostType,
+      posts,
+      campaign,
+      clickedCalendarDate,
+      listOfPostChanges
+    } = this.state;
 
-    if (nextChosenPostIndex === undefined && nextPostSocialType) {
+    if (pendingPostType) {
       // this occurs when the user is trying to create a new post and their currently active post has unsaved changes
-      this.setState(
-        {
-          listOfPostChanges: {},
-          promptChangeActivePost: false,
-          nextPostSocialType: undefined
-        },
-        () => {
-          this.newPost(nextPostSocialType);
-        }
-      );
+      this.setState({
+        listOfPostChanges: {},
+        promptChangeActivePost: false,
+        pendingPostType: undefined,
+        ...newPost(pendingPostType, posts, campaign, clickedCalendarDate, {})
+      });
     } else {
       this.setState({
         activePostIndex: nextChosenPostIndex,
@@ -562,9 +567,21 @@ class CampaignModal extends Component {
                 activePostIndex={activePostIndex}
                 listOfPostChanges={listOfPostChanges}
                 clickedCalendarDate={clickedCalendarDate}
-                newPost={(socialType, posts, campaign, clickedCalendarDate) =>
+                newPost={(
+                  socialType,
+                  posts,
+                  campaign,
+                  clickedCalendarDate,
+                  callback
+                ) =>
                   this.setState(
-                    newPost(socialType, posts, campaign, clickedCalendarDate)
+                    newPost(
+                      socialType,
+                      posts,
+                      campaign,
+                      clickedCalendarDate,
+                      listOfPostChanges
+                    )
                   )
                 }
                 deletePost={this.deletePost}
