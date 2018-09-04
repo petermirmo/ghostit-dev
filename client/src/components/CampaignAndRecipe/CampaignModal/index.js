@@ -114,7 +114,9 @@ class CampaignModal extends Component {
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
+      promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
       nextChosenPostIndex: 0,
+      nextPostSocialType: undefined,
       datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
     };
 
@@ -141,6 +143,27 @@ class CampaignModal extends Component {
     } else this.setState({ saving: false });
 
     this.setState({ socket });
+  };
+
+  closeChecks = () => {
+    const { listOfPostChanges, somethingChanged } = this.state;
+
+    if (Object.keys(listOfPostChanges).length > 0) {
+      // unsaved post changes
+      this.setState({ promptDiscardPostChanges: true });
+      return false;
+    }
+
+    return true;
+  };
+
+  attemptToCloseModal = () => {
+    // function called when the user tries to close the modal
+    // we check to see if there are any unsaved changes on the current post and the recipe
+    if (!this.closeChecks()) {
+      return;
+    }
+    this.props.close();
   };
 
   deleteCampaign = response => {
@@ -248,12 +271,27 @@ class CampaignModal extends Component {
       this.setState({ promptChangeActivePost: false });
       return;
     }
-    const { nextChosenPostIndex } = this.state;
-    this.setState({
-      activePostIndex: nextChosenPostIndex,
-      promptChangeActivePost: false,
-      listOfPostChanges: {}
-    });
+    const { nextChosenPostIndex, nextPostSocialType } = this.state;
+
+    if (nextChosenPostIndex === undefined && nextPostSocialType) {
+      // this occurs when the user is trying to create a new post and their currently active post has unsaved changes
+      this.setState(
+        {
+          listOfPostChanges: {},
+          promptChangeActivePost: false,
+          nextPostSocialType: undefined
+        },
+        () => {
+          this.newPost(nextPostSocialType);
+        }
+      );
+    } else {
+      this.setState({
+        activePostIndex: nextChosenPostIndex,
+        promptChangeActivePost: false,
+        listOfPostChanges: {}
+      });
+    }
   };
 
   backupPostChanges = (value, index) => {
@@ -467,6 +505,7 @@ class CampaignModal extends Component {
       datePickerMessage,
       nextChosenPostIndex,
       promptChangeActivePost,
+      promptDiscardPostChanges,
       listOfPostChanges
     } = this.state;
     const { clickedCalendarDate } = this.props;
@@ -581,6 +620,24 @@ class CampaignModal extends Component {
               title="Discard Unsaved Changes"
               message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
               callback={this.changeActivePost}
+              type="change-post"
+            />
+          )}
+          {promptDiscardPostChanges && (
+            <ConfirmAlert
+              close={() => this.setState({ promptDiscardPostChanges: false })}
+              title="Discard Unsaved Changes"
+              message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
+              callback={response => {
+                if (!response) {
+                  this.setState({ promptDiscardPostChanges: false });
+                  return;
+                }
+                this.setState(
+                  { listOfPostChanges: {}, promptDiscardPostChanges: false },
+                  this.attemptToCloseModal
+                );
+              }}
               type="change-post"
             />
           )}
