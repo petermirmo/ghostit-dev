@@ -42,7 +42,7 @@ class CampaignModal extends Component {
     this.initSocket();
 
     this.props.setKeyListenerFunction([
-      () => {
+      event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
           this.props.close(); // escape button pushed
