@@ -8,6 +8,7 @@ const recipe = new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
+    useCount: Number,
     startDate: Date,
     endDate: Date,
     color: String,
