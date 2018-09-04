@@ -45,7 +45,7 @@ class CampaignModal extends Component {
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.close(); // escape button pushed
+          this.attemptToCloseModal(); // escape button pushed
         }
       },
       this.props.getKeyListenerFunction[0]
@@ -514,13 +514,13 @@ class CampaignModal extends Component {
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
     return (
-      <div className="modal" onClick={() => this.props.close()}>
+      <div className="modal" onClick={() => this.attemptToCloseModal()}>
         <div className="large-modal" onClick={e => e.stopPropagation()}>
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => this.props.close()}
+            onClick={() => this.attemptToCloseModal()}
           />
           <div
             className="back-button-top"

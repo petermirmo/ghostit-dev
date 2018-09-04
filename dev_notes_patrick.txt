@@ -59,8 +59,6 @@ save recipe button doesn't give feedback that it saved.
 
 should we force all posts to have instructions when attempting to be saved as a recipe?
 
-escape to exit modals doesn't work.
-
 post names being long could make some ui elements look bad (the buttons in the post list of a campaign / previewing a recipe)
 
 previewing a recipe: have the day number beside the name of the post (ex: "fb post - Day 1", "twit post - Day 3")
