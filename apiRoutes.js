@@ -210,10 +210,6 @@ module.exports = app => {
   );
   // Save campaign as recipe
   app.post("/api/recipe", middleware, (req, res) =>
-    campaignFunctions.saveCampaignAsRecipe(req, res)
-  );
-  // Save recipe using the RecipeEditorModal
-  app.post("/api/saveRecipe", middleware, (req, res) =>
     campaignFunctions.saveRecipe(req, res)
   );
   // Get all recipes

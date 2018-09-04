@@ -4,6 +4,7 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -38,8 +39,24 @@ class RecipeModal extends Component {
     promptDeleteRecipe: false
   };
   componentDidMount() {
+    this._ismounted = true;
+
+    this.props.setKeyListenerFunction([
+      () => {
+        if (!this._ismounted) return;
+        if (event.keyCode === 27) {
+          this.props.handleChange(false, "recipeModal"); // escape button pushed
+        }
+      },
+      this.props.getKeyListenerFunction[0]
+    ]);
+
     this.getRecipes();
   }
+  componentWillUnmount() {
+    this._ismounted = false;
+  }
+
   getRecipes = () => {
     axios.get("/api/recipes").then(res => {
       let { usersRecipes, allRecipes } = res.data;
@@ -349,8 +366,20 @@ class RecipeModal extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    getKeyListenerFunction: state.getKeyListenerFunction
   };
 }
 
-export default connect(mapStateToProps)(RecipeModal);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setKeyListenerFunction
+    },
+    dispatch
+  );
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecipeModal);

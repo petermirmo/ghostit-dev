@@ -5,7 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage } from "../../../redux/actions/";
+import { changePage, setKeyListenerFunction } from "../../../redux/actions/";
 
 import CreateBlog from "../../../components/CreateBlog/";
 import CreateNewsletter from "../../../components/CreateNewsletter/";
@@ -28,6 +28,22 @@ class ContentModal extends Component {
       { name: "instagram" }
     ]
   };
+  componentDidMount() {
+    this._ismounted = true;
+
+    this.props.setKeyListenerFunction([
+      () => {
+        if (!this._ismounted) return;
+        if (event.keyCode === 27) {
+          this.props.close(); // escape button pushed
+        }
+      },
+      this.props.getKeyListenerFunction[0]
+    ]);
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
+  }
 
   switchTabState = activeTab => {
     this.setState({
@@ -129,13 +145,15 @@ class ContentModal extends Component {
 }
 function mapStateToProps(state) {
   return {
-    accounts: state.accounts
+    accounts: state.accounts,
+    getKeyListenerFunction: state.getKeyListenerFunction
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage: changePage
+      changePage,
+      setKeyListenerFunction
     },
     dispatch
   );
