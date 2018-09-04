@@ -24,7 +24,7 @@ class PostEdittingModal extends Component {
     this._ismounted = true;
 
     this.props.setKeyListenerFunction([
-      () => {
+      event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
           this.props.close(); // escape button pushed
