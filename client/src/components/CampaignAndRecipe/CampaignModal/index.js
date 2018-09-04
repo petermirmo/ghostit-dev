@@ -309,6 +309,7 @@ class CampaignModal extends Component {
     // so we'll want to disallow this modification and let the user know what happened
     // it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
     const { campaign, posts } = this.state;
+
     const dates = {
       startDate: campaign.startDate,
       endDate: campaign.endDate
@@ -319,7 +320,7 @@ class CampaignModal extends Component {
     let count_invalid = 0;
 
     for (let index in posts) {
-      const postingDate = new moment(posts[index].post.postingDate);
+      const postingDate = new moment(posts[index].postingDate);
       if (postingDate < startDate || postingDate > endDate) {
         count_invalid++;
       }
