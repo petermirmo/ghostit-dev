@@ -90,7 +90,7 @@ class PostingOptions extends Component {
       stateVariable.campaignID = props.post.campaignID
         ? props.post.campaignID
         : undefined;
-      stateVariable.name = props.post.name;
+      stateVariable.name = props.post.name ? props.post.name : "";
     }
 
     stateVariable.deleteImagesArray = [];

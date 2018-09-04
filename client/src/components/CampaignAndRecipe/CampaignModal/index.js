@@ -94,13 +94,14 @@ class CampaignModal extends Component {
         activePostIndex = 0;
       }
     }
-    if (campaign.beginDate) {
+    if (campaign.chosenStartDate) {
+      // Only defined if made from recipe
       campaign.endDate = createAppropriateDate(
-        campaign.beginDate,
+        campaign.chosenStartDate,
         campaign.startDate,
         campaign.endDate
       );
-      campaign.startDate = campaign.beginDate;
+      campaign.startDate = campaign.chosenStartDate;
     }
 
     let stateVariable = {

@@ -13,9 +13,9 @@ export const fillPosts = campaign => {
       ? true
       : false;
 
-    if (campaign.beginDate) {
+    if (campaign.chosenStartDate) {
       new_post.postingDate = createAppropriateDate(
-        campaign.beginDate,
+        campaign.chosenStartDate,
         campaign.startDate,
         new_post.postingDate
       );
