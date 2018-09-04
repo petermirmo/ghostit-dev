@@ -139,7 +139,7 @@ module.exports = {
   saveCampaignAsRecipe: function(req, res) {
     // function called when a user makes a campaign in CampaignModal then tries to save it as a recipe
     // a different function is used when a user saves a campaign through the RecipeEditorModal
-    const userID = req.user._id;
+    let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
         userID = req.user.signedInAsUser.id;

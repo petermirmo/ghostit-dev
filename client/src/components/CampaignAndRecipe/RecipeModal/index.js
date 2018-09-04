@@ -113,9 +113,11 @@ class RecipeModal extends Component {
                               backgroundColor: getPostColor(post_obj.socialType)
                             }}
                           >
-                            {post_obj.socialType.charAt(0).toUpperCase() +
-                              post_obj.socialType.slice(1) +
-                              " Post"}
+                            {post_obj.name
+                              ? post_obj.name
+                              : post_obj.socialType.charAt(0).toUpperCase() +
+                                post_obj.socialType.slice(1) +
+                                " Post"}
                           </div>
                         </div>
                       );

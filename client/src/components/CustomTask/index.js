@@ -283,26 +283,6 @@ class CustomTask extends Component {
           value={instructions}
           readOnly={!canEditPost}
         />
-        {this.props.recipeEditor && (
-          <Textarea
-            className="instruction-textarea"
-            placeholder="Describe this task!"
-            onChange={event =>
-              this.handleChange(event.target.value, "instructions")
-            }
-            value={instructions}
-            readOnly={!canEditPost}
-          />
-        )}
-        {!this.props.recipeEditor && (
-          <Textarea
-            className="instruction-textarea"
-            placeholder="Describe this task!"
-            onChange={event => this.handleChange(event.target.value, "content")}
-            value={content}
-            readOnly={!canEditPost}
-          />
-        )}
         {somethingChanged && (
           <button
             className="schedule-post-button"
