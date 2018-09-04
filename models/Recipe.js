@@ -8,21 +8,30 @@ const recipe = new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
-    length: Number,
-    hour: Number,
-    minute: Number,
-    name: String,
+    startDate: Date,
+    endDate: Date,
     color: String,
-    image: {
-      url: String,
-      publicID: String
+    name: String,
+    recipeID: {
+      type: Schema.Types.ObjectId
     },
     posts: [
       {
-        socialType: String,
+        content: String,
         instructions: String,
+        link: String,
+        linkImage: String,
         postingDate: String,
-        name: String
+        socialType: String,
+        errorMessage: String,
+        color: String,
+        name: String,
+        images: [
+          {
+            url: String,
+            publicID: String
+          }
+        ]
       }
     ]
   },

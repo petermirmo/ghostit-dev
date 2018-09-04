@@ -303,7 +303,7 @@ class RecipeModal extends Component {
           <div
             className="custom-campaign-button"
             onClick={e => {
-              this.props.handleChange(undefined, "recipe");
+              this.props.handleChange(undefined, "clickedEvent");
               this.props.handleChange(true, "campaignModal");
               this.props.handleChange(false, "recipeModal");
             }}

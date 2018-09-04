@@ -149,29 +149,10 @@ module.exports = {
     let { campaign, posts } = req.body;
 
     if (!campaign.recipeID) {
-      let recipe = new Recipe();
+      let recipe = new Recipe(campaign);
 
       recipe.userID = userID;
-      recipe.name = campaign.name;
-      recipe.color = campaign.color;
-      recipe.length = new moment(campaign.endDate).diff(
-        new moment(campaign.startDate)
-      );
-      recipe.hour = new moment(campaign.startDate).format("H");
-      recipe.minute = new moment(campaign.startDate).format("mm");
-      recipe.posts = [];
 
-      for (let index in posts) {
-        let post = posts[index];
-        recipe.posts.push({
-          socialType: post.post.socialType,
-          instructions: post.post.instructions,
-          name: post.post.name,
-          postingDate: new moment(post.post.postingDate).diff(
-            new moment(campaign.startDate)
-          )
-        });
-      }
       recipe.save();
 
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {

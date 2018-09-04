@@ -68,7 +68,11 @@ class CampaignModal extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    let { campaign } = this.props;
+    let {
+      campaign,
+      getKeyListenerFunction,
+      setKeyListenerFunction
+    } = this.props;
 
     if (campaign) {
       if (campaign.posts) {
@@ -82,8 +86,6 @@ class CampaignModal extends Component {
     }
 
     this.initSocket();
-
-    let { getKeyListenerFunction, setKeyListenerFunction } = this.props;
 
     this.props.setKeyListenerFunction([
       () => {
@@ -352,7 +354,6 @@ class CampaignModal extends Component {
       return (
         <CustomTask
           post={post_obj}
-          clickedCalendarDate={post_obj.postingDate}
           postFinishedSavingCallback={savedPost => {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
@@ -381,8 +382,6 @@ class CampaignModal extends Component {
       return (
         <Post
           post={post_obj}
-          newActivePost={true}
-          clickedCalendarDate={post_obj.postingDate}
           postFinishedSavingCallback={savedPost => {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
@@ -395,7 +394,6 @@ class CampaignModal extends Component {
             this.setState({ saving: true });
           }}
           socialType={post_obj.socialType}
-          maxCharacters={getSocialCharacters(post_obj.socialType)}
           canEditPost={true}
           listOfChanges={
             Object.keys(listOfPostChanges).length > 0
@@ -501,8 +499,9 @@ class CampaignModal extends Component {
               </div>
               <PostTypePicker
                 newPost={socialType => {
-                  newPost(socialType, posts, campaign, clickedCalendarDate);
-                  this.setState({ newPostPrompt: false });
+                  this.setState(
+                    newPost(socialType, posts, campaign, clickedCalendarDate)
+                  );
                 }}
               />
             </div>
