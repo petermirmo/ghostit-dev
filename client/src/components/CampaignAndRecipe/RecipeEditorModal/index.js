@@ -138,7 +138,6 @@ class RecipeEditorModal extends Component {
   fillPosts = recipe_posts => {
     // function called when a user clicks on an existing recipe to edit
     const { recipe } = this.state;
-    console.log(recipe_posts);
     let posts = [];
     for (let index in recipe_posts) {
       const current_post = recipe_posts[index];
