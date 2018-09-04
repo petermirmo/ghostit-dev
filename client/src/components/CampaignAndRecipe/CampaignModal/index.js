@@ -469,6 +469,15 @@ class CampaignModal extends Component {
       alert("To publish this campaign as a recipe, please give it a name!");
       return;
     }
+    for (let index in posts) {
+      const post = posts[index];
+      if (!post.instructions || post.instructions === "") {
+        alert(
+          "All posts in a recipe must have instructions. Make sure each post has instructions then try saving again."
+        );
+        return;
+      }
+    }
 
     axios.post("/api/recipe", { campaign, posts }).then(res => {
       const { success } = res.data;

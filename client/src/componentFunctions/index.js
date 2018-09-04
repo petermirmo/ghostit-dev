@@ -39,7 +39,7 @@ export const newPost = (
   if (clickedCalendarDate < new moment(campaign.startDate))
     postingDate = campaign.startDate;
 
-  if (Object.keys(listOfPostChanges).length > 0) {
+  if (listOfPostChanges && Object.keys(listOfPostChanges).length > 0) {
     // current post has unsaved changes
     return {
       pendingPostType: socialType,
