@@ -23,6 +23,7 @@
 
   min-width: 100%;
   min-height: 0;
+  background-color: var(--light-grey-theme-color);
 }
 
 .post-container {

@@ -13,9 +13,7 @@ const recipe = new Schema(
     endDate: Date,
     color: String,
     name: String,
-    recipeID: {
-      type: Schema.Types.ObjectId
-    },
+    description: String,
     posts: [
       {
         content: String,

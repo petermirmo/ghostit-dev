@@ -528,6 +528,34 @@
   border-bottom: 1px solid var(--grey-theme-color);
 }
 
+.show-more-container {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+
+  z-index: 1000;
+}
+.show-more {
+  position: relative;
+  left: -50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 4px 14px 4px 14px;
+
+  border-radius: 100px;
+  background-color: var(--light-grey-theme-color);
+  border: 1px solid var(--grey-theme-color);
+
+  color: var(--off-black-theme-color);
+  cursor: pointer;
+}
+.show-more:hover {
+  border-color: var(--blue-theme-color);
+  background-color: var(--white-theme-color);
+  color: var(--dark-blue-theme-color);
+}
 body {
   min-height: 100%;
 

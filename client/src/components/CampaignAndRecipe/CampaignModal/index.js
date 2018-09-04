@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
 
@@ -477,27 +476,16 @@ class CampaignModal extends Component {
     return (
       <div className="modal" onClick={() => this.props.close()}>
         <div className="large-modal" onClick={e => e.stopPropagation()}>
-          <FontAwesomeIcon
-            icon={faTimes}
-            size="2x"
-            className="close"
-            onClick={() => this.props.close()}
-          />
-          <div
-            className="back-button-top"
-            onClick={() => {
-              this.props.handleChange(false, "campaignModal");
-              this.props.handleChange(true, "recipeModal");
-            }}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" />{" "}
-            Back to Recipes
-          </div>
           <CampaignRecipeHeader
             campaign={campaign}
             datePickerMessage={datePickerMessage}
             handleChange={this.handleCampaignChange}
             tryChangingDates={this.tryChangingCampaignDates}
+            backToRecipes={() => {
+              this.props.handleChange(false, "campaignModal");
+              this.props.handleChange(true, "recipeModal");
+            }}
+            close={() => this.props.close()}
           />
 
           {!firstPostChosen && (

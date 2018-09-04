@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-
 import moment from "moment-timezone";
+import Textarea from "react-textarea-autosize";
+
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
+import faAngleUp from "@fortawesome/fontawesome-free-solid/faAngleUp";
+import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
 
 import DateTimePicker from "../../../DateTimePicker";
 
@@ -31,11 +37,13 @@ class CampaignRecipeHeader extends Component {
           border: "color4-border",
           color: "var(--campaign-color4)"
         }
-      }
+      },
+      showMore: true
     };
   }
+
   render() {
-    const { colors } = this.state;
+    const { colors, showMore } = this.state;
     const { campaign, datePickerMessage } = this.props; // variables
     const { handleChange, tryChangingDates } = this.props; // functions
 
@@ -56,28 +64,63 @@ class CampaignRecipeHeader extends Component {
       );
     }
 
+    let display;
+    let paddingBottom;
+    if (!showMore) display = "none";
+    else paddingBottom = "40px";
+
     return (
       <div
         className="campaign-information-container"
-        style={{ borderColor: campaign.color }}
+        style={{ borderColor: campaign.color, paddingBottom }}
       >
-        <div className="name-color-container">
-          <div className="name-container">
+        <FontAwesomeIcon
+          icon={faTimes}
+          size="2x"
+          className="close"
+          onClick={() => this.props.close()}
+        />
+        <div
+          className="back-button-top"
+          onClick={() => {
+            this.props.handleChange(false, "campaignModal");
+            this.props.handleChange(true, "recipeModal");
+          }}
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" />{" "}
+          Back to Recipes
+        </div>
+        <div className="row-container" style={{ display }}>
+          <div className="header-section-container">
             <div className="label">Name:</div>
-            <input
+            <Textarea
               onChange={event => handleChange(event.target.value, "name")}
               value={campaign.name}
-              className="name-input"
+              className="campaign-textarea"
               placeholder="My Awesome Product Launch!"
+              readOnly={false}
             />
           </div>
-          <div className="color-picker-container">
+          <div className="header-section-container">
             <div className="label">Color:</div>
             <div className="colors">{colorDivs}</div>
           </div>
         </div>
-        <div className="dates-container">
-          <div className="date-and-label-container">
+        <div className="row-container" style={{ display }}>
+          <div className="header-section-container" style={{ display }}>
+            <div className="label">Description: </div>
+
+            <Textarea
+              className="campaign-textarea"
+              placeholder="Describe this campaign!"
+              onChange={event =>
+                this.handleChange(event.target.value, "description")
+              }
+              value={campaign.description}
+              readOnly={false}
+            />
+          </div>
+          <div className="header-section-container">
             <div className="label">Start Date: </div>
             <DateTimePicker
               date={new moment(campaign.startDate)}
@@ -89,7 +132,10 @@ class CampaignRecipeHeader extends Component {
               message={datePickerMessage}
             />
           </div>
-          <div className="date-and-label-container">
+        </div>
+        <div className="row-container" style={{ display }}>
+          <div className="header-section-container" />
+          <div className="header-section-container">
             <div className="label">End Date: </div>
             <DateTimePicker
               date={new moment(campaign.endDate)}
@@ -102,6 +148,34 @@ class CampaignRecipeHeader extends Component {
             />
           </div>
         </div>
+        {!showMore && (
+          <div
+            className="show-more-container"
+            onClick={() => this.setState({ showMore: true })}
+          >
+            <div className="show-more">
+              Show
+              <FontAwesomeIcon
+                icon={faAngleDown}
+                style={{ paddingLeft: "4px" }}
+              />
+            </div>
+          </div>
+        )}
+        {showMore && (
+          <div
+            className="show-more-container"
+            onClick={() => this.setState({ showMore: false })}
+          >
+            <div className="show-more">
+              Hide
+              <FontAwesomeIcon
+                icon={faAngleUp}
+                style={{ paddingLeft: "4px" }}
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
