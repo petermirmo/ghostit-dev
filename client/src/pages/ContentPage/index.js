@@ -13,7 +13,6 @@ import Calendar from "../../components/Calendar/";
 import OptionModal from "../../components/OptionModal";
 import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
-import RecipeEditorModal from "../../components/CampaignAndRecipe/RecipeEditorModal";
 
 class Content extends Component {
   state = {
@@ -34,7 +33,6 @@ class Content extends Component {
     optionModal: false, // modal to pick between campaign or post
     campaignModal: false,
     recipeModal: false,
-    recipeEditorModal: false,
 
     calendarEventCategories: {
       All: true,
@@ -346,15 +344,6 @@ class Content extends Component {
             close={this.closeModals}
             handleChange={this.handleChange}
             clickedCalendarDate={clickedDate}
-          />
-        )}
-        {this.state.recipeEditorModal && (
-          <RecipeEditorModal
-            close={this.closeModals}
-            handleChange={this.handleChange}
-            timezone={timezone}
-            clickedCalendarDate={clickedDate}
-            recipe={recipe}
           />
         )}
       </div>

@@ -7,11 +7,6 @@ export const fillPosts = campaign => {
   let posts = [];
   for (let index in campaign.posts) {
     let new_post = campaign.posts[index];
-    new_post.canEditPost = new moment(new_post.postingDate).isAfter(
-      new moment()
-    )
-      ? true
-      : false;
 
     if (campaign.chosenStartDate) {
       new_post.postingDate = createAppropriateDate(
@@ -20,6 +15,11 @@ export const fillPosts = campaign => {
         new_post.postingDate
       );
     }
+    new_post.canEditPost = new moment(new_post.postingDate).isAfter(
+      new moment()
+    )
+      ? true
+      : false;
 
     posts.push(new_post);
   }
