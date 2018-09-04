@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import axios from "axios";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-
 import DateTimePicker from "../DateTimePicker";
 import ImagesDiv from "../ImagesDiv/";
 import Textarea from "react-textarea-autosize";
@@ -26,7 +23,6 @@ class CustomTask extends Component {
       _id: undefined,
       images: [],
       socialType: props.socialType,
-      content: "",
       instructions: "",
       name: "Custom Task",
       sendEmailReminder: true
@@ -37,7 +33,6 @@ class CustomTask extends Component {
       stateVariable.socialType = props.post.socialType
         ? props.post.socialType
         : props.socialType;
-      stateVariable.content = props.post.content ? props.post.content : "";
       stateVariable.instructions = props.post.instructions
         ? props.post.instructions
         : "";
@@ -49,7 +44,6 @@ class CustomTask extends Component {
     }
 
     stateVariable.deleteImagesArray = [];
-    stateVariable.timezone = props.timezone;
     stateVariable.somethingChanged = false;
 
     if (props.recipeEditor) {
@@ -66,9 +60,6 @@ class CustomTask extends Component {
           : new moment(props.clickedCalendarDate);
     }
 
-    if (props.recipePost) {
-      stateVariable.date = props.recipePost.postingDate;
-    }
     return stateVariable;
   };
   componentWillReceiveProps(nextProps) {
@@ -182,8 +173,7 @@ class CustomTask extends Component {
     if (campaignStartDate && campaignEndDate) {
       if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
         // prompt user to cancel the save or modify campaign dates
-        if (this.props.pauseEscapeListener)
-          this.props.pauseEscapeListener(true);
+
         this.setState({ promptModifyCampaignDates: true });
         return;
       }
@@ -196,14 +186,14 @@ class CustomTask extends Component {
   trySavePost = (campaignStartDate, campaignEndDate) => {
     const {
       _id,
-      content,
       images,
       socialType,
       deleteImagesArray,
       somethingChanged,
       campaignID,
       name,
-      sendEmailReminder
+      sendEmailReminder,
+      instructions
     } = this.state;
     let { date } = this.state;
 
@@ -212,8 +202,6 @@ class CustomTask extends Component {
     if (campaignStartDate && campaignEndDate) {
       if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
         // prompt user to cancel the save or modify campaign dates
-        if (this.props.pauseEscapeListener)
-          this.props.pauseEscapeListener(true);
         this.setState({ promptModifyCampaignDates: true });
         return;
       }
@@ -223,7 +211,7 @@ class CustomTask extends Component {
 
     savePost(
       _id,
-      content,
+      undefined,
       new moment(date).utcOffset(0),
       undefined,
       undefined,
@@ -234,7 +222,7 @@ class CustomTask extends Component {
       postFinishedSavingCallback,
       deleteImagesArray,
       campaignID,
-      content,
+      instructions,
       name,
       sendEmailReminder
     );
@@ -243,7 +231,6 @@ class CustomTask extends Component {
   };
 
   modifyCampaignDate = response => {
-    if (this.props.pauseEscapeListener) this.props.pauseEscapeListener(false);
     if (!response) {
       this.setState({ promptModifyCampaignDates: false });
       return;
@@ -287,26 +274,15 @@ class CustomTask extends Component {
           placeholder="Title"
           readOnly={!canEditPost}
         />
-        {this.props.recipeEditor && (
-          <Textarea
-            className="instruction-textarea"
-            placeholder="Describe this task!"
-            onChange={event =>
-              this.handleChange(event.target.value, "instructions")
-            }
-            value={instructions}
-            readOnly={!canEditPost}
-          />
-        )}
-        {!this.props.recipeEditor && (
-          <Textarea
-            className="instruction-textarea"
-            placeholder="Describe this task!"
-            onChange={event => this.handleChange(event.target.value, "content")}
-            value={content}
-            readOnly={!canEditPost}
-          />
-        )}
+        <Textarea
+          className="instruction-textarea"
+          placeholder="Describe this task!"
+          onChange={event =>
+            this.handleChange(event.target.value, "instructions")
+          }
+          value={instructions}
+          readOnly={!canEditPost}
+        />
         {somethingChanged && (
           <button
             className="schedule-post-button"
@@ -348,7 +324,6 @@ class CustomTask extends Component {
           canEdit={canEditPost}
           pushToImageDeleteArray={this.pushToImageDeleteArray}
         />
-
         <div className="time-picker-and-save-post">
           <DateTimePicker
             date={date}
@@ -363,11 +338,7 @@ class CustomTask extends Component {
         </div>
         {promptModifyCampaignDates && (
           <ConfirmAlert
-            close={() => {
-              if (this.props.pauseEscapeListener)
-                this.props.pauseEscapeListener(false);
-              this.setState({ promptModifyCampaignDates: false });
-            }}
+            close={() => this.setState({ promptModifyCampaignDates: false })}
             title="Modify Campaign Dates"
             message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
             callback={this.modifyCampaignDate}

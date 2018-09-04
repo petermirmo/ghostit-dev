@@ -8,8 +8,6 @@
 
   flex-direction: column;
 
-  padding-bottom: 50px;
-
   border-right: 0.5px solid var(--light-grey-theme-color);
   border-bottom: 0.5px solid var(--light-grey-theme-color);
 
@@ -52,10 +50,7 @@
   margin-right: auto;
 }
 .publish-as-recipe {
-  position: absolute;
-  bottom: 5px;
-
-  width: 70%;
+  width: 20%;
 
   padding: 8px 0 8px 0;
 

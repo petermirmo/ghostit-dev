@@ -12,21 +12,41 @@ import PostTypePicker from "../PostTypePicker";
 import "./styles/";
 
 class PostList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { newPostPrompt: false };
+  }
+  selectPost = arrayIndex => {
+    const { listOfPostChanges, activePostIndex, handleChange } = this.props;
+
+    if (activePostIndex === arrayIndex) {
+      return;
+    }
+    if (Object.keys(listOfPostChanges).length > 0) {
+      handleChange(true, "promptChangeActivePost");
+      handleChange(arrayIndex, "nextChosenPostIndex");
+    } else {
+      handleChange(arrayIndex, "activePostIndex");
+    }
+  };
   render() {
+    const { newPostPrompt } = this.state;
     const {
       campaign,
       posts,
       activePostIndex,
       listOfPostChanges,
-      newPostPromptActive
+      recipeEditor,
+      clickedCalendarDate
     } = this.props; // variables
     const {
       newPost,
-      selectPost,
       deletePost,
       handleChange,
-      createRecipe
+      createRecipe,
+      saveRecipe
     } = this.props; // functions
+
     return (
       <div
         className="post-navigation-container"
@@ -34,16 +54,7 @@ class PostList extends Component {
       >
         <div className="list-container">
           {posts.map((post_obj, index) => {
-            let postDate;
-            if (this.props.recipeEditor) {
-              postDate = post_obj.postingDate;
-            } else {
-              postDate = post_obj.post
-                ? post_obj.post.postingDate
-                : post_obj.clickedCalendarDate;
-              if (post_obj.recipePost)
-                postDate = post_obj.recipePost.postingDate;
-            }
+            let postDate = post_obj.postingDate;
 
             let entryClassName = undefined;
             let entryBorderColor = undefined;
@@ -52,13 +63,11 @@ class PostList extends Component {
               entryBorderColor = campaign.color;
             } else {
               entryClassName = "list-entry";
-              entryBorderColor = this.props.recipeEditor
-                ? getPostColor(post_obj.socialType)
-                : getPostColor(post_obj.post.socialType);
+              entryBorderColor = getPostColor(post_obj.socialType);
             }
 
             let savedBoxColor = "var(--green-theme-color)";
-            if (!this.props.recipeEditor && !post_obj.post._id) {
+            if (!recipeEditor && !post_obj._id) {
               // post hasnt been saved yet since it doesn't have an _id
               savedBoxColor = "var(--red-theme-color)";
             } else if (index === activePostIndex) {
@@ -90,43 +99,15 @@ class PostList extends Component {
                 <div
                   className={entryClassName}
                   key={index + "list-entry"}
-                  onClick={e => selectPost(e, index)}
+                  onClick={e => this.selectPost(index)}
                   style={{
                     borderColor: entryBorderColor,
-                    backgroundColor: this.props.recipeEditor
-                      ? getPostColor(post_obj.socialType)
-                      : getPostColor(post_obj.post.socialType)
+                    backgroundColor: getPostColor(post_obj.socialType)
                   }}
                 >
-                  {this.props.recipeEditor
-                    ? post_obj.name
-                      ? post_obj.name +
-                        " - " +
-                        new moment(post_obj.postingDate).format("lll")
-                      : post_obj.socialType.charAt(0).toUpperCase() +
-                        post_obj.socialType.slice(1) +
-                        (post_obj.socialType === "custom"
-                          ? " Task - "
-                          : " Post - ") +
-                        new moment(post_obj.postingDate).format("lll")
-                    : post_obj.post.name
-                      ? post_obj.post.name +
-                        " - " +
-                        new moment(
-                          post_obj.post
-                            ? post_obj.post.postingDate
-                            : post_obj.clickedCalendarDate
-                        ).format("lll")
-                      : post_obj.post.socialType.charAt(0).toUpperCase() +
-                        post_obj.post.socialType.slice(1) +
-                        (post_obj.post.socialType === "custom"
-                          ? " Task - "
-                          : " Post - ") +
-                        new moment(
-                          post_obj.post
-                            ? post_obj.post.postingDate
-                            : post_obj.clickedCalendarDate
-                        ).format("lll")}
+                  {post_obj.name +
+                    " - " +
+                    new moment(post_obj.postingDate).format("lll")}
                 </div>
                 <div className="delete-container">
                   <FontAwesomeIcon
@@ -139,9 +120,9 @@ class PostList extends Component {
               </div>
             );
           })}
-          {!newPostPromptActive && (
+          {!newPostPrompt && (
             <FontAwesomeIcon
-              onClick={e => handleChange(true, "newPostPromptActive")}
+              onClick={() => this.setState({ newPostPrompt: true })}
               className="new-post-button"
               icon={faPlus}
               size="2x"
@@ -149,7 +130,7 @@ class PostList extends Component {
               style={{ backgroundColor: campaign.color }}
             />
           )}
-          {newPostPromptActive && (
+          {newPostPrompt && (
             <FontAwesomeIcon
               icon={faArrowDown}
               size="2x"
@@ -159,28 +140,15 @@ class PostList extends Component {
             />
           )}
 
-          {newPostPromptActive && <PostTypePicker newPost={newPost} />}
+          {newPostPrompt && (
+            <PostTypePicker
+              newPost={socialType => {
+                newPost(socialType, posts, campaign, clickedCalendarDate);
+                this.setState({ newPostPrompt: false });
+              }}
+            />
+          )}
         </div>
-        {!campaign.recipeID &&
-          !this.props.recipeEditor && (
-            <div
-              className="publish-as-recipe"
-              style={{ backgroundColor: campaign.color }}
-              onClick={createRecipe}
-            >
-              Publish as recipe
-            </div>
-          )}
-        {this.props.recipeEditor &&
-          this.props.showRecipeSaveButton && (
-            <div
-              className="publish-as-recipe"
-              style={{ backgroundColor: campaign.color }}
-              onClick={this.props.saveRecipe}
-            >
-              Save Recipe
-            </div>
-          )}
       </div>
     );
   }

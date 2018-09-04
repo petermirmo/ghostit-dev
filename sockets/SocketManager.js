@@ -157,7 +157,7 @@ module.exports = socket => {
           while (
             (index = foundCampaign.posts.findIndex(post_obj => {
               if (!post_obj) return false;
-              return post_obj._id == post.post._id;
+              return post_obj._id == post._id;
             })) !== -1
           ) {
             foundCampaign.posts = [
@@ -175,7 +175,7 @@ module.exports = socket => {
             } else {
               removedFromCampaign = true;
               newCampaign = savedCampaign;
-              Post.findOne({ _id: post.post._id }, (err, foundPost) => {
+              Post.findOne({ _id: post._id }, (err, foundPost) => {
                 if (foundPost) {
                   foundPost.remove();
                   removedPost = true;

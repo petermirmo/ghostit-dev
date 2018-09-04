@@ -47,8 +47,23 @@ next tasks:
   recipe edit and delete
     campaign and recipe:
       need to sort recipe posts chronologically, but where should we do it?
+      recipe editing: posts need some way to display which social type it is (besides just the color of its list button)
+      custom tasks need their own colour
+      delete recipe button
   creating campaign from a recipe:
     user should be able to change the start date in a way that pushes all the post dates forward / back accordingly
     maybe just a button that shows up if campaign.recipeID. that button pushes all dates/times accordingly.
 
-  after publishing campaign as recipe, publish button should turn into overwrite button maybe
+custom tasks send an email reminder should specify when the reminder will be sent.
+save recipe button doesn't give feedback that it saved.
+
+should we force all posts to have instructions to be saved as a recipe?
+
+escape to exit modals doesn't work.
+
+post names being long could make some ui elements look bad (the buttons in the post list of a campaign / previewing a recipe)
+
+previewing a recipe: have the day number beside the name of the post (ex: "fb post - Day 1", "twit post - Day 3")
+
+the Done button in the date time picker is a little misleading because the dates are saved as soon as they are modified.
+  (user might think they can revert changes by exiting the date picker without hitting Done)

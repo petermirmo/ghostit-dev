@@ -10,6 +10,8 @@ import io from "socket.io-client";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { setKeyListenerFunction } from "../../../redux/actions/";
+
 import { getSocialCharacters } from "../../../extra/functions/CommonFunctions";
 
 import Post from "../../Post";
@@ -21,24 +23,58 @@ import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
 import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
 
+import {
+  fillPosts,
+  newPost,
+  createAppropriateDate
+} from "../../../componentFunctions";
+
 import "./styles/";
 
 class CampaignModal extends Component {
   constructor(props) {
     super(props);
+    this.state = this.createStateVariable(this.props);
+  }
+  componentDidMount() {
+    this._ismounted = true;
+
+    this.initSocket();
+
+    this.props.setKeyListenerFunction([
+      () => {
+        if (!this._ismounted) return;
+        if (event.keyCode === 27) {
+          this.props.close(); // escape button pushed
+        }
+      },
+      this.props.getKeyListenerFunction[0]
+    ]);
+  }
+
+  componentWillUnmount() {
+    let { campaign, somethingChanged, socket } = this.state;
+
+    if (somethingChanged && campaign && socket) {
+      socket.emit("campaign_editted", campaign);
+      socket.on("campaign_saved", emitObject => {
+        socket.emit("close", campaign);
+
+        this.props.updateCampaigns();
+      });
+    }
+    this._ismounted = false;
+  }
+  createStateVariable = props => {
+    let startDate =
+      new moment() > new moment(props.clickedCalendarDate)
+        ? new moment()
+        : new moment(props.clickedCalendarDate);
     let campaign = props.campaign // only defined if user clicked on an existing campaign to edit
       ? props.campaign
       : {
-          startDate:
-            // maybe better to set new moment() to a var then use that instead so it's not called 4 times in a row
-            // not sure if that's possible / actually better in this scope though
-            new moment() > new moment(props.clickedCalendarDate)
-              ? new moment()
-              : new moment(props.clickedCalendarDate),
-          endDate:
-            new moment() > new moment(props.clickedCalendarDate)
-              ? new moment().add(15, "minutes")
-              : new moment(props.clickedCalendarDate).add(15, "minutes"),
+          startDate,
+          endDate: new moment(startDate).add(7, "days"),
           name: "",
           userID: props.user.signedInAsUser
             ? props.user.signedInAsUser.id
@@ -49,108 +85,45 @@ class CampaignModal extends Component {
           recipeID: undefined
         };
 
-    if (props.campaign) {
-      // if we are opening an existing campaign, that means the data was retrieved from the DB
-      // this means that the date objects will just be strings so we need to convert them to moment objects
-      campaign.startDate = new moment(campaign.startDate);
-      campaign.endDate = new moment(campaign.endDate);
+    let activePostIndex;
+    let posts = [];
+
+    if (campaign.posts) {
+      if (campaign.posts.length > 0) {
+        posts = fillPosts(campaign);
+        activePostIndex = 0;
+      }
+    }
+    if (campaign.chosenStartDate) {
+      // Only defined if made from recipe
+      campaign.endDate = createAppropriateDate(
+        campaign.chosenStartDate,
+        campaign.startDate,
+        campaign.endDate
+      );
+      campaign.startDate = campaign.chosenStartDate;
     }
 
     let stateVariable = {
       campaign,
-      posts: [],
+      posts,
       listOfPostChanges: {},
-      activePostIndex: undefined,
+      activePostIndex,
 
-      colors: {
-        color1: {
-          className: "color1",
-          border: "color1-border",
-          color: "var(--campaign-color1)"
-        },
-        color2: {
-          className: "color2",
-          border: "color2-border",
-          color: "var(--campaign-color2)"
-        },
-        color3: {
-          className: "color3",
-          border: "color3-border",
-          color: "var(--campaign-color3)"
-        },
-        color4: {
-          className: "color4",
-          border: "color4-border",
-          color: "var(--campaign-color4)"
-        }
-      },
       saving: true,
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
-      firstPostChosen: false, // when first creating a new campagin, prompt user to choose how they'd like to start the campaign
-      newPostPromptActive: false, // when user clicks + for a new post to their campaign, show post type options for them to select
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       nextChosenPostIndex: 0,
       datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
     };
 
-    this.state = stateVariable;
-  }
-  componentDidMount() {
-    let { campaign } = this.props;
-
-    document.addEventListener("keydown", this.handleKeyPress, false);
-
-    if (campaign) {
-      if (campaign.posts) {
-        if (campaign.posts.length > 0) {
-          this.fillPosts(campaign.posts);
-          // maybe shouldn't hardcode but because setState is asychnronous, this will do for now
-          this.setState({ firstPostChosen: true, activePostIndex: 0 });
-        }
-      }
-    }
-
-    this.initSocket();
-  }
-
-  componentWillUnmount() {
-    let { campaign, somethingChanged, socket } = this.state;
-
-    document.removeEventListener("keydown", this.handleKeyPress, false);
-
-    if (somethingChanged && campaign && socket) {
-      socket.emit("campaign_editted", campaign);
-      socket.on("campaign_saved", emitObject => {
-        socket.emit("close", campaign);
-
-        this.props.updateCampaigns();
-      });
-    }
-  }
-
-  handleKeyPress = event => {
-    const { confirmDelete, promptChangeActivePost } = this.state;
-    if (confirmDelete || promptChangeActivePost) {
-      return;
-    }
-    if (event.keyCode === 27) {
-      // escape button pushed
-      this.props.close();
-    }
-  };
-
-  pauseEscapeListener = response => {
-    if (response) {
-      document.removeEventListener("keydown", this.handleKeyPress, false);
-    } else {
-      document.addEventListener("keydown", this.handleKeyPress, false);
-    }
+    return stateVariable;
   };
 
   initSocket = () => {
-    let { campaign, somethingChanged } = this.state;
-    let { recipe } = this.props;
+    let { campaign, somethingChanged, posts } = this.state;
+    let { clickedCalendarDate } = this.props;
     let socket;
 
     if (process.env.NODE_ENV === "development")
@@ -158,103 +131,16 @@ class CampaignModal extends Component {
     else socket = io();
 
     if (!this.props.campaign) {
-      if (recipe) {
-        campaign.name = recipe.name;
-        campaign.color = recipe.color;
-        campaign.startDate = recipe.startDate
-          .set("hour", recipe.hour)
-          .set("minute", recipe.minute);
-        campaign.endDate = new moment(recipe.startDate).add(
-          recipe.length,
-          "millisecond"
-        );
-        campaign.recipeID = recipe._id;
-
-        this.setState({ campaign });
-      }
       socket.emit("new_campaign", campaign);
 
       socket.on("new_campaign_saved", campaignID => {
         campaign._id = campaignID;
 
         this.setState({ campaign, saving: false });
-
-        if (recipe) {
-          for (let index in recipe.posts) {
-            recipe.posts[index].campaignID = campaignID;
-            this.newPost(recipe.posts[index].socialType, recipe.posts[index]);
-          }
-
-          this.setState({ campaign });
-        }
       });
     } else this.setState({ saving: false });
 
     this.setState({ socket });
-  };
-
-  fillPosts = campaign_posts => {
-    const { campaign } = this.state;
-    const { timezone, clickedCalendarDate } = this.props;
-
-    const posts = [];
-    // function called when a user clicks on an existing campaign to edit.
-    for (let i = 0; i < campaign_posts.length; i++) {
-      const current_post = campaign_posts[i];
-
-      let new_post = {
-        timezone,
-        post: current_post,
-        canEditPost:
-          new moment(current_post.postingDate) > new moment() ? true : false
-      };
-
-      posts.push(new_post);
-    }
-
-    this.setState({ posts });
-  };
-
-  newPost = (socialType, recipePost) => {
-    const { posts, socket, campaign } = this.state;
-    const { timezone, clickedCalendarDate } = this.props;
-    const { startDate, _id } = campaign;
-
-    let postingDate = clickedCalendarDate;
-    if (clickedCalendarDate < campaign.startDate)
-      postingDate = campaign.startDate;
-    let instructions;
-
-    if (recipePost) {
-      postingDate = new moment(startDate).add(
-        recipePost.postingDate,
-        "millisecond"
-      );
-      instructions = recipePost.instructions;
-      name = recipePost.name;
-    }
-
-    this.setState({
-      posts: [
-        ...this.state.posts,
-        {
-          post: {
-            name,
-            postingDate,
-            socialType,
-            campaignID: _id,
-            instructions
-          },
-          canEditPost: true,
-          timezone
-        }
-      ],
-      activePostIndex: posts.length,
-      listOfPostChanges: {},
-
-      newPostPromptActive: false,
-      firstPostChosen: true
-    });
   };
 
   deleteCampaign = response => {
@@ -271,8 +157,7 @@ class CampaignModal extends Component {
   updatePost = updatedPost => {
     const { posts, activePostIndex } = this.state;
 
-    let new_post = posts[activePostIndex];
-    new_post.post = updatedPost;
+    let new_post = { ...posts[activePostIndex], ...updatedPost };
 
     this.setState({
       posts: [
@@ -302,7 +187,7 @@ class CampaignModal extends Component {
     if (index === -1) {
       console.log("couldn't find post to delete.");
       return;
-    } else if (!posts[index].post._id) {
+    } else if (!posts[index]._id) {
       // post hasn't been scheduled yet so don't need to delete it from DB
 
       this.setState(prevState => {
@@ -346,7 +231,6 @@ class CampaignModal extends Component {
                 campaign: { ...prevState.campaign, posts: newCampaign.posts },
                 somethingChanged: true,
                 activePostIndex: nextActivePost,
-                firstPostChosen: prevState.posts.length <= 1 ? false : true,
                 listOfPostChanges:
                   index === prevState.activePostIndex
                     ? {}
@@ -356,23 +240,6 @@ class CampaignModal extends Component {
           }
         }
       });
-    }
-  };
-
-  selectPost = (e, arrayIndex) => {
-    e.preventDefault();
-    const { listOfPostChanges, activePostIndex } = this.state;
-
-    if (activePostIndex === arrayIndex) {
-      return;
-    }
-    if (Object.keys(listOfPostChanges).length > 0) {
-      this.setState({
-        promptChangeActivePost: true,
-        nextChosenPostIndex: arrayIndex
-      });
-    } else {
-      this.setState({ activePostIndex: arrayIndex });
     }
   };
 
@@ -401,9 +268,9 @@ class CampaignModal extends Component {
     // we should probably only store one copy of each index ("content") since only the most recent matters
     const { listOfPostChanges, posts, activePostIndex } = this.state;
     const post = posts[activePostIndex];
-    if (index === "date" && value.isSame(post.post.postingDate)) {
+    if (index === "date" && value.isSame(post.postingDate)) {
       delete listOfPostChanges[index];
-    } else if (post.post[index] === value) {
+    } else if (post[index] === value) {
       // same value that it originally was so no need to save its backup
       delete listOfPostChanges[index];
     } else {
@@ -442,6 +309,7 @@ class CampaignModal extends Component {
     // so we'll want to disallow this modification and let the user know what happened
     // it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
     const { campaign, posts } = this.state;
+
     const dates = {
       startDate: campaign.startDate,
       endDate: campaign.endDate
@@ -452,7 +320,7 @@ class CampaignModal extends Component {
     let count_invalid = 0;
 
     for (let index in posts) {
-      const postingDate = new moment(posts[index].post.postingDate);
+      const postingDate = new moment(posts[index].postingDate);
       if (postingDate < startDate || postingDate > endDate) {
         count_invalid++;
       }
@@ -492,11 +360,10 @@ class CampaignModal extends Component {
     } = this.state;
     const post_obj = posts[activePostIndex];
 
-    if (post_obj.post.socialType === "custom") {
+    if (post_obj.socialType === "custom") {
       return (
         <CustomTask
-          post={post_obj.post}
-          clickedCalendarDate={post_obj.post.postingDate}
+          post={post_obj}
           postFinishedSavingCallback={savedPost => {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
@@ -508,9 +375,8 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
-          socialType={post_obj.post.socialType}
+          socialType={post_obj.socialType}
           canEditPost={true}
-          timezone={post_obj.timezone}
           listOfChanges={
             Object.keys(listOfPostChanges).length > 0
               ? listOfPostChanges
@@ -520,15 +386,12 @@ class CampaignModal extends Component {
           campaignStartDate={campaign.startDate}
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
-          pauseEscapeListener={this.pauseEscapeListener}
         />
       );
     } else {
       return (
         <Post
-          post={post_obj.post}
-          newActivePost={true}
-          clickedCalendarDate={post_obj.post.postingDate}
+          post={post_obj}
           postFinishedSavingCallback={savedPost => {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
@@ -540,10 +403,8 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
-          socialType={post_obj.post.socialType}
-          maxCharacters={getSocialCharacters(post_obj.post.socialType)}
+          socialType={post_obj.socialType}
           canEditPost={true}
-          timezone={post_obj.timezone}
           listOfChanges={
             Object.keys(listOfPostChanges).length > 0
               ? listOfPostChanges
@@ -553,7 +414,6 @@ class CampaignModal extends Component {
           campaignStartDate={campaign.startDate}
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
-          pauseEscapeListener={this.pauseEscapeListener}
         />
       );
     }
@@ -599,20 +459,20 @@ class CampaignModal extends Component {
 
   render() {
     const {
-      colors,
       posts,
       saving,
       confirmDelete,
       campaign,
-      firstPostChosen,
       activePostIndex,
-      newPostPromptActive,
       datePickerMessage,
       nextChosenPostIndex,
       promptChangeActivePost,
       listOfPostChanges
     } = this.state;
+    const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
+
+    let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
     return (
       <div className="modal" onClick={() => this.props.close()}>
@@ -636,7 +496,6 @@ class CampaignModal extends Component {
           <CampaignRecipeHeader
             campaign={campaign}
             datePickerMessage={datePickerMessage}
-            colors={colors}
             handleChange={this.handleCampaignChange}
             tryChangingDates={this.tryChangingCampaignDates}
           />
@@ -646,7 +505,13 @@ class CampaignModal extends Component {
               <div className="new-campaign-post-selection-write-up">
                 How do you want to start off your campaign?
               </div>
-              <PostTypePicker newPost={this.newPost} />
+              <PostTypePicker
+                newPost={socialType => {
+                  this.setState(
+                    newPost(socialType, posts, campaign, clickedCalendarDate)
+                  );
+                }}
+              />
             </div>
           )}
 
@@ -657,12 +522,14 @@ class CampaignModal extends Component {
                 posts={posts}
                 activePostIndex={activePostIndex}
                 listOfPostChanges={listOfPostChanges}
-                newPostPromptActive={newPostPromptActive}
-                newPost={this.newPost}
-                selectPost={this.selectPost}
+                clickedCalendarDate={clickedCalendarDate}
+                newPost={(socialType, posts, campaign, clickedCalendarDate) =>
+                  this.setState(
+                    newPost(socialType, posts, campaign, clickedCalendarDate)
+                  )
+                }
                 deletePost={this.deletePost}
                 handleChange={this.handleChange}
-                createRecipe={this.createRecipe}
               />
 
               {activePostIndex !== undefined && (
@@ -680,6 +547,14 @@ class CampaignModal extends Component {
               icon={faTrash}
               size="2x"
             />
+            <div
+              className="publish-as-recipe"
+              style={{ backgroundColor: color }}
+              onClick={this.createRecipe}
+            >
+              Save Recipe
+            </div>
+
             <div
               className="back-button-bottom"
               onClick={() => this.props.close()}
@@ -716,9 +591,21 @@ class CampaignModal extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setKeyListenerFunction
+    },
+    dispatch
+  );
+}
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    getKeyListenerFunction: state.getKeyListenerFunction
   };
 }
-export default connect(mapStateToProps)(CampaignModal);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CampaignModal);

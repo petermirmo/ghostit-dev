@@ -36,8 +36,6 @@ class Content extends Component {
     recipeModal: false,
     recipeEditorModal: false,
 
-    recipe: undefined,
-
     calendarEventCategories: {
       All: true,
       Facebook: false,
