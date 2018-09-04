@@ -88,7 +88,6 @@ class Routes extends Component {
     } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
-
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
 
     let accessClientButton;
