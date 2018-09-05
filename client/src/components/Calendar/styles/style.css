@@ -23,10 +23,10 @@
   transform: scale(1.1);
   cursor: pointer;
 }
-.left {
+.calendar-switch-month-button.left {
   margin-left: 20%;
 }
-.right {
+.calendar-switch-month-button.right {
   margin-right: 20%;
 }
 

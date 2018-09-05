@@ -34,25 +34,43 @@
   border-bottom: 0.5px solid var(--light-grey-theme-color);
 }
 
-.account-nav-bar-container {
-  display: flex;
+.campaign-footer-options {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.15fr 2fr 1fr 0.15fr;
+}
+.campaign-footer-option {
+  flex-basis: 0;
 
+  display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 70%;
+  opacity: 0.8;
 
-  margin: 20px 0 20px 0;
+  white-space: nowrap;
+  text-align: center;
+  color: var(--white-theme-color);
 
-  border: 2px solid var(--blue-theme-color);
+  cursor: pointer;
+}
+.campaign-footer-option:hover {
+  opacity: 1;
+}
+.campaign-footer-option.blue {
+  background-color: var(--blue-theme-color);
 }
 
-.delete-container {
-  position: relative;
+.campaign-footer-option.green {
+  background-color: var(--green-theme-color);
+}
 
+.campaign-footer-option.yellow {
+  background-color: var(--yellow-theme-color);
+}
+.campaign-footer-option.right {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
 }
 
 @keyframes campaignModalAnimation {

@@ -29,23 +29,6 @@
 .arrow-down {
   color: var(--blue-theme-color);
 }
-.publish-as-recipe {
-  position: absolute;
-  bottom: 5px;
-
-  width: 70%;
-
-  padding: 8px 0 8px 0;
-
-  border-radius: 20px;
-
-  background-color: var(--blue-theme-color);
-  color: var(--white-theme-color);
-
-  text-align: center;
-
-  cursor: pointer;
-}
 .list-container {
   position: relative;
   display: flex;

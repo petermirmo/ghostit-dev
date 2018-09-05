@@ -146,13 +146,13 @@
 }
 
 .modal-footer {
+  position: relative;
   flex-grow: 0;
   flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  flex-flow: row-reverse;
   width: 100%;
 }
 @keyframes animatetop {
@@ -332,8 +332,7 @@
   border-radius: 0 20px 20px 0;
 }
 .delete {
-  float: right;
-  padding: 10px;
+  padding: 4px;
 
   color: var(--grey-theme-color);
 
@@ -469,17 +468,6 @@
   color: var(--white-theme-color);
   border-color: var(--blue-theme-color);
   background-color: var(--blue-theme-color);
-}
-.back-button-bottom {
-  padding: 6px 20px 6px 20px;
-  margin-left: 10px;
-
-  border-radius: 100px;
-  background-color: var(--blue-theme-color);
-
-  color: var(--white-theme-color);
-
-  cursor: pointer;
 }
 
 .list-container {

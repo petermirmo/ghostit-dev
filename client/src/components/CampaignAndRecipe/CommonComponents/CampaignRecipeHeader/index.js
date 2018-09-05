@@ -65,14 +65,12 @@ class CampaignRecipeHeader extends Component {
     }
 
     let display;
-    let paddingBottom;
     if (!showMore) display = "none";
-    else paddingBottom = "40px";
 
     return (
       <div
         className="campaign-information-container"
-        style={{ borderColor: campaign.color, paddingBottom }}
+        style={{ borderColor: campaign.color }}
       >
         <FontAwesomeIcon
           icon={faTimes}
@@ -80,16 +78,7 @@ class CampaignRecipeHeader extends Component {
           className="close"
           onClick={() => this.props.close()}
         />
-        <div
-          className="back-button-top"
-          onClick={() => {
-            this.props.handleChange(false, "campaignModal");
-            this.props.handleChange(true, "recipeModal");
-          }}
-        >
-          <FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" />
-          Back to Recipes
-        </div>
+
         <div className="campaign-grid-header" style={{ display }}>
           <div className="label">Name:</div>
           <div className="grid-textarea-container">
@@ -147,11 +136,7 @@ class CampaignRecipeHeader extends Component {
             onClick={() => this.setState({ showMore: true })}
           >
             <div className="show-more">
-              Show
-              <FontAwesomeIcon
-                icon={faAngleDown}
-                style={{ paddingLeft: "4px" }}
-              />
+              <FontAwesomeIcon icon={faAngleDown} />
             </div>
           </div>
         )}
@@ -161,11 +146,7 @@ class CampaignRecipeHeader extends Component {
             onClick={() => this.setState({ showMore: false })}
           >
             <div className="show-more">
-              Hide
-              <FontAwesomeIcon
-                icon={faAngleUp}
-                style={{ paddingLeft: "4px" }}
-              />
+              <FontAwesomeIcon icon={faAngleUp} />
             </div>
           </div>
         )}

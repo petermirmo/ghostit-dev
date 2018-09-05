@@ -409,6 +409,7 @@ class CampaignModal extends Component {
         <CustomTask
           post={post_obj}
           postFinishedSavingCallback={savedPost => {
+            this.setState({ saving: true });
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
             socket.on("post_added", emitObject => {
@@ -437,6 +438,7 @@ class CampaignModal extends Component {
         <Post
           post={post_obj}
           postFinishedSavingCallback={savedPost => {
+            this.setState({ saving: true });
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
             socket.on("post_added", emitObject => {
@@ -596,29 +598,41 @@ class CampaignModal extends Component {
           )}
 
           <div className="modal-footer">
-            <FontAwesomeIcon
-              onClick={() => this.handleChange(true, "confirmDelete")}
-              className="delete"
-              icon={faTrash}
-              size="2x"
-            />
-            <div
-              className="publish-as-recipe"
-              style={{ backgroundColor: color }}
-              onClick={this.createRecipe}
-            >
-              Save Recipe
-            </div>
+            <div className="campaign-footer-options">
+              <div
+                className="campaign-footer-option blue"
+                onClick={() => {
+                  this.props.handleChange(false, "campaignModal");
+                  this.props.handleChange(true, "recipeModal");
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  className="back-button-arrow"
+                />
+                Back to Templates
+              </div>
 
-            <div
-              className="back-button-bottom"
-              onClick={() => this.props.close()}
-            >
-              <FontAwesomeIcon
-                className="back-button-arrow"
-                icon={faArrowLeft}
-              />{" "}
-              Back to Calendar
+              <div
+                className="campaign-footer-option green"
+                onClick={() => this.props.close()}
+              >
+                Save Campaign
+              </div>
+              <div
+                className="campaign-footer-option blue"
+                onClick={this.createRecipe}
+              >
+                Save Campaign as Template
+              </div>
+              <div className="campaign-footer-option yellow right">
+                <FontAwesomeIcon
+                  onClick={() => this.handleChange(true, "confirmDelete")}
+                  className="delete"
+                  icon={faTrash}
+                  size="2x"
+                />
+              </div>
             </div>
           </div>
           {confirmDelete && (
