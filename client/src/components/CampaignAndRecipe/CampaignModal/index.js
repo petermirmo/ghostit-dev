@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
 
@@ -76,6 +75,7 @@ class CampaignModal extends Component {
           startDate,
           endDate: new moment(startDate).add(7, "days"),
           name: "",
+          description: "",
           userID: props.user.signedInAsUser
             ? props.user.signedInAsUser.id
               ? props.user.signedInAsUser.id
@@ -278,7 +278,8 @@ class CampaignModal extends Component {
       posts,
       campaign,
       clickedCalendarDate,
-      listOfPostChanges
+      listOfPostChanges,
+      nextChosenPostIndex
     } = this.state;
 
     if (pendingPostType) {
@@ -536,26 +537,15 @@ class CampaignModal extends Component {
     return (
       <div className="modal" onClick={() => this.attemptToCloseModal()}>
         <div className="large-modal" onClick={e => e.stopPropagation()}>
-          <FontAwesomeIcon
-            icon={faTimes}
-            size="2x"
-            className="close"
-            onClick={() => this.attemptToCloseModal()}
-          />
-          <div
-            className="back-button-top"
-            onClick={() => {
-              this.props.handleChange(false, "campaignModal");
-              this.props.handleChange(true, "recipeModal");
-            }}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" />{" "}
-            Back to Recipes
-          </div>
           <CampaignRecipeHeader
             campaign={campaign}
             handleChange={this.handleCampaignChange}
             tryChangingDates={this.tryChangingCampaignDates}
+            backToRecipes={() => {
+              this.props.handleChange(false, "campaignModal");
+              this.props.handleChange(true, "recipeModal");
+            }}
+            onClick={() => this.attemptToCloseModal()}
           />
 
           {!firstPostChosen && (

@@ -10,8 +10,6 @@
 
   border-right: 0.5px solid var(--light-grey-theme-color);
   border-bottom: 0.5px solid var(--light-grey-theme-color);
-
-  background-color: var(--light-light-grey-theme-color);
 }
 .saved-box {
   min-width: 9px;

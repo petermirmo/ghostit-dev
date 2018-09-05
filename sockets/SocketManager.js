@@ -52,6 +52,7 @@ module.exports = socket => {
     Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
       if (foundCampaign) {
         foundCampaign.name = campaign.name;
+        foundCampaign.description = campaign.description;
         foundCampaign.startDate = campaign.startDate;
         foundCampaign.endDate = campaign.endDate;
         foundCampaign.color = campaign.color;

@@ -51,7 +51,7 @@
   display: flex;
 }
 .calendar-day {
-  min-height: 12vh;
+  min-height: 14vh;
 }
 .calendar-day-heading,
 .calendar-day {
