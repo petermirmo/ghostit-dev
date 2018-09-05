@@ -87,12 +87,12 @@ class CampaignRecipeHeader extends Component {
             this.props.handleChange(true, "recipeModal");
           }}
         >
-          <FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" />{" "}
+          <FontAwesomeIcon icon={faArrowLeft} className="back-button-arrow" />
           Back to Recipes
         </div>
-        <div className="row-container" style={{ display }}>
-          <div className="header-section-container">
-            <div className="label">Name:</div>
+        <div className="campaign-grid-header" style={{ display }}>
+          <div className="label">Name:</div>
+          <div className="grid-textarea-container">
             <Textarea
               onChange={event => handleChange(event.target.value, "name")}
               value={campaign.name}
@@ -101,27 +101,8 @@ class CampaignRecipeHeader extends Component {
               readOnly={false}
             />
           </div>
-          <div className="header-section-container">
-            <div className="label">Color:</div>
-            <div className="colors">{colorDivs}</div>
-          </div>
-        </div>
-        <div className="row-container" style={{ display }}>
-          <div className="header-section-container" style={{ display }}>
-            <div className="label">Description: </div>
-
-            <Textarea
-              className="campaign-textarea"
-              placeholder="Describe this campaign!"
-              onChange={event =>
-                this.handleChange(event.target.value, "description")
-              }
-              value={campaign.description}
-              readOnly={false}
-            />
-          </div>
-          <div className="header-section-container">
-            <div className="label">Start Date: </div>
+          <div className="label">Start Date: </div>
+          <div className="grid-date-container">
             <DateTimePicker
               date={new moment(campaign.startDate)}
               dateFormat="MMMM Do YYYY hh:mm A"
@@ -132,11 +113,21 @@ class CampaignRecipeHeader extends Component {
               message={datePickerMessage}
             />
           </div>
-        </div>
-        <div className="row-container" style={{ display }}>
-          <div className="header-section-container" />
-          <div className="header-section-container">
-            <div className="label">End Date: </div>
+          <div className="label">Description: </div>
+          <div className="grid-textarea-container">
+            <Textarea
+              className="campaign-textarea"
+              placeholder="Describe this campaign!"
+              onChange={event =>
+                handleChange(event.target.value, "description")
+              }
+              value={campaign.description}
+              readOnly={false}
+            />
+          </div>
+
+          <div className="label">End Date: </div>
+          <div className="grid-date-container">
             <DateTimePicker
               date={new moment(campaign.endDate)}
               dateFormat="MMMM Do YYYY hh:mm A"
@@ -147,6 +138,8 @@ class CampaignRecipeHeader extends Component {
               message={datePickerMessage}
             />
           </div>
+          <div className="label">Color:</div>
+          <div className="colors">{colorDivs}</div>
         </div>
         {!showMore && (
           <div

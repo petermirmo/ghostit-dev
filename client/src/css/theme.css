@@ -443,6 +443,9 @@
 }
 .label {
   font-weight: bolder;
+
+  display: flex;
+  align-items: center;
 }
 
 .back-button-top {
@@ -577,24 +580,19 @@ button {
 
   border: none;
 }
-
+textarea,
 input {
   outline: none;
-  border: 1px solid var(--grey-theme-color);
 
   font-size: var(--regular-font-size);
   font-family: var(--font-theme);
+  border: 1px solid var(--grey-theme-color);
+  background-color: transparent;
 }
+textarea:focus,
 input:focus {
   border-color: var(--blue-theme-color);
-}
-textarea {
-  font-size: var(--regular-font-size);
-  font-family: var(--font-theme);
-  border: 1px solid var(--grey-theme-color) !important;
-}
-textarea:focus {
-  border-color: var(--blue-theme-color) !important;
+  background-color: var(--white-theme-color);
 }
 div {
   font-family: var(--font-theme);

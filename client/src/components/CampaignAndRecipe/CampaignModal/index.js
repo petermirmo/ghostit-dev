@@ -75,6 +75,7 @@ class CampaignModal extends Component {
           startDate,
           endDate: new moment(startDate).add(7, "days"),
           name: "",
+          description: "",
           userID: props.user.signedInAsUser
             ? props.user.signedInAsUser.id
               ? props.user.signedInAsUser.id
