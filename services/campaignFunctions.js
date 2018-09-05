@@ -67,6 +67,10 @@ module.exports = {
 
       recipe.posts = posts;
 
+      for (let index in recipe.posts) {
+        delete recipe.posts[index].id;
+      }
+
       recipe.save();
 
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
@@ -85,6 +89,10 @@ module.exports = {
 
           foundRecipe._id = recipeID;
           foundRecipe.posts = posts;
+
+          for (let index in foundRecipe.posts) {
+            delete foundRecipe.posts[index].id;
+          }
 
           foundRecipe.save();
 
