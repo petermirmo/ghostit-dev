@@ -56,9 +56,15 @@ module.exports = {
     let { campaign, posts } = req.body;
 
     if (!campaign.recipeID) {
-      let recipe = new Recipe(campaign);
+      let recipe = new Recipe();
+      const recipeID = recipe._id;
 
-      recipe.userID = userID;
+      for (let index in campaign) {
+        recipe[index] = campaign[index];
+      }
+
+      recipe._id = recipeID;
+
       recipe.posts = posts;
 
       recipe.save();
@@ -70,18 +76,20 @@ module.exports = {
         });
       });
     } else {
-      Recipe.findOne({ _id: campaign.recipeID }, (err, recipe) => {
+      Recipe.findOne({ _id: campaign.recipeID }, (err, foundRecipe) => {
         if (String(userID) === String(foundRecipe.userID)) {
+          const recipeID = foundRecipe._id;
           for (let index in campaign) {
-            recipe[index] = campaign[index];
+            foundRecipe[index] = campaign[index];
           }
-          recipe.userID = userID;
-          recipe.posts = posts;
 
-          recipe.save();
+          foundRecipe._id = recipeID;
+          foundRecipe.posts = posts;
+
+          foundRecipe.save();
 
           Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
-            foundCampaign.recipeID = recipe._id;
+            foundCampaign.recipeID = foundRecipe._id;
             foundCampaign.save((err, savedCampaign) => {
               res.send({ success: true, campaign: savedCampaign });
             });

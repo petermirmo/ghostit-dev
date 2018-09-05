@@ -44,7 +44,7 @@ class CampaignModal extends Component {
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.close(); // escape button pushed
+          this.attemptToCloseModal(); // escape button pushed
         }
       },
       this.props.getKeyListenerFunction[0]
@@ -114,7 +114,9 @@ class CampaignModal extends Component {
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
+      promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
       nextChosenPostIndex: 0,
+      pendingPostType: undefined, // when user tries to create a new post, but their current post has unsaved changes
       datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
     };
 
@@ -141,6 +143,27 @@ class CampaignModal extends Component {
     } else this.setState({ saving: false });
 
     this.setState({ socket });
+  };
+
+  closeChecks = () => {
+    const { listOfPostChanges, somethingChanged } = this.state;
+
+    if (Object.keys(listOfPostChanges).length > 0) {
+      // unsaved post changes
+      this.setState({ promptDiscardPostChanges: true });
+      return false;
+    }
+
+    return true;
+  };
+
+  attemptToCloseModal = () => {
+    // function called when the user tries to close the modal
+    // we check to see if there are any unsaved changes on the current post and the recipe
+    if (!this.closeChecks()) {
+      return;
+    }
+    this.props.close();
   };
 
   deleteCampaign = response => {
@@ -245,15 +268,36 @@ class CampaignModal extends Component {
 
   changeActivePost = response => {
     if (!response) {
-      this.setState({ promptChangeActivePost: false });
+      this.setState({
+        promptChangeActivePost: false,
+        pendingPostType: undefined
+      });
       return;
     }
-    const { nextChosenPostIndex } = this.state;
-    this.setState({
-      activePostIndex: nextChosenPostIndex,
-      promptChangeActivePost: false,
-      listOfPostChanges: {}
-    });
+    const {
+      pendingPostType,
+      posts,
+      campaign,
+      clickedCalendarDate,
+      listOfPostChanges,
+      nextChosenPostIndex
+    } = this.state;
+
+    if (pendingPostType) {
+      // this occurs when the user is trying to create a new post and their currently active post has unsaved changes
+      this.setState({
+        listOfPostChanges: {},
+        promptChangeActivePost: false,
+        pendingPostType: undefined,
+        ...newPost(pendingPostType, posts, campaign, clickedCalendarDate, {})
+      });
+    } else {
+      this.setState({
+        activePostIndex: nextChosenPostIndex,
+        promptChangeActivePost: false,
+        listOfPostChanges: {}
+      });
+    }
   };
 
   backupPostChanges = (value, index) => {
@@ -426,6 +470,15 @@ class CampaignModal extends Component {
       alert("To publish this campaign as a recipe, please give it a name!");
       return;
     }
+    for (let index in posts) {
+      const post = posts[index];
+      if (!post.instructions || post.instructions === "") {
+        alert(
+          "All posts in a recipe must have instructions. Make sure each post has instructions then try saving again."
+        );
+        return;
+      }
+    }
 
     axios.post("/api/recipe", { campaign, posts }).then(res => {
       const { success } = res.data;
@@ -467,6 +520,7 @@ class CampaignModal extends Component {
       datePickerMessage,
       nextChosenPostIndex,
       promptChangeActivePost,
+      promptDiscardPostChanges,
       listOfPostChanges
     } = this.state;
     const { clickedCalendarDate } = this.props;
@@ -475,7 +529,7 @@ class CampaignModal extends Component {
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
     return (
-      <div className="modal" onClick={() => this.props.close()}>
+      <div className="modal" onClick={() => this.attemptToCloseModal()}>
         <div className="large-modal" onClick={e => e.stopPropagation()}>
           <CampaignRecipeHeader
             campaign={campaign}
@@ -486,7 +540,7 @@ class CampaignModal extends Component {
               this.props.handleChange(false, "campaignModal");
               this.props.handleChange(true, "recipeModal");
             }}
-            close={() => this.props.close()}
+            onClick={() => this.attemptToCloseModal()}
           />
 
           {!firstPostChosen && (
@@ -512,9 +566,21 @@ class CampaignModal extends Component {
                 activePostIndex={activePostIndex}
                 listOfPostChanges={listOfPostChanges}
                 clickedCalendarDate={clickedCalendarDate}
-                newPost={(socialType, posts, campaign, clickedCalendarDate) =>
+                newPost={(
+                  socialType,
+                  posts,
+                  campaign,
+                  clickedCalendarDate,
+                  callback
+                ) =>
                   this.setState(
-                    newPost(socialType, posts, campaign, clickedCalendarDate)
+                    newPost(
+                      socialType,
+                      posts,
+                      campaign,
+                      clickedCalendarDate,
+                      listOfPostChanges
+                    )
                   )
                 }
                 deletePost={this.deletePost}
@@ -570,6 +636,24 @@ class CampaignModal extends Component {
               title="Discard Unsaved Changes"
               message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
               callback={this.changeActivePost}
+              type="change-post"
+            />
+          )}
+          {promptDiscardPostChanges && (
+            <ConfirmAlert
+              close={() => this.setState({ promptDiscardPostChanges: false })}
+              title="Discard Unsaved Changes"
+              message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
+              callback={response => {
+                if (!response) {
+                  this.setState({ promptDiscardPostChanges: false });
+                  return;
+                }
+                this.setState(
+                  { listOfPostChanges: {}, promptDiscardPostChanges: false },
+                  this.attemptToCloseModal
+                );
+              }}
               type="change-post"
             />
           )}

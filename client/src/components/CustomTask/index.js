@@ -315,7 +315,7 @@ class CustomTask extends Component {
               style={{ display: sendEmailReminder ? undefined : "none" }}
             />
           </div>
-          Send an email reminder
+          Send an email reminder 30 minutes before scheduled time
         </div>
         <ImagesDiv
           postImages={images}
