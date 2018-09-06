@@ -172,6 +172,7 @@ class RecipeModal extends Component {
                         handleChange={date => {
                           recipe.chosenStartDate = date;
                           this.props.handleChange(recipe, "clickedEvent");
+                          this.props.handleChange(true, "clickedEventIsRecipe");
                           this.props.handleChange(false, "recipeModal");
                           this.props.handleChange(true, "campaignModal");
                         }}

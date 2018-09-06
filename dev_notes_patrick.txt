@@ -56,4 +56,10 @@ post names being long could make some ui elements look bad (the buttons in the p
 
 previewing a recipe: have the day number beside the name of the post (ex: "fb post - Day 1", "twit post - Day 3")
 
-date picker shouldn't make changes until Done is clicked.
+posts arent saving properly when made from a recipe
+ (probably related to the recipe posts being saved as recipe.posts = posts in saveRecipe function)
+
+clicking on a calendar date then choosing a recipe to use, the day defaults to new moment() instead of the calendar date clicked
+  also defaults start time to new moment() time of day instead of the recipe's time of day start
+
+saving a campaign as a recipe that already is a recipe isn't overwriting it.

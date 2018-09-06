@@ -17,6 +17,7 @@ import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 class Content extends Component {
   state = {
     clickedEvent: undefined,
+    clickedEventIsRecipe: false,
 
     facebookPosts: [],
     twitterPosts: [],
@@ -169,7 +170,11 @@ class Content extends Component {
   };
 
   openCampaign = campaign => {
-    this.setState({ campaignModal: true, clickedEvent: campaign });
+    this.setState({
+      campaignModal: true,
+      clickedEvent: campaign,
+      clickedEventIsRecipe: false
+    });
   };
 
   closeModals = () => {
@@ -220,9 +225,9 @@ class Content extends Component {
       newsletterPosts,
       timezone,
       clickedEvent,
+      clickedEventIsRecipe,
       clickedDate,
-      campaigns,
-      recipe
+      campaigns
     } = this.state;
     const {
       All,
@@ -336,7 +341,7 @@ class Content extends Component {
             clickedCalendarDate={clickedDate}
             updateCampaigns={this.getCampaigns}
             campaign={clickedEvent}
-            recipe={recipe}
+            isRecipe={clickedEventIsRecipe}
           />
         )}
         {this.state.recipeModal && (
