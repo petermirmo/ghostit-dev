@@ -4,6 +4,19 @@ const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
 const Post = require("../models/Post");
 
+const indexChecks = index => {
+  // don't want to overwrite these attributes of a DB object otherwise it invalidates them
+  if (
+    index === "_id" ||
+    index === "__v" ||
+    index === "createdAt" ||
+    index === "updatedAt"
+  ) {
+    return false;
+  }
+  return true;
+};
+
 module.exports = {
   getCampaigns: function(req, res) {
     // Get all posts for user
@@ -60,7 +73,9 @@ module.exports = {
       const recipeID = recipe._id;
 
       for (let index in campaign) {
-        recipe[index] = campaign[index];
+        if (indexChecks(index)) {
+          recipe[index] = campaign[index];
+        }
       }
 
       recipe._id = recipeID;
@@ -68,7 +83,7 @@ module.exports = {
       recipe.posts = posts;
 
       for (let index in recipe.posts) {
-        delete recipe.posts[index].id;
+        delete recipe.posts[index]._id;
       }
 
       recipe.save();
@@ -82,25 +97,24 @@ module.exports = {
     } else {
       Recipe.findOne({ _id: campaign.recipeID }, (err, foundRecipe) => {
         if (String(userID) === String(foundRecipe.userID)) {
-          const recipeID = foundRecipe._id;
           for (let index in campaign) {
-            foundRecipe[index] = campaign[index];
+            if (indexChecks(index)) {
+              foundRecipe[index] = campaign[index];
+            }
           }
 
-          foundRecipe._id = recipeID;
           foundRecipe.posts = posts;
 
-          for (let index in foundRecipe.posts) {
-            delete foundRecipe.posts[index].id;
+          for (let index in recipe.posts) {
+            delete recipe.posts[index]._id;
           }
 
-          foundRecipe.save();
-
-          Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
-            foundCampaign.recipeID = foundRecipe._id;
-            foundCampaign.save((err, savedCampaign) => {
-              res.send({ success: true, campaign: savedCampaign });
-            });
+          foundRecipe.save((err, savedRecipe) => {
+            if (err || !savedRecipe) {
+              res.send({ success: false, message: "failed to save recipe" });
+            } else {
+              res.send({ success: true, recipe: savedRecipe });
+            }
           });
         } else {
           res.send({ success: false, message: "Not your campaign!!" });

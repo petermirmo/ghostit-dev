@@ -90,7 +90,7 @@ class CampaignModal extends Component {
 
     if (campaign.posts) {
       if (campaign.posts.length > 0) {
-        posts = fillPosts(campaign);
+        posts = fillPosts(campaign, props.isRecipe);
         activePostIndex = 0;
       }
     }
@@ -116,6 +116,7 @@ class CampaignModal extends Component {
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
       nextChosenPostIndex: 0,
+      isFromRecipe: props.isRecipe,
       pendingPostType: undefined // when user tries to create a new post, but their current post has unsaved changes
     };
 
@@ -479,8 +480,12 @@ class CampaignModal extends Component {
       }
     }
 
+    this.setState({ saving: true });
+
     axios.post("/api/recipe", { campaign, posts }).then(res => {
       const { success } = res.data;
+
+      this.setState({ saving: false });
 
       if (!success) {
         console.log(
@@ -488,11 +493,21 @@ class CampaignModal extends Component {
         );
         console.log(res.data.message);
         console.log(res.data.campaign);
+        if (res.data.message) {
+          alert(res.data.message);
+        }
       }
 
       if (res.data.campaign) {
         campaign.recipeID = res.data.campaign.recipeID;
-        this.setState({ campaign });
+        this.setState(prevState => {
+          return {
+            campaign: {
+              ...prevState.campaign,
+              recipeID: res.data.campaign.recipeID
+            }
+          };
+        });
       }
     });
   };
@@ -545,7 +560,7 @@ class CampaignModal extends Component {
               this.props.handleChange(false, "campaignModal");
               this.props.handleChange(true, "recipeModal");
             }}
-            onClick={() => this.attemptToCloseModal()}
+            close={() => this.attemptToCloseModal()}
           />
 
           {!firstPostChosen && (

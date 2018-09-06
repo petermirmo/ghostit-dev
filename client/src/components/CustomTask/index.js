@@ -283,24 +283,17 @@ class CustomTask extends Component {
           value={instructions}
           readOnly={!canEditPost}
         />
-        {somethingChanged && (
+        {(somethingChanged || !_id) && (
           <button
             className="schedule-post-button"
-            onClick={
-              this.props.recipeEditor
-                ? () =>
-                    this.trySavePostInRecipe(
-                      this.props.campaignStartDate,
-                      this.props.campaignEndDate
-                    )
-                : () =>
-                    this.trySavePost(
-                      this.props.campaignStartDate,
-                      this.props.campaignEndDate
-                    )
+            onClick={() =>
+              this.trySavePost(
+                this.props.campaignStartDate,
+                this.props.campaignEndDate
+              )
             }
           >
-            {this.props.recipeEditor ? "Save Changes" : "Save Task!"}
+            "Save Task!"
           </button>
         )}
         <div className="checkbox-and-writing-container">
