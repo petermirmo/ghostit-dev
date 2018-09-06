@@ -88,6 +88,15 @@ class CampaignModal extends Component {
     let activePostIndex;
     let posts = [];
 
+    if (campaign.chosenStartDate) {
+      // Only defined if made from recipe
+      // set hour and minute of startDate
+      campaign.startDate = new moment(campaign.startDate);
+      const hour = campaign.startDate.get("hour");
+      const minute = campaign.startDate.get("minute");
+      campaign.chosenStartDate.set({ hour, minute });
+    }
+
     if (campaign.posts) {
       if (campaign.posts.length > 0) {
         posts = fillPosts(campaign, props.isRecipe);
