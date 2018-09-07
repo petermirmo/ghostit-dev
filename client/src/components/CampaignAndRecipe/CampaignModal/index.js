@@ -101,10 +101,18 @@ class CampaignModal extends Component {
       campaign.chosenStartDate.set({ hour, minute });
     }
 
+    let somethingChanged = props.campaign ? false : true;
+
     if (campaign.posts) {
       if (campaign.posts.length > 0) {
-        posts = fillPosts(campaign, props.isRecipe);
+        posts = fillPosts(campaign, props.isRecipe, props.recipeEditing);
         activePostIndex = 0;
+      }
+      if (props.isRecipe && !props.recipeEditing) {
+        // campaign is based off a recipe and the posts haven't been scheduled yet
+        // so campaign.posts shouldn't exist as its only for saved posts
+        delete campaign.posts;
+        somethingChanged = true;
       }
     }
     if (campaign.chosenStartDate) {
@@ -124,7 +132,7 @@ class CampaignModal extends Component {
       activePostIndex,
 
       saving: !props.recipeEditing,
-      somethingChanged: props.campaign ? false : true,
+      somethingChanged,
       confirmDelete: false,
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes

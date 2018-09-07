@@ -2,7 +2,7 @@
 import moment from "moment-timezone";
 import axios from "axios";
 
-export const fillPosts = (campaign, isFromRecipe) => {
+export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
   // function called when a user clicks on an existing recipe to edit
   let posts = [];
   for (let index in campaign.posts) {
@@ -23,7 +23,11 @@ export const fillPosts = (campaign, isFromRecipe) => {
 
     if (isFromRecipe) {
       delete new_post._id;
+      if (!recipeEditing) {
+        new_post.campaignID = campaign._id;
+      }
     }
+
     posts.push(new_post);
   }
   return posts;
