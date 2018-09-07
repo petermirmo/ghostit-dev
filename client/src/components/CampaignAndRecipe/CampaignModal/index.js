@@ -38,7 +38,7 @@ class CampaignModal extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    this.initSocket();
+    if (!this.props.recipeEditing) this.initSocket();
 
     this.props.setKeyListenerFunction([
       event => {
@@ -52,9 +52,9 @@ class CampaignModal extends Component {
   }
 
   componentWillUnmount() {
-    let { campaign, somethingChanged, socket } = this.state;
+    let { campaign, somethingChanged, socket, recipeEditing } = this.state;
 
-    if (somethingChanged && campaign && socket) {
+    if (!recipeEditing && somethingChanged && campaign && socket) {
       socket.emit("campaign_editted", campaign);
       socket.on("campaign_saved", emitObject => {
         socket.emit("close", campaign);
@@ -126,6 +126,7 @@ class CampaignModal extends Component {
       promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
       nextChosenPostIndex: 0,
       isFromRecipe: props.isRecipe,
+      recipeEditing: props.recipeEditing,
       pendingPostType: undefined // when user tries to create a new post, but their current post has unsaved changes
     };
 
@@ -133,6 +134,7 @@ class CampaignModal extends Component {
   };
 
   initSocket = () => {
+    console.log("here");
     let { campaign, somethingChanged, posts } = this.state;
     let { clickedCalendarDate } = this.props;
     let socket;
@@ -335,7 +337,7 @@ class CampaignModal extends Component {
   modifyCampaignDates = postingDate => {
     // function that gets passed to <Post/> as a prop
     // <Post/> will use this function to push the campaign start/end dates in order to fit its posting date
-    const { campaign, socket } = this.state;
+    const { campaign, socket, recipeEditing } = this.state;
     if (campaign.startDate > postingDate) {
       campaign.startDate = new moment(postingDate);
     } else if (campaign.endDate < postingDate) {
@@ -345,7 +347,7 @@ class CampaignModal extends Component {
         "attempting to modify campaign date so post date fits, but posting date already fits?"
       );
     }
-    socket.emit("campaign_editted", campaign); // make sure this saves in the DB in case the page crashes or reloads
+    if (!recipeEditing) socket.emit("campaign_editted", campaign); // make sure this saves in the DB in case the page crashes or reloads
     this.setState({ campaign, somethingChanged: true });
   };
 

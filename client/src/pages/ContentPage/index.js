@@ -18,6 +18,7 @@ class Content extends Component {
   state = {
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
+    recipeEditing: false,
 
     facebookPosts: [],
     twitterPosts: [],
@@ -173,7 +174,8 @@ class Content extends Component {
     this.setState({
       campaignModal: true,
       clickedEvent: campaign,
-      clickedEventIsRecipe: false
+      clickedEventIsRecipe: false,
+      recipeEditing: false
     });
   };
 
@@ -226,6 +228,7 @@ class Content extends Component {
       timezone,
       clickedEvent,
       clickedEventIsRecipe,
+      recipeEditing,
       clickedDate,
       campaigns
     } = this.state;
@@ -342,6 +345,7 @@ class Content extends Component {
             updateCampaigns={this.getCampaigns}
             campaign={clickedEvent}
             isRecipe={clickedEventIsRecipe}
+            recipeEditing={recipeEditing}
           />
         )}
         {this.state.recipeModal && (

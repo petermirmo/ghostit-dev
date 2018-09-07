@@ -82,6 +82,9 @@ class RecipeModal extends Component {
       startDate,
       userID
     } = this.state;
+    let signedInUserID = this.props.user.signedInAsUser
+      ? this.props.user.signedInAsUser.id
+      : this.props.user._id;
     let recipeArray = [];
 
     let recipeIndex = 0;
@@ -161,6 +164,20 @@ class RecipeModal extends Component {
                         Use This Recipe
                       </div>
                     )}
+                    {!chooseRecipeDate && (
+                      <div
+                        className="use-this-recipe"
+                        onClick={() => {
+                          this.props.handleChange(recipe, "clickedEvent");
+                          this.props.handleChange(true, "clickedEventIsRecipe");
+                          this.props.handleChange(true, "recipeEditing");
+                          this.props.handleChange(false, "recipeModal");
+                          this.props.handleChange(true, "campaignModal");
+                        }}
+                      >
+                        Edit This Recipe
+                      </div>
+                    )}
 
                     {chooseRecipeDate && (
                       <div className="label">Choose Start Date: </div>
@@ -173,6 +190,7 @@ class RecipeModal extends Component {
                           recipe.chosenStartDate = date;
                           this.props.handleChange(recipe, "clickedEvent");
                           this.props.handleChange(true, "clickedEventIsRecipe");
+                          this.props.handleChange(false, "recipeEditing");
                           this.props.handleChange(false, "recipeModal");
                           this.props.handleChange(true, "campaignModal");
                         }}
@@ -185,7 +203,7 @@ class RecipeModal extends Component {
                     )}
                   </div>
                 </div>
-                {this.props.user._id === recipe.userID && (
+                {signedInUserID === recipe.userID && (
                   <div className="recipe-edit-delete-container">
                     <FontAwesomeIcon
                       icon={faEdit}
@@ -193,6 +211,8 @@ class RecipeModal extends Component {
                       size="2x"
                       onClick={() => {
                         this.props.handleChange(recipe, "clickedEvent");
+                        this.props.handleChange(true, "clickedEventIsRecipe");
+                        this.props.handleChange(true, "recipeEditing");
                         this.props.handleChange(false, "recipeModal");
                         this.props.handleChange(true, "campaignModal");
                       }}

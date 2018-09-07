@@ -39,16 +39,16 @@ whiteboard:
   - calendar event completed checkmarks / custom task completed
     (show a checkmark beside posts on the calendar that have been posted. show them for custom tasks as well but the only way to toggle the checkmark is for the user to open the task and mark it completed themselves.)
 
-next tasks:
-  recipe edit and delete
-    campaign and recipe:
-      need to sort recipe posts chronologically, but where should we do it?
-      recipe editing: posts need some way to display which social type it is (besides just the color of its list button)
-      custom tasks need their own colour
-      delete recipe button
-  creating campaign from a recipe:
-    user should be able to change the start date in a way that pushes all the post dates forward / back accordingly
-    maybe just a button that shows up if campaign.recipeID. that button pushes all dates/times accordingly.
+
+recipe edit and delete
+  campaign and recipe:
+    need to sort recipe posts chronologically, but where should we do it?
+    recipe editing: posts need some way to display which social type it is (besides just the color of its list button)
+    custom tasks need their own colour
+    delete recipe button
+creating campaign from a recipe:
+  user should be able to change the start date in a way that pushes all the post dates forward / back accordingly
+  maybe just a button that shows up if campaign.recipeID. that button pushes all dates/times accordingly.
 
 save recipe button doesn't give feedback that it saved.
 
@@ -56,4 +56,5 @@ post names being long could make some ui elements look bad (the buttons in the p
 
 previewing a recipe: have the day number beside the name of the post (ex: "fb post - Day 1", "twit post - Day 3")
 
-clicking on a calendar date then choosing a recipe to use, the day defaults to new moment() instead of the calendar date clicked
+current task:
+  recipe specific campaignModal usage (recipe creation and editing)
