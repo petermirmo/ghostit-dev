@@ -97,6 +97,7 @@ module.exports = {
       });
     } else {
       Recipe.findOne({ _id: campaign.recipeID }, (err, foundRecipe) => {
+        if (!foundRecipe) foundRecipe = new Recipe();
         if (String(userID) === String(foundRecipe.userID)) {
           for (let index in campaign) {
             if (indexChecks(index)) {

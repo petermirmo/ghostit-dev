@@ -86,7 +86,6 @@ module.exports = socket => {
             }
             foundCampaign.remove();
           }
-          socket.disconnect();
         });
       }
     } else {
@@ -109,9 +108,9 @@ module.exports = socket => {
           }
           foundCampaign.remove();
         }
-        socket.disconnect();
       });
     }
+    socket.disconnect();
   });
 
   socket.on("delete", campaign => {

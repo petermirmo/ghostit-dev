@@ -533,7 +533,10 @@ class CampaignModal extends Component {
     let { campaign, posts } = this.state;
 
     if (campaign.name === "") {
-      alert("To publish this campaign as a recipe, please give it a name!");
+      alert("To publish this campaign as a template, please give it a name!");
+      return;
+    } else if (!posts || posts.length < 1) {
+      alert("You cannot save a template with no posts.");
       return;
     }
     for (let index in posts) {

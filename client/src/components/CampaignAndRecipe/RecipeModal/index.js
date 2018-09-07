@@ -443,7 +443,7 @@ class RecipeModal extends Component {
                 });
               }}
             >
-              All Recipes
+              All Templates
             </div>
             <div
               className={
@@ -459,7 +459,7 @@ class RecipeModal extends Component {
                 });
               }}
             >
-              Your Recipes
+              Your Templates
             </div>
           </div>
           <div className="recipes-container-container">{recipeArray}</div>
