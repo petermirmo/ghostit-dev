@@ -675,6 +675,7 @@ class CampaignModal extends Component {
                 }
                 deletePost={this.deletePost}
                 handleChange={this.handleChange}
+                recipeEditing={recipeEditing}
               />
 
               {activePostIndex !== undefined && (

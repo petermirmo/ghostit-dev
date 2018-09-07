@@ -36,16 +36,10 @@ class PostList extends Component {
       posts,
       activePostIndex,
       listOfPostChanges,
-      recipeEditor,
+      recipeEditing,
       clickedCalendarDate
     } = this.props; // variables
-    const {
-      newPost,
-      deletePost,
-      handleChange,
-      createRecipe,
-      saveRecipe
-    } = this.props; // functions
+    const { newPost, deletePost, handleChange } = this.props; // functions
 
     return (
       <div
@@ -67,7 +61,13 @@ class PostList extends Component {
             }
 
             let savedBoxColor = "var(--green-theme-color)";
-            if (!recipeEditor && !post_obj._id) {
+            if (
+              recipeEditing &&
+              (!post_obj.instructions || post_obj.instructions === "")
+            ) {
+              // posts in a recipe must have instructions so if it doesn't, it must not have been saved yet.
+              savedBoxColor = "var(--red-theme-color)";
+            } else if (!recipeEditing && !post_obj._id) {
               // post hasnt been saved yet since it doesn't have an _id
               savedBoxColor = "var(--red-theme-color)";
             } else if (index === activePostIndex) {
@@ -75,16 +75,6 @@ class PostList extends Component {
               if (Object.keys(listOfPostChanges).length > 0) {
                 savedBoxColor = "var(--red-theme-color)";
               }
-            }
-
-            if (this.props.recipeEditor && post_obj.instructions === "") {
-              // posts cannot be saved in a recipe with instructions == ""
-              // so this post could never have been saved
-              // posts in recipes don't have an ID from getting saved in the DB so the check above
-              // wouldn't catch this in recipes
-              // problems may occur if later on we allow certain posts to have empty instructions
-              // so in that case we will have to add an extra clause based on how to tell what's been saved
-              savedBoxColor = "var(--red-theme-color)";
             }
 
             return (
