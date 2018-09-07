@@ -379,18 +379,20 @@ class PostingOptions extends Component {
                 )
               }
             >
-              "Schedule Post!"
+              {this.props.recipeEditing ? "Save Post" : "Schedule Post!"}
             </button>
           )}
-        <SelectAccountDiv
-          activePageAccountsArray={activePageAccountsArray}
-          activeAccount={accountID}
-          handleChange={account => {
-            this.handleChange(account._id, "accountID");
-            this.handleChange(account.accountType, "accountType");
-          }}
-          canEdit={canEditPost}
-        />
+        {!this.props.recipeEditing && (
+          <SelectAccountDiv
+            activePageAccountsArray={activePageAccountsArray}
+            activeAccount={accountID}
+            handleChange={account => {
+              this.handleChange(account._id, "accountID");
+              this.handleChange(account.accountType, "accountType");
+            }}
+            canEdit={canEditPost}
+          />
+        )}
         <div className="time-picker-and-save-post">
           <DateTimePicker
             date={date}

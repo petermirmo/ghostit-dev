@@ -119,7 +119,7 @@ class CampaignModal extends Component {
       listOfPostChanges: {},
       activePostIndex,
 
-      saving: true,
+      saving: !props.recipeEditing,
       somethingChanged: props.campaign ? false : true,
       confirmDelete: false,
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
@@ -134,7 +134,6 @@ class CampaignModal extends Component {
   };
 
   initSocket = () => {
-    console.log("here");
     let { campaign, somethingChanged, posts } = this.state;
     let { clickedCalendarDate } = this.props;
     let socket;
@@ -411,7 +410,8 @@ class CampaignModal extends Component {
       posts,
       socket,
       campaign,
-      listOfPostChanges
+      listOfPostChanges,
+      recipeEditing
     } = this.state;
     const post_obj = posts[activePostIndex];
 
@@ -442,6 +442,7 @@ class CampaignModal extends Component {
           campaignStartDate={campaign.startDate}
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
+          recipeEditing={recipeEditing}
         />
       );
     } else {
@@ -471,6 +472,7 @@ class CampaignModal extends Component {
           campaignStartDate={campaign.startDate}
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
+          recipeEditing={recipeEditing}
         />
       );
     }
