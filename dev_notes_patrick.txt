@@ -71,6 +71,8 @@ previewing a recipe: have the day number beside the name of the post (ex: "fb po
 
 make campaignModal footer its own component
 
+campaign start and end date button "Wrap Posts" which sets the start and end dates to the earlier and latest posting date of all the posts.
+
 current task:
   recipe specific campaignModal usage (recipe creation and editing)
     times not saving with the save post function

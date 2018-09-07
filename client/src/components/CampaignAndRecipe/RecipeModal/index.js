@@ -378,7 +378,7 @@ class RecipeModal extends Component {
             )}
             {chooseRecipeDate && (
               <DateTimePicker
-                date={new moment()}
+                date={this.props.clickedCalendarDate}
                 dateFormat="MMMM Do YYYY"
                 handleChange={date => {
                   recipe.chosenStartDate = date;

@@ -593,7 +593,8 @@ class CampaignModal extends Component {
       promptChangeActivePost,
       promptDiscardPostChanges,
       listOfPostChanges,
-      recipeEditing
+      recipeEditing,
+      socket
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -686,7 +687,16 @@ class CampaignModal extends Component {
                 <div className="campaign-specific-footer">
                   <div
                     className="campaign-footer-option green"
-                    onClick={() => this.props.close()}
+                    onClick={() => {
+                      this.setState({ saving: true });
+                      socket.emit("campaign_editted", campaign);
+                      socket.on("campaign_saved", emitObject => {
+                        if (!emitObject) {
+                          console.log("campaign save failed");
+                        }
+                        this.setState({ saving: false });
+                      });
+                    }}
                   >
                     Save Campaign
                   </div>
