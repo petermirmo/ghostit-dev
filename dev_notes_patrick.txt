@@ -1,3 +1,5 @@
+git push origin +master:pat-pc-sync-branch
+
 imagine scenario:
   var = 4; this.setState({ var: 4 });
     vs
