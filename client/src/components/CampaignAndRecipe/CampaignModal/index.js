@@ -56,11 +56,9 @@ class CampaignModal extends Component {
 
     if (!recipeEditing && somethingChanged && campaign && socket) {
       socket.emit("campaign_editted", campaign);
-      socket.on("campaign_saved", emitObject => {
-        socket.emit("close", campaign);
+      socket.emit("close", campaign);
 
-        this.props.updateCampaigns();
-      });
+      this.props.updateCampaigns();
     }
     this._ismounted = false;
   }
@@ -716,6 +714,7 @@ class CampaignModal extends Component {
                           if (!emitObject) {
                             console.log("campaign save failed");
                           }
+
                           this.setState({ saving: false });
                         });
                       }}
