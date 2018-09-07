@@ -10,13 +10,18 @@ module.exports = socket => {
     new Campaign(campaign).save((err, result) => {
       if (!err) {
         if (campaign.recipeID) {
+          console.log("here1");
           Recipe.findOne({ _id: campaign.recipeID }, (err, foundRecipe) => {
+            console.log("here2");
+
             if (foundRecipe) {
               if (!foundRecipe.useCount) {
                 foundRecipe.useCount = 1;
               } else {
                 foundRecipe.useCount = foundRecipe.useCount + 1;
               }
+              console.log(foundRecipe.useCount);
+
               foundRecipe.save();
             } else {
               console.log(

@@ -69,7 +69,7 @@ class CampaignModal extends Component {
       new moment() > new moment(props.clickedCalendarDate)
         ? new moment()
         : new moment(props.clickedCalendarDate);
-    let campaign = props.campaign // only defined if user clicked on an existing campaign to edit
+    let campaign = props.campaign
       ? props.campaign
       : {
           startDate,
