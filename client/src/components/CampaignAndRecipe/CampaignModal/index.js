@@ -648,33 +648,38 @@ class CampaignModal extends Component {
 
           {firstPostChosen && (
             <div className="post-navigation-and-post-container">
-              <PostList
-                campaign={campaign}
-                posts={posts}
-                activePostIndex={activePostIndex}
-                listOfPostChanges={listOfPostChanges}
-                clickedCalendarDate={clickedCalendarDate}
-                newPost={(
-                  socialType,
-                  posts,
-                  campaign,
-                  clickedCalendarDate,
-                  callback
-                ) =>
-                  this.setState(
-                    newPost(
-                      socialType,
-                      posts,
-                      campaign,
-                      clickedCalendarDate,
-                      listOfPostChanges
+              <div
+                className="post-navigation-container"
+                style={{ borderColor: color }}
+              >
+                <PostList
+                  campaign={campaign}
+                  posts={posts}
+                  activePostIndex={activePostIndex}
+                  listOfPostChanges={listOfPostChanges}
+                  clickedCalendarDate={clickedCalendarDate}
+                  newPost={(
+                    socialType,
+                    posts,
+                    campaign,
+                    clickedCalendarDate,
+                    callback
+                  ) =>
+                    this.setState(
+                      newPost(
+                        socialType,
+                        posts,
+                        campaign,
+                        clickedCalendarDate,
+                        listOfPostChanges
+                      )
                     )
-                  )
-                }
-                deletePost={this.deletePost}
-                handleChange={this.handleChange}
-                recipeEditing={recipeEditing}
-              />
+                  }
+                  deletePost={this.deletePost}
+                  handleChange={this.handleChange}
+                  recipeEditing={recipeEditing}
+                />
+              </div>
 
               {activePostIndex !== undefined && (
                 <div className="post-container" style={{ borderColor: color }}>
