@@ -405,6 +405,7 @@ class CampaignModal extends Component {
 		if (date <= new moment(startDate)) {
 			this.handleCampaignChange(date, "startDate");
 		} */
+
     // function that gets passed to <DateTimePicker/> which lets it modify <CampaignModal/>'s start and end dates
     // before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
     // for example, if you had a campaign from Sept 1 -> Sept 4 and a post on Sept 3,
@@ -533,14 +534,17 @@ class CampaignModal extends Component {
     let { campaign, posts } = this.state;
 
     if (campaign.name === "") {
-      alert("To publish this campaign as a recipe, please give it a name!");
+      alert("To publish this campaign as a template, please give it a name!");
+      return;
+    } else if (!posts || posts.length < 1) {
+      alert("You cannot save a template with no posts.");
       return;
     }
     for (let index in posts) {
       const post = posts[index];
       if (!post.instructions || post.instructions === "") {
         alert(
-          "All posts in a recipe must have instructions. Make sure each post has instructions then try saving again."
+          "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
         );
         return;
       }
