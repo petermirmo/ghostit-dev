@@ -75,4 +75,4 @@ campaign start and end date button "Wrap Posts" which sets the start and end dat
 
 current task:
   recipe specific campaignModal usage (recipe creation and editing)
-    times not saving with the save post function
+    invalid times not prompting for modify campaign dates

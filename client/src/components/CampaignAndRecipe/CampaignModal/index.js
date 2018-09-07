@@ -113,6 +113,11 @@ class CampaignModal extends Component {
         // so campaign.posts shouldn't exist as its only for saved posts
         delete campaign.posts;
         somethingChanged = true;
+        campaign.userID = props.user.signedInAsUser
+          ? props.user.signedInAsUser.id
+            ? props.user.signedInAsUser.id
+            : props.user._id
+          : props.user._id;
       }
     }
     if (campaign.chosenStartDate) {
