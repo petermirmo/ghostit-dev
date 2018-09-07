@@ -2,6 +2,10 @@
 import moment from "moment-timezone";
 import axios from "axios";
 
+import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
+import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
+import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+
 export function mobileAndTabletcheck() {
   let check = false;
   (function(a) {
@@ -179,4 +183,11 @@ export function getSocialCharacters(post_type) {
   } else if (post_type === "linkedin") {
     return 700;
   } else return undefined;
+}
+export function getPostIcon(socialType) {
+  if (socialType === "facebook") return faFacebook;
+  else if (socialType === "twitter") return faTwitter;
+  else if (socialType === "linkedin") return faLinkedin;
+  else if (socialType === "instagram") return false;
+  else return false;
 }

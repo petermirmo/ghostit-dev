@@ -656,7 +656,7 @@ class CampaignModal extends Component {
               >
                 Save Campaign as Template
               </div>
-              <div className="campaign-footer-option yellow right">
+              <div className="campaign-footer-option right blue">
                 <FontAwesomeIcon
                   onClick={() => this.handleChange(true, "confirmDelete")}
                   className="delete"
