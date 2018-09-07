@@ -85,6 +85,10 @@ class CampaignModal extends Component {
           recipeID: undefined
         };
 
+    if (props.campaign && props.recipeEditing) {
+      campaign.recipeID = campaign._id;
+    }
+
     let activePostIndex;
     let posts = [];
 
@@ -204,13 +208,14 @@ class CampaignModal extends Component {
     return;
   };
 
-  savePostChanges = () => {
+  savePostChanges = date => {
     // function called when user saves a post as part of a recipe and not part of a campaign
     // post doesn't get saved in DB so we need to store it within this modal's state instead
     const { activePostIndex, listOfPostChanges, posts } = this.state;
     const updated_post = {
       ...posts[activePostIndex],
-      ...listOfPostChanges
+      ...listOfPostChanges,
+      postingDate: date
     };
 
     this.setState(prevState => {
@@ -581,7 +586,8 @@ class CampaignModal extends Component {
       nextChosenPostIndex,
       promptChangeActivePost,
       promptDiscardPostChanges,
-      listOfPostChanges
+      listOfPostChanges,
+      recipeEditing
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -670,26 +676,48 @@ class CampaignModal extends Component {
                 Back to Templates
               </div>
 
-              <div
-                className="campaign-footer-option green"
-                onClick={() => this.props.close()}
-              >
-                Save Campaign
-              </div>
-              <div
-                className="campaign-footer-option blue"
-                onClick={this.createRecipe}
-              >
-                Save Campaign as Template
-              </div>
-              <div className="campaign-footer-option right blue">
-                <FontAwesomeIcon
-                  onClick={() => this.handleChange(true, "confirmDelete")}
-                  className="delete"
-                  icon={faTrash}
-                  size="2x"
-                />
-              </div>
+              {!recipeEditing && (
+                <div className="campaign-specific-footer">
+                  <div
+                    className="campaign-footer-option green"
+                    onClick={() => this.props.close()}
+                  >
+                    Save Campaign
+                  </div>
+                  <div
+                    className="campaign-footer-option blue"
+                    onClick={this.createRecipe}
+                  >
+                    Save Campaign as Template
+                  </div>
+                  <div className="campaign-footer-option right blue">
+                    <FontAwesomeIcon
+                      onClick={() => this.handleChange(true, "confirmDelete")}
+                      className="delete"
+                      icon={faTrash}
+                      size="2x"
+                    />
+                  </div>
+                </div>
+              )}
+              {recipeEditing && (
+                <div className="recipe-specific-footer">
+                  <div
+                    className="campaign-footer-option green"
+                    onClick={this.createRecipe}
+                  >
+                    Save Template
+                  </div>
+                  <div className="campaign-footer-option right blue">
+                    <FontAwesomeIcon
+                      onClick={() => {}}
+                      className="delete"
+                      icon={faTrash}
+                      size="2x"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {confirmDelete && (

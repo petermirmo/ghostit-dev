@@ -70,7 +70,6 @@ module.exports = {
 
     if (!campaign.recipeID) {
       let recipe = new Recipe();
-      const recipeID = recipe._id;
 
       for (let index in campaign) {
         if (indexChecks(index)) {
@@ -78,13 +77,19 @@ module.exports = {
         }
       }
 
-      recipe._id = recipeID;
-
       recipe.posts = posts;
 
       recipe.save();
 
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
+        if (!foundCampaign) {
+          // this happens when we are saving a recipe that isn't based off a saved campaign
+          res.send({
+            success: true,
+            campaign: { ...campaign, recipeID: recipe._id }
+          });
+          return;
+        }
         foundCampaign.recipeID = recipe._id;
         foundCampaign.save((err, savedCampaign) => {
           res.send({ success: true, campaign: savedCampaign });

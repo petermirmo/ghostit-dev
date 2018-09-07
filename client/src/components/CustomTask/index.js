@@ -156,7 +156,7 @@ class CustomTask extends Component {
 
   trySavePostInRecipe = (campaignStartDate, campaignEndDate) => {
     // function for saving a post within a recipe. the post does not get saved to the DB.
-    const { name, instructions } = this.state;
+    const { name, instructions, date } = this.state;
 
     // validity checks
     if (!name || name === "") {
@@ -179,7 +179,7 @@ class CustomTask extends Component {
       }
     }
 
-    this.props.savePostChanges();
+    this.props.savePostChanges(date);
     this.setState({ somethingChanged: false });
   };
 
@@ -287,7 +287,7 @@ class CustomTask extends Component {
           value={instructions}
           readOnly={!canEditPost}
         />
-        {(somethingChanged || !_id) && (
+        {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
           <button
             className="schedule-post-button"
             onClick={() =>

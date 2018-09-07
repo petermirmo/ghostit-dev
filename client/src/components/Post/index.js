@@ -181,7 +181,7 @@ class PostingOptions extends Component {
 
   trySavePostInRecipe = (campaignStartDate, campaignEndDate) => {
     // function for saving a post within a recipe. the post does not get saved to the DB.
-    const { name, instructions } = this.state;
+    const { name, instructions, date } = this.state;
 
     // validity checks
     if (!name || name === "") {
@@ -204,7 +204,7 @@ class PostingOptions extends Component {
       }
     }
 
-    this.props.savePostChanges();
+    this.props.savePostChanges(date);
     this.setState({ somethingChanged: false });
   };
 
@@ -373,7 +373,7 @@ class PostingOptions extends Component {
           <div className="max-characters">{maxCharacters - content.length}</div>
         )}
         {canEditPost &&
-          (somethingChanged || !_id) && (
+          (somethingChanged || (!this.props.recipeEditing && !_id)) && (
             <button
               className="schedule-post-button"
               onClick={() =>
