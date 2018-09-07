@@ -542,6 +542,7 @@ class CampaignModal extends Component {
               this.props.handleChange(false, "campaignModal");
               this.props.handleChange(true, "recipeModal");
             }}
+            close={this.props.close}
             onClick={() => this.attemptToCloseModal()}
           />
 
@@ -625,7 +626,7 @@ class CampaignModal extends Component {
               >
                 Save Campaign as Template
               </div>
-              <div className="campaign-footer-option yellow right">
+              <div className="campaign-footer-option right blue">
                 <FontAwesomeIcon
                   onClick={() => this.handleChange(true, "confirmDelete")}
                   className="delete"

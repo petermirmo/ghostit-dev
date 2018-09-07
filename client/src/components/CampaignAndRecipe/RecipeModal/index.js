@@ -10,12 +10,16 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 
 import LoaderSimpleCircle from "../../Notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
 
-import { getPostColor } from "../../../extra/functions/CommonFunctions";
+import {
+  getPostColor,
+  getPostIcon
+} from "../../../extra/functions/CommonFunctions";
 
 import "./styles/";
 
@@ -84,141 +88,56 @@ class RecipeModal extends Component {
     } = this.state;
     let recipeArray = [];
 
-    let recipeIndex = 0;
+    let recipeIndex = -3;
 
     for (
       let recipeRow = 0;
-      recipeRow <= activeRecipes.length / 4;
+      recipeRow <= activeRecipes.length / 6;
       recipeRow++
     ) {
       let rowArray = [];
 
-      for (let recipeColumn = 0; recipeColumn <= 3; recipeColumn++) {
+      for (let recipeColumn = 0; recipeColumn < 6; recipeColumn++) {
         let recipeIndex2 = recipeIndex;
         let recipe = activeRecipes[recipeIndex2];
+        if (recipeRow === 0 && recipeColumn === 0) {
+          rowArray.push(this.customCampaignDiv(recipeIndex2));
+          recipeIndex++;
+          continue;
+          newRecipeDiv;
+        }
+        if (recipeRow === 0 && recipeColumn === 1) {
+          rowArray.push(this.newRecipeDiv(recipeIndex2));
+          recipeIndex++;
+          continue;
+        }
+        if (recipeRow === 0 && recipeColumn === 2) {
+          rowArray.push(this.singleTask(recipeIndex2));
+          recipeIndex++;
+          continue;
+        }
 
         // Preview when a recipe is clicked
         if (previewRecipeLocation === recipeIndex2) {
-          recipeArray[recipeArray.length + 1] = (
-            <div
-              className="preview-recipe"
-              key={recipeRow + "preview_recipe" + recipeColumn}
-              style={{ backgroundColor: recipe.color }}
-            >
-              <div className="title">
-                {recipe.name
-                  ? recipe.name
-                  : "This recipe does not have a title."}
-              </div>
-              <div className="recipe-navigation-and-post-preview-container">
-                <div className="preview-navigation-container">
-                  <div className="list-container">
-                    {recipe.posts.map((post_obj, index) => {
-                      return (
-                        <div
-                          className="list-entry-with-delete"
-                          key={index + "list-div"}
-                        >
-                          <div
-                            className="list-entry"
-                            key={index + "list-entry"}
-                            onClick={e =>
-                              this.setState({ activePost: post_obj })
-                            }
-                            style={{
-                              borderColor: getPostColor(post_obj.socialType),
-                              backgroundColor: getPostColor(post_obj.socialType)
-                            }}
-                          >
-                            {post_obj.name
-                              ? post_obj.name
-                              : post_obj.socialType.charAt(0).toUpperCase() +
-                                post_obj.socialType.slice(1) +
-                                " Post"}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="recipe-post-and-use-container">
-                  {activePost && (
-                    <div className="post-preview">
-                      <div className="label">Post Instructions : </div>
-                      {activePost.instructions
-                        ? activePost.instructions
-                        : "This post has no instructions."}
-                    </div>
-                  )}
-                  <div className="use-recipe-date-container">
-                    {!chooseRecipeDate && (
-                      <div
-                        className="use-this-recipe"
-                        onClick={() =>
-                          this.setState({ chooseRecipeDate: true })
-                        }
-                      >
-                        Use This Recipe
-                      </div>
-                    )}
-
-                    {chooseRecipeDate && (
-                      <div className="label">Choose Start Date: </div>
-                    )}
-                    {chooseRecipeDate && (
-                      <DateTimePicker
-                        date={new moment()}
-                        dateFormat="MMMM Do YYYY"
-                        handleChange={date => {
-                          recipe.chosenStartDate = date;
-                          this.props.handleChange(recipe, "clickedEvent");
-                          this.props.handleChange(false, "recipeModal");
-                          this.props.handleChange(true, "campaignModal");
-                        }}
-                        dateLowerBound={new moment()}
-                        disableTime={true}
-                        style={{
-                          bottom: "-80px"
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-                {this.props.user._id === recipe.userID && (
-                  <div className="recipe-edit-delete-container">
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      className="recipe-edit-button"
-                      size="2x"
-                      onClick={() => {
-                        this.props.handleChange(recipe, "clickedEvent");
-                        this.props.handleChange(false, "recipeModal");
-                        this.props.handleChange(true, "campaignModal");
-                      }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      className="recipe-delete-button"
-                      size="2x"
-                      onClick={() =>
-                        this.setState({ promptDeleteRecipe: true })
-                      }
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+          recipeArray[recipeArray.length + 1] = this.previewRecipeDiv(
+            recipeRow,
+            recipeColumn,
+            recipe,
+            activePost,
+            chooseRecipeDate
           );
         }
 
         // Put in blank divs to account for empty slots in final row
-        if (!recipe)
+        if (!recipe) {
           recipe = {
             _id: recipeIndex2 + "recipe",
             name: "",
-            color: "transparent",
             cursor: "default"
           };
+        }
+        let opacity;
+        if (!recipe.color) opacity = 0;
         rowArray.push(
           <div
             className="recipe-container"
@@ -238,9 +157,18 @@ class RecipeModal extends Component {
                 });
               }
             }}
-            style={{ backgroundColor: recipe.color, cursor: recipe.cursor }}
+            style={{ opacity, cursor: recipe.cursor }}
           >
             <div className="recipe-name">{recipe.name}</div>
+            <div className="recipe-description">{recipe.description}</div>
+            <div className="recipe-information-container">
+              <div className="recipe-uses">
+                Use count:{" "}
+                <span className="blue">
+                  {recipe.useCount ? recipe.useCount : 0}
+                </span>
+              </div>
+            </div>
           </div>
         );
         recipeIndex++;
@@ -279,6 +207,189 @@ class RecipeModal extends Component {
       });
     } else this.setState({ promptDeleteRecipe: false });
   };
+
+  customCampaignDiv = recipeIndex2 => {
+    return (
+      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+        <div
+          className="custom-option"
+          onClick={() => {
+            this.props.handleChange(undefined, "clickedEvent");
+            this.props.handleChange(true, "campaignModal");
+            this.props.handleChange(false, "recipeModal");
+          }}
+        >
+          <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
+          <div className="new-campaign-text">
+            <div style={{ fontWeight: "bold", fontSize: "inherit" }}>New</div>
+            Campaign
+          </div>
+          <div className="hover-active-div">Create</div>
+        </div>
+      </div>
+    );
+  };
+
+  newRecipeDiv = recipeIndex2 => {
+    return (
+      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+        <div
+          className="custom-option"
+          onClick={() => {
+            this.props.handleChange(undefined, "clickedEvent");
+            this.props.handleChange(true, "campaignModal");
+            this.props.handleChange(false, "recipeModal");
+          }}
+        >
+          <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
+          <div className="new-campaign-text">
+            <div style={{ fontWeight: "bold", fontSize: "inherit" }}>New</div>
+            Template
+          </div>
+          <div className="hover-active-div">Create</div>
+        </div>
+      </div>
+    );
+  };
+  singleTask = recipeIndex2 => {
+    return (
+      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+        <div
+          className="custom-option"
+          onClick={() => {
+            this.props.handleChange(undefined, "clickedEvent");
+            this.props.handleChange(true, "contentModal");
+            this.props.handleChange(false, "recipeModal");
+          }}
+        >
+          <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
+          <div className="new-campaign-text">
+            <div style={{ fontWeight: "bold", fontSize: "inherit" }}>
+              Single
+            </div>
+            Task
+          </div>
+          <div className="hover-active-div">Create</div>
+        </div>
+      </div>
+    );
+  };
+
+  previewRecipeDiv = (
+    recipeRow,
+    recipeColumn,
+    recipe,
+    activePost,
+    chooseRecipeDate
+  ) => {
+    let postDay;
+    let lastPostDay;
+    return (
+      <div
+        className="preview-recipe"
+        key={recipeRow + "preview_recipe" + recipeColumn}
+      >
+        <div className="recipe-posts-navigation">
+          {recipe.posts.map((post_obj, index) => {
+            let postDay =
+              new moment(post_obj.postingDate).diff(recipe.startDate, "days") +
+              1;
+            if (postDay === lastPostDay) postDay = undefined;
+            else lastPostDay = postDay;
+
+            return (
+              <div key={index + "post-div"}>
+                {postDay && <div className="post-day">Day {postDay}</div>}
+                <div
+                  className="post-entry"
+                  onClick={e => this.setState({ activePost: post_obj })}
+                >
+                  {getPostIcon(post_obj.socialType) && (
+                    <FontAwesomeIcon
+                      icon={getPostIcon(post_obj.socialType)}
+                      color={getPostColor(post_obj.socialType)}
+                      style={{ backgroundColor: "var(--white-theme-color)" }}
+                      size="2x"
+                    />
+                  )}
+                  {!getPostIcon(post_obj.socialType) && (
+                    <div
+                      className="custom-task-block-color"
+                      style={{ backgroundColor: post_obj.color }}
+                    />
+                  )}
+
+                  <div className="recipe-post-name">{post_obj.name}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="recipe-post-and-use-container">
+          {activePost && (
+            <div className="post-preview">
+              <div className="title">{recipe.name}</div>
+              <div className="preview-recipe-description">
+                {recipe.description}
+              </div>
+              {this.props.user._id === recipe.userID && (
+                <div className="recipe-edit-delete-container">
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className="recipe-edit-button"
+                    size="2x"
+                    onClick={() => {
+                      this.props.handleChange(recipe, "clickedEvent");
+                      this.props.handleChange(false, "recipeModal");
+                      this.props.handleChange(true, "campaignModal");
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="recipe-delete-button"
+                    size="2x"
+                    onClick={() => this.setState({ promptDeleteRecipe: true })}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+          <div className="use-recipe-date-container">
+            {!chooseRecipeDate && (
+              <div
+                className="use-this-recipe"
+                onClick={() => this.setState({ chooseRecipeDate: true })}
+              >
+                Use This Recipe
+              </div>
+            )}
+
+            {chooseRecipeDate && (
+              <div className="label">Choose Start Date: </div>
+            )}
+            {chooseRecipeDate && (
+              <DateTimePicker
+                date={new moment()}
+                dateFormat="MMMM Do YYYY"
+                handleChange={date => {
+                  recipe.chosenStartDate = date;
+                  this.props.handleChange(recipe, "clickedEvent");
+                  this.props.handleChange(false, "recipeModal");
+                  this.props.handleChange(true, "campaignModal");
+                }}
+                dateLowerBound={new moment()}
+                disableTime={true}
+                style={{
+                  bottom: "-80px"
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     let {
       activeRecipes,
@@ -304,16 +415,7 @@ class RecipeModal extends Component {
             className="close"
             onClick={() => this.props.close(false, "recipeModal")}
           />
-          <div
-            className="custom-campaign-button"
-            onClick={e => {
-              this.props.handleChange(undefined, "clickedEvent");
-              this.props.handleChange(true, "campaignModal");
-              this.props.handleChange(false, "recipeModal");
-            }}
-          >
-            Create Custom Campaign
-          </div>
+
           <div className="recipe-navigation-container">
             <div
               className={
@@ -363,7 +465,6 @@ class RecipeModal extends Component {
     );
   }
 }
-
 function mapStateToProps(state) {
   return {
     user: state.user,

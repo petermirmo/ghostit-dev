@@ -10,7 +10,6 @@ import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
 import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
 import NavigationBar from "../../components/Navigations/NavigationBar/";
 import Calendar from "../../components/Calendar/";
-import OptionModal from "../../components/OptionModal";
 import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 
@@ -27,10 +26,9 @@ class Content extends Component {
     clickedDate: new moment(),
 
     blogEdittingModal: false,
-    contentModal: false, // modal after selecting post from the optionModal
+    contentModal: false, // modal after selecting post from the recipeModal
     postEdittingModal: false,
     newsletterEdittingModal: false,
-    optionModal: false, // modal to pick between campaign or post
     campaignModal: false,
     recipeModal: false,
 
@@ -152,7 +150,7 @@ class Content extends Component {
   openModal = date => {
     // Date for post is set to date clicked on calendar
     // Time for post is set to current time
-    this.setState({ clickedDate: date, optionModal: true });
+    this.setState({ clickedDate: date, recipeModal: true });
   };
   handleChange = (value, index) => {
     this.setState({ [index]: value });
@@ -178,7 +176,6 @@ class Content extends Component {
       contentModal: false,
       postEdittingModal: false,
       newsletterEdittingModal: false,
-      optionModal: false,
       campaignModal: false,
       recipeModal: false,
       recipeEditorModal: false,
@@ -324,9 +321,6 @@ class Content extends Component {
             clickedEvent={clickedEvent}
             close={this.closeModals}
           />
-        )}
-        {this.state.optionModal && (
-          <OptionModal handleChange={this.handleChange} />
         )}
         {this.state.campaignModal && (
           <CampaignModal

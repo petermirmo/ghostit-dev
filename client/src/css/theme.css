@@ -501,13 +501,7 @@
 
   cursor: pointer;
 }
-.title {
-  width: 100%;
-  text-align: center;
 
-  font-weight: bold;
-  font-size: var(--super-gigantic-font-size);
-}
 .title-input {
   width: 100%;
 
