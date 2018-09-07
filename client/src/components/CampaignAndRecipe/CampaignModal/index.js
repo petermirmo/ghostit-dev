@@ -204,6 +204,28 @@ class CampaignModal extends Component {
     return;
   };
 
+  savePostChanges = () => {
+    // function called when user saves a post as part of a recipe and not part of a campaign
+    // post doesn't get saved in DB so we need to store it within this modal's state instead
+    const { activePostIndex, listOfPostChanges, posts } = this.state;
+    const updated_post = {
+      ...posts[activePostIndex],
+      ...listOfPostChanges
+    };
+
+    this.setState(prevState => {
+      return {
+        posts: [
+          ...prevState.posts.slice(0, activePostIndex),
+          updated_post,
+          ...prevState.posts.slice(activePostIndex + 1)
+        ],
+        listOfPostChanges: {},
+        somethingChanged: true
+      };
+    });
+  };
+
   deletePost = (e, index) => {
     e.preventDefault();
     const { posts, socket, campaign } = this.state;
@@ -443,6 +465,7 @@ class CampaignModal extends Component {
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
+          savePostChanges={this.savePostChanges}
         />
       );
     } else {
@@ -473,6 +496,7 @@ class CampaignModal extends Component {
           campaignEndDate={campaign.endDate}
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
+          savePostChanges={this.savePostChanges}
         />
       );
     }

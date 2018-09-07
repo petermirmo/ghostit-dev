@@ -179,11 +179,15 @@ class CustomTask extends Component {
       }
     }
 
-    this.props.savePostChanges(this.state);
+    this.props.savePostChanges();
     this.setState({ somethingChanged: false });
   };
 
   trySavePost = (campaignStartDate, campaignEndDate) => {
+    if (this.props.recipeEditing) {
+      this.trySavePostInRecipe(campaignStartDate, campaignEndDate);
+      return;
+    }
     const {
       _id,
       images,
@@ -293,7 +297,7 @@ class CustomTask extends Component {
               )
             }
           >
-            "Save Task!"
+            Save Task!
           </button>
         )}
         <div className="checkbox-and-writing-container">

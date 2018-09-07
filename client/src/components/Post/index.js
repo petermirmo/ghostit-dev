@@ -204,11 +204,15 @@ class PostingOptions extends Component {
       }
     }
 
-    this.props.savePostChanges(this.state);
+    this.props.savePostChanges();
     this.setState({ somethingChanged: false });
   };
 
   trySavePost = (campaignStartDate, campaignEndDate) => {
+    if (this.props.recipeEditing) {
+      this.trySavePostInRecipe(campaignStartDate, campaignEndDate);
+      return;
+    }
     // function for saving a post within a campaign. if all the fields are valid, the post is saved in the DB
     const {
       _id,

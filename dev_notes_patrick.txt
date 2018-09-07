@@ -1,4 +1,15 @@
-git push origin +master:pat-pc-sync-branch
+useful git commands:
+  overwrite pat-pc-sync-branch to be the same as master
+    git push origin +master:pat-pc-sync-branch
+  delete local copy of pat-pc-sync-branch so that pulling the new copy doesn't try to merge
+    git checkout master
+    git branch -D pat-pc-sync-branch
+    git pull ghostit pat-pc-sync-branch
+  merge the changes in pat-pc-sync-branch back into the master branch
+    git checkout master
+    git pull origin master
+    git merge pat-pc-sync-branch
+    git push origin master
 
 imagine scenario:
   var = 4; this.setState({ var: 4 });
