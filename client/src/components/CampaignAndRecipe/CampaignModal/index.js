@@ -688,57 +688,65 @@ class CampaignModal extends Component {
 
           <div className="modal-footer">
             <div className="campaign-footer-options">
-              <div
-                className="campaign-footer-option blue"
-                onClick={() => {
-                  this.props.handleChange(false, "campaignModal");
-                  this.props.handleChange(true, "recipeModal");
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faArrowLeft}
-                  className="back-button-arrow"
-                />
-                Back to Templates
+              <div className="campaign-footer-option left">
+                <div
+                  onClick={() => {
+                    this.props.handleChange(false, "campaignModal");
+                    this.props.handleChange(true, "recipeModal");
+                  }}
+                  className="round-button blue"
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowLeft}
+                    className="back-button-arrow"
+                  />
+                  Back to Templates
+                </div>
               </div>
 
               {!recipeEditing && (
                 <div className="campaign-specific-footer">
-                  <div
-                    className="campaign-footer-option green"
-                    onClick={() => {
-                      this.setState({ saving: true });
-                      socket.emit("campaign_editted", campaign);
-                      socket.on("campaign_saved", emitObject => {
-                        if (!emitObject) {
-                          console.log("campaign save failed");
-                        }
-                        this.setState({ saving: false });
-                      });
-                    }}
-                  >
-                    Save Campaign
+                  <div className="campaign-footer-option right">
+                    <div
+                      className="round-button green big"
+                      onClick={() => {
+                        this.setState({ saving: true });
+                        socket.emit("campaign_editted", campaign);
+                        socket.on("campaign_saved", emitObject => {
+                          if (!emitObject) {
+                            console.log("campaign save failed");
+                          }
+                          this.setState({ saving: false });
+                        });
+                      }}
+                    >
+                      Save Campaign
+                    </div>
                   </div>
-                  <div
-                    className="campaign-footer-option blue"
-                    onClick={this.createRecipe}
-                  >
-                    Save Campaign as Template
-                  </div>
-                  <div className="campaign-footer-option right blue">
-                    <FontAwesomeIcon
-                      onClick={() => this.handleChange(true, "confirmDelete")}
-                      className="delete"
-                      icon={faTrash}
-                      size="2x"
-                    />
+                  <div className="campaign-footer-option left">
+                    <div
+                      className="round-button blue big"
+                      onClick={this.createRecipe}
+                    >
+                      Save as Template
+                    </div>
                   </div>
                 </div>
               )}
+              {!recipeEditing && (
+                <div className="campaign-footer-option right">
+                  <FontAwesomeIcon
+                    onClick={() => this.handleChange(true, "confirmDelete")}
+                    className="delete"
+                    icon={faTrash}
+                    size="2x"
+                  />
+                </div>
+              )}
               {recipeEditing && (
-                <div className="recipe-specific-footer">
+                <div className="campaign-footer-option">
                   <div
-                    className="campaign-footer-option green"
+                    className="round-button green big"
                     onClick={this.createRecipe}
                   >
                     Save Template
