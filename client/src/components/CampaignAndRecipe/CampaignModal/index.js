@@ -85,6 +85,11 @@ class CampaignModal extends Component {
           recipeID: undefined
         };
 
+    if (props.campaign) {
+      campaign.startDate = new moment(campaign.startDate);
+      campaign.endDate = new moment(campaign.endDate);
+    }
+
     if (props.campaign && props.recipeEditing) {
       campaign.recipeID = campaign._id;
     }
