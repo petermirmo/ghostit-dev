@@ -95,11 +95,10 @@ class CampaignRecipeHeader extends Component {
             <DateTimePicker
               date={new moment(campaign.startDate)}
               dateFormat="MMMM Do YYYY hh:mm A"
-              handleChange={date => {
-                tryChangingDates(date, "startDate");
+              handleChange={(date, setDisplayAndMessage) => {
+                tryChangingDates(date, "startDate", setDisplayAndMessage);
               }}
               dateLowerBound={new moment()}
-              message={datePickerMessage}
             />
           </div>
           <div className="label">Description: </div>
@@ -120,11 +119,10 @@ class CampaignRecipeHeader extends Component {
             <DateTimePicker
               date={new moment(campaign.endDate)}
               dateFormat="MMMM Do YYYY hh:mm A"
-              handleChange={date => {
-                tryChangingDates(date, "endDate");
+              handleChange={(date, setDisplayAndMessage) => {
+                tryChangingDates(date, "endDate", setDisplayAndMessage);
               }}
               dateLowerBound={new moment()}
-              message={datePickerMessage}
             />
           </div>
           <div className="label">Color:</div>

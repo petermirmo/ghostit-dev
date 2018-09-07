@@ -368,9 +368,8 @@ class PostingOptions extends Component {
         {maxCharacters && (
           <div className="max-characters">{maxCharacters - content.length}</div>
         )}
-
         {canEditPost &&
-          somethingChanged && (
+          (somethingChanged || !_id) && (
             <button
               className="schedule-post-button"
               onClick={() =>
@@ -383,17 +382,15 @@ class PostingOptions extends Component {
               "Schedule Post!"
             </button>
           )}
-        {!this.props.recipeEditor && (
-          <SelectAccountDiv
-            activePageAccountsArray={activePageAccountsArray}
-            activeAccount={accountID}
-            handleChange={account => {
-              this.handleChange(account._id, "accountID");
-              this.handleChange(account.accountType, "accountType");
-            }}
-            canEdit={canEditPost}
-          />
-        )}
+        <SelectAccountDiv
+          activePageAccountsArray={activePageAccountsArray}
+          activeAccount={accountID}
+          handleChange={account => {
+            this.handleChange(account._id, "accountID");
+            this.handleChange(account.accountType, "accountType");
+          }}
+          canEdit={canEditPost}
+        />
         <div className="time-picker-and-save-post">
           <DateTimePicker
             date={date}

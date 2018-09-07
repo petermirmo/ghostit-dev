@@ -88,9 +88,18 @@ class CampaignModal extends Component {
     let activePostIndex;
     let posts = [];
 
+    if (campaign.chosenStartDate) {
+      // Only defined if made from recipe
+      // set hour and minute of startDate
+      campaign.startDate = new moment(campaign.startDate);
+      const hour = campaign.startDate.get("hour");
+      const minute = campaign.startDate.get("minute");
+      campaign.chosenStartDate.set({ hour, minute });
+    }
+
     if (campaign.posts) {
       if (campaign.posts.length > 0) {
-        posts = fillPosts(campaign);
+        posts = fillPosts(campaign, props.isRecipe);
         activePostIndex = 0;
       }
     }
@@ -116,8 +125,8 @@ class CampaignModal extends Component {
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
       nextChosenPostIndex: 0,
-      pendingPostType: undefined, // when user tries to create a new post, but their current post has unsaved changes
-      datePickerMessage: "" // when user tries to set an invalid campaign start/end date, this message is displayed on the <DateTimePicker/>
+      isFromRecipe: props.isRecipe,
+      pendingPostType: undefined // when user tries to create a new post, but their current post has unsaved changes
     };
 
     return stateVariable;
@@ -340,7 +349,7 @@ class CampaignModal extends Component {
     this.setState({ campaign, somethingChanged: true });
   };
 
-  tryChangingCampaignDates = (date, date_type) => {
+  tryChangingCampaignDates = (date, date_type, setDisplayAndMessage) => {
     /*
 		this.handleCampaignChange(date, "endDate");
 		if (date <= new moment(startDate)) {
@@ -371,7 +380,7 @@ class CampaignModal extends Component {
     }
 
     if (count_invalid === 0) {
-      this.setState({ datePickerMessage: "" });
+      setDisplayAndMessage(false, "");
       if (date_type === "endDate") {
         this.handleCampaignChange(date, "endDate");
         if (date <= startDate) {
@@ -390,7 +399,7 @@ class CampaignModal extends Component {
         count_invalid +
         post_string +
         " being outside the campaign scope.";
-      this.setState({ datePickerMessage: post_string });
+      setDisplayAndMessage(true, post_string);
     }
   };
 
@@ -482,12 +491,34 @@ class CampaignModal extends Component {
       }
     }
 
+    this.setState({ saving: true });
+
     axios.post("/api/recipe", { campaign, posts }).then(res => {
       const { success } = res.data;
 
+      this.setState({ saving: false });
+
+      if (!success) {
+        console.log(
+          "recipe save unsuccessful. res.data.message then res.data.campaign"
+        );
+        console.log(res.data.message);
+        console.log(res.data.campaign);
+        if (res.data.message) {
+          alert(res.data.message);
+        }
+      }
+
       if (res.data.campaign) {
         campaign.recipeID = res.data.campaign.recipeID;
-        this.setState({ campaign });
+        this.setState(prevState => {
+          return {
+            campaign: {
+              ...prevState.campaign,
+              recipeID: res.data.campaign.recipeID
+            }
+          };
+        });
       }
     });
   };
@@ -519,7 +550,6 @@ class CampaignModal extends Component {
       confirmDelete,
       campaign,
       activePostIndex,
-      datePickerMessage,
       nextChosenPostIndex,
       promptChangeActivePost,
       promptDiscardPostChanges,
@@ -535,15 +565,13 @@ class CampaignModal extends Component {
         <div className="large-modal" onClick={e => e.stopPropagation()}>
           <CampaignRecipeHeader
             campaign={campaign}
-            datePickerMessage={datePickerMessage}
             handleChange={this.handleCampaignChange}
             tryChangingDates={this.tryChangingCampaignDates}
             backToRecipes={() => {
               this.props.handleChange(false, "campaignModal");
               this.props.handleChange(true, "recipeModal");
             }}
-            close={this.props.close}
-            onClick={() => this.attemptToCloseModal()}
+            close={() => this.attemptToCloseModal()}
           />
 
           {!firstPostChosen && (
