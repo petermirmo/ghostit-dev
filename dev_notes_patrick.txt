@@ -77,3 +77,5 @@ current task:
   recipe specific campaignModal usage (recipe creation and editing)
     recipe editing / creation saved boxes do not update
     use count
+
+maybe for recipeEditing, the Save Template button can change a little bit if somethingChanged = true?
