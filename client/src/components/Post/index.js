@@ -195,6 +195,9 @@ class PostingOptions extends Component {
     }
 
     // date checking
+    //console.log(date);
+    //console.log(campaignStartDate);
+    //console.log(campaignEndDate);
     if (campaignStartDate && campaignEndDate) {
       if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
         // prompt user to cancel the save or modify campaign dates

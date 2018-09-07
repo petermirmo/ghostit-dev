@@ -85,6 +85,11 @@ class CampaignModal extends Component {
           recipeID: undefined
         };
 
+    if (props.campaign) {
+      campaign.startDate = new moment(campaign.startDate);
+      campaign.endDate = new moment(campaign.endDate);
+    }
+
     if (props.campaign && props.recipeEditing) {
       campaign.recipeID = campaign._id;
     }
@@ -736,14 +741,6 @@ class CampaignModal extends Component {
                     onClick={this.createRecipe}
                   >
                     Save Template
-                  </div>
-                  <div className="campaign-footer-option right blue">
-                    <FontAwesomeIcon
-                      onClick={() => {}}
-                      className="delete"
-                      icon={faTrash}
-                      size="2x"
-                    />
                   </div>
                 </div>
               )}
