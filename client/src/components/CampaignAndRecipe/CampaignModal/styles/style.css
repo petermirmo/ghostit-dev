@@ -37,14 +37,31 @@
 .campaign-footer-options {
   width: 100%;
   display: grid;
-  grid-template-columns: 1.15fr 2fr 1fr 0.15fr;
+  grid-template-columns: 1fr 4fr 1fr;
+}
+.campaign-specific-footer {
+  display: flex;
+  justify-content: center;
 }
 .campaign-footer-option {
   flex-basis: 0;
+  flex: 1;
 
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.campaign-footer-option.left {
+  justify-content: flex-start;
+}
+.campaign-footer-option.right {
+  justify-content: flex-end;
+}
+.round-button {
+  padding: 2px 15px 2px 15px;
+  margin: 4px 10px 4px 10px;
+
+  border-radius: 100px;
 
   opacity: 0.8;
 
@@ -54,15 +71,18 @@
 
   cursor: pointer;
 }
-.campaign-footer-option:hover {
-  opacity: 1;
+.round-button.big {
+  font-size: var(--large-font-size);
+  padding: 6px 40px 6px 40px;
 }
-.campaign-footer-option.blue {
+.round-button.blue {
   background-color: var(--blue-theme-color);
 }
-
-.campaign-footer-option.green {
+.round-button.green {
   background-color: var(--green-theme-color);
+}
+.round-button:hover {
+  opacity: 1;
 }
 
 .campaign-footer-option.right {

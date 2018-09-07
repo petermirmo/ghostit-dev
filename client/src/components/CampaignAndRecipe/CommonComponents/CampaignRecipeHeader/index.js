@@ -104,7 +104,7 @@ class CampaignRecipeHeader extends Component {
           <div className="label">Description: </div>
           <div className="grid-textarea-container">
             <Textarea
-              className="campaign-textarea"
+              className="campaign-textarea small"
               placeholder="Describe this campaign!"
               onChange={event =>
                 handleChange(event.target.value, "description")

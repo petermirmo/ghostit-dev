@@ -35,6 +35,9 @@
   background-color: transparent;
   box-sizing: border-box;
 }
+.campaign-textarea.small {
+  font-size: var(--fourteen-font-size);
+}
 .colors {
   display: flex;
 
