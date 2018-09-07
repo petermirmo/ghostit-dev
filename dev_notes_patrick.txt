@@ -33,7 +33,7 @@ when user has no posts on their calendar to show, have a "Create your first camp
 
 highlight the current day on the calendar.
 
-after publishing a recipe, you should be able to publish it again which will overwrite the previous publish.
+after publishing a recipe, you should be able to publish it again which will overwrimte the previous publish.
 
 how does editing / deleting recipes work, if at all?
 

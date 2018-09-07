@@ -138,7 +138,13 @@ class CampaignModal extends Component {
   };
 
   initSocket = () => {
-    let { campaign, somethingChanged, posts } = this.state;
+    let {
+      campaign,
+      somethingChanged,
+      posts,
+      isFromRecipe,
+      recipeEditing
+    } = this.state;
     let { clickedCalendarDate } = this.props;
     let socket;
 
@@ -146,7 +152,7 @@ class CampaignModal extends Component {
       socket = io("http://localhost:5000");
     else socket = io();
 
-    if (!this.props.campaign) {
+    if (!this.props.campaign || (isFromRecipe && !recipeEditing)) {
       socket.emit("new_campaign", campaign);
 
       socket.on("new_campaign_saved", campaignID => {
