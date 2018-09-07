@@ -552,9 +552,9 @@ class CampaignModal extends Component {
     this.setState({ saving: true });
 
     axios.post("/api/recipe", { campaign, posts }).then(res => {
-      const { success } = res.data;
+      const { success, campaign } = res.data;
 
-      this.setState({ saving: false });
+      this.setState({ saving: false, campaign });
 
       if (!success) {
         console.log(

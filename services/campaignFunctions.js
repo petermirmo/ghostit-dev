@@ -115,7 +115,7 @@ module.exports = {
             if (err || !savedRecipe) {
               res.send({ success: false, message: "failed to save recipe" });
             } else {
-              res.send({ success: true, recipe: savedRecipe });
+              res.send({ success: true, recipe: savedRecipe, campaign });
             }
           });
         } else {
