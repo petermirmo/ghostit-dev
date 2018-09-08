@@ -874,7 +874,6 @@ class CampaignModal extends Component {
             />
           )}
         </div>
-
         {saving && <Loader />}
       </div>
     );
