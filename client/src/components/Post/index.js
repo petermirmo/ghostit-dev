@@ -10,11 +10,8 @@ import DateTimePicker from "../DateTimePicker";
 import SelectAccountDiv from "../SelectAccountDiv/";
 import Carousel from "../Carousel";
 import ImagesDiv from "../ImagesDiv/";
-import {
-  savePost,
-  postChecks,
-  carouselOptions
-} from "../../extra/functions/CommonFunctions";
+import { carouselOptions } from "../../extra/functions/CommonFunctions";
+import { trySavePost } from "../../componentFunctions";
 
 import ConfirmAlert from "../Notifications/ConfirmAlert";
 
@@ -169,108 +166,6 @@ class PostingOptions extends Component {
     });
   };
 
-  postingDateWithinCampaign = () => {
-    // check to see if the posting date is within the scope of the start and end of campaign
-    const { date } = this.state;
-    const { campaignStartDate, campaignEndDate } = this.props;
-    if (date < campaignStartDate || date > campaignEndDate) {
-      return false;
-    }
-    return true;
-  };
-
-  trySavePostInRecipe = (campaignStartDate, campaignEndDate) => {
-    // function for saving a post within a recipe. the post does not get saved to the DB.
-    const { name, instructions, date } = this.state;
-
-    // validity checks
-    if (!name || name === "") {
-      alert("Posts must be named.");
-      return;
-    } else if (!instructions || instructions === "") {
-      alert(
-        "Posts cannot be empty. Please write some instructions in the text area."
-      );
-      return;
-    }
-
-    // date checking
-    //console.log(date);
-    //console.log(campaignStartDate);
-    //console.log(campaignEndDate);
-    if (campaignStartDate && campaignEndDate) {
-      if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
-        // prompt user to cancel the save or modify campaign dates
-
-        this.setState({ promptModifyCampaignDates: true });
-        return;
-      }
-    }
-
-    this.props.savePostChanges(date);
-    this.setState({ somethingChanged: false });
-  };
-
-  trySavePost = (campaignStartDate, campaignEndDate) => {
-    if (this.props.recipeEditing) {
-      this.trySavePostInRecipe(campaignStartDate, campaignEndDate);
-      return;
-    }
-    // function for saving a post within a campaign. if all the fields are valid, the post is saved in the DB
-    const {
-      _id,
-      content,
-      instructions,
-      link,
-      linkImage,
-      images,
-      socialType,
-      accountID,
-      accountType,
-      deleteImagesArray,
-      somethingChanged,
-      campaignID,
-      name,
-      date
-    } = this.state;
-
-    const { postFinishedSavingCallback, setSaving, maxCharacters } = this.props;
-
-    let newDate = new moment(date).utcOffset(0);
-    if (!postChecks(accountID, newDate, link, images, content, maxCharacters)) {
-      return;
-    }
-
-    if (campaignStartDate && campaignEndDate) {
-      if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
-        // prompt user to cancel the save or modify campaign dates
-
-        this.setState({ promptModifyCampaignDates: true });
-        return;
-      }
-    }
-
-    setSaving();
-
-    savePost(
-      _id,
-      content,
-      newDate,
-      link,
-      linkImage,
-      images,
-      accountID,
-      socialType,
-      accountType,
-      postFinishedSavingCallback,
-      deleteImagesArray,
-      campaignID,
-      instructions,
-      name
-    );
-    this.setState({ somethingChanged: false });
-  };
-
   modifyCampaignDate = response => {
     if (!response) {
       this.setState({ promptModifyCampaignDates: false });
@@ -278,9 +173,7 @@ class PostingOptions extends Component {
     }
     const { date } = this.state;
     this.setState({ promptModifyCampaignDates: false });
-
-    this.trySavePost();
-
+    this.setState(trySavePost(this.state, this.props, true));
     this.props.modifyCampaignDates(date);
   };
 
@@ -379,12 +272,7 @@ class PostingOptions extends Component {
           (somethingChanged || (!this.props.recipeEditing && !_id)) && (
             <button
               className="schedule-post-button"
-              onClick={() =>
-                this.trySavePost(
-                  this.props.campaignStartDate,
-                  this.props.campaignEndDate
-                )
-              }
+              onClick={() => this.setState(trySavePost(this.state, this.props))}
             >
               {this.props.recipeEditing ? "Save Post" : "Schedule Post!"}
             </button>

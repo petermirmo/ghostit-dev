@@ -8,7 +8,7 @@ import Textarea from "react-textarea-autosize";
 
 import ConfirmAlert from "../Notifications/ConfirmAlert";
 
-import { savePost } from "../../extra/functions/CommonFunctions";
+import { trySavePost } from "../../componentFunctions";
 
 import "./styles/";
 
@@ -144,95 +144,6 @@ class CustomTask extends Component {
     temp.push(image);
     if (this._ismounted) this.setState({ deleteImagesArray: temp });
   };
-  postingDateWithinCampaign = () => {
-    // check to see if the posting date is within the scope of the start and end of campaign
-    const { date } = this.state;
-    const { campaignStartDate, campaignEndDate } = this.props;
-    if (date < campaignStartDate || date > campaignEndDate) {
-      return false;
-    }
-    return true;
-  };
-
-  trySavePostInRecipe = (campaignStartDate, campaignEndDate) => {
-    // function for saving a post within a recipe. the post does not get saved to the DB.
-    const { name, instructions, date } = this.state;
-
-    // validity checks
-    if (!name || name === "") {
-      alert("Posts must be named.");
-      return;
-    } else if (!instructions || instructions === "") {
-      alert(
-        "Posts cannot be empty. Please write some instructions in the text area."
-      );
-      return;
-    }
-
-    // date checking
-    if (campaignStartDate && campaignEndDate) {
-      if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
-        // prompt user to cancel the save or modify campaign dates
-
-        this.setState({ promptModifyCampaignDates: true });
-        return;
-      }
-    }
-
-    this.props.savePostChanges(date);
-    this.setState({ somethingChanged: false });
-  };
-
-  trySavePost = (campaignStartDate, campaignEndDate) => {
-    if (this.props.recipeEditing) {
-      this.trySavePostInRecipe(campaignStartDate, campaignEndDate);
-      return;
-    }
-    const {
-      _id,
-      images,
-      socialType,
-      deleteImagesArray,
-      somethingChanged,
-      campaignID,
-      name,
-      sendEmailReminder,
-      instructions
-    } = this.state;
-    let { date } = this.state;
-
-    const { postFinishedSavingCallback, setSaving } = this.props;
-
-    if (campaignStartDate && campaignEndDate) {
-      if (!this.postingDateWithinCampaign(campaignStartDate, campaignEndDate)) {
-        // prompt user to cancel the save or modify campaign dates
-        this.setState({ promptModifyCampaignDates: true });
-        return;
-      }
-    }
-
-    setSaving();
-
-    savePost(
-      _id,
-      undefined,
-      new moment(date).utcOffset(0),
-      undefined,
-      undefined,
-      images,
-      undefined,
-      socialType,
-      undefined,
-      postFinishedSavingCallback,
-      deleteImagesArray,
-      campaignID,
-      instructions,
-      name,
-      sendEmailReminder
-    );
-
-    this.setState({ somethingChanged: false });
-  };
 
   modifyCampaignDate = response => {
     if (!response) {
@@ -241,11 +152,7 @@ class CustomTask extends Component {
     }
     const { date } = this.state;
     this.setState({ promptModifyCampaignDates: false });
-    if (this.props.recipeEditor) {
-      this.trySavePostInRecipe();
-    } else {
-      this.trySavePost();
-    }
+    this.setState(trySavePost(this.state, this.props, true));
     this.props.modifyCampaignDates(date);
   };
 
@@ -290,12 +197,7 @@ class CustomTask extends Component {
         {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
           <button
             className="schedule-post-button"
-            onClick={() =>
-              this.trySavePost(
-                this.props.campaignStartDate,
-                this.props.campaignEndDate
-              )
-            }
+            onClick={() => this.setState(trySavePost(this.state, this.props))}
           >
             Save Task!
           </button>
