@@ -9,6 +9,8 @@ export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
   let posts = [];
   for (let index in campaign.posts) {
     let new_post = campaign.posts[index];
+    if (!moment.isMoment(new_post.postingDate))
+      new_post.postingDate = new moment(new_post.postingDate);
 
     if (campaign.chosenStartDate) {
       new_post.postingDate = createAppropriateDate(
@@ -80,7 +82,7 @@ export const createAppropriateDate = (
   dateToModify
 ) => {
   return new moment(chosenStartDate).add(
-    new moment(dateToModify).diff(new moment(recipeStartDate)),
+    dateToModify.diff(recipeStartDate),
     "milliseconds"
   );
 };

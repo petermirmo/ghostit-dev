@@ -89,7 +89,7 @@ class CampaignModal extends Component {
           recipeID: undefined
         };
 
-    if (props.campaign) {
+    if (props.campaign && !moment.isMoment(campaign.startDate)) {
       campaign.startDate = new moment(campaign.startDate);
       campaign.endDate = new moment(campaign.endDate);
     }
@@ -104,7 +104,6 @@ class CampaignModal extends Component {
     if (campaign.chosenStartDate) {
       // Only defined if made from recipe
       // set hour and minute of startDate
-      campaign.startDate = new moment(campaign.startDate);
       const hour = campaign.startDate.get("hour");
       const minute = campaign.startDate.get("minute");
       campaign.chosenStartDate.set({ hour, minute });
