@@ -859,24 +859,24 @@ class CampaignModal extends Component {
               type="change-post"
             />
           )}
+          {notification.show && (
+            <Notification
+              type={notification.type}
+              title={notification.title}
+              message={notification.message}
+              callback={() =>
+                this.setState({
+                  notification: {
+                    show: false,
+                    title: undefined,
+                    type: undefined,
+                    message: undefined
+                  }
+                })
+              }
+            />
+          )}
         </div>
-        {notification.show && (
-          <Notification
-            type={notification.type}
-            title={notification.title}
-            message={notification.message}
-            callback={() =>
-              this.setState({
-                notification: {
-                  show: false,
-                  title: undefined,
-                  type: undefined,
-                  message: undefined
-                }
-              })
-            }
-          />
-        )}
         {saving && <Loader />}
       </div>
     );
