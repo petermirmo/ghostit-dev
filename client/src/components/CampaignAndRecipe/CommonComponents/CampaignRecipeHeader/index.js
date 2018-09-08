@@ -73,14 +73,15 @@ class CampaignRecipeHeader extends Component {
         style={{ borderColor: campaign.color }}
       >
         <div
-          title={
+          className="close-container"
+          tooltip={
             "Campaigns are automatically saved when window is closed.\nTemplates are not."
           }
         >
           <FontAwesomeIcon
+            className="close-special"
             icon={faTimes}
             size="2x"
-            className="close"
             onClick={() => this.props.close()}
           />
         </div>

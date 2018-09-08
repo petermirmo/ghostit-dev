@@ -212,7 +212,6 @@
 .close,
 .close-scroll {
   color: var(--grey-theme-color);
-  background-color: transparent;
   position: absolute;
   right: 1px;
   top: -3px;
@@ -224,6 +223,17 @@
   color: var(--red-theme-color);
   text-decoration: none;
   cursor: pointer;
+}
+
+.close-container {
+  color: var(--grey-theme-color);
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  cursor: pointer;
+}
+.close-special:hover {
+  color: var(--red-theme-color);
 }
 
 .container-full {
@@ -548,4 +558,35 @@ input:focus {
 div {
   font-family: var(--font-theme);
   font-size: var(--regular-font-size);
+}
+[tooltip]:before {
+  /* needed - do not touch */
+  content: attr(tooltip);
+  position: absolute;
+  opacity: 0;
+
+  /* customizable */
+  top: 100%;
+  right: 0;
+  padding: 10px;
+  z-index: 15;
+
+  width: 30vw;
+
+  background: var(--light-blue-theme-color);
+  color: var(--white-theme-color);
+
+  transition: all 0.15s ease;
+}
+
+[tooltip]:hover:before {
+  /* needed - do not touch */
+  opacity: 1;
+
+  /* customizable */
+  background: var(--light-blue-theme-color);
+  color: var(--white-theme-color);
+}
+[tooltip]:not([tooltip-persistent]):before {
+  pointer-events: none;
 }
