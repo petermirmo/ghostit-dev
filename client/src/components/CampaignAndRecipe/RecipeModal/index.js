@@ -89,10 +89,9 @@ class RecipeModal extends Component {
     let recipeArray = [];
 
     let recipeIndex = -3;
-
     for (
       let recipeRow = 0;
-      recipeRow <= activeRecipes.length / 6;
+      recipeRow <= Math.floor((activeRecipes.length + 3) / 6);
       recipeRow++
     ) {
       let rowArray = [];
