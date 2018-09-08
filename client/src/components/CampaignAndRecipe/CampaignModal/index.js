@@ -684,7 +684,6 @@ class CampaignModal extends Component {
             }}
             close={() => this.attemptToCloseModal()}
           />
-
           {!firstPostChosen && (
             <div className="campaign-start-container">
               <div className="new-campaign-post-selection-write-up">
@@ -699,7 +698,6 @@ class CampaignModal extends Component {
               />
             </div>
           )}
-
           {firstPostChosen && (
             <div className="post-navigation-and-post-container">
               <div
@@ -742,7 +740,6 @@ class CampaignModal extends Component {
               )}
             </div>
           )}
-
           <div className="modal-footer">
             <div className="campaign-footer-options">
               <div className="campaign-footer-option left">
@@ -859,24 +856,25 @@ class CampaignModal extends Component {
               type="change-post"
             />
           )}
+          {notification.show && (
+            <Notification
+              type={notification.type}
+              title={notification.title}
+              message={notification.message}
+              callback={() =>
+                this.setState({
+                  notification: {
+                    show: false,
+                    title: undefined,
+                    type: undefined,
+                    message: undefined
+                  }
+                })
+              }
+            />
+          )}
         </div>
-        {notification.show && (
-          <Notification
-            type={notification.type}
-            title={notification.title}
-            message={notification.message}
-            callback={() =>
-              this.setState({
-                notification: {
-                  show: false,
-                  title: undefined,
-                  type: undefined,
-                  message: undefined
-                }
-              })
-            }
-          />
-        )}
+
         {saving && <Loader />}
       </div>
     );

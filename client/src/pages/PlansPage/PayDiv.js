@@ -135,7 +135,7 @@ class ChargeCardForm extends Component {
 					<Notification
 						title={notification.title}
 						message={notification.message}
-						notificationType={notification.type}
+						type={notification.type}
 						callback={this.notify}
 					/>
 				)}

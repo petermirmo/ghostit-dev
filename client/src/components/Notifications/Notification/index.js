@@ -5,16 +5,20 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import "./styles/";
 
 class Notification extends Component {
-	render() {
-		const { title, message, notificationType } = this.props;
+  render() {
+    const { title, message, type } = this.props;
 
-		return (
-			<div className={"notification " + notificationType}>
-				<FontAwesomeIcon icon={faTimes} className="closebtn" onClick={this.props.callback} />
-				<h4 className="notifcation-title">{title}</h4>
-				{message}
-			</div>
-		);
-	}
+    return (
+      <div className={"notification " + type}>
+        <FontAwesomeIcon
+          icon={faTimes}
+          className="closebtn"
+          onClick={this.props.callback}
+        />
+        <h4 className="notifcation-title">{title}</h4>
+        {message}
+      </div>
+    );
+  }
 }
 export default Notification;

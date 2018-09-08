@@ -63,7 +63,7 @@ class NewsletterEdittingModal extends Component {
             this.setState({
               notification: {
                 on: true,
-                notificationType: "danger",
+                type: "danger",
                 title: "Something went wrong",
                 message: ""
               }
@@ -126,7 +126,7 @@ class NewsletterEdittingModal extends Component {
         </div>
         {this.state.notification.on && (
           <Notification
-            notificationType={this.state.notification.notificationType}
+            type={this.state.notification.type}
             title={this.state.notification.title}
             message={this.state.notification.message}
             callback={this.hideNotification}
