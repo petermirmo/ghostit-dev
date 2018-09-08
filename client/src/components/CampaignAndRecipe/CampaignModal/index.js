@@ -40,6 +40,8 @@ class CampaignModal extends Component {
 
     if (!this.props.recipeEditing) this.initSocket();
 
+    window.addEventListener("beforeunload", this.saveChangesOnClose);
+
     this.props.setKeyListenerFunction([
       event => {
         if (!this._ismounted) return;
@@ -52,6 +54,11 @@ class CampaignModal extends Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.saveChangesOnClose);
+    this.saveChangesOnClose();
+    this._ismounted = false;
+  }
+  saveChangesOnClose = () => {
     let { campaign, somethingChanged, socket, recipeEditing } = this.state;
 
     if (!recipeEditing && somethingChanged && campaign && socket) {
@@ -60,8 +67,7 @@ class CampaignModal extends Component {
 
       this.props.updateCampaigns();
     }
-    this._ismounted = false;
-  }
+  };
   createStateVariable = props => {
     let startDate =
       new moment() > new moment(props.clickedCalendarDate)
