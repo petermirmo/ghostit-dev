@@ -100,7 +100,6 @@ module.exports = {
         if (!foundRecipe) {
           foundRecipe = new Recipe();
           foundRecipe.userID = userID;
-          campaign.recipeID = foundRecipe._id;
         }
         if (String(userID) === String(foundRecipe.userID)) {
           for (let index in campaign) {
@@ -115,7 +114,7 @@ module.exports = {
             if (err || !savedRecipe) {
               res.send({ success: false, message: "failed to save recipe" });
             } else {
-              res.send({ success: true, recipe: savedRecipe, campaign });
+              res.send({ success: true, recipe: savedRecipe });
             }
           });
         } else {

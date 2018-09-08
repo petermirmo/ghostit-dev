@@ -553,9 +553,9 @@ class CampaignModal extends Component {
     this.setState({ saving: true });
 
     axios.post("/api/recipe", { campaign, posts }).then(res => {
-      const { success, campaign } = res.data;
+      const { success } = res.data;
 
-      this.setState({ saving: false, campaign });
+      this.setState({ saving: false });
 
       if (!success) {
         console.log(
@@ -568,8 +568,19 @@ class CampaignModal extends Component {
         }
       }
 
+      if (res.data.recipe) {
+        this.setState(prevState => {
+          return {
+            campaign: {
+              ...prevState.campaign,
+              recipeID: res.data.recipe._id
+            },
+            somethingChanged: true
+          };
+        });
+      }
+
       if (res.data.campaign) {
-        campaign.recipeID = res.data.campaign.recipeID;
         this.setState(prevState => {
           return {
             campaign: {

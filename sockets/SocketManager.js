@@ -57,6 +57,7 @@ module.exports = socket => {
         foundCampaign.startDate = campaign.startDate;
         foundCampaign.endDate = campaign.endDate;
         foundCampaign.color = campaign.color;
+        foundCampaign.recipeID = campaign.recipeID;
         foundCampaign.save((err, result) => {
           socket.emit("campaign_saved", { campaign: result });
         });
