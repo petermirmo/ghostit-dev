@@ -732,6 +732,9 @@ class CampaignModal extends Component {
                   <div className="campaign-footer-option right">
                     <div
                       className="round-button green big"
+                      title={
+                        "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
+                      }
                       onClick={() => {
                         this.setState({ saving: true });
                         socket.emit("campaign_editted", campaign);
@@ -750,6 +753,7 @@ class CampaignModal extends Component {
                   <div className="campaign-footer-option left">
                     <div
                       className="round-button blue big"
+                      title="Save a template based on this campaign."
                       onClick={this.createRecipe}
                     >
                       Save as Template
@@ -758,7 +762,10 @@ class CampaignModal extends Component {
                 </div>
               )}
               {!recipeEditing && (
-                <div className="campaign-footer-option right">
+                <div
+                  className="campaign-footer-option right"
+                  title="Delete campaign."
+                >
                   <FontAwesomeIcon
                     onClick={() => this.handleChange(true, "confirmDelete")}
                     className="delete"
@@ -771,6 +778,9 @@ class CampaignModal extends Component {
                 <div className="campaign-footer-option">
                   <div
                     className="round-button green big"
+                    title={
+                      "Click to save template. Unlike campaigns, templates are not saved automatically."
+                    }
                     onClick={this.createRecipe}
                   >
                     Save Template

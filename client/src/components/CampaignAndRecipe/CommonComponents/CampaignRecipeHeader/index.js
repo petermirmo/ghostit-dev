@@ -72,13 +72,18 @@ class CampaignRecipeHeader extends Component {
         className="campaign-information-container"
         style={{ borderColor: campaign.color }}
       >
-        <FontAwesomeIcon
-          icon={faTimes}
-          size="2x"
-          className="close"
-          onClick={() => this.props.close()}
-        />
-
+        <div
+          title={
+            "Campaigns are automatically saved when window is closed.\nTemplates are not."
+          }
+        >
+          <FontAwesomeIcon
+            icon={faTimes}
+            size="2x"
+            className="close"
+            onClick={() => this.props.close()}
+          />
+        </div>
         <div className="campaign-grid-header" style={{ display }}>
           <div className="label">Name:</div>
           <div className="grid-textarea-container">
