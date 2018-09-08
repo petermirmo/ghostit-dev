@@ -35,18 +35,11 @@ highlight the current day on the calendar.
 
 after publishing a recipe, you should be able to publish it again which will overwrimte the previous publish.
 
-how does editing / deleting recipes work, if at all?
-
-for recipe creation/editing, instead of using a calendar for day picking, just set
-  the recipe length then to schedule each post, select which day number to post to and the time.
-
 whiteboard:
   - ability to create colour for custom task
     (should the user be able to use a full colour picker or should we just give more colours that are different from the campaign colours? what should the default colour be?)
   - campaign description
     (campaign modal is starting to get cluttered / bloated so im not sure where to put the text box for this.)
-  - recipe ui improvements
-    (general ui improvements for recipe menus)
   - recipe.author
     ()
   - calendar event completed checkmarks / custom task completed

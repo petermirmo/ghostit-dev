@@ -17,6 +17,7 @@ import Post from "../../Post";
 import CustomTask from "../../CustomTask";
 import Loader from "../../Notifications/Loader";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
+import Notification from "../../Notifications/Notification";
 
 import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
@@ -143,6 +144,12 @@ class CampaignModal extends Component {
       posts,
       listOfPostChanges: {},
       activePostIndex,
+      notification: {
+        show: false,
+        type: undefined,
+        title: undefined,
+        message: undefined
+      },
 
       saving: !props.recipeEditing,
       somethingChanged,
@@ -535,22 +542,48 @@ class CampaignModal extends Component {
     }
   };
 
+  notify = (type, title, message) => {
+    this.setState({
+      notification: {
+        show: true,
+        type,
+        title,
+        message
+      }
+    });
+  };
+
   createRecipe = () => {
     let { campaign, posts } = this.state;
 
     if (campaign.name === "") {
-      alert("To publish this campaign as a template, please give it a name!");
+      this.notify(
+        "danger",
+        "Save Cancelled",
+        "To publish this campaign as a template, please give it a name!"
+      );
+      //alert("To publish this campaign as a template, please give it a name!");
       return;
     } else if (!posts || posts.length < 1) {
-      alert("You cannot save a template with no posts.");
+      this.notify(
+        "danger",
+        "Save Cancelled",
+        "You cannot save a template with no posts."
+      );
+      //alert("You cannot save a template with no posts.");
       return;
     }
     for (let index in posts) {
       const post = posts[index];
       if (!post.instructions || post.instructions === "") {
-        alert(
+        this.notify(
+          "danger",
+          "Save Cancelled",
           "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
         );
+        /*alert(
+          "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
+        );*/
         return;
       }
     }
@@ -630,7 +663,8 @@ class CampaignModal extends Component {
       promptDiscardPostChanges,
       listOfPostChanges,
       recipeEditing,
-      socket
+      socket,
+      notification
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -826,6 +860,23 @@ class CampaignModal extends Component {
             />
           )}
         </div>
+        {notification.show && (
+          <Notification
+            type={notification.type}
+            title={notification.title}
+            message={notification.message}
+            callback={() =>
+              this.setState({
+                notification: {
+                  show: false,
+                  title: undefined,
+                  type: undefined,
+                  message: undefined
+                }
+              })
+            }
+          />
+        )}
         {saving && <Loader />}
       </div>
     );
