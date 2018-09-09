@@ -17,7 +17,6 @@ import Post from "../../Post";
 import CustomTask from "../../CustomTask";
 import Loader from "../../Notifications/Loader";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
-import Notification from "../../Notifications/Notification";
 
 import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
@@ -160,12 +159,6 @@ class CampaignModal extends Component {
       posts,
       listOfPostChanges: {},
       activePostIndex,
-      notification: {
-        show: false,
-        type: undefined,
-        title: undefined,
-        message: undefined
-      },
 
       saving: !props.recipeEditing,
       somethingChanged,
@@ -558,32 +551,11 @@ class CampaignModal extends Component {
     }
   };
 
-  notify = (type, title, message, length = 5000) => {
-    const { notification } = this.state;
-    if (!notification.show) {
-      setTimeout(() => {
-        this.setState({
-          notification: {
-            show: false
-          }
-        });
-      }, length);
-    }
-    this.setState({
-      notification: {
-        show: true,
-        type,
-        title,
-        message
-      }
-    });
-  };
-
   createRecipe = () => {
     let { campaign, posts } = this.state;
 
     if (campaign.name === "") {
-      this.notify(
+      this.props.notify(
         "danger",
         "Save Cancelled",
         "To publish this campaign as a template, please give it a name!"
@@ -591,7 +563,7 @@ class CampaignModal extends Component {
       //alert("To publish this campaign as a template, please give it a name!");
       return;
     } else if (!posts || posts.length < 1) {
-      this.notify(
+      this.props.notify(
         "danger",
         "Save Cancelled",
         "You cannot save a template with no posts."
@@ -602,7 +574,7 @@ class CampaignModal extends Component {
     for (let index in posts) {
       const post = posts[index];
       if (!post.instructions || post.instructions === "") {
-        this.notify(
+        this.props.notify(
           "danger",
           "Save Cancelled",
           "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
@@ -689,8 +661,7 @@ class CampaignModal extends Component {
       promptDiscardPostChanges,
       listOfPostChanges,
       recipeEditing,
-      socket,
-      notification
+      socket
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -798,13 +769,13 @@ class CampaignModal extends Component {
                         socket.on("campaign_saved", emitObject => {
                           socket.off("campaign_saved");
                           if (!emitObject) {
-                            this.notify(
+                            this.props.notify(
                               "danger",
                               "Save Failed",
                               "Campaign save was unsuccesful."
                             );
                           } else {
-                            this.notify(
+                            this.props.notify(
                               "success",
                               "Campaign Saved",
                               "Campaign was saved!",
@@ -891,23 +862,6 @@ class CampaignModal extends Component {
                 );
               }}
               type="change-post"
-            />
-          )}
-          {notification.show && (
-            <Notification
-              type={notification.type}
-              title={notification.title}
-              message={notification.message}
-              callback={() =>
-                this.setState({
-                  notification: {
-                    show: false,
-                    title: undefined,
-                    type: undefined,
-                    message: undefined
-                  }
-                })
-              }
             />
           )}
         </div>
