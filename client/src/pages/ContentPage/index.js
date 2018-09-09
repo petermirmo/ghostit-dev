@@ -12,6 +12,7 @@ import NavigationBar from "../../components/Navigations/NavigationBar/";
 import Calendar from "../../components/Calendar/";
 import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
+import Notification from "../../components/Notifications/Notification";
 
 class Content extends Component {
   state = {
@@ -41,6 +42,12 @@ class Content extends Component {
       Linkedin: false,
       Blog: false
     },
+    notification: {
+      show: false,
+      type: undefined,
+      title: undefined,
+      message: undefined
+    },
     timezone: ""
   };
 
@@ -65,6 +72,27 @@ class Content extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  notify = (type, title, message, length = 5000) => {
+    const { notification } = this.state;
+    if (!notification.show) {
+      setTimeout(() => {
+        this.setState({
+          notification: {
+            show: false
+          }
+        });
+      }, length);
+    }
+    this.setState({
+      notification: {
+        show: true,
+        type,
+        title,
+        message
+      }
+    });
+  };
 
   getPosts = () => {
     let facebookPosts = [];
@@ -227,7 +255,8 @@ class Content extends Component {
       clickedEventIsRecipe,
       recipeEditing,
       clickedDate,
-      campaigns
+      campaigns,
+      notification
     } = this.state;
     const {
       All,
@@ -340,6 +369,7 @@ class Content extends Component {
             campaign={clickedEvent}
             isRecipe={clickedEventIsRecipe}
             recipeEditing={recipeEditing}
+            notify={this.notify}
           />
         )}
         {this.state.recipeModal && (
@@ -347,6 +377,20 @@ class Content extends Component {
             close={this.closeModals}
             handleChange={this.handleChange}
             clickedCalendarDate={clickedDate}
+          />
+        )}
+        {notification.show && (
+          <Notification
+            type={notification.type}
+            title={notification.title}
+            message={notification.message}
+            callback={() =>
+              this.setState({
+                notification: {
+                  show: false
+                }
+              })
+            }
           />
         )}
       </div>

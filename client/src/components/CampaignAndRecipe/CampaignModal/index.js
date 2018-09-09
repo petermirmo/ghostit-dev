@@ -64,9 +64,25 @@ class CampaignModal extends Component {
 
     if (!recipeEditing && somethingChanged && campaign && socket) {
       socket.emit("campaign_editted", campaign);
-      socket.emit("close", campaign);
-
-      this.props.updateCampaigns();
+      socket.on("campaign_saved", emitObject => {
+        socket.off("campaign_saved");
+        if (!emitObject) {
+          this.props.notify(
+            "danger",
+            "Save Failed",
+            "Campaign save was unsuccessful."
+          );
+        } else {
+          this.props.notify(
+            "success",
+            "Campaign Saved",
+            "Campaign was saved!",
+            3000
+          );
+        }
+        socket.emit("close", campaign);
+        this.props.updateCampaigns();
+      });
     }
   };
   createStateVariable = props => {
@@ -542,7 +558,17 @@ class CampaignModal extends Component {
     }
   };
 
-  notify = (type, title, message) => {
+  notify = (type, title, message, length = 5000) => {
+    const { notification } = this.state;
+    if (!notification.show) {
+      setTimeout(() => {
+        this.setState({
+          notification: {
+            show: false
+          }
+        });
+      }, length);
+    }
     this.setState({
       notification: {
         show: true,
@@ -770,10 +796,21 @@ class CampaignModal extends Component {
                         this.setState({ saving: true });
                         socket.emit("campaign_editted", campaign);
                         socket.on("campaign_saved", emitObject => {
+                          socket.off("campaign_saved");
                           if (!emitObject) {
-                            console.log("campaign save failed");
+                            this.notify(
+                              "danger",
+                              "Save Failed",
+                              "Campaign save was unsuccesful."
+                            );
+                          } else {
+                            this.notify(
+                              "success",
+                              "Campaign Saved",
+                              "Campaign was saved!",
+                              3000
+                            );
                           }
-
                           this.setState({ saving: false });
                         });
                       }}
