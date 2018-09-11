@@ -26,7 +26,7 @@ import Strategy from "./pages/StrategyPage/";
 import Accounts from "./pages/AccountsPage/";
 import Manage from "./pages/ManagePage/";
 import Profile from "./pages/ProfilePage/";
-
+import MySubscription from "./pages/MySubscriptionPage/";
 import Analytics from "./pages/AnalyticsPage/";
 import WritersBrief from "./pages/WritersBriefPage/";
 
@@ -113,7 +113,6 @@ class Routes extends Component {
           {user &&
             ((activePage === "content" ||
               activePage === "strategy" ||
-              activePage === "newCalendar" ||
               activePage === "writersBrief" ||
               activePage === "subscribe" ||
               activePage === "accounts") &&
@@ -150,6 +149,7 @@ class Routes extends Component {
         {activePage === "writersBrief" && <WritersBrief margin={margin} />}
         {activePage === "manage" && <Manage margin={margin} />}
         {activePage === "profile" && <Profile margin={margin} />}
+        {activePage === "mySubscription" && <MySubscription margin={margin} />}
       </div>
     );
   }

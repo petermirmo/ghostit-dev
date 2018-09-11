@@ -87,6 +87,11 @@ module.exports = app => {
   app.get("/api/user", middleware, (req, res) =>
     userFunctions.currentUser(req, res)
   );
+
+  // Get user invoices
+  app.get("/api/user/invoices", middleware, (req, res) =>
+    userFunctions.userInvoices(req, res)
+  );
   // Logout user
   app.get("/api/logout", middleware, (req, res) => {
     req.session.destroy();

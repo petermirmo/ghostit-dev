@@ -35,7 +35,7 @@
   --light-grey-theme-color: #e0e0e0;
   --dark-grey-theme-color: #95a5a6;
 
-  --off-black-theme-color: #666666;
+  --off-black-theme-color: #333333;
   --close-black-theme-color: #333;
 
   --test-theme-color: #e0e0e0;
@@ -487,9 +487,6 @@
   margin-bottom: 10px;
 
   text-align: center;
-
-  border: none;
-  border-bottom: 1px solid var(--grey-theme-color);
 }
 
 .show-more-container {
@@ -559,9 +556,9 @@ div {
   font-family: var(--font-theme);
   font-size: var(--regular-font-size);
 }
-[tooltip]:before {
+[hoverInstructions]:before {
   /* needed - do not touch */
-  content: attr(tooltip);
+  content: attr(hoverInstructions);
   position: absolute;
   opacity: 0;
 
@@ -579,7 +576,7 @@ div {
   transition: all 0.15s ease;
 }
 
-[tooltip]:hover:before {
+[hoverInstructions]:hover:before {
   /* needed - do not touch */
   opacity: 1;
 
@@ -587,6 +584,22 @@ div {
   background: var(--light-blue-theme-color);
   color: var(--white-theme-color);
 }
-[tooltip]:not([tooltip-persistent]):before {
+[hoverInstructions]:not([hoverInstructions-persistent]):before {
   pointer-events: none;
+}
+[hoverInstructions].top-left {
+  bottom: 100%;
+  right: 0;
+}
+[hoverInstructions].top-right {
+  bottom: 100%;
+  left: 0;
+}
+[hoverInstructions].bottom-right {
+  top: 100%;
+  left: 0;
+}
+[hoverInstructions].bottom-left {
+  top: 100%;
+  right: 0;
 }
