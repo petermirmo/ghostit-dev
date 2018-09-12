@@ -44,8 +44,8 @@ class CampaignRecipeHeader extends Component {
 
   render() {
     const { colors, showMore } = this.state;
-    const { campaign, datePickerMessage } = this.props; // variables
-    const { handleChange, tryChangingDates } = this.props; // functions
+    const { campaign, datePickerMessage, anchorDates } = this.props; // variables
+    const { handleChange, tryChangingDates, toggleAnchorDates } = this.props; // functions
 
     let colorDivs = [];
     for (let index in colors) {
@@ -133,6 +133,11 @@ class CampaignRecipeHeader extends Component {
           </div>
           <div className="label">Color:</div>
           <div className="colors">{colorDivs}</div>
+          <div className="grid-checkbox-container">
+            <div onClick={toggleAnchorDates}>
+              {anchorDates ? "Anchored" : "Not Anchored"}
+            </div>
+          </div>
         </div>
         {!showMore && (
           <div

@@ -67,3 +67,14 @@ sort recipes by use count?
 search recipes.
 
 moment.isMoment(date) within createState / willReceiveProps ?
+
+next task:
+  give option when changing start date to move all dates accordingly.
+    (prompt after confirm change? checkbox beside Start Date "Keep all dates relative".)
+    bug: open campaign, create a new post but dont save it, change the anchor date (new post gets temporarily overwritten by first post)
+
+discard changes to campaign before exit saves them.
+
+mobile app that alerts the user when they need to do a custom task?
+
+Small question marks beside things that aren't super intuitive. Mousing over the question mark displays a tooltip explaining things.
