@@ -166,6 +166,11 @@ class RecipeModal extends Component {
                 <span className="blue">
                   {recipe.useCount ? recipe.useCount : 0}
                 </span>
+                <br />
+                Creator:{" "}
+                <span className="blue">
+                  {recipe.creator ? recipe.creator : "Unknown"}
+                </span>
               </div>
             </div>
           </div>

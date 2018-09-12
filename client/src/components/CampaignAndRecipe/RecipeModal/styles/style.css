@@ -85,14 +85,16 @@
 }
 .recipe-information-container {
   position: absolute;
-  bottom: -20px;
+  top: 100%;
   width: 100%;
 }
 .recipe-uses {
   text-align: center;
   font-style: italic;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
-.recipe-uses > .blue {
+.recipe-uses .blue {
   color: var(--dark-blue-theme-color) !important;
 }
 .hover-active-div {
@@ -115,6 +117,7 @@
 
   width: 100%;
   padding: 10px;
+  margin-top: 20px;
 
   background-color: var(--white-theme-color);
   box-sizing: border-box;
