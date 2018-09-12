@@ -72,10 +72,10 @@ module.exports = app => {
             message =
               "Could not log you in! :( Please refresh the page and try again :)";
           }
-          res.send({ success: success, user: user, message: message });
+          res.send({ success, user, message });
         });
       } else {
-        res.send({ success: success, message: message });
+        res.send({ success, message });
       }
     })(req, res, next);
   });
@@ -129,7 +129,8 @@ module.exports = app => {
         "email",
         "publish_pages",
         "manage_pages",
-        "business_management"
+        "business_management",
+        "read_insights"
       ]
     })
   );
@@ -140,6 +141,9 @@ module.exports = app => {
       successRedirect: "/",
       failureRedirect: "/"
     })
+  );
+  app.get("/api/facebook/analytics/:accountID", middleware, (req, res) =>
+    accountFunctions.getAnalytics(req, res)
   );
 
   // Add Twitter account

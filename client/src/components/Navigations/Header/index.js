@@ -11,6 +11,7 @@ import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faStar from "@fortawesome/fontawesome-free-solid/faStar";
 import faHistory from "@fortawesome/fontawesome-free-solid/faHistory";
+import faChartLine from "@fortawesome/fontawesome-free-solid/faChartLine";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -94,6 +95,14 @@ class HeaderSideBar extends Component {
             >
               <FontAwesomeIcon icon={faCalendar} /> Calendar
             </a>
+            {isAdmin && (
+              <a
+                className={"header-button " + this.isActive("analytics")}
+                onClick={() => changePage("analytics")}
+              >
+                <FontAwesomeIcon icon={faChartLine} /> Analytics
+              </a>
+            )}
 
             <a
               className={"header-button" + this.isActive("accounts")}
@@ -142,14 +151,6 @@ class HeaderSideBar extends Component {
                 onClick={() => changePage("strategy")}
               >
                 <FontAwesomeIcon icon={faFileAlt} /> Your Questionnaire
-              </a>
-            )}
-            {isAdmin && (
-              <a
-                className={"header-button " + this.isActive("analytics")}
-                onClick={() => changePage("analytics")}
-              >
-                New Feature
               </a>
             )}
           </div>

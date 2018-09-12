@@ -117,6 +117,7 @@ class ContentModal extends Component {
           setSaving={this.setSaving}
           socialType={activeTab.name}
           canEditPost={true}
+          maxCharacters={activeTab.maxCharacters}
         />
       );
     }
