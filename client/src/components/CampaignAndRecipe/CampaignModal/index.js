@@ -635,7 +635,6 @@ class CampaignModal extends Component {
   };
 
   handleChange = (value, index, index2) => {
-    console.log(index);
     if (index2) {
       let object = this.state[index];
       object[index2] = value;
