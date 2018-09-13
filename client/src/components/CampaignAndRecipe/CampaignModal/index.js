@@ -235,18 +235,23 @@ class CampaignModal extends Component {
   };
 
   updatePost = updatedPost => {
-    const { posts, activePostIndex } = this.state;
+    let { posts, activePostIndex } = this.state;
 
     let new_post = { ...posts[activePostIndex], ...updatedPost };
 
+    posts = [
+      ...posts.slice(0, activePostIndex),
+      new_post,
+      ...posts.slice(activePostIndex + 1)
+    ];
+    let returnObject = this.bubbleSortPosts(posts, activePostIndex);
+    posts = returnObject.posts;
+    activePostIndex = returnObject.activePostIndex;
     this.setState({
-      posts: [
-        ...posts.slice(0, activePostIndex),
-        new_post,
-        ...posts.slice(activePostIndex + 1)
-      ],
+      posts,
       listOfPostChanges: {},
-      somethingChanged: true
+      somethingChanged: true,
+      activePostIndex
     });
     return;
   };
