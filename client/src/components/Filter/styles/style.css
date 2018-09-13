@@ -25,6 +25,8 @@
 
   flex-direction: column;
 
+  width: 100%;
+
   background-color: var(--white-theme-color);
   box-shadow: 0 0 10px 0 black;
 }

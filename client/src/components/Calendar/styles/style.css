@@ -1,6 +1,5 @@
 .calendar-container {
   overflow-x: hidden;
-  padding-bottom: 50px;
 }
 .calendar-header-container {
   position: relative;
@@ -59,29 +58,22 @@
 
 .calendar-week {
   display: flex;
+  border-bottom: 1px solid var(--light-blue-theme-color);
 }
 .calendar-day {
-  min-height: 14vh;
+  min-height: 16vh;
 }
 .calendar-day-heading,
 .calendar-day {
   width: 13%;
   background-color: var(--white-theme-color);
-  flex-grow: 1;
-  -webkit-flex-grow: 1;
-
-  padding: 0;
+  flex: 1;
 
   border-right: 1px solid var(--light-blue-theme-color);
-  border-bottom: 1px solid var(--light-blue-theme-color);
 }
 .calendar-day-heading:nth-child(7n),
 .calendar-day:nth-child(7n) {
-  margin-right: 0;
-}
-.calendar-day-heading:nth-child(7n + 1),
-.calendar-day:nth-child(7n + 1) {
-  margin-left: 0;
+  border-right: none;
 }
 .past-calendar-day {
   color: var(--off-black-theme-color);
@@ -153,7 +145,6 @@
   flex: 1;
 
   padding: 2px 10px 2px 10px;
-  margin: 1px 2px 1px 2px;
 
   color: var(--white-theme-color);
 

@@ -206,7 +206,8 @@ class Calendar extends Component {
                   this.createPostCalendarDiv(
                     calendarEvent.posts[indexToLoopCampaignPosts],
                     indexToLoopCampaignPosts,
-                    () => this.props.onSelectCampaign(calendarEvent)
+                    () => this.props.onSelectCampaign(calendarEvent),
+                    false
                   )
                 );
                 indexToLoopCampaignPosts++;
@@ -243,8 +244,11 @@ class Calendar extends Component {
           } else {
             currentCalendarDayOfEvents[
               calendarEvent.row
-            ] = this.createPostCalendarDiv(calendarEvent, index, () =>
-              this.props.onSelectPost(calendarEvent)
+            ] = this.createPostCalendarDiv(
+              calendarEvent,
+              index,
+              () => this.props.onSelectPost(calendarEvent),
+              true
             );
           }
 
@@ -270,7 +274,7 @@ class Calendar extends Component {
     return calendarEventsArray;
   };
 
-  createPostCalendarDiv = (post, index, openEvent) => {
+  createPostCalendarDiv = (post, index, openEvent, needsCampaignCover) => {
     let content = "";
     if (post.notes) content = post.notes;
     if (post.content) content = post.content;
@@ -292,21 +296,42 @@ class Calendar extends Component {
     if (post.socialType === "facebook") icon = faFacebookF;
     if (post.socialType === "twitter") icon = faTwitter;
     if (post.socialType === "linkedin") icon = faLinkedinIn;
-
-    return (
-      <div
-        className="calendar-post"
-        style={{ backgroundColor: color }}
-        key={index + "post3"}
-        onClick={event => {
-          event.stopPropagation();
-          openEvent();
-        }}
-      >
-        {icon && <FontAwesomeIcon icon={icon} />}{" "}
-        {new moment(post.postingDate).format("h:mm")} {content}
-      </div>
-    );
+    if (needsCampaignCover) {
+      return (
+        <div
+          className="campaign"
+          style={{ backgroundColor: "transparent" }}
+          key={index + "post3"}
+        >
+          <div
+            className="calendar-post"
+            style={{ backgroundColor: color }}
+            onClick={event => {
+              event.stopPropagation();
+              openEvent();
+            }}
+          >
+            {icon && <FontAwesomeIcon icon={icon} />}{" "}
+            {new moment(post.postingDate).format("h:mm")} {content}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="calendar-post"
+          key={index + "post3"}
+          style={{ backgroundColor: color }}
+          onClick={event => {
+            event.stopPropagation();
+            openEvent();
+          }}
+        >
+          {icon && <FontAwesomeIcon icon={icon} />}{" "}
+          {new moment(post.postingDate).format("h:mm")} {content}
+        </div>
+      );
+    }
   };
 
   addMonth = () => {

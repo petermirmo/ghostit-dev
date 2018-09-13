@@ -22,7 +22,7 @@ class Filter extends Component {
 
     return (
       <div className="filter-container">
-        <div className="dropdown-title">Filter</div>
+        <div className="dropdown-title">Filter Calendar</div>
         <div className="dropdown">{categoryDivs}</div>
       </div>
     );
