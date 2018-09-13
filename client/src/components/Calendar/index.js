@@ -354,19 +354,21 @@ class Calendar extends Component {
     return (
       <div className="calendar-container">
         <div className="calendar-header-container">
-          <FontAwesomeIcon
-            icon={faAngleLeft}
-            size="4x"
-            className="calendar-switch-month-button"
-            onClick={this.subtractMonth}
-          />
-          <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            size="4x"
-            className="calendar-switch-month-button"
-            onClick={this.addMonth}
-          />
+          <div className="something">
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              size="4x"
+              className="calendar-switch-month-button"
+              onClick={this.subtractMonth}
+            />
+            <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
+            <FontAwesomeIcon
+              icon={faAngleRight}
+              size="4x"
+              className="calendar-switch-month-button"
+              onClick={this.addMonth}
+            />
+          </div>
           <div className="calendar-filter-container">
             <Filter
               updateActiveCategory={this.props.updateActiveCategory}

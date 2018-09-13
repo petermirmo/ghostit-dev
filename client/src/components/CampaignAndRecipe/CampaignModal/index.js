@@ -630,6 +630,7 @@ class CampaignModal extends Component {
   };
 
   handleChange = (value, index, index2) => {
+    console.log(index);
     if (index2) {
       let object = this.state[index];
       object[index2] = value;
@@ -647,6 +648,21 @@ class CampaignModal extends Component {
 
       this.setState({ campaign, somethingChanged: true });
     }
+  };
+  bubbleSortPosts = (posts, activePostIndex) => {
+    for (let i = 0; i < posts.length; i++) {
+      for (var j = 0; j < posts.length - i - 1; j++) {
+        if (posts[j].postingDate > posts[j + 1].postingDate) {
+          if (j == activePostIndex) activePostIndex += 1;
+          else if (j + 1 == activePostIndex) activePostIndex -= 1;
+          let tmp = posts[j];
+          posts[j] = posts[j + 1];
+          posts[j + 1] = tmp;
+          console.log(activePostIndex);
+        }
+      }
+    }
+    return { posts, activePostIndex };
   };
 
   render() {

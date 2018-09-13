@@ -29,6 +29,7 @@ class PostList extends Component {
       handleChange(arrayIndex, "activePostIndex");
     }
   };
+
   render() {
     const { newPostPrompt } = this.state;
     const {

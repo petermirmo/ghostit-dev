@@ -2,15 +2,17 @@
   position: relative;
   display: flex;
 
-  padding: 4px 10px 4px 10px;
-
   background-color: transparent;
 
   cursor: pointer;
   user-select: none;
 }
 .dropdown-title {
-  font-size: var(--extra-large-font-size);
+  flex: 1;
+  font-size: var(--medium-large-font-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .filter-container:hover .dropdown {
   display: flex;

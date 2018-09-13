@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
+
 import "./styles/";
 
 class Filter extends Component {
@@ -22,7 +26,10 @@ class Filter extends Component {
 
     return (
       <div className="filter-container">
-        <div className="dropdown-title">Filter Calendar</div>
+        <div className="dropdown-title">
+          Filter Calendar
+          <FontAwesomeIcon icon={faAngleDown} style={{ marginLeft: "6px" }} />
+        </div>
         <div className="dropdown">{categoryDivs}</div>
       </div>
     );

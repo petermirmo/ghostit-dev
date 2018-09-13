@@ -167,10 +167,9 @@ class RecipeModal extends Component {
                   {recipe.useCount ? recipe.useCount : 0}
                 </span>
                 <br />
-                Creator:{" "}
-                <span className="blue">
-                  {recipe.creator ? recipe.creator : "Unknown"}
-                </span>
+                {recipe.creator && (
+                  <span className="blue">{recipe.creator}</span>
+                )}
               </div>
             </div>
           </div>
@@ -295,6 +294,11 @@ class RecipeModal extends Component {
     let signedInUserID = this.props.user.signedInAsUser
       ? this.props.user.signedInAsUser.id
       : this.props.user._id;
+    if (recipe.posts)
+      recipe.posts.sort((a, b) => {
+        if (new moment(a.postingDate) < new moment(b.postingDate)) return -1;
+        if (new moment(a.postingDate) > new moment(b.postingDate)) return 1;
+      });
     return (
       <div
         className="preview-recipe"
