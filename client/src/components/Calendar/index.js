@@ -8,6 +8,8 @@ import faFacebookF from "@fortawesome/fontawesome-free-brands/faFacebookF";
 import faLinkedinIn from "@fortawesome/fontawesome-free-brands/faLinkedinIn";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitter";
 
+import Filter from "../Filter";
+
 import "./styles/";
 
 class Calendar extends Component {
@@ -330,18 +332,22 @@ class Calendar extends Component {
           <FontAwesomeIcon
             icon={faAngleLeft}
             size="4x"
-            className="calendar-switch-month-button left"
+            className="calendar-switch-month-button"
             onClick={this.subtractMonth}
           />
-          <h1 className="calendar-header center">
-            {calendarDate.format("MMMM")}
-          </h1>
+          <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
           <FontAwesomeIcon
             icon={faAngleRight}
             size="4x"
-            className="calendar-switch-month-button right"
+            className="calendar-switch-month-button"
             onClick={this.addMonth}
           />
+          <div className="calendar-filter-container">
+            <Filter
+              updateActiveCategory={this.props.updateActiveCategory}
+              categories={this.props.categories}
+            />
+          </div>
         </div>
 
         <div className="calendar-table">

@@ -406,8 +406,8 @@
   font-size: var(--extra-large-font-size);
 
   position: absolute;
-  left: 10px;
-  top: 80px;
+  left: 70px;
+  top: 10px;
 
   padding: 4px 10px 4px 10px;
   z-index: 1;
@@ -556,9 +556,9 @@ div {
   font-family: var(--font-theme);
   font-size: var(--regular-font-size);
 }
-[hoverInstructions]:before {
+[hoverinstructions]:before {
   /* needed - do not touch */
-  content: attr(hoverInstructions);
+  content: attr(hoverinstructions);
   position: absolute;
   opacity: 0;
 
@@ -576,7 +576,7 @@ div {
   transition: all 0.15s ease;
 }
 
-[hoverInstructions]:hover:before {
+[hoverinstructions]:hover:before {
   /* needed - do not touch */
   opacity: 1;
 
@@ -584,22 +584,22 @@ div {
   background: var(--light-blue-theme-color);
   color: var(--white-theme-color);
 }
-[hoverInstructions]:not([hoverInstructions-persistent]):before {
+[hoverinstructions]:not([hoverinstructions-persistent]):before {
   pointer-events: none;
 }
-[hoverInstructions].top-left {
+[hoverinstructions].top-left {
   bottom: 100%;
   right: 0;
 }
-[hoverInstructions].top-right {
+[hoverinstructions].top-right {
   bottom: 100%;
   left: 0;
 }
-[hoverInstructions].bottom-right {
+[hoverinstructions].bottom-right {
   top: 100%;
   left: 0;
 }
-[hoverInstructions].bottom-left {
+[hoverinstructions].bottom-left {
   top: 100%;
   right: 0;
 }

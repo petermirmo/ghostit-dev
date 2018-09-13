@@ -8,7 +8,6 @@ import ContentModal from "./PostingFiles/ContentModal";
 import PostEdittingModal from "./PostingFiles/PostEdittingModal";
 import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
 import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
-import NavigationBar from "../../components/Navigations/NavigationBar/";
 import Calendar from "../../components/Calendar/";
 import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
@@ -40,7 +39,8 @@ class Content extends Component {
       Facebook: false,
       Twitter: false,
       Linkedin: false,
-      Blog: false
+      Blog: false,
+      Campaigns: false
     },
     notification: {
       show: false,
@@ -217,9 +217,7 @@ class Content extends Component {
       clickedEvent: undefined
     });
   };
-  updateTabState = event => {
-    // Category name is stored in html element id
-    let categoryName = event.target.id;
+  updateActiveCategory = categoryName => {
     let calendarEventCategories = this.state.calendarEventCategories;
     calendarEventCategories[categoryName] = !calendarEventCategories[
       categoryName
@@ -233,7 +231,8 @@ class Content extends Component {
           Facebook: false,
           Twitter: false,
           Linkedin: false,
-          Blog: false
+          Blog: false,
+          Campaigns: false
         }
       });
     } else {
@@ -265,51 +264,31 @@ class Content extends Component {
       Linkedin,
       Instagram,
       Blog,
-      Newsletter
+      Newsletter,
+      Campaigns
     } = calendarEventCategories;
 
     let calendarEvents = [];
 
-    if (Facebook || All) {
-      for (let index in facebookPosts) {
-        calendarEvents.push(facebookPosts[index]);
-      }
-    }
-    if (Twitter || All) {
-      for (let index in twitterPosts) {
-        calendarEvents.push(twitterPosts[index]);
-      }
-    }
-    if (Linkedin || All) {
-      for (let index in linkedinPosts) {
-        calendarEvents.push(linkedinPosts[index]);
-      }
-    }
-    if (Instagram || All) {
-      for (let index in instagramPosts) {
-        calendarEvents.push(instagramPosts[index]);
-      }
-    }
-    if (Blog || All) {
-      for (let index in websitePosts) {
-        calendarEvents.push(websitePosts[index]);
-      }
-    }
-    if (Newsletter || All) {
-      for (let index in newsletterPosts) {
-        calendarEvents.push(newsletterPosts[index]);
-      }
-    }
-    for (let index in campaigns) {
-      calendarEvents.push(campaigns[index]);
-    }
+    if (Facebook || All)
+      if (facebookPosts) calendarEvents = calendarEvents.concat(facebookPosts);
+    if (Twitter || All)
+      if (twitterPosts) calendarEvents = calendarEvents.concat(twitterPosts);
+    if (Linkedin || All)
+      if (linkedinPosts) calendarEvents = calendarEvents.concat(linkedinPosts);
+    if (Instagram || All)
+      if (instagramPosts)
+        calendarEvents = calendarEvents.concat(instagramPosts);
+    if (Blog || All)
+      if (websitePosts) calendarEvents = calendarEvents.concat(websitePosts);
+    if (Newsletter || All)
+      if (newsletterPosts)
+        calendarEvents = calendarEvents.concat(newsletterPosts);
+    if (Campaigns || All)
+      if (campaigns) calendarEvents = calendarEvents.concat(campaigns);
 
     return (
       <div className="wrapper" style={this.props.margin}>
-        <NavigationBar
-          categories={calendarEventCategories}
-          updateParentState={this.updateTabState}
-        />
         <Calendar
           calendarEvents={calendarEvents}
           calendarDate={new moment()}
@@ -317,6 +296,8 @@ class Content extends Component {
           onSelectPost={this.editPost}
           onSelectCampaign={this.openCampaign}
           timezone={timezone}
+          categories={calendarEventCategories}
+          updateActiveCategory={this.updateActiveCategory}
         />
         {this.state.contentModal && (
           <ContentModal

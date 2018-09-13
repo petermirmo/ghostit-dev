@@ -3,15 +3,16 @@
   padding-bottom: 50px;
 }
 .calendar-header-container {
+  position: relative;
   display: flex;
   display: -webkit-flex;
 
   align-items: center;
   justify-content: center;
 }
-.calendar-header {
-  color: var(--black-theme-color);
-  opacity: 0.8;
+.calendar-month {
+  padding: 0 10% 0 10%;
+  color: var(--off-black-theme-color);
 }
 .calendar-switch-month-button {
   color: var(--turqoise-theme-color);
@@ -23,11 +24,20 @@
   transform: scale(1.1);
   cursor: pointer;
 }
-.calendar-switch-month-button.left {
-  margin-left: 20%;
-}
-.calendar-switch-month-button.right {
-  margin-right: 20%;
+.calendar-filter-container {
+  position: absolute;
+  top: 30%;
+  right: 5%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 40%;
+
+  color: var(--off-black-theme-color);
+
+  border-bottom: 2px solid var(--dark-grey-theme-color);
 }
 
 .calendar-table {
