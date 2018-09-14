@@ -79,7 +79,7 @@ class CampaignModal extends Component {
           this.props.notify(
             "info",
             "Campaign Deleted",
-            "Campaign had no posts and was deleted."
+            "Campaign had no scheduled posts and was deleted."
           );
         } else {
           this.props.notify(

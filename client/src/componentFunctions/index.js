@@ -204,7 +204,7 @@ export const trySavePostInRecipe = (post_state, post_props, skip_dates) => {
     return setStateObj;
   } else if (!instructions || instructions === "") {
     alert(
-      "Posts cannot be empty. Please write some instructions in the text area."
+      "Posts in templates must have instructions. Please make sure the instructions text area is not empty."
     );
     return setStateObj;
   }
