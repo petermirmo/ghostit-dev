@@ -33,12 +33,6 @@ class PostingOptions extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.post) {
-      if (nextProps.post.campaignID) {
-        this.dateChecks();
-      }
-    }
-
     if (nextProps.listOfChanges) {
       // this is run when the campaignModal's state changes which results in a re-render of this
       // Post component. this block will make sure all the previous unsaved changes to the Post component are reapplied
@@ -47,8 +41,9 @@ class PostingOptions extends Component {
       } else {
         this.setState({ somethingChanged: false });
       }
+    } else {
+      this.setState(this.createState(nextProps));
     }
-    if (!nextProps.listOfChanges) this.setState(this.createState(nextProps));
   }
   createState = props => {
     let stateVariable = {
@@ -98,23 +93,7 @@ class PostingOptions extends Component {
 
     return stateVariable;
   };
-  dateChecks = () => {
-    let {
-      campaignID,
-      campaignDateLowerBound,
-      campaignDateUpperBound
-    } = this.props;
-    let { date } = this.state;
 
-    if (campaignID) {
-      if (
-        date < new moment(campaignDateLowerBound) ||
-        date > new moment(campaignDateUpperBound)
-      ) {
-        this.setState({ date: new moment(campaignDateLowerBound) });
-      }
-    }
-  };
   handleChange = (value, index) => {
     if (this._ismounted)
       this.setState({

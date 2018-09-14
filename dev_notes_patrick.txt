@@ -4,6 +4,7 @@ useful git commands:
   delete local copy of pat-pc-sync-branch so that pulling the new copy doesn't try to merge
     git checkout master
     git branch -D pat-pc-sync-branch
+    git checkout pat-pc-sync-branch
     git pull ghostit pat-pc-sync-branch
   merge the changes in pat-pc-sync-branch back into the master branch
     git checkout master
@@ -66,4 +67,14 @@ sort recipes by use count?
 
 search recipes.
 
-moment.isMoment(date) within createState / willReceiveProps ?
+next task:
+  give option when changing start date to move all dates accordingly.
+    (prompt after confirm change? checkbox beside Start Date "Keep all dates relative".)
+  template saved notification
+  campaign saved notification when campaign first created
+
+discard changes to campaign button before exit saves them.
+
+mobile app that alerts the user when they need to do a custom task?
+
+Small question marks beside things that aren't super intuitive. Mousing over the question mark displays a tooltip explaining things.

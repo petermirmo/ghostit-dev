@@ -95,7 +95,12 @@ const postingDateWithinCampaign = (startDate, endDate, date) => {
   return true;
 };
 
-export const trySavePost = (post_state, post_props, skip_dates) => {
+export const trySavePost = (
+  post_state,
+  post_props,
+  skip_dates,
+  skip_checks
+) => {
   if (post_props.recipeEditing) {
     return trySavePostInRecipe(post_state, post_props, skip_dates);
   }
@@ -110,7 +115,6 @@ export const trySavePost = (post_state, post_props, skip_dates) => {
     accountID,
     accountType,
     deleteImagesArray,
-    somethingChanged,
     campaignID,
     name,
     date,
@@ -129,6 +133,7 @@ export const trySavePost = (post_state, post_props, skip_dates) => {
 
   let newDate = new moment(date).utcOffset(0);
   if (
+    !skip_checks &&
     socialType !== "custom" &&
     !postChecks(accountID, newDate, link, images, content, maxCharacters)
   ) {
@@ -199,7 +204,7 @@ export const trySavePostInRecipe = (post_state, post_props, skip_dates) => {
     return setStateObj;
   } else if (!instructions || instructions === "") {
     alert(
-      "Posts cannot be empty. Please write some instructions in the text area."
+      "Posts in templates must have instructions. Please make sure the instructions text area is not empty."
     );
     return setStateObj;
   }

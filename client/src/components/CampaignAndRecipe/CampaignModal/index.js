@@ -12,6 +12,7 @@ import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import { getSocialCharacters } from "../../../extra/functions/CommonFunctions";
+import { trySavePost } from "../../../componentFunctions";
 
 import Post from "../../Post";
 import CustomTask from "../../CustomTask";
@@ -70,6 +71,15 @@ class CampaignModal extends Component {
             "danger",
             "Save Failed",
             "Campaign save was unsuccessful."
+          );
+        } else if (
+          !emitObject.campaign.posts ||
+          emitObject.campaign.posts.length < 1
+        ) {
+          this.props.notify(
+            "info",
+            "Campaign Deleted",
+            "Campaign had no scheduled posts and was deleted."
           );
         } else {
           this.props.notify(
@@ -159,6 +169,7 @@ class CampaignModal extends Component {
       posts,
       listOfPostChanges: {},
       activePostIndex,
+      anchorDates: false,
 
       saving: !props.recipeEditing,
       somethingChanged,
@@ -234,26 +245,36 @@ class CampaignModal extends Component {
     this.setState({ confirmDelete: false });
   };
 
-  updatePost = updatedPost => {
+  updatePost = (updatedPost, index) => {
     let { posts, activePostIndex } = this.state;
 
-    let new_post = { ...posts[activePostIndex], ...updatedPost };
+    let post_index = index === undefined ? activePostIndex : index;
+
+    let new_post = { ...posts[post_index], ...updatedPost };
+    if (new_post.postingDate && !moment.isMoment(new_post.postingDate)) {
+      new_post.postingDate = new moment(new_post.postingDate);
+    }
 
     posts = [
-      ...posts.slice(0, activePostIndex),
+      ...posts.slice(0, post_index),
       new_post,
-      ...posts.slice(activePostIndex + 1)
+      ...posts.slice(post_index + 1)
     ];
-    let returnObject = this.bubbleSortPosts(posts, activePostIndex);
-    posts = returnObject.posts;
-    activePostIndex = returnObject.activePostIndex;
-    this.setState({
-      posts,
-      listOfPostChanges: {},
-      somethingChanged: true,
-      activePostIndex
-    });
-    return;
+    if (index === undefined) {
+      // index is only defined if updatePost is being called because
+      // the post's date is being changed to stay anchored to campaign.startDate.
+      // in that case, we want listOfPostChanges to be unaffected, so only
+      // reset it if the we're saving because the user clicked Schedule Post.
+      // also, the posts don't need to be re-sorted if all posts are moving the same amount
+      let returnObject = this.bubbleSortPosts(posts, activePostIndex);
+      posts = returnObject.posts;
+      this.setState({
+        activePostIndex: returnObject.activePostIndex,
+        listOfPostChanges: {}
+      });
+    }
+
+    this.setState({ posts, somethingChanged: true });
   };
 
   savePostChanges = date => {
@@ -426,19 +447,88 @@ class CampaignModal extends Component {
   };
 
   tryChangingCampaignDates = (date, date_type, setDisplayAndMessage) => {
-    /*
-		this.handleCampaignChange(date, "endDate");
-		if (date <= new moment(startDate)) {
-			this.handleCampaignChange(date, "startDate");
-		} */
-
     // function that gets passed to <DateTimePicker/> which lets it modify <CampaignModal/>'s start and end dates
     // before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
     // for example, if you had a campaign from Sept 1 -> Sept 4 and a post on Sept 3,
     // then you tried to change the campaign to Sept 1 -> Sept 2, the post on Sept 3 will no longer be within the campaign dates
     // so we'll want to disallow this modification and let the user know what happened
     // it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
-    const { campaign, posts } = this.state;
+    const {
+      campaign,
+      posts,
+      anchorDates,
+      activePostIndex,
+      listOfPostChanges
+    } = this.state;
+
+    if (anchorDates && date_type === "startDate") {
+      // modify each posting date and the campaign.endDate so that
+      // each date stays the same distance away from startDate after startDate is changed
+      const startDateDiff = date.diff(campaign.startDate); // difference in ms
+      if (startDateDiff === 0) {
+        return;
+      }
+      this.setState(prevState => {
+        return {
+          campaign: {
+            ...prevState.campaign,
+            startDate: date,
+            endDate: new moment(
+              prevState.campaign.endDate.add(startDateDiff, "milliseconds")
+            )
+          },
+          somethingChanged: true
+        };
+      });
+      for (let index = 0; index < posts.length; index++) {
+        let post = posts[index];
+        let new_date = new moment(post.postingDate).add(
+          startDateDiff,
+          "milliseconds"
+        );
+        if (
+          index == activePostIndex &&
+          listOfPostChanges &&
+          Object.keys(listOfPostChanges).length > 0
+        ) {
+          // when the current post has changes, we should make sure that any date changes get
+          // overwritten by this new date
+          this.setState({
+            listOfPostChanges: { ...listOfPostChanges, date: new_date }
+          });
+        }
+
+        if (post._id) {
+          // post is saved in DB so we need to save changes to DB
+          // make sure that activePost's date gets changed but if it has other unsaved changes, those aren't discarded
+          // date=postingDate, sendEmailReminder=emailReminder
+          // postFinishedSavingCallback, setSaving
+          let post_state = {
+            ...post,
+            date: new_date,
+            sendEmailReminder: post.emailReminder ? true : false
+          };
+          let post_props = {
+            setSaving: () => {
+              this.setState({ saving: true });
+            },
+            postFinishedSavingCallback: savedPost => {
+              this.updatePost(savedPost, index);
+              this.setState({ saving: false });
+            }
+          };
+          trySavePost(post_state, post_props, true, true);
+        } else {
+          // post doesn't need to be updated in the DB so just update in this.state.posts
+          let new_post = {
+            ...post,
+            postingDate: new_date
+          };
+          this.updatePost(new_post, index);
+        }
+      }
+      return;
+    }
 
     const dates = {
       startDate: campaign.startDate,
@@ -662,7 +752,6 @@ class CampaignModal extends Component {
           let tmp = posts[j];
           posts[j] = posts[j + 1];
           posts[j + 1] = tmp;
-          console.log(activePostIndex);
         }
       }
     }
@@ -681,7 +770,8 @@ class CampaignModal extends Component {
       promptDiscardPostChanges,
       listOfPostChanges,
       recipeEditing,
-      socket
+      socket,
+      anchorDates
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -694,6 +784,10 @@ class CampaignModal extends Component {
           <CampaignRecipeHeader
             campaign={campaign}
             handleChange={this.handleCampaignChange}
+            toggleAnchorDates={() =>
+              this.handleChange(!anchorDates, "anchorDates")
+            }
+            anchorDates={anchorDates}
             tryChangingDates={this.tryChangingCampaignDates}
             backToRecipes={() => {
               this.props.handleChange(false, "campaignModal");
