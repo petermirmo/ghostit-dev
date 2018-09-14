@@ -371,11 +371,11 @@ class Calendar extends Component {
             />
           </div>
           <div className="calendar-filter-container">
-            <div className="box-button">Queue Preview</div>
             <Filter
               updateActiveCategory={this.props.updateActiveCategory}
               categories={this.props.categories}
             />
+            <div className="box-button left">Queue Preview</div>
           </div>
         </div>
 

@@ -30,19 +30,17 @@
 }
 .calendar-filter-container {
   position: absolute;
-  top: 10%;
-  right: 5%;
+  top: 30%;
+  right: 1%;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  flex-direction: column;
-
-  min-height: 90%;
+  min-height: 40%;
 
   color: var(--off-black-theme-color);
-  font-size: var(--medium-large-font-size);
+  font-size: var(--large-font-size);
 }
 .calendar-table {
   display: flex;
