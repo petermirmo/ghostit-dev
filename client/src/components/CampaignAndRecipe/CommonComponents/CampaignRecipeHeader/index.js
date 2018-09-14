@@ -133,11 +133,13 @@ class CampaignRecipeHeader extends Component {
           </div>
           <div className="label">Color:</div>
           <div className="colors">{colorDivs}</div>
-          <div className="grid-checkbox-container">
-            <div onClick={toggleAnchorDates}>
-              {anchorDates ? "Anchored" : "Not Anchored"}
+          {false && (
+            <div className="grid-checkbox-container">
+              <div onClick={toggleAnchorDates}>
+                {anchorDates ? "Anchored" : "Not Anchored"}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {!showMore && (
           <div

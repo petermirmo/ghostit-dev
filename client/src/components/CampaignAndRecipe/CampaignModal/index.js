@@ -79,7 +79,7 @@ class CampaignModal extends Component {
           this.props.notify(
             "info",
             "Campaign Deleted",
-            "Campaign had no posts and was deleted."
+            "Campaign had no scheduled posts and was deleted."
           );
         } else {
           this.props.notify(
@@ -248,20 +248,22 @@ class CampaignModal extends Component {
   updatePost = (updatedPost, index) => {
     const { posts, activePostIndex } = this.state;
 
-    let post_index = index ? index : activePostIndex;
+    let post_index = index === undefined ? activePostIndex : index;
 
     let new_post = { ...posts[post_index], ...updatedPost };
     if (new_post.postingDate && !moment.isMoment(new_post.postingDate)) {
       new_post.postingDate = new moment(new_post.postingDate);
     }
 
-    this.setState({
-      posts: [
-        ...posts.slice(0, post_index),
-        new_post,
-        ...posts.slice(post_index + 1)
-      ],
-      somethingChanged: true
+    this.setState(prevState => {
+      return {
+        posts: [
+          ...prevState.posts.slice(0, post_index),
+          new_post,
+          ...prevState.posts.slice(post_index + 1)
+        ],
+        somethingChanged: true
+      };
     });
     if (index === undefined) {
       // index is only defined if updatePost is being called because
