@@ -1,17 +1,23 @@
 .calendar-container {
   overflow-x: hidden;
-  padding-bottom: 50px;
 }
 .calendar-header-container {
+  position: relative;
   display: flex;
   display: -webkit-flex;
 
   align-items: center;
   justify-content: center;
 }
-.calendar-header {
-  color: var(--black-theme-color);
-  opacity: 0.8;
+.something {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 40%;
+}
+.calendar-month {
+  color: var(--off-black-theme-color);
+  user-select: none;
 }
 .calendar-switch-month-button {
   color: var(--turqoise-theme-color);
@@ -19,15 +25,21 @@
   -webkit-transition: all 0.4s ease;
 }
 .calendar-switch-month-button:hover {
-  color: var(--green-theme-color);
-  transform: scale(1.1);
+  color: var(--blue-theme-color);
   cursor: pointer;
 }
-.calendar-switch-month-button.left {
-  margin-left: 20%;
-}
-.calendar-switch-month-button.right {
-  margin-right: 20%;
+.calendar-filter-container {
+  position: absolute;
+  top: 30%;
+  right: 5%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 40%;
+
+  color: var(--off-black-theme-color);
 }
 
 .calendar-table {
@@ -39,9 +51,9 @@
 }
 .calendar-day-titles-container {
   display: flex;
+  border-bottom: 1px solid var(--light-blue-theme-color);
 }
 .calendar-day-heading {
-  margin-top: 2px !important;
   text-align: center;
 
   cursor: default !important;
@@ -49,29 +61,25 @@
 
 .calendar-week {
   display: flex;
+  border-bottom: 1px solid var(--light-blue-theme-color);
+}
+.calendar-week:last-child {
+  border-bottom: none;
 }
 .calendar-day {
-  min-height: 14vh;
+  min-height: 16.5vh;
+  border-right: 1px solid var(--light-blue-theme-color);
 }
 .calendar-day-heading,
 .calendar-day {
   width: 13%;
   background-color: var(--white-theme-color);
-  flex-grow: 1;
-  -webkit-flex-grow: 1;
-
-  padding: 0;
-
-  border-right: 1px solid var(--light-blue-theme-color);
-  border-bottom: 1px solid var(--light-blue-theme-color);
+  flex: 1;
+  user-select: none;
 }
 .calendar-day-heading:nth-child(7n),
 .calendar-day:nth-child(7n) {
-  margin-right: 0;
-}
-.calendar-day-heading:nth-child(7n + 1),
-.calendar-day:nth-child(7n + 1) {
-  margin-left: 0;
+  border-right: none;
 }
 .past-calendar-day {
   color: var(--off-black-theme-color);
@@ -143,7 +151,6 @@
   flex: 1;
 
   padding: 2px 10px 2px 10px;
-  margin: 1px 2px 1px 2px;
 
   color: var(--white-theme-color);
 

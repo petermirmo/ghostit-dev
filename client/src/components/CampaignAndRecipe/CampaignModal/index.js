@@ -246,31 +246,35 @@ class CampaignModal extends Component {
   };
 
   updatePost = (updatedPost, index) => {
-    const { posts, activePostIndex } = this.state;
+    let { posts, activePostIndex } = this.state;
 
-    let post_index = index ? index : activePostIndex;
+    let post_index = index === undefined ? activePostIndex : index;
 
     let new_post = { ...posts[post_index], ...updatedPost };
     if (new_post.postingDate && !moment.isMoment(new_post.postingDate)) {
       new_post.postingDate = new moment(new_post.postingDate);
     }
 
-    this.setState({
-      posts: [
-        ...posts.slice(0, post_index),
-        new_post,
-        ...posts.slice(post_index + 1)
-      ],
-      somethingChanged: true
-    });
+    posts = [
+      ...posts.slice(0, post_index),
+      new_post,
+      ...posts.slice(post_index + 1)
+    ];
     if (index === undefined) {
       // index is only defined if updatePost is being called because
       // the post's date is being changed to stay anchored to campaign.startDate.
       // in that case, we want listOfPostChanges to be unaffected, so only
-      // reset it if the we're saving because the user clicked Schedule Post
-      this.setState({ listOfPostChanges: {} });
+      // reset it if the we're saving because the user clicked Schedule Post.
+      // also, the posts don't need to be re-sorted if all posts are moving the same amount
+      let returnObject = this.bubbleSortPosts(posts, activePostIndex);
+      posts = returnObject.posts;
+      this.setState({
+        activePostIndex: returnObject.activePostIndex,
+        listOfPostChanges: {}
+      });
     }
-    return;
+
+    this.setState({ posts, somethingChanged: true });
   };
 
   savePostChanges = date => {
@@ -738,6 +742,21 @@ class CampaignModal extends Component {
 
       this.setState({ campaign, somethingChanged: true });
     }
+  };
+  bubbleSortPosts = (posts, activePostIndex) => {
+    for (let i = 0; i < posts.length; i++) {
+      for (var j = 0; j < posts.length - i - 1; j++) {
+        if (posts[j].postingDate > posts[j + 1].postingDate) {
+          if (j == activePostIndex) activePostIndex += 1;
+          else if (j + 1 == activePostIndex) activePostIndex -= 1;
+          let tmp = posts[j];
+          posts[j] = posts[j + 1];
+          posts[j + 1] = tmp;
+          console.log(activePostIndex);
+        }
+      }
+    }
+    return { posts, activePostIndex };
   };
 
   render() {

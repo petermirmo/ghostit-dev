@@ -8,6 +8,8 @@ import faFacebookF from "@fortawesome/fontawesome-free-brands/faFacebookF";
 import faLinkedinIn from "@fortawesome/fontawesome-free-brands/faLinkedinIn";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitter";
 
+import Filter from "../Filter";
+
 import "./styles/";
 
 class Calendar extends Component {
@@ -204,7 +206,8 @@ class Calendar extends Component {
                   this.createPostCalendarDiv(
                     calendarEvent.posts[indexToLoopCampaignPosts],
                     indexToLoopCampaignPosts,
-                    () => this.props.onSelectCampaign(calendarEvent)
+                    () => this.props.onSelectCampaign(calendarEvent),
+                    false
                   )
                 );
                 indexToLoopCampaignPosts++;
@@ -241,8 +244,11 @@ class Calendar extends Component {
           } else {
             currentCalendarDayOfEvents[
               calendarEvent.row
-            ] = this.createPostCalendarDiv(calendarEvent, index, () =>
-              this.props.onSelectPost(calendarEvent)
+            ] = this.createPostCalendarDiv(
+              calendarEvent,
+              index,
+              () => this.props.onSelectPost(calendarEvent),
+              true
             );
           }
 
@@ -268,18 +274,19 @@ class Calendar extends Component {
     return calendarEventsArray;
   };
 
-  createPostCalendarDiv = (post, index, openEvent) => {
+  createPostCalendarDiv = (post, index, openEvent, needsCampaignCover) => {
     let content = "";
     if (post.notes) content = post.notes;
     if (post.content) content = post.content;
     if (post.title) content = post.title;
     if (
-      post.name &&
-      post.name !== "Facebook Post" &&
-      post.name !== "Twitter Post" &&
-      post.name !== "LinkedIn Post" &&
-      post.name !== "Instagram Post" &&
-      post.name !== "Custom Task"
+      ((post.name !== "Facebook Post" &&
+        post.name !== "Twitter Post" &&
+        post.name !== "LinkedIn Post" &&
+        post.name !== "Instagram Post" &&
+        post.name !== "Custom Task") ||
+        !content) &&
+      post.name
     )
       content = post.name;
     let color = "var(--blue-theme-color)";
@@ -290,21 +297,42 @@ class Calendar extends Component {
     if (post.socialType === "facebook") icon = faFacebookF;
     if (post.socialType === "twitter") icon = faTwitter;
     if (post.socialType === "linkedin") icon = faLinkedinIn;
-
-    return (
-      <div
-        className="calendar-post"
-        style={{ backgroundColor: color }}
-        key={index + "post3"}
-        onClick={event => {
-          event.stopPropagation();
-          openEvent();
-        }}
-      >
-        {icon && <FontAwesomeIcon icon={icon} />}{" "}
-        {new moment(post.postingDate).format("h:mm")} {content}
-      </div>
-    );
+    if (needsCampaignCover) {
+      return (
+        <div
+          className="campaign"
+          style={{ backgroundColor: "transparent" }}
+          key={index + "post3"}
+        >
+          <div
+            className="calendar-post"
+            style={{ backgroundColor: color }}
+            onClick={event => {
+              event.stopPropagation();
+              openEvent();
+            }}
+          >
+            {icon && <FontAwesomeIcon icon={icon} />}{" "}
+            {new moment(post.postingDate).format("h:mm")} {content}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="calendar-post"
+          key={index + "post3"}
+          style={{ backgroundColor: color }}
+          onClick={event => {
+            event.stopPropagation();
+            openEvent();
+          }}
+        >
+          {icon && <FontAwesomeIcon icon={icon} />}{" "}
+          {new moment(post.postingDate).format("h:mm")} {content}
+        </div>
+      );
+    }
   };
 
   addMonth = () => {
@@ -327,21 +355,27 @@ class Calendar extends Component {
     return (
       <div className="calendar-container">
         <div className="calendar-header-container">
-          <FontAwesomeIcon
-            icon={faAngleLeft}
-            size="4x"
-            className="calendar-switch-month-button left"
-            onClick={this.subtractMonth}
-          />
-          <h1 className="calendar-header center">
-            {calendarDate.format("MMMM")}
-          </h1>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            size="4x"
-            className="calendar-switch-month-button right"
-            onClick={this.addMonth}
-          />
+          <div className="something">
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              size="4x"
+              className="calendar-switch-month-button"
+              onClick={this.subtractMonth}
+            />
+            <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
+            <FontAwesomeIcon
+              icon={faAngleRight}
+              size="4x"
+              className="calendar-switch-month-button"
+              onClick={this.addMonth}
+            />
+          </div>
+          <div className="calendar-filter-container">
+            <Filter
+              updateActiveCategory={this.props.updateActiveCategory}
+              categories={this.props.categories}
+            />
+          </div>
         </div>
 
         <div className="calendar-table">

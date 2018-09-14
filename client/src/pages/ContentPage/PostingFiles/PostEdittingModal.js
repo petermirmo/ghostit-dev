@@ -94,12 +94,17 @@ class PostEdittingModal extends Component {
     if (canEditPost) {
       modalFooter = (
         <div className="modal-footer">
-          <FontAwesomeIcon
-            onClick={this.deletePostPopUp}
-            className="delete"
-            icon={faTrash}
-            size="2x"
-          />
+          <div
+            className="campaign-footer-option right"
+            title="Delete campaign."
+          >
+            <FontAwesomeIcon
+              onClick={this.deletePostPopUp}
+              className="delete"
+              icon={faTrash}
+              size="2x"
+            />
+          </div>
         </div>
       );
     }

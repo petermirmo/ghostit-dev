@@ -25,8 +25,7 @@
   min-height: 0;
 }
 .post-navigation-container {
-  min-width: 35%;
-  max-width: 35%;
+  width: 35%;
   border-right: 0.5px solid var(--light-grey-theme-color);
   border-bottom: 0.5px solid var(--light-grey-theme-color);
   overflow: hidden;

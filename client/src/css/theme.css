@@ -35,7 +35,7 @@
   --light-grey-theme-color: #e0e0e0;
   --dark-grey-theme-color: #95a5a6;
 
-  --off-black-theme-color: #666666;
+  --off-black-theme-color: #333333;
   --close-black-theme-color: #333;
 
   --test-theme-color: #e0e0e0;
@@ -406,14 +406,15 @@
   font-size: var(--extra-large-font-size);
 
   position: absolute;
-  left: 10px;
-  top: 80px;
+  left: 70px;
+  top: 10px;
 
   padding: 4px 10px 4px 10px;
   z-index: 1;
 
   border-radius: 4px;
   border: 2px solid var(--blue-theme-color);
+  user-select: none;
 
   transition: all 0.4s ease;
   -webkit-transition: all 0.4s ease;
@@ -487,9 +488,6 @@
   margin-bottom: 10px;
 
   text-align: center;
-
-  border: none;
-  border-bottom: 1px solid var(--grey-theme-color);
 }
 
 .show-more-container {
@@ -559,9 +557,9 @@ div {
   font-family: var(--font-theme);
   font-size: var(--regular-font-size);
 }
-[tooltip]:before {
+[hoverinstructions]:before {
   /* needed - do not touch */
-  content: attr(tooltip);
+  content: attr(hoverinstructions);
   position: absolute;
   opacity: 0;
 
@@ -579,7 +577,7 @@ div {
   transition: all 0.15s ease;
 }
 
-[tooltip]:hover:before {
+[hoverinstructions]:hover:before {
   /* needed - do not touch */
   opacity: 1;
 
@@ -587,6 +585,22 @@ div {
   background: var(--light-blue-theme-color);
   color: var(--white-theme-color);
 }
-[tooltip]:not([tooltip-persistent]):before {
+[hoverinstructions]:not([hoverinstructions-persistent]):before {
   pointer-events: none;
+}
+[hoverinstructions].top-left {
+  bottom: 100%;
+  right: 0;
+}
+[hoverinstructions].top-right {
+  bottom: 100%;
+  left: 0;
+}
+[hoverinstructions].bottom-right {
+  top: 100%;
+  left: 0;
+}
+[hoverinstructions].bottom-left {
+  top: 100%;
+  right: 0;
 }

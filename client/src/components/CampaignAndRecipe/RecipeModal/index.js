@@ -71,7 +71,7 @@ class RecipeModal extends Component {
       this.setState({
         usersRecipes,
         allRecipes,
-        activeRecipes: allRecipes,
+        activeRecipes: usersRecipes,
         loading: false,
         userID: usersRecipes.length > 0 ? usersRecipes[0].userID : undefined
       });
@@ -166,6 +166,10 @@ class RecipeModal extends Component {
                 <span className="blue">
                   {recipe.useCount ? recipe.useCount : 0}
                 </span>
+                <br />
+                {recipe.creator && (
+                  <span className="blue">{recipe.creator}</span>
+                )}
               </div>
             </div>
           </div>
@@ -290,6 +294,11 @@ class RecipeModal extends Component {
     let signedInUserID = this.props.user.signedInAsUser
       ? this.props.user.signedInAsUser.id
       : this.props.user._id;
+    if (recipe.posts)
+      recipe.posts.sort((a, b) => {
+        if (new moment(a.postingDate) < new moment(b.postingDate)) return -1;
+        if (new moment(a.postingDate) > new moment(b.postingDate)) return 1;
+      });
     return (
       <div
         className="preview-recipe"
@@ -430,22 +439,6 @@ class RecipeModal extends Component {
           <div className="recipe-navigation-container">
             <div
               className={
-                activeRecipes === this.state.allRecipes
-                  ? "recipe-navigation-option active"
-                  : "recipe-navigation-option"
-              }
-              onClick={() => {
-                this.setState({
-                  activeRecipes: this.state.allRecipes,
-                  previewRecipeLocation: undefined,
-                  activePost: undefined
-                });
-              }}
-            >
-              All Templates
-            </div>
-            <div
-              className={
                 activeRecipes === this.state.usersRecipes
                   ? "recipe-navigation-option active"
                   : "recipe-navigation-option"
@@ -459,6 +452,22 @@ class RecipeModal extends Component {
               }}
             >
               Your Templates
+            </div>
+            <div
+              className={
+                activeRecipes === this.state.allRecipes
+                  ? "recipe-navigation-option active"
+                  : "recipe-navigation-option"
+              }
+              onClick={() => {
+                this.setState({
+                  activeRecipes: this.state.allRecipes,
+                  previewRecipeLocation: undefined,
+                  activePost: undefined
+                });
+              }}
+            >
+              All Templates
             </div>
           </div>
           <div className="recipes-container-container">{recipeArray}</div>

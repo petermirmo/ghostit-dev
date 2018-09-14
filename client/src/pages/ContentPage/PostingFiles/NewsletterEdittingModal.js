@@ -116,12 +116,17 @@ class NewsletterEdittingModal extends Component {
           )}
 
           <div className="modal-footer">
-            <FontAwesomeIcon
-              onClick={this.deleteNewsletterPopUp}
-              className="delete"
-              icon={faTrash}
-              size="2x"
-            />
+            <div
+              className="campaign-footer-option right"
+              title="Delete campaign."
+            >
+              <FontAwesomeIcon
+                onClick={this.deleteNewsletterPopUp}
+                className="delete"
+                icon={faTrash}
+                size="2x"
+              />
+            </div>
           </div>
         </div>
         {this.state.notification.on && (
