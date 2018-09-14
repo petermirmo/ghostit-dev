@@ -752,7 +752,6 @@ class CampaignModal extends Component {
           let tmp = posts[j];
           posts[j] = posts[j + 1];
           posts[j + 1] = tmp;
-          console.log(activePostIndex);
         }
       }
     }
