@@ -16,7 +16,9 @@ class DatePicker extends Component {
     amPmDropdown: false,
     displayDate: new moment(this.props.date),
     message: "",
-    date: this.props.date
+    date: this.props.date,
+    anchorDatesOption: this.props.anchorDatesOption ? true : false,
+    anchorDates: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -257,7 +259,9 @@ class DatePicker extends Component {
       amPmDropdown,
       displayDate,
       message,
-      date
+      date,
+      anchorDatesOption,
+      anchorDates
     } = this.state;
     let { style, disableTime } = this.props;
 
@@ -272,7 +276,10 @@ class DatePicker extends Component {
       <div className="date-picker-dropdown" ref={this.setWrapperRef}>
         <div
           className="display-date"
-          onClick={() => this.setActive("calendarDropdown")}
+          onClick={() => {
+            this.setActive("calendarDropdown");
+            this.setState({ anchorDates: false });
+          }}
         >
           {inputValue}
         </div>
@@ -348,14 +355,31 @@ class DatePicker extends Component {
                 className="finished-button"
                 onClick={() => {
                   this.setActive("calendarDropdown");
-                  this.props.handleChange(date, (dropdown, message) => {
-                    this.setState({ calendarDropdown: dropdown, message });
-                  });
+                  this.props.handleChange(
+                    date,
+                    (dropdown, message) => {
+                      this.setState({ calendarDropdown: dropdown, message });
+                    },
+                    anchorDates
+                  );
                 }}
               >
                 Confirm
               </button>
             </div>
+            {anchorDatesOption && (
+              <div
+                className="anchor-dates-checkbox"
+                title="This option moves all dates (posts and campaign start and end) the same amount."
+              >
+                <input
+                  type="checkbox"
+                  checked={anchorDates}
+                  onChange={() => this.setState({ anchorDates: !anchorDates })}
+                />
+                Anchor Dates
+              </div>
+            )}
           </div>
         )}
       </div>

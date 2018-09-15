@@ -169,7 +169,6 @@ class CampaignModal extends Component {
       posts,
       listOfPostChanges: {},
       activePostIndex,
-      anchorDates: false,
 
       saving: !props.recipeEditing,
       somethingChanged,
@@ -255,26 +254,37 @@ class CampaignModal extends Component {
       new_post.postingDate = new moment(new_post.postingDate);
     }
 
-    posts = [
-      ...posts.slice(0, post_index),
-      new_post,
-      ...posts.slice(post_index + 1)
-    ];
     if (index === undefined) {
       // index is only defined if updatePost is being called because
       // the post's date is being changed to stay anchored to campaign.startDate.
       // in that case, we want listOfPostChanges to be unaffected, so only
       // reset it if the we're saving because the user clicked Schedule Post.
       // also, the posts don't need to be re-sorted if all posts are moving the same amount
+      posts = [
+        ...posts.slice(0, post_index),
+        new_post,
+        ...posts.slice(post_index + 1)
+      ];
       let returnObject = this.bubbleSortPosts(posts, activePostIndex);
       posts = returnObject.posts;
       this.setState({
         activePostIndex: returnObject.activePostIndex,
-        listOfPostChanges: {}
+        listOfPostChanges: {},
+        posts,
+        somethingChanged: true
+      });
+    } else {
+      this.setState(prevState => {
+        return {
+          posts: [
+            ...prevState.posts.slice(0, post_index),
+            new_post,
+            ...prevState.posts.slice(post_index + 1)
+          ],
+          somethingChanged: true
+        };
       });
     }
-
-    this.setState({ posts, somethingChanged: true });
   };
 
   savePostChanges = date => {
@@ -451,20 +461,19 @@ class CampaignModal extends Component {
     this.setState({ campaign, somethingChanged: true });
   };
 
-  tryChangingCampaignDates = (date, date_type, setDisplayAndMessage) => {
+  tryChangingCampaignDates = (
+    date,
+    date_type,
+    setDisplayAndMessage,
+    anchorDates = false
+  ) => {
     // function that gets passed to <DateTimePicker/> which lets it modify <CampaignModal/>'s start and end dates
     // before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
     // for example, if you had a campaign from Sept 1 -> Sept 4 and a post on Sept 3,
     // then you tried to change the campaign to Sept 1 -> Sept 2, the post on Sept 3 will no longer be within the campaign dates
     // so we'll want to disallow this modification and let the user know what happened
     // it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
-    const {
-      campaign,
-      posts,
-      anchorDates,
-      activePostIndex,
-      listOfPostChanges
-    } = this.state;
+    const { campaign, posts, activePostIndex, listOfPostChanges } = this.state;
 
     if (anchorDates && date_type === "startDate") {
       // modify each posting date and the campaign.endDate so that
@@ -775,8 +784,7 @@ class CampaignModal extends Component {
       promptDiscardPostChanges,
       listOfPostChanges,
       recipeEditing,
-      socket,
-      anchorDates
+      socket
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -789,10 +797,6 @@ class CampaignModal extends Component {
           <CampaignRecipeHeader
             campaign={campaign}
             handleChange={this.handleCampaignChange}
-            toggleAnchorDates={() =>
-              this.handleChange(!anchorDates, "anchorDates")
-            }
-            anchorDates={anchorDates}
             tryChangingDates={this.tryChangingCampaignDates}
             backToRecipes={() => {
               this.props.handleChange(false, "campaignModal");
