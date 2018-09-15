@@ -371,12 +371,9 @@ class DatePicker extends Component {
               <div
                 className="anchor-dates-checkbox"
                 title="This option moves all dates (posts and campaign start and end) the same amount."
+                onClick={() => this.setState({ anchorDates: !anchorDates })}
               >
-                <input
-                  type="checkbox"
-                  checked={anchorDates}
-                  onChange={() => this.setState({ anchorDates: !anchorDates })}
-                />
+                <input type="checkbox" checked={anchorDates} />
                 Anchor Dates
               </div>
             )}
