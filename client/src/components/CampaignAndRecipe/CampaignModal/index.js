@@ -287,16 +287,21 @@ class CampaignModal extends Component {
       postingDate: date
     };
 
-    this.setState(prevState => {
-      return {
-        posts: [
-          ...prevState.posts.slice(0, activePostIndex),
-          updated_post,
-          ...prevState.posts.slice(activePostIndex + 1)
-        ],
-        listOfPostChanges: {},
-        somethingChanged: true
-      };
+    let new_posts = [
+      ...posts.slice(0, activePostIndex),
+      updated_post,
+      ...posts.slice(activePostIndex + 1)
+    ];
+
+    let new_activePostIndex = activePostIndex;
+
+    let returnObject = this.bubbleSortPosts(new_posts, new_activePostIndex);
+
+    this.setState({
+      posts: returnObject.posts,
+      activePostIndex: returnObject.activePostIndex,
+      listOfPostChanges: {},
+      somethingChanged: true
     });
   };
 
