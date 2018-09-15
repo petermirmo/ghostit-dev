@@ -70,9 +70,7 @@ search recipes.
 next task:
   give option when changing start date to move all dates accordingly.
     (prompt after confirm change? checkbox beside Start Date "Keep all dates relative".)
-  template saved notification
   campaign saved notification when campaign first created
-  recipe posts sort on save
 
 discard changes to campaign button before exit saves them.
 

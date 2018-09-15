@@ -669,7 +669,6 @@ class CampaignModal extends Component {
         "Save Cancelled",
         "To publish this campaign as a template, please give it a name!"
       );
-      //alert("To publish this campaign as a template, please give it a name!");
       return;
     } else if (!posts || posts.length < 1) {
       this.props.notify(
@@ -677,7 +676,6 @@ class CampaignModal extends Component {
         "Save Cancelled",
         "You cannot save a template with no posts."
       );
-      //alert("You cannot save a template with no posts.");
       return;
     }
     for (let index in posts) {
@@ -686,11 +684,8 @@ class CampaignModal extends Component {
         this.props.notify(
           "danger",
           "Save Cancelled",
-          "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
+          "All posts in a template must have instructions. Make sure each post has been saved with instructions then try saving again."
         );
-        /*alert(
-          "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
-        );*/
         return;
       }
     }
@@ -708,10 +703,18 @@ class CampaignModal extends Component {
         );
         console.log(res.data.message);
         console.log(res.data.campaign);
-        if (res.data.message) {
-          alert(res.data.message);
-        }
+        this.props.notify(
+          "danger",
+          "Save Failed",
+          "Template save failed. Try again and if it fails again, please take a screenshot of your template to send to GhostIt to help us fix the problem!"
+        );
       }
+
+      this.props.notify(
+        "success",
+        "Template Saved",
+        "Template has been saved successfully."
+      );
 
       if (res.data.recipe) {
         this.setState(prevState => {
