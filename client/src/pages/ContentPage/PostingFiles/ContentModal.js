@@ -47,7 +47,7 @@ class ContentModal extends Component {
   }
 
   switchTabState = activeTab => {
-    if (activeTab === this.state.activeTab) return;
+    if (activeTab.name === this.state.activeTab.name) return;
     this.setState(prevState => {
       return {
         activeTab,
