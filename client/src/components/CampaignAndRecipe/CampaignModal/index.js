@@ -205,6 +205,13 @@ class CampaignModal extends Component {
       socket.on("new_campaign_saved", campaignID => {
         campaign._id = campaignID;
 
+        this.props.notify(
+          "info",
+          "Campaign Created",
+          "New campaign created.",
+          2500
+        );
+
         this.setState({ campaign, saving: false });
       });
     } else this.setState({ saving: false });

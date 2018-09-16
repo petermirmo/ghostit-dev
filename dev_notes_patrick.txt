@@ -19,12 +19,8 @@ imagine scenario:
   is it more efficient / better to do the if beforehand if it will occasionally cancel out the setState call?
 
 (components/CampaignModal)
-Later think about sorting posts in a campaign chronologically on the fly.
-(when changing a post time, have its place in the list move if necessary).
 
 Ability for the users to 'duplicate' a post in a campaign.
-
-Maybe add feedback that lets the user know when their post / campaign has been successfully saved.
 
 sometimes clicking an account to post to doesn't give feedback that the account was chosen until something else is changed.
 
@@ -32,30 +28,18 @@ prompt users when they try to delete a post.
 
 when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
 
-highlight the current day on the calendar.
-
-after publishing a recipe, you should be able to publish it again which will overwrimte the previous publish.
-
 whiteboard:
   - ability to create colour for custom task
     (should the user be able to use a full colour picker or should we just give more colours that are different from the campaign colours? what should the default colour be?)
-  - campaign description
-    (campaign modal is starting to get cluttered / bloated so im not sure where to put the text box for this.)
   - recipe.author
     ()
   - calendar event completed checkmarks / custom task completed
     (show a checkmark beside posts on the calendar that have been posted. show them for custom tasks as well but the only way to toggle the checkmark is for the user to open the task and mark it completed themselves.)
 
-
 recipe edit and delete
   campaign and recipe:
-    need to sort recipe posts chronologically, but where should we do it?
     recipe editing: posts need some way to display which social type it is (besides just the color of its list button)
     custom tasks need their own colour
-    delete recipe button
-creating campaign from a recipe:
-  user should be able to change the start date in a way that pushes all the post dates forward / back accordingly
-  maybe just a button that shows up if campaign.recipeID. that button pushes all dates/times accordingly.
 
 make campaignModal footer its own component
 
@@ -68,9 +52,12 @@ sort recipes by use count?
 search recipes.
 
 next task:
-  give option when changing start date to move all dates accordingly.
-    (prompt after confirm change? checkbox beside Start Date "Keep all dates relative".)
   campaign saved notification when campaign first created
+  duplicate post button
+  when in single post component, changing post type shouldn't overwrite text areas
+  prompt when user deletes a post (with a Don't ask again for this campaign session option)
+
+infinite loading icon when no recipes in db.
 
 discard changes to campaign button before exit saves them.
 

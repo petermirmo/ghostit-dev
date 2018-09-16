@@ -183,6 +183,7 @@ class PostingOptions extends Component {
       canEditPost,
       maxCharacters
     } = this.props;
+
     const returnOfCarouselOptions = carouselOptions(socialType);
 
     const linkPreviewCanShow = returnOfCarouselOptions[0];
