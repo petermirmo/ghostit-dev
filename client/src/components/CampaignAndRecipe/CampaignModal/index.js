@@ -169,7 +169,6 @@ class CampaignModal extends Component {
       posts,
       listOfPostChanges: {},
       activePostIndex,
-      anchorDates: false,
 
       saving: !props.recipeEditing,
       somethingChanged,
@@ -205,6 +204,13 @@ class CampaignModal extends Component {
 
       socket.on("new_campaign_saved", campaignID => {
         campaign._id = campaignID;
+
+        this.props.notify(
+          "info",
+          "Campaign Created",
+          "New campaign created.",
+          2500
+        );
 
         this.setState({ campaign, saving: false });
       });
@@ -255,26 +261,37 @@ class CampaignModal extends Component {
       new_post.postingDate = new moment(new_post.postingDate);
     }
 
-    posts = [
-      ...posts.slice(0, post_index),
-      new_post,
-      ...posts.slice(post_index + 1)
-    ];
     if (index === undefined) {
       // index is only defined if updatePost is being called because
       // the post's date is being changed to stay anchored to campaign.startDate.
       // in that case, we want listOfPostChanges to be unaffected, so only
       // reset it if the we're saving because the user clicked Schedule Post.
       // also, the posts don't need to be re-sorted if all posts are moving the same amount
+      posts = [
+        ...posts.slice(0, post_index),
+        new_post,
+        ...posts.slice(post_index + 1)
+      ];
       let returnObject = this.bubbleSortPosts(posts, activePostIndex);
       posts = returnObject.posts;
       this.setState({
         activePostIndex: returnObject.activePostIndex,
-        listOfPostChanges: {}
+        listOfPostChanges: {},
+        posts,
+        somethingChanged: true
+      });
+    } else {
+      this.setState(prevState => {
+        return {
+          posts: [
+            ...prevState.posts.slice(0, post_index),
+            new_post,
+            ...prevState.posts.slice(post_index + 1)
+          ],
+          somethingChanged: true
+        };
       });
     }
-
-    this.setState({ posts, somethingChanged: true });
   };
 
   savePostChanges = date => {
@@ -287,16 +304,21 @@ class CampaignModal extends Component {
       postingDate: date
     };
 
-    this.setState(prevState => {
-      return {
-        posts: [
-          ...prevState.posts.slice(0, activePostIndex),
-          updated_post,
-          ...prevState.posts.slice(activePostIndex + 1)
-        ],
-        listOfPostChanges: {},
-        somethingChanged: true
-      };
+    let new_posts = [
+      ...posts.slice(0, activePostIndex),
+      updated_post,
+      ...posts.slice(activePostIndex + 1)
+    ];
+
+    let new_activePostIndex = activePostIndex;
+
+    let returnObject = this.bubbleSortPosts(new_posts, new_activePostIndex);
+
+    this.setState({
+      posts: returnObject.posts,
+      activePostIndex: returnObject.activePostIndex,
+      listOfPostChanges: {},
+      somethingChanged: true
     });
   };
 
@@ -446,20 +468,19 @@ class CampaignModal extends Component {
     this.setState({ campaign, somethingChanged: true });
   };
 
-  tryChangingCampaignDates = (date, date_type, setDisplayAndMessage) => {
+  tryChangingCampaignDates = (
+    date,
+    date_type,
+    setDisplayAndMessage,
+    anchorDates = false
+  ) => {
     // function that gets passed to <DateTimePicker/> which lets it modify <CampaignModal/>'s start and end dates
     // before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
     // for example, if you had a campaign from Sept 1 -> Sept 4 and a post on Sept 3,
     // then you tried to change the campaign to Sept 1 -> Sept 2, the post on Sept 3 will no longer be within the campaign dates
     // so we'll want to disallow this modification and let the user know what happened
     // it will be up to the user to either delete that post, or modify its posting date to within the intended campaign scope
-    const {
-      campaign,
-      posts,
-      anchorDates,
-      activePostIndex,
-      listOfPostChanges
-    } = this.state;
+    const { campaign, posts, activePostIndex, listOfPostChanges } = this.state;
 
     if (anchorDates && date_type === "startDate") {
       // modify each posting date and the campaign.endDate so that
@@ -570,6 +591,27 @@ class CampaignModal extends Component {
     }
   };
 
+  duplicatePost = post_index => {
+    const { posts } = this.state;
+
+    let new_post = {
+      ...posts[post_index],
+      postingDate: new moment(posts[post_index].postingDate),
+      _id: undefined
+    };
+
+    this.setState(prevState => {
+      return {
+        posts: [
+          ...prevState.posts.slice(0, post_index + 1),
+          new_post,
+          ...prevState.posts.slice(post_index + 1)
+        ],
+        somethingChanged: true
+      };
+    });
+  };
+
   getActivePost = () => {
     const {
       activePostIndex,
@@ -610,6 +652,10 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
+          duplicateButton={false}
+          duplicatePost={() => {
+            this.duplicatePost(activePostIndex);
+          }}
         />
       );
     } else {
@@ -641,6 +687,10 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
+          duplicateButton={false}
+          duplicatePost={() => {
+            this.duplicatePost(activePostIndex);
+          }}
         />
       );
     }
@@ -655,7 +705,6 @@ class CampaignModal extends Component {
         "Save Cancelled",
         "To publish this campaign as a template, please give it a name!"
       );
-      //alert("To publish this campaign as a template, please give it a name!");
       return;
     } else if (!posts || posts.length < 1) {
       this.props.notify(
@@ -663,7 +712,6 @@ class CampaignModal extends Component {
         "Save Cancelled",
         "You cannot save a template with no posts."
       );
-      //alert("You cannot save a template with no posts.");
       return;
     }
     for (let index in posts) {
@@ -672,11 +720,8 @@ class CampaignModal extends Component {
         this.props.notify(
           "danger",
           "Save Cancelled",
-          "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
+          "All posts in a template must have instructions. Make sure each post has been saved with instructions then try saving again."
         );
-        /*alert(
-          "All posts in a template must have instructions. Make sure each post has instructions then try saving again."
-        );*/
         return;
       }
     }
@@ -694,10 +739,18 @@ class CampaignModal extends Component {
         );
         console.log(res.data.message);
         console.log(res.data.campaign);
-        if (res.data.message) {
-          alert(res.data.message);
-        }
+        this.props.notify(
+          "danger",
+          "Save Failed",
+          "Template save failed. Try again and if it fails again, please take a screenshot of your template to send to GhostIt to help us fix the problem!"
+        );
       }
+
+      this.props.notify(
+        "success",
+        "Template Saved",
+        "Template has been saved successfully."
+      );
 
       if (res.data.recipe) {
         this.setState(prevState => {
@@ -770,8 +823,7 @@ class CampaignModal extends Component {
       promptDiscardPostChanges,
       listOfPostChanges,
       recipeEditing,
-      socket,
-      anchorDates
+      socket
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -784,10 +836,6 @@ class CampaignModal extends Component {
           <CampaignRecipeHeader
             campaign={campaign}
             handleChange={this.handleCampaignChange}
-            toggleAnchorDates={() =>
-              this.handleChange(!anchorDates, "anchorDates")
-            }
-            anchorDates={anchorDates}
             tryChangingDates={this.tryChangingCampaignDates}
             backToRecipes={() => {
               this.props.handleChange(false, "campaignModal");

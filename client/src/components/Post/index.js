@@ -183,6 +183,7 @@ class PostingOptions extends Component {
       canEditPost,
       maxCharacters
     } = this.props;
+
     const returnOfCarouselOptions = carouselOptions(socialType);
 
     const linkPreviewCanShow = returnOfCarouselOptions[0];
@@ -279,6 +280,15 @@ class PostingOptions extends Component {
             dateLowerBound={new moment()}
             dateUpperBound={undefined}
           />
+          {this.props.duplicateButton && (
+            <div
+              className="duplicate-post-button"
+              title="Only saved / scheduled changes are copied."
+              onClick={this.props.duplicatePost}
+            >
+              Duplicate
+            </div>
+          )}
         </div>
         <Textarea
           className="instruction-textarea"

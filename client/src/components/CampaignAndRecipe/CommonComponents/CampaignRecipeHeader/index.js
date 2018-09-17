@@ -44,8 +44,8 @@ class CampaignRecipeHeader extends Component {
 
   render() {
     const { colors, showMore } = this.state;
-    const { campaign, datePickerMessage, anchorDates } = this.props; // variables
-    const { handleChange, tryChangingDates, toggleAnchorDates } = this.props; // functions
+    const { campaign, datePickerMessage } = this.props; // variables
+    const { handleChange, tryChangingDates } = this.props; // functions
 
     let colorDivs = [];
     for (let index in colors) {
@@ -74,7 +74,7 @@ class CampaignRecipeHeader extends Component {
       >
         <div
           className="close-container"
-          hoverinstructions={
+          title={
             "Campaigns are automatically saved when window is closed.\nTemplates are not."
           }
         >
@@ -101,10 +101,16 @@ class CampaignRecipeHeader extends Component {
             <DateTimePicker
               date={new moment(campaign.startDate)}
               dateFormat="MMMM Do YYYY hh:mm A"
-              handleChange={(date, setDisplayAndMessage) => {
-                tryChangingDates(date, "startDate", setDisplayAndMessage);
+              handleChange={(date, setDisplayAndMessage, anchorDates) => {
+                tryChangingDates(
+                  date,
+                  "startDate",
+                  setDisplayAndMessage,
+                  anchorDates
+                );
               }}
               dateLowerBound={new moment()}
+              anchorDatesOption={true}
             />
           </div>
           <div className="label">Description: </div>
@@ -133,13 +139,6 @@ class CampaignRecipeHeader extends Component {
           </div>
           <div className="label">Color:</div>
           <div className="colors">{colorDivs}</div>
-          {false && (
-            <div className="grid-checkbox-container">
-              <div onClick={toggleAnchorDates}>
-                {anchorDates ? "Anchored" : "Not Anchored"}
-              </div>
-            </div>
-          )}
         </div>
         {!showMore && (
           <div

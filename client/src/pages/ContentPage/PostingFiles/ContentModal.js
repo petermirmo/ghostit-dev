@@ -26,7 +26,8 @@ class ContentModal extends Component {
       { name: "blog" },
       { name: "newsletter" },
       { name: "instagram" }
-    ]
+    ],
+    listOfPostChanges: {}
   };
   componentDidMount() {
     this._ismounted = true;
@@ -46,9 +47,17 @@ class ContentModal extends Component {
   }
 
   switchTabState = activeTab => {
-    this.setState({
-      activeTab: activeTab,
-      postingToAccountId: ""
+    if (activeTab.name === this.state.activeTab.name) return;
+    this.setState(prevState => {
+      return {
+        activeTab,
+        listOfPostChanges: {
+          ...prevState.listOfPostChanges,
+          accountID: "",
+          accountType: "",
+          socialType: activeTab.name
+        }
+      };
     });
   };
 
@@ -56,11 +65,28 @@ class ContentModal extends Component {
     this.setState({ saving: true });
   };
 
+  backupPostChanges = (value, index) => {
+    // function so that switching between different
+    // socialTypes doesn't reset all the changes (date, content, name, instructions, etc.)
+    if (index === "accountType" || index === "accountID") {
+      // don't save the account chosen
+      return;
+    }
+    this.setState(prevState => {
+      return {
+        listOfPostChanges: {
+          ...prevState.listOfPostChanges,
+          [index]: value
+        }
+      };
+    });
+  };
+
   render() {
     if (this.state.saving) {
       return <Loader />;
     }
-    const { activeTab } = this.state;
+    const { activeTab, listOfPostChanges } = this.state;
     const {
       close,
       clickedCalendarDate,
@@ -107,7 +133,7 @@ class ContentModal extends Component {
           post={{
             postingDate:
               clickedCalendarDate < new moment()
-                ? new moment().add(2, "minutes")
+                ? new moment().add(5, "minutes")
                 : clickedCalendarDate
           }}
           postFinishedSavingCallback={() => {
@@ -118,6 +144,12 @@ class ContentModal extends Component {
           socialType={activeTab.name}
           canEditPost={true}
           maxCharacters={activeTab.maxCharacters}
+          listOfChanges={
+            Object.keys(listOfPostChanges).length > 0
+              ? listOfPostChanges
+              : undefined
+          }
+          backupChanges={this.backupPostChanges}
         />
       );
     }
