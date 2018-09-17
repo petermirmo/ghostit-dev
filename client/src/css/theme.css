@@ -138,12 +138,14 @@
 }
 .modal-header {
   margin: 0;
+  width: 100%;
 }
 
 .modal-body {
   position: relative;
 
   width: 100%;
+  overflow: auto;
 }
 
 .modal-footer {
@@ -532,6 +534,9 @@
 }
 .box-button.left {
   margin-left: 10px;
+}
+.box-button.bottom {
+  margin-bottom: 10px;
 }
 
 .box-button:hover {

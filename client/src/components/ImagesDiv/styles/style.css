@@ -1,82 +1,80 @@
 .images-container {
-	display: flex;
-	display: -webkit-flex;
+  display: flex;
 
-	flex-grow: 100;
-	-webkit-flex-grow: 100;
+  flex: 1;
 
-	margin-bottom: 8px;
+  margin-bottom: 8px;
 
-	align-items: center;
+  align-items: center;
 }
 .custom-file-upload {
-	float: left;
-	color: var(--black-theme-color);
+  float: left;
+  color: var(--black-theme-color);
 
-	padding: 20px;
-	margin-left: 8px;
+  padding: 20px;
+  margin-left: 8px;
 
-	border-radius: 10px;
-	border: 2px dashed var(--black-theme-color);
-	opacity: 0.2;
+  border-radius: 10px;
+  border: 2px dashed var(--black-theme-color);
+  opacity: 0.2;
 
-	cursor: pointer;
+  cursor: pointer;
 }
 .custom-file-upload:hover {
-	border: 2px dashed var(--blue-theme-color);
-	color: var(--blue-theme-color);
+  border: 2px dashed var(--blue-theme-color);
+  color: var(--blue-theme-color);
 
-	opacity: 1;
+  opacity: 1;
 }
 .custom-file-upload:hover .image-upload-icon {
-	background-color: var(--blue-theme-color);
+  background-color: var(--blue-theme-color);
 }
 .image-upload-icon {
-	background-color: transparent !important;
+  background-color: transparent !important;
 
-	padding: 4px;
+  padding: 4px;
 }
 
 .image-container {
-	position: relative;
+  position: relative;
 
-	margin-left: 10px;
+  margin-left: 10px;
 }
 .image {
-	display: flex;
-	display: -webkit-flex;
+  display: flex;
+  display: -webkit-flex;
 
-	max-height: 120px;
-	max-width: 120px;
+  max-height: 120px;
+  max-width: 120px;
 }
 
 .delete-image-icon {
-	color: var(--red-theme-color) !important;
-	position: absolute;
-	display: none;
+  color: var(--red-theme-color) !important;
+  position: absolute;
+  display: none;
 
-	align-items: center;
-	justify-content: center;
+  align-items: center;
+  justify-content: center;
 
-	left: 0;
-	top: 0;
-	height: 100%;
-	min-width: 100%;
+  left: 0;
+  top: 0;
+  height: 100%;
+  min-width: 100%;
 }
 
 .image-container:hover .delete-image-icon {
-	display: flex;
-	display: -webkit-flex;
+  display: flex;
+  display: -webkit-flex;
 
-	color: var(--red-theme-color);
+  color: var(--red-theme-color);
 
-	cursor: pointer;
-	z-index: 500;
+  cursor: pointer;
+  z-index: 500;
 }
 .image-container:hover .image {
-	opacity: 0.4;
+  opacity: 0.4;
 }
 
 input[type="file"] {
-	display: none;
+  display: none;
 }
