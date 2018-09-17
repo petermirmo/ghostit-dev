@@ -344,6 +344,7 @@
 .right-switch {
   border-radius: 0 20px 20px 0;
 }
+.copy,
 .delete {
   padding: 4px;
 
@@ -356,6 +357,9 @@
 }
 .delete:hover {
   color: var(--red-theme-color);
+}
+.copy:hover {
+  color: var(--blue-theme-color);
 }
 
 .connected-accounts-posting-div:hover {

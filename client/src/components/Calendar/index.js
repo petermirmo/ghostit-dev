@@ -17,7 +17,7 @@ class Calendar extends Component {
   state = {
     calendarDate: this.props.calendarDate,
     timezone: this.props.timezone,
-    queueActive: true
+    queueActive: false
   };
 
   componentWillReceiveProps(nextProps) {

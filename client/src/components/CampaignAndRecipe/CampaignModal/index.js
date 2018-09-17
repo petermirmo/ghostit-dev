@@ -652,10 +652,6 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
-          duplicateButton={false}
-          duplicatePost={() => {
-            this.duplicatePost(activePostIndex);
-          }}
         />
       );
     } else {
@@ -687,10 +683,6 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
-          duplicateButton={false}
-          duplicatePost={() => {
-            this.duplicatePost(activePostIndex);
-          }}
         />
       );
     }
@@ -889,6 +881,9 @@ class CampaignModal extends Component {
                   deletePost={this.deletePost}
                   handleChange={this.handleChange}
                   recipeEditing={recipeEditing}
+                  duplicatePost={() => {
+                    this.duplicatePost(activePostIndex);
+                  }}
                 />
               </div>
 
