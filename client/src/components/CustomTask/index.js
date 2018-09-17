@@ -234,6 +234,15 @@ class CustomTask extends Component {
             dateLowerBound={new moment()}
             dateUpperBound={undefined}
           />
+          {this.props.duplicateButton && (
+            <div
+              className="duplicate-post-button"
+              title="Only saved / scheduled changes are copied."
+              onClick={this.props.duplicatePost}
+            >
+              Duplicate
+            </div>
+          )}
         </div>
         {promptModifyCampaignDates && (
           <ConfirmAlert

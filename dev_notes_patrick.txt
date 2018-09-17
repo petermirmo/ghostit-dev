@@ -52,9 +52,7 @@ sort recipes by use count?
 search recipes.
 
 next task:
-  campaign saved notification when campaign first created
   duplicate post button
-  when in single post component, changing post type shouldn't overwrite text areas
   prompt when user deletes a post (with a Don't ask again for this campaign session option)
 
 infinite loading icon when no recipes in db.

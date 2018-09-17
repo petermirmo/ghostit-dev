@@ -74,7 +74,7 @@ class CampaignRecipeHeader extends Component {
       >
         <div
           className="close-container"
-          hoverinstructions={
+          title={
             "Campaigns are automatically saved when window is closed.\nTemplates are not."
           }
         >

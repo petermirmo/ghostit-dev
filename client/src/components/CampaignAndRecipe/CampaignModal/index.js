@@ -591,6 +591,27 @@ class CampaignModal extends Component {
     }
   };
 
+  duplicatePost = post_index => {
+    const { posts } = this.state;
+
+    let new_post = {
+      ...posts[post_index],
+      postingDate: new moment(posts[post_index].postingDate),
+      _id: undefined
+    };
+
+    this.setState(prevState => {
+      return {
+        posts: [
+          ...prevState.posts.slice(0, post_index + 1),
+          new_post,
+          ...prevState.posts.slice(post_index + 1)
+        ],
+        somethingChanged: true
+      };
+    });
+  };
+
   getActivePost = () => {
     const {
       activePostIndex,
@@ -631,6 +652,10 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
+          duplicateButton={false}
+          duplicatePost={() => {
+            this.duplicatePost(activePostIndex);
+          }}
         />
       );
     } else {
@@ -662,6 +687,10 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
+          duplicateButton={false}
+          duplicatePost={() => {
+            this.duplicatePost(activePostIndex);
+          }}
         />
       );
     }
