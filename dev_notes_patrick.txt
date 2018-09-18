@@ -55,6 +55,8 @@ next task:
   duplicate post button
   prompt when user deletes a post (with a Don't ask again for this campaign session option)
 
+"Schedule all with default account" button for when creating a campaign from a recipe.
+
 infinite loading icon when no recipes in db.
 
 discard changes to campaign button before exit saves them.

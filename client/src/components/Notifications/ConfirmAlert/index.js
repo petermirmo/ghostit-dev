@@ -7,6 +7,9 @@ import { setKeyListenerFunction } from "../../../redux/actions/";
 import "./styles/";
 
 class ConfirmAlert extends Component {
+  state = {
+    checked: false
+  };
   componentDidMount = () => {
     this._ismounted = true;
 
@@ -32,6 +35,7 @@ class ConfirmAlert extends Component {
   };
 
   render() {
+    const { checked } = this.state;
     let firstButton = "Delete";
     let firstButtonStyle = "confirm-button";
     let secondButtonStyle = "cancel-button";
@@ -42,7 +46,7 @@ class ConfirmAlert extends Component {
         secondButtonStyle = "confirm-button";
       } else if (this.props.type === "change-post") {
         firstButton = "Discard";
-      }
+      } // else "delete-campaign" or "delete-post"
     }
     return (
       <div className="confirm-alert-background" onClick={this.props.close}>
@@ -51,18 +55,29 @@ class ConfirmAlert extends Component {
           <div className="confirm-message">{this.props.message}</div>
           <div className="options-container">
             <button
-              onClick={() => this.props.callback(true)}
+              onClick={() => this.props.callback(true, checked)}
               className={firstButtonStyle}
             >
               {firstButton}
             </button>
             <button
-              onClick={() => this.props.callback(false)}
+              onClick={() => this.props.callback(false, checked)}
               className={secondButtonStyle}
             >
               Cancel
             </button>
           </div>
+          {this.props.checkboxMessage && (
+            <div
+              className="checkbox-option"
+              onClick={() => {
+                this.setState({ checked: !checked });
+              }}
+            >
+              <input type="checkbox" checked={checked} />
+              {this.props.checkboxMessage}
+            </div>
+          )}
         </div>
       </div>
     );

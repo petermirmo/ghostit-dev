@@ -97,16 +97,23 @@ class PostList extends Component {
                 </div>
               </div>
               <div className="delete-container">
-                <FontAwesomeIcon
-                  className="delete"
-                  onClick={e => deletePost(e, index)}
-                  icon={faTrash}
-                />
-                <FontAwesomeIcon
-                  className="copy"
-                  onClick={() => duplicatePost(index)}
-                  icon={faCopy}
-                />
+                <div title="Delete post.">
+                  <FontAwesomeIcon
+                    className="delete"
+                    key={index + "delete"}
+                    onClick={() => {
+                      deletePost(index);
+                    }}
+                    icon={faTrash}
+                  />
+                </div>
+                <div title="Duplicate post.">
+                  <FontAwesomeIcon
+                    className="copy"
+                    onClick={() => duplicatePost(index)}
+                    icon={faCopy}
+                  />
+                </div>
               </div>
             </div>
           );

@@ -173,6 +173,9 @@ class CampaignModal extends Component {
       saving: !props.recipeEditing,
       somethingChanged,
       confirmDelete: false,
+      promptDeletePost: false,
+      deleteIndex: undefined,
+      showDeletePostPrompt: true, // give user option "Don't ask me again" for post deletion
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
       nextChosenPostIndex: 0,
@@ -322,9 +325,12 @@ class CampaignModal extends Component {
     });
   };
 
-  deletePost = (e, index) => {
-    e.preventDefault();
+  deletePost = (index, dontAskAgain) => {
     const { posts, socket, campaign } = this.state;
+
+    if (dontAskAgain) {
+      this.setState({ showDeletePostPrompt: false });
+    }
 
     let nextActivePost = this.state.activePostIndex;
     if (index === this.state.activePostIndex) {
@@ -815,6 +821,9 @@ class CampaignModal extends Component {
       promptDiscardPostChanges,
       listOfPostChanges,
       recipeEditing,
+      showDeletePostPrompt,
+      promptDeletePost,
+      deleteIndex,
       socket
     } = this.state;
     const { clickedCalendarDate } = this.props;
@@ -878,11 +887,22 @@ class CampaignModal extends Component {
                       )
                     )
                   }
-                  deletePost={this.deletePost}
+                  deletePost={
+                    showDeletePostPrompt
+                      ? index => {
+                          this.setState({
+                            promptDeletePost: true,
+                            deleteIndex: index
+                          });
+                        }
+                      : index => {
+                          this.deletePost(index);
+                        }
+                  }
                   handleChange={this.handleChange}
                   recipeEditing={recipeEditing}
-                  duplicatePost={() => {
-                    this.duplicatePost(activePostIndex);
+                  duplicatePost={index => {
+                    this.duplicatePost(index);
                   }}
                 />
               </div>
@@ -992,6 +1012,22 @@ class CampaignModal extends Component {
               message="Are you sure you want to delete this campaign? Deleting this campaign will also delete all posts in it."
               callback={this.deleteCampaign}
               type="delete-campaign"
+            />
+          )}
+          {promptDeletePost && (
+            <ConfirmAlert
+              close={() => this.setState({ promptDeletePost: false })}
+              title="Delete Post"
+              message="Are you sure you want to delete the post?"
+              checkboxMessage="Don't ask me again."
+              callback={(response, dontAskAgain) => {
+                this.setState({ promptDeletePost: false });
+                if (!response) {
+                  return;
+                }
+                this.deletePost(deleteIndex, dontAskAgain);
+              }}
+              type="delete-post"
             />
           )}
           {promptChangeActivePost && (
