@@ -143,7 +143,11 @@ module.exports = app => {
     })
   );
   app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) =>
-    accountFunctions.getAnalyticsPage(req, res)
+    accountFunctions.getPageAnalytics(req, res)
+  );
+
+  app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) =>
+    accountFunctions.getPostAnalytics(req, res)
   );
 
   // Add Twitter account

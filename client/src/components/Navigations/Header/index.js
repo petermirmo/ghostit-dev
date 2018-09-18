@@ -25,9 +25,6 @@ import {
 import "./styles/";
 
 class HeaderSideBar extends Component {
-  closeHeaderSideBar = () => {
-    this.props.openHeaderSideBar(false);
-  };
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
@@ -77,7 +74,7 @@ class HeaderSideBar extends Component {
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={this.closeHeaderSideBar}
+            onClick={() => this.props.openHeaderSideBar(false)}
           />
           <div className="main-nav">
             {(user.role === "demo" || isAdmin) && (
@@ -95,7 +92,7 @@ class HeaderSideBar extends Component {
             >
               <FontAwesomeIcon icon={faCalendar} /> Calendar
             </a>
-            {false && (
+            {isAdmin && (
               <a
                 className={"header-button " + this.isActive("analytics")}
                 onClick={() => changePage("analytics")}
