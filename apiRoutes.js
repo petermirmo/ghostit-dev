@@ -142,8 +142,8 @@ module.exports = app => {
       failureRedirect: "/"
     })
   );
-  app.get("/api/facebook/analytics/:accountID", middleware, (req, res) =>
-    accountFunctions.getAnalytics(req, res)
+  app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) =>
+    accountFunctions.getAnalyticsPage(req, res)
   );
 
   // Add Twitter account

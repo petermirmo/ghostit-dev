@@ -11,8 +11,8 @@ class Analytics extends Component {
   constructor(props) {
     super(props);
   }
-  getAnalytics = account => {
-    axios.get("/api/facebook/analytics/" + account._id).then(res => {
+  getPageAnalytics = account => {
+    axios.get("/api/facebook/page/analytics/" + account._id).then(res => {
       console.log(res);
     });
   };
@@ -22,13 +22,15 @@ class Analytics extends Component {
     for (let index in accounts) {
       let account = accounts[index];
       if (account.socialType !== "facebook") continue;
+      let title = account.userName;
+      if (!title) title = account.givenName;
       someDivs.push(
         <div
           key={index + "some"}
-          onClick={() => this.getAnalytics(account)}
+          onClick={() => this.getPageAnalytics(account)}
           className="here"
         >
-          Click me!!
+          {account.userName}
         </div>
       );
     }
