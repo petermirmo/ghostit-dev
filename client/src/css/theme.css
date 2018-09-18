@@ -138,12 +138,14 @@
 }
 .modal-header {
   margin: 0;
+  width: 100%;
 }
 
 .modal-body {
   position: relative;
 
   width: 100%;
+  overflow: auto;
 }
 
 .modal-footer {
@@ -342,6 +344,7 @@
 .right-switch {
   border-radius: 0 20px 20px 0;
 }
+.copy,
 .delete {
   padding: 4px;
 
@@ -354,6 +357,9 @@
 }
 .delete:hover {
   color: var(--red-theme-color);
+}
+.copy:hover {
+  color: var(--blue-theme-color);
 }
 
 .connected-accounts-posting-div:hover {
@@ -532,6 +538,9 @@
 }
 .box-button.left {
   margin-left: 10px;
+}
+.box-button.bottom {
+  margin-bottom: 10px;
 }
 
 .box-button:hover {

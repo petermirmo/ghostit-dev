@@ -81,6 +81,10 @@
 
   font-size: var(--small-font-size);
   box-sizing: border-box;
+}
+
+.recipe-uses,
+.recipe-description {
   overflow: hidden;
 }
 .recipe-information-container {

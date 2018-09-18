@@ -658,10 +658,6 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
-          duplicateButton={false}
-          duplicatePost={() => {
-            this.duplicatePost(activePostIndex);
-          }}
         />
       );
     } else {
@@ -693,10 +689,6 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
-          duplicateButton={false}
-          duplicatePost={() => {
-            this.duplicatePost(activePostIndex);
-          }}
         />
       );
     }
@@ -909,6 +901,9 @@ class CampaignModal extends Component {
                   }
                   handleChange={this.handleChange}
                   recipeEditing={recipeEditing}
+                  duplicatePost={index => {
+                    this.duplicatePost(index);
+                  }}
                 />
               </div>
 
@@ -1024,7 +1019,7 @@ class CampaignModal extends Component {
               close={() => this.setState({ promptDeletePost: false })}
               title="Delete Post"
               message="Are you sure you want to delete the post?"
-              checkboxMessage="Do not ask me again for this window's life."
+              checkboxMessage="Don't ask me again."
               callback={(response, dontAskAgain) => {
                 this.setState({ promptDeletePost: false });
                 if (!response) {

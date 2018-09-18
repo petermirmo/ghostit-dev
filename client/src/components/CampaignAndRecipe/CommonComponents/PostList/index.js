@@ -4,6 +4,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faArrowDown from "@fortawesome/fontawesome-free-solid/faArrowDown";
+import faCopy from "@fortawesome/fontawesome-free-solid/faCopy";
 
 import { getPostColor } from "../../../../extra/functions/CommonFunctions";
 
@@ -40,7 +41,7 @@ class PostList extends Component {
       recipeEditing,
       clickedCalendarDate
     } = this.props; // variables
-    const { newPost, deletePost, handleChange } = this.props; // functions
+    const { newPost, deletePost, handleChange, duplicatePost } = this.props; // functions
 
     return (
       <div className="list-container">
@@ -78,14 +79,12 @@ class PostList extends Component {
             <div className="list-entry-with-delete" key={index + "list-div"}>
               <div
                 className="saved-box"
-                key={index + "save-box"}
                 style={{
                   backgroundColor: savedBoxColor
                 }}
               />
               <div
                 className={entryClassName}
-                key={index + "list-entry"}
                 onClick={e => this.selectPost(index)}
                 style={{
                   borderColor: entryBorderColor,
@@ -98,14 +97,23 @@ class PostList extends Component {
                 </div>
               </div>
               <div className="delete-container">
-                <FontAwesomeIcon
-                  className="delete"
-                  key={index + "delete"}
-                  onClick={() => {
-                    deletePost(index);
-                  }}
-                  icon={faTrash}
-                />
+                <div title="Delete post.">
+                  <FontAwesomeIcon
+                    className="delete"
+                    key={index + "delete"}
+                    onClick={() => {
+                      deletePost(index);
+                    }}
+                    icon={faTrash}
+                  />
+                </div>
+                <div title="Duplicate post.">
+                  <FontAwesomeIcon
+                    className="copy"
+                    onClick={() => duplicatePost(index)}
+                    icon={faCopy}
+                  />
+                </div>
               </div>
             </div>
           );
@@ -116,7 +124,6 @@ class PostList extends Component {
             className="new-post-button"
             icon={faPlus}
             size="2x"
-            key="new_post_button"
             style={{ backgroundColor: campaign.color }}
           />
         )}
@@ -124,7 +131,6 @@ class PostList extends Component {
           <FontAwesomeIcon
             icon={faArrowDown}
             size="2x"
-            key="new_post_button"
             className="arrow-down"
             style={{ color: campaign.color }}
           />

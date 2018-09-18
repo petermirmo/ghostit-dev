@@ -67,15 +67,17 @@ class ConfirmAlert extends Component {
               Cancel
             </button>
           </div>
-          <div
-            className="checkbox-option"
-            onClick={() => {
-              this.setState({ checked: !checked });
-            }}
-          >
-            <input type="checkbox" checked={checked} />
-            Don't ask me again.
-          </div>
+          {this.props.checkboxMessage && (
+            <div
+              className="checkbox-option"
+              onClick={() => {
+                this.setState({ checked: !checked });
+              }}
+            >
+              <input type="checkbox" checked={checked} />
+              {this.props.checkboxMessage}
+            </div>
+          )}
         </div>
       </div>
     );

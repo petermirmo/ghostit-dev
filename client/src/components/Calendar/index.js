@@ -8,6 +8,7 @@ import faFacebookF from "@fortawesome/fontawesome-free-brands/faFacebookF";
 import faLinkedinIn from "@fortawesome/fontawesome-free-brands/faLinkedinIn";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitter";
 
+import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
 
 import "./styles/";
@@ -15,7 +16,8 @@ import "./styles/";
 class Calendar extends Component {
   state = {
     calendarDate: this.props.calendarDate,
-    timezone: this.props.timezone
+    timezone: this.props.timezone,
+    queueActive: false
   };
 
   componentWillReceiveProps(nextProps) {
@@ -203,7 +205,7 @@ class Calendar extends Component {
                 ).format("YYYY-MM-DD") === dateIndexOfEvent.format("YYYY-MM-DD")
               ) {
                 campaignCalendarPosts.push(
-                  this.createPostCalendarDiv(
+                  this.createCalendarPostDiv(
                     calendarEvent.posts[indexToLoopCampaignPosts],
                     indexToLoopCampaignPosts,
                     () => this.props.onSelectCampaign(calendarEvent),
@@ -244,7 +246,7 @@ class Calendar extends Component {
           } else {
             currentCalendarDayOfEvents[
               calendarEvent.row
-            ] = this.createPostCalendarDiv(
+            ] = this.createCalendarPostDiv(
               calendarEvent,
               index,
               () => this.props.onSelectPost(calendarEvent),
@@ -274,7 +276,7 @@ class Calendar extends Component {
     return calendarEventsArray;
   };
 
-  createPostCalendarDiv = (post, index, openEvent, needsCampaignCover) => {
+  createCalendarPostDiv = (post, index, openEvent, needsCampaignCover) => {
     let content = "";
     if (post.notes) content = post.notes;
     if (post.content) content = post.content;
@@ -346,16 +348,78 @@ class Calendar extends Component {
     calendarDate.subtract(1, "months");
     this.setState({ calendarDate: calendarDate });
   };
+  createQueuePostDiv = (post, key) => {
+    let content = post.content;
+    if (post.socialType === "custom") content = post.instructions;
+
+    return (
+      <div
+        key={key}
+        className="queue-post-container"
+        onClick={() => this.props.onSelectPost(post)}
+      >
+        <div className="queue-post-attribute">{post.socialType}</div>
+        <div className="queue-post-attribute">
+          {new moment(post.postingDate).format("LLL")}
+        </div>
+        <div className="queue-post-attribute important">{content}</div>
+        <div className="queue-post-attribute">
+          <ImagesDiv
+            postImages={post.images ? post.images : []}
+            hideUploadButton={true}
+          />
+        </div>
+      </div>
+    );
+  };
 
   render() {
-    let { calendarDate } = this.state;
+    let { calendarDate, queueActive } = this.state;
+    if (queueActive) {
+      let { calendarEvents, onSelectDay, onSelectPost } = this.props;
+
+      let queuePostDivs = [];
+      for (let index in calendarEvents) {
+        let calendarEvent = calendarEvents[index];
+        if (calendarEvent.posts) {
+          for (let index2 in calendarEvent.posts) {
+            if (
+              new moment(calendarEvent.posts[index2].postingDate) < new moment()
+            )
+              continue;
+            queuePostDivs.push(
+              this.createQueuePostDiv(
+                calendarEvent.posts[index2],
+                index + "post" + index2
+              )
+            );
+          }
+        } else {
+          if (new moment(calendarEvent.postingDate) < new moment()) continue;
+          queuePostDivs.push(
+            this.createQueuePostDiv(calendarEvent, index + "post")
+          );
+        }
+      }
+      return (
+        <div className="queue-container">
+          <div
+            className="box-button bottom"
+            onClick={() => this.setState({ queueActive: false })}
+          >
+            Calendar
+          </div>
+          {queuePostDivs}
+        </div>
+      );
+    }
 
     let calendarWeekArray = this.createCalendarWeeks(calendarDate);
     let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
     return (
       <div className="calendar-container">
         <div className="calendar-header-container">
-          <div className="something">
+          <div className="right-header-container">
             <FontAwesomeIcon
               icon={faAngleLeft}
               size="4x"
@@ -375,7 +439,12 @@ class Calendar extends Component {
               updateActiveCategory={this.props.updateActiveCategory}
               categories={this.props.categories}
             />
-            <div className="box-button left">Queue Preview</div>
+            <div
+              className="box-button left"
+              onClick={() => this.setState({ queueActive: true })}
+            >
+              Queue Preview
+            </div>
           </div>
         </div>
 

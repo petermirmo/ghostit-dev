@@ -95,7 +95,7 @@ class HeaderSideBar extends Component {
             >
               <FontAwesomeIcon icon={faCalendar} /> Calendar
             </a>
-            {isAdmin && (
+            {false && (
               <a
                 className={"header-button " + this.isActive("analytics")}
                 onClick={() => changePage("analytics")}
