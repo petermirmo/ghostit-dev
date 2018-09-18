@@ -101,7 +101,9 @@ class PostList extends Component {
                 <FontAwesomeIcon
                   className="delete"
                   key={index + "delete"}
-                  onClick={e => deletePost(e, index)}
+                  onClick={() => {
+                    deletePost(index);
+                  }}
                   icon={faTrash}
                 />
               </div>
