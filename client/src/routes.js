@@ -51,7 +51,7 @@ class Routes extends Component {
           props.updateAccounts(accounts);
           props.setUser(user);
           if (user.role === "demo") props.changePage("subscribe");
-          else props.changePage("analytics");
+          else props.changePage("content");
           this.setState({ datebaseConnection: true });
         });
       } else {

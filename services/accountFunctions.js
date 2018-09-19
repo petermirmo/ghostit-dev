@@ -6,15 +6,24 @@ const moment = require("moment-timezone");
 
 module.exports = {
   disconnectAccount: function(req, res) {
-    var account = req.body;
-
-    Account.remove({ _id: account._id }, function(err) {
-      if (err) {
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+    let { accountID } = req.params;
+    //
+    Account.findOne({ _id: accountID }, (err, account) => {
+      if (err || !account) {
         console.log(err);
         res.send(false);
-        return;
+      } else {
+        if (account.userID == String(userID)) {
+          account.remove();
+          res.send(true);
+        } else res.send(false);
       }
-      res.send(true);
     });
   },
   saveAccount: function(req, res) {
