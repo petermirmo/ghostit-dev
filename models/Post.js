@@ -35,7 +35,7 @@ const postSchema = new Schema(
       {
         title: String,
         description: String,
-        value: [{ value: Number, endDate: String }]
+        values: [{ value: Number, endDate: String }]
       }
     ]
   },
