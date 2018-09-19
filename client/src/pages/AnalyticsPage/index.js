@@ -15,20 +15,20 @@ class Analytics extends Component {
   }
   getPageAnalytics = account => {
     axios.get("/api/facebook/page/analytics/" + account._id).then(res => {
-      console.log(res);
+      console.log(res.data);
     });
   };
 
   getPostAnalytics = post => {
     axios.get("/api/facebook/post/analytics/" + post._id).then(res => {
-      console.log(res);
+      console.log(res.data);
     });
   };
   getPosts = () => {
     let facebookPosts = [];
     axios.get("/api/posts").then(res => {
       let { posts } = res.data;
-      console.log(posts);
+
       for (let index in posts) {
         if (posts[index].socialType === "facebook") {
           facebookPosts.push(posts[index]);
