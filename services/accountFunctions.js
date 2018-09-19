@@ -63,11 +63,10 @@ module.exports = {
         "get",
         function(res) {
           let testArray = res.data;
+
+          console.log(testArray);
           for (let index in testArray) {
             let testObject = testArray[index];
-            for (let index2 in testObject.values) {
-              console.log(testObject.values[index2]);
-            }
           }
         }
       );
