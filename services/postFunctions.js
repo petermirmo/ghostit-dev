@@ -4,6 +4,7 @@ const cheerio = require("cheerio");
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Email = require("../models/Email");
+const Account = require("../models/Account");
 const cloudinary = require("cloudinary");
 
 module.exports = {
@@ -83,6 +84,15 @@ module.exports = {
     });
   },
   getPosts: function(req, res) {
+    Account.find({ socialID: undefined }, (err, accounts) => {
+      console.log(accounts);
+      for (let index in accounts) {
+        let account = accounts[index];
+        /*new Account(account).save((err, result) => {
+          if (err) console.log(err);
+        });*/
+      }
+    });
     // Get all posts for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -91,9 +101,9 @@ module.exports = {
       }
     }
 
-    Post.find({ userID: userID, campaignID: undefined }, function(err, posts) {
+    Post.find({ userID, campaignID: undefined }, function(err, posts) {
       if (err) res.send(err);
-      res.send({ posts: posts });
+      res.send({ posts });
     });
   },
   getPost: function(req, res) {

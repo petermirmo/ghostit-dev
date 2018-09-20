@@ -10,12 +10,13 @@ import "./styles/";
 class SelectAccountDiv extends Component {
   render() {
     let accountsListDiv = [];
-    const {
+    let {
       activePageAccountsArray,
       activeAccount,
       handleChange,
       canEdit
     } = this.props;
+    if (!activePageAccountsArray) activePageAccountsArray = [];
     // To select which account to post to
     for (let index in activePageAccountsArray) {
       let name;
@@ -34,9 +35,8 @@ class SelectAccountDiv extends Component {
 
       let className = "account-container";
 
-      if (activeAccount === String(account._id)) {
-        className += " common-active";
-      }
+      if (activeAccount === String(account._id)) className += " common-active";
+
       // Push div to array
       let icon;
       let color;
