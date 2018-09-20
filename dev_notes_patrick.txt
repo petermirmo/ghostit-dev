@@ -51,10 +51,6 @@ sort recipes by use count?
 
 search recipes.
 
-next task:
-  duplicate post button
-  prompt when user deletes a post (with a Don't ask again for this campaign session option)
-
 "Schedule all with default account" button for when creating a campaign from a recipe.
 
 infinite loading icon when no recipes in db.
