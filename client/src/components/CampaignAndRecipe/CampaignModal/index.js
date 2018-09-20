@@ -95,6 +95,7 @@ class CampaignModal extends Component {
     }
   };
   createStateVariable = props => {
+    console.log(props);
     let startDate =
       new moment() > new moment(props.clickedCalendarDate)
         ? new moment()
@@ -203,10 +204,13 @@ class CampaignModal extends Component {
     else socket = io();
 
     if (!this.props.campaign || (isFromRecipe && !recipeEditing)) {
+      console.log("here");
       socket.emit("new_campaign", campaign);
 
       socket.on("new_campaign_saved", campaignID => {
         campaign._id = campaignID;
+
+        console.log(campaign);
 
         this.props.notify(
           "info",

@@ -333,11 +333,8 @@ class AccountsPage extends Component {
             {connectedLinkedinAccountDivs}
           </div>
           <div className="account-column">
-            <button
-              className="social-header-button instagram"
-              onClick={() => this.openModal("instagram", "page")}
-            >
-              Connect Instagram
+            <button className="social-header-button instagram">
+              Connect Instagram <br />(Coming Soon)
             </button>
             {connectedInstagramAccountDivs}
           </div>
