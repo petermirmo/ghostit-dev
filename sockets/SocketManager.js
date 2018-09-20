@@ -7,6 +7,7 @@ const Recipe = require("../models/Recipe");
 
 module.exports = socket => {
   socket.on("new_campaign", campaign => {
+    if (campaign) delete campaign._id;
     new Campaign(campaign).save((err, result) => {
       if (!err) {
         if (campaign.recipeID) {

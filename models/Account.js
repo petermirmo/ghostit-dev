@@ -9,8 +9,7 @@ const accountSchema = new Schema(
       required: true
     },
     socialID: {
-      type: String,
-      required: true
+      type: String
     },
     accessToken: {
       type: String,

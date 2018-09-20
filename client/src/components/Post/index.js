@@ -156,6 +156,17 @@ class PostingOptions extends Component {
     this.props.modifyCampaignDates(date);
   };
 
+  createActiveAccounts = (compareValue, compareValue2, accounts) => {
+    let activePageAccountsArray = [];
+    for (let index in accounts) {
+      let account = accounts[index];
+      if (account[compareValue] === compareValue2) {
+        activePageAccountsArray.push(account);
+      }
+    }
+    return activePageAccountsArray;
+  };
+
   render() {
     const {
       _id,
@@ -190,14 +201,13 @@ class PostingOptions extends Component {
     const linkPreviewCanEdit = returnOfCarouselOptions[1];
 
     // Loop through all accounts
-    let activePageAccountsArray = [];
+    let activePageAccountsArray;
     if (canEditPost) {
-      for (let index in accounts) {
-        // Check if the account is the same as active tab
-        if (accounts[index].socialType === socialType) {
-          activePageAccountsArray.push(accounts[index]);
-        }
-      }
+      activePageAccountsArray = this.createActiveAccounts(
+        "socialType",
+        socialType,
+        accounts
+      );
     } else {
       for (let index in accounts) {
         let account = accounts[index];

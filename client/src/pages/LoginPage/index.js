@@ -71,8 +71,6 @@ class Login extends Component {
 
             if (user.role === "demo") this.props.changePage("subscribe");
             else this.props.changePage("content");
-
-            this.props.openHeaderSideBar(true);
           });
         } else {
           this.notify({

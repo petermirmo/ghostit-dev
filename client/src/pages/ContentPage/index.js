@@ -191,7 +191,11 @@ class Content extends Component {
       this.setState({ blogEdittingModal: true, clickedEvent: post });
     } else if (post.socialType === "newsletter") {
       this.setState({ newsletterEdittingModal: true, clickedEvent: post });
-    } else {
+    } else if (
+      post.socialType === "facebook" ||
+      post.socialType === "twitter" ||
+      post.socialType === "linkedin"
+    ) {
       this.setState({ postEdittingModal: true, clickedEvent: post });
     }
   };

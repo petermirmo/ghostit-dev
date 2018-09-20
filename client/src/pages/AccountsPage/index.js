@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
-import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
+import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
+
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
 import axios from "axios";
@@ -18,7 +20,7 @@ import "./styles/";
 class AccountsPage extends Component {
   state = {
     accounts: this.props.accounts,
-    pageOrGroup: [],
+    pageOrGroupArray: [],
     accountType: "",
     socialType: "",
     errorMessage: "",
@@ -27,7 +29,7 @@ class AccountsPage extends Component {
     deleteAccount: false
   };
 
-  openModal(socialType, accountType) {
+  openModal = (socialType, accountType) => {
     // Open facebook add page modal
     this.setState({ addPageOrGroupModal: true });
     if (socialType === "facebook") {
@@ -40,28 +42,32 @@ class AccountsPage extends Component {
       if (accountType === "page") {
         this.getLinkedinPages();
       }
+    } else if (socialType === "instagram") {
+      if (accountType === "page") {
+        this.getInstagramPages();
+      }
     }
-  }
+  };
 
   getUserAccounts = () => {
     // Get all connected accounts of the user
     axios.get("/api/accounts").then(res => {
       let { accounts, success, loggedIn } = res.data;
+      if (loggedIn === false) window.location.reload();
+
       if (success) {
         // Set user's accounts to state
-        this.setState({ accounts: accounts });
+        this.setState({ accounts });
         this.props.updateAccounts(accounts);
-      } else {
-        if (loggedIn === false) window.location.reload();
       }
     });
   };
 
-  getFacebookPages() {
+  getFacebookPages = () => {
     this.setState({
       accountType: "page",
       socialType: "facebook",
-      pageOrGroup: []
+      pageOrGroupArray: []
     });
     axios.get("/api/facebook/pages").then(res => {
       let errorMessage = "";
@@ -70,64 +76,71 @@ class AccountsPage extends Component {
       if (loggedIn === false) window.location.reload();
 
       if (pages) {
-        if (pages.length === 0) {
-          errorMessage = "No Facebook pages found";
-        }
-      } else {
-        errorMessage = "Please connect your Facebook profile first.";
-      }
+        if (pages.length === 0) errorMessage = "No Facebook pages found";
+      } else errorMessage = "Please connect your Facebook profile first.";
+
       // If pages returns false, there was an error so just set to undefined
-      if (!pages) {
-        pages = [];
-      }
+      if (!pages) pages = [];
+
       // Set data to state
       this.setState({
-        pageOrGroup: pages,
-
-        errorMessage: errorMessage
+        pageOrGroupArray: pages,
+        errorMessage
       });
     });
-  }
-  getFacebookGroups() {
+  };
+  getFacebookGroups = () => {
     this.setState({
       accountType: "group",
       socialType: "facebook",
-      pageOrGroup: []
+      pageOrGroupArray: []
     });
     axios.get("/api/facebook/groups").then(res => {
-      let message;
+      let errorMessage;
 
       // Set user's facebook groups to state
       let { groups, loggedIn } = res.data;
       if (loggedIn === false) window.location.reload();
 
       if (groups) {
-        if (groups.length === 0) {
-          errorMessage = "No Facebook groups found";
-        }
-      } else {
-        errorMessage = "Please connect your Facebook profile first.";
-      }
+        if (groups.length === 0) errorMessage = "No Facebook groups found";
+      } else errorMessage = "Please connect your Facebook profile first.";
+
       // If groups returns false, there was an error so just set to undefined
-      if (!groups) {
-        groups = [];
-      }
+      if (!groups) groups = [];
 
       // Set data to state
       this.setState({
-        pageOrGroup: groups,
-        errorMessage: message
+        pageOrGroupArray: groups,
+        errorMessage
       });
     });
-  }
-  getLinkedinPages() {
+  };
+  getInstagramPages = () => {
+    this.setState({
+      accountType: "page",
+      socialType: "instagram",
+      pageOrGroupArray: []
+    });
+    axios.get("/api/instagram/pages").then(res => {
+      let { pages, loggedIn, errorMessage } = res.data;
+      if (loggedIn === false) window.location.reload();
+
+      // Set data to state
+      this.setState({
+        pageOrGroupArray: pages,
+        errorMessage
+      });
+    });
+  };
+  getLinkedinPages = () => {
     this.setState({
       accountType: "page",
       socialType: "linkedin",
-      pageOrGroup: []
+      pageOrGroupArray: []
     });
     axios.get("/api/linkedin/pages").then(res => {
-      let message;
+      let errorMessage;
       // Check to see if array is empty or a profile account was found
       let { pages, loggedIn } = res.data;
       if (loggedIn === false) window.location.reload();
@@ -139,17 +152,17 @@ class AccountsPage extends Component {
       } else {
         errorMessage = "Please connect your Linkedin profile first.";
       }
-      // If pageOrGroup returns false, there was an error so just set to []
+      // If pageOrGroupArray returns false, there was an error so just set to []
       if (!pages) {
         pages = [];
       }
       // Set data to state
       this.setState({
-        pageOrGroup: pages,
-        errorMessage: message
+        pageOrGroupArray: pages,
+        errorMessage
       });
     });
-  }
+  };
   deleteConfirm = account => {
     this.setState({ accountToDelete: account, deleteAccount: true });
   };
@@ -187,6 +200,9 @@ class AccountsPage extends Component {
     } else if (account.socialType === "linkedin") {
       icon = faLinkedin;
       color = "#0077b5";
+    } else if (account.socialType === "instagram") {
+      icon = faInstagram;
+      color = "#cd486b";
     }
     connectedAccountsDivArray.push(
       <div
@@ -221,7 +237,7 @@ class AccountsPage extends Component {
       addPageOrGroupModal,
       deleteAccount,
       errorMessage,
-      pageOrGroup,
+      pageOrGroupArray,
       socialType,
       accountType
     } = this.state;
@@ -229,6 +245,7 @@ class AccountsPage extends Component {
     let connectedFacebookAccountDivs = [];
     let connectedTwitterAccountDivs = [];
     let connectedLinkedinAccountDivs = [];
+    let connectedInstagramAccountDivs = [];
 
     for (let index in accounts) {
       let account = accounts[index];
@@ -245,6 +262,12 @@ class AccountsPage extends Component {
         case "linkedin":
           this.pushNewConnectedAccountDiv(
             connectedLinkedinAccountDivs,
+            account
+          );
+          break;
+        case "instagram":
+          this.pushNewConnectedAccountDiv(
+            connectedInstagramAccountDivs,
             account
           );
           break;
@@ -311,17 +334,15 @@ class AccountsPage extends Component {
           </div>
           <div className="account-column">
             <button className="social-header-button instagram">
-              Connect Instagram
+              Connect Instagram <br />(Coming Soon)
             </button>
-            <button className="social-media-connect instagram">
-              Coming Soon!
-            </button>
+            {connectedInstagramAccountDivs}
           </div>
         </div>
         {addPageOrGroupModal && (
           <AddPageOrGroupModal
             getUserAccounts={this.getUserAccounts}
-            pageOrGroup={pageOrGroup}
+            pageOrGroupArray={pageOrGroupArray}
             accountType={accountType}
             socialType={socialType}
             errorMessage={errorMessage}
