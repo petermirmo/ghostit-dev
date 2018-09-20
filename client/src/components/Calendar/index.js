@@ -6,7 +6,16 @@ import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
 import faFacebookF from "@fortawesome/fontawesome-free-brands/faFacebookF";
 import faLinkedinIn from "@fortawesome/fontawesome-free-brands/faLinkedinIn";
-import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitter";
+import faTwitterNormal from "@fortawesome/fontawesome-free-brands/faTwitter";
+
+import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
+import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
+import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+
+import {
+  getPostIcon,
+  getPostColor
+} from "../../extra/functions/CommonFunctions";
 
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
@@ -297,7 +306,7 @@ class Calendar extends Component {
 
     let icon;
     if (post.socialType === "facebook") icon = faFacebookF;
-    if (post.socialType === "twitter") icon = faTwitter;
+    if (post.socialType === "twitter") icon = faTwitterNormal;
     if (post.socialType === "linkedin") icon = faLinkedinIn;
     if (needsCampaignCover) {
       return (
@@ -351,6 +360,8 @@ class Calendar extends Component {
   createQueuePostDiv = (post, key) => {
     let content = post.content;
     if (post.socialType === "custom") content = post.instructions;
+    if (post.socialType === "newsletter") content = post.notes;
+    if (post.socialType === "blog") content = post.title;
 
     return (
       <div
@@ -358,7 +369,17 @@ class Calendar extends Component {
         className="queue-post-container"
         onClick={() => this.props.onSelectPost(post)}
       >
-        <div className="queue-post-attribute">{post.socialType}</div>
+        <div className="queue-post-attribute">
+          {getPostIcon(post.socialType) && (
+            <FontAwesomeIcon
+              icon={getPostIcon(post.socialType)}
+              style={{ color: getPostColor(post.socialType) }}
+              size="2x"
+            />
+          )}
+          {!getPostIcon(post.socialType) && <div>{post.socialType}</div>}
+        </div>
+
         <div className="queue-post-attribute">
           {new moment(post.postingDate).format("LLL")}
         </div>
@@ -372,43 +393,66 @@ class Calendar extends Component {
       </div>
     );
   };
+  calendarHeader = (calendarDate, queueActive) => {
+    return (
+      <div className="calendar-header-container">
+        <div className="right-header-container">
+          <FontAwesomeIcon
+            icon={faAngleLeft}
+            size="4x"
+            className="calendar-switch-month-button"
+            onClick={this.subtractMonth}
+          />
+          <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
+          <FontAwesomeIcon
+            icon={faAngleRight}
+            size="4x"
+            className="calendar-switch-month-button"
+            onClick={this.addMonth}
+          />
+        </div>
+        <div className="calendar-filter-container">
+          <Filter
+            updateActiveCategory={this.props.updateActiveCategory}
+            categories={this.props.categories}
+          />
+          <div
+            className="box-button left"
+            onClick={() => this.setState({ queueActive: !queueActive })}
+          >
+            {queueActive ? "Calendar" : "Queue Preview"}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   render() {
     let { calendarDate, queueActive } = this.state;
     if (queueActive) {
       let { calendarEvents, onSelectDay, onSelectPost } = this.props;
 
-      let queuePostDivs = [];
+      let quePostsToDisplay = [];
       for (let index in calendarEvents) {
         let calendarEvent = calendarEvents[index];
         if (calendarEvent.posts) {
           for (let index2 in calendarEvent.posts) {
-            if (
-              new moment(calendarEvent.posts[index2].postingDate) < new moment()
-            )
-              continue;
-            queuePostDivs.push(
-              this.createQueuePostDiv(
-                calendarEvent.posts[index2],
-                index + "post" + index2
-              )
-            );
+            quePostsToDisplay.push(calendarEvent.posts[index2]);
           }
-        } else {
-          if (new moment(calendarEvent.postingDate) < new moment()) continue;
-          queuePostDivs.push(
-            this.createQueuePostDiv(calendarEvent, index + "post")
-          );
-        }
+        } else quePostsToDisplay.push(calendarEvents[index]);
+      }
+      quePostsToDisplay.sort(compareCampaignPosts);
+      let queuePostDivs = [];
+      for (let index in quePostsToDisplay) {
+        let quePostToDisplay = quePostsToDisplay[index];
+
+        queuePostDivs.push(
+          this.createQueuePostDiv(quePostToDisplay, index + "post")
+        );
       }
       return (
         <div className="queue-container">
-          <div
-            className="box-button bottom"
-            onClick={() => this.setState({ queueActive: false })}
-          >
-            Calendar
-          </div>
+          {this.calendarHeader(calendarDate, queueActive)}
           {queuePostDivs}
         </div>
       );
@@ -418,35 +462,7 @@ class Calendar extends Component {
     let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
     return (
       <div className="calendar-container">
-        <div className="calendar-header-container">
-          <div className="right-header-container">
-            <FontAwesomeIcon
-              icon={faAngleLeft}
-              size="4x"
-              className="calendar-switch-month-button"
-              onClick={this.subtractMonth}
-            />
-            <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
-            <FontAwesomeIcon
-              icon={faAngleRight}
-              size="4x"
-              className="calendar-switch-month-button"
-              onClick={this.addMonth}
-            />
-          </div>
-          <div className="calendar-filter-container">
-            <Filter
-              updateActiveCategory={this.props.updateActiveCategory}
-              categories={this.props.categories}
-            />
-            <div
-              className="box-button left"
-              onClick={() => this.setState({ queueActive: true })}
-            >
-              Queue Preview
-            </div>
-          </div>
-        </div>
+        {this.calendarHeader(calendarDate, queueActive)}
 
         <div className="calendar-table">
           <div className="calendar-day-titles-container">

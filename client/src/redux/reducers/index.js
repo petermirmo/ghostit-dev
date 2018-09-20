@@ -28,7 +28,7 @@ function clientSideBar(state = false, action) {
   }
 }
 
-function headerSideBar(state = true, action) {
+function headerSideBar(state = false, action) {
   switch (action.type) {
     case "HEADER_SIDE_BAR":
       return action.payload;

@@ -52,11 +52,15 @@ module.exports = {
     Recipe.find({}, (err, allRecipes) => {
       for (let index in allRecipes) {
         User.findOne({ _id: allRecipes[index].userID }, (err, user) => {
-          allRecipes[index].creator = user.fullName;
-          if (index == allRecipes.length - 1) {
-            Recipe.find({ userID }, (err, usersRecipes) => {
-              res.send({ usersRecipes, allRecipes });
-            });
+          if (!err && user) {
+            allRecipes[index].creator = user.fullName;
+            if (index == allRecipes.length - 1) {
+              Recipe.find({ userID }, (err, usersRecipes) => {
+                res.send({ usersRecipes, allRecipes });
+              });
+            }
+          } else {
+            res.send({ success: false, err });
           }
         });
       }

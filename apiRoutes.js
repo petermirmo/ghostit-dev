@@ -170,6 +170,10 @@ module.exports = app => {
   app.get("/api/facebook/groups", middleware, (req, res) =>
     facebookFunctions.getFacebookGroups(req, res)
   );
+  // Get Instagram pages
+  app.get("/api/instagram/pages", middleware, (req, res) =>
+    facebookFunctions.getInstagramPages(req, res)
+  );
 
   // Add Linkedin account
   app.get("/api/linkedin", middleware, (req, res) =>

@@ -213,12 +213,15 @@
 }
 .close,
 .close-scroll {
-  color: var(--grey-theme-color);
   position: absolute;
   right: 1px;
   top: -3px;
-  cursor: pointer;
+
+  color: var(--grey-theme-color);
+
   transform: scale(0.7);
+  cursor: pointer;
+  z-index: 1;
 }
 .close:hover,
 .close-scroll:hover {

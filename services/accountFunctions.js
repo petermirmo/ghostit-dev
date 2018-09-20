@@ -43,7 +43,9 @@ module.exports = {
     newAccount.socialID = page.id;
     newAccount.givenName = page.name;
     newAccount.category = page.category;
+    newAccount.username = page.username;
     newAccount.lastRenewed = new Date().getTime();
+    console.log(newAccount);
 
     newAccount.save().then(result => res.send(true));
   },
