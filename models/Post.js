@@ -4,8 +4,13 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema(
   {
-    userID: String,
-    accountID: String,
+    userID: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+    accountID: {
+      type: Schema.Types.ObjectId
+    },
     content: String,
     instructions: String,
     link: String,
@@ -24,6 +29,13 @@ const postSchema = new Schema(
       {
         url: String,
         publicID: String
+      }
+    ],
+    analytics: [
+      {
+        title: String,
+        description: String,
+        values: [{ value: Number, endDate: String }]
       }
     ]
   },

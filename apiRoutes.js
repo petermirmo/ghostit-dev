@@ -112,7 +112,7 @@ module.exports = app => {
     accountFunctions.saveAccount(req, res)
   );
   // Delete account
-  app.delete("/api/account", middleware, (req, res) =>
+  app.delete("/api/account/:accountID", middleware, (req, res) =>
     accountFunctions.disconnectAccount(req, res)
   );
   // Get all accounts that a user has connected
@@ -130,7 +130,8 @@ module.exports = app => {
         "publish_pages",
         "manage_pages",
         "business_management",
-        "read_insights"
+        "read_insights",
+        "instagram_basic"
       ]
     })
   );
@@ -142,8 +143,12 @@ module.exports = app => {
       failureRedirect: "/"
     })
   );
-  app.get("/api/facebook/analytics/:accountID", middleware, (req, res) =>
-    accountFunctions.getAnalytics(req, res)
+  app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) =>
+    accountFunctions.getPageAnalytics(req, res)
+  );
+
+  app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) =>
+    accountFunctions.getPostAnalytics(req, res)
   );
 
   // Add Twitter account

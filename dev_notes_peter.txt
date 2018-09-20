@@ -11,10 +11,7 @@ page_content_activity_by_city_unique*
 page_content_activity_by_country_unique*
 page_content_activity_by_locale_unique*
 page_content_activity*
-post_activity*
-post_activity_unique*
-post_activity_by_action_type*
-post_activity_by_action_type_unique*
+
 
 page_impressions*
 page_impressions_unique*
@@ -130,11 +127,6 @@ page_video_complete_views_30s_autoplayed*
 page_video_complete_views_30s_click_to_play*
 page_video_complete_views_30s_unique*
 page_video_complete_views_30s_repeat_views*
-post_video_complete_views_30s_autoplayed*
-post_video_complete_views_30s_clicked_to_play*
-post_video_complete_views_30s_organic*
-post_video_complete_views_30s_paid*
-post_video_complete_views_30s_unique*
 page_video_views_10s*
 page_video_views_10s_paid*
 page_video_views_10s_organic*
@@ -157,6 +149,19 @@ page_posts_impressions_nonviral*
 page_posts_impressions_nonviral_unique*
 page_posts_impressions_frequency_distribution*
 
+
+
+post_activity*
+post_activity_unique*
+post_activity_by_action_type*
+post_activity_by_action_type_unique*
+
+
+post_video_complete_views_30s_autoplayed*
+post_video_complete_views_30s_clicked_to_play*
+post_video_complete_views_30s_organic*
+post_video_complete_views_30s_paid*
+post_video_complete_views_30s_unique*
 
 post_impressions*
 post_impressions_unique*
@@ -226,3 +231,10 @@ post_video_view_time_by_region_id*
 post_video_views_by_distribution_type*
 post_video_view_time_by_distribution_type*
 post_video_view_time_by_country_id*
+
+
+// Does not exist
+post_activity
+post_activity_unique
+post_activity_by_action_type
+post_activity_by_action_type_unique
