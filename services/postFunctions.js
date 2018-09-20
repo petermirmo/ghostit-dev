@@ -84,15 +84,6 @@ module.exports = {
     });
   },
   getPosts: function(req, res) {
-    Account.find({ socialID: undefined }, (err, accounts) => {
-      console.log(accounts);
-      for (let index in accounts) {
-        let account = accounts[index];
-        /*new Account(account).save((err, result) => {
-          if (err) console.log(err);
-        });*/
-      }
-    });
     // Get all posts for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
