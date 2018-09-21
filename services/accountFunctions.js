@@ -68,16 +68,21 @@ module.exports = {
   getPageAnalytics: function(req, res) {
     const { accountID } = req.params;
     Account.findOne({ _id: accountID }, (err, account) => {
-      let since = Math.round(new moment().subtract(7, "days").valueOf() / 1000);
-      let until = Math.round(new moment().valueOf() / 1000);
-      console.log(new moment(since * 1000));
-      console.log(new moment(until * 1000));
-      return;
       FB.setAccessToken(account.accessToken);
+      /*
+      507435342791094
+      page/post ID/insights?metric=<metric1,metric2,...>&period=<period>&date_preset=<date_preset>
+      period=<day / week / days_28 / month / lifetime>
+      date_preset=<today / yesterday / last_3d / last_7d / ...>
+      https://developers.facebook.com/docs/graph-api/reference/v3.1/insights
+      browser interpretter for testing:
+      https://developers.facebook.com/tools/explorer/
+      */
       FB.api(
         account.socialID +
-          "/insights?metric=page_content_activity_by_action_type_unique" +
-          /*",page_content_activity_by_age_gender_unique" +
+          "/insights?metric=" +
+          /*"page_content_activity_by_action_type_unique" +
+          ",page_content_activity_by_age_gender_unique" +
           ",page_content_activity_by_city_unique" +
           ",page_content_activity_by_country_unique" +
           ",page_content_activity_by_locale_unique" +
@@ -202,24 +207,49 @@ module.exports = {
           ",page_posts_impressions_viral" +
           ",page_posts_impressions_viral_unique" +
           ",page_posts_impressions_nonviral" +
-          ",page_posts_impressions_nonviral_unique" +*/
-          ",page_posts_impressions_frequency_distribution&since=" +
-          since +
-          "&until=" +
-          until,
+          ",page_posts_impressions_nonviral_unique" +
+          ",page_posts_impressions_frequency_distribution" +*/
+          "&date_preset=last_3d",
         "get",
         function(res) {
           let testArray = res.data;
-          if (!testArray) return;
+          if (!testArray || res.error) {
+            console.log(res.error);
+            return;
+          }
+          let dayCount, weekCount, days28Count, noCount, lifetimeCount;
+          dayCount = weekCount = days28Count = noCount = lifetimeCount = 0;
 
           for (let index = 0; index < testArray.length; index++) {
             let testObject = testArray[index];
-            console.log(testObject);
-            for (let index2 in testObject.values) {
-              let testObjectValue = testObject.values[index2];
-              //console.log(testObjectValue);
+            if (testObject.title === "Lifetime Total Likes") {
+              console.log(testObject);
+            }
+            if (testObject.period === "day") {
+              dayCount++;
+            } else if (testObject.period === "week") {
+              weekCount++;
+            } else if (testObject.period === "days_28") {
+              days28Count++;
+            } else if (testObject.period === "lifetime") {
+              lifetimeCount++;
+            } else {
+              noCount++;
+              console.log(testObject);
             }
           }
+          console.log(
+            "day:" +
+              dayCount +
+              "\nweek:" +
+              weekCount +
+              "\ndays_28:" +
+              days28Count +
+              "\nlifetime:" +
+              lifetimeCount +
+              "\nnone:" +
+              noCount
+          );
         }
       );
     });
@@ -320,10 +350,32 @@ module.exports = {
             }
             let valuesArray = res.data;
 
+            let dayCount, weekCount, days28Count, noCount;
+            dayCount = weekCount = days28Count = noCount = 0;
+
             for (let index = 0; index < valuesArray.length; index++) {
               let testObject = valuesArray[index];
-              console.log(testObject);
+              if (testObject.period === "day") {
+                dayCount++;
+              } else if (testObject.period === "week") {
+                weekCount++;
+              } else if (testObject.period === "days_28") {
+                days28Count++;
+              } else {
+                noCount++;
+                console.log(testObject);
+              }
             }
+            console.log(
+              "day:" +
+                dayCount +
+                "\nweek:" +
+                weekCount +
+                "\ndays_28:" +
+                days28Count +
+                "\nnone:" +
+                noCount
+            );
           }
         );
       });

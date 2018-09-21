@@ -15,7 +15,7 @@ useful git commands:
     git push ghostit -f :pat-branch
     git checkout master
     git branch -D pat-branch
-    git brahcn pat-branch
+    git branch pat-branch
     git push ghostit pat-branch
 
 imagine scenario:
