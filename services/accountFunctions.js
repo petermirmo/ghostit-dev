@@ -217,12 +217,21 @@ module.exports = {
             console.log(res.error);
             return;
           }
+
+          for (let index = 0; index < testArray.length; index++) {
+            let returnObj = testArray[index];
+            if (returnObj.period === "day") {
+              // handle the day metrics
+            } else if (returnObj.period === "lifetime") {
+              // handle the lifetime metric (currently only page_fans)
+            }
+          }
+          /*
           let dayCount, weekCount, days28Count, noCount, lifetimeCount;
           dayCount = weekCount = days28Count = noCount = lifetimeCount = 0;
 
           for (let index = 0; index < testArray.length; index++) {
             let testObject = testArray[index];
-            console.log(testObject);
             if (testObject.period === "day") {
               dayCount++;
             } else if (testObject.period === "week") {
@@ -248,6 +257,7 @@ module.exports = {
               "\nnone:" +
               noCount
           );
+          */
         }
       );
     });
