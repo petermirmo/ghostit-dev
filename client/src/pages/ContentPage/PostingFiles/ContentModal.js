@@ -73,9 +73,14 @@ class ContentModal extends Component {
       return;
     }
     this.setState(prevState => {
+      const newChanges = { ...prevState.listOfPostChanges };
+      if (newChanges.accountID === "") {
+        delete newChanges.accountID;
+        delete newChanges.accountType;
+      }
       return {
         listOfPostChanges: {
-          ...prevState.listOfPostChanges,
+          ...newChanges,
           [index]: value
         }
       };
