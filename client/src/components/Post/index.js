@@ -36,12 +36,21 @@ class PostingOptions extends Component {
     if (nextProps.listOfChanges) {
       // this is run when the campaignModal's state changes which results in a re-render of this
       // Post component. this block will make sure all the previous unsaved changes to the Post component are reapplied
+      // it is also run when switching between tabs in the single task creation modal
       if (Object.keys(nextProps.listOfChanges).length > 0) {
         this.setState({ ...nextProps.listOfChanges, somethingChanged: true });
       } else {
         this.setState({ somethingChanged: false });
       }
+      if (this.state.accountID === "") {
+        const returnObj = this.getDefaultAccount(nextProps);
+        this.setState({ accountID: returnObj.id, accountType: returnObj.type });
+      }
     } else {
+      // this block is entered when a new post is created within a campaign,
+      // or when changing to a different post within a campaign
+      // or at the beginning of a new single post creation,
+      // or when a post/campaign that already exists is opened from the calendar
       this.setState(this.createState(nextProps));
     }
   }
@@ -60,10 +69,11 @@ class PostingOptions extends Component {
       promptModifyCampaignDates: false
     };
     if (props.post) {
+      const returnObj = this.getDefaultAccount(props);
       stateVariable._id = props.post._id ? props.post._id : undefined;
       stateVariable.accountID = props.post.accountID
         ? props.post.accountID
-        : "";
+        : returnObj.id;
       stateVariable.link = props.post.link ? props.post.link : "";
       stateVariable.linkImage = props.post.linkImage
         ? props.post.linkImage
@@ -71,7 +81,7 @@ class PostingOptions extends Component {
       stateVariable.images = props.post.images ? props.post.images : [];
       stateVariable.accountType = props.post.accountType
         ? props.post.accountType
-        : "";
+        : returnObj.type;
       stateVariable.socialType = props.post.socialType
         ? props.post.socialType
         : props.socialType;
@@ -92,6 +102,25 @@ class PostingOptions extends Component {
     stateVariable.date = new moment(props.post.postingDate);
 
     return stateVariable;
+  };
+
+  getDefaultAccount = props => {
+    const { accounts, socialType } = props;
+    if (accounts) {
+      // by default, set accountID to the first account
+      for (let index in accounts) {
+        let account = accounts[index];
+        if (
+          account.socialType === "facebook" &&
+          account.accountType === "profile"
+        )
+          continue;
+        if (account.socialType === socialType) {
+          return { id: account._id, type: account.accountType };
+        }
+      }
+    }
+    return { id: "", type: "" };
   };
 
   handleChange = (value, index) => {
