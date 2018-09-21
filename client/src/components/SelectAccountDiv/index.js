@@ -49,7 +49,6 @@ class SelectAccountDiv extends Component {
       } else if (account.socialType === "facebook") {
         icon = faFacebook;
         color = "#4267b2";
-        if (account.accountType === "profile") continue;
       }
       accountsListDiv.push(
         <div

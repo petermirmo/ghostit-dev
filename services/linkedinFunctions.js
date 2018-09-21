@@ -91,10 +91,9 @@ module.exports = {
         newAccount.familyName = linkedinProfile.lastName;
         newAccount.email = linkedinProfile.emailAddress;
 
-        newAccount.save(function(err) {
+        newAccount.save((err, result) => {
           if (err) res.send(false);
-
-          res.redirect("/content");
+          res.redirect("/");
         });
       });
     });

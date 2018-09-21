@@ -79,7 +79,6 @@ module.exports = {
       for (let index in post) {
         newPost[index] = post[index];
       }
-
       newPost.save().then(result => res.send({ success: true, post: result }));
     });
   },

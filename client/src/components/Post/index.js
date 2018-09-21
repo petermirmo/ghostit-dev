@@ -160,6 +160,12 @@ class PostingOptions extends Component {
     let activePageAccountsArray = [];
     for (let index in accounts) {
       let account = accounts[index];
+      if (
+        account.accountType === "profile" &&
+        account.socialType === "facebook"
+      )
+        continue;
+
       if (account[compareValue] === compareValue2) {
         activePageAccountsArray.push(account);
       }
@@ -209,12 +215,11 @@ class PostingOptions extends Component {
         accounts
       );
     } else {
-      for (let index in accounts) {
-        let account = accounts[index];
-        if (account._id === accountID) {
-          activePageAccountsArray.push(account);
-        }
-      }
+      activePageAccountsArray = this.createActiveAccounts(
+        "_id",
+        accountID,
+        accounts
+      );
     }
 
     return (
