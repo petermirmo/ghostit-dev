@@ -914,7 +914,7 @@ class CampaignModal extends Component {
               )}
             </div>
           )}
-          <div className="modal-footer">
+          <div className="modal-footer" style={{ borderColor: color }}>
             <div className="campaign-footer-options">
               <div className="campaign-footer-option left">
                 <div

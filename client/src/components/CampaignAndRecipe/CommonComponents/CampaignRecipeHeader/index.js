@@ -142,7 +142,7 @@ class CampaignRecipeHeader extends Component {
         </div>
 
         <div
-          className="show-more bottom"
+          className="show-more center-horizontally bottom"
           onClick={() => this.setState({ showMore: !this.state.showMore })}
         >
           <FontAwesomeIcon icon={showMore ? faAngleUp : faAngleDown} />

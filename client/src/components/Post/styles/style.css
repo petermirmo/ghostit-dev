@@ -1,6 +1,8 @@
 .post-instruction-container {
+  flex: 1;
   display: flex;
   width: 100%;
+  height: 100%;
 
   box-sizing: border-box;
   overflow: hidden;
@@ -9,10 +11,11 @@
   box-shadow: 0 0 20px 4px var(--grey-theme-color);
 }
 .instructions-container,
-.posting-form {
+.posting-container {
   position: relative;
   width: 60%;
-  height: 80vh;
+  height: 100%;
+  max-height: 80vh;
 
   display: flex;
   flex-direction: column;
@@ -20,42 +23,31 @@
   justify-content: flex-start;
   align-items: stretch;
 
-  padding: 20px 40px 20px 20px;
+  padding: 20px 30px 20px 30px;
 
-  overflow-y: auto;
-  overflow: visible;
   box-sizing: border-box;
-  transition: width 0.4s ease;
+  overflow: auto;
+  transition: width 0.1s ease;
 }
 
 .posting-textarea {
-  display: block;
-  min-height: 100px;
-  width: 100%;
-
-  resize: none;
-  outline: 0;
-
-  box-sizing: border-box;
-
-  border-bottom: none !important;
+  border-bottom: none;
 }
 .posting-textarea:focus + .post-images-and-carousel {
   border-color: var(--blue-theme-color);
 }
 .post-images-and-carousel {
+  flex-shrink: 0;
   display: flex;
-  display: -webkit-flex;
 
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
 
   width: stretch;
 
-  padding-top: 20px;
+  padding: 8px;
 
   border-left: 1px solid var(--grey-theme-color);
   border-right: 1px solid var(--grey-theme-color);
@@ -66,21 +58,21 @@
   margin-left: 20px;
 }
 
+.posting-textarea,
 .instruction-textarea {
-  min-height: 60%;
-  height: 60%;
-  width: 100%;
+  min-height: 100px;
 
   resize: none;
   outline: 0;
-  margin-bottom: 5px;
-
+  overflow: auto;
   box-sizing: border-box;
 
   font-size: var(--fourteen-font-size);
 }
 
 .schedule-post-button {
+  flex-shrink: 0;
+
   position: relative;
 
   padding: 6px 0 6px 0;

@@ -260,7 +260,7 @@ class PostingOptions extends Component {
     return (
       <div className="post-instruction-container">
         <div
-          className="posting-form"
+          className="posting-container"
           style={{ width: showInstructions ? "60%" : "100%" }}
         >
           <Textarea
@@ -297,7 +297,7 @@ class PostingOptions extends Component {
             </div>
           )}
 
-          <div className="flex vertical-center wrap">
+          <div className="flex vertical-center wrap spacing top">
             {!this.props.recipeEditing && (
               <SelectAccountDiv
                 activePageAccountsArray={activePageAccountsArray}
@@ -385,7 +385,7 @@ class PostingOptions extends Component {
           )}
           {showInstructions && (
             <div
-              className="show-more center-vertically far-left"
+              className="show-more center-vertically left"
               onClick={() =>
                 this.setState({
                   showInstructions: false
