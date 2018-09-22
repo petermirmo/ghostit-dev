@@ -68,9 +68,9 @@ class SelectAccountDiv extends Component {
     }
     return (
       <div className="select-accounts-container">
-        {canEdit && (
+        {activePageAccountsArray.length == 0 && (
           <h4 className="select-accounts-header">
-            Choose an account to post to!
+            Connect an account to create a post!
           </h4>
         )}
         <div className="accounts-container">{accountsListDiv}</div>

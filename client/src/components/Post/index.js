@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
+import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -66,7 +70,8 @@ class PostingOptions extends Component {
       content: "",
       instructions: "",
       name: "",
-      promptModifyCampaignDates: false
+      promptModifyCampaignDates: false,
+      showInstructions: false
     };
     if (props.post) {
       const returnObj = this.getDefaultAccount(props);
@@ -217,6 +222,7 @@ class PostingOptions extends Component {
       deleteImagesArray,
       somethingChanged,
       promptModifyCampaignDates,
+      showInstructions,
       campaignID,
       name,
       date
@@ -252,97 +258,144 @@ class PostingOptions extends Component {
     }
 
     return (
-      <div className="posting-form">
-        <input
-          onChange={event => this.handleChange(event.target.value, "name")}
-          value={name}
-          className="title-input"
-          placeholder="Title"
-          readOnly={!canEditPost}
-        />
-
-        <Textarea
-          className="posting-textarea"
-          placeholder="Success doesn't write itself!"
-          onChange={event => {
-            this.findLink(event.target.value);
-            this.handleChange(event.target.value, "content");
-          }}
-          value={content}
-          readOnly={!canEditPost}
-        />
-        <div className="post-images-and-carousel">
-          <ImagesDiv
-            postImages={images}
-            handleChange={images => this.handleChange(images, "images")}
-            imageLimit={4}
-            canEdit={canEditPost}
-            pushToImageDeleteArray={this.pushToImageDeleteArray}
+      <div className="post-instruction-container">
+        <div
+          className="posting-form"
+          style={{ width: showInstructions ? "60%" : "100%" }}
+        >
+          <Textarea
+            className="posting-textarea"
+            placeholder="Success doesn't write itself!"
+            onChange={event => {
+              this.findLink(event.target.value);
+              this.handleChange(event.target.value, "content");
+            }}
+            value={content}
+            readOnly={!canEditPost}
           />
-          {linkPreviewCanShow &&
-            link && (
-              <Carousel
-                linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-                linkImagesArray={linkImagesArray}
-                linkImage={linkImage}
-                handleChange={image => this.handleChange(image, "linkImage")}
+          <div className="post-images-and-carousel">
+            <ImagesDiv
+              postImages={images}
+              handleChange={images => this.handleChange(images, "images")}
+              imageLimit={4}
+              canEdit={canEditPost}
+              pushToImageDeleteArray={this.pushToImageDeleteArray}
+            />
+            {linkPreviewCanShow &&
+              link && (
+                <Carousel
+                  linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+                  linkImagesArray={linkImagesArray}
+                  linkImage={linkImage}
+                  handleChange={image => this.handleChange(image, "linkImage")}
+                />
+              )}
+          </div>
+          {maxCharacters && (
+            <div className="max-characters">
+              {maxCharacters - content.length}
+            </div>
+          )}
+
+          <div className="flex vertical-center wrap">
+            {!this.props.recipeEditing && (
+              <SelectAccountDiv
+                activePageAccountsArray={activePageAccountsArray}
+                activeAccount={accountID}
+                handleChange={account => {
+                  this.handleChange(account._id, "accountID");
+                  this.handleChange(account.accountType, "accountType");
+                }}
+                canEdit={canEditPost}
               />
             )}
-        </div>
-        {maxCharacters && (
-          <div className="max-characters">{maxCharacters - content.length}</div>
-        )}
-        {canEditPost &&
-          (somethingChanged || (!this.props.recipeEditing && !_id)) && (
-            <button
-              className="schedule-post-button"
-              onClick={() => this.setState(trySavePost(this.state, this.props))}
+            <DateTimePicker
+              date={date}
+              dateFormat="MMMM Do YYYY hh:mm A"
+              handleChange={date => this.handleChange(date, "date")}
+              style={{
+                bottom: "-80px"
+              }}
+              canEdit={canEditPost}
+              dateLowerBound={new moment()}
+              dateUpperBound={undefined}
+            />
+          </div>
+          {canEditPost &&
+            (somethingChanged || (!this.props.recipeEditing && !_id)) && (
+              <button
+                className="schedule-post-button"
+                onClick={() =>
+                  this.setState(trySavePost(this.state, this.props))
+                }
+              >
+                {this.props.recipeEditing ? "Save Post" : "Schedule Post!"}
+              </button>
+            )}
+
+          {!showInstructions && (
+            <div
+              className="show-more center-vertically right"
+              onClick={() =>
+                this.setState({
+                  showInstructions: true
+                })
+              }
             >
-              {this.props.recipeEditing ? "Save Post" : "Schedule Post!"}
-            </button>
+              <FontAwesomeIcon icon={faAngleLeft} />
+            </div>
           )}
-        {!this.props.recipeEditing && (
-          <SelectAccountDiv
-            activePageAccountsArray={activePageAccountsArray}
-            activeAccount={accountID}
-            handleChange={account => {
-              this.handleChange(account._id, "accountID");
-              this.handleChange(account.accountType, "accountType");
-            }}
-            canEdit={canEditPost}
-          />
-        )}
-        <div className="time-picker-and-save-post">
-          <DateTimePicker
-            date={date}
-            dateFormat="MMMM Do YYYY hh:mm A"
-            handleChange={date => this.handleChange(date, "date")}
-            style={{
-              bottom: "-80px"
-            }}
-            canEdit={canEditPost}
-            dateLowerBound={new moment()}
-            dateUpperBound={undefined}
-          />
+
+          {promptModifyCampaignDates && (
+            <ConfirmAlert
+              close={() => this.setState({ promptModifyCampaignDates: false })}
+              title="Modify Campaign Dates"
+              message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
+              callback={this.modifyCampaignDate}
+              type="modify"
+            />
+          )}
         </div>
-        <Textarea
-          className="instruction-textarea"
-          placeholder="Include any comments or instructions here."
-          onChange={event => {
-            this.handleChange(event.target.value, "instructions");
+        <div
+          className="instructions-container"
+          style={{
+            width: showInstructions ? "40%" : "0",
+            padding: showInstructions ? undefined : 0
           }}
-          value={instructions}
-          readOnly={!canEditPost}
-        />
-        {promptModifyCampaignDates && (
-          <ConfirmAlert
-            close={() => this.setState({ promptModifyCampaignDates: false })}
-            title="Modify Campaign Dates"
-            message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
-            callback={this.modifyCampaignDate}
-            type="modify"
-          />
-        )}
+        >
+          {showInstructions && (
+            <input
+              onChange={event => this.handleChange(event.target.value, "name")}
+              value={name}
+              className="title-input"
+              placeholder="Title"
+              readOnly={!canEditPost}
+            />
+          )}
+          {showInstructions && (
+            <Textarea
+              className="instruction-textarea"
+              placeholder="Include any comments or instructions here."
+              onChange={event => {
+                this.handleChange(event.target.value, "instructions");
+              }}
+              value={instructions}
+              readOnly={!canEditPost}
+            />
+          )}
+          {showInstructions && (
+            <div
+              className="show-more center-vertically far-left"
+              onClick={() =>
+                this.setState({
+                  showInstructions: false
+                })
+              }
+            >
+              <FontAwesomeIcon icon={faAngleRight} />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

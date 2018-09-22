@@ -1,11 +1,31 @@
-.posting-form {
-  padding: 20px 40px 20px 20px;
-
-  max-height: 80vh;
+.post-instruction-container {
+  display: flex;
   width: 100%;
 
-  overflow: auto;
   box-sizing: border-box;
+  overflow: hidden;
+}
+.instructions-container {
+  box-shadow: 0 0 20px 4px var(--grey-theme-color);
+}
+.instructions-container,
+.posting-form {
+  position: relative;
+  width: 60%;
+  height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-start;
+  align-items: stretch;
+
+  padding: 20px 40px 20px 20px;
+
+  overflow-y: auto;
+  overflow: visible;
+  box-sizing: border-box;
+  transition: width 0.4s ease;
 }
 
 .posting-textarea {
@@ -45,40 +65,10 @@
   display: inline-block;
   margin-left: 20px;
 }
-.time-picker-and-save-post {
-  display: flex;
-  display: -webkit-flex;
-
-  flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-
-  padding: 20px 0 20px 0;
-
-  width: 40%;
-  text-align: center;
-}
-.schedule-post-button {
-  position: relative;
-  font-size: var(--large-font-size);
-
-  padding: 6px 0 6px 0;
-  margin: 10px 0 0 0;
-
-  width: 100%;
-
-  flex-grow: 1;
-  -webkit-flex-grow: 1;
-
-  border-radius: 100px;
-  background-color: var(--blue-theme-color);
-}
-.schedule-post-button:hover {
-  background-color: var(--dark-blue-theme-color);
-}
 
 .instruction-textarea {
-  display: block;
-  min-height: 100px;
+  min-height: 60%;
+  height: 60%;
   width: 100%;
 
   resize: none;
@@ -86,4 +76,22 @@
   margin-bottom: 5px;
 
   box-sizing: border-box;
+
+  font-size: var(--fourteen-font-size);
+}
+
+.schedule-post-button {
+  position: relative;
+
+  padding: 6px 0 6px 0;
+  margin: 10px 0 0 0;
+
+  width: 100%;
+
+  border-radius: 100px;
+  background-color: var(--blue-theme-color);
+  font-size: var(--large-font-size);
+}
+.schedule-post-button:hover {
+  background-color: var(--dark-blue-theme-color);
 }

@@ -177,7 +177,7 @@ class CustomTask extends Component {
     const { postFinishedSavingCallback, setSaving, canEditPost } = this.props;
 
     return (
-      <div className="posting-form">
+      <div className="posting-form" style={{ width: "100%" }}>
         <input
           onChange={event => this.handleChange(event.target.value, "name")}
           value={name}

@@ -155,7 +155,7 @@
     opacity: 1;
   }
 }
-@keyframes animateright {
+@keyframes animateRight {
   from {
     right: -50px;
     opacity: 0;
@@ -231,7 +231,7 @@
 
 .animate-right {
   position: relative;
-  animation: animateright 0.4s;
+  animation: animateRight 0.4s;
 }
 .center {
   display: block !important;

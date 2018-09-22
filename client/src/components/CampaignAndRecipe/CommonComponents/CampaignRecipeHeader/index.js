@@ -140,26 +140,13 @@ class CampaignRecipeHeader extends Component {
           <div className="label">Color:</div>
           <div className="colors">{colorDivs}</div>
         </div>
-        {!showMore && (
-          <div
-            className="show-more-container"
-            onClick={() => this.setState({ showMore: true })}
-          >
-            <div className="show-more">
-              <FontAwesomeIcon icon={faAngleDown} />
-            </div>
-          </div>
-        )}
-        {showMore && (
-          <div
-            className="show-more-container"
-            onClick={() => this.setState({ showMore: false })}
-          >
-            <div className="show-more">
-              <FontAwesomeIcon icon={faAngleUp} />
-            </div>
-          </div>
-        )}
+
+        <div
+          className="show-more bottom"
+          onClick={() => this.setState({ showMore: !this.state.showMore })}
+        >
+          <FontAwesomeIcon icon={showMore ? faAngleUp : faAngleDown} />
+        </div>
       </div>
     );
   }
