@@ -31,13 +31,7 @@ const postSchema = new Schema(
         publicID: String
       }
     ],
-    analytics: [
-      {
-        title: String,
-        description: String,
-        values: [{ value: Number, endDate: String }]
-      }
-    ]
+    analyticsID: String
   },
   {
     timestamps: true

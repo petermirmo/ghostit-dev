@@ -32,19 +32,7 @@ const accountSchema = new Schema(
     category: String,
     renewSuccess: Boolean,
     lastRenewed: Number,
-    analytics: [
-      {
-        startDate: String,
-        endDate: String,
-        values: [
-          {
-            title: String,
-            description: String,
-            value: []
-          }
-        ]
-      }
-    ]
+    analyticsID: String
   },
   {
     timestamps: true
