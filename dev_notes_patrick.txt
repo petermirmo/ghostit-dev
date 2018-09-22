@@ -11,11 +11,17 @@ useful git commands:
     git pull origin master
     git merge pat-branch
     git push origin master
-  delete pat-branch from github then make it a branch from master
-    git push ghostit -f :pat-branch
+  merge changes in master into pat-branch without affecting master
     git checkout master
-    git branch -D pat-branch
-    git branch pat-branch
+    git pull ghostit master
+    git checkout pat-branch
+    git merge master
+    git push ghostit pat-branch
+  delete pat-branch from github then make it a branch from master
+    git push ghostit -f :pat-branch   // deletes pat-branch from github
+    git checkout master
+    git branch -D pat-branch          // deletes local pat-branch
+    git branch pat-branch             // creates local pat-branch from master
     git push ghostit pat-branch
 
 imagine scenario:
