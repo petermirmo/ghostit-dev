@@ -177,7 +177,7 @@ class CustomTask extends Component {
     const { postFinishedSavingCallback, setSaving, canEditPost } = this.props;
 
     return (
-      <div className="posting-form">
+      <div className="posting-container" style={{ width: "100%" }}>
         <input
           onChange={event => this.handleChange(event.target.value, "name")}
           value={name}
@@ -194,36 +194,29 @@ class CustomTask extends Component {
           value={instructions}
           readOnly={!canEditPost}
         />
-        {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
-          <button
-            className="schedule-post-button"
-            onClick={() => this.setState(trySavePost(this.state, this.props))}
-          >
-            Save Task!
-          </button>
-        )}
-        <div className="checkbox-and-writing-container">
-          <div
-            className="checkbox-box"
-            onClick={() =>
-              this.handleChange(!sendEmailReminder, "sendEmailReminder")
-            }
-          >
+        <div className="flex vertical-center wrap spacing top">
+          <ImagesDiv
+            postImages={images}
+            handleChange={images => this.handleChange(images, "images")}
+            imageLimit={4}
+            canEdit={canEditPost}
+            pushToImageDeleteArray={this.pushToImageDeleteArray}
+          />
+
+          <div className="checkbox-and-writing-container spacing left">
             <div
-              className="checkbox-check"
-              style={{ display: sendEmailReminder ? undefined : "none" }}
-            />
+              className="checkbox-box"
+              onClick={() =>
+                this.handleChange(!sendEmailReminder, "sendEmailReminder")
+              }
+            >
+              <div
+                className="checkbox-check"
+                style={{ display: sendEmailReminder ? undefined : "none" }}
+              />
+            </div>
+            Send an email reminder 30 minutes before scheduled time
           </div>
-          Send an email reminder 30 minutes before scheduled time
-        </div>
-        <ImagesDiv
-          postImages={images}
-          handleChange={images => this.handleChange(images, "images")}
-          imageLimit={4}
-          canEdit={canEditPost}
-          pushToImageDeleteArray={this.pushToImageDeleteArray}
-        />
-        <div className="time-picker-and-save-post">
           <DateTimePicker
             date={date}
             dateFormat="MMMM Do YYYY hh:mm A"
@@ -235,6 +228,14 @@ class CustomTask extends Component {
             dateUpperBound={undefined}
           />
         </div>
+        {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
+          <button
+            className="schedule-post-button"
+            onClick={() => this.setState(trySavePost(this.state, this.props))}
+          >
+            Save Task!
+          </button>
+        )}
         {promptModifyCampaignDates && (
           <ConfirmAlert
             close={() => this.setState({ promptModifyCampaignDates: false })}
