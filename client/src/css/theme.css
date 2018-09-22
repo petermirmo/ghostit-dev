@@ -149,14 +149,18 @@
 }
 
 .modal-footer {
-  position: relative;
   flex-grow: 0;
   flex-shrink: 0;
+
+  position: relative;
   display: flex;
+
   justify-content: space-between;
   align-items: center;
 
   width: 100%;
+
+  border-top: 1px solid var(--grey-theme-color);
 }
 @keyframes animatetop {
   from {
@@ -177,7 +181,7 @@
     opacity: 1;
   }
 }
-@keyframes animateright {
+@keyframes animateRight {
   from {
     right: -50px;
     opacity: 0;
@@ -270,7 +274,7 @@
 
 .animate-right {
   position: relative;
-  animation: animateright 0.4s;
+  animation: animateRight 0.4s;
 }
 .center {
   display: block !important;
@@ -495,33 +499,55 @@
   width: 100%;
 
   margin-bottom: 10px;
+  padding-left: 4px;
 
-  text-align: center;
   box-sizing: border-box;
 }
 
-.show-more-container {
-  position: absolute;
-  bottom: 2px;
-  left: 50%;
-
-  z-index: 1000;
-}
 .show-more {
-  position: relative;
-  left: -50%;
+  position: absolute;
+
+  height: 25px;
+  width: 25px;
+
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
-  padding: 4px 14px 4px 14px;
-
   border-radius: 100px;
+
   background-color: var(--light-grey-theme-color);
   border: 1px solid var(--grey-theme-color);
-
   color: var(--off-black-theme-color);
+
   cursor: pointer;
+}
+.show-more.center-vertically {
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.show-more.right {
+  right: 2px;
+}
+.show-more.left {
+  left: 2px;
+}
+.show-more.far-left {
+  left: -12px;
+}
+.show-more.center-horizontally {
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+}
+.show-more.top {
+  top: 2px;
+}
+.show-more.bottom {
+  bottom: 2px;
 }
 .show-more:hover {
   border-color: var(--blue-theme-color);
@@ -545,11 +571,64 @@
 .box-button.bottom {
   margin-bottom: 10px;
 }
-
 .box-button:hover {
   color: var(--white-theme-color);
   background-color: var(--blue-theme-color);
 }
+.flex {
+  display: flex;
+  flex-shrink: 0;
+}
+.flex.right {
+  width: 100%;
+  justify-content: flex-end;
+}
+.absolute {
+  position: absolute;
+}
+.absolute.top {
+  top: 5px;
+}
+.absolute.right {
+  right: 5px;
+}
+.round {
+  border-radius: 100px;
+}
+.button {
+  cursor: pointer;
+}
+.button.white:hover,
+.button.blue {
+  background-color: var(--blue-theme-color);
+  color: var(--white-theme-color);
+  border: 1px solid var(--blue-theme-color);
+}
+.button.white,
+.button.blue:hover {
+  background-color: var(--white-theme-color);
+  color: var(--blue-theme-color);
+  border: 1px solid var(--blue-theme-color);
+}
+.medium {
+  padding: 4px 12px 4px 12px;
+}
+.margin.bottom {
+  margin-bottom: 4px;
+}
+.flex.vertical-center {
+  align-items: center;
+}
+.flex.wrap {
+  flex-wrap: wrap;
+}
+.spacing.top {
+  padding-top: 10px;
+}
+.spacing.left {
+  padding-left: 10px;
+}
+
 body {
   min-height: 100%;
 

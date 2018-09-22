@@ -49,7 +49,6 @@ class SelectAccountDiv extends Component {
       } else if (account.socialType === "facebook") {
         icon = faFacebook;
         color = "#4267b2";
-        if (account.accountType === "profile") continue;
       }
       accountsListDiv.push(
         <div
@@ -69,9 +68,9 @@ class SelectAccountDiv extends Component {
     }
     return (
       <div className="select-accounts-container">
-        {canEdit && (
+        {activePageAccountsArray.length == 0 && (
           <h4 className="select-accounts-header">
-            Choose an account to post to!
+            Connect an account to create a post!
           </h4>
         )}
         <div className="accounts-container">{accountsListDiv}</div>

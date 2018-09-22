@@ -1,74 +1,44 @@
-.select-accounts-container {
-	margin: 20px 20px 0 20px;
-}
 .select-accounts-header {
-	display: inline-block;
-
-	width: 100%;
-
-	padding: 0;
-	margin: 0 0 10px 0;
 }
 .accounts-container {
-	display: flex;
-	display: -webkit-flex;
+  display: grid;
+  grid-template-columns: auto auto;
 }
 .account-container {
-	display: flex;
-	display: -webkit-flex;
+  display: flex;
 
-	flex-grow: 1;
-	-webkit-flex-grow: 1;
-	width: 1px;
+  margin-right: 10px;
 
-	margin-right: 10px;
+  opacity: 0.6;
 
-	opacity: 0.4;
-
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .account-icon {
-	display: flex;
-	display: -webkit-flex;
+  display: flex;
 
-	flex-grow: 1;
-	-webkit-flex-grow: 1;
+  color: var(--white-theme-color);
 
-	align-items: center;
-	justify-content: center;
+  max-width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-height: 50px;
 
-	color: var(--white-theme-color);
+  border-radius: 100px;
 
-	max-width: 50px;
-	min-width: 50px;
-	min-height: 50px;
-	max-height: 50px;
-
-	border-radius: 100px;
-
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .account-title-type-container {
-	display: flex;
-	display: -webkit-flex;
+  display: flex;
 
-	flex-wrap: wrap;
-
-	padding: 0;
-	margin: 0 0 0 10px;
-
-	cursor: pointer;
+  flex-direction: column;
 }
 .account-name {
-	width: 100%;
 }
 .account-type {
-	width: 100%;
-
-	color: var(--dark-grey-theme-color);
+  color: var(--dark-grey-theme-color);
 }
 .common-active {
-	opacity: 1;
+  opacity: 1;
 }

@@ -1,4 +1,6 @@
 .checkbox-and-writing-container {
+  flex-shrink: 0;
+
   display: flex;
   justify-content: flex-start;
   align-items: center;
