@@ -19,6 +19,12 @@ class Analytics extends Component {
     });
   };
 
+  getAllFacebookPageAnalytics = () => {
+    axios.get("/api/facebook/page/analytics/all").then(res => {
+      console.log(res.data);
+    });
+  };
+
   getPostAnalytics = post => {
     axios.get("/api/facebook/post/analytics/" + post._id).then(res => {
       console.log(res.data);
@@ -83,6 +89,16 @@ class Analytics extends Component {
           {accountClickMeDivs}
           {postClickMeDivs}
         </div>
+        {this.props.user.role === "admin" && (
+          <div className="test-container">
+            <div
+              onClick={() => this.getAllFacebookPageAnalytics()}
+              className="here"
+            >
+              Get All FB Pages
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -90,7 +106,8 @@ class Analytics extends Component {
 
 function mapStateToProps(state) {
   return {
-    accounts: state.accounts
+    accounts: state.accounts,
+    user: state.user
   };
 }
 export default connect(mapStateToProps)(Analytics);

@@ -65,6 +65,16 @@ module.exports = {
       res.send({ success: true, accounts: accounts });
     });
   },
+  getAllFacebookPageAnalytics: function(req, res) {
+    console.log("here");
+    User.findOne({ _id: req.user._id }, (err, foundUser) => {
+      if (!err && foundUser) {
+        res.send({ success: true, user: foundUser });
+      } else {
+        res.send({ success: false, err });
+      }
+    });
+  },
   getPageAnalytics: function(req, res) {
     const { accountID } = req.params;
     Account.findOne({ _id: accountID }, (err, account) => {
@@ -218,12 +228,16 @@ module.exports = {
             return;
           }
 
+          let tempStr = "";
+
           for (let index = 0; index < testArray.length; index++) {
             let returnObj = testArray[index];
             if (returnObj.period === "day") {
               // handle the day metrics
+              tempStr += JSON.stringify(returnObj) + "\n";
             } else if (returnObj.period === "lifetime") {
               // handle the lifetime metric (currently only page_fans)
+              tempStr += JSON.stringify(returnObj) + "\n";
             }
           }
           /*

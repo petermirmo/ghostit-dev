@@ -143,9 +143,14 @@ module.exports = app => {
       failureRedirect: "/"
     })
   );
-  app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) =>
-    accountFunctions.getPageAnalytics(req, res)
-  );
+
+  app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) => {
+    if (req.params.accountID === "all") {
+      accountFunctions.getAllFacebookPageAnalytics(req, res);
+    } else {
+      accountFunctions.getPageAnalytics(req, res);
+    }
+  });
 
   app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) =>
     accountFunctions.getPostAnalytics(req, res)
