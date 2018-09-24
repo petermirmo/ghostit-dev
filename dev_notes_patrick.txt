@@ -1,16 +1,22 @@
 useful git commands:
-  overwrite pat-pc-sync-branch to be the same as master
-    git push origin +master:pat-pc-sync-branch
-  delete local copy of pat-pc-sync-branch so that pulling the new copy doesn't try to merge
+  overwrite pat-branch to be the same as master
+    git push origin +master:pat-branch
+  delete local copy of pat-branch so that pulling the new copy doesn't try to merge
     git checkout master
-    git branch -D pat-pc-sync-branch
-    git checkout pat-pc-sync-branch
-    git pull ghostit pat-pc-sync-branch
-  merge the changes in pat-pc-sync-branch back into the master branch
+    git branch -D pat-branch
+    git checkout pat-branch
+    git pull ghostit pat-branch
+  merge the changes in pat-branch back into the master branch
     git checkout master
     git pull origin master
-    git merge pat-pc-sync-branch
+    git merge pat-branch
     git push origin master
+  delete pat-branch from github then make it a branch from master
+    git push ghostit -f :pat-branch
+    git checkout master
+    git branch -D pat-branch
+    git brahcn pat-branch
+    git push ghostit pat-branch
 
 imagine scenario:
   var = 4; this.setState({ var: 4 });
@@ -50,10 +56,6 @@ maybe for recipeEditing, the Save Template button can change a little bit if som
 sort recipes by use count?
 
 search recipes.
-
-next task:
-  duplicate post button
-  prompt when user deletes a post (with a Don't ask again for this campaign session option)
 
 "Schedule all with default account" button for when creating a campaign from a recipe.
 

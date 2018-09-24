@@ -68,22 +68,23 @@ module.exports = {
   getPageAnalytics: function(req, res) {
     const { accountID } = req.params;
     Account.findOne({ _id: accountID }, (err, account) => {
-      let since = new moment("2018-08-01T00:00:00+0000").valueOf() / 1000;
-      let until = new moment("2018-08-31T23:59:59+0000").valueOf() / 1000;
-      console.log(since);
-      console.log(until);
+      let since = Math.round(new moment().subtract(7, "days").valueOf() / 1000);
+      let until = Math.round(new moment().valueOf() / 1000);
+      console.log(new moment(since * 1000));
+      console.log(new moment(until * 1000));
+      return;
       FB.setAccessToken(account.accessToken);
       FB.api(
         account.socialID +
           "/insights?metric=page_content_activity_by_action_type_unique" +
-          ",page_content_activity_by_age_gender_unique" +
+          /*",page_content_activity_by_age_gender_unique" +
           ",page_content_activity_by_city_unique" +
           ",page_content_activity_by_country_unique" +
           ",page_content_activity_by_locale_unique" +
-          ",page_content_activity" +
+          ",page_content_activity" +*/
           ",page_impressions" +
           ",page_impressions_unique" +
-          ",page_impressions_paid" +
+          /*",page_impressions_paid" +
           ",page_impressions_paid_unique" +
           ",page_impressions_organic" +
           ",page_impressions_organic_unique" +
@@ -94,11 +95,11 @@ module.exports = {
           ",page_impressions_by_city_unique" +
           ",page_impressions_by_country_unique" +
           ",page_impressions_by_locale_unique" +
-          ",page_impressions_by_age_gender_unique" +
+          ",page_impressions_by_age_gender_unique" +*/
           ",page_engaged_users" +
           ",page_post_engagements" +
           ",page_consumptions" +
-          ",page_consumptions_unique" +
+          /*",page_consumptions_unique" +
           ",page_consumptions_by_consumption_type" +
           ",page_consumptions_by_consumption_type_unique" +
           ",page_places_checkins_by_age_gender" +
@@ -113,21 +114,21 @@ module.exports = {
           ",page_negative_feedback_by_type" +
           ",page_negative_feedback_by_type_unique" +
           ",page_positive_feedback_by_type" +
-          ",page_positive_feedback_by_type_unique" +
+          ",page_positive_feedback_by_type_unique" +*/
           ",page_fans_online" +
           ",page_fans_online_per_day" +
-          ",page_fan_adds_by_paid_non_paid_unique" +
+          /*",page_fan_adds_by_paid_non_paid_unique" +
           ",page_actions_post_reactions_like_total" +
           ",page_actions_post_reactions_love_total" +
           ",page_actions_post_reactions_wow_total" +
           ",page_actions_post_reactions_haha_total" +
           ",page_actions_post_reactions_sorry_total" +
           ",page_actions_post_reactions_anger_total" +
-          ",page_actions_post_reactions_total" +
+          ",page_actions_post_reactions_total" +*/
           ",page_total_actions" +
           ",page_cta_clicks_logged_in_total" +
           ",page_cta_clicks_logged_in_unique" +
-          ",page_cta_clicks_by_site_logged_in_unique" +
+          /*",page_cta_clicks_by_site_logged_in_unique" +
           ",page_cta_clicks_by_age_gender_logged_in_unique" +
           ",page_cta_clicks_logged_in_by_country_unique" +
           ",page_cta_clicks_logged_in_by_city_unique" +
@@ -145,9 +146,9 @@ module.exports = {
           ",page_website_clicks_by_age_gender_logged_in_unique" +
           ",page_website_clicks_logged_in_by_country_unique" +
           ",page_website_clicks_logged_in_by_city_unique" +
-          ",page_website_clicks_by_site_logged_in_unique" +
+          ",page_website_clicks_by_site_logged_in_unique" +*/
           ",page_fans" +
-          ",page_fans_locale" +
+          /*",page_fans_locale" +
           ",page_fans_city" +
           ",page_fans_country" +
           ",page_fans_gender_age" +
@@ -157,11 +158,11 @@ module.exports = {
           ",page_fans_by_like_source_unique" +
           ",page_fan_removes" +
           ",page_fan_removes_unique" +
-          ",page_fans_by_unlike_source_unique" +
+          ",page_fans_by_unlike_source_unique" +*/
           ",page_views_total" +
           ",page_views_logout" +
           ",page_views_logged_in_total" +
-          ",page_views_logged_in_unique" +
+          /*",page_views_logged_in_unique" +
           ",page_views_external_referrals" +
           ",page_views_by_profile_tab_total" +
           ",page_views_by_profile_tab_logged_in_unique" +
@@ -190,10 +191,10 @@ module.exports = {
           ",page_video_views_10s_click_to_play" +
           ",page_video_views_10s_unique" +
           ",page_video_views_10s_repeat" +
-          ",page_video_view_time" +
+          ",page_video_view_time" +*/
           ",page_posts_impressions" +
           ",page_posts_impressions_unique" +
-          ",page_posts_impressions_paid" +
+          /*",page_posts_impressions_paid" +
           ",page_posts_impressions_paid_unique" +
           ",page_posts_impressions_organic" +
           ",page_posts_impressions_organic_unique" +
@@ -201,7 +202,7 @@ module.exports = {
           ",page_posts_impressions_viral" +
           ",page_posts_impressions_viral_unique" +
           ",page_posts_impressions_nonviral" +
-          ",page_posts_impressions_nonviral_unique" +
+          ",page_posts_impressions_nonviral_unique" +*/
           ",page_posts_impressions_frequency_distribution&since=" +
           since +
           "&until=" +
@@ -209,7 +210,6 @@ module.exports = {
         "get",
         function(res) {
           let testArray = res.data;
-          console.log(res);
           if (!testArray) return;
 
           for (let index = 0; index < testArray.length; index++) {
