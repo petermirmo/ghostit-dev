@@ -43,7 +43,7 @@
 	height: 100%;
 
 	color: var(--black-theme-color);
-	background-color: var(--super-light-blue-theme-color);
+	background-color: var(--one-primary-color);
 
 	border-bottom: 1px solid var(--secondary-text-theme-color);
 

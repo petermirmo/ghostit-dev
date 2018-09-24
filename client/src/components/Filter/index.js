@@ -26,7 +26,7 @@ class Filter extends Component {
 
     return (
       <div className="filter-container">
-        <div className="dropdown-title">
+        <div className="dropdown-title pa8">
           Filter Calendar
           <FontAwesomeIcon icon={faAngleDown} style={{ marginLeft: "6px" }} />
         </div>

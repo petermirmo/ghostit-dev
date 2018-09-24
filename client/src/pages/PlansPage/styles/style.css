@@ -1,6 +1,6 @@
 .plans-page-background {
 	min-height: 100vh;
-	background: linear-gradient(120deg, var(--three-primary-color) 60%, var(--super-light-blue-theme-color) 0%);
+	background: linear-gradient(120deg, var(--three-primary-color) 60%, var(--one-primary-color) 0%);
 	overflow: auto;
 }
 .plan-page-title {
@@ -23,7 +23,7 @@
 	-webkit-flex-wrap: nowrap;
 }
 .plan-page-description {
-	background-color: var(--light-light-blue-theme-color);
+	background-color: var(--three-primary-color);
 	padding: 20px;
 	border-radius: 20px;
 	text-align: center;

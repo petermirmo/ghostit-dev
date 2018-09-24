@@ -922,7 +922,7 @@ class CampaignModal extends Component {
                     this.props.handleChange(false, "campaignModal");
                     this.props.handleChange(true, "recipeModal");
                   }}
-                  className="round-button blue"
+                  className="round-button button pa8 ma8 round"
                 >
                   <FontAwesomeIcon
                     icon={faArrowLeft}
@@ -936,7 +936,7 @@ class CampaignModal extends Component {
                 <div className="campaign-specific-footer">
                   <div className="campaign-footer-option right">
                     <div
-                      className="round-button green big"
+                      className="round-button button pa8 ma8"
                       title={
                         "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
                       }
@@ -968,7 +968,7 @@ class CampaignModal extends Component {
                   </div>
                   <div className="campaign-footer-option left">
                     <div
-                      className="round-button blue big"
+                      className="round-button button pa8 ma8"
                       title="Save a template based on this campaign."
                       onClick={this.createRecipe}
                     >
@@ -993,7 +993,7 @@ class CampaignModal extends Component {
               {recipeEditing && (
                 <div className="campaign-footer-option">
                   <div
-                    className="round-button green big"
+                    className="round-button button pa8 ma8"
                     title={
                       "Click to save template. Unlike campaigns, templates are not saved automatically."
                     }

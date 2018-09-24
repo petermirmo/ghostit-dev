@@ -2,7 +2,7 @@
 	display: flex;
 	display: -webkit-flex;
 
-	background-color: var(--light-light-blue-theme-color);
+	background-color: var(--three-primary-color);
 }
 .navigation-option-container {
 	display: inline-block;

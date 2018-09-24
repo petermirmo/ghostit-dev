@@ -94,12 +94,14 @@
 }
 .recipe-uses {
   text-align: center;
-  font-style: italic;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 .recipe-uses .blue {
   color: var(--nine-primary-color) !important;
+}
+.recipe-uses .italic {
+  font-style: italic;
 }
 .hover-active-div {
   width: 100%;

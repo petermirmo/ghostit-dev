@@ -1,82 +1,61 @@
 .calendar-container {
-  overflow-x: hidden;
 }
 .calendar-header-container {
-  position: relative;
-  display: flex;
-  display: -webkit-flex;
-
-  width: 100%;
-
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
 }
-.right-header-container {
+.center-header-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  min-width: 40%;
 }
 .calendar-month {
+  font-family: var(--silly-font-theme);
   color: var(--primary-text-theme-color);
+  font-size: var(--h1-font-size);
+  font-weight: bold;
   user-select: none;
 }
-.calendar-switch-month-button {
-  color: var(--turqoise-theme-color);
-  transition: all 0.4s ease;
-  -webkit-transition: all 0.4s ease;
+.calendar-switch-month {
+  color: var(--seven-primary-color);
 }
-.calendar-switch-month-button:hover {
+.calendar-switch-month:hover {
   color: var(--five-primary-color);
-  cursor: pointer;
 }
-.calendar-filter-container {
-  position: absolute;
-  top: 30%;
-  right: 1%;
+.calendar-view-change {
+  background-color: var(--seven-primary-color);
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  min-height: 40%;
-
-  color: var(--primary-text-theme-color);
-  font-size: var(--large-font-size);
+  color: var(--white-theme-color);
+  font-family: var(--silly-font-theme);
+  font-size: var(--h6-font-size);
 }
 .calendar-table {
   display: flex;
-  display: -webkit-flex;
-
-  background-color: var(--three-primary-color);
   flex-direction: column;
 }
 .calendar-day-titles-container {
   display: flex;
-  border-bottom: 1px solid var(--three-primary-color);
+  border-bottom: 1px solid var(--divider-theme-color);
 }
 .calendar-day-heading {
   text-align: center;
-
-  cursor: default !important;
+  color: var(--primary-text-theme-color);
 }
-
 .calendar-week {
   display: flex;
-  border-bottom: 1px solid var(--three-primary-color);
+  border-bottom: 1px solid var(--divider-theme-color);
 }
 .calendar-week:last-child {
   border-bottom: none;
 }
 .calendar-day {
-  min-height: 16.5vh;
-  max-width: 14.28% !important;
-  border-right: 1px solid var(--three-primary-color);
+  min-height: 17vh;
+  border-right: 1px solid var(--divider-theme-color);
+  background-color: var(--light-grey-theme-color);
 }
 .calendar-day-heading,
 .calendar-day {
-  width: 13%;
-  background-color: var(--white-theme-color);
+  max-width: 14.28% !important;
   flex: 1;
   user-select: none;
 }
@@ -85,11 +64,8 @@
   border-right: none;
 }
 .past-calendar-day {
-  color: var(--primary-text-theme-color);
-  background-color: var(--light-light-grey-theme-color);
-}
-.faded-calendar-days {
-  background-color: var(--super-light-blue-theme-color);
+  color: var(--secondary-text-theme-color);
+  background-color: var(--white-theme-color);
 }
 .present-calendar-day {
   border-bottom: 4px solid var(--five-primary-color);
@@ -98,12 +74,15 @@
 .calendar-day-date {
   padding: 4px;
   float: left;
+  color: inherit;
 }
 
 .date-plus-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+
+  color: inherit;
 }
 .calendar-day-plus {
   background-color: transparent;

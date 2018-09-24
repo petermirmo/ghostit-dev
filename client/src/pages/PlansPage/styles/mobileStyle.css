@@ -23,7 +23,7 @@
 	-webkit-flex-wrap: wrap;
 }
 .plan-page-description {
-	background-color: var(--light-light-blue-theme-color);
+	background-color: var(--three-primary-color);
 	padding: 20px;
 	border-radius: 20px;
 	text-align: center;

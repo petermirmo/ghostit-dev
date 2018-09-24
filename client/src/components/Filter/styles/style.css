@@ -7,13 +7,12 @@
   cursor: pointer;
   user-select: none;
   font-size: inherit;
+  color: inherit;
 }
 .dropdown-title {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: inherit;
+  color: inherit;
 
   white-space: nowrap;
 }
@@ -41,6 +40,6 @@
 
 .dropdown .item.active,
 .dropdown .item:hover {
-  background-color: var(--three-primary-color);
+  background-color: var(--seven-primary-color);
   color: var(--white-theme-color);
 }

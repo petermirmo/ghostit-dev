@@ -74,7 +74,7 @@ class HeaderSideBar extends Component {
             icon={faBars}
             size="2x"
             className="button transparent common-transition pb8"
-            onClick={() => this.props.openHeaderSideBar(true)}
+            onClick={() => this.props.openHeaderSideBar(!headerSideBar)}
           />
           {(isAdmin || isManager) && (
             <FontAwesomeIcon
@@ -91,87 +91,87 @@ class HeaderSideBar extends Component {
           <div className="navbar pa16">
             {(user.role === "demo" || isAdmin) && (
               <div
-                className={"header-button pb16 " + this.isActive("subscribe")}
+                className={"header-button mb16 " + this.isActive("subscribe")}
                 onClick={() => changePage("subscribe")}
               >
                 <FontAwesomeIcon icon={faStar} />
-                <div>Become Awesome</div>
+                Become Awesome
               </div>
             )}
             <div
-              className={"header-button pb16 " + this.isActive("content")}
+              className={"header-button mb16 " + this.isActive("content")}
               onClick={() => changePage("content")}
             >
               <FontAwesomeIcon icon={faCalendar} />
-              <div>Calendar</div>
+              Calendar
             </div>
             {isAdmin && (
               <div
-                className={"header-button pb16  " + this.isActive("analytics")}
+                className={"header-button mb16  " + this.isActive("analytics")}
                 onClick={() => changePage("analytics")}
               >
                 <FontAwesomeIcon icon={faChartLine} />
-                <div>Analytics</div>
+                Analytics
               </div>
             )}
             <div
               className={
-                "header-button pb16 " + this.isActive("social-accounts")
+                "header-button mb16 " + this.isActive("social-accounts")
               }
               onClick={() => changePage("social-accounts")}
             >
               <FontAwesomeIcon icon={faPlus} />
-              <div>Social Profiles</div>
+              Social Profiles
             </div>
             {isAdmin && (
               <div
-                className={"header-button pb16  " + this.isActive("manage")}
+                className={"header-button mb16  " + this.isActive("manage")}
                 onClick={() => changePage("manage")}
               >
                 <FontAwesomeIcon icon={faCogs} />
-                <div>Manage</div>
+                Manage
               </div>
             )}
             <div
-              className={"header-button pb16 " + this.isActive("profile")}
+              className={"header-button mb16 " + this.isActive("profile")}
               onClick={() => changePage("profile")}
             >
               <FontAwesomeIcon icon={faUser} />
-              <div>Profile</div>
+              Profile
             </div>
             {(user.role === "client" || isAdmin) && (
               <div
                 className={
-                  "header-button pb16 " + this.isActive("subscription")
+                  "header-button mb16 " + this.isActive("subscription")
                 }
-                onClick={() => changePage("mySubscription")}
+                onClick={() => changePage("subscription")}
               >
                 <FontAwesomeIcon icon={faHistory} />
-                <div>Billing History</div>
+                Billing History
               </div>
             )}
-            <div className="header-button pb16 " onClick={() => this.logout()}>
+            <div className="header-button mb16 " onClick={() => this.logout()}>
               <FontAwesomeIcon icon={faSignOutAlt} />
-              <div>Logout</div>
+              Logout
             </div>
             {(isAdmin || isManager) && (
               <div
                 className={
-                  "header-button pb16 " + this.isActive("writers-brief")
+                  "header-button mb16 " + this.isActive("writers-brief")
                 }
                 onClick={() => changePage("writersBrief")}
               >
                 <FontAwesomeIcon icon={faFileAlt} />
-                <div>Monthly Strategy</div>
+                Monthly Strategy
               </div>
             )}
             {(isAdmin || isManager) && (
               <div
-                className={"header-button pb16 " + this.isActive("strategy")}
+                className={"header-button mb16 " + this.isActive("strategy")}
                 onClick={() => changePage("strategy")}
               >
                 <FontAwesomeIcon icon={faFileAlt} />
-                <div>Your Questionnaire</div>
+                Your Questionnaire
               </div>
             )}
           </div>

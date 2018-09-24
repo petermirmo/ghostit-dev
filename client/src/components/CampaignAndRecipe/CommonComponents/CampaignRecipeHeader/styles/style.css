@@ -16,7 +16,7 @@
 }
 .campaign-grid-header {
   display: grid;
-  grid-template-columns: min-content auto max-content auto;
+  grid-template-columns: max-content 1fr max-content auto;
   grid-row-gap: 4px;
   padding: 10px 50px 10px 40px;
 }

@@ -33,9 +33,11 @@
   cursor: pointer;
 }
 .list-entry-name {
+  color: inherit;
 }
 .list-entry-date {
   font-size: var(--fourteen-font-size);
+  color: inherit;
 }
 .list-entry-name,
 .list-entry-date {
@@ -65,7 +67,7 @@
   margin-left: auto;
   margin-right: auto;
 
-  background-color: var(--five-primary-color);
+  background-color: var(--seven-primary-color);
   color: var(--white-theme-color);
 
   border-radius: 100px;

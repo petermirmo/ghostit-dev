@@ -42,9 +42,6 @@
   --turqoise-theme-color: #41dcfe;
   --yellow-theme-color: #ffff00;
 
-  --light-light-blue-theme-color: #b2e4ff;
-  --super-light-blue-theme-color: #e6f7ff;
-
   --light-purple-theme-color: #9c88ff;
   --light-light-purple-theme-color: #dbb5fd;
 
@@ -73,6 +70,9 @@
   --gigantic-font-size: 27px;
   --medium-gigantic-font-size: 31px;
   --super-gigantic-font-size: 33px;
+
+  --h1-font-size: 48px;
+  --h6-font-size: 20px;
 
   --large-line-height: 30px;
 
@@ -297,12 +297,6 @@
   position: relative;
   animation: animateRight 0.4s;
 }
-.center {
-  display: block !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  text-align: center !important;
-}
 .facebook {
   background-color: #4267b2;
 }
@@ -491,9 +485,9 @@
 
   border-radius: 100px;
 
-  background-color: var(--light-grey-theme-color);
+  background-color: var(--white-theme-color);
   border: 1px solid var(--secondary-text-theme-color);
-  color: var(--primary-text-theme-color);
+  color: var(--secondary-text-theme-color);
 
   cursor: pointer;
 }
@@ -525,9 +519,9 @@
   bottom: 2px;
 }
 .show-more:hover {
-  border-color: var(--five-primary-color);
+  border-color: var(--seven-primary-color);
   background-color: var(--white-theme-color);
-  color: var(--nine-primary-color);
+  color: var(--seven-primary-color);
 }
 
 .box-button {
@@ -554,6 +548,9 @@
   display: flex;
   flex-shrink: 0;
 }
+.flex.vt {
+  align-items: flex-start;
+}
 .flex.column {
   flex-direction: column;
 }
@@ -563,6 +560,13 @@
 }
 .flex.vc {
   align-items: center;
+}
+.flex.hc {
+  justify-content: center;
+}
+.flex.center {
+  align-items: center;
+  justify-content: center;
 }
 .flex.wrap {
   flex-wrap: wrap;
@@ -575,6 +579,9 @@
 }
 .absolute.right {
   right: 5px;
+}
+.round4 {
+  border-radius: 4px;
 }
 .round {
   border-radius: 100px;
@@ -687,6 +694,54 @@
   padding-left: 16px;
 }
 
+.ma16 {
+  margin: 16px;
+}
+.mx16 {
+  margin-right: 16px;
+  margin-left: 16px;
+}
+.my16 {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+.mt16 {
+  margin-top: 16px;
+}
+.mr16 {
+  margin-right: 16px;
+}
+.mb16 {
+  margin-bottom: 16px;
+}
+.ml16 {
+  margin-left: 16px;
+}
+
+.ma8 {
+  margin: 8px;
+}
+.mx8 {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+.my8 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.mt8 {
+  margin-top: 8px;
+}
+.mr8 {
+  margin-right: 8px;
+}
+.mb8 {
+  margin-bottom: 8px;
+}
+.ml8 {
+  margin-left: 8px;
+}
+
 body {
   min-height: 100%;
 
@@ -694,7 +749,7 @@ body {
   margin: 0;
 
   font-family: var(--font-theme);
-  color: var(--black-theme-color);
+  color: var(--primary-text-theme-color);
   font-size: var(--regular-font-size);
 }
 
@@ -714,7 +769,8 @@ input {
 
   font-size: var(--regular-font-size);
   font-family: var(--font-theme);
-  border: 1px solid var(--secondary-text-theme-color);
+  border: 1px solid var(--divider-theme-color);
+  color: var(--primary-text-theme-color);
   background-color: transparent;
 }
 textarea:focus,
@@ -725,6 +781,7 @@ input:focus {
 div {
   font-family: inherit;
   font-size: var(--regular-font-size);
+  color: var(--primary-text-theme-color);
 }
 [hoverinstructions]:before {
   /* needed - do not touch */

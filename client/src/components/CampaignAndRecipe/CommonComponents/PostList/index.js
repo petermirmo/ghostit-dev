@@ -124,7 +124,6 @@ class PostList extends Component {
             className="new-post-button"
             icon={faPlus}
             size="2x"
-            style={{ backgroundColor: campaign.color }}
           />
         )}
         {newPostPrompt && (

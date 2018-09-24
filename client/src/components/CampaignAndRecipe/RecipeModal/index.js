@@ -91,12 +91,12 @@ class RecipeModal extends Component {
     let recipeIndex = -3;
     for (
       let recipeRow = 0;
-      recipeRow <= Math.floor((activeRecipes.length + 3) / 6);
+      recipeRow <= Math.floor((activeRecipes.length + 3) / 3);
       recipeRow++
     ) {
       let rowArray = [];
 
-      for (let recipeColumn = 0; recipeColumn < 6; recipeColumn++) {
+      for (let recipeColumn = 0; recipeColumn < 3; recipeColumn++) {
         let recipeIndex2 = recipeIndex;
         let recipe = activeRecipes[recipeIndex2];
         if (recipeRow === 0 && recipeColumn === 0) {
@@ -168,7 +168,7 @@ class RecipeModal extends Component {
                 </span>
                 <br />
                 {recipe.creator && (
-                  <span className="blue">{recipe.creator}</span>
+                  <span className="italic">{recipe.creator}</span>
                 )}
               </div>
             </div>

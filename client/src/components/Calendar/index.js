@@ -87,8 +87,7 @@ class Calendar extends Component {
         let currentDate = calendarDay.isSame(new moment(), "day");
 
         let calendarClass = "calendar-day";
-        if (calendarDay.format("MM") !== calendarDate.format("MM"))
-          calendarClass = "calendar-day faded-calendar-days";
+
         if (currentDate) calendarClass = "calendar-day present-calendar-day";
         else if (pastDate) calendarClass = "calendar-day past-calendar-day";
 
@@ -395,29 +394,35 @@ class Calendar extends Component {
   };
   calendarHeader = (calendarDate, queueActive) => {
     return (
-      <div className="calendar-header-container">
-        <div className="right-header-container">
+      <div className="calendar-header-container px8 pt8">
+        <div className="flex vt hc">
+          <div className="calendar-view-change button common-transition round4">
+            <Filter
+              updateActiveCategory={this.props.updateActiveCategory}
+              categories={this.props.categories}
+            />
+          </div>
+        </div>
+        <div className="center-header-container">
           <FontAwesomeIcon
             icon={faAngleLeft}
-            size="4x"
-            className="calendar-switch-month-button"
+            size="3x"
+            className="calendar-switch-month button common-transition"
             onClick={this.subtractMonth}
           />
-          <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
+          <div className="calendar-month">
+            {calendarDate.format("MMMM YYYY")}
+          </div>
           <FontAwesomeIcon
             icon={faAngleRight}
-            size="4x"
-            className="calendar-switch-month-button"
+            size="3x"
+            className="calendar-switch-month button common-transition"
             onClick={this.addMonth}
           />
         </div>
-        <div className="calendar-filter-container">
-          <Filter
-            updateActiveCategory={this.props.updateActiveCategory}
-            categories={this.props.categories}
-          />
+        <div className="flex vt hc">
           <div
-            className="box-button left"
+            className="calendar-view-change button common-transition pa8 round4"
             onClick={() => this.setState({ queueActive: !queueActive })}
           >
             {queueActive ? "Calendar" : "Queue Preview"}

@@ -112,7 +112,7 @@
   color: var(--white-theme-color);
 }
 .faded-date-picker-days {
-  background-color: var(--super-light-blue-theme-color);
+  background-color: var(--one-primary-color);
 }
 .date-picker-date {
 }

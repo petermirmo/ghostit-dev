@@ -38,7 +38,7 @@
 	margin: 20px 0 20px 0;
 	padding: 20px 10px 10px 10px;
 	border-radius: 4px;
-	background-color: var(--light-light-blue-theme-color);
+	background-color: var(--three-primary-color);
 	overflow: auto;
 }
 
