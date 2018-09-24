@@ -694,6 +694,30 @@
   padding-left: 16px;
 }
 
+.ma32 {
+  margin: 32px;
+}
+.mx32 {
+  margin-right: 32px;
+  margin-left: 32px;
+}
+.my32 {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+.mt32 {
+  margin-top: 32px;
+}
+.mr32 {
+  margin-right: 32px;
+}
+.mb32 {
+  margin-bottom: 32px;
+}
+.ml32 {
+  margin-left: 32px;
+}
+
 .ma16 {
   margin: 16px;
 }

@@ -9,7 +9,6 @@ import { changePage, setUser, updateAccounts } from "./redux/actions/";
 import LoaderWedge from "./components/Notifications/LoaderWedge";
 
 import Header from "./components/Navigations/Header/";
-import ClientsSideBar from "./components/SideBarClients/";
 
 import LoginPage from "./pages/LoginPage/";
 import Subscribe from "./pages/SubscribePage/";
@@ -63,13 +62,7 @@ class Routes extends Component {
   };
   render() {
     const { datebaseConnection } = this.state;
-    const {
-      activePage,
-      clientSideBar,
-      headerSideBar,
-      user,
-      getKeyListenerFunction
-    } = this.props;
+    const { activePage, user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
@@ -80,7 +73,6 @@ class Routes extends Component {
     return (
       <div className="flex">
         {user && <Header />}
-        {clientSideBar && <ClientsSideBar />}
         <div className="wrapper">
           {user &&
             ((activePage === "content" ||
@@ -119,8 +111,6 @@ function mapStateToProps(state) {
   return {
     activePage: state.activePage,
     user: state.user,
-    clientSideBar: state.clientSideBar,
-    headerSideBar: state.headerSideBar,
     getKeyListenerFunction: state.getKeyListenerFunction
   };
 }

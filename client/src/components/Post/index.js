@@ -242,7 +242,7 @@ class PostingOptions extends Component {
     const linkPreviewCanEdit = returnOfCarouselOptions[1];
 
     // Loop through all accounts
-    let activePageAccountsArray;
+    let activePageAccountsArray = [];
     if (canEditPost) {
       activePageAccountsArray = this.createActiveAccounts(
         "socialType",
@@ -254,6 +254,14 @@ class PostingOptions extends Component {
         "_id",
         accountID,
         accounts
+      );
+    }
+
+    if (activePageAccountsArray.length === 0) {
+      return (
+        <div className="flex hc mt32 no-accounts">
+          Connect {socialType} account! (Go to Social Profiles in the sidebar)
+        </div>
       );
     }
 

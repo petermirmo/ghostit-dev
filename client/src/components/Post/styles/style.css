@@ -1,3 +1,12 @@
+.no-accounts {
+  height: 100%;
+  width: 100%;
+
+  font-family: var(--silly-font-theme);
+  font-size: var(--gigantic-font-size);
+  font-weight: bold;
+  text-align: center;
+}
 .post-instruction-container {
   flex: 1;
   display: flex;
@@ -49,9 +58,9 @@
 
   padding: 8px;
 
-  border-left: 1px solid var(--secondary-text-theme-color);
-  border-right: 1px solid var(--secondary-text-theme-color);
-  border-bottom: 1px solid var(--secondary-text-theme-color);
+  border-left: 1px solid var(--divider-theme-color);
+  border-right: 1px solid var(--divider-theme-color);
+  border-bottom: 1px solid var(--divider-theme-color);
 }
 .max-characters {
   display: inline-block;
@@ -81,9 +90,9 @@
   width: 100%;
 
   border-radius: 100px;
-  background-color: var(--five-primary-color);
+  background-color: var(--seven-primary-color);
   font-size: var(--large-font-size);
 }
 .schedule-post-button:hover {
-  background-color: var(--nine-primary-color);
+  background-color: var(--eight-primary-color);
 }
