@@ -78,7 +78,7 @@ class Analytics extends Component {
       );
     }
     return (
-      <div className="wrapper" style={this.props.margin}>
+      <div  >
         <div className="test-container">
           {accountClickMeDivs}
           {postClickMeDivs}

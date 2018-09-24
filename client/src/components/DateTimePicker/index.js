@@ -293,7 +293,7 @@ class DatePicker extends Component {
                 <FontAwesomeIcon
                   icon={faAngleLeft}
                   size="3x"
-                  color="var(--blue-theme-color)"
+                  color="var(--five-primary-color)"
                 />
               </span>
               <h2 className="date-picker-calendar-month">
@@ -307,7 +307,7 @@ class DatePicker extends Component {
                 <FontAwesomeIcon
                   icon={faAngleRight}
                   size="3x"
-                  color="var(--blue-theme-color)"
+                  color="var(--five-primary-color)"
                 />
               </span>
             </div>

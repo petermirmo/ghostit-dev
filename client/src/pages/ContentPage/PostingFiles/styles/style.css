@@ -45,14 +45,14 @@
   color: var(--black-theme-color);
   background-color: var(--super-light-blue-theme-color);
 
-  border-bottom: 1px solid var(--grey-theme-color);
+  border-bottom: 1px solid var(--secondary-text-theme-color);
 
   opacity: 0.4;
   cursor: pointer;
 }
 .active-account-tab {
   opacity: 0.9;
-  border-right: 4px solid var(--blue-theme-color);
+  border-right: 4px solid var(--five-primary-color);
 }
 .post-modal-body {
   width: 80%;
@@ -67,7 +67,7 @@
 
   font-size: var(--gigantic-font-size);
   color: var(--white-theme-color);
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
 
   margin: 10% 10% 50px 10%;
 
@@ -76,5 +76,5 @@
   cursor: pointer;
 }
 .connect-accounts-button:hover {
-  background-color: var(--dark-blue-theme-color);
+  background-color: var(--nine-primary-color);
 }

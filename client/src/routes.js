@@ -1,18 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faBars from "@fortawesome/fontawesome-free-solid/faBars";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  changePage,
-  setUser,
-  updateAccounts,
-  openHeaderSideBar,
-  openClientSideBar
-} from "./redux/actions/";
+import { changePage, setUser, updateAccounts } from "./redux/actions/";
 
 import LoaderWedge from "./components/Notifications/LoaderWedge";
 
@@ -38,7 +30,6 @@ class Routes extends Component {
   };
   constructor(props) {
     super(props);
-
     axios.get("/api/user").then(res => {
       let { success, user } = res.data;
 
@@ -50,8 +41,7 @@ class Routes extends Component {
           if (!accounts) accounts = [];
           props.updateAccounts(accounts);
           props.setUser(user);
-          if (user.role === "demo") props.changePage("subscribe");
-          else props.changePage("content");
+
           this.setState({ datebaseConnection: true });
         });
       } else {
@@ -71,12 +61,6 @@ class Routes extends Component {
       }
     });
   };
-  openHeader = () => {
-    this.props.openHeaderSideBar(true);
-  };
-  openClientSideBar = () => {
-    this.props.openClientSideBar(!this.props.clientSideBar);
-  };
   render() {
     const { datebaseConnection } = this.state;
     const {
@@ -91,25 +75,13 @@ class Routes extends Component {
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
 
     let accessClientButton;
-    if (user) {
-      accessClientButton = (user.role === "manager" ||
-        user.role === "admin") && (
-        <button
-          className="my-client-button"
-          onClick={() => this.openClientSideBar()}
-        >
-          My Clients
-        </button>
-      );
-    }
-    let margin;
-    if (headerSideBar) margin = { marginLeft: "20%" };
-
     if (!datebaseConnection) return <LoaderWedge />;
 
     return (
-      <div>
-        <div className="main-navigation-container">
+      <div className="flex">
+        {user && <Header />}
+        {clientSideBar && <ClientsSideBar />}
+        <div className="wrapper">
           {user &&
             ((activePage === "content" ||
               activePage === "strategy" ||
@@ -126,30 +98,18 @@ class Routes extends Component {
                   />
                 </div>
               ))}
-          {accessClientButton}
-          {activePage !== "" &&
-            !headerSideBar && (
-              <FontAwesomeIcon
-                icon={faBars}
-                size="2x"
-                className="activate-header-button"
-                onClick={this.openHeader}
-              />
-            )}
-        </div>
-        {activePage !== "" && headerSideBar && <Header />}
-        {clientSideBar && <ClientsSideBar />}
 
-        {activePage === "" && <LoginPage margin={margin} />}
-        {activePage === "subscribe" && <Subscribe margin={margin} />}
-        {activePage === "content" && <Content margin={margin} />}
-        {activePage === "strategy" && <Strategy margin={margin} />}
-        {activePage === "analytics" && <Analytics margin={margin} />}
-        {activePage === "accounts" && <Accounts margin={margin} />}
-        {activePage === "writersBrief" && <WritersBrief margin={margin} />}
-        {activePage === "manage" && <Manage margin={margin} />}
-        {activePage === "profile" && <Profile margin={margin} />}
-        {activePage === "mySubscription" && <MySubscription margin={margin} />}
+          {activePage === "" && <LoginPage />}
+          {activePage === "subscribe" && <Subscribe />}
+          {activePage === "content" && <Content />}
+          {activePage === "strategy" && <Strategy />}
+          {activePage === "analytics" && <Analytics />}
+          {activePage === "social-accounts" && <Accounts />}
+          {activePage === "writers-brief" && <WritersBrief />}
+          {activePage === "manage" && <Manage />}
+          {activePage === "profile" && <Profile />}
+          {activePage === "subscription" && <MySubscription />}
+        </div>
       </div>
     );
   }
@@ -169,9 +129,7 @@ function mapDispatchToProps(dispatch) {
     {
       changePage,
       setUser,
-      updateAccounts,
-      openHeaderSideBar,
-      openClientSideBar
+      updateAccounts
     },
     dispatch
   );

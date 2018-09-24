@@ -34,7 +34,7 @@
 	display: flex;
 	display: -webkit-flex;
 
-	background-color: var(--light-blue-theme-color);
+	background-color: var(--three-primary-color);
 	flex-direction: column;
 }
 .calendar-day-titles-container {
@@ -62,8 +62,8 @@
 
 	padding: 0;
 
-	border-right: 1px solid var(--light-blue-theme-color);
-	border-bottom: 1px solid var(--light-blue-theme-color);
+	border-right: 1px solid var(--three-primary-color);
+	border-bottom: 1px solid var(--three-primary-color);
 }
 .calendar-day-heading:nth-child(7n),
 .calendar-day:nth-child(7n) {
@@ -129,7 +129,7 @@
 
 	box-sizing: border-box;
 
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 }
 .calendar-post {
 	max-height: 20px;

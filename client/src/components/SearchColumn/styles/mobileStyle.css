@@ -16,7 +16,7 @@
 	border-radius: 4px;
 }
 .user-row:nth-child(even) {
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 }
 .user-row:hover {
 	background-color: var(--green-theme-color);

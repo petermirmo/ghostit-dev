@@ -38,5 +38,5 @@
 }
 .nagivation-option.active {
 	transform: translateY(-2px);
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 }

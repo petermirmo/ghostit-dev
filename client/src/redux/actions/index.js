@@ -1,4 +1,5 @@
 export const changePage = activePage => {
+  history.pushState(null, null, "/" + activePage);
   return {
     type: "TAB_SELECTED",
     payload: activePage
@@ -16,17 +17,16 @@ export const openClientSideBar = value => {
     payload: value
   };
 };
-
-export const updateAccounts = value => {
+export const openHeaderSideBar = value => {
   return {
-    type: "SOCIAL_ACCOUNTS",
+    type: "HEADER_SIDE_BAR",
     payload: value
   };
 };
 
-export const openHeaderSideBar = value => {
+export const updateAccounts = value => {
   return {
-    type: "HEADER_SIDE_BAR",
+    type: "SOCIAL_ACCOUNTS",
     payload: value
   };
 };

@@ -29,7 +29,7 @@
 
 .social-media-div-clicked,
 .social-media-div:hover {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
   cursor: pointer;
 }

@@ -276,7 +276,7 @@ class AccountsPage extends Component {
       }
     }
     return (
-      <div className="wrapper" style={this.props.margin}>
+      <div  >
         <div className="accounts-wrapper">
           <div className="account-column">
             <button

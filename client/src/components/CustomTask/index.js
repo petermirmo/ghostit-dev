@@ -194,7 +194,7 @@ class CustomTask extends Component {
           value={instructions}
           readOnly={!canEditPost}
         />
-        <div className="flex vertical-center wrap spacing top">
+        <div className="flex vc wrap spacing top">
           <ImagesDiv
             postImages={images}
             handleChange={images => this.handleChange(images, "images")}

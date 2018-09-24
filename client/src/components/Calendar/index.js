@@ -300,7 +300,7 @@ class Calendar extends Component {
       post.name
     )
       content = post.name;
-    let color = "var(--blue-theme-color)";
+    let color = "var(--five-primary-color)";
     if (post.color) color = post.color;
     if (post.color) color = post.color;
 

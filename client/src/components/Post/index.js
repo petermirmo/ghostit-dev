@@ -297,7 +297,7 @@ class PostingOptions extends Component {
             </div>
           )}
 
-          <div className="flex vertical-center wrap spacing top">
+          <div className="flex vc wrap spacing top">
             {!this.props.recipeEditing && (
               <SelectAccountDiv
                 activePageAccountsArray={activePageAccountsArray}

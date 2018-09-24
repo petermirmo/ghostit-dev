@@ -41,6 +41,6 @@
 
 .dropdown .item.active,
 .dropdown .item:hover {
-  background-color: var(--light-blue-theme-color);
+  background-color: var(--three-primary-color);
   color: var(--white-theme-color);
 }

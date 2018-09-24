@@ -54,7 +54,7 @@ class Content extends Component {
 	render() {
 		const { fullName, email, website, password, saving } = this.state;
 		return (
-			<div className="wrapper" style={this.props.margin}>
+			<div  >
 				<div className="profile-background center">
 					<div className="profile-container center">
 						<form>

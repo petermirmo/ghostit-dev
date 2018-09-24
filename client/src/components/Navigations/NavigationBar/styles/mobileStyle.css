@@ -34,6 +34,6 @@
 	border: none;
 }
 .nagivation-option.active {
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 	border: none;
 }

@@ -26,7 +26,7 @@ class PlansPage extends Component {
 	};
 	render() {
 		return (
-			<div className="wrapper plans-page-background" style={this.props.margin}>
+			<div className="wrapper plans-page-background" >
 				<p className="plan-page-title center">
 					Get Started With Ghostit <span className="plan-title-emphasis">Now</span>
 				</p>

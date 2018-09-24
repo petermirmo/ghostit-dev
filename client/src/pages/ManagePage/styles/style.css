@@ -50,7 +50,7 @@
 	margin: 20px 20px 20px 50px;
 	border-radius: 100px;
 	background-color: var(--white-theme-color);
-	color: var(--blue-theme-color);
+	color: var(--five-primary-color);
 	cursor: pointer;
 }
 .plan-form-footer {

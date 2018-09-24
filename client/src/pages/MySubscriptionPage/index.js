@@ -62,7 +62,7 @@ class MySubscription extends Component {
     let invoiceRowDivs;
     if (invoices) invoiceRowDivs = this.createInvoiceRows(invoices);
     return (
-      <div className="wrapper" style={this.props.margin}>
+      <div  >
         <div className="invoice-container">{invoiceRowDivs}</div>
       </div>
     );

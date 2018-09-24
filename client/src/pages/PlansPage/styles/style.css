@@ -1,6 +1,6 @@
 .plans-page-background {
 	min-height: 100vh;
-	background: linear-gradient(120deg, var(--light-blue-theme-color) 60%, var(--super-light-blue-theme-color) 0%);
+	background: linear-gradient(120deg, var(--three-primary-color) 60%, var(--super-light-blue-theme-color) 0%);
 	overflow: auto;
 }
 .plan-page-title {
@@ -39,7 +39,7 @@
 	margin: 5px 0 0 0;
 	display: block;
 	min-height: 40px;
-	border-bottom: 2px solid var(--light-blue-theme-color);
+	border-bottom: 2px solid var(--three-primary-color);
 }
 .plan-row:last-child {
 	border: none;
@@ -62,7 +62,7 @@
 	margin: 0 0 0 0;
 	display: inline-block;
 	background-color: transparent;
-	color: var(--blue-theme-color);
+	color: var(--five-primary-color);
 	cursor: pointer;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;

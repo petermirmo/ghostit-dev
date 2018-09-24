@@ -13,10 +13,10 @@
 
 	padding: 4px;
 
-	border: 1px solid var(--grey-theme-color);
+	border: 1px solid var(--secondary-text-theme-color);
 }
 .create-placeholder-form input:focus {
-	border: 1px solid var(--blue-theme-color);
+	border: 1px solid var(--five-primary-color);
 }
 .create-placeholder-form-keyword {
 	min-width: 30% !important;
@@ -89,8 +89,8 @@
 	padding: 10px 20px 10px 20px;
 	margin: 0 0 0 20px;
 
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 }
 .blog-save-button:hover {
-	background-color: var(--dark-blue-theme-color);
+	background-color: var(--nine-primary-color);
 }

@@ -174,7 +174,7 @@ export function getPostColor(socialType) {
   } else if (socialType === "newsletter") {
     return "#fd651c";
   } else {
-    return "var(--blue-theme-color)";
+    return "var(--five-primary-color)";
   }
 }
 export function getSocialCharacters(post_type) {

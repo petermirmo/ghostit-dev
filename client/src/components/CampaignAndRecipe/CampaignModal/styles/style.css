@@ -80,7 +80,7 @@
   padding: 6px 40px 6px 40px;
 }
 .round-button.blue {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
 }
 .round-button.green {
   background-color: var(--green-theme-color);

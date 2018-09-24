@@ -12,6 +12,8 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faStar from "@fortawesome/fontawesome-free-solid/faStar";
 import faHistory from "@fortawesome/fontawesome-free-solid/faHistory";
 import faChartLine from "@fortawesome/fontawesome-free-solid/faChartLine";
+import faBars from "@fortawesome/fontawesome-free-solid/faBars";
+import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -39,7 +41,7 @@ class HeaderSideBar extends Component {
   isActive = page => {
     switch (this.props.activePage) {
       case page:
-        return " header-active";
+        return " active";
       default:
         return "";
     }
@@ -48,20 +50,18 @@ class HeaderSideBar extends Component {
     axios.get("/api/logout").then(res => {
       let { success, loggedIn } = res.data;
       if (success) {
-        this.props.setUser(null);
-        this.props.updateAccounts([]);
         this.props.changePage("");
+        this.props.updateAccounts([]);
+        this.props.setUser(null);
       } else {
-        if (loggedIn === false) window.location.reload();
+        window.location.reload();
       }
     });
   };
   render() {
-    const { user, activePage } = this.props;
-    const { changePage } = this.props;
+    const { user, activePage, changePage, headerSideBar } = this.props;
 
     if (!user) {
-      changePage("");
       return <div style={{ display: "none" }} />;
     }
 
@@ -69,89 +69,113 @@ class HeaderSideBar extends Component {
     let isManager = user.role === "manager";
     return (
       <div className="header-navbar">
-        <div className="navbar">
+        <div className="header-stationary-column pa8">
           <FontAwesomeIcon
-            icon={faTimes}
+            icon={faBars}
             size="2x"
-            className="close"
-            onClick={() => this.props.openHeaderSideBar(false)}
+            className="button transparent common-transition pb8"
+            onClick={() => this.props.openHeaderSideBar(true)}
           />
-          <div className="main-nav">
+          {(isAdmin || isManager) && (
+            <FontAwesomeIcon
+              icon={faUsers}
+              size="2x"
+              className="button transparent common-transition pb8"
+              onClick={() =>
+                this.props.openClientSideBar(!this.props.clientSideBar)
+              }
+            />
+          )}
+        </div>
+        {headerSideBar && (
+          <div className="navbar pa16">
             {(user.role === "demo" || isAdmin) && (
-              <a
-                className={"header-button" + this.isActive("subscribe")}
+              <div
+                className={"header-button pb16 " + this.isActive("subscribe")}
                 onClick={() => changePage("subscribe")}
               >
-                <FontAwesomeIcon icon={faStar} /> Become Awesome
-              </a>
+                <FontAwesomeIcon icon={faStar} />
+                <div>Become Awesome</div>
+              </div>
             )}
-
-            <a
-              className={"header-button" + this.isActive("content")}
+            <div
+              className={"header-button pb16 " + this.isActive("content")}
               onClick={() => changePage("content")}
             >
-              <FontAwesomeIcon icon={faCalendar} /> Calendar
-            </a>
+              <FontAwesomeIcon icon={faCalendar} />
+              <div>Calendar</div>
+            </div>
             {isAdmin && (
-              <a
-                className={"header-button " + this.isActive("analytics")}
+              <div
+                className={"header-button pb16  " + this.isActive("analytics")}
                 onClick={() => changePage("analytics")}
               >
-                <FontAwesomeIcon icon={faChartLine} /> Analytics
-              </a>
+                <FontAwesomeIcon icon={faChartLine} />
+                <div>Analytics</div>
+              </div>
             )}
-
-            <a
-              className={"header-button" + this.isActive("accounts")}
-              onClick={() => changePage("accounts")}
+            <div
+              className={
+                "header-button pb16 " + this.isActive("social-accounts")
+              }
+              onClick={() => changePage("social-accounts")}
             >
-              <FontAwesomeIcon icon={faPlus} /> Social Profiles
-            </a>
-
+              <FontAwesomeIcon icon={faPlus} />
+              <div>Social Profiles</div>
+            </div>
             {isAdmin && (
-              <a
-                className={"header-button " + this.isActive("manage")}
+              <div
+                className={"header-button pb16  " + this.isActive("manage")}
                 onClick={() => changePage("manage")}
               >
-                <FontAwesomeIcon icon={faCogs} /> Manage
-              </a>
+                <FontAwesomeIcon icon={faCogs} />
+                <div>Manage</div>
+              </div>
             )}
-
-            <a
-              className={"header-button" + this.isActive("profile")}
+            <div
+              className={"header-button pb16 " + this.isActive("profile")}
               onClick={() => changePage("profile")}
             >
-              <FontAwesomeIcon icon={faUser} /> Profile
-            </a>
+              <FontAwesomeIcon icon={faUser} />
+              <div>Profile</div>
+            </div>
             {(user.role === "client" || isAdmin) && (
-              <a
-                className={"header-button" + this.isActive("mySubscription")}
+              <div
+                className={
+                  "header-button pb16 " + this.isActive("subscription")
+                }
                 onClick={() => changePage("mySubscription")}
               >
-                <FontAwesomeIcon icon={faHistory} /> Billing History
-              </a>
+                <FontAwesomeIcon icon={faHistory} />
+                <div>Billing History</div>
+              </div>
             )}
-            <a className="header-button" onClick={() => this.logout()}>
-              <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-            </a>
+            <div className="header-button pb16 " onClick={() => this.logout()}>
+              <FontAwesomeIcon icon={faSignOutAlt} />
+              <div>Logout</div>
+            </div>
             {(isAdmin || isManager) && (
-              <a
-                className={"header-button" + this.isActive("writersBrief")}
+              <div
+                className={
+                  "header-button pb16 " + this.isActive("writers-brief")
+                }
                 onClick={() => changePage("writersBrief")}
               >
-                <FontAwesomeIcon icon={faFileAlt} /> Monthly Strategy
-              </a>
+                <FontAwesomeIcon icon={faFileAlt} />
+                <div>Monthly Strategy</div>
+              </div>
             )}
             {(isAdmin || isManager) && (
-              <a
-                className={"header-button" + this.isActive("strategy")}
+              <div
+                className={"header-button pb16 " + this.isActive("strategy")}
                 onClick={() => changePage("strategy")}
               >
-                <FontAwesomeIcon icon={faFileAlt} /> Your Questionnaire
-              </a>
+                <FontAwesomeIcon icon={faFileAlt} />
+                <div>Your Questionnaire</div>
+              </div>
             )}
           </div>
-        </div>
+        )}
 
         {(activePage === "content" ||
           activePage === "strategy" ||
@@ -178,17 +202,18 @@ function mapStateToProps(state) {
   return {
     activePage: state.activePage,
     user: state.user,
-    clientSideBar: state.clientSideBar
+    clientSideBar: state.clientSideBar,
+    headerSideBar: state.headerSideBar
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage: changePage,
-      setUser: setUser,
-      openClientSideBar: openClientSideBar,
-      openHeaderSideBar: openHeaderSideBar,
-      updateAccounts: updateAccounts
+      changePage,
+      setUser,
+      updateAccounts,
+      openHeaderSideBar,
+      openClientSideBar
     },
     dispatch
   );

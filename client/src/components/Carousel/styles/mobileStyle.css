@@ -25,7 +25,7 @@
 }
 .carousel-previous-button,
 .carousel-next-button {
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 	position: absolute;
 	bottom: 0;
 }
