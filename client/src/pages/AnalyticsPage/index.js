@@ -21,7 +21,13 @@ class Analytics extends Component {
 
   getAllFacebookPageAnalytics = () => {
     axios.get("/api/facebook/page/analytics/all").then(res => {
-      console.log(res.data);
+      const { success } = res.data;
+      if (!success) {
+        alert(res.data.message);
+        return;
+      } else {
+        console.log(res.data);
+      }
     });
   };
 

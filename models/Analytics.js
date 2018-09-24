@@ -12,7 +12,8 @@ const analyticsSchema = new Schema(
     associatedID: {
       // post / account ID that this object is associated with
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     analyitcs: [
       // each element represents a different analytics metric
