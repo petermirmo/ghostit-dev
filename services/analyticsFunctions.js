@@ -220,7 +220,44 @@ module.exports = {
                 // maybe in this case, request for the last 30 or 90 days?
                 FB.setAccessToken(account.accessToken);
                 FB.api(account.socialID + fbRequest, "get", function(response) {
-                  res.send({ success: true, response });
+                  if (!response) {
+                    console.log(
+                      "response from facebook = undefined for account " +
+                        account.givenName +
+                        " " +
+                        account._id
+                    );
+                    return;
+                  } else if (response.error) {
+                    console.log(
+                      "response error for account " +
+                        account.givenName +
+                        " " +
+                        account._id
+                    );
+                    console.log(response.error);
+                    return;
+                  } else if (!response.data) {
+                    console.log(
+                      "response.data from facebook = undefined for account " +
+                        account.givenName +
+                        " " +
+                        account._id
+                    );
+                    console.log(response);
+                    return;
+                  }
+                  let relevantData = [];
+                  for (let j = 0; j < response.data.length; j++) {
+                    let analyticObj = response.data[j];
+                    if (
+                      analyticObj.period === "day" ||
+                      analyticObj.period === "lifetime"
+                    ) {
+                      relevantData.push(analyticObj);
+                    }
+                  }
+                  res.send({ success: true, data: relevantData });
                 });
                 return;
               }

@@ -4,7 +4,12 @@ const Schema = mongoose.Schema;
 
 const analyticsSchema = new Schema(
   {
-    analyticType: {
+    socialType: {
+      // "facebook" or "twitter" etc.
+      type: String,
+      required: true
+    },
+    analyticsType: {
       // "post" or "account"
       type: String,
       required: true

@@ -70,14 +70,10 @@ class Analytics extends Component {
 
   render() {
     let { accounts } = this.props;
-    let { facebookPosts } = this.state;
+    let { facebookPosts, analyticsObjects, activeAnalyticsIndex } = this.state;
 
     return (
       <div className="wrapper" style={this.props.margin}>
-        <div className="test-container">
-          {accountClickMeDivs}
-          {postClickMeDivs}
-        </div>
         {this.props.user.role === "admin" && (
           <div className="test-container">
             <div
@@ -88,22 +84,23 @@ class Analytics extends Component {
             </div>
           </div>
         )}
-        {this.props.user.role === "admin" && (
-          <div className="test-container">
-            {analyticsObjects.map((obj, index) => {
-              <div
-                className="here"
-                key={index + "account"}
-                onClick={() => this.setState({ activeAnalyticsIndex: index })}
-              >
-                {obj.name}
-              </div>;
-            })}
-          </div>
-        )}
+        {this.props.user.role === "admin" &&
+          analyticsObjects && (
+            <div className="test-container">
+              {analyticsObjects.map((obj, index) => {
+                <div
+                  className="here"
+                  key={index + "account"}
+                  onClick={() => this.setState({ activeAnalyticsIndex: index })}
+                >
+                  {obj.name}
+                </div>;
+              })}
+            </div>
+          )}
         {activeAnalyticsIndex !== "undefined" && (
           <div className="analytics-display">
-            {analyticsObjects[activeAnalyticsIndex].name}
+            {/*analyticsObjects[activeAnalyticsIndex].name*/}
           </div>
         )}
       </div>
