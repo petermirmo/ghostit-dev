@@ -61,15 +61,6 @@
 .campaign-footer-option.right {
   justify-content: flex-end;
 }
-.round-button {
-  border-radius: 4px;
-  white-space: nowrap;
-  color: var(--white-theme-color);
-  background-color: var(--seven-primary-color);
-}
-.round-button:hover {
-  background-color: var(--eight-primary-color);
-}
 
 .campaign-footer-option.right {
   display: flex;

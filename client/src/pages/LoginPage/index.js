@@ -43,13 +43,13 @@ class Login extends Component {
     if (title) notification.title = title;
     if (type) notification.type = type;
 
-    this.setState({ notification: notification });
+    this.setState({ notification });
 
     if (notification.on) {
       setTimeout(() => {
         let { notification } = this.state;
         notification.on = false;
-        this.setState({ notification: notification });
+        this.setState({ notification });
       }, 5000);
     }
   };
@@ -89,11 +89,11 @@ class Login extends Component {
     if (fullName && email && website && timezone && password) {
       axios
         .post("/api/register", {
-          fullName: fullName,
-          email: email,
-          website: website,
-          timezone: timezone,
-          password: password
+          fullName,
+          email,
+          website,
+          timezone,
+          password
         })
         .then(res => {
           const { success, user, message } = res.data;
@@ -105,7 +105,7 @@ class Login extends Component {
             this.props.openHeaderSideBar(true);
           } else {
             this.notify({
-              message: message,
+              message,
               type: "danger",
               title: "Something went wrong!"
             });
@@ -123,7 +123,7 @@ class Login extends Component {
       });
       return;
     } else {
-      axios.post("/api/email/reset", { email: email }).then(res => {
+      axios.post("/api/email/reset", { email }).then(res => {
         let { success, errorMessage } = res.data;
         if (success) {
           this.notify({ message: " ", type: "success", title: "Email Sent!" });
@@ -148,15 +148,15 @@ class Login extends Component {
     } = this.state;
 
     return (
-      <div className="login-background">
-        <img src={logo} alt="logo" />
+      <div className="login-background flex column vc">
+        <img src={logo} alt="logo" className="py32" />
 
-        <div className="login-box">
+        <div className="login-box pa32 round16 flex column">
           {login === "login" && (
             <div>
-              <form className="form-box" action="/api/auth/login" method="post">
+              <div className="form-box flex column vc">
                 <input
-                  className="login-input"
+                  className="login-input pa8 mb8 round4"
                   value={email}
                   onChange={event =>
                     this.handleChange("email", event.target.value)
@@ -167,7 +167,7 @@ class Login extends Component {
                   required
                 />
                 <input
-                  className="login-input password"
+                  className="login-input pa8 mb8 round4"
                   value={password}
                   onChange={event =>
                     this.handleChange("password", event.target.value)
@@ -177,31 +177,29 @@ class Login extends Component {
                   placeholder="Password"
                   required
                 />
-                <button
-                  className="submit-colorful"
+                <div
+                  className="submit-blue common-transition px32 py8 my8 round4 button flex hc"
                   onClick={this.login}
                   type="submit"
                 >
                   Sign In
-                </button>
-              </form>
+                </div>
+              </div>
 
-              <br />
               <div
-                className="login-switch center"
-                href="#"
+                className="login-switch mt8 button flex vc hc"
                 onClick={event => this.handleChange("login", "register")}
               >
                 New to Ghostit?{" "}
-                <h4 className="login-switch-highlight"> Sign Up</h4>
+                <div className="login-switch-highlight ml4">Sign Up</div>
               </div>
             </div>
           )}
           {login === "register" && (
             <div>
-              <form className="form-box" action="api/user" method="post">
+              <div className="form-box flex column vc">
                 <input
-                  className="login-input"
+                  className="login-input pa8 mb8 round4"
                   value={fullName}
                   onChange={event =>
                     this.handleChange("fullName", event.target.value)
@@ -213,7 +211,7 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input"
+                  className="login-input pa8 mb8 round4"
                   value={email}
                   onChange={event =>
                     this.handleChange("email", event.target.value)
@@ -225,7 +223,7 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input"
+                  className="login-input pa8 mb8 round4"
                   value={website}
                   onChange={event =>
                     this.handleChange("website", event.target.value)
@@ -237,7 +235,7 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input password"
+                  className="login-input pa8 mb8 round4 password"
                   value={password}
                   onChange={event =>
                     this.handleChange("password", event.target.value)
@@ -247,30 +245,28 @@ class Login extends Component {
                   required
                 />
 
-                <button
-                  className="submit-colorful"
+                <div
+                  className="submit-blue common-transition px32 py8 my8 round4 button flex hc"
                   onClick={this.register}
                   type="submit"
                 >
                   Register
-                </button>
-              </form>
+                </div>
+              </div>
 
-              <br />
               <div
-                className="login-switch center"
-                href="#"
+                className="login-switch mt8 button flex vc hc"
                 onClick={event => this.handleChange("login", "login")}
               >
                 Have an account?{" "}
-                <h4 className="login-switch-highlight"> Sign In</h4>
+                <div className="login-switch-highlight ml4"> Sign In</div>
               </div>
             </div>
           )}
           {login === "forgotPassword" && (
             <div>
               <input
-                className="login-input"
+                className="login-input pa8 mb8 round4"
                 value={email}
                 onChange={event =>
                   this.handleChange("email", event.target.value)
@@ -280,26 +276,29 @@ class Login extends Component {
                 placeholder="Email"
                 required
               />
-              <button className="submit-blue" onClick={this.sendResetEmail}>
+              <button
+                className="submit-blue common-transition pa8 mb8 round4 button"
+                onClick={this.sendResetEmail}
+              >
                 Send Password Reset
               </button>
               <div
-                className="login-switch center"
-                href="#"
+                className="login-switch mt8 button flex vc hc"
                 onClick={event => this.handleChange("login", "login")}
               >
-                Back to <h4 className="login-switch-highlight"> Sign In</h4>
+                Back to{" "}
+                <div className="login-switch-highlight ml4">Sign In</div>
               </div>
             </div>
           )}
         </div>
         {login !== "forgotPassword" && (
-          <p
-            className="forgot-password center"
+          <div
+            className="forgot-password button mt16"
             onClick={event => this.handleChange("login", "forgotPassword")}
           >
             Forgot password?
-          </p>
+          </div>
         )}
         {notification.on && (
           <Notification
@@ -320,10 +319,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage: changePage,
-      setUser: setUser,
-      updateAccounts: updateAccounts,
-      openHeaderSideBar: openHeaderSideBar
+      changePage,
+      setUser,
+      updateAccounts,
+      openHeaderSideBar
     },
     dispatch
   );

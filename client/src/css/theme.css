@@ -573,6 +573,9 @@
 .round4 {
   border-radius: 4px;
 }
+.round8 {
+  border-radius: 8px;
+}
 .round16 {
   border-radius: 16px;
 }
@@ -639,6 +642,30 @@
   padding-left: 32px;
 }
 
+.pa16 {
+  padding: 16px;
+}
+.px16 {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+.py16 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.pt16 {
+  padding-top: 16px;
+}
+.pr16 {
+  padding-right: 16px;
+}
+.pb16 {
+  padding-bottom: 16px;
+}
+.pl16 {
+  padding-left: 16px;
+}
+
 .pa8 {
   padding: 8px;
 }
@@ -663,28 +690,28 @@
   padding-left: 8px;
 }
 
-.pa16 {
-  padding: 16px;
+.pa4 {
+  padding: 4px;
 }
-.px16 {
-  padding-right: 16px;
-  padding-left: 16px;
+.px4 {
+  padding-right: 4px;
+  padding-left: 4px;
 }
-.py16 {
-  padding-top: 16px;
-  padding-bottom: 16px;
+.py4 {
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
-.pt16 {
-  padding-top: 16px;
+.pt4 {
+  padding-top: 4px;
 }
-.pr16 {
-  padding-right: 16px;
+.pr4 {
+  padding-right: 4px;
 }
-.pb16 {
-  padding-bottom: 16px;
+.pb4 {
+  padding-bottom: 4px;
 }
-.pl16 {
-  padding-left: 16px;
+.pl4 {
+  padding-left: 4px;
 }
 
 .ma32 {
@@ -781,6 +808,19 @@
 }
 .ml4 {
   margin-left: 4px;
+}
+
+.round-button {
+  border-radius: 4px;
+  white-space: nowrap;
+  color: var(--white-theme-color);
+  background-color: var(--seven-primary-color);
+}
+.round-button:hover {
+  background-color: var(--eight-primary-color);
+}
+.round-button.large {
+  font-size: var(--large-font-size);
 }
 
 body {

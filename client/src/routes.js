@@ -41,12 +41,11 @@ class Routes extends Component {
           if (!accounts) accounts = [];
           props.updateAccounts(accounts);
           props.setUser(user);
-
-          this.setState({ datebaseConnection: true });
         });
       } else {
-        this.setState({ datebaseConnection: true });
+        if (props.activePage) props.changePage("");
       }
+      this.setState({ datebaseConnection: true });
     });
   }
 
