@@ -13,186 +13,204 @@ const Account = require("../models/Account");
 const { sendEmail } = require("../MailFiles/sendEmail");
 
 module.exports = function(passport) {
-	passport.serializeUser((user, done) => {
-		done(null, user);
-	});
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
 
-	passport.deserializeUser((id, done) => {
-		User.findById(id).then(user => {
-			done(null, user);
-		});
-	});
+  passport.deserializeUser((id, done) => {
+    User.findById(id).then(user => {
+      done(null, user);
+    });
+  });
 
-	// Local email login
-	passport.use(
-		"local-login",
-		new LocalStrategy(
-			{
-				// by default, local strategy uses username and password, we will override with email
-				usernameField: "email",
-				passwordField: "password"
-			},
-			function(email, password, done) {
-				// Use lower-case e-mails to avoid case-sensitive e-mail matching
-				if (email) email = email.toLowerCase();
+  // Local email login
+  passport.use(
+    "local-login",
+    new LocalStrategy(
+      {
+        // by default, local strategy uses username and password, we will override with email
+        usernameField: "email",
+        passwordField: "password"
+      },
+      function(email, password, done) {
+        // Use lower-case e-mails to avoid case-sensitive e-mail matching
+        if (email) email = email.toLowerCase();
 
-				User.findOne({ email: email }, function(err, user) {
-					if (err) {
-						return done(false, false, "Something went wrong :(. Please refresh the page and try again!");
-					} else if (!user) {
-						return done(false, false, "No account was found with this email address!");
-					} else if (!bcrypt.compareSync(password, user.password)) {
-						if (user.tempPassword) {
-							if (bcrypt.compareSync(password, user.tempPassword)) {
-								user.password = user.tempPassword;
-								user.tempPassword = undefined;
-								user.save().then(result => {
-									return done(false, result, "Success");
-								});
-							} else {
-								return done(false, false, "Invalid password! :(");
-							}
-						} else {
-							return done(false, false, "Invalid password! :(");
-						}
-					} else {
-						return done(false, user, "Success");
-					}
-				});
-			}
-		)
-	);
+        User.findOne({ email: email }, function(err, user) {
+          if (err) {
+            return done(
+              false,
+              false,
+              "Something went wrong :(. Please refresh the page and try again!"
+            );
+          } else if (!user) {
+            return done(
+              false,
+              false,
+              "No account was found with this email address!"
+            );
+          } else if (!bcrypt.compareSync(password, user.password)) {
+            if (user.tempPassword) {
+              if (bcrypt.compareSync(password, user.tempPassword)) {
+                user.password = user.tempPassword;
+                user.tempPassword = undefined;
+                user.save().then(result => {
+                  return done(false, result, "Success");
+                });
+              } else {
+                return done(false, false, "Invalid password! :(");
+              }
+            } else {
+              return done(false, false, "Invalid password! :(");
+            }
+          } else {
+            return done(false, user, "Success");
+          }
+        });
+      }
+    )
+  );
 
-	// Local email sign up
-	passport.use(
-		"local-signup",
-		new LocalStrategy(
-			{
-				usernameField: "email",
-				passReqToCallback: true
-			},
-			function(req, email, password, done) {
-				if (!req.user) {
-					User.findOne({ email: email }, function(err, existingUser) {
-						if (err) {
-							return done(false, false, "An error occured :(");
-						} else if (existingUser) {
-							return done(false, false, "A user with this email already exists!");
-						} else {
-							let newUser = new User();
-							newUser.role = "demo";
-							newUser.plan = { id: "none", name: "none" };
-							newUser.writer = { id: "none", name: "none" };
-							newUser.email = email;
-							newUser.password = newUser.generateHash(req.body.password);
-							newUser.fullName = req.body.fullName;
-							newUser.country = req.body.country;
-							newUser.timezone = req.body.timezone;
-							newUser.website = req.body.website;
-							newUser.dateCreated = new Date();
+  // Local email sign up
+  passport.use(
+    "local-signup",
+    new LocalStrategy(
+      {
+        usernameField: "email",
+        passReqToCallback: true
+      },
+      function(req, email, password, done) {
+        if (!req.user) {
+          User.findOne({ email: email }, function(err, existingUser) {
+            if (err) {
+              return done(false, false, "An error occured :(");
+            } else if (existingUser) {
+              return done(
+                false,
+                false,
+                "A user with this email already exists!"
+              );
+            } else {
+              let newUser = new User();
+              newUser.role = "demo";
+              newUser.plan = { id: "none", name: "none" };
+              newUser.writer = { id: "none", name: "none" };
+              newUser.email = email;
+              newUser.password = newUser.generateHash(req.body.password);
+              newUser.fullName = req.body.fullName;
+              newUser.country = req.body.country;
+              newUser.timezone = req.body.timezone;
+              newUser.website = req.body.website;
+              newUser.dateCreated = new Date();
 
-							newUser.save().then(user => {
-								sendEmail(
-									user,
-									"Your account is waiting for you. https://www.platform.ghostit.co",
-									"Welcome to Ghostit!",
-									() => {}
-								);
-								done(null, user, "Success!");
-							});
-						}
-					});
-				} else {
-					return done(null, null, "User already logged in!");
-				}
-			}
-		)
-	);
+              newUser.save().then(user => {
+                sendEmail(
+                  user,
+                  "Your account is waiting for you. https://www.platform.ghostit.co",
+                  "Welcome to Ghostit!",
+                  () => {}
+                );
+                done(null, user, "Success!");
+              });
+            }
+          });
+        } else {
+          return done(null, null, "User already logged in!");
+        }
+      }
+    )
+  );
 
-	// Add Facebook account
-	passport.use(
-		new FacebookStrategy(
-			{
-				clientID: keys.fbClientID,
-				clientSecret: keys.fbClientSecret,
-				callbackURL: keys.fbCallbackUrl,
-				profileURL: "https://graph.facebook.com/v2.12/me?fields=first_name,last_name,email",
-				profileFields: ["id", "email", "name"], // For requesting permissions from Facebook API
-				passReqToCallback: true
-			},
-			function(req, accessToken, refreshToken, profile, done) {
-				let userID = req.user._id;
-				if (req.user.signedInAsUser) {
-					if (req.user.signedInAsUser.id) {
-						userID = req.user.signedInAsUser.id;
-					}
-				}
+  // Add Facebook account
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: keys.fbClientID,
+        clientSecret: keys.fbClientSecret,
+        callbackURL: keys.fbCallbackUrl,
+        profileURL:
+          "https://graph.facebook.com/v2.12/me?fields=first_name,last_name,email",
+        profileFields: ["id", "email", "name"], // For requesting permissions from Facebook API
+        passReqToCallback: true
+      },
+      function(req, accessToken, refreshToken, profile, done) {
+        let userID = req.user._id;
+        if (req.user.signedInAsUser) {
+          if (req.user.signedInAsUser.id) {
+            userID = req.user.signedInAsUser.id;
+          }
+        }
 
-				var newAccount = new Account();
-				newAccount.userID = userID;
-				newAccount.socialType = "facebook";
-				newAccount.accountType = "profile";
-				newAccount.accessToken = accessToken;
-				newAccount.socialID = profile.id;
-				newAccount.givenName = profile._json.first_name;
-				newAccount.familyName = profile._json.last_name;
-				newAccount.email = profile._json.email;
-				newAccount.provider = profile.provider;
-				newAccount.lastRenewed = new Date().getTime();
+        var newAccount = new Account();
+        newAccount.userID = userID;
+        newAccount.socialType = "facebook";
+        newAccount.accountType = "profile";
+        newAccount.accessToken = accessToken;
+        newAccount.socialID = profile.id;
+        newAccount.givenName = profile._json.first_name;
+        newAccount.familyName = profile._json.last_name;
+        newAccount.email = profile._json.email;
+        newAccount.provider = profile.provider;
+        newAccount.lastRenewed = new Date().getTime();
 
-				newAccount.save().then(account => done(null, req.session.passport.user));
-			}
-		)
-	);
+        newAccount.save().then(account => {
+          done(null, req.session.passport.user);
+        });
+      }
+    )
+  );
 
-	// Add Twitter account
-	passport.use(
-		new TwitterStrategy(
-			{
-				consumerKey: keys.twitterConsumerKey,
-				consumerSecret: keys.twitterConsumerSecret,
-				callbackURL: keys.twitterCallbackURL,
-				passReqToCallback: true
-			},
-			function(req, token, tokenSecret, profile, done) {
-				// Account does not exist
-				var user = req.user; // pull the user out of the session
-				let userID = req.user._id;
-				if (req.user.signedInAsUser) {
-					if (req.user.signedInAsUser.id) {
-						userID = req.user.signedInAsUser.id;
-					}
-				}
-				var newAccount = new Account();
+  // Add Twitter account
+  passport.use(
+    new TwitterStrategy(
+      {
+        consumerKey: keys.twitterConsumerKey,
+        consumerSecret: keys.twitterConsumerSecret,
+        callbackURL: keys.twitterCallbackURL,
+        passReqToCallback: true
+      },
+      function(req, token, tokenSecret, profile, done) {
+        // Account does not exist
+        var user = req.user; // pull the user out of the session
+        let userID = req.user._id;
+        if (req.user.signedInAsUser) {
+          if (req.user.signedInAsUser.id) {
+            userID = req.user.signedInAsUser.id;
+          }
+        }
+        var newAccount = new Account();
 
-				// Split displayName into first name and last name
-				var givenName;
-				var familyName;
-				for (var index in profile.displayName) {
-					if (profile.displayName[index] === " ") {
-						givenName = profile.displayName.slice(0, index);
-						familyName = profile.displayName.slice(index, profile.displayName.length);
-					}
-				}
+        // Split displayName into first name and last name
+        var givenName;
+        var familyName;
+        for (var index in profile.displayName) {
+          if (profile.displayName[index] === " ") {
+            givenName = profile.displayName.slice(0, index);
+            familyName = profile.displayName.slice(
+              index,
+              profile.displayName.length
+            );
+          }
+        }
 
-				newAccount.userID = userID;
-				newAccount.socialType = "twitter";
-				newAccount.accountType = "profile";
-				newAccount.accessToken = token;
-				newAccount.tokenSecret = tokenSecret;
-				newAccount.socialID = profile.id;
-				newAccount.username = profile.username;
-				newAccount.givenName = givenName;
-				newAccount.familyName = familyName;
-				newAccount.email = profile.email;
-				newAccount.lastRenewed = new Date().getTime();
+        newAccount.userID = userID;
+        newAccount.socialType = "twitter";
+        newAccount.accountType = "profile";
+        newAccount.accessToken = token;
+        newAccount.tokenSecret = tokenSecret;
+        newAccount.socialID = profile.id;
+        newAccount.username = profile.username;
+        newAccount.givenName = givenName;
+        newAccount.familyName = familyName;
+        newAccount.email = profile.email;
+        newAccount.lastRenewed = new Date().getTime();
 
-				newAccount.save(function(err) {
-					if (err) return done(err);
+        newAccount.save(function(err) {
+          if (err) return done(err);
 
-					return done(null, user);
-				});
-			}
-		)
-	);
+          return done(null, user);
+        });
+      }
+    )
+  );
 };

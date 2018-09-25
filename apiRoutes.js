@@ -139,8 +139,8 @@ module.exports = app => {
   app.get(
     "/api/facebook/callback",
     passport.authenticate("facebook", {
-      successRedirect: "/",
-      failureRedirect: "/"
+      successRedirect: "/social-accounts",
+      failureRedirect: "/social-accounts"
     })
   );
   app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) =>
@@ -157,8 +157,8 @@ module.exports = app => {
   app.get(
     "/api/twitter/callback",
     passport.authenticate("twitter", {
-      successRedirect: "/",
-      failureRedirect: "/"
+      successRedirect: "/social-accounts",
+      failureRedirect: "/social-accounts"
     })
   );
 

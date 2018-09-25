@@ -61,6 +61,19 @@ class Routes extends Component {
       }
     });
   };
+  getPage = activePage => {
+    if (activePage === "") return <LoginPage />;
+    else if (activePage === "subscribe") return <Subscribe />;
+    else if (activePage === "content") return <Content />;
+    else if (activePage === "strategy") return <Strategy />;
+    else if (activePage === "analytics") return <Analytics />;
+    else if (activePage === "social-accounts") return <Accounts />;
+    else if (activePage === "writers-brief") return <WritersBrief />;
+    else if (activePage === "manage") return <Manage />;
+    else if (activePage === "profile") return <Profile />;
+    else if (activePage === "subscription") return <MySubscription />;
+    else return <Content />;
+  };
   render() {
     const { datebaseConnection } = this.state;
     const { activePage, user, getKeyListenerFunction } = this.props;
@@ -70,6 +83,8 @@ class Routes extends Component {
 
     let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
+
+    let page = this.getPage(activePage);
 
     return (
       <div className="flex">
@@ -92,16 +107,7 @@ class Routes extends Component {
                 </div>
               ))}
 
-          {activePage === "" && <LoginPage />}
-          {activePage === "subscribe" && <Subscribe />}
-          {activePage === "content" && <Content />}
-          {activePage === "strategy" && <Strategy />}
-          {activePage === "analytics" && <Analytics />}
-          {activePage === "social-accounts" && <Accounts />}
-          {activePage === "writers-brief" && <WritersBrief />}
-          {activePage === "manage" && <Manage />}
-          {activePage === "profile" && <Profile />}
-          {activePage === "subscription" && <MySubscription />}
+          {page}
         </div>
       </div>
     );

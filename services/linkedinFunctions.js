@@ -66,7 +66,7 @@ module.exports = {
     ) {
       if (err) res.send(false);
       var accessToken = results.access_token;
-      console.log(accessToken);
+
       // User access token to get profile information
       var LI = Linkedin.init(accessToken);
 
@@ -93,7 +93,7 @@ module.exports = {
 
         newAccount.save((err, result) => {
           if (err) res.send(false);
-          res.redirect("/");
+          res.redirect("/social-accounts");
         });
       });
     });

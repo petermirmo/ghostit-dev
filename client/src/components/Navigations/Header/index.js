@@ -30,6 +30,13 @@ import ClientsSideBar from "../../SideBarClients/";
 import "./styles/";
 
 class HeaderSideBar extends Component {
+  constructor(props) {
+    super(props);
+
+    if (!props.activePage && props.user) {
+      props.changePage("content");
+    }
+  }
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
@@ -179,7 +186,7 @@ class HeaderSideBar extends Component {
                   className={
                     "header-button mb16 " + this.isActive("writers-brief")
                   }
-                  onClick={() => changePage("writersBrief")}
+                  onClick={() => changePage("writers-brief")}
                 >
                   <FontAwesomeIcon icon={faFileAlt} />
                   Monthly Strategy

@@ -209,22 +209,24 @@ class AccountsPage extends Component {
         className="connected-social-div"
         key={connectedAccountsDivArray.length + account.socialType}
       >
-        <span className="connected-social-media-icon">
+        <div className="flex vc hc">
           <FontAwesomeIcon icon={icon} size="2x" color={color} />
-        </span>
-        <div className="connected-social center">
-          <h4>{name}</h4>
-          <p>
+        </div>
+        <div className="connected-social">
+          {name}
+          <br />
+          <div className="connected-social-account">
             {account.accountType.charAt(0).toUpperCase() +
               account.accountType.slice(1)}
-          </p>
+          </div>
         </div>
-        <span
-          onClick={event => this.deleteConfirm(account)}
-          className="disconnect-social-account"
-        >
-          <FontAwesomeIcon icon={faTrash} color="var(--red-theme-color)" />
-        </span>
+        <div className="flex vc hc">
+          <FontAwesomeIcon
+            icon={faTrash}
+            onClick={event => this.deleteConfirm(account)}
+            className="button delete"
+          />
+        </div>
       </div>
     );
   };
@@ -276,68 +278,67 @@ class AccountsPage extends Component {
       }
     }
     return (
-      <div  >
-        <div className="accounts-wrapper">
-          <div className="account-column">
-            <button
-              className="social-header-button facebook"
-              onClick={() => {
-                window.location = "/api/facebook";
-              }}
-            >
-              Connect Facebook
-            </button>
+      <div className="accounts-wrapper py16 px32">
+        <div className="account-column flex column vc">
+          <div
+            className="social-header-button flex hc button mb16 pa8 button mb16 pa8 facebook"
+            onClick={() => {
+              window.location = "/api/facebook";
+            }}
+          >
+            Connect Facebook
+          </div>
 
-            <button
-              className="social-media-connect facebook"
-              onClick={() => this.openModal("facebook", "page")}
-            >
-              Page
-            </button>
-            <button
-              className="social-media-connect facebook"
-              onClick={() => this.openModal("facebook", "group")}
-            >
-              Group
-            </button>
-            {connectedFacebookAccountDivs}
+          <div
+            className="social-media-connect button mb16 facebook"
+            onClick={() => this.openModal("facebook", "page")}
+          >
+            Page
           </div>
-          <div className="account-column">
-            <button
-              className="social-header-button twitter"
-              onClick={() => {
-                window.location = "/api/twitter";
-              }}
-            >
-              Connect Twitter
-            </button>
+          <div
+            className="social-media-connect button mb16 facebook"
+            onClick={() => this.openModal("facebook", "group")}
+          >
+            Group
+          </div>
+          {connectedFacebookAccountDivs}
+        </div>
 
-            {connectedTwitterAccountDivs}
+        <div className="account-column flex column vc">
+          <div
+            className="social-header-button flex hc button mb16 pa8 twitter"
+            onClick={() => {
+              window.location = "/api/twitter";
+            }}
+          >
+            Connect Twitter
           </div>
-          <div className="account-column">
-            <button
-              className="social-header-button linkedin"
-              onClick={() => {
-                window.location = "/api/linkedin";
-              }}
-            >
-              Connect Linkedin
-            </button>
 
-            <button
-              className="social-media-connect linkedin"
-              onClick={() => this.openModal("linkedin", "page")}
-            >
-              Page
-            </button>
-            {connectedLinkedinAccountDivs}
+          {connectedTwitterAccountDivs}
+        </div>
+        <div className="account-column flex column vc">
+          <div
+            className="social-header-button flex hc button mb16 pa8 linkedin"
+            onClick={() => {
+              window.location = "/api/linkedin";
+            }}
+          >
+            Connect Linkedin
           </div>
-          <div className="account-column">
-            <button className="social-header-button instagram">
-              Connect Instagram <br />(Coming Soon)
-            </button>
-            {connectedInstagramAccountDivs}
+
+          <div
+            className="social-media-connect button mb16 linkedin"
+            onClick={() => this.openModal("linkedin", "page")}
+          >
+            Page
           </div>
+          {connectedLinkedinAccountDivs}
+        </div>
+        <div className="account-column flex column vc">
+          <div className="social-header-button flex hc button mb16 pa8 instagram">
+            Connect Instagram <br />(Coming Soon)
+          </div>
+          {connectedInstagramAccountDivs}
         </div>
         {addPageOrGroupModal && (
           <AddPageOrGroupModal

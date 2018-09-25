@@ -403,7 +403,7 @@ class Calendar extends Component {
             />
           </div>
         </div>
-        <div className="center-header-container">
+        <div className="center-header-container px32">
           <FontAwesomeIcon
             icon={faAngleLeft}
             size="3x"

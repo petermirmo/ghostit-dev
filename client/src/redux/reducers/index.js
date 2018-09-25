@@ -12,6 +12,8 @@ function activePage(state = "", action) {
       let currentPageReversed = "";
       for (let i = currentUrl.length - 1; i >= 0; i--) {
         let character = currentUrl[i];
+        if (character === "#" || character === "=" || character === "_")
+          continue;
         if (character === "/") break;
         currentPageReversed += character;
       }
