@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
@@ -81,8 +82,8 @@ class Routes extends Component {
               activePage === "subscribe" ||
               activePage === "accounts") &&
               user.signedInAsUser && (
-                <div className="signed-in-as center">
-                  <p>Logged in as: {user.signedInAsUser.fullName}</p>
+                <div className="signed-in-as">
+                  Logged in as: {user.signedInAsUser.fullName}
                   <FontAwesomeIcon
                     icon={faTimes}
                     onClick={() => this.signOutOfUsersAccount()}

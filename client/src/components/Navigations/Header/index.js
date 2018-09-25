@@ -83,14 +83,20 @@ class HeaderSideBar extends Component {
             icon={faBars}
             size="2x"
             className="button transparent common-transition pb8"
-            onClick={() => this.props.openHeaderSideBar(!headerSideBar)}
+            onClick={() => {
+              this.props.openHeaderSideBar(!headerSideBar);
+              this.props.openClientSideBar(false);
+            }}
           />
           {(isAdmin || isManager) && (
             <FontAwesomeIcon
               icon={faUsers}
               size="2x"
               className="button transparent common-transition pb8"
-              onClick={() => this.props.openClientSideBar(!clientSideBar)}
+              onClick={() => {
+                this.props.openHeaderSideBar(false);
+                this.props.openClientSideBar(!clientSideBar);
+              }}
             />
           )}
         </div>
@@ -191,23 +197,6 @@ class HeaderSideBar extends Component {
             </div>
           )}
         {clientSideBar && <ClientsSideBar />}
-
-        {(activePage === "content" ||
-          activePage === "strategy" ||
-          activePage === "newCalendar" ||
-          activePage === "writersBrief" ||
-          activePage === "subscribe" ||
-          activePage === "accounts") &&
-          user.signedInAsUser && (
-            <div className="signed-in-as-header center">
-              <p>Logged in as: {user.signedInAsUser.fullName}</p>
-              <FontAwesomeIcon
-                icon={faTimes}
-                onClick={() => this.signOutOfUsersAccount()}
-                className="sign-out-of-clients-account"
-              />
-            </div>
-          )}
       </div>
     );
   }

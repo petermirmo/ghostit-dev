@@ -406,29 +406,19 @@
 .main-navigation-container {
   display: flex;
 }
-.signed-in-as-header {
-  position: relative !important;
-}
-.signed-in-as,
-.signed-in-as-header {
-  position: absolute;
-  top: 0;
-  z-index: 1;
+.signed-in-as {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   width: 100%;
+
   background-color: var(--green-theme-color);
-}
-.signed-in-as p,
-.signed-in-as-header p {
-  padding: 0;
-  margin: 0;
   color: var(--white-theme-color);
-  text-align: center;
-  display: inline-block;
 }
 .sign-out-of-clients-account {
-  padding-left: 5px;
+  padding-left: 4px;
   color: var(--red-theme-color);
-  display: inline-block;
   cursor: pointer;
 }
 .sign-out-of-clients-account:hover {
