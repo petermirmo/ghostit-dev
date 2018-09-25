@@ -8,6 +8,12 @@ const Account = require("../models/Account");
 const cloudinary = require("cloudinary");
 
 module.exports = {
+  deleteFile: function(req, res) {
+    cloudinary.uploader.destroy(req.params.publicID, function(result) {
+      res.send(true);
+      // TO DO: handle error here
+    });
+  },
   getImagesFromUrl: function(req, res) {
     let url = req.body.link;
 

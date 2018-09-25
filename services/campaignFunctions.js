@@ -3,19 +3,7 @@ const User = require("../models/User");
 const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
 const Post = require("../models/Post");
-
-const indexChecks = index => {
-  // don't want to overwrite these attributes of a DB object otherwise it invalidates them
-  if (
-    index === "_id" ||
-    index === "__v" ||
-    index === "createdAt" ||
-    index === "updatedAt"
-  ) {
-    return false;
-  }
-  return true;
-};
+const generalFunctions = require("./generalFunctions");
 
 module.exports = {
   getCampaigns: function(req, res) {
@@ -28,18 +16,25 @@ module.exports = {
     }
 
     Campaign.find({ userID: userID }, async (err, campaigns) => {
-      if (err) res.send({ error: err });
-      var campaignArray = [];
+      if (err) generalFunctions.handleError(res, err);
+      else if (!campaigns)
+        generalFunctions.handleError(res, "No campaigns found");
+      else {
+        let campaignArray = [];
 
-      if (campaigns.length != 0) {
-        for (let index in campaigns) {
-          let campaign = campaigns[index];
-          await Post.find({ _id: { $in: campaign.posts } }, (err, posts) => {
-            campaignArray.push({ campaign, posts });
-            if (index == campaigns.length - 1) res.send({ campaignArray });
-          });
-        }
-      } else res.send({ campaignArray: [] });
+        if (campaigns.length != 0) {
+          for (let index in campaigns) {
+            let campaign = campaigns[index];
+            await Post.find({ _id: { $in: campaign.posts } }, (err, posts) => {
+              if (err) generalFunctions.handleError(res, err);
+              else {
+                campaignArray.push({ campaign, posts });
+                if (index == campaigns.length - 1) res.send({ campaignArray });
+              }
+            });
+          }
+        } else res.send({ campaignArray: [] });
+      }
     });
   },
   getRecipes: function(req, res) {
@@ -50,19 +45,21 @@ module.exports = {
       }
     }
     Recipe.find({}, (err, allRecipes) => {
-      for (let index in allRecipes) {
-        User.findOne({ _id: allRecipes[index].userID }, (err, user) => {
-          if (!err && user) {
-            allRecipes[index].creator = user.fullName;
-            if (index == allRecipes.length - 1) {
-              Recipe.find({ userID }, (err, usersRecipes) => {
-                res.send({ usersRecipes, allRecipes });
-              });
+      if (err) generalFunctions.handleError(res, err);
+      else {
+        for (let index in allRecipes) {
+          User.findOne({ _id: allRecipes[index].userID }, (err, user) => {
+            if (err) generalFunctions.handleError(res, err);
+            else {
+              allRecipes[index].creator = user.fullName;
+              if (index == allRecipes.length - 1) {
+                Recipe.find({ userID }, (err, usersRecipes) => {
+                  res.send({ usersRecipes, allRecipes });
+                });
+              }
             }
-          } else {
-            res.send({ success: false, err });
-          }
-        });
+          });
+        }
       }
     });
   },
@@ -83,7 +80,7 @@ module.exports = {
       let recipe = new Recipe();
 
       for (let index in campaign) {
-        if (indexChecks(index)) {
+        if (generalFunctions.indexChecks(index)) {
           recipe[index] = campaign[index];
         }
       }
@@ -93,7 +90,8 @@ module.exports = {
       recipe.save();
 
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
-        if (!foundCampaign) {
+        if (err) generalFunctions.handleError(res, err);
+        else if (!foundCampaign) {
           // this happens when we are saving a recipe that isn't based off a saved campaign
           res.send({
             success: true,
@@ -108,28 +106,31 @@ module.exports = {
       });
     } else {
       Recipe.findOne({ _id: campaign.recipeID }, (err, foundRecipe) => {
-        if (!foundRecipe) {
-          foundRecipe = new Recipe();
-          foundRecipe.userID = userID;
-        }
-        if (String(userID) === String(foundRecipe.userID)) {
-          for (let index in campaign) {
-            if (indexChecks(index)) {
-              foundRecipe[index] = campaign[index];
-            }
+        if (err) generalFunctions.handleError(res, err);
+        else {
+          if (!foundRecipe) {
+            foundRecipe = new Recipe();
+            foundRecipe.userID = userID;
           }
-
-          foundRecipe.posts = posts;
-
-          foundRecipe.save((err, savedRecipe) => {
-            if (err || !savedRecipe) {
-              res.send({ success: false, message: "failed to save recipe" });
-            } else {
-              res.send({ success: true, recipe: savedRecipe });
+          if (String(userID) === String(foundRecipe.userID)) {
+            for (let index in campaign) {
+              if (generalFunctions.indexChecks(index)) {
+                foundRecipe[index] = campaign[index];
+              }
             }
-          });
-        } else {
-          res.send({ success: false, message: "Not your campaign!!" });
+
+            foundRecipe.posts = posts;
+
+            foundRecipe.save((err, savedRecipe) => {
+              if (err || !savedRecipe)
+                generalFunctions.handleError(res, "Failed to save recipe");
+              else {
+                res.send({ success: true, recipe: savedRecipe });
+              }
+            });
+          } else {
+            generalFunctions.handleError(res, "Not your campaign!!");
+          }
         }
       });
     }
@@ -144,12 +145,13 @@ module.exports = {
     let recipeID = req.params.recipeID;
 
     Recipe.findOne({ _id: recipeID }, (err, foundRecipe) => {
-      if (foundRecipe) {
+      if (err) generalFunctions.handleError(res, err);
+      else if (foundRecipe) {
         if (String(userID) === String(foundRecipe.userID)) {
           foundRecipe.remove();
           res.send({ success: true });
-        } else res.send({ success: false, message: "You have no power here." });
-      } else res.send({ success: false, message: "Could not find recipe :/" });
+        } else generalFunctions.handleError(res, "You have no power here.");
+      } else generalFunctions.handleError(res, "Could not find recipe :/");
     });
   }
 };
