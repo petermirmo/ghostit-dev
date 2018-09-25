@@ -80,7 +80,7 @@ module.exports = app => {
     })(req, res, next);
   });
   // Update user account
-  app.post("/api/user/id", middleware, (req, res) =>
+  app.post("/api/user/:userID", middleware, (req, res) =>
     userFunctions.updateUser(req, res)
   );
   // Get current user

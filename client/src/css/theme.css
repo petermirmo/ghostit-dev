@@ -583,6 +583,9 @@
 .round4 {
   border-radius: 4px;
 }
+.round16 {
+  border-radius: 16px;
+}
 .round {
   border-radius: 100px;
 }
@@ -622,28 +625,28 @@
   transition: all 0.2s ease;
 }
 
-.pa {
-  padding: 36px;
+.pa32 {
+  padding: 32px;
 }
-.px {
-  padding-right: 36px;
-  padding-left: 36px;
+.px32 {
+  padding-right: 32px;
+  padding-left: 32px;
 }
-.py {
-  padding-top: 36px;
-  padding-bottom: 36px;
+.py32 {
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
-.pt {
-  padding-top: 36px;
+.pt32 {
+  padding-top: 32px;
 }
-.pr {
-  padding-right: 36px;
+.pr32 {
+  padding-right: 32px;
 }
-.pb {
-  padding-bottom: 36px;
+.pb32 {
+  padding-bottom: 32px;
 }
-.pl {
-  padding-left: 36px;
+.pl32 {
+  padding-left: 32px;
 }
 
 .pa8 {
@@ -764,6 +767,30 @@
 }
 .ml8 {
   margin-left: 8px;
+}
+
+.ma4 {
+  margin: 4px;
+}
+.mx4 {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+.my4 {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.mt4 {
+  margin-top: 4px;
+}
+.mr4 {
+  margin-right: 4px;
+}
+.mb4 {
+  margin-bottom: 4px;
+}
+.ml4 {
+  margin-left: 4px;
 }
 
 body {

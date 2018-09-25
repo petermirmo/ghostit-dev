@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Plan = require("../models/Plan");
 const Post = require("../models/Post");
+const bcrypt = require("bcrypt-nodejs");
 
 const keys = require("../config/keys");
 
@@ -8,49 +9,54 @@ var stripe = require("stripe")(keys.stripeSecretKey);
 
 module.exports = {
   updateUser: function(req, res) {
-    let userID = req.user._id;
+    let userID = req.params.userID;
+    if (userID != String(req.user._id)) {
+      res.send({ success: false, loggedIn: false });
+      return;
+    }
+
     User.findById(userID, function(err, user) {
       if (err) return handleError(err);
       // Check if email has changed
+      let checkAndUpdateUser = () => {
+        if (req.body.newPassword) {
+          if (bcrypt.compareSync(req.body.password, user.password)) {
+            user.password = user.generateHash(req.body.newPassword);
+          } else {
+            res.send({
+              success: false,
+              message: "Incorrect password"
+            });
+            return;
+          }
+        }
+        // Update user
+        user.email = req.body.email;
+        user.fullName = req.body.fullName;
+        user.timezone = req.body.timezone;
+        user.website = req.body.website;
+        user.save().then(result => {
+          res.send({ success: true, result });
+        });
+      };
+
       if (user.email !== req.body.email) {
         // Check if changed email is in use in a different account
-        User.findOne({ email: req.body.email }, function(err, user) {
+        User.findOne({ email: req.body.email }, function(err, foundEmail) {
           if (err) return handleError(err);
           // Email already exists
-          if (user) {
-            return res.send({
+          if (foundEmail) {
+            res.send({
               success: false,
               message: "Email already in use!"
             });
+            return;
           } else {
-            // Update user
-            User.findById(userID, function(err, user) {
-              if (err) return handleError(err);
-              user.email = req.body.email;
-              user.password = user.generateHash(req.body.password);
-              user.fullName = req.body.fullName;
-              user.timezone = req.body.timezone;
-              user.website = req.body.website;
-              user.save().then(result => {
-                res.send({ success: true, result: result });
-              });
-            });
+            checkAndUpdateUser();
           }
         });
       } else {
-        // Update user
-        User.findById(req.session.passport.user._id, function(err, user) {
-          if (err) return handleError(err);
-          user.email = req.body.email;
-          user.password = user.generateHash(req.body.password);
-          user.fullName = req.body.fullName;
-          user.country = req.body.country;
-          user.timezone = req.body.timezone;
-          user.website = req.body.website;
-          user.save().then(result => {
-            res.send({ success: true, result: result });
-          });
-        });
+        checkAndUpdateUser();
       }
     });
   },
