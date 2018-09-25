@@ -137,6 +137,52 @@ const fbRequest =
   ",page_posts_impressions_frequency_distribution" + // all 3
   "&date_preset=last_3d";
 
+process_fb_page_analytics = data => {
+  /*
+    input:
+      {
+        "name": "page_video_views_organic",
+        "period": "day",
+        "values": [
+          {
+            "value": 0,
+            "end_time": "2018-09-30T07:00:00+0000"
+          },
+          {
+            "value": 1,
+            "end_time": "2018-10-01T07:00:00+0000"
+          },
+          {
+            "value": 2,
+            "end_time": "2018-10-02T07:00:00+0000"
+          }
+        ],
+        "title": "Daily Total Organic Views",
+        "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
+        "id": "1209545782519940/insights/page_video_views_organic/day"
+      }
+    output:
+      {
+        "name": "page_video_views_organic",
+        "period": "day",
+        "monthlyValues": [
+          {
+            "month": 9,
+            "year": 2018,
+            "values": [
+              {
+                "day": 29,
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "title": "Daily Total Organic Views",
+        "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
+      }
+  */
+};
+
 module.exports = {
   getAllAnalytics: function(req, res) {
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
@@ -164,6 +210,9 @@ module.exports = {
               continue;
             }
             Account.findOne(
+              // maybe instead of fetching the accout name each time,
+              // we can store / update the account name within the analytics object
+              // and update it every time we fetch more data
               { _id: analyticsObj.accountID },
               (err, foundAccount) => {
                 if (err || foundAccount) {
@@ -254,7 +303,9 @@ module.exports = {
                       analyticObj.period === "day" ||
                       analyticObj.period === "lifetime"
                     ) {
-                      relevantData.push(analyticObj);
+                      relevantData.push(
+                        this.process_fb_page_analytics(analyticObj)
+                      );
                     }
                   }
                   res.send({ success: true, data: relevantData });

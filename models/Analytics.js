@@ -23,10 +23,11 @@ const analyticsSchema = new Schema(
     analyitcs: [
       // each element represents a different analytics metric
       {
-        title: {
+        name: {
           type: String,
           required: true
         },
+        title: String,
         description: String,
         monthlyValues: [
           // each element represents a different month/year
