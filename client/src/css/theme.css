@@ -449,15 +449,6 @@
   background-color: var(--five-primary-color);
 }
 
-.title-input {
-  width: 100%;
-
-  margin-bottom: 10px;
-  padding-left: 4px;
-
-  box-sizing: border-box;
-}
-
 .show-more {
   position: absolute;
 
@@ -817,7 +808,9 @@
 .round-button.large {
   font-size: var(--large-font-size);
 }
-
+.common-shadow {
+  box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.19);
+}
 body {
   min-height: 100%;
 

@@ -15,7 +15,7 @@ module.exports = {
       }
     }
 
-    Campaign.find({ userID: userID }, async (err, campaigns) => {
+    Campaign.find({ userID }, async (err, campaigns) => {
       if (err) generalFunctions.handleError(res, err);
       else if (!campaigns)
         generalFunctions.handleError(res, "No campaigns found");
@@ -37,7 +37,7 @@ module.exports = {
       }
     });
   },
-  getRecipes: function(req, res) {
+  getRecipes: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {

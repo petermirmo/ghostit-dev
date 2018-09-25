@@ -36,14 +36,14 @@ module.exports = {
       }
     });
   },
-  getStrategy: function(req, res) {
+  getStrategy: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
         userID = req.user.signedInAsUser.id;
       }
     }
-    Strategy.findOne({ userID }, function(err, strategy) {
+    Strategy.findOne({ userID }, (err, strategy) => {
       if (err) generalFunctions.handleError(res, err);
       else if (strategy) {
         res.send({ success: true, strategy });

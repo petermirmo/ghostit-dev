@@ -50,10 +50,18 @@
 .calendar-week:last-child {
   border-bottom: none;
 }
+
+.past-calendar-day {
+  color: var(--secondary-text-theme-color);
+  background-color: var(--light-grey-theme-color) !important;
+}
+.present-calendar-day {
+  border-bottom: 4px solid var(--five-primary-color);
+}
 .calendar-day {
   min-height: 17vh;
   border-right: 1px solid var(--divider-theme-color);
-  background-color: var(--light-grey-theme-color);
+  background-color: var(--white-theme-color);
 }
 .calendar-day-heading,
 .calendar-day {
@@ -64,13 +72,6 @@
 .calendar-day-heading:nth-child(7n),
 .calendar-day:nth-child(7n) {
   border-right: none;
-}
-.past-calendar-day {
-  color: var(--secondary-text-theme-color);
-  background-color: var(--white-theme-color);
-}
-.present-calendar-day {
-  border-bottom: 4px solid var(--five-primary-color);
 }
 
 .calendar-day-date {
