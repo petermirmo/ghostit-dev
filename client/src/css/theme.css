@@ -67,7 +67,7 @@
   --large-font-size: 17px;
   --medium-large-font-size: 20px;
   --extra-large-font-size: 23px;
-  --gigantic-font-size: 27px;
+  --gigantic-font-size: 24px;
   --medium-gigantic-font-size: 31px;
   --super-gigantic-font-size: 33px;
 
@@ -79,6 +79,9 @@
   --silly-font-theme: "Varela Round";
   --font-theme: "Open Sans";
 }
+.content-page {
+  position: relative;
+}
 
 .wrapper {
   flex: 1;
@@ -89,19 +92,16 @@
 
   transition: all 0.4s ease;
 }
-
 .modal {
   position: absolute;
-  z-index: 100;
+  z-index: 10;
 
   right: 0;
   top: 0;
+  bottom: 0;
 
   width: 100%;
-
-  min-height: 100vh;
   height: 100%;
-
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -110,7 +110,6 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Modal Content */
 .modal-content {
   position: fixed;
 
@@ -121,13 +120,12 @@
   flex-direction: column;
 
   width: 50%;
-  max-height: 90vh;
-
-  margin: 5vh auto 200px auto;
+  max-height: 80vh;
+  min-height: 80vh;
+  margin-top: 10vh;
 
   background-color: var(--white-theme-color);
 
-  -webkit-animation: animateOpacity 0.2s;
   animation: animateOpacity 0.2s;
   overflow: hidden;
 }
@@ -146,14 +144,11 @@
 
   margin-top: 3vh;
 
-  border-radius: 2px;
+  border-radius: 4px;
 
   background-color: var(--white-theme-color);
 
-  transition: all 0.2s ease;
-  -webkit-transition: all 0.2s ease;
   animation: campaignModalAnimation 0.4s;
-  -webkit-animation: campaignModalAnimation 0.4s;
 }
 .modal-header {
   margin: 0;
@@ -847,6 +842,7 @@ button {
 textarea,
 input {
   outline: none;
+  resize: none;
 
   font-size: var(--regular-font-size);
   font-family: var(--font-theme);

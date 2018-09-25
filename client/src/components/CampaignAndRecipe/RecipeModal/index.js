@@ -428,7 +428,10 @@ class RecipeModal extends Component {
         className="modal"
         onClick={() => this.props.handleChange(false, "recipeModal")}
       >
-        <div className="large-modal" onClick={e => e.stopPropagation()}>
+        <div
+          className="large-modal common-transition"
+          onClick={e => e.stopPropagation()}
+        >
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"

@@ -104,8 +104,8 @@ class CampaignModal extends Component {
       : {
           startDate,
           endDate: new moment(startDate).add(7, "days"),
-          name: "",
-          description: "",
+          name: "My Awesome Campaign...",
+          description: "My Awesome Campaign Description...",
           userID: props.user.signedInAsUser
             ? props.user.signedInAsUser.id
               ? props.user.signedInAsUser.id
@@ -833,7 +833,10 @@ class CampaignModal extends Component {
 
     return (
       <div className="modal" onClick={() => this.attemptToCloseModal()}>
-        <div className="large-modal" onClick={e => e.stopPropagation()}>
+        <div
+          className="large-modal common-transition"
+          onClick={e => e.stopPropagation()}
+        >
           <CampaignRecipeHeader
             campaign={campaign}
             handleChange={this.handleCampaignChange}

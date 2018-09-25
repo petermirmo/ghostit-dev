@@ -1,94 +1,41 @@
 .campaign-information-container {
   position: relative;
 
-  flex-shrink: 0;
-  display: flex;
-
-  flex-direction: column;
-
   width: 100%;
-  min-height: 35px;
+  min-height: 32px;
+
+  box-sizing: border-box;
+
+  border-top-right-radius: inherit;
+  border-top-left-radius: inherit;
 
   background-color: var(--white-theme-color);
   border-bottom: 0.5px solid var(--light-grey-theme-color);
-
-  box-sizing: border-box;
 }
-.campaign-grid-header {
-  display: grid;
-  grid-template-columns: max-content 1fr max-content auto;
-  grid-row-gap: 4px;
-  padding: 10px 50px 10px 40px;
+.campaign-title {
+  font-family: var(--silly-font-theme);
+  font-size: var(--gigantic-font-size);
 }
-.grid-date-container {
-  display: flex;
-  align-items: center;
+.campaign-description {
 }
-.grid-textarea-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.campaign-textarea {
+.campaign-description,
+.campaign-title {
   width: 100%;
-  margin: 0 10px 0 10px;
-
-  outline: 0;
-  resize: none;
-  background-color: transparent;
+  border: none;
   box-sizing: border-box;
+  text-align: center;
 }
-.campaign-textarea.small {
-  font-size: var(--fourteen-font-size);
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
-.colors {
-  display: flex;
-
-  align-items: center;
+.color-border {
 }
-.color1-border,
-.color2-border,
-.color3-border,
-.color4-border {
-  padding: 5px;
-  margin: 0 4px 0 4px;
-
-  border-radius: 50%;
+.color {
+  width: 20px;
+  height: 20px;
+}
+.color-border:hover,
+.color-border.active {
   border: 2px solid transparent;
-
-  background-color: transparent !important;
-
-  cursor: pointer;
-}
-.color1,
-.color2,
-.color3,
-.color4 {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-.color1-border:hover,
-.color1-border.active,
-.color1 {
-  background-color: var(--campaign-color1);
-  border-color: var(--campaign-color1);
-}
-.color2-border:hover,
-.color2-border.active,
-.color2 {
-  background-color: var(--campaign-color2);
-  border-color: var(--campaign-color2);
-}
-.color3-border:hover,
-.color3-border.active,
-.color3 {
-  background-color: var(--campaign-color3);
-  border-color: var(--campaign-color3);
-}
-.color4-border:hover,
-.color4-border.active,
-.color4 {
-  background-color: var(--campaign-color4);
-  border-color: var(--campaign-color4);
 }

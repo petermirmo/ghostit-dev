@@ -18,23 +18,15 @@ class CampaignRecipeHeader extends Component {
     this.state = {
       colors: {
         color1: {
-          className: "color1",
-          border: "color1-border",
           color: "var(--campaign-color1)"
         },
         color2: {
-          className: "color2",
-          border: "color2-border",
           color: "var(--campaign-color2)"
         },
         color3: {
-          className: "color3",
-          border: "color3-border",
           color: "var(--campaign-color3)"
         },
         color4: {
-          className: "color4",
-          border: "color4-border",
           color: "var(--campaign-color4)"
         }
       },
@@ -49,17 +41,23 @@ class CampaignRecipeHeader extends Component {
 
     let colorDivs = [];
     for (let index in colors) {
-      let className = colors[index].border;
-      if (colors[index].color == campaign.color) className += " active";
+      let isActive;
+      if (colors[index].color == campaign.color) isActive = "active";
       colorDivs.push(
         <div
-          className={className}
+          className={"color-border mx4 pa4 round button " + isActive}
           onClick={() => {
             handleChange(colors[index].color, "color");
           }}
           key={index}
+          style={{ borderColor: colors[index].color }}
         >
-          <div className={colors[index].className} />
+          <div
+            className="color round"
+            style={{
+              backgroundColor: colors[index].color
+            }}
+          />
         </div>
       );
     }
@@ -69,7 +67,7 @@ class CampaignRecipeHeader extends Component {
 
     return (
       <div
-        className="campaign-information-container"
+        className="campaign-information-container flex column pb32"
         style={{ borderColor: campaign.color }}
       >
         <div
@@ -85,60 +83,53 @@ class CampaignRecipeHeader extends Component {
             onClick={() => this.props.close()}
           />
         </div>
-        <div className="campaign-grid-header" style={{ display }}>
-          <div className="label">Name:</div>
-          <div className="grid-textarea-container">
-            <Textarea
-              onChange={event => handleChange(event.target.value, "name")}
-              value={campaign.name}
-              className="campaign-textarea"
-              placeholder="My Awesome Product Launch!"
-              readOnly={false}
-            />
-          </div>
-          <div className="label">Start Date: </div>
-          <div className="grid-date-container">
-            <DateTimePicker
-              date={new moment(campaign.startDate)}
-              dateFormat="MMMM Do YYYY hh:mm A"
-              handleChange={(date, setDisplayAndMessage, anchorDates) => {
-                tryChangingDates(
-                  date,
-                  "startDate",
-                  setDisplayAndMessage,
-                  anchorDates
-                );
-              }}
-              dateLowerBound={new moment()}
-              anchorDatesOption={true}
-            />
-          </div>
-          <div className="label">Description: </div>
-          <div className="grid-textarea-container">
-            <Textarea
-              className="campaign-textarea small"
-              placeholder="Describe this campaign!"
-              onChange={event =>
-                handleChange(event.target.value, "description")
-              }
-              value={campaign.description}
-              readOnly={false}
-            />
-          </div>
+        <div style={{ display }}>
+          <input
+            onChange={event => handleChange(event.target.value, "name")}
+            value={campaign.name}
+            className="campaign-title pa8"
+            placeholder="Give me a title!"
+            readOnly={false}
+          />
+          <Textarea
+            className="campaign-description"
+            placeholder="Describe this campaign!"
+            onChange={event => handleChange(event.target.value, "description")}
+            value={campaign.description}
+            readOnly={false}
+          />
+          <div className="grid-container px16">
+            <div className="flex vc hc">
+              <div className="label">Start Date: </div>
+              <DateTimePicker
+                date={new moment(campaign.startDate)}
+                dateFormat="MMMM Do YYYY hh:mm A"
+                handleChange={(date, setDisplayAndMessage, anchorDates) => {
+                  tryChangingDates(
+                    date,
+                    "startDate",
+                    setDisplayAndMessage,
+                    anchorDates
+                  );
+                }}
+                dateLowerBound={new moment()}
+                anchorDatesOption={true}
+              />
+            </div>
 
-          <div className="label">End Date: </div>
-          <div className="grid-date-container">
-            <DateTimePicker
-              date={new moment(campaign.endDate)}
-              dateFormat="MMMM Do YYYY hh:mm A"
-              handleChange={(date, setDisplayAndMessage) => {
-                tryChangingDates(date, "endDate", setDisplayAndMessage);
-              }}
-              dateLowerBound={new moment()}
-            />
+            <div className="flex vc hc">
+              <div className="label">End Date: </div>
+              <DateTimePicker
+                date={new moment(campaign.endDate)}
+                dateFormat="MMMM Do YYYY hh:mm A"
+                handleChange={(date, setDisplayAndMessage) => {
+                  tryChangingDates(date, "endDate", setDisplayAndMessage);
+                }}
+                dateLowerBound={new moment()}
+              />
+            </div>
+            <div className="flex hc vc">{colorDivs}</div>
           </div>
-          <div className="label">Color:</div>
-          <div className="colors">{colorDivs}</div>
         </div>
 
         <div
