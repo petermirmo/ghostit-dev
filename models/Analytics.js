@@ -45,4 +45,4 @@ const analyticsSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("accounts", accountSchema);
+module.exports = mongoose.model("analytics", analyticsSchema);

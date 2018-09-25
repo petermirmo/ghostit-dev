@@ -13,6 +13,22 @@ class Analytics extends Component {
     this.getPosts();
     this.state = {};
   }
+
+  componentDidMount() {
+    this.getAnalytics();
+  }
+
+  getAnalytics = () => {
+    if (this.props.user.role === "admin") {
+      axios.get("/api/analytics").then(res => {
+        const { analyticsObjects } = res.data;
+        this.setState({ analyticsObjects });
+      });
+    } else {
+      return;
+    }
+  };
+
   getPageAnalytics = account => {
     axios.get("/api/facebook/page/analytics/" + account._id).then(res => {
       console.log(res.data);
@@ -55,40 +71,7 @@ class Analytics extends Component {
   render() {
     let { accounts } = this.props;
     let { facebookPosts } = this.state;
-    let accountClickMeDivs = [];
-    let postClickMeDivs = [];
 
-    for (let index in accounts) {
-      let account = accounts[index];
-      if (account.socialType !== "facebook") continue;
-      if (account.accountType === "profile") continue;
-      let title = account.userName;
-      if (!title) title = account.givenName;
-
-      accountClickMeDivs.push(
-        <div
-          key={index + "account"}
-          onClick={() => this.getPageAnalytics(account)}
-          className="here"
-        >
-          page:
-          {title}
-        </div>
-      );
-    }
-    for (let index in facebookPosts) {
-      let post = facebookPosts[index];
-      postClickMeDivs.push(
-        <div
-          key={index + "post"}
-          onClick={() => this.getPostAnalytics(post)}
-          className="here"
-        >
-          post:
-          {post.content}
-        </div>
-      );
-    }
     return (
       <div className="wrapper" style={this.props.margin}>
         <div className="test-container">
@@ -103,6 +86,24 @@ class Analytics extends Component {
             >
               Get All FB Pages
             </div>
+          </div>
+        )}
+        {this.props.user.role === "admin" && (
+          <div className="test-container">
+            {analyticsObjects.map((obj, index) => {
+              <div
+                className="here"
+                key={index + "account"}
+                onClick={() => this.setState({ activeAnalyticsIndex: index })}
+              >
+                {obj.name}
+              </div>;
+            })}
+          </div>
+        )}
+        {activeAnalyticsIndex !== "undefined" && (
+          <div className="analytics-display">
+            {analyticsObjects[activeAnalyticsIndex].name}
           </div>
         )}
       </div>
