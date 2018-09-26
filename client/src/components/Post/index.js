@@ -365,7 +365,7 @@ class PostingOptions extends Component {
           )}
         </div>
         <div
-          className="instructions-container"
+          className="instructions-container common-shadow"
           style={{
             width: showInstructions ? "40%" : "0",
             padding: showInstructions ? undefined : 0
@@ -375,7 +375,7 @@ class PostingOptions extends Component {
             <input
               onChange={event => this.handleChange(event.target.value, "name")}
               value={name}
-              className="title-input"
+              className="pl4 mb8"
               placeholder="Title"
               readOnly={!canEditPost}
             />
