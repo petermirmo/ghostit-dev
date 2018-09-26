@@ -93,7 +93,7 @@ class Analytics extends Component {
                   key={index + "account"}
                   onClick={() => this.setState({ activeAnalyticsIndex: index })}
                 >
-                  {obj.name}
+                  {obj.accountName}
                 </div>;
               })}
             </div>

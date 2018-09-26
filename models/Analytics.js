@@ -31,9 +31,6 @@ const analyticsSchema = new Schema(
         description: String,
         monthlyValues: [
           // each element represents a different month/year
-          // maybe we make this an object and have each date contained within a string representing its date
-          // would this scheme allow for constant time retrieval of specific dates?
-          // (say for example we wanted to build a graph of the last 30 days, we could look up each day specifically)
           {
             month: Number,
             year: Number,

@@ -137,135 +137,183 @@ const fbRequest =
   ",page_posts_impressions_frequency_distribution" + // all 3
   "&date_preset=last_3d";
 
-process_fb_page_analytics = data => {
-  /*
-    input:
+/*
+    I have a question / thought about storing the analytics data for more efficient retrieval.
+    I'm going to make up a slightly simpler example to try to illustrate what im thinking.
+    Let's say my data looks like this:
+    data: [
       {
-        "name": "page_video_views_organic",
-        "period": "day",
-        "values": [
+        title: "page_video_views_organic",
+        monthlyValues: [
           {
-            "value": 0,
-            "end_time": "2018-09-30T07:00:00+0000"
-          },
-          {
-            "value": 1,
-            "end_time": "2018-10-01T07:00:00+0000"
-          },
-          {
-            "value": 2,
-            "end_time": "2018-10-02T07:00:00+0000"
-          }
-        ],
-        "title": "Daily Total Organic Views",
-        "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
-        "id": "1209545782519940/insights/page_video_views_organic/day"
-      }
-    output:
-      {
-        "name": "page_video_views_organic",
-        "monthlyValues": [
-          {
-            "month": 9,
-            "year": 2018,
-            "values": [
+            month-year: "09-2018",
+            values: [
               {
-                "day": 29,
-                "value": 0
+                day: 29,
+                value: 3
               },
               {
-                "day": 30,
-                "value": 1
+                day: 30,
+                value: 5
               }
             ]
           },
           {
-            "month": 10,
-            "year": 2018,
-            "values": [
+            month-year: "10-2018",
+            values: [
               {
-                "day": 1,
-                "value": 2
+                day: 1,
+                value: 7
+              }
+              {
+                day: 2,
+                value: 2
               }
             ]
           }
-        ],
-        "title": "Daily Total Organic Views",
-        "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
+        ]
       }
+    ]
+    In this example, all of the "lists" are arrays which is the most natural.
+    However, because they are arrays, if we want a metric type (title), or a specific month-year within a metric, or a specific day within the month, we are going to have to use linear search through the array to find it. We could potentially work with the assumption that it's always going to be sorted (not the metric title, but the month-year and day attributes) which could allow for log(n) retrieval, but I have another idea in mind that will potentially make retrieval a lot more efficient.
+    data: {
+      page_video_views_organic: {
+        month-09-2018: {
+          values: {
+            day-29: {
+              value: 3
+            },
+            day-30: {
+              value: 5
+            }
+          }
+        },
+        month-10-2018: {
+          values: {
+            day-01: {
+              value: 7
+            },
+            day-02: {
+              value: 2
+            }
+          }
+        }
+      }
+    }
+    In this example, all of the "lists" are now objects where each element's identifying attribute is now its key/index. So to get a specific title we just say data.page_views, or to get a specific month we say data.page_views.month-09-2018, or to get a speicif day we just say data.page_views.month-09-2018.day-29. What do you think of this? We'd still be able to run a (for let index in data) loop to loop through it like an array if necessary, but it allows us to retrieve without a search.
+    1) Is this actually faster? Does fetching and storing an object like that from the DB provide us with O(1) time retrieval (like a hash table) or does the computer still need to search for that specific attribute?
+    2) If this actually is more efficient, is it worth making everything less intuitive?
 
-      I have a question / thought about storing the analytics data for more efficient retrieval.
-      I'm going to make up a slightly simpler example to try to illustrate what im thinking.
-      Let's say my data looks like this:
-      data: [
+    THIS ISN'T EVEN POSSIBLE
+      due to the fact that we can't have dynamically named keys in the schema model
+*/
+process_fb_page_analytics = data => {
+  /*
+  input:
+    {
+      "name": "page_video_views_organic",
+      "period": "day",
+      "values": [
         {
-          title: "page_video_views_organic",
-          monthlyValues: [
+          "value": 0,
+          "end_time": "2018-09-30T07:00:00+0000"
+        },
+        {
+          "value": 1,
+          "end_time": "2018-10-01T07:00:00+0000"
+        },
+        {
+          "value": 2,
+          "end_time": "2018-10-02T07:00:00+0000"
+        }
+      ],
+      "title": "Daily Total Organic Views",
+      "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
+      "id": "1209545782519940/insights/page_video_views_organic/day"
+    }
+  output:
+    {
+      "name": "page_video_views_organic",
+      "monthlyValues": [
+        {
+          "month": 9,
+          "year": 2018,
+          "values": [
             {
-              month-year: "09-2018",
-              values: [
-                {
-                  day: 29,
-                  value: 3
-                },
-                {
-                  day: 30,
-                  value: 5
-                }
-              ]
+              "day": 29,
+              "value": 0
             },
             {
-              month-year: "10-2018",
-              values: [
-                {
-                  day: 1,
-                  value: 7
-                }
-                {
-                  day: 2,
-                  value: 2
-                }
-              ]
+              "day": 30,
+              "value": 1
+            }
+          ]
+        },
+        {
+          "month": 10,
+          "year": 2018,
+          "values": [
+            {
+              "day": 1,
+              "value": 2
             }
           ]
         }
-      ]
-      In this example, all of the "lists" are arrays which is the most natural.
-      However, because they are arrays, if we want a metric type (title), or a specific month-year within a metric, or a specific day within the month, we are going to have to use linear search through the array to find it. We could potentially work with the assumption that it's always going to be sorted (not the metric title, but the month-year and day attributes) which could allow for log(n) retrieval, but I have another idea in mind that will potentially make retrieval a lot more efficient.
-      data: {
-        page_video_views_organic: {
-          month-09-2018: {
-            values: {
-              day-29: {
-                value: 3
-              },
-              day-30: {
-                value: 5
-              }
-            }
-          },
-          month-10-2018: {
-            values: {
-              day-01: {
-                value: 7
-              },
-              day-02: {
-                value: 2
-              }
-            }
-          }
-        }
-      }
-      In this example, all of the "lists" are now objects where each element's identifying attribute is now its key/index. So to get a specific title we just say data.page_views, or to get a specific month we say data.page_views.month-09-2018, or to get a speicif day we just say data.page_views.month-09-2018.day-29. What do you think of this? We'd still be able to run a (for let index in data) loop to loop through it like an array if necessary, but it allows us to retrieve without a search.
-      1) Is this actually faster? Does fetching and storing an object like that from the DB provide us with O(1) time retrieval (like a hash table) or does the computer still need to search for that specific attribute?
-      2) If this actually is more efficient, is it worth making everything less intuitive?
+      ],
+      "title": "Daily Total Organic Views",
+      "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
+    }
   */
-  let dbObject = {
+
+  let result = {
     name: data.name,
     title: data.title,
     description: data.description,
     monthlyValues: []
   };
+
+  for (let i = 0; i < data.values.length; i++) {
+    const currentValue = data.values[i];
+    const dateObject = parseFBDate(currentValue.end_time);
+
+    let month_index = result.monthlyValues.findIndex(
+      obj => obj.month === dateObject.month && obj.year === dateObject.year
+    );
+    if (month_index === -1) {
+      result.monthlyValues.push({
+        month: dateObject.month,
+        year: dateObject.year,
+        values: []
+      });
+      month_index = result.monthlyValues.length - 1;
+    }
+
+    let day_index = result.monthlyValues[month_index].values.findIndex(
+      obj => obj.day === dateObject.day
+    );
+    if (day_index === -1) {
+      result.monthlyValues[month_index].values.push({
+        day: dateObject.day,
+        value: currentValue.value
+      });
+    } else {
+      result.monthlyValues[month_index].values[day_index].value =
+        currentValue.value;
+    }
+  }
+  return result;
+};
+
+parseFBDate = end_time => {
+  console.log(end_time);
+  const end_time_moment = new moment(end_time).subtract(1, "day");
+  console.log(end_time_moment);
+  let returnObj = {
+    day: end_time_moment.get("date"),
+    month: end_time_moment.get("month") + 1,
+    year: end_time_moment.get("year")
+  };
+  console.log(returnObj);
 };
 
 module.exports = {
@@ -305,7 +353,7 @@ module.exports = {
                 }
                 analyticsObjects.push({
                   ...analyticsObj,
-                  name: foundAccount.givenName
+                  accountName: foundAccount.givenName
                 });
               }
             );
