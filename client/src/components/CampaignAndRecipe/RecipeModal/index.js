@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setKeyListenerFunction } from "../../../redux/actions/";
+import { setKeyListenerFunction, setTutorial } from "../../../redux/actions/";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -15,6 +15,7 @@ import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 import LoaderSimpleCircle from "../../Notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
+import Tutorial from "../../Tutorial/";
 
 import {
   getPostColor,
@@ -44,6 +45,12 @@ class RecipeModal extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
+    if (this.props.tutorial.on) {
+      let temp = this.props.tutorial;
+      temp.value = 5;
+
+      this.props.setTutorial(temp);
+    }
 
     this.props.setKeyListenerFunction([
       event => {
@@ -139,7 +146,7 @@ class RecipeModal extends Component {
         if (!recipe.color) opacity = 0;
         rowArray.push(
           <div
-            className="recipe-container"
+            className="recipe-container pa8 ma8 flex column button"
             key={recipeIndex2 + "recipe"}
             onClick={e => {
               if (!activeRecipes[recipeIndex2]) return;
@@ -213,7 +220,10 @@ class RecipeModal extends Component {
 
   customCampaignDiv = recipeIndex2 => {
     return (
-      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+      <div
+        className="recipe-container pa8 ma8 flex column button"
+        key={recipeIndex2 + "recipe"}
+      >
         <div
           className="custom-option"
           onClick={() => {
@@ -237,7 +247,10 @@ class RecipeModal extends Component {
 
   newRecipeDiv = recipeIndex2 => {
     return (
-      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+      <div
+        className="recipe-container pa8 ma8 flex column button"
+        key={recipeIndex2 + "recipe"}
+      >
         <div
           className="custom-option"
           onClick={() => {
@@ -259,8 +272,12 @@ class RecipeModal extends Component {
     );
   };
   singleTask = recipeIndex2 => {
+    const { tutorial } = this.props;
     return (
-      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+      <div
+        className="recipe-container pa8 ma8 flex column button"
+        key={recipeIndex2 + "recipe"}
+      >
         <div
           className="custom-option"
           onClick={() => {
@@ -277,6 +294,14 @@ class RecipeModal extends Component {
             Task
           </div>
           <div className="hover-active-div">Create</div>
+          {tutorial.on &&
+            tutorial.value === 5 && (
+              <Tutorial
+                title="Tutorial"
+                message="Click on 'Single Task' to create your first post!"
+                position="bottom"
+              />
+            )}
         </div>
       </div>
     );
@@ -491,14 +516,16 @@ class RecipeModal extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    getKeyListenerFunction: state.getKeyListenerFunction
+    getKeyListenerFunction: state.getKeyListenerFunction,
+    tutorial: state.tutorial
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setKeyListenerFunction
+      setKeyListenerFunction,
+      setTutorial
     },
     dispatch
   );

@@ -9,13 +9,16 @@
 .account-column {
 }
 .social-header-button {
+  position: relative;
   width: 100%;
   box-sizing: border-box;
   font-size: var(--large-font-size);
   color: var(--white-theme-color);
+  text-align: center;
 }
 
 .social-media-connect {
+  position: relative;
   width: 80%;
   text-align: center;
   color: var(--white-theme-color);

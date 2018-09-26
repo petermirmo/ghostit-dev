@@ -5,7 +5,13 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, setUser, updateAccounts } from "./redux/actions/";
+import {
+  changePage,
+  setUser,
+  updateAccounts,
+  setTutorial,
+  openHeaderSideBar
+} from "./redux/actions/";
 
 import LoaderWedge from "./components/Notifications/LoaderWedge";
 
@@ -41,12 +47,65 @@ class Routes extends Component {
           if (!accounts) accounts = [];
           props.updateAccounts(accounts);
           props.setUser(user);
+          if (user.role === "demo") {
+            let temp = props.tutorial;
+            temp.on = true;
+            props.setTutorial(temp);
+            props.openHeaderSideBar(true);
+          }
+
+          this.setState({ datebaseConnection: true });
         });
       } else {
-        if (props.activePage) props.changePage("");
+        if (
+          props.activePage &&
+          props.activePage != "sign-in" &&
+          props.activePage != "sign-up"
+        )
+          props.changePage("");
+
+        this.setState({ datebaseConnection: true });
       }
-      this.setState({ datebaseConnection: true });
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    // Hardcoded stuff for product pop up tutorials
+    // It is kind of complicated. if(confuzzled) Talk to Peter;
+    const { accounts, user, activePage } = nextProps;
+    if (user) {
+      if (user.role === "demo") {
+        let temp = nextProps.tutorial;
+        if (activePage === "social-accounts") {
+          temp.value = 1;
+
+          for (let index in accounts) {
+            let account = accounts[index];
+
+            if (
+              account.socialType === "facebook" &&
+              account.accountType === "profile"
+            ) {
+              if (temp.value < 2) temp.value = 2;
+            } else temp.value = 3;
+          }
+        } else if (activePage === "content") {
+          for (let index in accounts) {
+            let account = accounts[index];
+
+            if (
+              account.socialType === "facebook" &&
+              account.accountType === "profile"
+            ) {
+              if (temp.value < 2) temp.value = 2;
+            } else if (temp.value < 4) temp.value = 4;
+          }
+          if (temp.value < 3) temp.value = 0;
+          else if (temp.value === 3) temp.value = 4;
+        }
+
+        nextProps.setTutorial(temp);
+      }
+    }
   }
 
   signOutOfUsersAccount = () => {
@@ -62,6 +121,8 @@ class Routes extends Component {
   };
   getPage = activePage => {
     if (activePage === "") return <LoginPage />;
+    else if (activePage === "sign-up") return <LoginPage signUp={true} />;
+    else if (activePage === "sign-in") return <LoginPage />;
     else if (activePage === "subscribe") return <Subscribe />;
     else if (activePage === "content") return <Content />;
     else if (activePage === "strategy") return <Strategy />;
@@ -117,7 +178,9 @@ function mapStateToProps(state) {
   return {
     activePage: state.activePage,
     user: state.user,
-    getKeyListenerFunction: state.getKeyListenerFunction
+    getKeyListenerFunction: state.getKeyListenerFunction,
+    tutorial: state.tutorial,
+    accounts: state.accounts
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -125,7 +188,9 @@ function mapDispatchToProps(dispatch) {
     {
       changePage,
       setUser,
-      updateAccounts
+      updateAccounts,
+      setTutorial,
+      openHeaderSideBar
     },
     dispatch
   );
