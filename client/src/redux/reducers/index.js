@@ -52,7 +52,6 @@ function accounts(state = [], action) {
       return state;
   }
 }
-
 function getKeyListenerFunction(state = [() => {}], action) {
   switch (action.type) {
     case "KEY_LISTENER":
@@ -69,6 +68,15 @@ function headerSideBar(state = false, action) {
       return state;
   }
 }
+function tutorial(state = { value: 0, on: false }, action) {
+  switch (action.type) {
+    case "TUTORIAL_NUMBER":
+      console.log(action.payload);
+      return action.payload;
+    default:
+      return state;
+  }
+}
 const rootReducer = combineReducers({
   user: currentUser,
   account: accountReducer,
@@ -76,7 +84,8 @@ const rootReducer = combineReducers({
   clientSideBar,
   headerSideBar,
   accounts,
-  getKeyListenerFunction
+  getKeyListenerFunction,
+  tutorial
 });
 
 export default rootReducer;

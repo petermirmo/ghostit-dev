@@ -258,9 +258,11 @@ class PostingOptions extends Component {
     }
 
     if (activePageAccountsArray.length === 0) {
+      let tempMessage = socialType;
+      if (socialType === "facebook") tempMessage += " group/page";
       return (
         <div className="flex hc mt32 no-accounts">
-          Connect {socialType} account! (Go to Social Profiles in the sidebar)
+          Connect {tempMessage} account! (Go to Social Profiles in the sidebar)
         </div>
       );
     }

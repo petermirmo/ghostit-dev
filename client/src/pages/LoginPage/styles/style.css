@@ -45,7 +45,7 @@
 .submit-blue {
   min-width: 30%;
   background-color: var(--five-primary-color);
-  font-size: var(--twelve-font-size);
+  font-size: var(--sixteen-font-size);
   color: var(--white-theme-color);
 }
 .submit-blue:hover {

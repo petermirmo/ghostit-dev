@@ -23,17 +23,21 @@ export const openHeaderSideBar = value => {
     payload: value
   };
 };
-
 export const updateAccounts = value => {
   return {
     type: "SOCIAL_ACCOUNTS",
     payload: value
   };
 };
-
 export const setKeyListenerFunction = value => {
   return {
     type: "KEY_LISTENER",
+    payload: value
+  };
+};
+export const setTutorial = value => {
+  return {
+    type: "TUTORIAL_NUMBER",
     payload: value
   };
 };

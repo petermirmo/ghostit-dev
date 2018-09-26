@@ -22,18 +22,24 @@ import {
   setUser,
   updateAccounts,
   openClientSideBar,
-  openHeaderSideBar
+  openHeaderSideBar,
+  setTutorial
 } from "../../../redux/actions/";
 
 import ClientsSideBar from "../../SideBarClients/";
-
+import Tutorial from "../../Tutorial/";
 import "./styles/";
 
 class HeaderSideBar extends Component {
   constructor(props) {
     super(props);
 
-    if (!props.activePage && props.user) {
+    if (
+      (!props.activePage ||
+        props.activePage === "sign-in" ||
+        props.activePage === "sign-up") &&
+      props.user
+    ) {
       props.changePage("content");
     }
   }
@@ -74,7 +80,8 @@ class HeaderSideBar extends Component {
       activePage,
       changePage,
       headerSideBar,
-      clientSideBar
+      clientSideBar,
+      tutorial
     } = this.props;
 
     if (!user) {
@@ -83,6 +90,7 @@ class HeaderSideBar extends Component {
 
     let isAdmin = user.role === "admin";
     let isManager = user.role === "manager";
+
     return (
       <div className="header-navbar">
         <div className="header-stationary-column pa8">
@@ -117,7 +125,7 @@ class HeaderSideBar extends Component {
                   onClick={() => changePage("subscribe")}
                 >
                   <FontAwesomeIcon icon={faStar} />
-                  Become Awesome
+                  Upgrade to Plan
                 </div>
               )}
               <div
@@ -126,6 +134,14 @@ class HeaderSideBar extends Component {
               >
                 <FontAwesomeIcon icon={faCalendar} />
                 Calendar
+                {tutorial.on &&
+                  tutorial.value === 3 && (
+                    <Tutorial
+                      title="Tutorial"
+                      message="Click 'Calendar' in the sidebar to go to our main screen, the calendar!"
+                      position="right"
+                    />
+                  )}
               </div>
               {isAdmin && (
                 <div
@@ -146,6 +162,14 @@ class HeaderSideBar extends Component {
               >
                 <FontAwesomeIcon icon={faPlus} />
                 Social Profiles
+                {tutorial.on &&
+                  tutorial.value === 0 && (
+                    <Tutorial
+                      title="Tutorial"
+                      message="Click 'Social Profiles' in the sidebar to connect your first social media profile!"
+                      position="right"
+                    />
+                  )}
               </div>
               {isAdmin && (
                 <div
@@ -214,7 +238,8 @@ function mapStateToProps(state) {
     activePage: state.activePage,
     user: state.user,
     clientSideBar: state.clientSideBar,
-    headerSideBar: state.headerSideBar
+    headerSideBar: state.headerSideBar,
+    tutorial: state.tutorial
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -224,7 +249,8 @@ function mapDispatchToProps(dispatch) {
       setUser,
       updateAccounts,
       openHeaderSideBar,
-      openClientSideBar
+      openClientSideBar,
+      setTutorial
     },
     dispatch
   );

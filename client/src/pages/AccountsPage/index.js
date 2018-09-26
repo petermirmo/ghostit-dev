@@ -15,6 +15,7 @@ import { updateAccounts } from "../../redux/actions/";
 
 import AddPageOrGroupModal from "./AddPagesOrGroupsModal/";
 import ConfirmAlert from "../../components/Notifications/ConfirmAlert/";
+import Tutorial from "../../components/Tutorial/";
 import "./styles/";
 
 class AccountsPage extends Component {
@@ -234,6 +235,7 @@ class AccountsPage extends Component {
     this.setState({ addPageOrGroupModal: false });
   };
   render() {
+    const { tutorial } = this.props;
     const {
       accounts,
       addPageOrGroupModal,
@@ -287,6 +289,14 @@ class AccountsPage extends Component {
             }}
           >
             Connect Facebook
+            {tutorial.on &&
+              tutorial.value === 1 && (
+                <Tutorial
+                  title="Tutorial"
+                  message="Click 'Connect Facebook' to connect your Facebook Profile account!"
+                  position="bottom"
+                />
+              )}
           </div>
 
           <div
@@ -294,6 +304,14 @@ class AccountsPage extends Component {
             onClick={() => this.openModal("facebook", "page")}
           >
             Page
+            {tutorial.on &&
+              tutorial.value === 2 && (
+                <Tutorial
+                  title="Tutorial"
+                  message="Click 'Page' to connect your Facebook Page!"
+                  position="bottom"
+                />
+              )}
           </div>
           <div
             className="social-media-connect button mb16 facebook"
@@ -366,7 +384,8 @@ class AccountsPage extends Component {
 function mapStateToProps(state) {
   return {
     clientSideBar: state.clientSideBar,
-    accounts: state.accounts
+    accounts: state.accounts,
+    tutorial: state.tutorial
   };
 }
 function mapDispatchToProps(dispatch) {

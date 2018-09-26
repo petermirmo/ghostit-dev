@@ -8,7 +8,8 @@ import {
   changePage,
   setUser,
   updateAccounts,
-  openHeaderSideBar
+  openHeaderSideBar,
+  setTutorial
 } from "../../redux/actions/";
 import logo from "./logo.png";
 import Notification from "../../components/Notifications/Notification/";
@@ -17,20 +18,23 @@ import "./styles/";
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class Login extends Component {
-  state = {
-    login: "login",
-    fullName: "",
-    email: "",
-    website: "",
-    timezone: timezone ? timezone : "America/Vancouver",
-    password: "",
-    notification: {
-      on: false,
-      title: "Something went wrong!",
-      message: "",
-      type: "danger"
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      login: props.signUp ? "register" : "login",
+      fullName: "",
+      email: "",
+      website: "",
+      timezone: timezone ? timezone : "America/Vancouver",
+      password: "",
+      notification: {
+        on: false,
+        title: "Something went wrong!",
+        message: "",
+        type: "danger"
+      }
+    };
+  }
 
   handleChange = (index, value) => {
     this.setState({ [index]: value });
@@ -69,8 +73,12 @@ class Login extends Component {
             this.props.setUser(user);
             this.props.updateAccounts(accounts);
 
-            if (user.role === "demo") this.props.changePage("subscribe");
-            else this.props.changePage("content");
+            if (user.role === "demo") {
+              this.props.changePage("subscribe");
+              let temp = this.props.tutorial;
+              temp.on = true;
+              this.props.setTutorial(temp);
+            } else this.props.changePage("content");
           });
         } else {
           this.notify({
@@ -101,7 +109,7 @@ class Login extends Component {
           if (success) {
             this.props.updateAccounts([]);
             this.props.setUser(user);
-            this.props.changePage("content");
+            this.props.changePage("subscribe");
             this.props.openHeaderSideBar(true);
           } else {
             this.notify({
@@ -314,7 +322,7 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-  return { activePage: state.activePage };
+  return { activePage: state.activePage, tutorial: state.tutorial };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
@@ -322,7 +330,8 @@ function mapDispatchToProps(dispatch) {
       changePage,
       setUser,
       updateAccounts,
-      openHeaderSideBar
+      openHeaderSideBar,
+      setTutorial
     },
     dispatch
   );

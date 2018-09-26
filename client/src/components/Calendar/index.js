@@ -12,6 +12,10 @@ import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {} from "../../redux/actions/";
+
 import {
   getPostIcon,
   getPostColor
@@ -19,6 +23,7 @@ import {
 
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
+import Tutorial from "../Tutorial/";
 
 import "./styles/";
 
@@ -465,6 +470,8 @@ class Calendar extends Component {
 
     let calendarWeekArray = this.createCalendarWeeks(calendarDate);
     let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
+    const { tutorial } = this.props;
+
     return (
       <div className="calendar-container">
         {this.calendarHeader(calendarDate, queueActive)}
@@ -474,6 +481,15 @@ class Calendar extends Component {
             {dayHeadingsArray}
           </div>
           {calendarWeekArray}
+
+          {tutorial.on &&
+            tutorial.value === 4 && (
+              <Tutorial
+                title="Tutorial"
+                message="Click on any day in the calendar to create your first post!"
+                position="center"
+              />
+            )}
         </div>
       </div>
     );
@@ -490,4 +506,16 @@ function compareCampaignPosts(a, b) {
   return 0;
 }
 
-export default Calendar;
+function mapStateToProps(state) {
+  return {
+    tutorial: state.tutorial
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Calendar);
