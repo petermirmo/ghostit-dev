@@ -151,7 +151,9 @@ class ChargeCardForm extends Component {
 
           {!saving &&
             (user.role === "demo" || user.role === "admin") && (
-              <button className="sign-up center">Submit Payment</button>
+              <button className="sign-up common-transition mt16 pa8 round">
+                Submit Payment
+              </button>
             )}
         </form>
       </div>

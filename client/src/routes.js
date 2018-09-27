@@ -48,9 +48,14 @@ class Routes extends Component {
           props.updateAccounts(accounts);
           props.setUser(user);
           if (user.role === "demo") {
-            let temp = props.tutorial;
+            let temp = { ...props.tutorial };
             temp.on = true;
-            props.setTutorial(temp);
+
+            let somethingChanged = false;
+            for (let index in temp) {
+              if (temp[index] != props.tutorial[index]) somethingChanged = true;
+            }
+            if (somethingChanged) props.setTutorial(temp);
             props.openHeaderSideBar(true);
           }
 
@@ -74,21 +79,8 @@ class Routes extends Component {
     const { accounts, user, activePage } = nextProps;
     if (user) {
       if (user.role === "demo") {
-        let temp = nextProps.tutorial;
-        if (activePage === "social-accounts") {
-          temp.value = 1;
-
-          for (let index in accounts) {
-            let account = accounts[index];
-
-            if (
-              account.socialType === "facebook" &&
-              account.accountType === "profile"
-            ) {
-              if (temp.value < 2) temp.value = 2;
-            } else temp.value = 3;
-          }
-        } else if (activePage === "content") {
+        let temp = { ...nextProps.tutorial };
+        if (activePage === "content") {
           for (let index in accounts) {
             let account = accounts[index];
 
@@ -101,9 +93,27 @@ class Routes extends Component {
           }
           if (temp.value < 3) temp.value = 0;
           else if (temp.value === 3) temp.value = 4;
-        }
+        } else {
+          temp.value = 1;
 
-        nextProps.setTutorial(temp);
+          for (let index in accounts) {
+            let account = accounts[index];
+
+            if (
+              account.socialType === "facebook" &&
+              account.accountType === "profile"
+            ) {
+              if (temp.value < 2) temp.value = 2;
+            } else temp.value = 3;
+          }
+        }
+        let somethingChanged = false;
+        for (let index in temp) {
+          if (temp[index] != nextProps.tutorial[index]) somethingChanged = true;
+        }
+        console.log(temp);
+        console.log(accounts);
+        if (somethingChanged) nextProps.setTutorial(temp);
       }
     }
   }
