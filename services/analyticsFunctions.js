@@ -7,15 +7,15 @@ const moment = require("moment-timezone");
 
 const fbRequest =
   "/insights?metric=" +
-  "page_content_activity_by_action_type_unique" + // all 3
+  /*"page_content_activity_by_action_type_unique" + // all 3
   ",page_content_activity_by_age_gender_unique" + // none
   ",page_content_activity_by_city_unique" + // none
   ",page_content_activity_by_country_unique" + // none
   ",page_content_activity_by_locale_unique" + // none
   ",page_content_activity" + // all 3
-  ",page_impressions" + // all 3
+  */ ",page_impressions" + // all 3
   ",page_impressions_unique" + // all 3
-  ",page_impressions_paid" + // all 3
+  /*",page_impressions_paid" + // all 3
   ",page_impressions_paid_unique" + // all 3
   ",page_impressions_organic" + // all 3
   ",page_impressions_organic_unique" + // all 3
@@ -31,7 +31,7 @@ const fbRequest =
   ",page_post_engagements" + // all 3
   ",page_consumptions" + // all 3
   ",page_consumptions_unique" + // all 3
-  ",page_consumptions_by_consumption_type" + // all 3
+  /*",page_consumptions_by_consumption_type" + // all 3
   ",page_consumptions_by_consumption_type_unique" + // all 3
   ",page_places_checkins_by_age_gender" + // none
   ",page_places_checkin_total_unique" + // all 3
@@ -40,7 +40,7 @@ const fbRequest =
   ",page_places_checkins_by_age_gender" + // none
   ",page_places_checkins_by_locale" + // none
   ",page_places_checkins_by_country" + // none
-  ",page_negative_feedback" + // all 3
+   ",page_negative_feedback" + // all 3
   ",page_negative_feedback_unique" + // all 3
   ",page_negative_feedback_by_type" + // all 3
   ",page_negative_feedback_by_type_unique" + // all 3
@@ -55,8 +55,8 @@ const fbRequest =
   ",page_actions_post_reactions_haha_total" + // all 3
   ",page_actions_post_reactions_sorry_total" + // all 3
   ",page_actions_post_reactions_anger_total" + // all 3
-  ",page_actions_post_reactions_total" + // day
-  ",page_total_actions" + // all 3
+  */ ",page_actions_post_reactions_total" + // day
+  /*",page_total_actions" + // all 3
   ",page_cta_clicks_logged_in_total" + // all 3
   ",page_cta_clicks_logged_in_unique" + // all 3
   ",page_cta_clicks_by_site_logged_in_unique" + // all 3
@@ -84,7 +84,7 @@ const fbRequest =
   ",page_fans_country" + // none
   ",page_fans_gender_age" + // none
   ",page_fan_adds" + // day
-  ",page_fan_adds_unique" + // all 3
+  /*",page_fan_adds_unique" + // all 3
   ",page_fans_by_like_source" + // day
   ",page_fans_by_like_source_unique" + // day
   ",page_fan_removes" + // day
@@ -94,7 +94,7 @@ const fbRequest =
   ",page_views_logout" + // none
   ",page_views_logged_in_total" + // all 3
   ",page_views_logged_in_unique" + // all 3
-  ",page_views_external_referrals" + // day
+  /*",page_views_external_referrals" + // day
   ",page_views_by_profile_tab_total" + // all 3
   ",page_views_by_profile_tab_logged_in_unique" + // all 3
   ",page_views_by_internal_referer_logged_in_unique" + // all 3
@@ -125,7 +125,7 @@ const fbRequest =
   ",page_video_view_time" + // day
   ",page_posts_impressions" + // all 3
   ",page_posts_impressions_unique" + // all 3
-  ",page_posts_impressions_paid" + // all 3
+  /*",page_posts_impressions_paid" + // all 3
   ",page_posts_impressions_paid_unique" + // all 3
   ",page_posts_impressions_organic" + // all 3
   ",page_posts_impressions_organic_unique" + // all 3
@@ -135,7 +135,7 @@ const fbRequest =
   ",page_posts_impressions_nonviral" + // all 3
   ",page_posts_impressions_nonviral_unique" + // all 3
   ",page_posts_impressions_frequency_distribution" + // all 3
-  "&date_preset=last_3d";
+  */ "&date_preset=last_90d";
 
 /*
     I have a question / thought about storing the analytics data for more efficient retrieval.
@@ -219,7 +219,7 @@ process_fb_page_analytics = data => {
           "end_time": "2018-09-30T07:00:00+0000"
         },
         {
-          "value": 1,
+          "value": { "likes": 1, "loves": 3 },
           "end_time": "2018-10-01T07:00:00+0000"
         },
         {
@@ -232,37 +232,56 @@ process_fb_page_analytics = data => {
       "id": "1209545782519940/insights/page_video_views_organic/day"
     }
   output:
-    {
-      "name": "page_video_views_organic",
-      "monthlyValues": [
-        {
-          "month": 9,
-          "year": 2018,
-          "values": [
-            {
-              "day": 29,
-              "value": 0
-            },
-            {
-              "day": 30,
-              "value": 1
-            }
-          ]
-        },
-        {
-          "month": 10,
-          "year": 2018,
-          "values": [
-            {
-              "day": 1,
-              "value": 2
-            }
-          ]
-        }
-      ],
-      "title": "Daily Total Organic Views",
-      "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
-    }
+  {
+    "name": "page_video_views_organic",
+    "title": "Daily Total Organic Views",
+    "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
+    "monthlyValues": [
+      {
+        "month": 9,
+        "year": 2018,
+        "values": [
+          {
+            "day": 29,
+            "value": [
+              {
+                "key": "value",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "day": 30,
+            "value": [
+              {
+                "key": "likes",
+                "value": 1
+              },
+              {
+                "key": "loves",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "month": 10,
+        "year": 2018,
+        "values": [
+          {
+            "day": 1,
+            "value": [
+              {
+                "key": "value",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
   */
 
   let result = {
@@ -273,6 +292,28 @@ process_fb_page_analytics = data => {
   };
 
   for (let i = 0; i < data.values.length; i++) {
+    /*
+    currentValue =
+      {
+        "value": { "likes": 1, "loves": 3 },
+        "end_time": "2018-10-01T07:00:00+0000" // this date is 11pm sept 30th PST
+      }
+      in DB:
+        {
+          "day": 30,
+          "value": [
+            {
+              "key": "likes",
+              "value": 1
+            },
+            {
+              "key": "loves",
+              "value": 3
+            }
+          ]
+        }
+      }
+    */
     const currentValue = data.values[i];
     const dateObject = parseFBDate(currentValue.end_time);
 
@@ -291,29 +332,49 @@ process_fb_page_analytics = data => {
     let day_index = result.monthlyValues[month_index].values.findIndex(
       obj => obj.day === dateObject.day
     );
+
+    let valueArray = [];
+    if (
+      Number.isInteger(currentValue.value) ||
+      typeof currentValue.value === "string" ||
+      currentValue.value instanceof String
+    ) {
+      // if the value is just a simple number or string then we label it "value"
+      valueArray = [
+        {
+          key: "value",
+          value: currentValue.value
+        }
+      ];
+    } else {
+      for (let index in currentValue.value) {
+        valueArray.push({
+          key: index,
+          value: currentValue.value[index]
+        });
+      }
+    }
+
     if (day_index === -1) {
       result.monthlyValues[month_index].values.push({
         day: dateObject.day,
-        value: currentValue.value
+        value: valueArray
       });
     } else {
-      result.monthlyValues[month_index].values[day_index].value =
-        currentValue.value;
+      result.monthlyValues[month_index].values[day_index].value = valueArray;
     }
   }
   return result;
 };
 
 parseFBDate = end_time => {
-  console.log(end_time);
   const end_time_moment = new moment(end_time).subtract(1, "day");
-  console.log(end_time_moment);
   let returnObj = {
     day: end_time_moment.get("date"),
     month: end_time_moment.get("month") + 1,
     year: end_time_moment.get("year")
   };
-  console.log(returnObj);
+  return returnObj;
 };
 
 module.exports = {
@@ -400,8 +461,14 @@ module.exports = {
               } else {
                 // account doesn't have analytics object yet so we need to create one
                 // maybe in this case, request for the last 30 or 90 days?
-                FB.setAccessToken(account.accessToken);
-                FB.api(account.socialID + fbRequest, "get", function(response) {
+                //FB.setAccessToken(account.accessToken);
+                //FB.api(account.socialID + fbRequest, "get", function(response) {
+                FB.setAccessToken(
+                  "EAATBO1uFsCMBADdZAfryWDFU2KXtKGKGyjZCl5xmZCZAEOaw4pZAZBiREnzpzHR237PiRWBYzj2lAxVhZBTme4u8luNc8iqRdNZAP4cTRJScQVWasse794PNbZCsGnD13yrVPMAdUq52FlZABJmBQEyFGvieCIlvInoum2ZA8Q7zhDdaEVX1lSZAZBurU"
+                );
+                FB.api("507435342791094" + fbRequest, "get", function(
+                  response
+                ) {
                   if (!response) {
                     console.log(
                       "response from facebook = undefined for account " +
