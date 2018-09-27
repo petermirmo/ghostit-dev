@@ -165,7 +165,7 @@ function mapStateToProps(state) {
   return { user: state.user };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser: setUser }, dispatch);
+  return bindActionCreators({ setUser }, dispatch);
 }
 
 export default connect(

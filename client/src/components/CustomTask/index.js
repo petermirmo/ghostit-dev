@@ -181,7 +181,7 @@ class CustomTask extends Component {
         <input
           onChange={event => this.handleChange(event.target.value, "name")}
           value={name}
-          className="title-input"
+          className="title-input mb8"
           placeholder="Title"
           readOnly={!canEditPost}
         />
