@@ -405,6 +405,19 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data, res) => {
   analyticsDbObject.save();
 };
 
+testFunc = (req, res) => {
+  User.find({}, (err, accounts) => {
+    if (err || !accounts) {
+      console.log(err);
+      res.send({ success: false, err });
+      return;
+    } else {
+      res.send({ success: true, accounts });
+      return;
+    }
+  });
+};
+
 module.exports = {
   getAllAnalytics: function(req, res) {
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
@@ -460,6 +473,9 @@ module.exports = {
     });
   },
   getAllFacebookPageAnalytics: function(req, res) {
+    testFunc(req, res);
+    return;
+
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
         if (foundUser.role !== "admin") {
