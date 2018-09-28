@@ -207,13 +207,13 @@ class AccountsPage extends Component {
     }
     connectedAccountsDivArray.push(
       <div
-        className="connected-social-div"
+        className="connected-social-div flex"
         key={connectedAccountsDivArray.length + account.socialType}
       >
         <div className="flex vc hc">
           <FontAwesomeIcon icon={icon} size="2x" color={color} />
         </div>
-        <div className="connected-social">
+        <div className="connected-social pl8">
           {name}
           <br />
           <div className="connected-social-account">

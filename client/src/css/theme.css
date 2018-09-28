@@ -836,7 +836,7 @@ button {
 textarea,
 input {
   outline: none;
-  resize: none;
+  resize: vertical;
 
   font-size: var(--regular-font-size);
   font-family: var(--font-theme);

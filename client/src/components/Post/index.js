@@ -22,6 +22,9 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 import "./styles";
 
 class PostingOptions extends Component {
+  state = {
+    showInstructions: true
+  };
   constructor(props) {
     super(props);
 
@@ -70,8 +73,7 @@ class PostingOptions extends Component {
       content: "",
       instructions: "",
       name: "",
-      promptModifyCampaignDates: false,
-      showInstructions: false
+      promptModifyCampaignDates: false
     };
     if (props.post) {
       const returnObj = this.getDefaultAccount(props);
