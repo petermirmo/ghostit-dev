@@ -83,7 +83,10 @@ module.exports = {
     let currentUser = req.user;
 
     if (!currentUser.stripeCustomerID)
-      return generalFunctions.handleError(res, "Not a stripe customer");
+      return generalFunctions.handleError(
+        res,
+        "You have no billing history because you have not paid us yet. Let's fix that!"
+      );
     else {
       stripe.invoices.list(
         { customer: currentUser.stripeCustomerID },

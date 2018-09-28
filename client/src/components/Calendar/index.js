@@ -191,7 +191,7 @@ class Calendar extends Component {
               Math.abs(calendarStartDate.diff(dateIndexOfEvent, "days")) + 1
             ];
 
-          let campaignClassName = "campaign";
+          let campaignClassName = "campaign button";
 
           // If first loop of while loop
           if (firstLoop) {
@@ -272,7 +272,7 @@ class Calendar extends Component {
             if (!currentCalendarDayOfEvents[i]) {
               currentCalendarDayOfEvents[i] = (
                 <div
-                  className="campaign"
+                  className="campaign button"
                   style={{ backgroundColor: "transparent" }}
                   key={index + i + "day2"}
                 />
@@ -315,12 +315,12 @@ class Calendar extends Component {
     if (needsCampaignCover) {
       return (
         <div
-          className="campaign"
+          className="campaign button"
           style={{ backgroundColor: "transparent" }}
           key={index + "post3"}
         >
           <div
-            className="calendar-post"
+            className="calendar-post common-transition button"
             style={{ backgroundColor: color }}
             onClick={event => {
               event.stopPropagation();
@@ -335,7 +335,7 @@ class Calendar extends Component {
     } else {
       return (
         <div
-          className="calendar-post"
+          className="calendar-post common-transition button"
           key={index + "post3"}
           style={{ backgroundColor: color }}
           onClick={event => {
