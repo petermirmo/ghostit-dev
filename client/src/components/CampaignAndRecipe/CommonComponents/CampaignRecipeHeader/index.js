@@ -88,12 +88,12 @@ class CampaignRecipeHeader extends Component {
             onChange={event => handleChange(event.target.value, "name")}
             value={campaign.name}
             className="campaign-title pa8"
-            placeholder="Give me a title!"
+            placeholder="Click here to give a title!"
             readOnly={false}
           />
           <Textarea
             className="campaign-description"
-            placeholder="Describe this campaign!"
+            placeholder="Click here to give a description!"
             onChange={event => handleChange(event.target.value, "description")}
             value={campaign.description}
             readOnly={false}

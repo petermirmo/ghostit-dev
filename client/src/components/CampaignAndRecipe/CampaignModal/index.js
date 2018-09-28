@@ -104,8 +104,8 @@ class CampaignModal extends Component {
       : {
           startDate,
           endDate: new moment(startDate).add(7, "days"),
-          name: "My Awesome Campaign...",
-          description: "My Awesome Campaign Description...",
+          name: "",
+          description: "",
           userID: props.user.signedInAsUser
             ? props.user.signedInAsUser.id
               ? props.user.signedInAsUser.id
@@ -718,7 +718,7 @@ class CampaignModal extends Component {
         this.props.notify(
           "danger",
           "Save Cancelled",
-          "All posts in a template must have instructions. Make sure each post has been saved with instructions then try saving again."
+          "All posts in a template must have instructions. Make sure each post has been saved with instructions then try saving again. (Instructions are located in the right sidebar of your posts)"
         );
         return;
       }
