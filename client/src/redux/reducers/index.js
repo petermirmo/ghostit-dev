@@ -70,8 +70,7 @@ function headerSideBar(state = false, action) {
 }
 function tutorial(state = { value: 0, on: false }, action) {
   switch (action.type) {
-    case "TUTORIAL_NUMBER":
-      console.log(action.payload);
+    case "TUTORIAL":
       return action.payload;
     default:
       return state;

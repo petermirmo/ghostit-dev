@@ -73,7 +73,8 @@
   font-size: var(--fourteen-font-size);
 }
 .instruction-textarea {
-  min-height: 90%;
+  min-height: 100px;
+  height: 90% !important;
   overflow: auto;
   font-size: var(--fourteen-font-size);
 }

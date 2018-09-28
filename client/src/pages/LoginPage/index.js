@@ -73,12 +73,8 @@ class Login extends Component {
             this.props.setUser(user);
             this.props.updateAccounts(accounts);
 
-            if (user.role === "demo") {
-              this.props.changePage("subscribe");
-              let temp = this.props.tutorial;
-              temp.on = true;
-              this.props.setTutorial(temp);
-            } else this.props.changePage("content");
+            if (user.role === "demo") this.activateDemoUserLogin();
+            else this.props.changePage("content");
           });
         } else {
           this.notify({
@@ -106,12 +102,10 @@ class Login extends Component {
         .then(res => {
           const { success, user, message } = res.data;
 
-          if (success) {
-            this.props.updateAccounts([]);
-            this.props.setUser(user);
-            this.props.changePage("subscribe");
-            this.props.openHeaderSideBar(true);
-          } else {
+          this.props.updateAccounts([]);
+
+          if (success && user) this.activateDemoUserLogin();
+          else {
             this.notify({
               message,
               type: "danger",
@@ -119,6 +113,19 @@ class Login extends Component {
             });
           }
         });
+    }
+  };
+  activateDemoUserLogin = () => {
+    this.props.openHeaderSideBar(true);
+    this.props.changePage("subscribe");
+    let temp = { ...this.props.tutorial };
+    temp.on = true;
+    let somethingChanged = false;
+    for (let index in temp)
+      if (temp[index] != this.props.tutorial[index]) somethingChanged = true;
+
+    if (somethingChanged) {
+      this.props.setTutorial(temp);
     }
   };
   sendResetEmail = () => {

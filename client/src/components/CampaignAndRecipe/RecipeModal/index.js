@@ -46,10 +46,14 @@ class RecipeModal extends Component {
   componentDidMount() {
     this._ismounted = true;
     if (this.props.tutorial.on) {
-      let temp = this.props.tutorial;
+      let temp = { ...this.props.tutorial };
       temp.value = 5;
 
-      this.props.setTutorial(temp);
+      let somethingChanged = false;
+      for (let index in temp) {
+        if (temp[index] != this.props.tutorial[index]) somethingChanged = true;
+      }
+      if (somethingChanged) this.props.setTutorial(temp);
     }
 
     this.props.setKeyListenerFunction([

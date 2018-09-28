@@ -37,7 +37,7 @@ export const setKeyListenerFunction = value => {
 };
 export const setTutorial = value => {
   return {
-    type: "TUTORIAL_NUMBER",
+    type: "TUTORIAL",
     payload: value
   };
 };
