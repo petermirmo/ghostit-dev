@@ -207,7 +207,7 @@ const fbRequest =
     THIS ISN'T EVEN POSSIBLE
       due to the fact that we can't have dynamically named keys in the schema model
 */
-process_fb_page_analytics = data => {
+process_fb_page_analytics = (data, prevObject) => {
   /*
   input:
     {
@@ -283,13 +283,15 @@ process_fb_page_analytics = data => {
     ]
   }
   */
-
   let result = {
     name: data.name,
     title: data.title,
     description: data.description,
     monthlyValues: []
   };
+  if (prevObject && prevObject.monthlyValues) {
+    result.monthlyValues = [...prevObject.monthlyValues];
+  }
 
   for (let i = 0; i < data.values.length; i++) {
     /*
@@ -377,6 +379,32 @@ parseFBDate = end_time => {
   return returnObj;
 };
 
+fill_and_save_fb_page_db_object = (analyticsDbObject, data, res) => {
+  for (let j = 0; j < data.length; j++) {
+    let analyticObj = data[j];
+    if (analyticObj.period === "day" || analyticObj.period === "lifetime") {
+      const metric_index = analyticsDbObject.analytics.findIndex(
+        obj => analyticObj.name === obj.name
+      );
+      if (metric_index === -1) {
+        // metric doesn't exist in db object yet
+        analyticsDbObject.analytics.push(
+          this.process_fb_page_analytics(analyticObj)
+        );
+      } else {
+        // metric already exists in db object so we just need to update it
+        analyticsDbObject.analytics[
+          metric_index
+        ] = this.process_fb_page_analytics(
+          analyticObj,
+          analyticsDbObject.analytics[metric_index]
+        );
+      }
+    }
+  }
+  analyticsDbObject.save();
+};
+
 module.exports = {
   getAllAnalytics: function(req, res) {
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
@@ -456,66 +484,116 @@ module.exports = {
               account.socialType === "facebook" &&
               account.accountType === "page"
             ) {
-              if (account.analyticsID) {
-                // if this account already has an analytics object, we just need to update the object
-              } else {
-                // account doesn't have analytics object yet so we need to create one
-                // maybe in this case, request for the last 30 or 90 days?
-                //FB.setAccessToken(account.accessToken);
-                //FB.api(account.socialID + fbRequest, "get", function(response) {
-                FB.setAccessToken(
-                  "EAATBO1uFsCMBADdZAfryWDFU2KXtKGKGyjZCl5xmZCZAEOaw4pZAZBiREnzpzHR237PiRWBYzj2lAxVhZBTme4u8luNc8iqRdNZAP4cTRJScQVWasse794PNbZCsGnD13yrVPMAdUq52FlZABJmBQEyFGvieCIlvInoum2ZA8Q7zhDdaEVX1lSZAZBurU"
-                );
-                FB.api("507435342791094" + fbRequest, "get", function(
-                  response
-                ) {
-                  if (!response) {
-                    console.log(
-                      "response from facebook = undefined for account " +
-                        account.givenName +
-                        " " +
-                        account._id
+              FB.setAccessToken(account.accessToken);
+              FB.api(account.socialID + fbRequest, "get", function(response) {
+                /*FB.setAccessToken(
+                "EAATBO1uFsCMBADdZAfryWDFU2KXtKGKGyjZCl5xmZCZAEOaw4pZAZBiREnzpzHR237PiRWBYzj2lAxVhZBTme4u8luNc8iqRdNZAP4cTRJScQVWasse794PNbZCsGnD13yrVPMAdUq52FlZABJmBQEyFGvieCIlvInoum2ZA8Q7zhDdaEVX1lSZAZBurU"
+              );
+              FB.api("507435342791094" + fbRequest, "get", function(
+                response
+              ) {*/
+                if (!response) {
+                  console.log(
+                    "response from facebook = undefined for account " +
+                      account.givenName +
+                      " " +
+                      account._id
+                  );
+                  return;
+                } else if (response.error) {
+                  console.log(
+                    "response error for account " +
+                      account.givenName +
+                      " " +
+                      account._id
+                  );
+                  console.log(response.error);
+                  return;
+                } else if (!response.data) {
+                  console.log(
+                    "response.data from facebook = undefined for account " +
+                      account.givenName +
+                      " " +
+                      account._id
+                  );
+                  console.log(response);
+                  return;
+                }
+                let analyticsDbObject;
+                if (account.analyticsID) {
+                  Analytics.findOne(
+                    { _id: account.analyticsID },
+                    (err, foundObj) => {
+                      if (err || !foundObj) {
+                        console.log(
+                          "account.analyticsID exists, but can't find analytics object with that ID in the DB."
+                        );
+                        console.log(err);
+                        analyticsDbObject = new Analytics();
+                        account.analyticsID = analyticsDbObject._id;
+                        account.save();
+                        analyticsDbObject.socialType = "facebook";
+                        analyticsDbObject.analyticsType = "account";
+                        analyticsDbObject.associatedID = account._id;
+                        analyticsDbObject.analytics = [];
+                      } else {
+                        analyticsDbObject = foundObj;
+                      }
+                      this.newfunctionhere(
+                        analyticsDbObject,
+                        response.data,
+                        res
+                      );
+                    }
+                  );
+                } else {
+                  analyticsDbObject = new Analytics();
+                  account.analyticsID = analyticsDbObject._id;
+                  account.save();
+                  analyticsDbObject.socialType = "facebook";
+                  analyticsDbObject.analyticsType = "account";
+                  analyticsDbObject.associatedID = account._id;
+                  analyticsDbObject.analytics = [];
+                  this.newfunctionhere(analyticsDbObject, response.data, res);
+                }
+
+                // problem is that this code is being run before the Analytics.findOne code finishes above
+                for (let j = 0; j < response.data.length; j++) {
+                  let analyticObj = response.data[j];
+                  if (
+                    analyticObj.period === "day" ||
+                    analyticObj.period === "lifetime"
+                  ) {
+                    console.log(account);
+                    console.log(analyticsDbObject);
+                    const metric_index = analyticsDbObject.analytics.findIndex(
+                      obj => analyticObj.name === obj.name
                     );
-                    return;
-                  } else if (response.error) {
-                    console.log(
-                      "response error for account " +
-                        account.givenName +
-                        " " +
-                        account._id
-                    );
-                    console.log(response.error);
-                    return;
-                  } else if (!response.data) {
-                    console.log(
-                      "response.data from facebook = undefined for account " +
-                        account.givenName +
-                        " " +
-                        account._id
-                    );
-                    console.log(response);
-                    return;
-                  }
-                  let relevantData = [];
-                  for (let j = 0; j < response.data.length; j++) {
-                    let analyticObj = response.data[j];
-                    if (
-                      analyticObj.period === "day" ||
-                      analyticObj.period === "lifetime"
-                    ) {
-                      relevantData.push(
+                    if (metric_index === -1) {
+                      // metric doesn't exist in db object yet
+                      analyticsDbObject.analytics.push(
                         this.process_fb_page_analytics(analyticObj)
+                      );
+                    } else {
+                      // metric already exists in db object so we just need to update it
+                      analyticsDbObject.analytics[
+                        metric_index
+                      ] = this.process_fb_page_analytics(
+                        analyticObj,
+                        analyticsDbObject.analytics[metric_index]
                       );
                     }
                   }
-                  res.send({ success: true, data: relevantData });
-                });
-                return;
-              }
+                }
+                analyticsDbObject.save();
+              });
             }
           }
-          res.send({ success: true });
-          return;
+          // for loop ends here
+          res.send({
+            success: true,
+            accounts: accounts.map(obj => obj.analyticsID)
+          });
         });
       } else {
         res.send({ success: false, message: err });

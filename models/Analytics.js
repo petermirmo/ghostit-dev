@@ -20,7 +20,7 @@ const analyticsSchema = new Schema(
       required: true,
       unique: true
     },
-    analyitcs: [
+    analytics: [
       // each element represents a different analytics metric
       {
         name: {
@@ -38,7 +38,12 @@ const analyticsSchema = new Schema(
               // each element represents a different day within the month
               {
                 day: Number,
-                value: Number
+                value: [
+                  {
+                    key: String,
+                    value: Number
+                  }
+                ]
               }
             ]
           }
