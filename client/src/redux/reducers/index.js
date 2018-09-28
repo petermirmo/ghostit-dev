@@ -8,6 +8,22 @@ function activePage(state = "", action) {
     case "TAB_SELECTED":
       return action.payload;
     default:
+      let currentUrl = window.location.href;
+      let currentPageReversed = "";
+      for (let i = currentUrl.length - 1; i >= 0; i--) {
+        let character = currentUrl[i];
+        if (character === "#" || character === "=" || character === "_")
+          continue;
+        if (character === "/") break;
+        currentPageReversed += character;
+      }
+      let currentPage = "";
+      for (let i = currentPageReversed.length - 1; i >= 0; i--) {
+        let character = currentPageReversed[i];
+        currentPage += character;
+      }
+
+      state = currentPage;
       return state;
   }
 }
@@ -28,14 +44,6 @@ function clientSideBar(state = false, action) {
   }
 }
 
-function headerSideBar(state = false, action) {
-  switch (action.type) {
-    case "HEADER_SIDE_BAR":
-      return action.payload;
-    default:
-      return state;
-  }
-}
 function accounts(state = [], action) {
   switch (action.type) {
     case "SOCIAL_ACCOUNTS":
@@ -44,7 +52,6 @@ function accounts(state = [], action) {
       return state;
   }
 }
-
 function getKeyListenerFunction(state = [() => {}], action) {
   switch (action.type) {
     case "KEY_LISTENER":
@@ -53,7 +60,22 @@ function getKeyListenerFunction(state = [() => {}], action) {
       return state;
   }
 }
-
+function headerSideBar(state = false, action) {
+  switch (action.type) {
+    case "HEADER_SIDE_BAR":
+      return action.payload;
+    default:
+      return state;
+  }
+}
+function tutorial(state = { value: 0, on: false }, action) {
+  switch (action.type) {
+    case "TUTORIAL":
+      return action.payload;
+    default:
+      return state;
+  }
+}
 const rootReducer = combineReducers({
   user: currentUser,
   account: accountReducer,
@@ -61,7 +83,8 @@ const rootReducer = combineReducers({
   clientSideBar,
   headerSideBar,
   accounts,
-  getKeyListenerFunction
+  getKeyListenerFunction,
+  tutorial
 });
 
 export default rootReducer;

@@ -9,29 +9,21 @@ module.exports = {
     let user = req.user;
     if (user.signedInAsUser) {
       if (user.signedInAsUser.id) {
-        await User.findOne({ _id: user.signedInAsUser.id }, function(
-          err,
-          signedInAsUser
-        ) {
-          if (err) {
-            handleError(res, err);
+        await User.findOne(
+          { _id: user.signedInAsUser.id },
+          (err, signedInAsUser) => {
+            if (err) generalFunctions.handleError(res, err);
+            else if (signedInAsUser) user = signedInAsUser;
           }
-          if (signedInAsUser) {
-            user = signedInAsUser;
-          }
-        });
+        );
       }
     }
     if (user.plan) {
       if (user.plan.id && user.plan.id !== "none") {
         Plan.findOne({ _id: user.plan.id }, function(err, plan) {
-          if (err) {
-            handleError(res, err);
-          } else if (plan) {
-            res.send(plan);
-          } else {
-            res.send(false);
-          }
+          if (err) generalFunctions.handleError(res, err);
+          else if (plan) res.send(plan);
+          else if (err) generalFunctions.handleError(res, "Plan not found");
         });
       } else {
         res.send(false);
@@ -46,13 +38,13 @@ module.exports = {
     if (userForPlan.signedInAsUser) {
       if (userForPlan.signedInAsUser.id) {
         userID = userForPlan.signedInAsUser.id;
-        await User.findOne({ _id: userID }, function(err, signedInAsUser) {
-          if (err) {
-            sendError(res, "Please reload the page and try again!", err);
-            return;
-          } else if (signedInAsUser) {
-            userForPlan = signedInAsUser;
-          }
+        await User.findOne({ _id: userID }, (err, signedInAsUser) => {
+          if (err)
+            generalFunctions.handleError(
+              res,
+              "Please reload the page and try again!"
+            );
+          else if (signedInAsUser) userForPlan = signedInAsUser;
         });
       }
     }
@@ -84,16 +76,20 @@ module.exports = {
           email: userForPlan.email
         },
         (err, customer) => {
-          if (err) {
-            sendError(res, "Please reload the page and try again!", err);
-            return;
-          } else {
+          if (err)
+            return generalFunctions.handleError(
+              res,
+              "Please reload the page and try again!"
+            );
+          else {
             // After user is created in stripe we want to save that ID to our platform user
             User.findOne({ _id: userForPlan._id }, (err, user) => {
-              if (err) {
-                sendError(res, "Please reload the page and try again!", err);
-                return;
-              } else {
+              if (err)
+                return generalFunctions.handleError(
+                  res,
+                  "Please reload the page and try again!"
+                );
+              else {
                 user.plan = {
                   id: stripePlan.id,
                   name: stripePlan.name
@@ -132,12 +128,12 @@ module.exports = {
       if (req.user.signedInAsUser.id) {
         userID = req.user.signedInAsUser.id;
         await User.findOne({ _id: userID }, function(err, signedInAsUser) {
-          if (err) {
-            sendError(res, "Please reload the page and try again!", err);
-            return;
-          } else if (signedInAsUser) {
-            user = signedInAsUser;
-          }
+          if (err)
+            return generalFunctions.handleError(
+              res,
+              "Please reload the page and try again!"
+            );
+          else if (signedInAsUser) user = signedInAsUser;
         });
       }
     }
@@ -189,10 +185,12 @@ module.exports = {
     }
 
     Plan.findOne(findPlan, function(err, plan) {
-      if (err) {
-        sendError(res, "Please reload the page and try again!", err);
-        return;
-      } else if (plan) {
+      if (err)
+        return generalFunctions.handleError(
+          res,
+          "Please reload the page and try again!"
+        );
+      else if (plan) {
         // If plan is found simply sign up user to plan
         if (plan.stripePlanID) {
           signUpUserToPlan(
@@ -215,10 +213,12 @@ module.exports = {
               currency: currency
             },
             function(err, stripePlan) {
-              if (err) {
-                sendError(res, "Please reload the page and try again!", err);
-                return;
-              } else {
+              if (err)
+                return generalFunctions.handleError(
+                  res,
+                  "Please reload the page and try again!"
+                );
+              else {
                 // Create customer in stripe
                 plan.currency = currency;
                 plan.stripePlanID = stripePlan.id;
@@ -251,10 +251,12 @@ module.exports = {
               currency: resultNewPlan.currency
             },
             function(err, stripePlan) {
-              if (err) {
-                sendError(res, "Please reload the page and try again!", err);
-                return;
-              } else {
+              if (err)
+                return generalFunctions.handleError(
+                  res,
+                  "Please reload the page and try again!"
+                );
+              else {
                 // Create customer in stripe
                 resultNewPlan.stripePlanID = stripePlan.id;
                 resultNewPlan.save().then(savedPlanWithStripePlanID => {
@@ -277,17 +279,6 @@ module.exports = {
     });
   }
 };
-function handleError(res, errorMessage) {
-  console.log(errorMessage);
-  res.send(false);
-  return;
-}
-function sendError(res, errorMessage, err) {
-  console.log(err);
-  console.log(errorMessage);
-  res.send({ success: false, message: errorMessage });
-  return;
-}
 function createStripeSubscription(user, planID, tax, res) {
   // Cancel last plan if it exists
   if (user.stripeSubscriptionID) {
@@ -308,10 +299,12 @@ function createStripeSubscription(user, planID, tax, res) {
       tax_percent: tax
     },
     (err, subscription) => {
-      if (err) {
-        sendError(res, "Please contact our development team!", err);
-        return;
-      } else {
+      if (err)
+        return generalFunctions.handleError(
+          res,
+          "Please contact our development team!"
+        );
+      else {
         user.stripeSubscriptionID = subscription.id;
         user.role = "client";
         user.save(finalUserSavedWithSubscription => {
@@ -341,19 +334,23 @@ function signUpUserToPlan(
       source: stripeToken.id,
       email: userForPlan.email
     },
-    function(err, customer) {
-      if (err) {
-        sendError(res, "Please reload the page and try again!", err);
-        return;
-      } else {
+    (err, customer) => {
+      if (err)
+        return generalFunctions.handleError(
+          res,
+          "Please reload the page and try again!"
+        );
+      else {
         let userID = userForPlan._id;
 
         // After user is created in stripe we want to save that ID to our platform user
-        User.findOne({ _id: userID }, function(err, user) {
-          if (err) {
-            sendError(res, "Please reload the page and try again!", err);
-            return;
-          } else {
+        User.findOne({ _id: userID }, (err, user) => {
+          if (err)
+            return generalFunctions.handleError(
+              res,
+              "Please reload the page and try again!"
+            );
+          else {
             user.plan = { id: stripePlan._id, name: stripePlan.name };
             user.stripeCustomerID = customer.id;
             user.save().then(savedUserWithStripeCustomerID => {
@@ -370,10 +367,12 @@ function signUpUserToPlan(
                   tax_percent: tax
                 },
                 function(err, subscription) {
-                  if (err) {
-                    sendError(res, "Please contact our development team!", err);
-                    return;
-                  } else {
+                  if (err)
+                    return generalFunctions.handleError(
+                      res,
+                      "Please contact our development team!"
+                    );
+                  else {
                     savedUserWithStripeCustomerID.stripeSubscriptionID =
                       subscription.id;
                     savedUserWithStripeCustomerID.role = "client";
@@ -389,14 +388,12 @@ function signUpUserToPlan(
                               description: "Onboarding fee"
                             },
                             function(err, charge) {
-                              if (err) {
-                                sendError(
+                              if (err)
+                                return generalFunctions.handleError(
                                   res,
-                                  "Please contact our development team!",
-                                  err
+                                  "Please contact our development team!"
                                 );
-                                return;
-                              } else {
+                              else {
                                 res.send({
                                   success: true,
                                   message: "Success!",

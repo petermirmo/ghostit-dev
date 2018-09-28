@@ -4,7 +4,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: var(--light-light-blue-theme-color);
+	background-color: var(--three-primary-color);
 	padding: 30px 80px 10px 80px;
 }
 .navigation-option-container {
@@ -38,5 +38,5 @@
 }
 .nagivation-option.active {
 	transform: translateY(-2px);
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 }

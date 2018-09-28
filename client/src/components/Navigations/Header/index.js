@@ -12,6 +12,8 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faStar from "@fortawesome/fontawesome-free-solid/faStar";
 import faHistory from "@fortawesome/fontawesome-free-solid/faHistory";
 import faChartLine from "@fortawesome/fontawesome-free-solid/faChartLine";
+import faBars from "@fortawesome/fontawesome-free-solid/faBars";
+import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -20,11 +22,27 @@ import {
   setUser,
   updateAccounts,
   openClientSideBar,
-  openHeaderSideBar
+  openHeaderSideBar,
+  setTutorial
 } from "../../../redux/actions/";
+
+import ClientsSideBar from "../../SideBarClients/";
+import Tutorial from "../../Tutorial/";
 import "./styles/";
 
 class HeaderSideBar extends Component {
+  constructor(props) {
+    super(props);
+
+    if (
+      (!props.activePage ||
+        props.activePage === "sign-in" ||
+        props.activePage === "sign-up") &&
+      props.user
+    ) {
+      props.changePage("content");
+    }
+  }
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
@@ -39,7 +57,7 @@ class HeaderSideBar extends Component {
   isActive = page => {
     switch (this.props.activePage) {
       case page:
-        return " header-active";
+        return " active";
       default:
         return "";
     }
@@ -48,127 +66,168 @@ class HeaderSideBar extends Component {
     axios.get("/api/logout").then(res => {
       let { success, loggedIn } = res.data;
       if (success) {
-        this.props.setUser(null);
-        this.props.updateAccounts([]);
         this.props.changePage("");
+        this.props.updateAccounts([]);
+        this.props.setUser(null);
       } else {
-        if (loggedIn === false) window.location.reload();
+        window.location.reload();
       }
     });
   };
   render() {
-    const { user, activePage } = this.props;
-    const { changePage } = this.props;
+    const {
+      user,
+      activePage,
+      changePage,
+      headerSideBar,
+      clientSideBar,
+      tutorial
+    } = this.props;
 
     if (!user) {
-      changePage("");
       return <div style={{ display: "none" }} />;
     }
 
     let isAdmin = user.role === "admin";
     let isManager = user.role === "manager";
+
     return (
       <div className="header-navbar">
-        <div className="navbar">
+        <div className="header-stationary-column pa8">
           <FontAwesomeIcon
-            icon={faTimes}
+            icon={faBars}
             size="2x"
-            className="close"
-            onClick={() => this.props.openHeaderSideBar(false)}
+            className="button transparent common-transition pb8"
+            onClick={() => {
+              this.props.openHeaderSideBar(!headerSideBar);
+              this.props.openClientSideBar(false);
+            }}
           />
-          <div className="main-nav">
-            {(user.role === "demo" || isAdmin) && (
-              <a
-                className={"header-button" + this.isActive("subscribe")}
-                onClick={() => changePage("subscribe")}
-              >
-                <FontAwesomeIcon icon={faStar} /> Become Awesome
-              </a>
-            )}
-
-            <a
-              className={"header-button" + this.isActive("content")}
-              onClick={() => changePage("content")}
-            >
-              <FontAwesomeIcon icon={faCalendar} /> Calendar
-            </a>
-            {isAdmin && (
-              <a
-                className={"header-button " + this.isActive("analytics")}
-                onClick={() => changePage("analytics")}
-              >
-                <FontAwesomeIcon icon={faChartLine} /> Analytics
-              </a>
-            )}
-
-            <a
-              className={"header-button" + this.isActive("accounts")}
-              onClick={() => changePage("accounts")}
-            >
-              <FontAwesomeIcon icon={faPlus} /> Social Profiles
-            </a>
-
-            {isAdmin && (
-              <a
-                className={"header-button " + this.isActive("manage")}
-                onClick={() => changePage("manage")}
-              >
-                <FontAwesomeIcon icon={faCogs} /> Manage
-              </a>
-            )}
-
-            <a
-              className={"header-button" + this.isActive("profile")}
-              onClick={() => changePage("profile")}
-            >
-              <FontAwesomeIcon icon={faUser} /> Profile
-            </a>
-            {(user.role === "client" || isAdmin) && (
-              <a
-                className={"header-button" + this.isActive("mySubscription")}
-                onClick={() => changePage("mySubscription")}
-              >
-                <FontAwesomeIcon icon={faHistory} /> Billing History
-              </a>
-            )}
-            <a className="header-button" onClick={() => this.logout()}>
-              <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-            </a>
-            {(isAdmin || isManager) && (
-              <a
-                className={"header-button" + this.isActive("writersBrief")}
-                onClick={() => changePage("writersBrief")}
-              >
-                <FontAwesomeIcon icon={faFileAlt} /> Monthly Strategy
-              </a>
-            )}
-            {(isAdmin || isManager) && (
-              <a
-                className={"header-button" + this.isActive("strategy")}
-                onClick={() => changePage("strategy")}
-              >
-                <FontAwesomeIcon icon={faFileAlt} /> Your Questionnaire
-              </a>
-            )}
-          </div>
+          {(isAdmin || isManager) && (
+            <FontAwesomeIcon
+              icon={faUsers}
+              size="2x"
+              className="button transparent common-transition pb8"
+              onClick={() => {
+                this.props.openHeaderSideBar(false);
+                this.props.openClientSideBar(!clientSideBar);
+              }}
+            />
+          )}
         </div>
 
-        {(activePage === "content" ||
-          activePage === "strategy" ||
-          activePage === "newCalendar" ||
-          activePage === "writersBrief" ||
-          activePage === "subscribe" ||
-          activePage === "accounts") &&
-          user.signedInAsUser && (
-            <div className="signed-in-as-header center">
-              <p>Logged in as: {user.signedInAsUser.fullName}</p>
-              <FontAwesomeIcon
-                icon={faTimes}
-                onClick={() => this.signOutOfUsersAccount()}
-                className="sign-out-of-clients-account"
-              />
+        {headerSideBar &&
+          !clientSideBar && (
+            <div className="navbar pa16">
+              {(user.role === "demo" || isAdmin) && (
+                <div
+                  className={"header-button mb16 " + this.isActive("subscribe")}
+                  onClick={() => changePage("subscribe")}
+                >
+                  <FontAwesomeIcon icon={faStar} />
+                  Upgrade to Plan
+                </div>
+              )}
+              <div
+                className={"header-button mb16 " + this.isActive("content")}
+                onClick={() => changePage("content")}
+              >
+                <FontAwesomeIcon icon={faCalendar} />
+                Calendar
+                {tutorial.on &&
+                  tutorial.value === 3 && (
+                    <Tutorial
+                      title="Tutorial"
+                      message="Click 'Calendar' in the sidebar to go to our main screen, the calendar!"
+                      position="right"
+                    />
+                  )}
+              </div>
+              {isAdmin && (
+                <div
+                  className={
+                    "header-button mb16  " + this.isActive("analytics")
+                  }
+                  onClick={() => changePage("analytics")}
+                >
+                  <FontAwesomeIcon icon={faChartLine} />
+                  Analytics
+                </div>
+              )}
+              <div
+                className={
+                  "header-button mb16 " + this.isActive("social-accounts")
+                }
+                onClick={() => changePage("social-accounts")}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+                Social Profiles
+                {tutorial.on &&
+                  tutorial.value === 0 && (
+                    <Tutorial
+                      title="Tutorial"
+                      message="Click 'Social Profiles' in the sidebar to connect your first social media profile!"
+                      position="right"
+                    />
+                  )}
+              </div>
+              {isAdmin && (
+                <div
+                  className={"header-button mb16  " + this.isActive("manage")}
+                  onClick={() => changePage("manage")}
+                >
+                  <FontAwesomeIcon icon={faCogs} />
+                  Manage
+                </div>
+              )}
+              <div
+                className={"header-button mb16 " + this.isActive("profile")}
+                onClick={() => changePage("profile")}
+              >
+                <FontAwesomeIcon icon={faUser} />
+                Profile
+              </div>
+              {(user.role === "client" || isAdmin) && (
+                <div
+                  className={
+                    "header-button mb16 " + this.isActive("subscription")
+                  }
+                  onClick={() => changePage("subscription")}
+                >
+                  <FontAwesomeIcon icon={faHistory} />
+                  Billing History
+                </div>
+              )}
+              <div
+                className="header-button mb16 "
+                onClick={() => this.logout()}
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} />
+                Logout
+              </div>
+              {(isAdmin || isManager) && (
+                <div
+                  className={
+                    "header-button mb16 " + this.isActive("writers-brief")
+                  }
+                  onClick={() => changePage("writers-brief")}
+                >
+                  <FontAwesomeIcon icon={faFileAlt} />
+                  Monthly Strategy
+                </div>
+              )}
+              {(isAdmin || isManager) && (
+                <div
+                  className={"header-button mb16 " + this.isActive("strategy")}
+                  onClick={() => changePage("strategy")}
+                >
+                  <FontAwesomeIcon icon={faFileAlt} />
+                  Your Questionnaire
+                </div>
+              )}
             </div>
           )}
+        {clientSideBar && <ClientsSideBar />}
       </div>
     );
   }
@@ -178,17 +237,20 @@ function mapStateToProps(state) {
   return {
     activePage: state.activePage,
     user: state.user,
-    clientSideBar: state.clientSideBar
+    clientSideBar: state.clientSideBar,
+    headerSideBar: state.headerSideBar,
+    tutorial: state.tutorial
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage: changePage,
-      setUser: setUser,
-      openClientSideBar: openClientSideBar,
-      openHeaderSideBar: openHeaderSideBar,
-      updateAccounts: updateAccounts
+      changePage,
+      setUser,
+      updateAccounts,
+      openHeaderSideBar,
+      openClientSideBar,
+      setTutorial
     },
     dispatch
   );

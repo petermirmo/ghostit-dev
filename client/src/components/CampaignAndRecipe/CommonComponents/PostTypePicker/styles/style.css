@@ -19,14 +19,14 @@
   margin-right: 4px;
 
   border-radius: 10px;
-  border: 1px solid var(--grey-theme-color);
+  border: 1px solid var(--secondary-text-theme-color);
 
   font-size: var(--small-font-size);
 
   cursor: pointer;
 }
 .account-option:hover {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 
   border-color: transparent;

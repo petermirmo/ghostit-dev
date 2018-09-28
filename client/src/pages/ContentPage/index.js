@@ -292,7 +292,7 @@ class Content extends Component {
       if (campaigns) calendarEvents = calendarEvents.concat(campaigns);
 
     return (
-      <div className="wrapper" style={this.props.margin}>
+      <div className="content-page">
         <Calendar
           calendarEvents={calendarEvents}
           calendarDate={new moment()}

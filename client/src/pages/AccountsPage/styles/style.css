@@ -1,73 +1,43 @@
 .accounts-wrapper {
-  display: block;
-  text-align: center;
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 16px;
+
   min-height: 100vh;
-  padding-top: 40px;
 }
 .account-column {
-  width: 20%;
-  display: inline-block;
-  margin-left: 2%;
-  vertical-align: top;
 }
-.account-column:first-child {
-  margin-left: 0;
-}
-
 .social-header-button {
+  position: relative;
   width: 100%;
-  margin: 20px 0 10px 0;
-  padding: 6px;
+  box-sizing: border-box;
   font-size: var(--large-font-size);
+  color: var(--white-theme-color);
+  text-align: center;
 }
 
 .social-media-connect {
-  padding: 1px;
-  width: 90%;
+  position: relative;
+  width: 80%;
   text-align: center;
   color: var(--white-theme-color);
-  text-decoration: none;
-  margin-bottom: 10px;
 }
+
 .connected-social-div {
-  display: flex;
-  display: -webkit-flex;
+  display: grid;
+  grid-template-columns: 3fr 12fr 1fr;
 
-  align-items: center;
-  justify-content: center;
-
-  margin: 5px 5% 5px 5%;
-
-  width: 90%;
-
-  overflow: auto;
+  width: 80%;
 }
-
 .connected-social-media-icon {
-  color: var(--white-theme-color);
-  padding: 0;
-  margin: 0;
+  color: var(--primary-text-theme-color);
 }
 .connected-social {
-  display: inline-block;
-  color: var(--black-theme-color);
-  width: 60%;
+  color: var(--primary-text-theme-color);
 
   height: 100%;
 }
-.connected-social-div h4 {
-  text-align: left;
-  color: var(--black-theme-color);
-  font-weight: normal;
-  margin: 0;
-}
-.connected-social-div p {
-  text-align: left;
-  color: var(--dark-grey-theme-color);
-  font-weight: normal;
-  font-size: var(--regular-font-size);
-  margin: 0;
-}
-.disconnect-social-account {
-  cursor: pointer;
+.connected-social-account {
+  color: var(--secondary-text-theme-color);
 }

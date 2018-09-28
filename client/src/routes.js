@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faBars from "@fortawesome/fontawesome-free-solid/faBars";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
@@ -10,14 +9,13 @@ import {
   changePage,
   setUser,
   updateAccounts,
-  openHeaderSideBar,
-  openClientSideBar
+  setTutorial,
+  openHeaderSideBar
 } from "./redux/actions/";
 
 import LoaderWedge from "./components/Notifications/LoaderWedge";
 
 import Header from "./components/Navigations/Header/";
-import ClientsSideBar from "./components/SideBarClients/";
 
 import LoginPage from "./pages/LoginPage/";
 import Subscribe from "./pages/SubscribePage/";
@@ -38,7 +36,6 @@ class Routes extends Component {
   };
   constructor(props) {
     super(props);
-
     axios.get("/api/user").then(res => {
       let { success, user } = res.data;
 
@@ -50,14 +47,74 @@ class Routes extends Component {
           if (!accounts) accounts = [];
           props.updateAccounts(accounts);
           props.setUser(user);
-          if (user.role === "demo") props.changePage("subscribe");
-          else props.changePage("content");
+          if (user.role === "demo") {
+            let temp = { ...props.tutorial };
+            temp.on = true;
+
+            let somethingChanged = false;
+            for (let index in temp) {
+              if (temp[index] != props.tutorial[index]) somethingChanged = true;
+            }
+            if (somethingChanged) props.setTutorial(temp);
+            props.openHeaderSideBar(true);
+          }
+
           this.setState({ datebaseConnection: true });
         });
       } else {
+        if (
+          props.activePage &&
+          props.activePage != "sign-in" &&
+          props.activePage != "sign-up"
+        )
+          props.changePage("");
+
         this.setState({ datebaseConnection: true });
       }
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    // Hardcoded stuff for product pop up tutorials
+    // It is kind of complicated. if(confuzzled) Talk to Peter;
+    const { accounts, user, activePage } = nextProps;
+    if (user) {
+      if (user.role === "demo") {
+        let temp = { ...nextProps.tutorial };
+        if (activePage === "content") {
+          for (let index in accounts) {
+            let account = accounts[index];
+
+            if (
+              account.socialType === "facebook" &&
+              account.accountType === "profile"
+            ) {
+              if (temp.value < 2) temp.value = 2;
+            } else if (temp.value < 4) temp.value = 4;
+          }
+          if (temp.value < 3) temp.value = 0;
+          else if (temp.value === 3) temp.value = 4;
+        } else {
+          temp.value = 1;
+
+          for (let index in accounts) {
+            let account = accounts[index];
+
+            if (
+              account.socialType === "facebook" &&
+              account.accountType === "profile"
+            ) {
+              if (temp.value < 2) temp.value = 2;
+            } else temp.value = 3;
+          }
+        }
+        let somethingChanged = false;
+        for (let index in temp) {
+          if (temp[index] != nextProps.tutorial[index]) somethingChanged = true;
+        }
+
+        if (somethingChanged) nextProps.setTutorial(temp);
+      }
+    }
   }
 
   signOutOfUsersAccount = () => {
@@ -71,45 +128,37 @@ class Routes extends Component {
       }
     });
   };
-  openHeader = () => {
-    this.props.openHeaderSideBar(true);
-  };
-  openClientSideBar = () => {
-    this.props.openClientSideBar(!this.props.clientSideBar);
+  getPage = activePage => {
+    if (activePage === "") return <LoginPage />;
+    else if (activePage === "sign-up") return <LoginPage signUp={true} />;
+    else if (activePage === "sign-in") return <LoginPage />;
+    else if (activePage === "subscribe") return <Subscribe />;
+    else if (activePage === "content") return <Content />;
+    else if (activePage === "strategy") return <Strategy />;
+    else if (activePage === "analytics") return <Analytics />;
+    else if (activePage === "social-accounts") return <Accounts />;
+    else if (activePage === "writers-brief") return <WritersBrief />;
+    else if (activePage === "manage") return <Manage />;
+    else if (activePage === "profile") return <Profile />;
+    else if (activePage === "subscription") return <MySubscription />;
+    else return <Content />;
   };
   render() {
     const { datebaseConnection } = this.state;
-    const {
-      activePage,
-      clientSideBar,
-      headerSideBar,
-      user,
-      getKeyListenerFunction
-    } = this.props;
+    const { activePage, user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
 
     let accessClientButton;
-    if (user) {
-      accessClientButton = (user.role === "manager" ||
-        user.role === "admin") && (
-        <button
-          className="my-client-button"
-          onClick={() => this.openClientSideBar()}
-        >
-          My Clients
-        </button>
-      );
-    }
-    let margin;
-    if (headerSideBar) margin = { marginLeft: "20%" };
-
     if (!datebaseConnection) return <LoaderWedge />;
 
+    let page = this.getPage(activePage);
+
     return (
-      <div>
-        <div className="main-navigation-container">
+      <div className="flex">
+        {user && <Header />}
+        <div className="wrapper">
           {user &&
             ((activePage === "content" ||
               activePage === "strategy" ||
@@ -117,8 +166,8 @@ class Routes extends Component {
               activePage === "subscribe" ||
               activePage === "accounts") &&
               user.signedInAsUser && (
-                <div className="signed-in-as center">
-                  <p>Logged in as: {user.signedInAsUser.fullName}</p>
+                <div className="signed-in-as">
+                  Logged in as: {user.signedInAsUser.fullName}
                   <FontAwesomeIcon
                     icon={faTimes}
                     onClick={() => this.signOutOfUsersAccount()}
@@ -126,30 +175,9 @@ class Routes extends Component {
                   />
                 </div>
               ))}
-          {accessClientButton}
-          {activePage !== "" &&
-            !headerSideBar && (
-              <FontAwesomeIcon
-                icon={faBars}
-                size="2x"
-                className="activate-header-button"
-                onClick={this.openHeader}
-              />
-            )}
-        </div>
-        {activePage !== "" && headerSideBar && <Header />}
-        {clientSideBar && <ClientsSideBar />}
 
-        {activePage === "" && <LoginPage margin={margin} />}
-        {activePage === "subscribe" && <Subscribe margin={margin} />}
-        {activePage === "content" && <Content margin={margin} />}
-        {activePage === "strategy" && <Strategy margin={margin} />}
-        {activePage === "analytics" && <Analytics margin={margin} />}
-        {activePage === "accounts" && <Accounts margin={margin} />}
-        {activePage === "writersBrief" && <WritersBrief margin={margin} />}
-        {activePage === "manage" && <Manage margin={margin} />}
-        {activePage === "profile" && <Profile margin={margin} />}
-        {activePage === "mySubscription" && <MySubscription margin={margin} />}
+          {page}
+        </div>
       </div>
     );
   }
@@ -159,9 +187,9 @@ function mapStateToProps(state) {
   return {
     activePage: state.activePage,
     user: state.user,
-    clientSideBar: state.clientSideBar,
-    headerSideBar: state.headerSideBar,
-    getKeyListenerFunction: state.getKeyListenerFunction
+    getKeyListenerFunction: state.getKeyListenerFunction,
+    tutorial: state.tutorial,
+    accounts: state.accounts
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -170,8 +198,8 @@ function mapDispatchToProps(dispatch) {
       changePage,
       setUser,
       updateAccounts,
-      openHeaderSideBar,
-      openClientSideBar
+      setTutorial,
+      openHeaderSideBar
     },
     dispatch
   );

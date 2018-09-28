@@ -1,18 +1,20 @@
-const User = require("../models/User");
-const Account = require("../models/Account");
-const cloudinary = require("cloudinary");
-
 module.exports = {
-	deleteFile: function(req, res) {
-		cloudinary.uploader.destroy(req.params.publicID, function(result) {
-			res.send(true);
-			// TO DO: handle error here
-		});
-	}
-};
+  handleError: (res, err) => {
+    console.log(err);
+    res.send({ success: false, message: err });
+    return false;
+  },
 
-function handleError(res, errorMessage) {
-	console.log(errorMessage);
-	res.send(false);
-	return;
-}
+  indexChecks: index => {
+    // don't want to overwrite these attributes of a DB object otherwise it invalidates them
+    if (
+      index === "_id" ||
+      index === "__v" ||
+      index === "createdAt" ||
+      index === "updatedAt"
+    ) {
+      return false;
+    }
+    return true;
+  }
+};

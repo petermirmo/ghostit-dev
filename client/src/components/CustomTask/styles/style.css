@@ -12,13 +12,13 @@
   width: 10px;
   padding: 4px;
   margin-right: 10px;
-  border: 2px solid var(--off-black-theme-color);
+  border: 2px solid var(--primary-text-theme-color);
 }
 .checkbox-check {
   width: 9px;
   height: 5px;
-  border-bottom: 2px solid var(--off-black-theme-color);
-  border-left: 2px solid var(--off-black-theme-color);
+  border-bottom: 2px solid var(--primary-text-theme-color);
+  border-left: 2px solid var(--primary-text-theme-color);
 
   transform: rotate(-45deg);
 }

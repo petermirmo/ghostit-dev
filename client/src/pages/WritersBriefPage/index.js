@@ -100,7 +100,7 @@ class WritersBrief extends Component {
 			);
 		}
 		return (
-			<div className="wrapper" style={this.props.margin}>
+			<div  >
 				<div className="writers-brief-page-container">
 					<div className="past-writers-brief-container">
 						{adminManagerOrDemo && (

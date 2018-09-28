@@ -7,7 +7,7 @@
 @import url(https://fonts.googleapis.com/css?family=Varela+Round);
 
 :root {
-  --blue-theme-color: #00a8ff;
+  --five-primary-color: #00a8ff;
   --green-theme-color: #4cd137;
   --orange-theme-color: #fd651c;
   --pink-theme-color: #d23be7;
@@ -16,26 +16,26 @@
   --turqoise-theme-color: #41dcfe;
   --yellow-theme-color: #ffff00;
 
-  --light-blue-theme-color: #3dc0ff;
-  --light-light-blue-theme-color: #b2e4ff;
-  --super-light-blue-theme-color: #e6f7ff;
+  --three-primary-color: #3dc0ff;
+  --three-primary-color: #b2e4ff;
+  --one-primary-color: #e6f7ff;
 
   --light-purple-theme-color: #9c88ff;
   --light-light-purple-theme-color: #dbb5fd;
 
-  --dark-blue-theme-color: #0097e6;
+  --nine-primary-color: #0097e6;
   --dark-green-theme-color: #44bd32;
   --dark-pink-theme-color: #b719cc;
 
   --black-theme-color: #000;
-  --grey-theme-color: #c0c1c6;
+  --secondary-text-theme-color: #c0c1c6;
   --white-theme-color: #fff;
 
   --light-light-grey-theme-color: #fbfcfc;
   --light-grey-theme-color: #e0e0e0;
   --dark-grey-theme-color: #95a5a6;
 
-  --off-black-theme-color: #666666;
+  --primary-text-theme-color: #666666;
 
   --test-theme-color: #e0e0e0;
 
@@ -45,7 +45,7 @@
   --campaign-color4: #4cd137;
 
   --regular-font-size: 11pt;
-  --twelve-font-size: 12pt;
+  --sixteen-font-size: 12pt;
   --large-font-size: 13pt;
   --medium-large-font-size: 15pt;
   --extra-large-font-size: 17pt;
@@ -188,7 +188,7 @@
 }
 
 .close {
-  color: var(--grey-theme-color);
+  color: var(--secondary-text-theme-color);
   background-color: transparent;
   position: absolute;
   right: 1px;
@@ -215,7 +215,7 @@
   margin-top: 5%;
   border-radius: 5px;
 
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   cursor: pointer;
 
   width: auto;
@@ -246,18 +246,18 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--light-light-blue-theme-color);
+  background: var(--three-primary-color);
   padding: 0 4px 0 4px !important;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--blue-theme-color);
+  background: var(--five-primary-color);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--dark-blue-theme-color);
+  background: var(--nine-primary-color);
 }
 .facebook {
   background-color: #4267b2;
@@ -280,7 +280,7 @@
   );
 }
 .switch {
-  border: 2px solid var(--blue-theme-color);
+  border: 2px solid var(--five-primary-color);
   width: 15%;
   margin-top: 10px;
   padding: 0;
@@ -296,7 +296,7 @@
   position: relative;
 }
 .switch-active {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 
   transition: 0.4s;
@@ -312,7 +312,7 @@
   float: right;
   padding: 10px;
 
-  color: var(--grey-theme-color);
+  color: var(--secondary-text-theme-color);
 
   background-color: transparent;
 
@@ -326,7 +326,7 @@
 }
 
 .connected-accounts-posting-div:hover {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   cursor: pointer;
   color: var(--white-theme-color);
 }
@@ -359,10 +359,10 @@
   padding: 4px;
 
   border-radius: 4px;
-  border: 1px solid var(--grey-theme-color);
+  border: 1px solid var(--secondary-text-theme-color);
 }
 .date-picker:focus {
-  border: 1px solid var(--blue-theme-color);
+  border: 1px solid var(--five-primary-color);
 }
 .main-navigation-container {
   padding: 0;
@@ -370,7 +370,7 @@
 }
 
 .my-client-button {
-  color: var(--blue-theme-color);
+  color: var(--five-primary-color);
   background-color: var(--white-theme-color);
   font-size: var(--extra-large-font-size);
 
@@ -382,13 +382,13 @@
   z-index: 1;
 
   border-radius: 4px;
-  border: 2px solid var(--blue-theme-color);
+  border: 2px solid var(--five-primary-color);
 
   transition: all 0.4s ease;
   -webkit-transition: all 0.4s ease;
 }
 .my-client-button:hover {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 }
 
@@ -432,9 +432,9 @@
   padding: 4px 10px 4px 10px;
 
   border-radius: 100px;
-  border: 1px solid var(--off-black-theme-color);
+  border: 1px solid var(--primary-text-theme-color);
 
-  color: var(--off-black-theme-color);
+  color: var(--primary-text-theme-color);
 
   cursor: pointer;
 
@@ -443,8 +443,8 @@
 }
 .back-button-top:hover {
   color: var(--white-theme-color);
-  border-color: var(--blue-theme-color);
-  background-color: var(--blue-theme-color);
+  border-color: var(--five-primary-color);
+  background-color: var(--five-primary-color);
 }
 
 body {
@@ -471,21 +471,21 @@ button {
 
 input {
   outline: none;
-  border: 1px solid var(--grey-theme-color);
+  border: 1px solid var(--secondary-text-theme-color);
 
   font-size: var(--regular-font-size);
   font-family: var(--font-theme);
 }
 input:focus {
-  border-color: var(--blue-theme-color);
+  border-color: var(--five-primary-color);
 }
 textarea {
   font-size: var(--regular-font-size);
   font-family: var(--font-theme);
-  border: 1px solid var(--grey-theme-color) !important;
+  border: 1px solid var(--secondary-text-theme-color) !important;
 }
 textarea:focus {
-  border-color: var(--blue-theme-color) !important;
+  border-color: var(--five-primary-color) !important;
 }
 div {
   font-family: var(--font-theme);

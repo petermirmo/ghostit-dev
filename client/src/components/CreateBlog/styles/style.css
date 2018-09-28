@@ -83,8 +83,8 @@
 	padding: 10px 20px 10px 20px;
 	margin: 0 0 0 20px;
 
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 }
 .blog-save-button:hover {
-	background-color: var(--dark-blue-theme-color);
+	background-color: var(--nine-primary-color);
 }

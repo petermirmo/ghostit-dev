@@ -1,6 +1,6 @@
 .login-background {
-	background-color: var(--blue-theme-color);
-	background: linear-gradient(135deg, var(--blue-theme-color) 50%, var(--white-theme-color) 0%);
+	background-color: var(--five-primary-color);
+	background: linear-gradient(135deg, var(--five-primary-color) 50%, var(--white-theme-color) 0%);
 
 	width: 100%;
 	height: 100vh !important;
@@ -52,14 +52,14 @@
 	display: inline-block;
 
 	border-radius: 4px;
-	border: 2px solid var(--grey-theme-color);
+	border: 2px solid var(--secondary-text-theme-color);
 
 	margin: 5px 0 5px 0;
 	padding: 5px 5px 5px 5px;
 }
 
 .login-input:focus {
-	border-color: var(--blue-theme-color);
+	border-color: var(--five-primary-color);
 }
 
 .login-switch {
@@ -69,12 +69,12 @@
 	color: var(--dark-grey-theme-color);
 }
 .login-switch-highlight {
-	border-bottom: 1px solid var(--blue-theme-color);
+	border-bottom: 1px solid var(--five-primary-color);
 	display: inline;
-	color: var(--blue-theme-color);
+	color: var(--five-primary-color);
 }
 .submit-colorful {
-	background-color: var(--blue-theme-color) !important;
+	background-color: var(--five-primary-color) !important;
 	padding: 5px;
 	width: 40% !important;
 	margin: 0 0 10px 0;
@@ -90,12 +90,12 @@
 	padding: 10px 20px 10px 20px;
 	margin: 10px 0 10px 0;
 
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 	cursor: pointer;
 
 	width: auto;
 
-	font-size: var(--twelve-font-size);
+	font-size: var(--sixteen-font-size);
 	color: var(--white-theme-color);
 
 	transition: all 0.4s ease;
@@ -103,7 +103,7 @@
 }
 
 .submit-blue:hover {
-	background-color: var(--dark-blue-theme-color) !important;
+	background-color: var(--nine-primary-color) !important;
 }
 
 .password {

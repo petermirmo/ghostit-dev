@@ -17,13 +17,13 @@
   cursor: pointer;
 }
 .custom-file-upload:hover {
-  border: 2px dashed var(--blue-theme-color);
-  color: var(--blue-theme-color);
+  border: 2px dashed var(--five-primary-color);
+  color: var(--five-primary-color);
 
   opacity: 1;
 }
 .custom-file-upload:hover .image-upload-icon {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
 }
 .image-upload-icon {
   background-color: transparent !important;

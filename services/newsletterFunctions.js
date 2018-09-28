@@ -1,8 +1,9 @@
-var request = require("request");
-var fs = require("fs");
+const request = require("request");
+const fs = require("fs");
 const Newsletter = require("../models/Newsletter");
+const generalFunctions = require("./generalFunctions");
 
-var cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 
 module.exports = {
   saveNewsletter: function(req, res) {
@@ -17,63 +18,56 @@ module.exports = {
       err,
       foundNewsletter
     ) {
-      if (err) {
-        handleError(res, err);
-        return;
-      }
+      if (err) generalFunctions.handleError(res, err);
+      else {
+        let newNewsletter;
+        let { newsletter, newsletterFile, newsletterFileName } = req.body;
 
-      let newNewsletter;
-      let { newsletter, newsletterFile, newsletterFileName } = req.body;
+        if (foundNewsletter) {
+          newNewsletter = foundNewsletter;
+          newNewsletter.postingDate = newsletter.postingDate;
+          newNewsletter.dueDate = newsletter.dueDate;
+          newNewsletter.notes = newsletter.notes;
+          newNewsletter.wordDoc = newsletter.wordDoc;
+        } else newNewsletter = new Newsletter(newsletter);
 
-      if (foundNewsletter) {
-        newNewsletter = foundNewsletter;
-        newNewsletter.postingDate = newsletter.postingDate;
-        newNewsletter.dueDate = newsletter.dueDate;
-        newNewsletter.notes = newsletter.notes;
-        newNewsletter.wordDoc = newsletter.wordDoc;
-      } else {
-        newNewsletter = new Newsletter(newsletter);
-      }
-      newNewsletter.userID = userID;
-      newNewsletter.socialType = "newsletter";
-      newNewsletter.color = "#fd651c";
+        newNewsletter.userID = userID;
+        newNewsletter.socialType = "newsletter";
+        newNewsletter.color = "#fd651c";
 
-      if (newsletterFile.localPath) {
-        // Delete old wordDoc
-        if (newNewsletter.wordDoc.publicID) {
-          await cloudinary.uploader.destroy(
-            newNewsletter.wordDoc.publicID,
-            function(result) {
-              if (result.error) {
-                handleError(res, result);
-                return;
-              }
-            },
-            { resource_type: "raw" }
+        if (newsletterFile.localPath) {
+          // Delete old wordDoc
+          if (newNewsletter.wordDoc.publicID) {
+            await cloudinary.uploader.destroy(
+              newNewsletter.wordDoc.publicID,
+              function(result) {
+                if (result.error) {
+                  return generalFunctions.handleError(res, result.error);
+                }
+              },
+              { resource_type: "raw" }
+            );
+          }
+
+          // Upload new file
+          await cloudinary.v2.uploader.upload(
+            newsletterFile.localPath,
+            { resource_type: "raw", public_id: newsletterFileName },
+            function(error, result) {
+              if (error) return generalFunctions.handleError(res, error);
+              newNewsletter.wordDoc = {
+                url: result.url,
+                publicID: result.public_id,
+                name: newsletterFileName
+              };
+            }
           );
         }
 
-        // Upload new file
-        await cloudinary.v2.uploader.upload(
-          newsletterFile.localPath,
-          { resource_type: "raw", public_id: newsletterFileName },
-          function(error, result) {
-            if (error) {
-              handleError(res, error);
-              return;
-            }
-            newNewsletter.wordDoc = {
-              url: result.url,
-              publicID: result.public_id,
-              name: newsletterFileName
-            };
-          }
-        );
+        newNewsletter.save().then(result => {
+          res.send({ success: true });
+        });
       }
-
-      newNewsletter.save().then(result => {
-        res.send({ success: true });
-      });
     });
   },
   getNewsletters(req, res) {
@@ -83,11 +77,9 @@ module.exports = {
         userID = req.user.signedInAsUser.id;
       }
     }
-    Newsletter.find({ userID: userID }, function(err, newsletters) {
-      if (err) {
-        res.send({ success: false });
-      }
-      res.send({ success: true, newsletters: newsletters });
+    Newsletter.find({ userID }, function(err, newsletters) {
+      if (err) generalFunctions.handleError(res, err);
+      else res.send({ success: true, newsletters });
     });
   },
   deleteNewsletter(req, res) {
@@ -95,9 +87,8 @@ module.exports = {
       err,
       newsletter
     ) {
-      if (err) {
-        handleError(res, err);
-      } else if (newsletter) {
+      if (err) generalFunctions.handleError(res, err);
+      else if (newsletter) {
         if (
           newsletter.userID === req.user._id ||
           req.user.role === "admin" ||
@@ -107,9 +98,7 @@ module.exports = {
             await cloudinary.uploader.destroy(
               newsletter.wordDoc.publicID,
               function(error) {
-                if (error) {
-                  console.log(error);
-                }
+                if (error) console.log(error);
               },
               { resource_type: "raw" }
             );
@@ -117,17 +106,9 @@ module.exports = {
           newsletter.remove().then(result => {
             res.send({ success: true });
           });
-        } else {
-          handleError(res, "Hacker trying to delete posts");
-        }
-      } else {
-        handleError(res, "Newsletter not found");
-      }
+        } else
+          generalFunctions.handleError(res, "Hacker trying to delete posts");
+      } else generalFunctions.handleError(res, "Newsletter not found");
     });
   }
 };
-function handleError(res, errorMessage) {
-  console.log(errorMessage);
-  res.send({ success: false, message: errorMessage });
-  return;
-}

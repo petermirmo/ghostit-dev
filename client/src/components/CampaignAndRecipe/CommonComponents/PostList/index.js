@@ -121,10 +121,9 @@ class PostList extends Component {
         {!newPostPrompt && (
           <FontAwesomeIcon
             onClick={() => this.setState({ newPostPrompt: true })}
-            className="new-post-button"
+            className="new-post-button button round pa8 common-shadow"
             icon={faPlus}
             size="2x"
-            style={{ backgroundColor: campaign.color }}
           />
         )}
         {newPostPrompt && (

@@ -18,7 +18,7 @@
 	color: var(--white-theme-color);
 }
 .notification.info {
-	background-color: var(--light-blue-theme-color);
+	background-color: var(--three-primary-color);
 	color: var(--white-theme-color);
 }
 .notification.danger {

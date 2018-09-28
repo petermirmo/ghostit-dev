@@ -10,10 +10,10 @@
   user-select: none;
 }
 .display-date {
-  border-bottom: 1px solid var(--grey-theme-color);
+  border-bottom: 1px solid var(--secondary-text-theme-color);
 }
 .display-date:hover {
-  border-color: var(--blue-theme-color);
+  border-color: var(--five-primary-color);
 }
 .dropdown-calendar {
   position: absolute;
@@ -38,7 +38,7 @@
 }
 
 .date-picker-dropdown-header {
-  border-bottom: 1px solid var(--blue-theme-color);
+  border-bottom: 1px solid var(--five-primary-color);
   color: var(--dark-grey-theme-color);
   flex-grow: 1;
   -webkit-flex-grow: 1;
@@ -68,7 +68,7 @@
   flex-grow: 1;
   -webkit-flex-grow: 1;
 
-  color: var(--blue-theme-color);
+  color: var(--five-primary-color);
   background-color: transparent;
 
   transition: all 0.4s ease;
@@ -104,15 +104,15 @@
   cursor: pointer;
 }
 .date-picker-day:hover {
-  background-color: var(--light-blue-theme-color);
+  background-color: var(--three-primary-color);
   color: var(--white-theme-color);
 }
 .date-picker-day.active {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 }
 .faded-date-picker-days {
-  background-color: var(--super-light-blue-theme-color);
+  background-color: var(--one-primary-color);
 }
 .date-picker-date {
 }
@@ -137,7 +137,7 @@
   padding: 5px;
   margin: 10px 5px 0 5px;
 
-  border: 1px solid var(--grey-theme-color);
+  border: 1px solid var(--secondary-text-theme-color);
 
   cursor: pointer;
 }
@@ -151,7 +151,7 @@
 
 .time-dropdown-container {
   background-color: var(--white-theme-color);
-  border: 1px solid var(--grey-theme-color);
+  border: 1px solid var(--secondary-text-theme-color);
 
   position: absolute;
   display: flex;
@@ -175,11 +175,11 @@
   background-color: var(--light-grey-theme-color);
 }
 .finished-button {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
 
   padding: 4px 20px 4px 20px;
   margin: 10px 0 0 0;
 }
 .finished-button:hover {
-  background-color: var(--dark-blue-theme-color);
+  background-color: var(--nine-primary-color);
 }

@@ -242,7 +242,7 @@ class PostingOptions extends Component {
     const linkPreviewCanEdit = returnOfCarouselOptions[1];
 
     // Loop through all accounts
-    let activePageAccountsArray;
+    let activePageAccountsArray = [];
     if (canEditPost) {
       activePageAccountsArray = this.createActiveAccounts(
         "socialType",
@@ -254,6 +254,16 @@ class PostingOptions extends Component {
         "_id",
         accountID,
         accounts
+      );
+    }
+
+    if (activePageAccountsArray.length === 0) {
+      let tempMessage = socialType;
+      if (socialType === "facebook") tempMessage += " group/page";
+      return (
+        <div className="flex hc mt32 no-accounts">
+          Connect {tempMessage} account! (Go to Social Profiles in the sidebar)
+        </div>
       );
     }
 
@@ -297,7 +307,7 @@ class PostingOptions extends Component {
             </div>
           )}
 
-          <div className="flex vertical-center wrap spacing top">
+          <div className="flex vc wrap spacing top">
             {!this.props.recipeEditing && (
               <SelectAccountDiv
                 activePageAccountsArray={activePageAccountsArray}
@@ -357,7 +367,7 @@ class PostingOptions extends Component {
           )}
         </div>
         <div
-          className="instructions-container"
+          className="instructions-container common-shadow"
           style={{
             width: showInstructions ? "40%" : "0",
             padding: showInstructions ? undefined : 0
@@ -367,7 +377,7 @@ class PostingOptions extends Component {
             <input
               onChange={event => this.handleChange(event.target.value, "name")}
               value={name}
-              className="title-input"
+              className="pl4 mb8"
               placeholder="Title"
               readOnly={!canEditPost}
             />

@@ -12,6 +12,10 @@ import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {} from "../../redux/actions/";
+
 import {
   getPostIcon,
   getPostColor
@@ -19,6 +23,7 @@ import {
 
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
+import Tutorial from "../Tutorial/";
 
 import "./styles/";
 
@@ -87,8 +92,7 @@ class Calendar extends Component {
         let currentDate = calendarDay.isSame(new moment(), "day");
 
         let calendarClass = "calendar-day";
-        if (calendarDay.format("MM") !== calendarDate.format("MM"))
-          calendarClass = "calendar-day faded-calendar-days";
+
         if (currentDate) calendarClass = "calendar-day present-calendar-day";
         else if (pastDate) calendarClass = "calendar-day past-calendar-day";
 
@@ -300,7 +304,7 @@ class Calendar extends Component {
       post.name
     )
       content = post.name;
-    let color = "var(--blue-theme-color)";
+    let color = "var(--five-primary-color)";
     if (post.color) color = post.color;
     if (post.color) color = post.color;
 
@@ -395,29 +399,35 @@ class Calendar extends Component {
   };
   calendarHeader = (calendarDate, queueActive) => {
     return (
-      <div className="calendar-header-container">
-        <div className="right-header-container">
+      <div className="calendar-header-container px8 pt8">
+        <div className="flex vt hc">
+          <div className="calendar-view-change button common-transition round4">
+            <Filter
+              updateActiveCategory={this.props.updateActiveCategory}
+              categories={this.props.categories}
+            />
+          </div>
+        </div>
+        <div className="center-header-container px32">
           <FontAwesomeIcon
             icon={faAngleLeft}
-            size="4x"
-            className="calendar-switch-month-button"
+            size="3x"
+            className="calendar-switch-month button common-transition"
             onClick={this.subtractMonth}
           />
-          <h1 className="calendar-month">{calendarDate.format("MMMM")}</h1>
+          <div className="calendar-month">
+            {calendarDate.format("MMMM YYYY")}
+          </div>
           <FontAwesomeIcon
             icon={faAngleRight}
-            size="4x"
-            className="calendar-switch-month-button"
+            size="3x"
+            className="calendar-switch-month button common-transition"
             onClick={this.addMonth}
           />
         </div>
-        <div className="calendar-filter-container">
-          <Filter
-            updateActiveCategory={this.props.updateActiveCategory}
-            categories={this.props.categories}
-          />
+        <div className="flex vt hc">
           <div
-            className="box-button left"
+            className="calendar-view-change button common-transition pa8 round4"
             onClick={() => this.setState({ queueActive: !queueActive })}
           >
             {queueActive ? "Calendar" : "Queue Preview"}
@@ -460,6 +470,8 @@ class Calendar extends Component {
 
     let calendarWeekArray = this.createCalendarWeeks(calendarDate);
     let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
+    const { tutorial } = this.props;
+
     return (
       <div className="calendar-container">
         {this.calendarHeader(calendarDate, queueActive)}
@@ -469,6 +481,15 @@ class Calendar extends Component {
             {dayHeadingsArray}
           </div>
           {calendarWeekArray}
+
+          {tutorial.on &&
+            tutorial.value === 4 && (
+              <Tutorial
+                title="Tutorial"
+                message="Click on any day in the calendar to create your first post!"
+                position="center"
+              />
+            )}
         </div>
       </div>
     );
@@ -485,4 +506,16 @@ function compareCampaignPosts(a, b) {
   return 0;
 }
 
-export default Calendar;
+function mapStateToProps(state) {
+  return {
+    tutorial: state.tutorial
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({}, dispatch);
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Calendar);

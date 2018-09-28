@@ -718,7 +718,7 @@ class CampaignModal extends Component {
         this.props.notify(
           "danger",
           "Save Cancelled",
-          "All posts in a template must have instructions. Make sure each post has been saved with instructions then try saving again."
+          "All posts in a template must have instructions. Make sure each post has been saved with instructions then try saving again. (Instructions are located in the right sidebar of your posts)"
         );
         return;
       }
@@ -833,7 +833,10 @@ class CampaignModal extends Component {
 
     return (
       <div className="modal" onClick={() => this.attemptToCloseModal()}>
-        <div className="large-modal" onClick={e => e.stopPropagation()}>
+        <div
+          className="large-modal common-transition"
+          onClick={e => e.stopPropagation()}
+        >
           <CampaignRecipeHeader
             campaign={campaign}
             handleChange={this.handleCampaignChange}
@@ -922,7 +925,7 @@ class CampaignModal extends Component {
                     this.props.handleChange(false, "campaignModal");
                     this.props.handleChange(true, "recipeModal");
                   }}
-                  className="round-button blue"
+                  className="round-button button pa8 ma8 round"
                 >
                   <FontAwesomeIcon
                     icon={faArrowLeft}
@@ -936,7 +939,7 @@ class CampaignModal extends Component {
                 <div className="campaign-specific-footer">
                   <div className="campaign-footer-option right">
                     <div
-                      className="round-button green big"
+                      className="round-button button pa8 ma8"
                       title={
                         "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
                       }
@@ -968,7 +971,7 @@ class CampaignModal extends Component {
                   </div>
                   <div className="campaign-footer-option left">
                     <div
-                      className="round-button blue big"
+                      className="round-button button pa8 ma8"
                       title="Save a template based on this campaign."
                       onClick={this.createRecipe}
                     >
@@ -993,7 +996,7 @@ class CampaignModal extends Component {
               {recipeEditing && (
                 <div className="campaign-footer-option">
                   <div
-                    className="round-button green big"
+                    className="round-button button pa8 ma8"
                     title={
                       "Click to save template. Unlike campaigns, templates are not saved automatically."
                     }

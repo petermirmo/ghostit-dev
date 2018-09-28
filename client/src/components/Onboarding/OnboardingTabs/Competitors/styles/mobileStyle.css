@@ -5,9 +5,9 @@
 	float: left;
 	margin: 10px 0 0 20px;
 	border-radius: 100px;
-	color: var(--blue-theme-color);
+	color: var(--five-primary-color);
 	background-color: var(--white-theme-color);
 }
 .add-competitor:hover {
-	color: var(--dark-blue-theme-color);
+	color: var(--nine-primary-color);
 }

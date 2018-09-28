@@ -7,16 +7,16 @@ import reducers from "./redux/reducers/";
 require("../public/favicon.ico");
 
 function logger({ getState }) {
-	return next => action => {
-		const returnValue = next(action);
-		return returnValue;
-	};
+  return next => action => {
+    const returnValue = next(action);
+    return returnValue;
+  };
 }
 const store = createStore(reducers, applyMiddleware(logger));
 
 ReactDOM.render(
-	<Provider store={store}>
-		<Routes />
-	</Provider>,
-	document.getElementById("root")
+  <Provider store={store}>
+    <Routes />
+  </Provider>,
+  document.getElementById("root")
 );

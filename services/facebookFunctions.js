@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
 let FB = require("fb");
+const generalFunctions = require("./generalFunctions");
 
 module.exports = {
   getFacebookGroups: function(req, res) {
@@ -34,12 +35,8 @@ module.exports = {
             }
             res.send({ groups });
           });
-        } else {
-          res.send({
-            success: false,
-            errorMessage: "Connect Facebook profile first!"
-          });
-        }
+        } else
+          generalFunctions.handleError(res, "Connect Facebook profile first!");
       }
     );
   },
@@ -58,8 +55,8 @@ module.exports = {
         accountType: "profile"
       },
       function(err, account) {
-        if (err) return handleError(err);
-        if (account) {
+        if (err) generalFunctions.handleError(res, err);
+        else if (account) {
           // Use facebook profile access token to get account pages
           FB.setAccessToken(account.accessToken);
 
@@ -72,12 +69,8 @@ module.exports = {
             }
             res.send({ success: true, pages });
           });
-        } else {
-          res.send({
-            success: false,
-            errorMessage: "Connect Facebook profile first!"
-          });
-        }
+        } else
+          generalFunctions.handleError(res, "Connect Facebook profile first!");
       }
     );
   },
@@ -142,20 +135,19 @@ module.exports = {
 
                     asyncCounter--;
                     if (asyncCounter === 0 && facebookPages.length === 0) {
-                      res.send({
-                        success: false,
-                        errorMessage:
-                          "Your Facebook page and Instagram pages are not connected."
-                      });
+                      generalFunctions.handleError(
+                        res,
+                        "Your Facebook page and Instagram pages are not connected."
+                      );
                     }
                   }
                 );
               }
             } else {
-              res.send({
-                errorMessage:
-                  "Your Facebook and Instgram page must be connected to use through the an external software."
-              });
+              generalFunctions.handleError(
+                res,
+                "Your Facebook and Instgram page must be connected to use through the an external software."
+              );
             }
           });
         }

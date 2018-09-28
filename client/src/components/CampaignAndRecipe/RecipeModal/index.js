@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setKeyListenerFunction } from "../../../redux/actions/";
+import { setKeyListenerFunction, setTutorial } from "../../../redux/actions/";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -15,6 +15,7 @@ import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 import LoaderSimpleCircle from "../../Notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
+import Tutorial from "../../Tutorial/";
 
 import {
   getPostColor,
@@ -44,6 +45,16 @@ class RecipeModal extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
+    if (this.props.tutorial.on) {
+      let temp = { ...this.props.tutorial };
+      temp.value = 5;
+
+      let somethingChanged = false;
+      for (let index in temp) {
+        if (temp[index] != this.props.tutorial[index]) somethingChanged = true;
+      }
+      if (somethingChanged) this.props.setTutorial(temp);
+    }
 
     this.props.setKeyListenerFunction([
       event => {
@@ -91,12 +102,12 @@ class RecipeModal extends Component {
     let recipeIndex = -3;
     for (
       let recipeRow = 0;
-      recipeRow <= Math.floor((activeRecipes.length + 3) / 6);
+      recipeRow <= Math.floor((activeRecipes.length + 3) / 3);
       recipeRow++
     ) {
       let rowArray = [];
 
-      for (let recipeColumn = 0; recipeColumn < 6; recipeColumn++) {
+      for (let recipeColumn = 0; recipeColumn < 3; recipeColumn++) {
         let recipeIndex2 = recipeIndex;
         let recipe = activeRecipes[recipeIndex2];
         if (recipeRow === 0 && recipeColumn === 0) {
@@ -139,7 +150,7 @@ class RecipeModal extends Component {
         if (!recipe.color) opacity = 0;
         rowArray.push(
           <div
-            className="recipe-container"
+            className="recipe-container pa8 ma8 flex column button"
             key={recipeIndex2 + "recipe"}
             onClick={e => {
               if (!activeRecipes[recipeIndex2]) return;
@@ -168,7 +179,7 @@ class RecipeModal extends Component {
                 </span>
                 <br />
                 {recipe.creator && (
-                  <span className="blue">{recipe.creator}</span>
+                  <span className="italic">{recipe.creator}</span>
                 )}
               </div>
             </div>
@@ -213,7 +224,10 @@ class RecipeModal extends Component {
 
   customCampaignDiv = recipeIndex2 => {
     return (
-      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+      <div
+        className="recipe-container pa8 ma8 flex column button"
+        key={recipeIndex2 + "recipe"}
+      >
         <div
           className="custom-option"
           onClick={() => {
@@ -237,7 +251,10 @@ class RecipeModal extends Component {
 
   newRecipeDiv = recipeIndex2 => {
     return (
-      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+      <div
+        className="recipe-container pa8 ma8 flex column button"
+        key={recipeIndex2 + "recipe"}
+      >
         <div
           className="custom-option"
           onClick={() => {
@@ -259,8 +276,12 @@ class RecipeModal extends Component {
     );
   };
   singleTask = recipeIndex2 => {
+    const { tutorial } = this.props;
     return (
-      <div className="recipe-container" key={recipeIndex2 + "recipe"}>
+      <div
+        className="recipe-container pa8 ma8 flex column button"
+        key={recipeIndex2 + "recipe"}
+      >
         <div
           className="custom-option"
           onClick={() => {
@@ -277,6 +298,14 @@ class RecipeModal extends Component {
             Task
           </div>
           <div className="hover-active-div">Create</div>
+          {tutorial.on &&
+            tutorial.value === 5 && (
+              <Tutorial
+                title="Tutorial"
+                message="Click on 'Single Task' to create your first post!"
+                position="bottom"
+              />
+            )}
         </div>
       </div>
     );
@@ -428,7 +457,10 @@ class RecipeModal extends Component {
         className="modal"
         onClick={() => this.props.handleChange(false, "recipeModal")}
       >
-        <div className="large-modal" onClick={e => e.stopPropagation()}>
+        <div
+          className="large-modal common-transition"
+          onClick={e => e.stopPropagation()}
+        >
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
@@ -488,14 +520,16 @@ class RecipeModal extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    getKeyListenerFunction: state.getKeyListenerFunction
+    getKeyListenerFunction: state.getKeyListenerFunction,
+    tutorial: state.tutorial
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setKeyListenerFunction
+      setKeyListenerFunction,
+      setTutorial
     },
     dispatch
   );

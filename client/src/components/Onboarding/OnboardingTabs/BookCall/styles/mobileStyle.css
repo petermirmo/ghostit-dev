@@ -6,7 +6,7 @@
 	padding: 30px;
 	width: 50%;
 	margin: 10% 0 0 0;
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 	border-radius: 200px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
 	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;

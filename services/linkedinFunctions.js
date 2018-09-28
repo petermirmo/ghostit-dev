@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
 const keys = require("../config/keys");
+const generalFunctions = require("./generalFunctions");
+
 var Linkedin = require("node-linkedin")(
   keys.linkedinConsumerKey,
   keys.linkedinConsumerSecret,
@@ -22,7 +24,8 @@ module.exports = {
         accountType: "profile"
       },
       function(err, account) {
-        if (err) return handleError(err);
+        if (err) generalFunctions.handleError(res, err);
+
         if (account) {
           // Use Linkedin profile access token to get account pages
           let LI = Linkedin.init(account.accessToken);
@@ -42,7 +45,7 @@ module.exports = {
             res.send({ success: true, pages: companies });
           });
         } else {
-          res.send({ success: false });
+          generalFunctions.handleError(res, "No account found");
         }
       }
     );
@@ -64,38 +67,40 @@ module.exports = {
       err,
       results
     ) {
-      if (err) res.send(false);
-      var accessToken = results.access_token;
-      console.log(accessToken);
-      // User access token to get profile information
-      var LI = Linkedin.init(accessToken);
+      if (err) generalFunctions.handleError(res, err);
+      else {
+        var accessToken = results.access_token;
 
-      LI.people.me(function(err, $in) {
-        if (err) res.send(false);
-        var linkedinProfile = $in;
+        // User access token to get profile information
+        var LI = Linkedin.init(accessToken);
 
-        var newAccount = new Account();
-
-        let userID = req.user._id;
-        if (req.user.signedInAsUser) {
-          if (req.user.signedInAsUser.id) {
-            userID = req.user.signedInAsUser.id;
-          }
-        }
-        newAccount.userID = userID;
-        newAccount.socialType = "linkedin";
-        newAccount.accountType = "profile";
-        newAccount.accessToken = accessToken;
-        newAccount.socialID = linkedinProfile.id;
-        newAccount.givenName = linkedinProfile.firstName;
-        newAccount.familyName = linkedinProfile.lastName;
-        newAccount.email = linkedinProfile.emailAddress;
-
-        newAccount.save((err, result) => {
+        LI.people.me(function(err, $in) {
           if (err) res.send(false);
-          res.redirect("/");
+          var linkedinProfile = $in;
+
+          var newAccount = new Account();
+
+          let userID = req.user._id;
+          if (req.user.signedInAsUser) {
+            if (req.user.signedInAsUser.id) {
+              userID = req.user.signedInAsUser.id;
+            }
+          }
+          newAccount.userID = userID;
+          newAccount.socialType = "linkedin";
+          newAccount.accountType = "profile";
+          newAccount.accessToken = accessToken;
+          newAccount.socialID = linkedinProfile.id;
+          newAccount.givenName = linkedinProfile.firstName;
+          newAccount.familyName = linkedinProfile.lastName;
+          newAccount.email = linkedinProfile.emailAddress;
+
+          newAccount.save((err, result) => {
+            if (err) generalFunctions.handleError(res, err);
+            else res.redirect("/social-accounts");
+          });
         });
-      });
+      }
     });
   }
 };

@@ -6,7 +6,7 @@ import "./styles/";
 class StrategyPage extends Component {
 	render() {
 		return (
-			<div className="wrapper" style={this.props.margin}>
+			<div  >
 				<div className="center">
 					<StrategyForm />
 				</div>

@@ -3,6 +3,7 @@ const Account = require("../models/Account");
 const Post = require("../models/Post");
 const FB = require("fb");
 const moment = require("moment-timezone");
+const generalFunctions = require("./generalFunctions");
 
 module.exports = {
   disconnectAccount: function(req, res) {
@@ -13,12 +14,13 @@ module.exports = {
       }
     }
     let { accountID } = req.params;
-    //
+
     Account.findOne({ _id: accountID }, (err, account) => {
-      if (err || !account) {
-        console.log(err);
-        res.send(false);
-      } else {
+      if (err) {
+        generalFunctions.handleError(res, err);
+      } else if (!account)
+        generalFunctions.handleError(res, "Account not found");
+      else {
         if (account.userID == String(userID)) {
           account.remove();
           res.send(true);
@@ -45,24 +47,21 @@ module.exports = {
     newAccount.category = page.category;
     newAccount.username = page.username;
     newAccount.lastRenewed = new Date().getTime();
-    console.log(newAccount);
 
     newAccount.save().then(result => res.send(true));
   },
-  getAccounts: function(req, res) {
+  getAccounts: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
         userID = req.user.signedInAsUser.id;
       }
     }
-    Account.find({ userID: userID }, function(err, accounts) {
-      if (err) {
-        console.log(err);
-        res.send({ success: false });
-        return;
-      }
-      res.send({ success: true, accounts: accounts });
+    Account.find({ userID }, (err, accounts) => {
+      if (err) generalFunctions.handleError(res, err);
+      else if (!accounts)
+        generalFunctions.handleError(res, "Accounts not found");
+      else res.send({ success: true, accounts: accounts });
     });
   }
 };

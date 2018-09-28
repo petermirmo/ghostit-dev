@@ -34,7 +34,7 @@
   color: var(--dark-grey-theme-color);
 }
 .checkout-plan {
-  color: var(--off-black-theme-color);
+  color: var(--primary-text-theme-color);
 }
 .checkout-plan-label,
 .checkout-plan {
@@ -58,13 +58,13 @@
   cursor: pointer;
 }
 .payment-length-option.active {
-  background-color: var(--blue-theme-color);
+  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 }
 
 .checkout-payment-monthly-label,
 .checkout-payment-total-due-label {
-  color: var(--off-black-theme-color);
+  color: var(--primary-text-theme-color);
 }
 .checkout-payment-monthly-label {
 }
@@ -91,15 +91,9 @@
 
 .sign-up {
   font-size: var(--large-font-size);
-  background-color: var(--blue-theme-color);
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 50px;
-  width: 80%;
-
-  transition: all 1s ease;
-  -webkit-transition: all 1s ease;
+  background-color: var(--seven-primary-color);
+  width: 100%;
 }
 .sign-up:hover {
-  transform: scale(1.1);
+  background-color: var(--eight-primary-color);
 }

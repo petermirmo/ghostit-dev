@@ -67,7 +67,7 @@
 	background-color: var(--red-theme-color);
 }
 .cancel-button {
-	background-color: var(--blue-theme-color);
+	background-color: var(--five-primary-color);
 }
 
 .cancel-button:hover,

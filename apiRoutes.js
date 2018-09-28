@@ -15,7 +15,6 @@ const postFunctions = require("./services/postFunctions");
 const campaignFunctions = require("./services/campaignFunctions");
 const blogFunctions = require("./services/websiteBlogFunctions");
 const newsletterFunctions = require("./services/newsletterFunctions");
-const generalFunctions = require("./services/generalFunctions");
 const strategyFunctions = require("./services/strategyFunctions");
 const adminFunctions = require("./services/adminFunctions");
 const planFunctions = require("./services/planFunctions");
@@ -81,7 +80,7 @@ module.exports = app => {
     })(req, res, next);
   });
   // Update user account
-  app.post("/api/user/id", middleware, (req, res) =>
+  app.post("/api/user/:userID", middleware, (req, res) =>
     userFunctions.updateUser(req, res)
   );
   // Get current user
@@ -140,8 +139,8 @@ module.exports = app => {
   app.get(
     "/api/facebook/callback",
     passport.authenticate("facebook", {
-      successRedirect: "/",
-      failureRedirect: "/"
+      successRedirect: "/social-accounts",
+      failureRedirect: "/social-accounts"
     })
   );
 
@@ -163,8 +162,8 @@ module.exports = app => {
   app.get(
     "/api/twitter/callback",
     passport.authenticate("twitter", {
-      successRedirect: "/",
-      failureRedirect: "/"
+      successRedirect: "/social-accounts",
+      failureRedirect: "/social-accounts"
     })
   );
 
@@ -283,7 +282,7 @@ module.exports = app => {
 
   // Delete file in cloudinary using pulbic id
   app.delete("/api/delete/file/:publicID", middleware, (req, res) =>
-    generalFunctions.deleteFile(req, res)
+    postFunctions.deleteFile(req, res)
   );
 
   // Create or update user's strategy

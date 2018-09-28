@@ -181,7 +181,7 @@ class CustomTask extends Component {
         <input
           onChange={event => this.handleChange(event.target.value, "name")}
           value={name}
-          className="title-input"
+          className="title-input mb8"
           placeholder="Title"
           readOnly={!canEditPost}
         />
@@ -194,7 +194,7 @@ class CustomTask extends Component {
           value={instructions}
           readOnly={!canEditPost}
         />
-        <div className="flex vertical-center wrap spacing top">
+        <div className="flex vc wrap spacing top">
           <ImagesDiv
             postImages={images}
             handleChange={images => this.handleChange(images, "images")}
