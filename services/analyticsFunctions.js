@@ -78,8 +78,8 @@ const fbRequest =
   ",page_website_clicks_logged_in_by_country_unique" + // none
   ",page_website_clicks_logged_in_by_city_unique" + // none
   ",page_website_clicks_by_site_logged_in_unique" + // all 3
-  ",page_fans" + // lifetime
-  ",page_fans_locale" + // none
+  */ ",page_fans" + // lifetime
+  /*",page_fans_locale" + // none
   ",page_fans_city" + // none
   ",page_fans_country" + // none
   ",page_fans_gender_age" + // none
@@ -90,7 +90,7 @@ const fbRequest =
   ",page_fan_removes" + // day
   ",page_fan_removes_unique" + // all 3
   ",page_fans_by_unlike_source_unique" + // day
-  ",page_views_total" + // all 3
+  */ ",page_views_total" + // all 3
   ",page_views_logout" + // none
   ",page_views_logged_in_total" + // all 3
   ",page_views_logged_in_unique" + // all 3
@@ -123,7 +123,7 @@ const fbRequest =
   ",page_video_views_10s_unique" + // all 3
   ",page_video_views_10s_repeat" + // all 3
   ",page_video_view_time" + // day
-  ",page_posts_impressions" + // all 3
+  */ ",page_posts_impressions" + // all 3
   ",page_posts_impressions_unique" + // all 3
   /*",page_posts_impressions_paid" + // all 3
   ",page_posts_impressions_paid_unique" + // all 3
@@ -135,78 +135,8 @@ const fbRequest =
   ",page_posts_impressions_nonviral" + // all 3
   ",page_posts_impressions_nonviral_unique" + // all 3
   ",page_posts_impressions_frequency_distribution" + // all 3
-  */ "&date_preset=last_90d";
+  */ "&date_preset=last_30d";
 
-/*
-    I have a question / thought about storing the analytics data for more efficient retrieval.
-    I'm going to make up a slightly simpler example to try to illustrate what im thinking.
-    Let's say my data looks like this:
-    data: [
-      {
-        title: "page_video_views_organic",
-        monthlyValues: [
-          {
-            month-year: "09-2018",
-            values: [
-              {
-                day: 29,
-                value: 3
-              },
-              {
-                day: 30,
-                value: 5
-              }
-            ]
-          },
-          {
-            month-year: "10-2018",
-            values: [
-              {
-                day: 1,
-                value: 7
-              }
-              {
-                day: 2,
-                value: 2
-              }
-            ]
-          }
-        ]
-      }
-    ]
-    In this example, all of the "lists" are arrays which is the most natural.
-    However, because they are arrays, if we want a metric type (title), or a specific month-year within a metric, or a specific day within the month, we are going to have to use linear search through the array to find it. We could potentially work with the assumption that it's always going to be sorted (not the metric title, but the month-year and day attributes) which could allow for log(n) retrieval, but I have another idea in mind that will potentially make retrieval a lot more efficient.
-    data: {
-      page_video_views_organic: {
-        month-09-2018: {
-          values: {
-            day-29: {
-              value: 3
-            },
-            day-30: {
-              value: 5
-            }
-          }
-        },
-        month-10-2018: {
-          values: {
-            day-01: {
-              value: 7
-            },
-            day-02: {
-              value: 2
-            }
-          }
-        }
-      }
-    }
-    In this example, all of the "lists" are now objects where each element's identifying attribute is now its key/index. So to get a specific title we just say data.page_views, or to get a specific month we say data.page_views.month-09-2018, or to get a speicif day we just say data.page_views.month-09-2018.day-29. What do you think of this? We'd still be able to run a (for let index in data) loop to loop through it like an array if necessary, but it allows us to retrieve without a search.
-    1) Is this actually faster? Does fetching and storing an object like that from the DB provide us with O(1) time retrieval (like a hash table) or does the computer still need to search for that specific attribute?
-    2) If this actually is more efficient, is it worth making everything less intuitive?
-
-    THIS ISN'T EVEN POSSIBLE
-      due to the fact that we can't have dynamically named keys in the schema model
-*/
 process_fb_page_analytics = (data, prevObject) => {
   /*
   input:
@@ -379,7 +309,7 @@ parseFBDate = end_time => {
   return returnObj;
 };
 
-fill_and_save_fb_page_db_object = (analyticsDbObject, data, res) => {
+fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
   for (let j = 0; j < data.length; j++) {
     let analyticObj = data[j];
     if (analyticObj.period === "day" || analyticObj.period === "lifetime") {
@@ -389,13 +319,11 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data, res) => {
       if (metric_index === -1) {
         // metric doesn't exist in db object yet
         analyticsDbObject.analytics.push(
-          this.process_fb_page_analytics(analyticObj)
+          process_fb_page_analytics(analyticObj)
         );
       } else {
         // metric already exists in db object so we just need to update it
-        analyticsDbObject.analytics[
-          metric_index
-        ] = this.process_fb_page_analytics(
+        analyticsDbObject.analytics[metric_index] = process_fb_page_analytics(
           analyticObj,
           analyticsDbObject.analytics[metric_index]
         );
@@ -403,19 +331,6 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data, res) => {
     }
   }
   analyticsDbObject.save();
-};
-
-testFunc = (req, res) => {
-  User.find({}, (err, accounts) => {
-    if (err || !accounts) {
-      console.log(err);
-      res.send({ success: false, err });
-      return;
-    } else {
-      res.send({ success: true, accounts });
-      return;
-    }
-  });
 };
 
 module.exports = {
@@ -439,28 +354,33 @@ module.exports = {
             return;
           }
           let analyticsObjects = [];
+          let asyncCounter = 0;
           for (let i = 0; i < foundAnalytics.length; i++) {
             const analyticsObj = foundAnalytics[i];
-            if (analyticsObj.analyticType !== "page") {
+            if (analyticsObj.analyticType !== "account") {
               continue;
             }
+            asyncCounter++;
             Account.findOne(
               // maybe instead of fetching the accout name each time,
               // we can store / update the account name within the analytics object
               // and update it every time we fetch more data
               { _id: analyticsObj.accountID },
               (err, foundAccount) => {
+                asyncCounter--;
                 if (err || foundAccount) {
-                  return;
+                } else {
+                  analyticsObjects.push({
+                    ...analyticsObj,
+                    accountName: foundAccount.givenName
+                  });
                 }
-                analyticsObjects.push({
-                  ...analyticsObj,
-                  accountName: foundAccount.givenName
-                });
+                if (asyncCounter === 0) {
+                  res.send({ success: true, analyticsObjects });
+                }
               }
             );
           }
-          res.send({ success: true, analyticsObjects });
           return;
         });
       } else {
@@ -473,9 +393,11 @@ module.exports = {
     });
   },
   getAllFacebookPageAnalytics: function(req, res) {
-    testFunc(req, res);
-    return;
-
+    /*
+    for each account in DB that is a facebook page:
+      request analytics:
+        update analytics object or create a new one
+    */
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
         if (foundUser.role !== "admin") {
@@ -555,10 +477,9 @@ module.exports = {
                       } else {
                         analyticsDbObject = foundObj;
                       }
-                      this.newfunctionhere(
+                      fill_and_save_fb_page_db_object(
                         analyticsDbObject,
-                        response.data,
-                        res
+                        response.data
                       );
                     }
                   );
@@ -570,45 +491,18 @@ module.exports = {
                   analyticsDbObject.analyticsType = "account";
                   analyticsDbObject.associatedID = account._id;
                   analyticsDbObject.analytics = [];
-                  this.newfunctionhere(analyticsDbObject, response.data, res);
+                  fill_and_save_fb_page_db_object(
+                    analyticsDbObject,
+                    response.data
+                  );
                 }
-
-                // problem is that this code is being run before the Analytics.findOne code finishes above
-                for (let j = 0; j < response.data.length; j++) {
-                  let analyticObj = response.data[j];
-                  if (
-                    analyticObj.period === "day" ||
-                    analyticObj.period === "lifetime"
-                  ) {
-                    console.log(account);
-                    console.log(analyticsDbObject);
-                    const metric_index = analyticsDbObject.analytics.findIndex(
-                      obj => analyticObj.name === obj.name
-                    );
-                    if (metric_index === -1) {
-                      // metric doesn't exist in db object yet
-                      analyticsDbObject.analytics.push(
-                        this.process_fb_page_analytics(analyticObj)
-                      );
-                    } else {
-                      // metric already exists in db object so we just need to update it
-                      analyticsDbObject.analytics[
-                        metric_index
-                      ] = this.process_fb_page_analytics(
-                        analyticObj,
-                        analyticsDbObject.analytics[metric_index]
-                      );
-                    }
-                  }
-                }
-                analyticsDbObject.save();
               });
             }
           }
-          // for loop ends here
+          // for each account loop ends here
           res.send({
             success: true,
-            accounts: accounts.map(obj => obj.analyticsID)
+            accounts: accounts.filter(obj => obj.analyticsID)
           });
         });
       } else {
