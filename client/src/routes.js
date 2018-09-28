@@ -111,8 +111,7 @@ class Routes extends Component {
         for (let index in temp) {
           if (temp[index] != nextProps.tutorial[index]) somethingChanged = true;
         }
-        console.log(temp);
-        console.log(accounts);
+
         if (somethingChanged) nextProps.setTutorial(temp);
       }
     }

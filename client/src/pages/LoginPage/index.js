@@ -34,6 +34,16 @@ class Login extends Component {
         type: "danger"
       }
     };
+
+    window.onkeyup = e => {
+      let key = e.keyCode ? e.keyCode : e.which;
+
+      if (key == 13) {
+        const { login } = this.state;
+        if (login === "login") this.login(e);
+        else if (login === "register") this.register(e);
+      }
+    };
   }
 
   handleChange = (index, value) => {
