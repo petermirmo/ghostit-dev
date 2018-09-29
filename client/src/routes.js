@@ -173,7 +173,7 @@ class Routes extends Component {
                     className="sign-up-now button pl4"
                     onClick={() => changePage("subscribe")}
                   >
-                    Sign Up Now
+                    Pay Now
                   </div>
                 )}
               </div>

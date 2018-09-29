@@ -813,6 +813,7 @@
   box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.19);
 }
 .trial-days-left {
+  box-sizing: border-box;
   width: 100%;
   background-color: var(--red-theme-color);
   color: var(--white-theme-color);
