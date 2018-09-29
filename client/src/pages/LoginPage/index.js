@@ -113,6 +113,7 @@ class Login extends Component {
           const { success, user, message } = res.data;
 
           this.props.updateAccounts([]);
+          this.props.setUser(user);
 
           if (success && user) this.activateDemoUserLogin();
           else {
@@ -260,13 +261,14 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input pa8 mb8 round4 password"
+                  className="login-input pa8 mb8 round4"
                   value={password}
                   onChange={event =>
                     this.handleChange("password", event.target.value)
                   }
                   name="password"
                   placeholder="Password"
+                  type="password"
                   required
                 />
 

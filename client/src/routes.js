@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -158,6 +159,7 @@ class Routes extends Component {
     return (
       <div className="flex">
         {user && <Header />}
+
         <div className="wrapper">
           {user &&
             ((activePage === "content" ||
