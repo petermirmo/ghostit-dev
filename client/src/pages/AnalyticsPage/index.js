@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import axios from "axios";
 
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
+import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -79,7 +83,7 @@ class Analytics extends Component {
         <div className="metric-container" key={i + "metricObj"}>
           <h2>{metric.title}</h2>
           <div
-            className="show-metric-toggle"
+            className="show-metric-toggle button"
             onClick={() => {
               this.setState(prevState => {
                 return {
@@ -103,8 +107,10 @@ class Analytics extends Component {
           </div>
           {showMetricsArray[i] && (
             <div className="metric-graph-container">
-              <div
-                className="left-arrow"
+              <FontAwesomeIcon
+                icon={faAngleLeft}
+                size="1x"
+                className="left-arrow button common-transition"
                 onClick={() => {
                   this.setState(prevState => {
                     return {
@@ -118,14 +124,16 @@ class Analytics extends Component {
                     };
                   });
                 }}
-              >
-                left
-              </div>
-              {metric.monthlyValues[activeMonthIndexArray[i]].month +
+              />
+              {" " +
+                metric.monthlyValues[activeMonthIndexArray[i]].month +
                 "-" +
-                metric.monthlyValues[activeMonthIndexArray[i]].year}
-              <div
-                className="right-arrow"
+                metric.monthlyValues[activeMonthIndexArray[i]].year +
+                " "}
+              <FontAwesomeIcon
+                icon={faAngleRight}
+                size="1x"
+                className="right-arrow button common-transition"
                 onClick={() => {
                   this.setState(prevState => {
                     return {
@@ -140,9 +148,7 @@ class Analytics extends Component {
                     };
                   });
                 }}
-              >
-                right
-              </div>
+              />
               {this.monthToGraph(
                 metric.monthlyValues[activeMonthIndexArray[i]]
               )}
