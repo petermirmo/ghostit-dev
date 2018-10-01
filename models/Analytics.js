@@ -20,6 +20,7 @@ const analyticsSchema = new Schema(
       required: true,
       unique: true
     },
+    accountName: String,
     analytics: [
       // each element represents a different analytics metric
       {

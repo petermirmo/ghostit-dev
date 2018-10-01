@@ -354,33 +354,14 @@ module.exports = {
             return;
           }
           let analyticsObjects = [];
-          let asyncCounter = 0;
           for (let i = 0; i < foundAnalytics.length; i++) {
             const analyticsObj = foundAnalytics[i];
-            if (analyticsObj.analyticType !== "account") {
+            if (analyticsObj.analyticsType !== "account") {
               continue;
             }
-            asyncCounter++;
-            Account.findOne(
-              // maybe instead of fetching the accout name each time,
-              // we can store / update the account name within the analytics object
-              // and update it every time we fetch more data
-              { _id: analyticsObj.accountID },
-              (err, foundAccount) => {
-                asyncCounter--;
-                if (err || foundAccount) {
-                } else {
-                  analyticsObjects.push({
-                    ...analyticsObj,
-                    accountName: foundAccount.givenName
-                  });
-                }
-                if (asyncCounter === 0) {
-                  res.send({ success: true, analyticsObjects });
-                }
-              }
-            );
+            analyticsObjects.push(analyticsObj);
           }
+          res.send({ success: true, analyticsObjects });
           return;
         });
       } else {
@@ -473,9 +454,11 @@ module.exports = {
                         analyticsDbObject.socialType = "facebook";
                         analyticsDbObject.analyticsType = "account";
                         analyticsDbObject.associatedID = account._id;
+                        analyticsDbObject.accountName = account.givenName;
                         analyticsDbObject.analytics = [];
                       } else {
                         analyticsDbObject = foundObj;
+                        analyticsDbObject.accountName = account.givenName;
                       }
                       fill_and_save_fb_page_db_object(
                         analyticsDbObject,
@@ -490,6 +473,7 @@ module.exports = {
                   analyticsDbObject.socialType = "facebook";
                   analyticsDbObject.analyticsType = "account";
                   analyticsDbObject.associatedID = account._id;
+                  analyticsDbObject.accountName = account.givenName;
                   analyticsDbObject.analytics = [];
                   fill_and_save_fb_page_db_object(
                     analyticsDbObject,

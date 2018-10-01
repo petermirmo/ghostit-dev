@@ -5,6 +5,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import AmCharts from "@amcharts/amcharts3-react";
+
 import "./styles/";
 
 class Analytics extends Component {
@@ -19,11 +21,9 @@ class Analytics extends Component {
   }
 
   getAnalytics = () => {
-    console.log("getAnalytics()");
     if (this.props.user.role === "admin") {
       axios.get("/api/analytics").then(res => {
         const { analyticsObjects } = res.data;
-        console.log(res);
         this.setState({ analyticsObjects });
       });
     } else {
@@ -44,7 +44,7 @@ class Analytics extends Component {
         alert(res.data.message);
         return;
       } else {
-        console.log(res.data);
+        this.getAnalytics();
       }
     });
   };
@@ -70,6 +70,143 @@ class Analytics extends Component {
     });
   };
 
+  displayFBAnalyticsObj = obj => {
+    const { showMetricsArray, activeMonthIndexArray } = this.state;
+    let metricArray = [];
+    for (let i = 0; i < obj.analytics.length; i++) {
+      const metric = obj.analytics[i];
+      metricArray.push(
+        <div className="metric-container" key={i + "metricObj"}>
+          <h2>{metric.title}</h2>
+          <div
+            className="show-metric-toggle"
+            onClick={() => {
+              this.setState(prevState => {
+                return {
+                  showMetricsArray: [
+                    ...prevState.showMetricsArray.slice(0, i),
+                    prevState.showMetricsArray[i] ? false : true,
+                    ...prevState.showMetricsArray.slice(i + 1)
+                  ],
+                  activeMonthIndexArray: [
+                    ...prevState.activeMonthIndexArray.slice(0, i),
+                    prevState.activeMonthIndexArray[i] === undefined
+                      ? 0
+                      : prevState.activeMonthIndexArray[i],
+                    ...prevState.activeMonthIndexArray.slice(i + 1)
+                  ]
+                };
+              });
+            }}
+          >
+            Toggle
+          </div>
+          {showMetricsArray[i] && (
+            <div className="metric-graph-container">
+              <div
+                className="left-arrow"
+                onClick={() => {
+                  this.setState(prevState => {
+                    return {
+                      activeMonthIndexArray: [
+                        ...prevState.activeMonthIndexArray.slice(0, i),
+                        prevState.activeMonthIndexArray[i] === 0
+                          ? 0
+                          : prevState.activeMonthIndexArray[i] - 1,
+                        ...prevState.activeMonthIndexArray.slice(i + 1)
+                      ]
+                    };
+                  });
+                }}
+              >
+                left
+              </div>
+              {metric.monthlyValues[activeMonthIndexArray[i]].month +
+                "-" +
+                metric.monthlyValues[activeMonthIndexArray[i]].year}
+              <div
+                className="right-arrow"
+                onClick={() => {
+                  this.setState(prevState => {
+                    return {
+                      activeMonthIndexArray: [
+                        ...prevState.activeMonthIndexArray.slice(0, i),
+                        prevState.activeMonthIndexArray[i] ===
+                        metric.monthlyValues.length - 1
+                          ? prevState.activeMonthIndexArray[i]
+                          : prevState.activeMonthIndexArray[i] + 1,
+                        ...prevState.activeMonthIndexArray.slice(i + 1)
+                      ]
+                    };
+                  });
+                }}
+              >
+                right
+              </div>
+              {this.monthToGraph(
+                metric.monthlyValues[activeMonthIndexArray[i]]
+              )}
+            </div>
+          )}
+        </div>
+      );
+    }
+    return metricArray;
+  };
+
+  monthToGraph = monthObj => {
+    const dataProvider = [];
+    for (let i = 0; i < monthObj.values.length; i++) {
+      let dayObj = monthObj.values[i];
+      if (dayObj.value.length === 0) {
+        dataProvider.push({ day: dayObj.day, value: 0 });
+      } else if (dayObj.value.length === 1) {
+        dataProvider.push({ day: dayObj.day, value: dayObj.value[0].value });
+      } else {
+        return undefined;
+      }
+    }
+    if (dataProvider.length === 0) {
+      return undefined;
+    }
+    const config = {
+      type: "serial",
+      categoryField: "day",
+      graphs: [
+        {
+          valueField: "value",
+          type: "line",
+          bullet: "round",
+          balloonText: "[[category]]: <b>[[value]]</b>"
+        }
+      ],
+      dataProvider
+    };
+    return (
+      <AmCharts.React
+        style={{ width: "100%", height: "340px" }}
+        options={config}
+      />
+    );
+  };
+
+  getValuesFromFBDayObj = dayObj => {
+    if (dayObj.value.length === 0) {
+      return "-";
+    } else {
+      let result = "";
+      for (let i = 0; i < dayObj.value.length; i++) {
+        const value = dayObj.value[i];
+        if (value.key === "value") {
+          result += value.value + " ";
+        } else {
+          result += '"' + value.key + '"' + ":" + value.value + " ";
+        }
+      }
+      return result;
+    }
+  };
+
   render() {
     let { accounts } = this.props;
     let { facebookPosts, analyticsObjects, activeAnalyticsIndex } = this.state;
@@ -90,19 +227,27 @@ class Analytics extends Component {
           analyticsObjects && (
             <div className="test-container">
               {analyticsObjects.map((obj, index) => {
-                <div
-                  className="here"
-                  key={index + "account"}
-                  onClick={() => this.setState({ activeAnalyticsIndex: index })}
-                >
-                  {obj.accountName}
-                </div>;
+                return (
+                  <div
+                    className="here"
+                    key={index + "account"}
+                    onClick={() =>
+                      this.setState({
+                        activeAnalyticsIndex: index,
+                        showMetricsArray: [],
+                        activeMonthIndexArray: []
+                      })
+                    }
+                  >
+                    {obj.accountName ? obj.accountName : "Unknown Name"}
+                  </div>
+                );
               })}
             </div>
           )}
-        {activeAnalyticsIndex !== "undefined" && (
+        {activeAnalyticsIndex !== undefined && (
           <div className="analytics-display">
-            {/*analyticsObjects[activeAnalyticsIndex].name*/}
+            {this.displayFBAnalyticsObj(analyticsObjects[activeAnalyticsIndex])}
           </div>
         )}
       </div>
