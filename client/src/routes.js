@@ -160,7 +160,7 @@ class Routes extends Component {
       <div className="flex">
         {user && <Header />}
 
-        <div className="wrapper">
+        <div className="wrapper light-scrollbar">
           {user &&
             user.role === "demo" && (
               <div className="trial-days-left flex hc vc pa4">

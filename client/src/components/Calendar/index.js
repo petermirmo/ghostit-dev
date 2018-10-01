@@ -165,8 +165,8 @@ class Calendar extends Component {
 
       // Checks to make sure that the campaign is within this month
       if (
-        new moment(calendarEvent.endDate) > calendarStartDate ||
-        new moment(calendarEvent.startDate) < calendarEndDate
+        new moment(calendarEvent.endDate).isSame(calendarStartDate, "month") ||
+        new moment(calendarEvent.startDate).isSame(calendarEndDate, "month")
       ) {
         let dateIndexOfEvent = new moment(calendarEvent.startDate);
 
@@ -451,10 +451,18 @@ class Calendar extends Component {
           }
         } else quePostsToDisplay.push(calendarEvents[index]);
       }
-      quePostsToDisplay.sort(compareCampaignPosts);
+      quePostsToDisplay.sort(compareCampaignPostsReverse);
       let queuePostDivs = [];
       for (let index in quePostsToDisplay) {
         let quePostToDisplay = quePostsToDisplay[index];
+
+        if (
+          !new moment(quePostToDisplay.postingDate).isSame(
+            new moment(calendarDate),
+            "month"
+          )
+        )
+          continue;
 
         queuePostDivs.push(
           this.createQueuePostDiv(quePostToDisplay, index + "post")
@@ -495,15 +503,21 @@ class Calendar extends Component {
     );
   }
 }
+
 function compareCampaigns(a, b) {
   if (a.startDate < b.startDate) return -1;
-  if (a.startDate > b.startDate) return 1;
-  return 0;
+  else if (a.startDate > b.startDate) return 1;
+  else return 0;
 }
 function compareCampaignPosts(a, b) {
   if (a.postingDate < b.postingDate) return -1;
-  if (a.postingDate > b.postingDate) return 1;
-  return 0;
+  else if (a.postingDate > b.postingDate) return 1;
+  else return 0;
+}
+function compareCampaignPostsReverse(a, b) {
+  if (a.postingDate < b.postingDate) return 1;
+  else if (a.postingDate > b.postingDate) return -1;
+  else return 0;
 }
 
 function mapStateToProps(state) {

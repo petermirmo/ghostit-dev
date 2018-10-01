@@ -29,7 +29,7 @@ class SubscribePage extends Component {
     }
 
     return (
-      <div  >
+      <div>
         <div className="plans-page-container">
           <div className="checkout-container">
             <div className="checkout-title">Checkout</div>
