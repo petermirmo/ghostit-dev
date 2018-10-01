@@ -20,6 +20,7 @@ const adminFunctions = require("./services/adminFunctions");
 const planFunctions = require("./services/planFunctions");
 const writersBriefFunctions = require("./services/writersBriefFunctions");
 const SendMailFunctions = require("./MailFiles/SendMailFunctions");
+const analyticsFunctions = require("./services/analyticsFunctions");
 
 module.exports = app => {
   var middleware = function(req, res, next) {
@@ -142,12 +143,17 @@ module.exports = app => {
       failureRedirect: "/social-accounts"
     })
   );
-  app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) =>
-    accountFunctions.getPageAnalytics(req, res)
-  );
+
+  app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) => {
+    if (req.params.accountID === "all") {
+      analyticsFunctions.getAllFacebookPageAnalytics(req, res);
+    } else {
+      analyticsFunctions.getPageAnalytics(req, res);
+    }
+  });
 
   app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) =>
-    accountFunctions.getPostAnalytics(req, res)
+    analyticsFunctions.getPostAnalytics(req, res)
   );
 
   // Add Twitter account
@@ -355,5 +361,9 @@ module.exports = app => {
   // Get plans
   app.get("/api/plans", middleware, (req, res) =>
     adminFunctions.getPlans(req, res)
+  );
+
+  app.get("/api/analytics", middleware, (req, res) =>
+    analyticsFunctions.getAllAnalytics(req, res)
   );
 };
