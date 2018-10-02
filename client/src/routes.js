@@ -163,7 +163,8 @@ class Routes extends Component {
 
         <div className="wrapper">
           {user &&
-            user.role === "demo" && (
+            user.role === "demo" &&
+            false && (
               <div className="trial-days-left flex hc vc pa4">
                 {7 - new moment().diff(new moment(user.dateCreated), "days") > 0
                   ? 7 - new moment().diff(new moment(user.dateCreated), "days")
