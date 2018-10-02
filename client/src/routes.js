@@ -147,7 +147,7 @@ class Routes extends Component {
   };
   render() {
     const { datebaseConnection } = this.state;
-    const { activePage, user, getKeyListenerFunction } = this.props;
+    const { activePage, user, getKeyListenerFunction, changePage } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
@@ -162,6 +162,23 @@ class Routes extends Component {
         {user && <Header />}
 
         <div className="wrapper">
+          {user &&
+            user.role === "demo" && (
+              <div className="trial-days-left flex hc vc pa4">
+                {7 - new moment().diff(new moment(user.dateCreated), "days") > 0
+                  ? 7 - new moment().diff(new moment(user.dateCreated), "days")
+                  : 0}{" "}
+                days left in trial
+                {activePage !== "subscribe" && (
+                  <div
+                    className="sign-up-now button pl4"
+                    onClick={() => changePage("subscribe")}
+                  >
+                    Pay Now
+                  </div>
+                )}
+              </div>
+            )}
           {user &&
             ((activePage === "content" ||
               activePage === "strategy" ||
