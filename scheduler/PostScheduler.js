@@ -3,6 +3,8 @@ const Post = require("../models/Post");
 let facebook = require("./facebook");
 let twitter = require("./twitter");
 let linkedin = require("./linkedin");
+const generalFunctions = require("../services/generalFunctions");
+
 module.exports = {
   main: function() {
     Post.find({ status: "pending" }).then(result => {
@@ -29,13 +31,21 @@ module.exports = {
             } else if (post.accountType === "group") {
               facebook.postToGroup(post);
             } else {
-              // TO DO: send error
+              generalFunctions.handleError(
+                res,
+                "Facebook accountType is not profile, page or group.",
+                post
+              );
             }
           } else if (post.socialType === "twitter") {
             if (post.accountType === "profile") {
               twitter.postToProfile(post);
             } else {
-              // TO DO: send error
+              generalFunctions.handleError(
+                res,
+                "Twitter accountType is not profile",
+                post
+              );
             }
           } else if (post.socialType === "linkedin") {
             if (post.accountType === "profile") {
@@ -43,7 +53,11 @@ module.exports = {
             } else if (post.accountType === "page") {
               linkedin.postToPage(post);
             } else {
-              // TO DO: send error
+              generalFunctions.handleError(
+                res,
+                "LinkedIn accountType is not profile or page.",
+                post
+              );
             }
           }
         }

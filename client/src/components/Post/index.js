@@ -123,7 +123,7 @@ class PostingOptions extends Component {
         )
           continue;
         if (account.socialType === socialType) {
-          return { id: account._id, type: account.accountType };
+          return { id: account.socialID, type: account.accountType };
         }
       }
     }
@@ -253,7 +253,7 @@ class PostingOptions extends Component {
       );
     } else {
       activePageAccountsArray = this.createActiveAccounts(
-        "_id",
+        "socialID",
         accountID,
         accounts
       );
@@ -315,7 +315,7 @@ class PostingOptions extends Component {
                 activePageAccountsArray={activePageAccountsArray}
                 activeAccount={accountID}
                 handleChange={account => {
-                  this.handleChange(account._id, "accountID");
+                  this.handleChange(account.socialID, "accountID");
                   this.handleChange(account.accountType, "accountType");
                 }}
                 canEdit={canEditPost}

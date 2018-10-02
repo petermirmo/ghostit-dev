@@ -8,7 +8,8 @@ module.exports = {
   postToProfileOrPage: function(post) {
     Account.findOne(
       {
-        _id: post.accountID
+        userID: post.userID,
+        socialID: post.accountID
       },
       async function(err, account) {
         if (err) {
@@ -61,7 +62,8 @@ module.exports = {
   postToGroup: function(post) {
     Account.findOne(
       {
-        _id: post.accountID
+        userID: post.userID,
+        socialID: post.accountID
       },
       async function(err, account) {
         if (err) return console.log(err);
@@ -82,7 +84,6 @@ module.exports = {
                 "post",
                 facebookPostWithImage,
                 function(res) {
-                  console.log(res);
                   if (!res || res.error) {
                     savePostError(post._id, res.error);
                   } else {
