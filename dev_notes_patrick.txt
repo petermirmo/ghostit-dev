@@ -77,6 +77,9 @@ analytics:
   button only accessible to admins that fetches and stores analytics on every (post?) + account in the db.
   buttons for each analytics object in the DB. admins can see all, non-admins can only see the objects associated with their accounts.
     clicking on these buttons will show their data below on the same page.
+  the getAnalytics function should only fetch user specific accounts when not logged in as admin
+    when fetching as admin, specify which accounts belong to others
+  aggregate by month / week (how to do weeks bcz they are just stored as day numbers?)
 
   graphing:
     don't display all graphs by default. have a button beside each metric that toggles the graph.
@@ -86,7 +89,7 @@ analytics:
       which doesn't illustrate that day 6 had 0.
     still need to handle the cases when there can be multiple value types for one day (post reactions of a page)
     y axis scale can be misleading. Lifetime total likes of ghostit drops from 4698 to 4667 but looks like it drops down to 5.
-
+    have a graph or other visual representation of when / how many posts were made so it's easy to correlate the numbers on the other graphs to the activity on the account
 
 
 facebook analytics page metrics:
