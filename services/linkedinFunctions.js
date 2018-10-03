@@ -62,45 +62,59 @@ module.exports = {
     Linkedin.auth.authorize(res, scope);
   },
   getLinkedinAccessToken: function(req, res) {
-    // Get access token from Linkedin
-    Linkedin.auth.getAccessToken(res, req.query.code, req.query.state, function(
-      err,
-      results
-    ) {
-      if (err) generalFunctions.handleError(res, err);
-      else {
-        var accessToken = results.access_token;
-
-        // User access token to get profile information
-        var LI = Linkedin.init(accessToken);
-
-        LI.people.me(function(err, $in) {
-          if (err) res.send(false);
-          var linkedinProfile = $in;
-
-          var newAccount = new Account();
-
-          let userID = req.user._id;
-          if (req.user.signedInAsUser) {
-            if (req.user.signedInAsUser.id) {
-              userID = req.user.signedInAsUser.id;
-            }
-          }
-          newAccount.userID = userID;
-          newAccount.socialType = "linkedin";
-          newAccount.accountType = "profile";
-          newAccount.accessToken = accessToken;
-          newAccount.socialID = linkedinProfile.id;
-          newAccount.givenName = linkedinProfile.firstName;
-          newAccount.familyName = linkedinProfile.lastName;
-          newAccount.email = linkedinProfile.emailAddress;
-
-          newAccount.save((err, result) => {
-            if (err) generalFunctions.handleError(res, err);
-            else res.redirect("/social-accounts");
-          });
-        });
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
       }
-    });
+    }
+    // Get access token from Linkedin
+    Linkedin.auth.getAccessToken(
+      res,
+      req.query.code,
+      req.query.state,
+      (err, results) => {
+        if (err) generalFunctions.handleError(res, err);
+        else {
+          let accessToken = results.access_token;
+
+          // User access token to get profile information
+          let LI = Linkedin.init(accessToken);
+
+          LI.people.me(function(err, $in) {
+            if (err) res.send(false);
+            let linkedinProfile = $in;
+
+            Account.findOne(
+              { userID, socialID: linkedinProfile.id },
+              (err, account) => {
+                if (!account) {
+                  let newAccount = new Account();
+
+                  newAccount.userID = userID;
+                  newAccount.socialType = "linkedin";
+                  newAccount.accountType = "profile";
+                  newAccount.accessToken = accessToken;
+                  newAccount.socialID = linkedinProfile.id;
+                  newAccount.givenName = linkedinProfile.firstName;
+                  newAccount.familyName = linkedinProfile.lastName;
+                  newAccount.email = linkedinProfile.emailAddress;
+
+                  newAccount.save((err, result) => {
+                    if (err) generalFunctions.handleError(res, err);
+                    else res.redirect("/social-accounts");
+                  });
+                } else if (account) {
+                  account.accessToken = accessToken;
+                  account.save((err, result) => {
+                    res.redirect("/social-accounts");
+                  });
+                } else res.redirect("/social-accounts");
+              }
+            );
+          });
+        }
+      }
+    );
   }
 };

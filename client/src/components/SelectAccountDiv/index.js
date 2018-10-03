@@ -35,7 +35,8 @@ class SelectAccountDiv extends Component {
 
       let className = "account-container";
 
-      if (activeAccount === String(account._id)) className += " common-active";
+      if (activeAccount === String(account.socialID))
+        className += " common-active";
 
       // Push div to array
       let icon;

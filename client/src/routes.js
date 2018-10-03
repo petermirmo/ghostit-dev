@@ -45,6 +45,7 @@ class Routes extends Component {
         axios.get("/api/accounts").then(res => {
           // Set user's accounts to state
           let { accounts } = res.data;
+
           if (!accounts) accounts = [];
           props.updateAccounts(accounts);
           props.setUser(user);
@@ -162,7 +163,8 @@ class Routes extends Component {
 
         <div className="wrapper light-scrollbar">
           {user &&
-            user.role === "demo" && (
+            user.role === "demo" &&
+            false && (
               <div className="trial-days-left flex hc vc pa4">
                 {7 - new moment().diff(new moment(user.dateCreated), "days") > 0
                   ? 7 - new moment().diff(new moment(user.dateCreated), "days")

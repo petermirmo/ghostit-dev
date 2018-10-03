@@ -103,6 +103,7 @@ class Content extends Component {
     axios.get("/api/posts").then(res => {
       // Set posts to state
       let { posts, loggedIn } = res.data;
+
       if (loggedIn === false) window.location.reload();
 
       for (let index in posts) {
