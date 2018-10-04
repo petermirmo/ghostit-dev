@@ -26,7 +26,7 @@ class Analytics extends Component {
 
   getAnalytics = () => {
     if (this.props.user.role === "admin") {
-      axios.get("/api/analytics").then(res => {
+      axios.get("/api/analytics/accounts").then(res => {
         const { analyticsObjects } = res.data;
         this.setState({ analyticsObjects });
       });

@@ -334,36 +334,66 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
 };
 
 module.exports = {
-  getAllAnalytics: function(req, res) {
+  getAllAccountAnalytics: function(req, res) {
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
         if (foundUser.role !== "admin") {
-          res.send({
-            success: false,
-            message: "Only admins are allowed to make this request."
-          });
-          return;
-        }
-        Analytics.find({}, (err, foundAnalytics) => {
-          if (err || !foundAnalytics) {
-            res.send({
-              success: false,
-              message:
-                "Error while trying to fetch all analytics objects from the DB."
-            });
-            return;
-          }
-          let analyticsObjects = [];
-          for (let i = 0; i < foundAnalytics.length; i++) {
-            const analyticsObj = foundAnalytics[i];
-            if (analyticsObj.analyticsType !== "account") {
-              continue;
+          // if the user is not an admin, we only want to grab the
+          // analytics objects that belong to accounts 'owned' by this user
+          Account.find({ userID: foundUser._id }, (err, foundAccounts) => {
+            // fetch all social account that are 'owned' with this user
+            if (err || !foundAccounts) {
+              console.log(err);
+              res.send({
+                success: false,
+                err,
+                message:
+                  "Unable to find any social accounts associated with this user account."
+              });
             }
-            analyticsObjects.push(analyticsObj);
-          }
-          res.send({ success: true, analyticsObjects });
-          return;
-        });
+            // make an array to be used with an 'or' operator for the analytics object request
+            const analyticsIDList = foundAccounts
+              .filter(acnt => acnt.analyticsID)
+              .map(obj => {
+                return {
+                  _id: obj.analyticsID
+                };
+              });
+            Analytics.find(
+              { $or: analyticsIDList },
+              (err, analyticsObjects) => {
+                // fetch all analytics objects that belong to one of those accounts
+                if (err || !analyticsObjects) {
+                  console.log(err);
+                  res.send({
+                    success: false,
+                    err,
+                    message:
+                      "Unable to find any social accounts associated with this user account."
+                  });
+                }
+                res.send({ success: true, analyticsObjects });
+              }
+            );
+          });
+        } else {
+          // user is an admin so fetch all analytics that are for an account (not post analytics)
+          Analytics.find({}, (err, foundAnalytics) => {
+            if (err || !foundAnalytics) {
+              res.send({
+                success: false,
+                message:
+                  "Error while trying to fetch all analytics objects from the DB."
+              });
+              return;
+            }
+            let analyticsObjects = foundAnalytics.filter(
+              obj => obj.analyticsType === "account"
+            );
+            res.send({ success: true, analyticsObjects });
+            return;
+          });
+        }
       } else {
         res.send({
           success: false,
