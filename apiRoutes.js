@@ -38,6 +38,7 @@ module.exports = app => {
       else next();
     });
   }
+  app.get("/api/test", (req, res, next) => facebookFunctions.test(req, res));
   // Login user
   app.post("/api/login", (req, res, next) => {
     passport.authenticate("local-login", function(err, user, message) {
@@ -131,7 +132,8 @@ module.exports = app => {
         "manage_pages",
         "business_management",
         "read_insights",
-        "instagram_basic"
+        "ads_management",
+        "ads_read"
       ]
     })
   );

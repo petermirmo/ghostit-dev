@@ -14,6 +14,8 @@ import faHistory from "@fortawesome/fontawesome-free-solid/faHistory";
 import faChartLine from "@fortawesome/fontawesome-free-solid/faChartLine";
 import faBars from "@fortawesome/fontawesome-free-solid/faBars";
 import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
+import faAd from "@fortawesome/fontawesome-free-solid/faUsers";
+console.log(faAd);
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -152,6 +154,15 @@ class HeaderSideBar extends Component {
                 >
                   <FontAwesomeIcon icon={faChartLine} />
                   Analytics
+                </div>
+              )}
+              {isAdmin && (
+                <div
+                  className={"header-button mb16  " + this.isActive("ads")}
+                  onClick={() => changePage("ads")}
+                >
+                  <FontAwesomeIcon icon={faAd} />
+                  Create an Ad
                 </div>
               )}
               <div

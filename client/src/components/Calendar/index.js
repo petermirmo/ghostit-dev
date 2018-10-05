@@ -198,6 +198,7 @@ class Calendar extends Component {
             calendarEvent.row = currentCalendarDayOfEvents.length;
             campaignClassName += " first-index-campaign";
           }
+
           // If last index of campaign
           if (
             dateIndexOfEvent.diff(new moment(calendarEvent.endDate), "days") ===

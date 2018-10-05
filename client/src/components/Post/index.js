@@ -270,7 +270,7 @@ class PostingOptions extends Component {
     }
 
     return (
-      <div className="post-instruction-container">
+      <div className="post-instruction-container light-scrollbar">
         <div
           className="posting-container"
           style={{ width: showInstructions ? "60%" : "100%" }}

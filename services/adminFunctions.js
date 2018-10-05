@@ -92,7 +92,7 @@ module.exports = {
 
       // Check if we are editting a plan or creating a new plan!
       if (newPlan._id) {
-        Plan.update({ _id: newPlan._id }, { $set: newPlan }).then(result => {
+        Plan.updateOne({ _id: newPlan._id }, { $set: newPlan }).then(result => {
           res.send({ success: true });
         });
       } else {

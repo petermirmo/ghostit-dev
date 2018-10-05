@@ -28,6 +28,7 @@ import Profile from "./pages/ProfilePage/";
 import MySubscription from "./pages/MySubscriptionPage/";
 import Analytics from "./pages/AnalyticsPage/";
 import WritersBrief from "./pages/WritersBriefPage/";
+import Ads from "./pages/AdsPage/";
 
 import "./css/";
 
@@ -143,6 +144,7 @@ class Routes extends Component {
     else if (activePage === "manage") return <Manage />;
     else if (activePage === "profile") return <Profile />;
     else if (activePage === "subscription") return <MySubscription />;
+    else if (activePage === "ads") return <Ads />;
     else return <Content />;
   };
   render() {
@@ -161,7 +163,7 @@ class Routes extends Component {
       <div className="flex">
         {user && <Header />}
 
-        <div className="wrapper light-scrollbar">
+        <div className="wrapper">
           {user &&
             user.role === "demo" &&
             false && (

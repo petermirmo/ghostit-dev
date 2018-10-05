@@ -59,7 +59,10 @@ schedule.scheduleJob("* * * * *", function() {
 // Connect to database
 mongoose.connect(
   keys.mongoDevelopentURI,
-  { useNewUrlParser: true }
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true
+  }
 );
 var db = mongoose.connection;
 

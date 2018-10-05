@@ -44,7 +44,7 @@ class PostList extends Component {
     const { newPost, deletePost, handleChange, duplicatePost } = this.props; // functions
 
     return (
-      <div className="list-container">
+      <div className="list-container light-scrollbar">
         {posts.map((post_obj, index) => {
           let postDate = post_obj.postingDate;
 

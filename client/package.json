@@ -23,7 +23,6 @@
     "moment-timezone": "^0.5.14",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-fontawesome": "^1.6.1",
     "react-redux": "^5.0.7",
     "react-scripts": "^1.1.4",
     "react-textarea-autosize": "^6.1.0",

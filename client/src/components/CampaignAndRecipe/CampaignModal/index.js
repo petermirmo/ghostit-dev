@@ -911,7 +911,10 @@ class CampaignModal extends Component {
               </div>
 
               {activePostIndex !== undefined && (
-                <div className="post-container" style={{ borderColor: color }}>
+                <div
+                  className="post-container light-scrollbar"
+                  style={{ borderColor: color }}
+                >
                   {this.getActivePost()}
                 </div>
               )}
