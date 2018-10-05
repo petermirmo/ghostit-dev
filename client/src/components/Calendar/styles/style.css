@@ -29,7 +29,7 @@
   background-color: var(--seven-primary-color);
 
   color: var(--white-theme-color);
-  font-family: var(--silly-font-theme);
+
   font-size: var(--h6-font-size);
 }
 .calendar-table {

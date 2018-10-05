@@ -153,7 +153,7 @@ module.exports = {
       }
     );
   },
-  test: function(req, res) {
+  test: (req, res) => {
     const AdAccount = adsSdk.AdAccount;
     const Campaign = adsSdk.Campaign;
     const AdSet = adsSdk.AdSet;
@@ -164,9 +164,10 @@ module.exports = {
     let access_token =
       "EAATBO1uFsCMBADmloohUmu1DUp83Op8A7KXoGh7dQ1mDG6iWuHvqQ2pZALvmoqA4rTZAGu4DIp3c9H4XiXc506GBSIT44NUs0Kx2E2oVhciayCU1SVmt4wQvabthm5ZCFZCV9mPwLL00ruZC3UDCV20aBrtBCukNCZBjjo2ZCKStQDGq2glZCMxm2e3brM0tDmotBvPUMt9GLoFYa22jteGbJaoovpL8XEEZD";
     let ad_account_id = "act_2160561967544732";
-    let app_secret = "ff58dd893379d4ecc4b47e1925c8b827";
+    let app_secret = keys.fbClientSecret;
     let page_id = "1522081927838254";
-    let app_id = "1338360589561891";
+    let app_id = keys.fbClientID;
+
     const api = adsSdk.FacebookAdsApi.init(access_token);
     const account = new AdAccount(ad_account_id);
     const showDebugingInfo = true; // Setting this to true shows more debugging info.
@@ -213,7 +214,7 @@ module.exports = {
           bid_amount: "20",
           campaign_id: campaign_id,
           optimization_goal: "PAGE_LIKES",
-          promoted_object: { page_id: page_id },
+          promoted_object: { page_id },
           name: "My AdSet"
         };
         return new AdAccount(ad_account_id).createAdSet(fields, params);
@@ -225,7 +226,7 @@ module.exports = {
         const params = {
           body: "Like My Page",
           image_url:
-            "http://www.facebookmarketingdevelopers.com/static/images/resource_1.jpg",
+            "https://res.cloudinary.com/dnc1t9z9o/image/upload/v1537215922/d20t4r9tnuujjjxnz3fg.png",
           name: "My Creative",
           object_id: page_id,
           title: "My Page Like Ad"

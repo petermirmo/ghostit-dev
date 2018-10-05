@@ -1,13 +1,15 @@
 .test {
   cursor: pointer;
-  background-color: blue;
+  background-color: var(--seven-primary-color);
   color: white;
   width: 200px;
-  height: 200px;
+  height: 100px;
+  margin: 200px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   justify-content: center;
+  font-size: var(--gigantic-font-size);
 
   align-items: center;
 }

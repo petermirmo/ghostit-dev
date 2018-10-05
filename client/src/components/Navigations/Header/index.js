@@ -1,21 +1,22 @@
 import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
-import faUser from "@fortawesome/fontawesome-free-solid/faUser";
-import faCalendar from "@fortawesome/fontawesome-free-solid/faCalendar";
-import faDoorOpen from "@fortawesome/fontawesome-free-solid/faDoorOpen";
-import faFileAlt from "@fortawesome/fontawesome-free-solid/faFileAlt";
-import faCogs from "@fortawesome/fontawesome-free-solid/faCogs";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
-import faStar from "@fortawesome/fontawesome-free-solid/faStar";
-import faHistory from "@fortawesome/fontawesome-free-solid/faHistory";
-import faChartLine from "@fortawesome/fontawesome-free-solid/faChartLine";
-import faBars from "@fortawesome/fontawesome-free-solid/faBars";
-import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
-import faAd from "@fortawesome/fontawesome-free-solid/faUsers";
-console.log(faAd);
+import {
+  faAd,
+  faUsers,
+  faBars,
+  faChartLine,
+  faHistory,
+  faStar,
+  faTimes,
+  faPlus,
+  faCogs,
+  faFileAlt,
+  faDoorOpen,
+  faCalendar,
+  faUser,
+  faSignOutAlt
+} from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
