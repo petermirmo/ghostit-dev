@@ -74,11 +74,10 @@ mobile app that alerts the user when they need to do a custom task?
 Small question marks beside things that aren't super intuitive. Mousing over the question mark displays a tooltip explaining things.
 
 analytics:
-  button only accessible to admins that fetches and stores analytics on every (post?) + account in the db.
-  buttons for each analytics object in the DB. admins can see all, non-admins can only see the objects associated with their accounts.
-    clicking on these buttons will show their data below on the same page.
-  the getAnalytics function should only fetch user specific accounts when not logged in as admin
-    when fetching as admin, specify which accounts belong to others
+  headers for facebook, twitter, linked in
+    under development for twit/li
+    facebook has sub headers for accounts / posts
+    
   aggregate by month / week (how to do weeks bcz they are just stored as day numbers?)
 
   graphing:
