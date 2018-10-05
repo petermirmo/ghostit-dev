@@ -25,7 +25,7 @@ class Analytics extends Component {
   }
 
   getAnalytics = () => {
-    axios.get("/api/analytics/accounts").then(res => {
+    axios.get("/api/analytics/test").then(res => {
       const { analyticsObjects } = res.data;
       this.setState({ analyticsObjects });
     });
@@ -212,6 +212,10 @@ class Analytics extends Component {
   render() {
     let { accounts } = this.props;
     let { facebookPosts, analyticsObjects, activeAnalyticsIndex } = this.state;
+
+    if (this.props.user.role !== "admin") {
+      return <div>Under Construction</div>;
+    }
 
     return (
       <div className="wrapper" style={this.props.margin}>

@@ -363,7 +363,7 @@ module.exports = app => {
     adminFunctions.getPlans(req, res)
   );
 
-  app.get("/api/analytics/accounts", middleware, (req, res) => {
+  app.get("/api/analytics/test", middleware, (req, res) => {
     console.log("api");
     analyticsFunctions.getAllAccountAnalytics(req, res);
   });
