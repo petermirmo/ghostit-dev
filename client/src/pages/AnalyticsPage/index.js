@@ -25,7 +25,7 @@ class Analytics extends Component {
   }
 
   getAnalytics = () => {
-    axios.get("/api/analytics/accounts").then(res => {
+    axios.get("/api/ai/analytics/accounts").then(res => {
       const { analyticsObjects } = res.data;
       this.setState({ analyticsObjects });
     });

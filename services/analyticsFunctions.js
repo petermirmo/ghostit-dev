@@ -426,6 +426,7 @@ module.exports = {
             });
             return;
           }
+          const socialIDs = [];
           for (let i = 0; i < accounts.length; i++) {
             const account = accounts[i];
             if (
@@ -433,6 +434,12 @@ module.exports = {
               account.socialType === "facebook" &&
               account.accountType === "page"
             ) {
+              if (socialIDs.includes(account.socialID)) {
+                // don't fetch analytics data twice for the same account
+                continue;
+              }
+              socialIDs.push(account.socialID);
+
               FB.setAccessToken(account.accessToken);
               FB.api(account.socialID + fbRequest, "get", function(response) {
                 /*FB.setAccessToken(
