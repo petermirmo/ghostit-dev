@@ -74,10 +74,15 @@ mobile app that alerts the user when they need to do a custom task?
 Small question marks beside things that aren't super intuitive. Mousing over the question mark displays a tooltip explaining things.
 
 analytics:
+  notes for peter:
+    functions built so far: request and store all account analytics and all post analytics.
+    post analytics record their time (unix time in ms) and you can use that time minus the posting time to see how much time had occurred since the post was posted
+    post and account analytics objects are slightly different in the way that they store the actual values
+    
   headers for facebook, twitter, linked in
     under development for twit/li
     facebook has sub headers for accounts / posts
-    
+
   aggregate by month / week (how to do weeks bcz they are just stored as day numbers?)
 
   graphing:
@@ -90,6 +95,21 @@ analytics:
     y axis scale can be misleading. Lifetime total likes of ghostit drops from 4698 to 4667 but looks like it drops down to 5.
     have a graph or other visual representation of when / how many posts were made so it's easy to correlate the numbers on the other graphs to the activity on the account
 
+
+You can make posts go out from our test DB really easily
+  Go to around line 44 in index.js in root
+  schedule.scheduleJob("*/2 * * * *", function() {
+    PostScheduler.main();
+  });
+  put it outside the if statement
+  and posts will go out
+
+Insights are only generated for a Facebook Page that has more than 100 people that like it.
+Likewise, demographic metrics, such as age, gender and location, are available in Page Insights once there is data for 100 or more people.
+
+page: Analytics Testing
+accessToken: EAATBO1uFsCMBAEVzoXO6IJ7BrFhkSqAstHWw4lg7XGU05mZCFdX5nXSGZC5OXzwabq6XaRLyKDxKHTrldysD5h02H4aFxUgHIFW29RvmKUXZCOPfvIjHjJKaHRJgl2ZBZAZAxkaYTItGtZCfmi8JEA7cn3TJfBQQ388uRXfINBK2QZDZD
+postID: 1209545782519940_1219695484838303
 
 facebook analytics page metrics:
     FB.api(
@@ -224,3 +244,81 @@ facebook analytics page metrics:
         ",page_posts_impressions_nonviral_unique" +                   // all 3
         ",page_posts_impressions_frequency_distribution" +            // all 3
         "&date_preset=last_3d",
+
+
+      all lifetime metrics except the 7 marked // day (they are all video view metrics)
+
+        ",post_activity" +
+        ",post_activity_unique" +
+        ",post_activity_by_action_type" +
+        ",post_activity_by_action_type_unique" +
+        ",post_video_complete_views_30s_autoplayed" +
+        ",post_video_complete_views_30s_clicked_to_play" +
+        ",post_video_complete_views_30s_organic" +
+        ",post_video_complete_views_30s_paid" +
+        ",post_video_complete_views_30s_unique" +
+        ",post_impressions" +
+        ",post_impressions_unique" +
+        ",post_impressions_paid" +
+        ",post_impressions_paid_unique" +
+        ",post_impressions_fan" +
+        ",post_impressions_fan_unique" +
+        ",post_impressions_fan_paid" +
+        ",post_impressions_fan_paid_unique" +
+        ",post_impressions_organic" +
+        ",post_impressions_organic_unique" +
+        ",post_impressions_viral" +
+        ",post_impressions_viral_unique" +
+        ",post_impressions_nonviral" +
+        ",post_impressions_nonviral_unique" +
+        ",post_impressions_by_story_type" +
+        ",post_impressions_by_story_type_unique" +
+        ",post_engaged_users" +
+        ",post_negative_feedback" +
+        ",post_negative_feedback_unique" +
+        ",post_negative_feedback_by_type" +
+        ",post_negative_feedback_by_type_unique" +
+        ",post_engaged_fan" +
+        ",post_clicks" +
+        ",post_clicks_unique" +
+        ",post_clicks_by_type" +
+        ",post_clicks_by_type_unique" +
+        ",post_reactions_like_total" +
+        ",post_reactions_love_total" +
+        ",post_reactions_wow_total" +
+        ",post_reactions_haha_total" +
+        ",post_reactions_sorry_total" +
+        ",post_reactions_anger_total" +
+        ",post_reactions_by_type_total" +
+        ",post_video_avg_time_watched" +
+        ",post_video_complete_views_organic" +
+        ",post_video_complete_views_organic_unique" +
+        ",post_video_complete_views_paid" +
+        ",post_video_complete_views_paid_unique" +
+        ",post_video_retention_graph" +
+        ",post_video_retention_graph_clicked_to_play" +
+        ",post_video_retention_graph_autoplayed" +
+        ",post_video_views_organic" + // day
+        ",post_video_views_organic_unique" +
+        ",post_video_views_paid" +  // day
+        ",post_video_views_paid_unique" +
+        ",post_video_length" +
+        ",post_video_views" + // day
+        ",post_video_views_unique" +
+        ",post_video_views_autoplayed" +
+        ",post_video_views_clicked_to_play" +
+        ",post_video_views_10s" + // day
+        ",post_video_views_10s_unique" +
+        ",post_video_views_10s_autoplayed" +
+        ",post_video_views_10s_clicked_to_play" +
+        ",post_video_views_10s_organic" +
+        ",post_video_views_10s_paid" +  // day
+        ",post_video_views_10s_sound_on" +
+        ",post_video_views_sound_on" +
+        ",post_video_view_time" + // day
+        ",post_video_view_time_organic" + // day
+        ",post_video_view_time_by_age_bucket_and_gender" +
+        ",post_video_view_time_by_region_id" +
+        ",post_video_views_by_distribution_type" +
+        ",post_video_view_time_by_distribution_type" +
+        ",post_video_view_time_by_country_id" +

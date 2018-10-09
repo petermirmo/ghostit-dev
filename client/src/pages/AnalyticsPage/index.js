@@ -21,39 +21,39 @@ class Analytics extends Component {
   }
 
   componentDidMount() {
-    this.getAnalytics();
+    this.getAccountAnalytics();
   }
 
-  getAnalytics = () => {
+  getAccountAnalytics = () => {
     axios.get("/api/ai/analytics/accounts").then(res => {
       const { analyticsObjects } = res.data;
       this.setState({ analyticsObjects });
     });
   };
 
-  getPageAnalytics = account => {
-    axios.get("/api/facebook/page/analytics/" + account._id).then(res => {
-      console.log(res.data);
-    });
-  };
-
-  getAllFacebookPageAnalytics = () => {
+  requestAllFacebookPageAnalytics = () => {
     axios.get("/api/facebook/page/analytics/all").then(res => {
       const { success } = res.data;
       if (!success) {
         alert(res.data.message);
         return;
       } else {
-        this.getAnalytics();
+        this.getAccountAnalytics();
       }
     });
   };
 
-  getPostAnalytics = post => {
-    axios.get("/api/facebook/post/analytics/" + post._id).then(res => {
-      console.log(res.data);
+  requestAllFacebookPostAnalytics = () => {
+    axios.get("/api/facebook/post/analytics/all").then(res => {
+      const { success } = res.data;
+      if (!success) {
+        if (res.data.message) alert(res.data.message);
+        return;
+      } else {
+      }
     });
   };
+
   getPosts = () => {
     let facebookPosts = [];
     axios.get("/api/posts").then(res => {
@@ -222,10 +222,16 @@ class Analytics extends Component {
         {this.props.user.role === "admin" && (
           <div className="test-container">
             <div
-              onClick={() => this.getAllFacebookPageAnalytics()}
+              onClick={() => this.requestAllFacebookPageAnalytics()}
               className="here"
             >
-              Get All FB Pages
+              Request FB Page Analytics
+            </div>
+            <div
+              onClick={() => this.requestAllFacebookPostAnalytics()}
+              className="here"
+            >
+              Request FB Post Analytics
             </div>
           </div>
         )}

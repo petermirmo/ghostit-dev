@@ -5,7 +5,7 @@ const Post = require("../models/Post");
 const FB = require("fb");
 const moment = require("moment-timezone");
 
-const fbRequest =
+const fbAccountRequest =
   "/insights?metric=" +
   /*"page_content_activity_by_action_type_unique" + // all 3
   ",page_content_activity_by_age_gender_unique" + // none
@@ -136,6 +136,84 @@ const fbRequest =
   ",page_posts_impressions_nonviral_unique" + // all 3
   ",page_posts_impressions_frequency_distribution" + // all 3
   */ "&date_preset=last_30d";
+
+const fbPostRequest =
+  "/insights?metric=" +
+  ",post_activity" +
+  ",post_activity_unique" +
+  ",post_activity_by_action_type" +
+  ",post_activity_by_action_type_unique" +
+  ",post_video_complete_views_30s_autoplayed" +
+  ",post_video_complete_views_30s_clicked_to_play" +
+  ",post_video_complete_views_30s_organic" +
+  ",post_video_complete_views_30s_paid" +
+  ",post_video_complete_views_30s_unique" +
+  ",post_impressions" +
+  ",post_impressions_unique" +
+  ",post_impressions_paid" +
+  ",post_impressions_paid_unique" +
+  ",post_impressions_fan" +
+  ",post_impressions_fan_unique" +
+  ",post_impressions_fan_paid" +
+  ",post_impressions_fan_paid_unique" +
+  ",post_impressions_organic" +
+  ",post_impressions_organic_unique" +
+  ",post_impressions_viral" +
+  ",post_impressions_viral_unique" +
+  ",post_impressions_nonviral" +
+  ",post_impressions_nonviral_unique" +
+  ",post_impressions_by_story_type" +
+  ",post_impressions_by_story_type_unique" +
+  ",post_engaged_users" +
+  ",post_negative_feedback" +
+  ",post_negative_feedback_unique" +
+  ",post_negative_feedback_by_type" +
+  ",post_negative_feedback_by_type_unique" +
+  ",post_engaged_fan" +
+  ",post_clicks" +
+  ",post_clicks_unique" +
+  ",post_clicks_by_type" +
+  ",post_clicks_by_type_unique" +
+  ",post_reactions_like_total" +
+  ",post_reactions_love_total" +
+  ",post_reactions_wow_total" +
+  ",post_reactions_haha_total" +
+  ",post_reactions_sorry_total" +
+  ",post_reactions_anger_total" +
+  ",post_reactions_by_type_total" +
+  ",post_video_avg_time_watched" +
+  ",post_video_complete_views_organic" +
+  ",post_video_complete_views_organic_unique" +
+  ",post_video_complete_views_paid" +
+  ",post_video_complete_views_paid_unique" +
+  ",post_video_retention_graph" +
+  ",post_video_retention_graph_clicked_to_play" +
+  ",post_video_retention_graph_autoplayed" +
+  ",post_video_views_organic" +
+  ",post_video_views_organic_unique" +
+  ",post_video_views_paid" +
+  ",post_video_views_paid_unique" +
+  ",post_video_length" +
+  ",post_video_views" +
+  ",post_video_views_unique" +
+  ",post_video_views_autoplayed" +
+  ",post_video_views_clicked_to_play" +
+  ",post_video_views_10s" +
+  ",post_video_views_10s_unique" +
+  ",post_video_views_10s_autoplayed" +
+  ",post_video_views_10s_clicked_to_play" +
+  ",post_video_views_10s_organic" +
+  ",post_video_views_10s_paid" +
+  ",post_video_views_10s_sound_on" +
+  ",post_video_views_sound_on" +
+  ",post_video_view_time" +
+  ",post_video_view_time_organic" +
+  ",post_video_view_time_by_age_bucket_and_gender" +
+  ",post_video_view_time_by_region_id" +
+  ",post_video_views_by_distribution_type" +
+  ",post_video_view_time_by_distribution_type" +
+  ",post_video_view_time_by_country_id" +
+  "&period=lifetime";
 
 process_fb_page_analytics = (data, prevObject) => {
   /*
@@ -299,6 +377,117 @@ process_fb_page_analytics = (data, prevObject) => {
   return result;
 };
 
+process_fb_post_analytics = (data, prevObject) => {
+  /*
+    data:
+      {
+        "name": "post_activity_by_action_type",
+        "period": "lifetime",
+        "values": [
+          {
+            "value": {
+              "like": 3,
+              "comment": 3
+            }
+          }
+        ],
+        "title": "Lifetime Post Stories by action type",
+        "description": "Lifetime: The number of stories created about your Page post, by action type. (Total Count)",
+        "id": "1209545782519940_1219695484838303/insights/post_activity_by_action_type/lifetime"
+      }
+
+    output:
+      {
+        name: "post_activity_by_action_type",
+        title: "Lifetime Post Stories by action type",
+        description: "Lifetime: The number of stories created about your Page post, by action type. (Total Count)",
+        lifetimeValues: [
+          {
+            time: 1539043286999,
+            value: [
+              {
+                key: "like",
+                value: 3
+              },
+              {
+                key: "comment",
+                value: 3
+              }
+            ]
+          }
+        ]
+      }
+  */
+  const result = {
+    name: data.name,
+    title: data.title,
+    description: data.description
+  };
+  if (prevObject && prevObject.lifetimeValues) {
+    result.lifetimeValues = [...prevObject.lifetimeValues];
+  } else {
+    result.lifetimeValues = [];
+  }
+  if (data.values.length > 1) {
+    console.log(
+      "metric " +
+        data.name +
+        " has multiple values and needs new code written to handle it."
+    );
+    return result;
+  } else if (data.values.length === 0) {
+    console.log("metric " + data.name + " has 0 values.");
+    return result;
+  } else {
+    const currentValue = data.values[0];
+    if (
+      Number.isInteger(currentValue.value) ||
+      typeof currentValue.value === "string" ||
+      currentValue.value instanceof String
+    ) {
+      /*
+      "values": [
+        {
+          "value": 3
+        }
+      ]
+      */
+      result.lifetimeValues.push({
+        timeInSeconds: Math.round(new moment().valueOf() / 1000),
+        value: [
+          {
+            key: "value",
+            value: currentValue.value
+          }
+        ]
+      });
+    } else {
+      /*
+      "values": [
+        {
+          "value": {
+            "like": 3,
+            "comment": 3
+          }
+        }
+      ]
+      */
+      const valueArray = [];
+      for (let index in currentValue.value) {
+        valueArray.push({
+          key: index,
+          value: currentValue.value[index]
+        });
+      }
+      result.lifetimeValues.push({
+        timeInSeconds: Math.round(new moment().valueOf() / 1000),
+        value: valueArray
+      });
+    }
+    return result;
+  }
+};
+
 parseFBDate = end_time => {
   const end_time_moment = new moment(end_time).subtract(1, "day");
   let returnObj = {
@@ -307,6 +496,26 @@ parseFBDate = end_time => {
     year: end_time_moment.get("year")
   };
   return returnObj;
+};
+
+fill_and_save_fb_post_db_object = (analyticsDbObject, data) => {
+  for (let i = 0; i < data.length; i++) {
+    let analyticObj = data[i];
+    const metric_index = analyticsDbObject.analytics.findIndex(
+      obj => analyticObj.name === obj.name
+    );
+    if (metric_index === -1) {
+      // metric doesn't exist in db object yet
+      analyticsDbObject.analytics.push(process_fb_post_analytics(analyticObj));
+    } else {
+      // metric already exists in db object so we just need to update it
+      analyticsDbObject.analytics[metric_index] = process_fb_post_analytics(
+        analyticObj,
+        analyticsDbObject.analytics[metric_index]
+      );
+    }
+  }
+  analyticsDbObject.save();
 };
 
 fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
@@ -334,7 +543,143 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
 };
 
 module.exports = {
+  requestAllFacebookPostAnalytics: function(req, res) {
+    // request from FB api then store in our DB
+    User.findOne({ _id: req.user._id }, (err, foundUser) => {
+      if (!err && foundUser) {
+        if (foundUser.role === "admin") {
+          Post.find(
+            { socialType: "facebook", accountType: "page", status: "posted" },
+            (err, foundPosts) => {
+              if (!err && foundPosts) {
+                for (let i = 0; i < foundPosts.length; i++) {
+                  const post = foundPosts[i];
+                  if (post.socialMediaID) {
+                    if (
+                      post.analyticsID &&
+                      new moment(post.postingDate).add(28, "days") <
+                        new moment()
+                    ) {
+                      // post is over 4 weeks old and already has an analytics object so dont bother updating it
+                      // if it is over 4 weeks old and doesn't have an analytics object, we should request its analytics
+                      // just once to get its lifetime values
+                      continue;
+                    }
+                    // need to get the account's access token
+                    Account.findOne(
+                      { _id: post.accountID },
+                      (err, foundAccount) => {
+                        if (!err && foundAccount) {
+                          FB.setAccessToken(foundAccount.accessToken);
+                          FB.api(
+                            post.socialMediaID + fbPostRequest,
+                            "get",
+                            function(response) {
+                              if (post.analyticsID) {
+                                // post has an analytics object already so need to update it
+                                Analytics.findOne(
+                                  { _id: post.analyticsID },
+                                  (err, foundPostAnalytics) => {
+                                    if (err || !foundPostAnalytics) {
+                                      console.log(
+                                        "post " +
+                                          post._id +
+                                          " was unable to find its analytics object with id " +
+                                          post.analyticsID +
+                                          " and so is creating a new one."
+                                      );
+                                      const analyticsDbObject = new Analytics();
+                                      post.analyticsID = analyticsDbObject._id;
+                                      post.save();
+                                      analyticsDbObject.socialType = "facebook";
+                                      analyticsDbObject.analyticsType = "post";
+                                      analyticsDbObject.associatedID = post._id;
+                                      analyticsDbObject.accountName =
+                                        foundAccount.givenName;
+                                      analyticsDbObject.postingTimeInSeconds = Math.round(
+                                        new moment(post.postingDate).valueOf() /
+                                          1000
+                                      );
+                                      analyticsDbObject.analytics = [];
+                                      fill_and_save_fb_post_db_object(
+                                        analyticsDbObject,
+                                        response.data
+                                      );
+                                    } else {
+                                      fill_and_save_fb_post_db_object(
+                                        foundPostAnalytics,
+                                        response.data
+                                      );
+                                    }
+                                  }
+                                );
+                              } else {
+                                // post doesn't have analytics object yet so need to create one
+                                const analyticsDbObject = new Analytics();
+                                post.analyticsID = analyticsDbObject._id;
+                                post.save();
+                                analyticsDbObject.socialType = "facebook";
+                                analyticsDbObject.analyticsType = "post";
+                                analyticsDbObject.associatedID = post._id;
+                                analyticsDbObject.accountName =
+                                  foundAccount.givenName;
+                                analyticsDbObject.postingTimeInSeconds = Math.round(
+                                  new moment(post.postingDate).valueOf() / 1000
+                                );
+                                analyticsDbObject.analytics = [];
+                                fill_and_save_fb_post_db_object(
+                                  analyticsDbObject,
+                                  response.data
+                                );
+                              }
+                            }
+                          );
+                        } else {
+                          // err or !foundAccount
+                          console.log(err);
+                          console.log(
+                            "post with id " +
+                              post._id +
+                              " was unable to find its account with id " +
+                              post.accountID +
+                              " so could not fetch its accessToken and was unable to request its analytics."
+                          );
+                        }
+                      }
+                    );
+                  }
+                }
+                // for each post loop ends here
+                res.send({ success: true });
+              } else {
+                console.log(err);
+                console.log(
+                  "Post.find returned err or !foundPosts. err logged above."
+                );
+                res.send({ success: false, err });
+              }
+            }
+          );
+        } else {
+          console.log("User requesting all post analytics is not an admin.");
+          res.send({
+            success: false,
+            message: "Only admins can request all post analytics."
+          });
+        }
+      } else {
+        // User.findOne returned err or !foundUser
+        console.log(err);
+        console.log(
+          "User.findOne returned err or !foundUser. err logged above"
+        );
+        res.send({ success: false, err });
+      }
+    });
+  },
+
   getAllAccountAnalytics: function(req, res) {
+    // get from our DB
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
         if (foundUser.role !== "admin") {
@@ -403,8 +748,9 @@ module.exports = {
       }
     });
   },
-  getAllFacebookPageAnalytics: function(req, res) {
+  requestAllFacebookPageAnalytics: function(req, res) {
     /*
+    request from FB api
     for each account in DB that is a facebook page:
       request analytics:
         update analytics object or create a new one
@@ -441,11 +787,13 @@ module.exports = {
               socialIDs.push(account.socialID);
 
               FB.setAccessToken(account.accessToken);
-              FB.api(account.socialID + fbRequest, "get", function(response) {
+              FB.api(account.socialID + fbAccountRequest, "get", function(
+                response
+              ) {
                 /*FB.setAccessToken(
                 "EAATBO1uFsCMBADdZAfryWDFU2KXtKGKGyjZCl5xmZCZAEOaw4pZAZBiREnzpzHR237PiRWBYzj2lAxVhZBTme4u8luNc8iqRdNZAP4cTRJScQVWasse794PNbZCsGnD13yrVPMAdUq52FlZABJmBQEyFGvieCIlvInoum2ZA8Q7zhDdaEVX1lSZAZBurU"
               );
-              FB.api("507435342791094" + fbRequest, "get", function(
+              FB.api("507435342791094" + fbAccountRequest, "get", function(
                 response
               ) {*/
                 if (!response) {
@@ -530,200 +878,5 @@ module.exports = {
         res.send({ success: false, message: err });
       }
     });
-  },
-  getPageAnalytics: function(req, res) {
-    const { accountID } = req.params;
-    Account.findOne({ _id: accountID }, (err, account) => {
-      FB.setAccessToken(account.accessToken);
-      /*
-      507435342791094
-      page||post ID/insights?metric=<metric1,metric2,...>&period=<period>&date_preset=<date_preset>
-      period=<day / week / days_28 / month / lifetime>
-      date_preset=<today / yesterday / last_3d / last_7d / ...>
-      https://developers.facebook.com/docs/graph-api/reference/v3.1/insights
-      browser interpretter for testing:
-      https://developers.facebook.com/tools/explorer/
-      */
-      FB.api(account.socialID + fbRequest, "get", function(res) {
-        let testArray = res.data;
-        if (!testArray || res.error) {
-          console.log(res.error);
-          return;
-        }
-
-        let tempStr = "";
-
-        for (let index = 0; index < testArray.length; index++) {
-          let returnObj = testArray[index];
-          if (returnObj.period === "day") {
-            // handle the day metrics
-            tempStr += JSON.stringify(returnObj) + "\n";
-          } else if (returnObj.period === "lifetime") {
-            // handle the lifetime metric (currently only page_fans)
-            tempStr += JSON.stringify(returnObj) + "\n";
-          }
-        }
-        /*
-          let dayCount, weekCount, days28Count, noCount, lifetimeCount;
-          dayCount = weekCount = days28Count = noCount = lifetimeCount = 0;
-
-          for (let index = 0; index < testArray.length; index++) {
-            let testObject = testArray[index];
-            if (testObject.period === "day") {
-              dayCount++;
-            } else if (testObject.period === "week") {
-              weekCount++;
-            } else if (testObject.period === "days_28") {
-              days28Count++;
-            } else if (testObject.period === "lifetime") {
-              lifetimeCount++;
-            } else {
-              noCount++;
-              console.log(testObject);
-            }
-          }
-          console.log(
-            "day:" +
-              dayCount +
-              "\nweek:" +
-              weekCount +
-              "\ndays_28:" +
-              days28Count +
-              "\nlifetime:" +
-              lifetimeCount +
-              "\nnone:" +
-              noCount
-          );
-          */
-      });
-    });
-    res.send({ success: true });
-  },
-  getPostAnalytics: function(req, res) {
-    const { postID } = req.params;
-    Post.findOne({ _id: postID }, (err, post) => {
-      Account.findOne({ _id: post.accountID }, (err, account) => {
-        let since = new moment("2018-08-01T00:00:00+0000").valueOf() / 1000;
-        let until = new moment("2018-08-31T23:59:59+0000").valueOf() / 1000;
-        FB.setAccessToken(account.accessToken);
-        FB.api(
-          post.socialMediaID +
-            "/insights?metric=post_activity" +
-            ",post_activity_unique" +
-            ",post_activity_by_action_type" +
-            ",post_activity_by_action_type_unique" +
-            ",post_video_complete_views_30s_autoplayed" +
-            ",post_video_complete_views_30s_clicked_to_play" +
-            ",post_video_complete_views_30s_organic" +
-            ",post_video_complete_views_30s_paid" +
-            ",post_video_complete_views_30s_unique" +
-            ",post_impressions" +
-            ",post_impressions_unique" +
-            ",post_impressions_paid" +
-            ",post_impressions_paid_unique" +
-            ",post_impressions_fan" +
-            ",post_impressions_fan_unique" +
-            ",post_impressions_fan_paid" +
-            ",post_impressions_fan_paid_unique" +
-            ",post_impressions_organic" +
-            ",post_impressions_organic_unique" +
-            ",post_impressions_viral" +
-            ",post_impressions_viral_unique" +
-            ",post_impressions_nonviral" +
-            ",post_impressions_nonviral_unique" +
-            ",post_impressions_by_story_type" +
-            ",post_impressions_by_story_type_unique" +
-            ",post_engaged_users" +
-            ",post_negative_feedback" +
-            ",post_negative_feedback_unique" +
-            ",post_negative_feedback_by_type" +
-            ",post_negative_feedback_by_type_unique" +
-            ",post_engaged_fan" +
-            ",post_clicks" +
-            ",post_clicks_unique" +
-            ",post_clicks_by_type" +
-            ",post_clicks_by_type_unique" +
-            ",post_reactions_like_total" +
-            ",post_reactions_love_total" +
-            ",post_reactions_wow_total" +
-            ",post_reactions_haha_total" +
-            ",post_reactions_sorry_total" +
-            ",post_reactions_anger_total" +
-            ",post_reactions_by_type_total" +
-            ",post_video_avg_time_watched" +
-            ",post_video_complete_views_organic" +
-            ",post_video_complete_views_organic_unique" +
-            ",post_video_complete_views_paid" +
-            ",post_video_complete_views_paid_unique" +
-            ",post_video_retention_graph" +
-            ",post_video_retention_graph_clicked_to_play" +
-            ",post_video_retention_graph_autoplayed" +
-            ",post_video_views_organic" +
-            ",post_video_views_organic_unique" +
-            ",post_video_views_paid" +
-            ",post_video_views_paid_unique" +
-            ",post_video_length" +
-            ",post_video_views" +
-            ",post_video_views_unique" +
-            ",post_video_views_autoplayed" +
-            ",post_video_views_clicked_to_play" +
-            ",post_video_views_10s" +
-            ",post_video_views_10s_unique" +
-            ",post_video_views_10s_autoplayed" +
-            ",post_video_views_10s_clicked_to_play" +
-            ",post_video_views_10s_organic" +
-            ",post_video_views_10s_paid" +
-            ",post_video_views_10s_sound_on" +
-            ",post_video_views_sound_on" +
-            ",post_video_view_time" +
-            ",post_video_view_time_organic" +
-            ",post_video_view_time_by_age_bucket_and_gender" +
-            ",post_video_view_time_by_region_id" +
-            ",post_video_views_by_distribution_type" +
-            ",post_video_view_time_by_distribution_type" +
-            ",post_video_view_time_by_country_id&since=" +
-            since +
-            "&until=" +
-            until,
-          "get",
-          function(res) {
-            if (res.error || !res.data) {
-              console.log("Facebook post analytic error");
-              console.log(res);
-              return;
-            }
-            let valuesArray = res.data;
-
-            let dayCount, weekCount, days28Count, noCount;
-            dayCount = weekCount = days28Count = noCount = 0;
-
-            for (let index = 0; index < valuesArray.length; index++) {
-              let testObject = valuesArray[index];
-              if (testObject.period === "day") {
-                dayCount++;
-              } else if (testObject.period === "week") {
-                weekCount++;
-              } else if (testObject.period === "days_28") {
-                days28Count++;
-              } else {
-                noCount++;
-                console.log(testObject);
-              }
-            }
-            console.log(
-              "day:" +
-                dayCount +
-                "\nweek:" +
-                weekCount +
-                "\ndays_28:" +
-                days28Count +
-                "\nnone:" +
-                noCount
-            );
-          }
-        );
-      });
-    });
-    res.send({ success: true });
   }
 };
