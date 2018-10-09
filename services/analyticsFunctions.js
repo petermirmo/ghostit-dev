@@ -748,6 +748,29 @@ module.exports = {
       }
     });
   },
+  getAllPostAnalytics: function(req, res) {
+    User.findOne({ _id: req.user._id }, (err, foundUser) => {
+      if (!err && foundUser) {
+        if (foundUser.role !== "admin") {
+          res.send({ success: false, message: "User is not admin." });
+        } else {
+          Analytics.find({ analyticsType: "post" }, (err, foundAnalytics) => {
+            if (!err && foundAnalytics) {
+              res.send({ success: true, analyticsObjects: foundAnalytics });
+            } else {
+              res.send({
+                success: false,
+                err,
+                message: "Unable to find post analytics objects."
+              });
+            }
+          });
+        }
+      } else {
+        res.send({ success: false, message: "Unable to find user.", err });
+      }
+    });
+  },
   requestAllFacebookPageAnalytics: function(req, res) {
     /*
     request from FB api

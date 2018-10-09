@@ -370,4 +370,8 @@ module.exports = app => {
   app.get("/api/ai/analytics/accounts", middleware, (req, res) => {
     analyticsFunctions.getAllAccountAnalytics(req, res);
   });
+
+  app.get("/api/ai/analytics/posts", middleware, (req, res) => {
+    analyticsFunctions.getAllPostAnalytics(req, res);
+  });
 };

@@ -31,6 +31,13 @@ class Analytics extends Component {
     });
   };
 
+  getPostAnalytics = () => {
+    axios.get("/api/ai/analytics/posts").then(res => {
+      const { analyticsObjects } = res.data;
+      console.log(res.data);
+    });
+  };
+
   requestAllFacebookPageAnalytics = () => {
     axios.get("/api/facebook/page/analytics/all").then(res => {
       const { success } = res.data;
@@ -232,6 +239,9 @@ class Analytics extends Component {
               className="here"
             >
               Request FB Post Analytics
+            </div>
+            <div onClick={() => this.getPostAnalytics()} className="here">
+              Console log FB Post Analytics
             </div>
           </div>
         )}
