@@ -21,6 +21,7 @@ const analyticsSchema = new Schema(
       unique: true
     },
     accountName: String,
+    postingTimeInSeconds: Number, // post-only variable unix epoch in seconds and UTC
     analytics: [
       // each element represents a different analytics metric
       {
@@ -30,7 +31,20 @@ const analyticsSchema = new Schema(
         },
         title: String,
         description: String,
+        lifetimeValues: [
+          // this is how post analytics are stored
+          {
+            timeInSeconds: Number, // time of analytics being returned in unix epoch seconds UTC
+            value: [
+              {
+                key: String,
+                value: Number
+              }
+            ]
+          }
+        ],
         monthlyValues: [
+          // this is how account analytics are stored
           // each element represents a different month/year
           {
             month: Number,

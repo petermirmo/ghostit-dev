@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import axios from "axios";
 
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
+import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -17,9 +21,10 @@ class Analytics extends Component {
   }
 
   componentDidMount() {
-    this.getAnalytics();
+    this.getAccountAnalytics();
   }
 
+<<<<<<< HEAD
   getAnalytics = () => {
     if (this.props.user.role === "admin") {
       axios.get("/api/analytics/test").then(res => {
@@ -29,31 +34,45 @@ class Analytics extends Component {
     } else {
       return;
     }
+=======
+  getAccountAnalytics = () => {
+    axios.get("/api/ai/analytics/accounts").then(res => {
+      const { analyticsObjects } = res.data;
+      this.setState({ analyticsObjects });
+    });
+>>>>>>> 0b51dc468c8b589363c92dbd7c9fb20f03c814d9
   };
 
-  getPageAnalytics = account => {
-    axios.get("/api/facebook/page/analytics/" + account._id).then(res => {
+  getPostAnalytics = () => {
+    axios.get("/api/ai/analytics/posts").then(res => {
+      const { analyticsObjects } = res.data;
       console.log(res.data);
     });
   };
 
-  getAllFacebookPageAnalytics = () => {
+  requestAllFacebookPageAnalytics = () => {
     axios.get("/api/facebook/page/analytics/all").then(res => {
       const { success } = res.data;
       if (!success) {
         alert(res.data.message);
         return;
       } else {
-        this.getAnalytics();
+        this.getAccountAnalytics();
       }
     });
   };
 
-  getPostAnalytics = post => {
-    axios.get("/api/facebook/post/analytics/" + post._id).then(res => {
-      console.log(res.data);
+  requestAllFacebookPostAnalytics = () => {
+    axios.get("/api/facebook/post/analytics/all").then(res => {
+      const { success } = res.data;
+      if (!success) {
+        if (res.data.message) alert(res.data.message);
+        return;
+      } else {
+      }
     });
   };
+
   getPosts = () => {
     let facebookPosts = [];
     axios.get("/api/posts").then(res => {
@@ -79,7 +98,7 @@ class Analytics extends Component {
         <div className="metric-container" key={i + "metricObj"}>
           <h2>{metric.title}</h2>
           <div
-            className="show-metric-toggle"
+            className="show-metric-toggle button"
             onClick={() => {
               this.setState(prevState => {
                 return {
@@ -103,8 +122,10 @@ class Analytics extends Component {
           </div>
           {showMetricsArray[i] && (
             <div className="metric-graph-container">
-              <div
-                className="left-arrow"
+              <FontAwesomeIcon
+                icon={faAngleLeft}
+                size="1x"
+                className="left-arrow button common-transition"
                 onClick={() => {
                   this.setState(prevState => {
                     return {
@@ -118,14 +139,16 @@ class Analytics extends Component {
                     };
                   });
                 }}
-              >
-                left
-              </div>
-              {metric.monthlyValues[activeMonthIndexArray[i]].month +
+              />
+              {" " +
+                metric.monthlyValues[activeMonthIndexArray[i]].month +
                 "-" +
-                metric.monthlyValues[activeMonthIndexArray[i]].year}
-              <div
-                className="right-arrow"
+                metric.monthlyValues[activeMonthIndexArray[i]].year +
+                " "}
+              <FontAwesomeIcon
+                icon={faAngleRight}
+                size="1x"
+                className="right-arrow button common-transition"
                 onClick={() => {
                   this.setState(prevState => {
                     return {
@@ -140,9 +163,7 @@ class Analytics extends Component {
                     };
                   });
                 }}
-              >
-                right
-              </div>
+              />
               {this.monthToGraph(
                 metric.monthlyValues[activeMonthIndexArray[i]]
               )}
@@ -211,15 +232,28 @@ class Analytics extends Component {
     let { accounts } = this.props;
     let { facebookPosts, analyticsObjects, activeAnalyticsIndex } = this.state;
 
+    if (this.props.user.role !== "admin") {
+      return <div>Under Construction</div>;
+    }
+
     return (
       <div className="wrapper" style={this.props.margin}>
         {this.props.user.role === "admin" && (
           <div className="test-container">
             <div
-              onClick={() => this.getAllFacebookPageAnalytics()}
+              onClick={() => this.requestAllFacebookPageAnalytics()}
               className="here"
             >
-              Get All FB Pages
+              Request FB Page Analytics
+            </div>
+            <div
+              onClick={() => this.requestAllFacebookPostAnalytics()}
+              className="here"
+            >
+              Request FB Post Analytics
+            </div>
+            <div onClick={() => this.getPostAnalytics()} className="here">
+              Console log FB Post Analytics
             </div>
           </div>
         )}
