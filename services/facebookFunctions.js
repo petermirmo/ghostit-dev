@@ -201,6 +201,7 @@ module.exports = {
       name: "My Campaign"
     };
     campaign = new AdAccount(ad_account_id).createCampaign(fields, params);
+
     campaign
       .then(result => {
         logApiCallResult("campaign api call complete.", result);
