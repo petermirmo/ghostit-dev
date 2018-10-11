@@ -165,8 +165,8 @@ class Calendar extends Component {
 
       // Checks to make sure that the campaign is within this month
       if (
-        new moment(calendarEvent.endDate) > calendarStartDate ||
-        new moment(calendarEvent.startDate) < calendarEndDate
+        new moment(calendarEvent.endDate).isSame(calendarStartDate, "month") ||
+        new moment(calendarEvent.startDate).isSame(calendarEndDate, "month")
       ) {
         let dateIndexOfEvent = new moment(calendarEvent.startDate);
 
@@ -191,13 +191,14 @@ class Calendar extends Component {
               Math.abs(calendarStartDate.diff(dateIndexOfEvent, "days")) + 1
             ];
 
-          let campaignClassName = "campaign";
+          let campaignClassName = "campaign button";
 
           // If first loop of while loop
           if (firstLoop) {
             calendarEvent.row = currentCalendarDayOfEvents.length;
             campaignClassName += " first-index-campaign";
           }
+
           // If last index of campaign
           if (
             dateIndexOfEvent.diff(new moment(calendarEvent.endDate), "days") ===
@@ -272,7 +273,7 @@ class Calendar extends Component {
             if (!currentCalendarDayOfEvents[i]) {
               currentCalendarDayOfEvents[i] = (
                 <div
-                  className="campaign"
+                  className="campaign button"
                   style={{ backgroundColor: "transparent" }}
                   key={index + i + "day2"}
                 />
@@ -315,12 +316,12 @@ class Calendar extends Component {
     if (needsCampaignCover) {
       return (
         <div
-          className="campaign"
+          className="campaign button"
           style={{ backgroundColor: "transparent" }}
           key={index + "post3"}
         >
           <div
-            className="calendar-post"
+            className="calendar-post common-transition button"
             style={{ backgroundColor: color }}
             onClick={event => {
               event.stopPropagation();
@@ -335,7 +336,7 @@ class Calendar extends Component {
     } else {
       return (
         <div
-          className="calendar-post"
+          className="calendar-post common-transition button"
           key={index + "post3"}
           style={{ backgroundColor: color }}
           onClick={event => {
@@ -451,10 +452,18 @@ class Calendar extends Component {
           }
         } else quePostsToDisplay.push(calendarEvents[index]);
       }
-      quePostsToDisplay.sort(compareCampaignPosts);
+      quePostsToDisplay.sort(compareCampaignPostsReverse);
       let queuePostDivs = [];
       for (let index in quePostsToDisplay) {
         let quePostToDisplay = quePostsToDisplay[index];
+
+        if (
+          !new moment(quePostToDisplay.postingDate).isSame(
+            new moment(calendarDate),
+            "month"
+          )
+        )
+          continue;
 
         queuePostDivs.push(
           this.createQueuePostDiv(quePostToDisplay, index + "post")
@@ -495,15 +504,21 @@ class Calendar extends Component {
     );
   }
 }
+
 function compareCampaigns(a, b) {
   if (a.startDate < b.startDate) return -1;
-  if (a.startDate > b.startDate) return 1;
-  return 0;
+  else if (a.startDate > b.startDate) return 1;
+  else return 0;
 }
 function compareCampaignPosts(a, b) {
   if (a.postingDate < b.postingDate) return -1;
-  if (a.postingDate > b.postingDate) return 1;
-  return 0;
+  else if (a.postingDate > b.postingDate) return 1;
+  else return 0;
+}
+function compareCampaignPostsReverse(a, b) {
+  if (a.postingDate < b.postingDate) return 1;
+  else if (a.postingDate > b.postingDate) return -1;
+  else return 0;
 }
 
 function mapStateToProps(state) {

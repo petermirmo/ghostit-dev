@@ -25,7 +25,8 @@ class CustomTask extends Component {
       socialType: props.socialType,
       instructions: "",
       name: "Custom Task",
-      sendEmailReminder: true
+      sendEmailReminder: true,
+      color: "var(--orange-theme-color)"
     };
     if (props.post) {
       stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -177,7 +178,10 @@ class CustomTask extends Component {
     const { postFinishedSavingCallback, setSaving, canEditPost } = this.props;
 
     return (
-      <div className="posting-container" style={{ width: "100%" }}>
+      <div
+        className="posting-container light-scrollbar"
+        style={{ width: "100%" }}
+      >
         <input
           onChange={event => this.handleChange(event.target.value, "name")}
           value={name}
@@ -186,6 +190,7 @@ class CustomTask extends Component {
           readOnly={!canEditPost}
         />
         <Textarea
+          style={{ minHeight: "30vh" }}
           className="instruction-textarea"
           placeholder="Describe this task!"
           onChange={event =>

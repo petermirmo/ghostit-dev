@@ -34,6 +34,16 @@ class Login extends Component {
         type: "danger"
       }
     };
+
+    window.onkeyup = e => {
+      let key = e.keyCode ? e.keyCode : e.which;
+
+      if (key == 13) {
+        const { login } = this.state;
+        if (login === "login") this.login(e);
+        else if (login === "register") this.register(e);
+      }
+    };
   }
 
   handleChange = (index, value) => {
@@ -103,6 +113,7 @@ class Login extends Component {
           const { success, user, message } = res.data;
 
           this.props.updateAccounts([]);
+          this.props.setUser(user);
 
           if (success && user) this.activateDemoUserLogin();
           else {
@@ -250,13 +261,14 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input pa8 mb8 round4 password"
+                  className="login-input pa8 mb8 round4"
                   value={password}
                   onChange={event =>
                     this.handleChange("password", event.target.value)
                   }
                   name="password"
                   placeholder="Password"
+                  type="password"
                   required
                 />
 

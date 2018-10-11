@@ -9,6 +9,7 @@
   background-color: var(--white-theme-color);
   border-color: transparent;
   width: 100%;
+  resize: none;
 }
 .user-row {
   display: flex;

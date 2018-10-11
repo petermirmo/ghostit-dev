@@ -1,5 +1,8 @@
 module.exports = {
-  handleError: (res, err) => {
+  handleError: (res, err, object) => {
+    if (object) {
+      console.log(object);
+    }
     console.log(err);
     res.send({ success: false, message: err });
     return false;

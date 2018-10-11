@@ -15,3 +15,12 @@
 .tutorial-message {
   font-size: var(--sixteen-font-size);
 }
+
+@keyframes upDown {
+  0% {
+    transform: translateY(8px);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}

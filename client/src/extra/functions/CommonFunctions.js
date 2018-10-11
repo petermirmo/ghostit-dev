@@ -173,6 +173,8 @@ export function getPostColor(socialType) {
     return "#e74c3c";
   } else if (socialType === "newsletter") {
     return "#fd651c";
+  } else if (socialType === "custom") {
+    return "var(--eight-primary-color)";
   } else {
     return "var(--five-primary-color)";
   }

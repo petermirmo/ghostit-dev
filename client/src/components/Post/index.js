@@ -22,6 +22,9 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 import "./styles";
 
 class PostingOptions extends Component {
+  state = {
+    showInstructions: true
+  };
   constructor(props) {
     super(props);
 
@@ -70,8 +73,7 @@ class PostingOptions extends Component {
       content: "",
       instructions: "",
       name: "",
-      promptModifyCampaignDates: false,
-      showInstructions: false
+      promptModifyCampaignDates: false
     };
     if (props.post) {
       const returnObj = this.getDefaultAccount(props);
@@ -121,7 +123,7 @@ class PostingOptions extends Component {
         )
           continue;
         if (account.socialType === socialType) {
-          return { id: account._id, type: account.accountType };
+          return { id: account.socialID, type: account.accountType };
         }
       }
     }
@@ -251,7 +253,7 @@ class PostingOptions extends Component {
       );
     } else {
       activePageAccountsArray = this.createActiveAccounts(
-        "_id",
+        "socialID",
         accountID,
         accounts
       );
@@ -268,7 +270,7 @@ class PostingOptions extends Component {
     }
 
     return (
-      <div className="post-instruction-container">
+      <div className="post-instruction-container light-scrollbar">
         <div
           className="posting-container"
           style={{ width: showInstructions ? "60%" : "100%" }}
@@ -313,7 +315,7 @@ class PostingOptions extends Component {
                 activePageAccountsArray={activePageAccountsArray}
                 activeAccount={accountID}
                 handleChange={account => {
-                  this.handleChange(account._id, "accountID");
+                  this.handleChange(account.socialID, "accountID");
                   this.handleChange(account.accountType, "accountType");
                 }}
                 canEdit={canEditPost}

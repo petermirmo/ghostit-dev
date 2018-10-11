@@ -42,7 +42,7 @@ const EmailScheduler = require("./scheduler/EmailScheduler");
 const schedule = require("node-schedule");
 
 if (process.env.NODE_ENV === "production") {
-  schedule.scheduleJob("*/2 * * * *", function() {
+  schedule.scheduleJob("* * * * *", function() {
     PostScheduler.main();
   });
 
@@ -59,7 +59,10 @@ schedule.scheduleJob("* * * * *", function() {
 // Connect to database
 mongoose.connect(
   keys.mongoDevelopentURI,
-  { useNewUrlParser: true }
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true
+  }
 );
 var db = mongoose.connection;
 

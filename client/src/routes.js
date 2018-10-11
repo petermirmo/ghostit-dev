@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -27,6 +28,7 @@ import Profile from "./pages/ProfilePage/";
 import MySubscription from "./pages/MySubscriptionPage/";
 import Analytics from "./pages/AnalyticsPage/";
 import WritersBrief from "./pages/WritersBriefPage/";
+import Ads from "./pages/AdsPage/";
 
 import "./css/";
 
@@ -44,6 +46,7 @@ class Routes extends Component {
         axios.get("/api/accounts").then(res => {
           // Set user's accounts to state
           let { accounts } = res.data;
+
           if (!accounts) accounts = [];
           props.updateAccounts(accounts);
           props.setUser(user);
@@ -111,8 +114,7 @@ class Routes extends Component {
         for (let index in temp) {
           if (temp[index] != nextProps.tutorial[index]) somethingChanged = true;
         }
-        console.log(temp);
-        console.log(accounts);
+
         if (somethingChanged) nextProps.setTutorial(temp);
       }
     }
@@ -142,11 +144,12 @@ class Routes extends Component {
     else if (activePage === "manage") return <Manage />;
     else if (activePage === "profile") return <Profile />;
     else if (activePage === "subscription") return <MySubscription />;
+    else if (activePage === "ads") return <Ads />;
     else return <Content />;
   };
   render() {
     const { datebaseConnection } = this.state;
-    const { activePage, user, getKeyListenerFunction } = this.props;
+    const { activePage, user, getKeyListenerFunction, changePage } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
@@ -159,7 +162,26 @@ class Routes extends Component {
     return (
       <div className="flex">
         {user && <Header />}
+
         <div className="wrapper">
+          {user &&
+            user.role === "demo" &&
+            false && (
+              <div className="trial-days-left flex hc vc pa4">
+                {7 - new moment().diff(new moment(user.dateCreated), "days") > 0
+                  ? 7 - new moment().diff(new moment(user.dateCreated), "days")
+                  : 0}{" "}
+                days left in trial
+                {activePage !== "subscribe" && (
+                  <div
+                    className="sign-up-now button pl4"
+                    onClick={() => changePage("subscribe")}
+                  >
+                    Pay Now
+                  </div>
+                )}
+              </div>
+            )}
           {user &&
             ((activePage === "content" ||
               activePage === "strategy" ||

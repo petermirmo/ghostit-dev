@@ -140,21 +140,29 @@ module.exports = function(passport) {
             userID = req.user.signedInAsUser.id;
           }
         }
+        Account.findOne({ userID, socialID: profile.id }, (err, account) => {
+          if (!account) {
+            let newAccount = new Account();
+            newAccount.userID = userID;
+            newAccount.socialType = "facebook";
+            newAccount.accountType = "profile";
+            newAccount.accessToken = accessToken;
+            newAccount.socialID = profile.id;
+            newAccount.givenName = profile._json.first_name;
+            newAccount.familyName = profile._json.last_name;
+            newAccount.email = profile._json.email;
+            newAccount.provider = profile.provider;
+            newAccount.lastRenewed = new Date().getTime();
 
-        var newAccount = new Account();
-        newAccount.userID = userID;
-        newAccount.socialType = "facebook";
-        newAccount.accountType = "profile";
-        newAccount.accessToken = accessToken;
-        newAccount.socialID = profile.id;
-        newAccount.givenName = profile._json.first_name;
-        newAccount.familyName = profile._json.last_name;
-        newAccount.email = profile._json.email;
-        newAccount.provider = profile.provider;
-        newAccount.lastRenewed = new Date().getTime();
-
-        newAccount.save().then(account => {
-          done(null, req.session.passport.user);
+            newAccount.save().then(account => {
+              done(null, req.session.passport.user);
+            });
+          } else if (account) {
+            account.accessToken = accessToken;
+            account.save((err, result) => {
+              return done(null, req.session.passport.user);
+            });
+          } else return done(null, req.session.passport.user);
         });
       }
     )
@@ -171,44 +179,53 @@ module.exports = function(passport) {
       },
       function(req, token, tokenSecret, profile, done) {
         // Account does not exist
-        var user = req.user; // pull the user out of the session
+        let user = req.user; // pull the user out of the session
         let userID = req.user._id;
         if (req.user.signedInAsUser) {
           if (req.user.signedInAsUser.id) {
             userID = req.user.signedInAsUser.id;
           }
         }
-        var newAccount = new Account();
+        Account.findOne({ userID, socialID: profile.id }, (err, account) => {
+          if (!account) {
+            let newAccount = new Account();
 
-        // Split displayName into first name and last name
-        var givenName;
-        var familyName;
-        for (var index in profile.displayName) {
-          if (profile.displayName[index] === " ") {
-            givenName = profile.displayName.slice(0, index);
-            familyName = profile.displayName.slice(
-              index,
-              profile.displayName.length
-            );
-          }
-        }
+            // Split displayName into first name and last name
+            let givenName;
+            let familyName;
+            for (let index in profile.displayName) {
+              if (profile.displayName[index] === " ") {
+                givenName = profile.displayName.slice(0, index);
+                familyName = profile.displayName.slice(
+                  index,
+                  profile.displayName.length
+                );
+              }
+            }
 
-        newAccount.userID = userID;
-        newAccount.socialType = "twitter";
-        newAccount.accountType = "profile";
-        newAccount.accessToken = token;
-        newAccount.tokenSecret = tokenSecret;
-        newAccount.socialID = profile.id;
-        newAccount.username = profile.username;
-        newAccount.givenName = givenName;
-        newAccount.familyName = familyName;
-        newAccount.email = profile.email;
-        newAccount.lastRenewed = new Date().getTime();
+            newAccount.userID = userID;
+            newAccount.socialType = "twitter";
+            newAccount.accountType = "profile";
+            newAccount.accessToken = token;
+            newAccount.tokenSecret = tokenSecret;
+            newAccount.socialID = profile.id;
+            newAccount.username = profile.username;
+            newAccount.givenName = givenName;
+            newAccount.familyName = familyName;
+            newAccount.email = profile.email;
+            newAccount.lastRenewed = new Date().getTime();
 
-        newAccount.save(function(err) {
-          if (err) return done(err);
-
-          return done(null, user);
+            newAccount.save(function(err) {
+              if (err) return done(err);
+              return done(null, user);
+            });
+          } else if (account) {
+            account.accessToken = token;
+            account.tokenSecret = tokenSecret;
+            account.save((err, result) => {
+              return done(null, req.session.passport.user);
+            });
+          } else return done(null, req.session.passport.user);
         });
       }
     )

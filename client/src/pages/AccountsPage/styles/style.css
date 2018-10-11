@@ -25,15 +25,13 @@
 }
 
 .connected-social-div {
-  display: grid;
-  grid-template-columns: 3fr 12fr 1fr;
-
   width: 80%;
 }
 .connected-social-media-icon {
   color: var(--primary-text-theme-color);
 }
 .connected-social {
+  flex: 1;
   color: var(--primary-text-theme-color);
 
   height: 100%;
