@@ -11,7 +11,21 @@ import { bindActionCreators } from "redux";
 
 import AmCharts from "@amcharts/amcharts3-react";
 
+import LineChart from "../../components/LineChart/";
+
 import "./styles/";
+
+var opt = {
+  data: [
+    [97, 92, 89, 30, 72],
+    [43, 62, 84, 98, 3],
+    [23, 88, 52, 14, 4],
+    [76, 9, 1, 67, 84]
+  ],
+  colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
+  labels: ["Cats", "Dogs", "Ducks", "Cows"],
+  axis: ["October", "November", "December", "January", "February", "Marsh"]
+};
 
 class Analytics extends Component {
   constructor(props) {
@@ -24,23 +38,11 @@ class Analytics extends Component {
     this.getAccountAnalytics();
   }
 
-<<<<<<< HEAD
-  getAnalytics = () => {
-    if (this.props.user.role === "admin") {
-      axios.get("/api/analytics/test").then(res => {
-        const { analyticsObjects } = res.data;
-        this.setState({ analyticsObjects });
-      });
-    } else {
-      return;
-    }
-=======
   getAccountAnalytics = () => {
     axios.get("/api/ai/analytics/accounts").then(res => {
       const { analyticsObjects } = res.data;
       this.setState({ analyticsObjects });
     });
->>>>>>> 0b51dc468c8b589363c92dbd7c9fb20f03c814d9
   };
 
   getPostAnalytics = () => {
@@ -238,26 +240,28 @@ class Analytics extends Component {
 
     return (
       <div className="wrapper" style={this.props.margin}>
-        {this.props.user.role === "admin" && (
-          <div className="test-container">
-            <div
-              onClick={() => this.requestAllFacebookPageAnalytics()}
-              className="here"
-            >
-              Request FB Page Analytics
-            </div>
-            <div
-              onClick={() => this.requestAllFacebookPostAnalytics()}
-              className="here"
-            >
-              Request FB Post Analytics
-            </div>
-            <div onClick={() => this.getPostAnalytics()} className="here">
-              Console log FB Post Analytics
-            </div>
-          </div>
-        )}
         {this.props.user.role === "admin" &&
+          false && (
+            <div className="test-container">
+              <div
+                onClick={() => this.requestAllFacebookPageAnalytics()}
+                className="here"
+              >
+                Request FB Page Analytics
+              </div>
+              <div
+                onClick={() => this.requestAllFacebookPostAnalytics()}
+                className="here"
+              >
+                Request FB Post Analytics
+              </div>
+              <div onClick={() => this.getPostAnalytics()} className="here">
+                Console log FB Post Analytics
+              </div>
+            </div>
+          )}
+        {this.props.user.role === "admin" &&
+          false &&
           analyticsObjects && (
             <div className="test-container">
               {analyticsObjects.map((obj, index) => {
@@ -279,11 +283,26 @@ class Analytics extends Component {
               })}
             </div>
           )}
-        {activeAnalyticsIndex !== undefined && (
-          <div className="analytics-display">
-            {this.displayFBAnalyticsObj(analyticsObjects[activeAnalyticsIndex])}
-          </div>
-        )}
+        {activeAnalyticsIndex !== undefined &&
+          false && (
+            <div className="analytics-display">
+              {this.displayFBAnalyticsObj(
+                analyticsObjects[activeAnalyticsIndex]
+              )}
+            </div>
+          )}
+        <LineChart {...opt} area={true} />
+        <LineChart {...opt} dots={true} lines={true} />
+        <LineChart
+          {...opt}
+          width={600}
+          height={50}
+          stroke={2}
+          radius={6}
+          dots={true}
+          grid={false}
+          hideLabels={true}
+        />
       </div>
     );
   }
