@@ -412,7 +412,6 @@ class CampaignModal extends Component {
       pendingPostType,
       posts,
       campaign,
-      clickedCalendarDate,
       listOfPostChanges,
       nextChosenPostIndex
     } = this.state;
@@ -423,7 +422,13 @@ class CampaignModal extends Component {
         listOfPostChanges: {},
         promptChangeActivePost: false,
         pendingPostType: undefined,
-        ...newPost(pendingPostType, posts, campaign, clickedCalendarDate, {})
+        ...newPost(
+          pendingPostType,
+          posts,
+          campaign,
+          this.props.clickedCalendarDate,
+          {}
+        )
       });
     } else {
       this.setState({
