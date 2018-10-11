@@ -11,7 +11,7 @@ class XAxis extends Component {
 
     return (
       <g>
-        {lines.map((l, li) => {
+        {lines.map((l, lineIndex) => {
           var y = ~~(l * segment + padding) + 0.5;
           return (
             <g key={y}>
@@ -30,7 +30,7 @@ class XAxis extends Component {
                 y={y + 2}
                 textAnchor="end"
               >
-                {maxValue * (3 - li)}
+                {maxValue * (3 - lineIndex)}
               </text>
             </g>
           );

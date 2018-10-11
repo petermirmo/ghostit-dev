@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import "./styles/";
+
 class Curve extends Component {
   render() {
     var {
@@ -35,9 +36,7 @@ class Curve extends Component {
     );
     path = "M" + path.join(" ");
 
-    if (lines !== true) {
-      path = parsePath(path, height).join(" ");
-    }
+    if (lines !== true) path = parsePath(path, height).join(" ");
 
     if (area === true) {
       areaPath = path.replace("M", "L");
@@ -47,9 +46,8 @@ class Curve extends Component {
 
     return (
       <g style={style}>
-        {area === true ? (
-          <path d={areaPath} fill={color} fillOpacity=".05" />
-        ) : null}
+        {area && <path d={areaPath} fill={color} fillOpacity=".05" />}
+
         <path d={path} fill="none" stroke={color} strokeWidth={stroke} />
       </g>
     );

@@ -37,7 +37,7 @@ class LineChart extends Component {
       tooltip: true,
       value: point[2],
       dataSet: dataSetIndex,
-      index: index,
+      index,
       x: point[0],
       y: point[1],
       color: point[3]
@@ -65,27 +65,26 @@ class LineChart extends Component {
       radius = radius || 3;
 
     // Calculate the maxValue
-    dataSet = data.forEach(pts => {
-      var max = Math.max.apply(null, pts);
-      maxValue = max > maxValue ? max : maxValue;
+    data.forEach(points => {
+      // Max value of points array
+      let max = Math.max.apply(null, points);
+      // Max value of all the points arrays
+      if (max > maxValue) maxValue = max;
     });
 
     // Y ratio
-    if (maxValue === 0) {
-      heightRatio = 1;
-    } else {
-      heightRatio = height / maxValue;
-    }
+    if (maxValue === 0) heightRatio = 1;
+    else heightRatio = height / maxValue;
 
     // Calculate the coordinates
-    dataSet = data.map((pts, di) =>
-      pts.map((pt, pi) => [
-        ~~((width / size) * pi + padding) + 0.5, // x
-        ~~(heightRatio * (maxValue - pt) + padding) + 0.5, // y
-        pt, // value
-        colors[di % colors.length] // color
-      ])
-    );
+    dataSet = data.map((points, dataIndex) => {
+      return points.map((point, pointIndex) => [
+        ~~((width / size) * pointIndex + padding) + 0.5, // x
+        ~~(heightRatio * (maxValue - point) + padding) + 0.5, // y
+        point, // value
+        colors[dataIndex % colors.length] // color
+      ]);
+    });
 
     return (
       <span className="LineChart" style={{ width: width + 2 * padding }}>
@@ -97,7 +96,7 @@ class LineChart extends Component {
             "0 0 " + (width + 2 * padding) + " " + (height + 2 * padding)
           }
         >
-          {grid ? (
+          {grid && (
             <g>
               <XAxis
                 maxValue={maxValue}
@@ -112,39 +111,41 @@ class LineChart extends Component {
                 height={height}
               />
             </g>
-          ) : null}
+          )}
 
-          {dataSet.map((p, pi) => (
-            <g key={pi}>
-              <Curve
-                points={p}
-                dataSetIndex={pi}
-                lines={lines}
-                area={area}
-                width={width}
-                height={height}
-                padding={padding}
-                color={colors[pi % colors.length]}
-                updating={this.state.updating}
-                stroke={stroke}
-              />
+          {dataSet.map((points, dataIndex) => {
+            return (
+              <g key={dataIndex}>
+                <Curve
+                  points={points}
+                  dataSetIndex={dataIndex}
+                  lines={lines}
+                  area={area}
+                  width={width}
+                  height={height}
+                  padding={padding}
+                  color={colors[dataIndex % colors.length]}
+                  updating={this.state.updating}
+                  stroke={stroke}
+                />
 
-              <Points
-                hideLabels={hideLabels}
-                dots={dots}
-                label={labels[pi]}
-                points={p}
-                dataSetIndex={pi}
-                showTooltip={this.showTooltip}
-                hideTooltip={this.hideTooltip}
-                stroke={stroke}
-                radius={radius}
-              />
-            </g>
-          ))}
+                <Points
+                  hideLabels={hideLabels}
+                  dots={dots}
+                  label={labels[dataIndex]}
+                  points={points}
+                  dataSetIndex={dataIndex}
+                  showTooltip={this.showTooltip}
+                  hideTooltip={this.hideTooltip}
+                  stroke={stroke}
+                  radius={radius}
+                />
+              </g>
+            );
+          })}
         </svg>
 
-        {this.state.tooltip ? (
+        {this.state.tooltip && (
           <Tooltip
             value={this.state.value}
             label={labels[this.state.dataSet]}
@@ -152,7 +153,59 @@ class LineChart extends Component {
             y={this.state.y - 15}
             color={this.state.color}
           />
-        ) : null}
+        )}
+
+        <svg height="400" width="450">
+          <path
+            id="lineAB"
+            d="M 100 350 l 150 -300"
+            stroke="red"
+            strokeWidth="3"
+            fill="none"
+          />
+          <path
+            id="lineBC"
+            d="M 250 50 l 150 300"
+            stroke="red"
+            strokeWidth="3"
+            fill="none"
+          />
+          <path
+            d="M 175 200 l 150 0"
+            stroke="green"
+            strokeWidth="3"
+            fill="none"
+          />
+          <path
+            d="M 100 350 q 150 -300 300 0"
+            stroke="blue"
+            strokeWidth="5"
+            fill="none"
+          />
+          <g stroke="black" strokeWidth="3" fill="black">
+            <circle id="pointA" cx="100" cy="350" r="3" />
+            <circle id="pointB" cx="250" cy="50" r="3" />
+            <circle id="pointC" cx="400" cy="350" r="3" />
+          </g>
+          <g
+            fontSize="30"
+            fontFamily="sans-serif"
+            fill="black"
+            stroke="none"
+            textAnchor="middle"
+          >
+            <text x="100" y="350" dx="-30">
+              A
+            </text>
+            <text x="250" y="50" dy="-10">
+              B
+            </text>
+            <text x="400" y="350" dx="30">
+              C
+            </text>
+          </g>
+          Sorry, your browser does not support inline SVG.
+        </svg>
       </span>
     );
   }

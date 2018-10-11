@@ -19,7 +19,7 @@ var opt = {
   data: [
     [97, 92, 89, 30, 72],
     [43, 62, 84, 98, 3],
-    [23, 88, 52, 14, 4],
+    [23, 88, 52, 14, 48],
     [76, 9, 1, 67, 84]
   ],
   colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
@@ -291,22 +291,22 @@ class Analytics extends Component {
               )}
             </div>
           )}
-        <LineChart {...opt} area={true} />
         <LineChart {...opt} dots={true} lines={true} />
-        <LineChart
-          {...opt}
-          width={600}
-          height={50}
-          stroke={2}
-          radius={6}
-          dots={true}
-          grid={false}
-          hideLabels={true}
-        />
       </div>
     );
   }
 }
+/*<LineChart
+  {...opt}
+  width={600}
+  height={50}
+  stroke={2}
+  radius={6}
+  dots={true}
+  grid={false}
+  hideLabels={true}
+/>
+*/
 
 function mapStateToProps(state) {
   return {
