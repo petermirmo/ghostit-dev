@@ -15,18 +15,6 @@ import LineChart from "../../components/LineChart/";
 
 import "./styles/";
 
-var opt = {
-  data: [
-    [97, 92, 89, 30, 72],
-    [43, 62, 84, 98, 3],
-    [23, 88, 52, 14, 48],
-    [76, 9, 1, 67, 84]
-  ],
-  colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
-  labels: ["Cats", "Dogs", "Ducks", "Cows"],
-  axis: ["October", "November", "December", "January", "February", "Marsh"]
-};
-
 class Analytics extends Component {
   constructor(props) {
     super(props);
@@ -291,22 +279,30 @@ class Analytics extends Component {
               )}
             </div>
           )}
-        <LineChart {...opt} dots={true} lines={true} />
+        <LineChart
+          {...{
+            lines: [
+              [97, 92, 89, 30, 72],
+              [43, 62, 84, 98, 3],
+              [23, 88, 52, 14, 48],
+              [76, 9, 1, 67, 84]
+            ],
+            colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
+            labels: ["Cats", "Dogs", "Ducks", "Cows"],
+            axis: [
+              "October",
+              "November",
+              "December",
+              "January",
+              "February",
+              "Marsh"
+            ]
+          }}
+        />
       </div>
     );
   }
 }
-/*<LineChart
-  {...opt}
-  width={600}
-  height={50}
-  stroke={2}
-  radius={6}
-  dots={true}
-  grid={false}
-  hideLabels={true}
-/>
-*/
 
 function mapStateToProps(state) {
   return {
