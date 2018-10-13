@@ -36,7 +36,6 @@ class Analytics extends Component {
   getPostAnalytics = () => {
     axios.get("/api/ai/analytics/posts").then(res => {
       const { analyticsObjects } = res.data;
-      console.log(res.data);
     });
   };
 
@@ -279,26 +278,28 @@ class Analytics extends Component {
               )}
             </div>
           )}
-        <LineChart
-          {...{
-            lines: [
-              [97, 92, 89, 30, 72],
-              [43, 62, 84, 98, 3],
-              [23, 88, 52, 14, 48],
-              [76, 9, 1, 67, 84]
-            ],
-            colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
-            labels: ["Cats", "Dogs", "Ducks", "Cows"],
-            axis: [
-              "October",
-              "November",
-              "December",
-              "January",
-              "February",
-              "Marsh"
-            ]
-          }}
-        />
+        <div className="line-chart-container" id="myid">
+          <LineChart
+            {...{
+              lines: [
+                [97, 92, 89, 30, 72],
+                [43, 62, 84, 98, 3],
+                [23, 88, 52, 14, 48],
+                [76, 9, 1, 67, 84]
+              ],
+              colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
+              labels: ["Cats", "Dogs", "Ducks", "Cows"],
+              axis: [
+                "October",
+                "November",
+                "December",
+                "January",
+                "February",
+                "Marsh"
+              ]
+            }}
+          />
+        </div>
       </div>
     );
   }

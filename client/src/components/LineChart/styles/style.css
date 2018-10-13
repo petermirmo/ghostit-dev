@@ -1,15 +1,33 @@
-.test {
-  width: 80%;
-
-  height: 50vh;
-  margin: 10px;
-  shape-rendering: geometricPrecision;
-  background-color: yellow;
-  padding: 10px;
+.line-chart-container {
 }
-.test2 {
+.line-chart-axis {
+  stroke: var(--secondary-text-theme-color);
+  fill: none;
+  stroke-width: 2px;
+  shape-rendering: geometricPrecision;
+}
+.line-chart {
+  max-width: 100%;
+
+  shape-rendering: geometricPrecision;
+  box-sizing: border-box;
+
+  background-color: var(--one-primary-color);
+}
+.line-chart-vertical-line {
   stroke: var(--divider-theme-color);
   fill: none;
-  stroke-width: 0.5px;
+  stroke-width: 1px;
+  shape-rendering: geometricPrecision;
+}
+.line-chart-data-point {
+  r: 0.5;
+  stroke: var(--five-primary-color);
+  fill: var(--five-primary-color);
+  shape-rendering: geometricPrecision;
+}
+.line-chart-connecting-line {
+  stroke: var(--five-primary-color);
+  stroke-width: 2px;
   shape-rendering: geometricPrecision;
 }
