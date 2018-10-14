@@ -165,8 +165,10 @@ class Calendar extends Component {
 
       // Checks to make sure that the campaign is within this month
       if (
-        new moment(calendarEvent.endDate).isSame(calendarStartDate, "month") ||
-        new moment(calendarEvent.startDate).isSame(calendarEndDate, "month")
+        !(
+          new moment(calendarEvent.endDate) < calendarStartDate ||
+          new moment(calendarEvent.startDate) > calendarEndDate
+        )
       ) {
         let dateIndexOfEvent = new moment(calendarEvent.startDate);
 
