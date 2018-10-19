@@ -1,22 +1,4 @@
-.test-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+.line-chart-navigation-container {
 }
-.here {
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-  height: 100px;
-
-  opacity: 0.8;
-
-  background-color: var(--orange-theme-color);
-  color: var(--white-theme-color);
-
-  cursor: pointer;
-}
-.here:hover {
-  opacity: 1;
+.line-chart-navigation-item {
 }

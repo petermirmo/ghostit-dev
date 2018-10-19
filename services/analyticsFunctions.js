@@ -4,6 +4,7 @@ const Account = require("../models/Account");
 const Post = require("../models/Post");
 const FB = require("fb");
 const moment = require("moment-timezone");
+const generalFunctions = require("./generalFunctions");
 
 const fbAccountRequest =
   "/insights?metric=" +
@@ -685,17 +686,17 @@ module.exports = {
         if (foundUser.role !== "admin") {
           // if the user is not an admin, we only want to grab the
           // analytics objects that belong to accounts 'owned' by this user
-          Account.find({ userID: foundUser._id }, (err, foundAccounts) => {
+          Account.find({ userID: req.user._id }, (err, foundAccounts) => {
             // fetch all social account that are 'owned' with this user
             if (err || !foundAccounts) {
-              console.log(err);
-              res.send({
-                success: false,
+              return generalFunctions.handleError(
+                res,
                 err,
-                message:
-                  "Unable to find any social accounts associated with this user account."
-              });
+                undefined,
+                "Unable to find any social accounts associated with this user account."
+              );
             }
+
             // make an array to be used with an 'or' operator for the analytics object request
             const analyticsIDList = foundAccounts
               .filter(acnt => acnt.analyticsID)
@@ -704,22 +705,30 @@ module.exports = {
                   _id: obj.analyticsID
                 };
               });
-            Analytics.find(
-              { $or: analyticsIDList },
-              (err, analyticsObjects) => {
-                // fetch all analytics objects that belong to one of those accounts
-                if (err || !analyticsObjects) {
-                  console.log(err);
-                  res.send({
-                    success: false,
-                    err,
-                    message:
-                      "Unable to find any social accounts associated with this user account."
-                  });
+
+            if (analyticsIDList.length !== 0) {
+              Analytics.find(
+                { $or: analyticsIDList },
+                (err, analyticsObjects) => {
+                  // fetch all analytics objects that belong to one of those accounts
+                  if (err || !analyticsObjects) {
+                    console.log(err);
+                    res.send({
+                      success: false,
+                      err,
+                      message:
+                        "Unable to find any social accounts associated with this user account."
+                    });
+                  }
+                  res.send({ success: true, analyticsObjects });
                 }
-                res.send({ success: true, analyticsObjects });
-              }
-            );
+              );
+            } else {
+              return generalFunctions.handleError(
+                res,
+                "Unable to find any social accounts associated with this user account."
+              );
+            }
           });
         } else {
           // user is an admin so fetch all analytics that are for an account (not post analytics)

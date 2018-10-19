@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import "./styles/";
 
+const LINE_CHART_HEIGHT_RATIO = 40;
+
 class LineChart extends Component {
   getMaxMinXYValues = lines => {
     let yMax;
@@ -34,12 +36,12 @@ class LineChart extends Component {
     let verticalLineDivs = [];
     for (let i = 0; i < xMax; i++) {
       if (i === 0) continue;
-      let x = ~~((i / xMax) * 100);
+      let x = (i / (xMax - 1)) * 100;
 
       verticalLineDivs.push(
         <path
           className="line-chart-vertical-line"
-          d={"M" + x + ",0 L " + x + ",20"}
+          d={"M" + x + ",0 L " + x + "," + LINE_CHART_HEIGHT_RATIO}
           key={x + "line"}
           vectorEffect="non-scaling-stroke"
         />
@@ -54,8 +56,10 @@ class LineChart extends Component {
     lines.map((line, lineIndex) => {
       let prevDataPoint;
       line.map((dataValue, dataIndex) => {
-        let x = ~~((dataIndex / xMax) * 100);
-        let y = (dataValue / yMax) * 20;
+        let x = (dataIndex / (xMax - 0.9)) * 100;
+        let y = (dataValue / yMax) * LINE_CHART_HEIGHT_RATIO;
+
+        y = LINE_CHART_HEIGHT_RATIO - y;
 
         if (prevDataPoint) {
           dataLineDivs.push(
@@ -98,7 +102,9 @@ class LineChart extends Component {
     return (
       <path
         className="line-chart-axis"
-        d={"M 0,20 L 100,20"}
+        d={
+          "M 0," + LINE_CHART_HEIGHT_RATIO + " L 100," + LINE_CHART_HEIGHT_RATIO
+        }
         vectorEffect="non-scaling-stroke"
       />
     );
@@ -107,7 +113,7 @@ class LineChart extends Component {
     return (
       <path
         className="line-chart-axis"
-        d={"M 0,0 L 0,20"}
+        d={"M 0,0 L 0," + LINE_CHART_HEIGHT_RATIO}
         vectorEffect="non-scaling-stroke"
       />
     );
@@ -126,7 +132,7 @@ class LineChart extends Component {
     return (
       <svg
         className="line-chart pa32"
-        viewBox="0 0 100 20"
+        viewBox={"0 0 100 " + LINE_CHART_HEIGHT_RATIO}
         preserveAspectRatio="none"
       >
         {this.XAxis()}

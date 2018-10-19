@@ -80,11 +80,14 @@ class Login extends Component {
           axios.get("/api/accounts").then(res => {
             let { accounts } = res.data;
             if (!accounts) accounts = [];
-            this.props.setUser(user);
-            this.props.updateAccounts(accounts);
 
-            if (user.role === "demo") this.activateDemoUserLogin();
-            else this.props.changePage("content");
+            if (user.role === "demo")
+              this.activateDemoUserLogin(user, accounts);
+            else {
+              this.props.setUser(user);
+              this.props.updateAccounts(accounts);
+              this.props.changePage("content");
+            }
           });
         } else {
           this.notify({
@@ -112,21 +115,21 @@ class Login extends Component {
         .then(res => {
           const { success, user, message } = res.data;
 
-          this.props.updateAccounts([]);
-          this.props.setUser(user);
-
-          if (success && user) this.activateDemoUserLogin();
+          if (success && user) this.activateDemoUserLogin(user, []);
           else {
             this.notify({
               message,
               type: "danger",
-              title: "Something went wrong!"
+              title: "Wrong email!"
             });
           }
         });
     }
   };
-  activateDemoUserLogin = () => {
+  activateDemoUserLogin = (user, accounts) => {
+    this.props.setUser(user);
+    this.props.updateAccounts(accounts);
+
     this.props.openHeaderSideBar(true);
     this.props.changePage("subscribe");
     let temp = { ...this.props.tutorial };

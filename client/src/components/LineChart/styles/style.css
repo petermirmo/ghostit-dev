@@ -1,4 +1,5 @@
 .line-chart-container {
+  flex: 1;
 }
 .line-chart-axis {
   stroke: var(--secondary-text-theme-color);
@@ -11,17 +12,15 @@
 
   shape-rendering: geometricPrecision;
   box-sizing: border-box;
-
-  background-color: var(--one-primary-color);
 }
 .line-chart-vertical-line {
   stroke: var(--divider-theme-color);
   fill: none;
-  stroke-width: 1px;
+  stroke-width: 0px;
   shape-rendering: geometricPrecision;
 }
 .line-chart-data-point {
-  r: 0.5;
+  r: 0.2;
   stroke: var(--five-primary-color);
   fill: var(--five-primary-color);
   shape-rendering: geometricPrecision;
