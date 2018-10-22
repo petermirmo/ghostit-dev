@@ -118,7 +118,8 @@ export const trySavePost = (
     campaignID,
     name,
     date,
-    sendEmailReminder
+    sendEmailReminder,
+    calendarID
   } = post_state;
   const {
     recipeEditing,
@@ -166,6 +167,7 @@ export const trySavePost = (
       campaignID,
       instructions,
       name,
+      calendarID,
       sendEmailReminder
     );
   } else {
@@ -183,7 +185,8 @@ export const trySavePost = (
       deleteImagesArray,
       campaignID,
       instructions,
-      name
+      name,
+      calendarID
     );
   }
   setStateObj.somethingChanged = false;

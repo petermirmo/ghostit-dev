@@ -37,6 +37,7 @@ export async function savePost(
   campaignID,
   instructions,
   name,
+  calendarID,
   sendEmailReminder
 ) {
   if (deleteImagesArray) {
@@ -72,6 +73,7 @@ export async function savePost(
       socialType,
       campaignID,
       name,
+      calendarID,
       sendEmailReminder
     })
     .then(res => {

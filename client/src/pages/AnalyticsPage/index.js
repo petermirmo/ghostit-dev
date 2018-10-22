@@ -5,8 +5,6 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import AmCharts from "@amcharts/amcharts3-react";
-
 import "./styles/";
 
 class Analytics extends Component {
@@ -182,12 +180,7 @@ class Analytics extends Component {
       ],
       dataProvider
     };
-    return (
-      <AmCharts.React
-        style={{ width: "100%", height: "340px" }}
-        options={config}
-      />
-    );
+    return undefined;
   };
 
   getValuesFromFBDayObj = dayObj => {

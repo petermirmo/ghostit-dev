@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const newsletterSchema = new Schema(
   {
     userID: String,
+    calendarID: Schema.Types.ObjectId,
     postingDate: String,
     dueDate: String,
     notes: String,

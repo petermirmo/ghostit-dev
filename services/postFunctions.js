@@ -90,20 +90,6 @@ module.exports = {
       newPost.save().then(result => res.send({ success: true, post: result }));
     });
   },
-  getPosts: function(req, res) {
-    // Get all posts for user
-    let userID = req.user._id;
-    if (req.user.signedInAsUser) {
-      if (req.user.signedInAsUser.id) {
-        userID = req.user.signedInAsUser.id;
-      }
-    }
-
-    Post.find({ userID, campaignID: undefined }, function(err, posts) {
-      if (err) res.send(err);
-      res.send({ posts });
-    });
-  },
   getPost: function(req, res) {
     Post.findOne({ _id: req.params.postID }, function(err, post) {
       if (err) res.send(err);

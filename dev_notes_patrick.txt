@@ -73,21 +73,32 @@ mobile app that alerts the user when they need to do a custom task?
 
 Small question marks beside things that aren't super intuitive. Mousing over the question mark displays a tooltip explaining things.
 
-analytics:
-  button only accessible to admins that fetches and stores analytics on every (post?) + account in the db.
-  buttons for each analytics object in the DB. admins can see all, non-admins can only see the objects associated with their accounts.
-    clicking on these buttons will show their data below on the same page.
+multi-user calendars:
+  in the content page, there could be a dropdown menu with all of the calendars associated with your account
+    Filter Calendar styled button under October 2018 that shwows the name of the current calendar.
+  each user account starts with a Personal calendar
+    (should the default calendar be delete-able? should you be able to invite other people to it?)
+  users can choose which calendar is their defualt one that opens up first always
+  each post / campaign will now be associated with a calendarID instead of userID.
+    posts will also have to store the userID of the person who created (and maybe a history of who made edits and what they were?)
+  each calendar will have a list of userIDs that have access to it.
+  should social accounts be tied to userID or calendarID or both?
+    maybe the calendar admin can set certain accounts to be calendar shared?
+  sockets keep all connected users updated to the calendar whenever there are changes to it.
+  Manage Calendars page or just have all the calendar management stuff on the content page?
+    create new, delete, invite people (emails), rename,
+    attach / remove social accounts from the calendar,
+    change permissions: who the admin is, who can add social accounts to the calendar (should they also be able to remove other people's?)
 
-  graphing:
-    don't display all graphs by default. have a button beside each metric that toggles the graph.
-      when the graph is toggled on, have a button above the graph that switches which month is being displayed.
-    some metrics (non-logged-in page views) don't return a day if the value on the day was 0.
-      so when you go to graph it, that day is ignored and the line graph jumps from day 5-7
-      which doesn't illustrate that day 6 had 0.
-    still need to handle the cases when there can be multiple value types for one day (post reactions of a page)
-    y axis scale can be misleading. Lifetime total likes of ghostit drops from 4698 to 4667 but looks like it drops down to 5.
-
-
+to do next:
+  add calendarID to save post / campaign / blog / newsletter
+    (pass calendarID from contentPage to campaign object / post object / custom task object)
+    (pass from campaign object to post / custom task)
+    (pass calendarID into trySavePost())
+      (pass calendarID into axios call)
+        (add calendarID to DB object in backend save post code)
+  ui for making multiple calendars and switching them
+  social accounts tied to calendars
 
 facebook analytics page metrics:
     FB.api(

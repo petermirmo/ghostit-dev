@@ -19,6 +19,9 @@ class Content extends Component {
     clickedEventIsRecipe: false,
     recipeEditing: false,
 
+    calendars: [],
+    activeCalendarIndex: undefined,
+
     facebookPosts: [],
     twitterPosts: [],
     linkedinPosts: [],
@@ -63,15 +66,32 @@ class Content extends Component {
       if (this._ismounted) this.setState({ timezone });
     });
 
-    this.getPosts();
-    this.getBlogs();
-    this.getNewsletters();
-    this.getCampaigns();
+    axios.get("/api/calendars").then(res => {
+      const { success, calendars, defaultCalendarID } = res.data;
+      if (!success || !calendars || calendars.length === 0) {
+        console.log(res.data.err);
+        console.log(res.data.message);
+        console.log(calendars);
+      } else {
+        let activeCalendarIndex = calendars.findIndex(
+          calObj => calObj._id === defaultCalendarID
+        );
+        if (activeCalendarIndex === -1) activeCalendarIndex = 0;
+        this.setState({ calendars, activeCalendarIndex }, this.fillCalendar);
+      }
+    });
   }
 
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  fillCalendar = () => {
+    this.getPosts();
+    this.getBlogs();
+    this.getNewsletters();
+    this.getCampaigns();
+  };
 
   notify = (type, title, message, length = 5000) => {
     const { notification } = this.state;
@@ -95,85 +115,142 @@ class Content extends Component {
   };
 
   getPosts = () => {
+    // if this (or any of the getPosts/getBlogs/getCampaigns/etc fails,
+    // we should maybe setState({ posts: [] })) so that we don't render
+    // posts from a previous calendar
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
     let facebookPosts = [];
     let twitterPosts = [];
     let linkedinPosts = [];
 
     // Get all of user's posts to display in calendar
-    axios.get("/api/posts").then(res => {
-      // Set posts to state
-      let { posts, loggedIn } = res.data;
+    axios.get("/api/calendar/posts/" + calendarID).then(res => {
+      const { success, err, message, posts, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        if (loggedIn === false) window.location.reload();
 
-      if (loggedIn === false) window.location.reload();
-
-      for (let index in posts) {
-        posts[index].startDate = posts[index].postingDate;
-        posts[index].endDate = posts[index].postingDate;
-      }
-
-      for (let index in posts) {
-        if (posts[index].socialType === "facebook") {
-          facebookPosts.push(posts[index]);
-        } else if (posts[index].socialType === "twitter") {
-          twitterPosts.push(posts[index]);
-        } else if (posts[index].socialType === "linkedin") {
-          linkedinPosts.push(posts[index]);
+        for (let index in posts) {
+          posts[index].startDate = posts[index].postingDate;
+          posts[index].endDate = posts[index].postingDate;
         }
-      }
-      if (this._ismounted) {
-        this.setState({
-          facebookPosts: facebookPosts,
-          twitterPosts: twitterPosts,
-          linkedinPosts: linkedinPosts
-        });
+
+        for (let index in posts) {
+          if (posts[index].socialType === "facebook") {
+            facebookPosts.push(posts[index]);
+          } else if (posts[index].socialType === "twitter") {
+            twitterPosts.push(posts[index]);
+          } else if (posts[index].socialType === "linkedin") {
+            linkedinPosts.push(posts[index]);
+          }
+        }
+        if (this._ismounted) {
+          this.setState({
+            facebookPosts: facebookPosts,
+            twitterPosts: twitterPosts,
+            linkedinPosts: linkedinPosts
+          });
+        }
       }
     });
   };
 
   getBlogs = () => {
-    axios.get("/api/blogs").then(res => {
-      let { blogs, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
 
-      for (let index in blogs) {
-        blogs[index].startDate = blogs[index].postingDate;
-        blogs[index].endDate = blogs[index].postingDate;
-      }
+    axios.get("/api/calendar/blogs/" + calendarID).then(res => {
+      let { success, err, message, blogs, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        if (loggedIn === false) window.location.reload();
 
-      if (this._ismounted) {
-        this.setState({ websitePosts: blogs });
+        for (let index in blogs) {
+          blogs[index].startDate = blogs[index].postingDate;
+          blogs[index].endDate = blogs[index].postingDate;
+        }
+
+        if (this._ismounted) {
+          this.setState({ websitePosts: blogs });
+        }
       }
     });
   };
 
   getNewsletters = () => {
-    axios.get("/api/newsletters").then(res => {
-      let { newsletters, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
 
-      for (let index in newsletters) {
-        newsletters[index].startDate = newsletters[index].postingDate;
-        newsletters[index].endDate = newsletters[index].postingDate;
-      }
+    axios.get("/api/calendar/newsletters/" + calendarID).then(res => {
+      let { success, err, message, newsletters, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        if (loggedIn === false) window.location.reload();
 
-      if (this._ismounted) {
-        this.setState({ newsletterPosts: newsletters });
+        for (let index in newsletters) {
+          newsletters[index].startDate = newsletters[index].postingDate;
+          newsletters[index].endDate = newsletters[index].postingDate;
+        }
+
+        if (this._ismounted) {
+          this.setState({ newsletterPosts: newsletters });
+        }
       }
     });
   };
 
   getCampaigns = () => {
-    axios.get("/api/campaigns").then(res => {
-      let { campaignArray, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
 
-      for (let index in campaignArray) {
-        campaignArray[index].campaign.posts = campaignArray[index].posts;
-        campaignArray[index] = campaignArray[index].campaign;
-      }
+    axios.get("/api/calendar/campaigns/" + calendarID).then(res => {
+      let { success, err, message, campaigns, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        console.log(res.data);
+        if (loggedIn === false) window.location.reload();
 
-      if (this._ismounted) {
-        this.setState({ campaigns: campaignArray });
+        for (let index in campaigns) {
+          campaigns[index].campaign.posts = campaigns[index].posts;
+          campaigns[index] = campaigns[index].campaign;
+        }
+
+        if (this._ismounted) {
+          this.setState({ campaigns });
+        }
       }
     });
   };
@@ -260,7 +337,9 @@ class Content extends Component {
       recipeEditing,
       clickedDate,
       campaigns,
-      notification
+      notification,
+      calendars,
+      activeCalendarIndex
     } = this.state;
     const {
       All,
@@ -308,6 +387,7 @@ class Content extends Component {
           <ContentModal
             clickedCalendarDate={clickedDate}
             timezone={timezone}
+            calendarID={calendars[activeCalendarIndex]._id}
             close={this.closeModals}
             savePostCallback={() => {
               this.getPosts();
@@ -349,6 +429,7 @@ class Content extends Component {
           <CampaignModal
             close={this.closeModals}
             handleChange={this.handleChange}
+            calendarID={calendars[activeCalendarIndex]._id}
             timezone={timezone}
             clickedCalendarDate={clickedDate}
             updateCampaigns={this.getCampaigns}

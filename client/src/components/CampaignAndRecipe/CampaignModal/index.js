@@ -112,6 +112,7 @@ class CampaignModal extends Component {
               : props.user._id
             : props.user._id,
           color: "var(--campaign-color1)",
+          calendarID: props.calendarID,
           recipeID: undefined
         };
 
@@ -650,6 +651,7 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
+          calendarID={this.props.calendarID}
           socialType={post_obj.socialType}
           canEditPost={true}
           listOfChanges={
@@ -681,6 +683,7 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
+          calendarID={this.props.calendarID}
           socialType={post_obj.socialType}
           canEditPost={true}
           listOfChanges={

@@ -73,7 +73,8 @@ class PostingOptions extends Component {
       content: "",
       instructions: "",
       name: "",
-      promptModifyCampaignDates: false
+      promptModifyCampaignDates: false,
+      calendarID: props.calendarID
     };
     if (props.post) {
       const returnObj = this.getDefaultAccount(props);
