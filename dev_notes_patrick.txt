@@ -91,12 +91,7 @@ multi-user calendars:
     change permissions: who the admin is, who can add social accounts to the calendar (should they also be able to remove other people's?)
 
 to do next:
-  add calendarID to save post / campaign / blog / newsletter
-    (pass calendarID from contentPage to campaign object / post object / custom task object)
-    (pass from campaign object to post / custom task)
-    (pass calendarID into trySavePost())
-      (pass calendarID into axios call)
-        (add calendarID to DB object in backend save post code)
+  add calendarID to save blog / newsletter
   ui for making multiple calendars and switching them
   social accounts tied to calendars
 
