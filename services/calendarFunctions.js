@@ -5,6 +5,8 @@ const Post = require("../models/Post");
 const Newsletter = require("../models/Newsletter");
 const Campaign = require("../models/Campaign");
 
+const generalFunctions = require("./generalFunctions");
+
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
     if (array[i].str === id.str) {
@@ -12,6 +14,28 @@ mongoIdArrayIncludes = (array, id) => {
     }
   }
   return false;
+};
+
+fillCampaignPosts = async (res, campaigns) => {
+  let campaignArray = [];
+
+  if (campaigns.length != 0) {
+    for (let index in campaigns) {
+      let campaign = campaigns[index];
+      await Post.find({ _id: { $in: campaign.posts } }, (err, posts) => {
+        if (err) generalFunctions.handleError(res, err);
+        else {
+          campaignArray.push({ campaign, posts });
+          if (index == campaigns.length - 1) {
+            return res.send({
+              success: true,
+              campaigns: campaignArray
+            });
+          }
+        }
+      });
+    }
+  } else return [];
 };
 
 module.exports = {
@@ -111,7 +135,7 @@ module.exports = {
           // calendarID: undefined, and userID: userID
           // this allows older posts that don't have a calendarID to be associated with their personal calendar
           Post.find(
-            { calendarID: req.params.calendarID },
+            { calendarID: req.params.calendarID, campaignID: undefined },
             (err, foundPosts) => {
               if (err || !foundPosts) {
                 res.send({
@@ -127,7 +151,11 @@ module.exports = {
                   // this calendar is the user's personal calendar so we need to also fetch all posts
                   // with userID: userID and calendarID: undefined
                   Post.find(
-                    { userID: userID, calendarID: undefined },
+                    {
+                      userID: userID,
+                      calendarID: undefined,
+                      campaignID: undefined
+                    },
                     (err, foundUserPosts) => {
                       if (err || !foundUserPosts) {
                         res.send({
@@ -358,18 +386,15 @@ module.exports = {
                           message: `Error occurred when trying to fetch all campaigns with user id ${userID} and calendarID: undefined.`
                         });
                       } else {
-                        res.send({
-                          success: true,
-                          campaigns: [...foundCampaigns, ...foundUserCampaigns]
-                        });
+                        fillCampaignPosts(res, [
+                          ...foundCampaigns,
+                          ...foundUserCampaigns
+                        ]);
                       }
                     }
                   );
                 } else {
-                  res.send({
-                    success: true,
-                    campaigns: foundCampaigns
-                  });
+                  fillCampaignPosts(res, foundCampaigns);
                 }
               }
             }

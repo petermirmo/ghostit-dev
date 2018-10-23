@@ -955,7 +955,7 @@ class CampaignModal extends Component {
                         "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
                       }
                       onClick={() => {
-                        this.setState({ saving: true });
+                        //this.setState({ saving: true });
                         socket.emit("campaign_editted", campaign);
                         socket.on("campaign_saved", emitObject => {
                           socket.off("campaign_saved");

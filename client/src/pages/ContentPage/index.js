@@ -240,7 +240,6 @@ class Content extends Component {
         console.log(message);
         console.log(err);
       } else {
-        console.log(res.data);
         if (loggedIn === false) window.location.reload();
 
         for (let index in campaigns) {
@@ -299,6 +298,7 @@ class Content extends Component {
       clickedEvent: undefined
     });
   };
+
   updateActiveCategory = categoryName => {
     let calendarEventCategories = this.state.calendarEventCategories;
     calendarEventCategories[categoryName] = !calendarEventCategories[
