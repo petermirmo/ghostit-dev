@@ -1,3 +1,9 @@
+.calendar-header-two-rows {
+}
+.calendar-picker {
+  display: flex;
+  justify-content: center;
+}
 .calendar-container {
   overflow-x: hidden;
 }

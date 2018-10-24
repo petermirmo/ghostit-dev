@@ -15,7 +15,7 @@ module.exports = {
       }
     }
 
-    Blog.findOne({ _id: req.params.blogID }, async (err, foundBlog) => {
+    Blog.findOne({ _id: req.body.blog._id }, async (err, foundBlog) => {
       if (err) return generalFunctions.handleError(res, err);
       else {
         let newBlog;

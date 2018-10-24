@@ -14,7 +14,7 @@ module.exports = {
       }
     }
 
-    Newsletter.findOne({ _id: req.params.newsletterID }, async function(
+    Newsletter.findOne({ _id: req.body.newsletter._id }, async function(
       err,
       foundNewsletter
     ) {

@@ -402,42 +402,49 @@ class Calendar extends Component {
   };
   calendarHeader = (calendarDate, queueActive) => {
     return (
-      <div className="calendar-header-container px8 pt8">
-        <div className="flex vt hc">
-          <div className="calendar-view-change button common-transition round4">
-            <Filter
-              updateActiveCategory={this.props.updateActiveCategory}
-              categories={this.props.categories}
+      <div className="calendar-header-two-rows">
+        <div className="calendar-header-container px8 pt8">
+          <div className="flex vt hc">
+            <div className="calendar-view-change button common-transition round4">
+              <Filter
+                updateActiveCategory={this.props.updateActiveCategory}
+                categories={this.props.categories}
+              />
+            </div>
+          </div>
+          <div className="center-header-container px32">
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              size="3x"
+              className="calendar-switch-month button common-transition"
+              onClick={this.subtractMonth}
+            />
+            <div className="calendar-month">
+              {calendarDate.format("MMMM YYYY")}
+            </div>
+            <FontAwesomeIcon
+              icon={faAngleRight}
+              size="3x"
+              className="calendar-switch-month button common-transition"
+              onClick={this.addMonth}
             />
           </div>
-        </div>
-        <div className="center-header-container px32">
-          <FontAwesomeIcon
-            icon={faAngleLeft}
-            size="3x"
-            className="calendar-switch-month button common-transition"
-            onClick={this.subtractMonth}
-          />
-          <div className="calendar-month">
-            {calendarDate.format("MMMM YYYY")}
-          </div>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            size="3x"
-            className="calendar-switch-month button common-transition"
-            onClick={this.addMonth}
-          />
-        </div>
-        <div className="flex vt hc">
-          <div
-            className="calendar-view-change button common-transition pa8 round4"
-            onClick={() => this.setState({ queueActive: !queueActive })}
-          >
-            {queueActive ? "Calendar" : "Queue Preview"}
+          <div className="flex vt hc">
+            <div
+              className="calendar-view-change button common-transition pa8 round4"
+              onClick={() => this.setState({ queueActive: !queueActive })}
+            >
+              {queueActive ? "Calendar" : "Queue Preview"}
+            </div>
           </div>
         </div>
+        <div className="calendar-picker">{this.getCalendarPicker()}</div>
       </div>
     );
+  };
+
+  getCalendarPicker = () => {
+    return <div>{"Calendar!"}</div>;
   };
 
   render() {

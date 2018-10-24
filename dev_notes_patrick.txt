@@ -91,7 +91,6 @@ multi-user calendars:
     change permissions: who the admin is, who can add social accounts to the calendar (should they also be able to remove other people's?)
 
 to do next:
-  add calendarID to save blog / newsletter
   ui for making multiple calendars and switching them
   social accounts tied to calendars
 

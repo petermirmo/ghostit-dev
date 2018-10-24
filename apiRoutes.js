@@ -238,30 +238,21 @@ module.exports = app => {
     campaignFunctions.deleteRecipe(req, res)
   );
 
-  // Create a blog placeholder
+  // Create or update a blog placeholder
   app.post("/api/blog", fileParser, middleware, async (req, res) =>
     blogFunctions.saveBlog(req, res)
   );
-  // Update blog
-  app.post("/api/blog/:blogID", fileParser, middleware, async (req, res) =>
-    blogFunctions.saveBlog(req, res)
-  );
+
   // Delete blog
   app.delete("/api/blog/delete/:blogID", middleware, (req, res) =>
     blogFunctions.deleteBlog(req, res)
   );
 
-  // Create a newsletter placeholder
+  // Create or update a newsletter placeholder
   app.post("/api/newsletter", fileParser, middleware, async (req, res) =>
     newsletterFunctions.saveNewsletter(req, res)
   );
-  // Update newsletter
-  app.post(
-    "/api/newsletter/:newsletterID",
-    fileParser,
-    middleware,
-    async (req, res) => newsletterFunctions.saveNewsletter(req, res)
-  );
+
   // Delete newsletter
   app.delete("/api/newsletter/delete/:newsletterID", middleware, (req, res) =>
     newsletterFunctions.deleteNewsletter(req, res)
