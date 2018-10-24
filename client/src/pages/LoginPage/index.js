@@ -80,11 +80,14 @@ class Login extends Component {
           axios.get("/api/accounts").then(res => {
             let { accounts } = res.data;
             if (!accounts) accounts = [];
-            this.props.setUser(user);
-            this.props.updateAccounts(accounts);
 
-            if (user.role === "demo") this.activateDemoUserLogin();
-            else this.props.changePage("content");
+            if (user.role === "demo")
+              this.activateDemoUserLogin(user, accounts);
+            else {
+              this.props.setUser(user);
+              this.props.updateAccounts(accounts);
+              this.props.changePage("content");
+            }
           });
         } else {
           this.notify({
@@ -112,21 +115,21 @@ class Login extends Component {
         .then(res => {
           const { success, user, message } = res.data;
 
-          this.props.updateAccounts([]);
-          this.props.setUser(user);
-
-          if (success && user) this.activateDemoUserLogin();
+          if (success && user) this.activateDemoUserLogin(user, []);
           else {
             this.notify({
               message,
               type: "danger",
-              title: "Something went wrong!"
+              title: "Wrong email!"
             });
           }
         });
     }
   };
-  activateDemoUserLogin = () => {
+  activateDemoUserLogin = (user, accounts) => {
+    this.props.setUser(user);
+    this.props.updateAccounts(accounts);
+
     this.props.openHeaderSideBar(true);
     this.props.changePage("subscribe");
     let temp = { ...this.props.tutorial };
@@ -177,12 +180,12 @@ class Login extends Component {
       <div className="login-background flex column vc">
         <img src={logo} alt="logo" className="py32" />
 
-        <div className="login-box pa32 round16 flex column">
+        <div className="login-box pa32 br16 flex column">
           {login === "login" && (
             <div>
               <div className="form-box flex column vc">
                 <input
-                  className="login-input pa8 mb8 round4"
+                  className="login-input pa8 mb8 br4"
                   value={email}
                   onChange={event =>
                     this.handleChange("email", event.target.value)
@@ -193,7 +196,7 @@ class Login extends Component {
                   required
                 />
                 <input
-                  className="login-input pa8 mb8 round4"
+                  className="login-input pa8 mb8 br4"
                   value={password}
                   onChange={event =>
                     this.handleChange("password", event.target.value)
@@ -204,7 +207,7 @@ class Login extends Component {
                   required
                 />
                 <div
-                  className="submit-blue common-transition px32 py8 my8 round4 button flex hc"
+                  className="submit-blue common-transition px32 py8 my8 br4 button flex hc"
                   onClick={this.login}
                   type="submit"
                 >
@@ -225,7 +228,7 @@ class Login extends Component {
             <div>
               <div className="form-box flex column vc">
                 <input
-                  className="login-input pa8 mb8 round4"
+                  className="login-input pa8 mb8 br4"
                   value={fullName}
                   onChange={event =>
                     this.handleChange("fullName", event.target.value)
@@ -237,7 +240,7 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input pa8 mb8 round4"
+                  className="login-input pa8 mb8 br4"
                   value={email}
                   onChange={event =>
                     this.handleChange("email", event.target.value)
@@ -249,7 +252,7 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input pa8 mb8 round4"
+                  className="login-input pa8 mb8 br4"
                   value={website}
                   onChange={event =>
                     this.handleChange("website", event.target.value)
@@ -261,7 +264,7 @@ class Login extends Component {
                 />
 
                 <input
-                  className="login-input pa8 mb8 round4"
+                  className="login-input pa8 mb8 br4"
                   value={password}
                   onChange={event =>
                     this.handleChange("password", event.target.value)
@@ -273,7 +276,7 @@ class Login extends Component {
                 />
 
                 <div
-                  className="submit-blue common-transition px32 py8 my8 round4 button flex hc"
+                  className="submit-blue common-transition px32 py8 my8 br4 button flex hc"
                   onClick={this.register}
                   type="submit"
                 >
@@ -293,7 +296,7 @@ class Login extends Component {
           {login === "forgotPassword" && (
             <div>
               <input
-                className="login-input pa8 mb8 round4"
+                className="login-input pa8 mb8 br4"
                 value={email}
                 onChange={event =>
                   this.handleChange("email", event.target.value)
@@ -304,7 +307,7 @@ class Login extends Component {
                 required
               />
               <button
-                className="submit-blue common-transition pa8 mb8 round4 button"
+                className="submit-blue common-transition pa8 mb8 br4 button"
                 onClick={this.sendResetEmail}
               >
                 Send Password Reset

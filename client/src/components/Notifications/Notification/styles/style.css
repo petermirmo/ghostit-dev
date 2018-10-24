@@ -41,5 +41,5 @@
 }
 
 .closebtn:hover {
-  color: var(--black-theme-color);
+  color: var(--red-theme-color);
 }

@@ -111,7 +111,7 @@ class CampaignModal extends Component {
               ? props.user.signedInAsUser.id
               : props.user._id
             : props.user._id,
-          color: "var(--campaign-color1)",
+          color: "var(--campaign-color3)",
           calendarID: props.calendarID,
           recipeID: undefined
         };
@@ -720,17 +720,6 @@ class CampaignModal extends Component {
       );
       return;
     }
-    for (let index in posts) {
-      const post = posts[index];
-      if (!post.instructions || post.instructions === "") {
-        this.props.notify(
-          "danger",
-          "Save Cancelled",
-          "All posts in a template must have instructions. Make sure each post has been saved with instructions then try saving again. (Instructions are located in the right sidebar of your posts)"
-        );
-        return;
-      }
-    }
 
     this.setState({ saving: true });
 
@@ -871,10 +860,7 @@ class CampaignModal extends Component {
           )}
           {firstPostChosen && (
             <div className="post-navigation-and-post-container">
-              <div
-                className="post-navigation-container"
-                style={{ borderColor: color }}
-              >
+              <div className="post-navigation-container">
                 <PostList
                   campaign={campaign}
                   posts={posts}
@@ -919,16 +905,13 @@ class CampaignModal extends Component {
               </div>
 
               {activePostIndex !== undefined && (
-                <div
-                  className="post-container light-scrollbar"
-                  style={{ borderColor: color }}
-                >
+                <div className="post-container light-scrollbar">
                   {this.getActivePost()}
                 </div>
               )}
             </div>
           )}
-          <div className="modal-footer" style={{ borderColor: color }}>
+          <div className="modal-footer">
             <div className="campaign-footer-options">
               <div className="campaign-footer-option left">
                 <div

@@ -3,6 +3,7 @@ const Account = require("../models/Account");
 const Plan = require("../models/Plan");
 const cloudinary = require("cloudinary");
 var nodemailer = require("nodemailer");
+const generalFunctions = require("./generalFunctions");
 
 module.exports = {
   getUsers: function(req, res) {

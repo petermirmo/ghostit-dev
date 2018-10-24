@@ -149,15 +149,19 @@ module.exports = app => {
 
   app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) => {
     if (req.params.accountID === "all") {
-      analyticsFunctions.getAllFacebookPageAnalytics(req, res);
+      analyticsFunctions.requestAllFacebookPageAnalytics(req, res);
     } else {
       analyticsFunctions.getPageAnalytics(req, res);
     }
   });
 
-  app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) =>
-    analyticsFunctions.getPostAnalytics(req, res)
-  );
+  app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) => {
+    if (req.params.postID === "all") {
+      analyticsFunctions.requestAllFacebookPostAnalytics(req, res);
+    } else {
+      analyticsFunctions.getPostAnalytics(req, res);
+    }
+  });
 
   // Add Twitter account
   app.get("/api/twitter", passport.authenticate("twitter"));
@@ -341,9 +345,13 @@ module.exports = app => {
     adminFunctions.getPlans(req, res)
   );
 
-  app.get("/api/analytics/test", middleware, (req, res) =>
-    analyticsFunctions.getAllAnalytics(req, res)
-  );
+  app.get("/api/ai/analytics/accounts", middleware, (req, res) => {
+    analyticsFunctions.getAllAccountAnalytics(req, res);
+  });
+
+  app.get("/api/ai/analytics/posts", middleware, (req, res) => {
+    analyticsFunctions.getAllPostAnalytics(req, res);
+  });
 
   app.get("/api/calendars", middleware, (req, res) =>
     calendarFunctions.getCalendars(req, res)

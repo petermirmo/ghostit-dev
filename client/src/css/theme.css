@@ -18,16 +18,16 @@
   --one-primary-color: #b3e5ff;
   --one-half-primary-color: #e1f5ff;
 
-  --nine-complementary-color: #c13100;
-  --eight-complementary-color: #d94000;
-  --seven-complementary-color: #e64800;
-  --six-complementary-color: #f44f00;
-  --five-complementary-color: #ff5500;
-  --four-complementary-color: #ff6e33;
-  --three-complementary-color: #ff895a;
-  --two-complementary-color: #ffaa8a;
-  --one-complementary-color: #ffcbb8;
-  --one-half-complementary-color: #fce9e6;
+  --one-half-purple-color: #f7e5ff;
+  --one-purple-color: #e6b3ff;
+  --two-purple-color: #d580ff;
+  --three-purple-color: #c44dff;
+  --four-purple-color: #b31aff;
+  --five-purple-color: #aa00ff;
+  --six-purple-color: #9900e6;
+  --seven-purple-color: #7700b3;
+  --eight-purple-color: #550080;
+  --nine-purple-color: #33004d;
 
   --primary-text-theme-color: #212121;
   --secondary-text-theme-color: #757575;
@@ -78,6 +78,13 @@
 
   --silly-font-theme: "Varela Round";
   --font-theme: "Open Sans";
+}
+
+.bold {
+  font-weight: 700;
+}
+.silly-font {
+  font-family: var(--silly-font-theme);
 }
 .light-scrollbar::-webkit-scrollbar {
   width: 12px;
@@ -199,7 +206,7 @@
 
   width: 100%;
 
-  border-top: 1px solid var(--secondary-text-theme-color);
+  border-top: 2px solid var(--secondary-text-theme-color);
 }
 @keyframes animatetop {
   from {
@@ -449,6 +456,8 @@
 
   display: flex;
   align-items: center;
+
+  color: var(--secondary-text-theme-color);
 }
 
 .back-button-top {
@@ -581,13 +590,13 @@
 .absolute.right {
   right: 5px;
 }
-.round4 {
+.br4 {
   border-radius: 4px;
 }
-.round8 {
+.br8 {
   border-radius: 8px;
 }
-.round16 {
+.br16 {
   border-radius: 16px;
 }
 .round {
@@ -880,7 +889,7 @@ input {
 }
 textarea:focus,
 input:focus {
-  border-color: var(--five-primary-color);
+  border-color: var(--seven-primary-color);
   background-color: var(--white-theme-color);
 }
 div {
@@ -934,4 +943,27 @@ div {
 [hoverinstructions].bottom-left {
   top: 100%;
   right: 0;
+}
+
+.checkbox-and-writing-container {
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.checkbox-box {
+  min-height: 16px;
+  min-width: 16px;
+
+  border: 2px solid var(--primary-text-theme-color);
+}
+.checkbox-check {
+  width: 9px;
+  height: 5px;
+
+  border-bottom: 2px solid var(--primary-text-theme-color);
+  border-left: 2px solid var(--primary-text-theme-color);
+
+  transform: rotate(-45deg);
 }

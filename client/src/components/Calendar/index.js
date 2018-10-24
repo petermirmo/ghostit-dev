@@ -43,7 +43,7 @@ class Calendar extends Component {
   }
   createDayHeaders = () => {
     let dayHeadingsArray = [];
-    for (let index = 1; index < 8; index++) {
+    for (let index = 0; index < 7; index++) {
       dayHeadingsArray.push(
         <div className="calendar-day-heading" key={index + "dayheading"}>
           {moment()
@@ -79,7 +79,7 @@ class Calendar extends Component {
     for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
       let calendarDays = [];
 
-      for (let dayIndex = 1; dayIndex <= 7; dayIndex++) {
+      for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
         let calendarDay = new moment(calendarDate);
         calendarDay = calendarDay.date(1);
 
@@ -105,7 +105,10 @@ class Calendar extends Component {
             <div className="date-plus-container">
               <div className="calendar-day-date">{calendarDay.date()}</div>
               {!pastDate && (
-                <FontAwesomeIcon icon={faPlus} className="calendar-day-plus" />
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className="calendar-day-plus common-transition ma4"
+                />
               )}
             </div>
             {calendarCampaignsArray[loopDay]}
@@ -123,7 +126,9 @@ class Calendar extends Component {
     return calendarWeekArray;
   };
   addCalendarEvents = (calendarEvents, calendarDate) => {
-    if (calendarEvents) calendarEvents.sort(compareCampaigns);
+    if (calendarEvents) calendarEvents = calendarEvents.sort(compareCampaigns);
+
+    console.log(calendarEvents);
 
     // Get first day of month, if it is Sunday we need 42 days in the calendar not 35
     let firstDayOfMonth = Number(
@@ -163,36 +168,23 @@ class Calendar extends Component {
     for (let index in calendarEvents) {
       let calendarEvent = calendarEvents[index];
 
-      // Checks to make sure that the campaign is within this month
-      if (
-        !(
-          new moment(calendarEvent.endDate) < calendarStartDate ||
-          new moment(calendarEvent.startDate) > calendarEndDate
-        )
-      ) {
+      if (isInMonth(calendarEvent, calendarStartDate, calendarEndDate)) {
+        // init variables to loop campaign
         let dateIndexOfEvent = new moment(calendarEvent.startDate);
-
         let firstLoop = true;
-
-        if (calendarEvent.posts) calendarEvent.posts.sort(compareCampaignPosts);
-
-        while (dateIndexOfEvent <= calendarStartDate) {
-          dateIndexOfEvent.add(1, "days");
-        }
-
         let indexToLoopCampaignPosts = 0;
 
+        // Make sure posts in a campaign are sorted
+        if (calendarEvent.posts) calendarEvent.posts.sort(compareCampaignPosts);
+
         while (
-          dateIndexOfEvent <= new moment(calendarEvent.endDate) &&
-          dateIndexOfEvent <= calendarEndDate &&
-          dateIndexOfEvent >= calendarStartDate
+          dateIndexIsInMonth(dateIndexOfEvent, calendarStartDate, calendarEvent)
         ) {
           // Current day array
           let currentCalendarDayOfEvents =
             calendarEventsArray[
-              Math.abs(calendarStartDate.diff(dateIndexOfEvent, "days")) + 1
+              getCurrentDay(calendarStartDate, dateIndexOfEvent)
             ];
-
           let campaignClassName = "campaign button";
 
           // If first loop of while loop
@@ -201,11 +193,12 @@ class Calendar extends Component {
             campaignClassName += " first-index-campaign";
           }
 
-          // If last index of campaign
           if (
-            dateIndexOfEvent.diff(new moment(calendarEvent.endDate), "days") ===
-              0 ||
-            dateIndexOfEvent.diff(calendarEndDate, "days") === 0
+            lastIndexOfCampaign(
+              dateIndexOfEvent,
+              calendarEvent,
+              calendarEndDate
+            )
           ) {
             campaignClassName += " last-index-campaign";
           }
@@ -215,6 +208,7 @@ class Calendar extends Component {
           // Get each post for this day of the campaign to display in calendar
           if (calendarEvent.posts) {
             if (calendarEvent.posts[indexToLoopCampaignPosts]) {
+              // Loop through posts in a campaign
               while (
                 new moment(
                   calendarEvent.posts[indexToLoopCampaignPosts].postingDate
@@ -356,7 +350,7 @@ class Calendar extends Component {
   addMonth = () => {
     let { calendarDate } = this.state;
     calendarDate.add(1, "months");
-    this.setState({ calendarDate: calendarDate });
+    this.setState({ calendarDate });
   };
 
   subtractMonth = () => {
@@ -405,7 +399,7 @@ class Calendar extends Component {
       <div className="calendar-header-two-rows">
         <div className="calendar-header-container px8 pt8">
           <div className="flex vt hc">
-            <div className="calendar-view-change button common-transition round4">
+            <div className="calendar-view-change button common-transition br4">
               <Filter
                 updateActiveCategory={this.props.updateActiveCategory}
                 categories={this.props.categories}
@@ -431,7 +425,7 @@ class Calendar extends Component {
           </div>
           <div className="flex vt hc">
             <div
-              className="calendar-view-change button common-transition pa8 round4"
+              className="calendar-view-change button common-transition py8 px16 br4"
               onClick={() => this.setState({ queueActive: !queueActive })}
             >
               {queueActive ? "Calendar" : "Queue Preview"}
@@ -451,7 +445,6 @@ class Calendar extends Component {
     let { calendarDate, queueActive } = this.state;
     if (queueActive) {
       let { calendarEvents, onSelectDay, onSelectPost } = this.props;
-
       let quePostsToDisplay = [];
       for (let index in calendarEvents) {
         let calendarEvent = calendarEvents[index];
@@ -515,8 +508,8 @@ class Calendar extends Component {
 }
 
 function compareCampaigns(a, b) {
-  if (a.startDate < b.startDate) return -1;
-  else if (a.startDate > b.startDate) return 1;
+  if (new moment(a.startDate) < new moment(b.startDate)) return -1;
+  else if (new moment(a.startDate) > new moment(b.startDate)) return 1;
   else return 0;
 }
 function compareCampaignPosts(a, b) {
@@ -538,6 +531,31 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({}, dispatch);
+}
+function isInMonth(calendarEvent, calendarStartDate, calendarEndDate) {
+  return !(
+    new moment(calendarEvent.endDate) < calendarStartDate ||
+    new moment(calendarEvent.startDate) > calendarEndDate
+  );
+}
+function dateIndexIsInMonth(
+  dateIndexOfEvent,
+  calendarStartDate,
+  calendarEvent
+) {
+  return (
+    dateIndexOfEvent <= new moment(calendarEvent.endDate) &&
+    dateIndexOfEvent >= calendarStartDate
+  );
+}
+function lastIndexOfCampaign(dateIndexOfEvent, calendarEvent, calendarEndDate) {
+  return (
+    dateIndexOfEvent.diff(new moment(calendarEvent.endDate), "days") === 0 ||
+    dateIndexOfEvent.diff(calendarEndDate, "days") === 0
+  );
+}
+function getCurrentDay(calendarStartDate, dateIndexOfEvent) {
+  return Math.abs(calendarStartDate.diff(dateIndexOfEvent, "days")) + 1;
 }
 export default connect(
   mapStateToProps,

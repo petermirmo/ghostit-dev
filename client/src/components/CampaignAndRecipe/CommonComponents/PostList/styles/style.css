@@ -9,7 +9,7 @@
 
   box-sizing: border-box;
 
-  padding: 20px 20px 60px 20px;
+  padding-bottom: 68px;
   overflow: auto;
 }
 .list-entry-with-delete {
@@ -20,10 +20,8 @@
 }
 .list-entry {
   width: 100% !important;
-  padding: 10px;
 
-  border-radius: 10px;
-  border: 2px solid transparent;
+  border-right: 8px solid transparent;
 
   color: var(--white-theme-color);
   white-space: nowrap;
@@ -31,6 +29,9 @@
   overflow: hidden;
 
   cursor: pointer;
+}
+.list-entry.active {
+  border-color: var(--green-theme-color);
 }
 .list-entry-name {
   color: inherit;
@@ -48,8 +49,6 @@
   min-width: 9px;
 
   margin-right: 5px;
-
-  border-radius: 2px;
 }
 .delete-container {
   position: relative;
@@ -69,7 +68,7 @@
   color: var(--white-theme-color);
 }
 .arrow-down {
-  color: var(--five-primary-color);
+  color: var(--secondary-text-theme-color);
 
   margin-left: auto;
   margin-right: auto;

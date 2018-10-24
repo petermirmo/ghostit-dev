@@ -157,15 +157,16 @@ class HeaderSideBar extends Component {
                   Analytics
                 </div>
               )}
-              {isAdmin && (
-                <div
-                  className={"header-button mb16  " + this.isActive("ads")}
-                  onClick={() => changePage("ads")}
-                >
-                  <FontAwesomeIcon icon={faAd} />
-                  Create an Ad
-                </div>
-              )}
+              {isAdmin &&
+                false && (
+                  <div
+                    className={"header-button mb16  " + this.isActive("ads")}
+                    onClick={() => changePage("ads")}
+                  >
+                    <FontAwesomeIcon icon={faAd} />
+                    Create an Ad
+                  </div>
+                )}
               <div
                 className={
                   "header-button mb16 " + this.isActive("social-accounts")
@@ -217,26 +218,30 @@ class HeaderSideBar extends Component {
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 Logout
               </div>
-              {(isAdmin || isManager) && (
-                <div
-                  className={
-                    "header-button mb16 " + this.isActive("writers-brief")
-                  }
-                  onClick={() => changePage("writers-brief")}
-                >
-                  <FontAwesomeIcon icon={faFileAlt} />
-                  Monthly Strategy
-                </div>
-              )}
-              {(isAdmin || isManager) && (
-                <div
-                  className={"header-button mb16 " + this.isActive("strategy")}
-                  onClick={() => changePage("strategy")}
-                >
-                  <FontAwesomeIcon icon={faFileAlt} />
-                  Your Questionnaire
-                </div>
-              )}
+              {(isAdmin || isManager) &&
+                false && (
+                  <div
+                    className={
+                      "header-button mb16 " + this.isActive("writers-brief")
+                    }
+                    onClick={() => changePage("writers-brief")}
+                  >
+                    <FontAwesomeIcon icon={faFileAlt} />
+                    Monthly Strategy
+                  </div>
+                )}
+              {(isAdmin || isManager) &&
+                false && (
+                  <div
+                    className={
+                      "header-button mb16 " + this.isActive("strategy")
+                    }
+                    onClick={() => changePage("strategy")}
+                  >
+                    <FontAwesomeIcon icon={faFileAlt} />
+                    Your Questionnaire
+                  </div>
+                )}
             </div>
           )}
         {clientSideBar && <ClientsSideBar />}

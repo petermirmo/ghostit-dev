@@ -169,7 +169,7 @@ class ContentModal extends Component {
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
-            className="close-scroll"
+            className="close"
             onClick={() => close("contentModal")}
           />
 

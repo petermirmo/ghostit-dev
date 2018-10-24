@@ -26,7 +26,7 @@
 }
 .post-navigation-container {
   width: 35%;
-  border-right: 0.5px solid var(--light-grey-theme-color);
+  border-right: 2px solid var(--secondary-text-theme-color);
   overflow: hidden;
 }
 

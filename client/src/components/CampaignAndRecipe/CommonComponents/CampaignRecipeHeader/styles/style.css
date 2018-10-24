@@ -10,7 +10,7 @@
   border-top-left-radius: inherit;
 
   background-color: var(--white-theme-color);
-  border-bottom: 0.5px solid var(--light-grey-theme-color);
+  border-bottom: 2px solid var(--secondary-text-theme-color);
 }
 .campaign-title {
   font-family: var(--silly-font-theme);
@@ -24,16 +24,20 @@
   border: none;
   box-sizing: border-box;
   text-align: center;
+  resize: none;
 }
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+.colors-container {
+  justify-content: flex-end;
+}
 .color-border {
 }
 .color {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 .color-border:hover,
 .color-border.active {

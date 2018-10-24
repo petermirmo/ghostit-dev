@@ -44,18 +44,15 @@ class PostList extends Component {
     const { newPost, deletePost, handleChange, duplicatePost } = this.props; // functions
 
     return (
-      <div className="list-container light-scrollbar">
+      <div className="list-container px16 pt16 light-scrollbar">
         {posts.map((post_obj, index) => {
           let postDate = post_obj.postingDate;
 
           let entryClassName = undefined;
-          let entryBorderColor = undefined;
           if (index === activePostIndex) {
-            entryClassName = "list-entry active";
-            entryBorderColor = campaign.color;
+            entryClassName = "list-entry br4 pa8 active";
           } else {
-            entryClassName = "list-entry";
-            entryBorderColor = getPostColor(post_obj.socialType);
+            entryClassName = "list-entry br4 pa8";
           }
 
           let savedBoxColor = "var(--green-theme-color)";
@@ -78,7 +75,7 @@ class PostList extends Component {
           return (
             <div className="list-entry-with-delete" key={index + "list-div"}>
               <div
-                className="saved-box"
+                className="saved-box round"
                 style={{
                   backgroundColor: savedBoxColor
                 }}
@@ -87,7 +84,6 @@ class PostList extends Component {
                 className={entryClassName}
                 onClick={e => this.selectPost(index)}
                 style={{
-                  borderColor: entryBorderColor,
                   backgroundColor: getPostColor(post_obj.socialType)
                 }}
               >
@@ -131,7 +127,6 @@ class PostList extends Component {
             icon={faArrowDown}
             size="2x"
             className="arrow-down"
-            style={{ color: campaign.color }}
           />
         )}
 

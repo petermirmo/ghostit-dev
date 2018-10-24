@@ -1,10 +1,14 @@
 module.exports = {
-  handleError: (res, err, object) => {
+  handleError: (res, err, object, message) => {
     if (object) {
       console.log(object);
     }
+    let error = err;
+    if (message) error = message;
+
     console.log(err);
-    res.send({ success: false, message: err });
+    console.log(message);
+    res.send({ success: false, message: error });
     return false;
   },
 
