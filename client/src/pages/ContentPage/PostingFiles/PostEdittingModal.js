@@ -121,7 +121,7 @@ class PostEdittingModal extends Component {
           <div className="modal-header">
             <FontAwesomeIcon
               icon={faTimes}
-              className="close-scroll"
+              className="close"
               size="2x"
               onClick={() => close()}
             />

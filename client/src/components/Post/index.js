@@ -22,9 +22,6 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 import "./styles";
 
 class PostingOptions extends Component {
-  state = {
-    showInstructions: true
-  };
   constructor(props) {
     super(props);
 
@@ -107,6 +104,12 @@ class PostingOptions extends Component {
     stateVariable.somethingChanged = false;
 
     stateVariable.date = new moment(props.post.postingDate);
+
+    if (this.state) {
+      if (this.state.showInstructions === true)
+        stateVariable.showInstructions = true;
+      else stateVariable.showInstructions = false;
+    } else stateVariable.showInstructions = true;
 
     return stateVariable;
   };
@@ -270,13 +273,13 @@ class PostingOptions extends Component {
     }
 
     return (
-      <div className="post-instruction-container light-scrollbar">
+      <div className="post-instruction-container">
         <div
-          className="posting-container"
+          className="posting-container light-scrollbar pa16"
           style={{ width: showInstructions ? "60%" : "100%" }}
         >
           <Textarea
-            className="posting-textarea"
+            className="posting-textarea pa8"
             placeholder="Success doesn't write itself!"
             onChange={event => {
               this.findLink(event.target.value);
@@ -336,7 +339,7 @@ class PostingOptions extends Component {
           {canEditPost &&
             (somethingChanged || (!this.props.recipeEditing && !_id)) && (
               <button
-                className="schedule-post-button"
+                className="schedule-post-button button br4 pa8 mt8"
                 onClick={() =>
                   this.setState(trySavePost(this.state, this.props))
                 }
@@ -369,7 +372,7 @@ class PostingOptions extends Component {
           )}
         </div>
         <div
-          className="instructions-container common-shadow"
+          className="instructions-container common-shadow light-scrollbar pa16"
           style={{
             width: showInstructions ? "40%" : "0",
             padding: showInstructions ? undefined : 0
@@ -379,14 +382,14 @@ class PostingOptions extends Component {
             <input
               onChange={event => this.handleChange(event.target.value, "name")}
               value={name}
-              className="pl4 mb8"
+              className="pa8 mb8 br4"
               placeholder="Title"
               readOnly={!canEditPost}
             />
           )}
           {showInstructions && (
             <Textarea
-              className="instruction-textarea"
+              className="instruction-textarea br4 pa8"
               placeholder="Include any comments or instructions here."
               onChange={event => {
                 this.handleChange(event.target.value, "instructions");

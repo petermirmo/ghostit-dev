@@ -2,254 +2,112 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import axios from "axios";
 
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
+import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import AmCharts from "@amcharts/amcharts3-react";
+import LineChart from "../../components/LineChart/";
 
 import "./styles/";
 
 class Analytics extends Component {
   constructor(props) {
     super(props);
-    this.getPosts();
-    this.state = {};
+
+    this.state = { analyticsObjects: undefined, activeAnalytics: [] };
   }
 
   componentDidMount() {
-    this.getAnalytics();
+    this.getAccountAnalytics();
   }
 
-  getAnalytics = () => {
-    if (this.props.user.role === "admin") {
-      axios.get("/api/analytics/test").then(res => {
-        const { analyticsObjects } = res.data;
-        this.setState({ analyticsObjects });
-      });
-    } else {
-      return;
-    }
-  };
-
-  getPageAnalytics = account => {
-    axios.get("/api/facebook/page/analytics/" + account._id).then(res => {
-      console.log(res.data);
+  getAccountAnalytics = () => {
+    axios.get("/api/ai/analytics/accounts").then(res => {
+      const { analyticsObjects } = res.data;
+      this.setState({ analyticsObjects });
     });
-  };
-
-  getAllFacebookPageAnalytics = () => {
-    axios.get("/api/facebook/page/analytics/all").then(res => {
-      const { success } = res.data;
-      if (!success) {
-        alert(res.data.message);
-        return;
-      } else {
-        this.getAnalytics();
-      }
-    });
-  };
-
-  getPostAnalytics = post => {
-    axios.get("/api/facebook/post/analytics/" + post._id).then(res => {
-      console.log(res.data);
-    });
-  };
-  getPosts = () => {
-    let facebookPosts = [];
-    axios.get("/api/posts").then(res => {
-      let { posts } = res.data;
-
-      for (let index in posts) {
-        if (posts[index].socialType === "facebook") {
-          facebookPosts.push(posts[index]);
-        }
-      }
-      this.setState({
-        facebookPosts
-      });
-    });
-  };
-
-  displayFBAnalyticsObj = obj => {
-    const { showMetricsArray, activeMonthIndexArray } = this.state;
-    let metricArray = [];
-    for (let i = 0; i < obj.analytics.length; i++) {
-      const metric = obj.analytics[i];
-      metricArray.push(
-        <div className="metric-container" key={i + "metricObj"}>
-          <h2>{metric.title}</h2>
-          <div
-            className="show-metric-toggle"
-            onClick={() => {
-              this.setState(prevState => {
-                return {
-                  showMetricsArray: [
-                    ...prevState.showMetricsArray.slice(0, i),
-                    prevState.showMetricsArray[i] ? false : true,
-                    ...prevState.showMetricsArray.slice(i + 1)
-                  ],
-                  activeMonthIndexArray: [
-                    ...prevState.activeMonthIndexArray.slice(0, i),
-                    prevState.activeMonthIndexArray[i] === undefined
-                      ? 0
-                      : prevState.activeMonthIndexArray[i],
-                    ...prevState.activeMonthIndexArray.slice(i + 1)
-                  ]
-                };
-              });
-            }}
-          >
-            Toggle
-          </div>
-          {showMetricsArray[i] && (
-            <div className="metric-graph-container">
-              <div
-                className="left-arrow"
-                onClick={() => {
-                  this.setState(prevState => {
-                    return {
-                      activeMonthIndexArray: [
-                        ...prevState.activeMonthIndexArray.slice(0, i),
-                        prevState.activeMonthIndexArray[i] === 0
-                          ? 0
-                          : prevState.activeMonthIndexArray[i] - 1,
-                        ...prevState.activeMonthIndexArray.slice(i + 1)
-                      ]
-                    };
-                  });
-                }}
-              >
-                left
-              </div>
-              {metric.monthlyValues[activeMonthIndexArray[i]].month +
-                "-" +
-                metric.monthlyValues[activeMonthIndexArray[i]].year}
-              <div
-                className="right-arrow"
-                onClick={() => {
-                  this.setState(prevState => {
-                    return {
-                      activeMonthIndexArray: [
-                        ...prevState.activeMonthIndexArray.slice(0, i),
-                        prevState.activeMonthIndexArray[i] ===
-                        metric.monthlyValues.length - 1
-                          ? prevState.activeMonthIndexArray[i]
-                          : prevState.activeMonthIndexArray[i] + 1,
-                        ...prevState.activeMonthIndexArray.slice(i + 1)
-                      ]
-                    };
-                  });
-                }}
-              >
-                right
-              </div>
-              {this.monthToGraph(
-                metric.monthlyValues[activeMonthIndexArray[i]]
-              )}
-            </div>
-          )}
-        </div>
-      );
-    }
-    return metricArray;
-  };
-
-  monthToGraph = monthObj => {
-    const dataProvider = [];
-    for (let i = 0; i < monthObj.values.length; i++) {
-      let dayObj = monthObj.values[i];
-      if (dayObj.value.length === 0) {
-        dataProvider.push({ day: dayObj.day, value: 0 });
-      } else if (dayObj.value.length === 1) {
-        dataProvider.push({ day: dayObj.day, value: dayObj.value[0].value });
-      } else {
-        return undefined;
-      }
-    }
-    if (dataProvider.length === 0) {
-      return undefined;
-    }
-    const config = {
-      type: "serial",
-      categoryField: "day",
-      graphs: [
-        {
-          valueField: "value",
-          type: "line",
-          bullet: "round",
-          balloonText: "[[category]]: <b>[[value]]</b>"
-        }
-      ],
-      dataProvider
-    };
-    return (
-      <AmCharts.React
-        style={{ width: "100%", height: "340px" }}
-        options={config}
-      />
-    );
-  };
-
-  getValuesFromFBDayObj = dayObj => {
-    if (dayObj.value.length === 0) {
-      return "-";
-    } else {
-      let result = "";
-      for (let i = 0; i < dayObj.value.length; i++) {
-        const value = dayObj.value[i];
-        if (value.key === "value") {
-          result += value.value + " ";
-        } else {
-          result += '"' + value.key + '"' + ":" + value.value + " ";
-        }
-      }
-      return result;
-    }
   };
 
   render() {
     let { accounts } = this.props;
-    let { facebookPosts, analyticsObjects, activeAnalyticsIndex } = this.state;
+    let { facebookPosts, analyticsObjects } = this.state;
+    let dataPointArrays = [];
+    let dataLinesInformation = [];
+
+    if (analyticsObjects) {
+      let analyticsObject = analyticsObjects[3];
+      if (analyticsObject) {
+        for (let index in analyticsObject.analytics) {
+          let dataPointArray = [];
+
+          dataLinesInformation.push({
+            description: analyticsObject.analytics[index].description,
+            title: analyticsObject.analytics[index].title
+          });
+          for (let index2 in analyticsObject.analytics[index].monthlyValues) {
+            for (let index3 in analyticsObject.analytics[index].monthlyValues[
+              index2
+            ].values) {
+              if (
+                analyticsObject.analytics[index].monthlyValues[index2].values[
+                  index3
+                ].value[0]
+              )
+                dataPointArray.push(
+                  analyticsObject.analytics[index].monthlyValues[index2].values[
+                    index3
+                  ].value[0].value
+                );
+              else dataPointArray.push(0);
+            }
+          }
+          dataPointArrays.push(dataPointArray);
+        }
+      }
+    }
+
+    let singleDataArray = [];
+    if (dataPointArrays[0]) singleDataArray[0] = dataPointArrays[9];
+
+    if (this.props.user.role !== "admin") {
+      return <div>Under Construction</div>;
+    }
 
     return (
       <div className="wrapper" style={this.props.margin}>
-        {this.props.user.role === "admin" && (
-          <div className="test-container">
-            <div
-              onClick={() => this.getAllFacebookPageAnalytics()}
-              className="here"
-            >
-              Get All FB Pages
-            </div>
+        <div className="flex">
+          <div className="flex column line-chart-navigation-container">
+            {dataLinesInformation.map((object, index) => (
+              <div
+                className="line-chart-navigation-item button ma4 pa4"
+                onClick={() => {}}
+                key={index + "item"}
+              >
+                {object.title}
+              </div>
+            ))}
           </div>
-        )}
-        {this.props.user.role === "admin" &&
-          analyticsObjects && (
-            <div className="test-container">
-              {analyticsObjects.map((obj, index) => {
-                return (
-                  <div
-                    className="here"
-                    key={index + "account"}
-                    onClick={() =>
-                      this.setState({
-                        activeAnalyticsIndex: index,
-                        showMetricsArray: [],
-                        activeMonthIndexArray: []
-                      })
-                    }
-                  >
-                    {obj.accountName ? obj.accountName : "Unknown Name"}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        {activeAnalyticsIndex !== undefined && (
-          <div className="analytics-display">
-            {this.displayFBAnalyticsObj(analyticsObjects[activeAnalyticsIndex])}
+          <div className="line-chart-container">
+            <LineChart
+              {...{
+                lines: singleDataArray,
+                colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
+                labels: ["Cats", "Dogs", "Ducks", "Cows"],
+                axis: [
+                  "October",
+                  "November",
+                  "December",
+                  "January",
+                  "February",
+                  "Marsh"
+                ]
+              }}
+            />
           </div>
-        )}
+        </div>
       </div>
     );
   }
