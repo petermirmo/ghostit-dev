@@ -176,7 +176,12 @@ class Calendar extends Component {
         if (calendarEvent.posts) calendarEvent.posts.sort(compareCampaignPosts);
 
         while (
-          dateIndexIsInMonth(dateIndexOfEvent, calendarStartDate, calendarEvent)
+          dateIndexIsInMonth(
+            dateIndexOfEvent,
+            calendarStartDate,
+            calendarEvent,
+            calendarEndDate
+          )
         ) {
           // Current day array
           let currentCalendarDayOfEvents =
@@ -533,7 +538,8 @@ function isInMonth(calendarEvent, calendarStartDate, calendarEndDate) {
 function dateIndexIsInMonth(
   dateIndexOfEvent,
   calendarStartDate,
-  calendarEvent
+  calendarEvent,
+  calendarEndDate
 ) {
   return (
     dateIndexOfEvent <= new moment(calendarEvent.endDate) &&
