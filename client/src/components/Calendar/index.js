@@ -141,11 +141,14 @@ class Calendar extends Component {
     // Get calendar starting date
     let calendarStartDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
-      .add(firstDayOfMonth === 0 ? -6 : 1, "days");
+      .add(firstDayOfMonth === 0 ? -7 : 0, "days");
     // Get calendar ending date
     let calendarEndDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
       .add(35, "days");
+
+    console.log(calendarStartDate.format("lll"));
+    console.log(calendarEndDate.format("lll"));
 
     calendarStartDate.set("hour", 0);
     calendarStartDate.set("minute", 0);
