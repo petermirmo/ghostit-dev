@@ -89,12 +89,8 @@
 }
 .calendar-day-plus {
   background-color: transparent;
-  color: var(--three-primary-color);
+  color: var(--five-primary-color);
   float: right;
-  margin: 4px;
-
-  transition: all 0.4s ease;
-  -webkit-transition: all 0.4s ease;
 }
 
 .first-index-campaign {
@@ -108,9 +104,9 @@
   grid-auto-flow: column;
 
   width: calc(100% + 1px);
-  min-height: 30px;
+  min-height: 34px;
 
-  padding: 2px;
+  padding: 4px;
 
   margin-bottom: 2px;
 
@@ -119,7 +115,7 @@
   background-color: var(--five-primary-color);
 }
 .calendar-post {
-  padding: 2px 10px 2px 10px;
+  padding: 2px 8px 2px 8px;
   margin-right: 2px;
   color: var(--white-theme-color);
 

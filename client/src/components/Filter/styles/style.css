@@ -4,8 +4,6 @@
 
   background-color: transparent;
 
-  cursor: pointer;
-  user-select: none;
   font-size: inherit;
   color: inherit;
 }
@@ -35,11 +33,9 @@
   box-shadow: 0 0 10px 0 black;
 }
 .dropdown .item {
-  padding: 6px 8px 6px 8px;
+  width: 100%;
 }
 
 .dropdown .item.active,
 .dropdown .item:hover {
-  background-color: var(--seven-primary-color);
-  color: var(--white-theme-color);
 }

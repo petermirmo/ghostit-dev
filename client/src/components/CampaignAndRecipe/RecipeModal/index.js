@@ -240,10 +240,10 @@ class RecipeModal extends Component {
         >
           <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
           <div className="new-campaign-text">
-            <div style={{ fontWeight: "bold", fontSize: "inherit" }}>New</div>
+            New <br />
             Campaign
           </div>
-          <div className="hover-active-div">Create</div>
+          <div className="hover-active-div br4 px32 py8">Create</div>
         </div>
       </div>
     );
@@ -267,10 +267,10 @@ class RecipeModal extends Component {
         >
           <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
           <div className="new-campaign-text">
-            <div style={{ fontWeight: "bold", fontSize: "inherit" }}>New</div>
+            New <br />
             Template
           </div>
-          <div className="hover-active-div">Create</div>
+          <div className="hover-active-div br4 px32 py8">Create</div>
         </div>
       </div>
     );
@@ -292,12 +292,10 @@ class RecipeModal extends Component {
         >
           <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
           <div className="new-campaign-text">
-            <div style={{ fontWeight: "bold", fontSize: "inherit" }}>
-              Single
-            </div>
-            Task
+            Single
+            <br /> Task
           </div>
-          <div className="hover-active-div">Create</div>
+          <div className="hover-active-div br4 px32 py8">Create</div>
           {tutorial.on &&
             tutorial.value === 5 && (
               <Tutorial
@@ -472,8 +470,8 @@ class RecipeModal extends Component {
             <div
               className={
                 activeRecipes === this.state.usersRecipes
-                  ? "recipe-navigation-option active"
-                  : "recipe-navigation-option"
+                  ? "recipe-navigation-option pa4 button mx8 active"
+                  : "recipe-navigation-option pa4 button mx8"
               }
               onClick={() => {
                 this.setState({
@@ -488,8 +486,8 @@ class RecipeModal extends Component {
             <div
               className={
                 activeRecipes === this.state.allRecipes
-                  ? "recipe-navigation-option active"
-                  : "recipe-navigation-option"
+                  ? "recipe-navigation-option pa4 button mx8 active"
+                  : "recipe-navigation-option pa4 button mx8"
               }
               onClick={() => {
                 this.setState({

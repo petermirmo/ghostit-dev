@@ -14,19 +14,36 @@ class Filter extends Component {
       if (!index) break;
       categoryDivs.push(
         <div
-          className={categories[index] ? "item active" : "item"}
+          className="checkbox-and-writing-container spacing left"
           key={index}
           onClick={() => updateActiveCategory(index)}
           id={index}
         >
-          {index}
+          <div
+            className="checkbox-box  flex vc hc br4"
+            onClick={() =>
+              this.handleChange(!sendEmailReminder, "sendEmailReminder")
+            }
+          >
+            <div
+              className="checkbox-check"
+              style={{ display: categories[index] ? undefined : "none" }}
+            />
+          </div>
+          <div
+            className={
+              categories[index] ? "item px8 py4 active" : "item px8 py4"
+            }
+          >
+            {index}
+          </div>
         </div>
       );
     }
 
     return (
-      <div className="filter-container">
-        <div className="dropdown-title pa8">
+      <div className="filter-container button px16 py8">
+        <div className="dropdown-title">
           Filter Calendar
           <FontAwesomeIcon icon={faAngleDown} style={{ marginLeft: "6px" }} />
         </div>

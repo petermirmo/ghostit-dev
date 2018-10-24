@@ -76,7 +76,7 @@ class Profile extends Component {
     return (
       <div>
         <div className="profile-background flex vc hc">
-          <div className="profile-container flex column round16 pa32">
+          <div className="profile-container flex column br16 pa32">
             <div className="profile-label mx8 mb4">Company Name</div>
             <input
               type="text"

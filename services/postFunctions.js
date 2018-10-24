@@ -68,7 +68,7 @@ module.exports = {
       } else if (post.socialType === "instagram") {
         backgroundColorOfPost = "#cd486b";
       } else if (post.socialType === "custom") {
-        backgroundColorOfPost = "var(--orange-theme-color)";
+        backgroundColorOfPost = "var(--seven-purple-color)";
       }
 
       let emailReminder;

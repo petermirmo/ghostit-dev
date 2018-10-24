@@ -1,33 +1,22 @@
 .new-post-prompt {
   flex: 1;
-  display: flex;
 
   justify-content: center;
   align-items: flex-start;
 
   width: 100%;
   max-width: 500px;
-
-  margin-top: 20px;
 }
 .account-option {
   flex-grow: 1;
   flex-basis: 0;
   text-align: center;
 
-  padding: 8px;
-  margin-right: 4px;
-
-  border-radius: 10px;
-  border: 1px solid var(--secondary-text-theme-color);
-
-  font-size: var(--small-font-size);
-
-  cursor: pointer;
+  font-size: var(--sixteen-font-size);
+  background-color: var(--seven-primary-color);
+  color: var(--white-theme-color);
 }
 .account-option:hover {
-  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
-
-  border-color: transparent;
+  background-color: var(--six-primary-color);
 }

@@ -18,19 +18,19 @@ class CampaignRecipeHeader extends Component {
     this.state = {
       colors: {
         color1: {
-          color: "var(--campaign-color1)"
+          color: "var(--campaign-color3)"
         },
         color2: {
           color: "var(--campaign-color2)"
         },
         color3: {
-          color: "var(--campaign-color3)"
+          color: "var(--campaign-color1)"
         },
         color4: {
           color: "var(--campaign-color4)"
         }
       },
-      showMore: true
+      showMore: false
     };
   }
 
@@ -46,11 +46,13 @@ class CampaignRecipeHeader extends Component {
       colorDivs.push(
         <div
           className={"color-border mx4 pa4 round button " + isActive}
+          style={{
+            borderColor: colors[index].color
+          }}
           onClick={() => {
             handleChange(colors[index].color, "color");
           }}
           key={index}
-          style={{ borderColor: colors[index].color }}
         >
           <div
             className="color round"
@@ -66,10 +68,7 @@ class CampaignRecipeHeader extends Component {
     if (!showMore) display = "none";
 
     return (
-      <div
-        className="campaign-information-container flex column pb32"
-        style={{ borderColor: campaign.color }}
-      >
+      <div className="campaign-information-container flex column pb32">
         <div
           className="close-container"
           title={
@@ -128,7 +127,7 @@ class CampaignRecipeHeader extends Component {
                 dateLowerBound={new moment()}
               />
             </div>
-            <div className="flex hc vc">{colorDivs}</div>
+            <div className="colors-container flex vc">{colorDivs}</div>
           </div>
         </div>
 

@@ -26,7 +26,7 @@ class CustomTask extends Component {
       instructions: "",
       name: "Custom Task",
       sendEmailReminder: true,
-      color: "var(--orange-theme-color)"
+      color: "var(--seven-purple-color)"
     };
     if (props.post) {
       stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -179,19 +179,19 @@ class CustomTask extends Component {
 
     return (
       <div
-        className="posting-container light-scrollbar"
+        className="posting-container light-scrollbar pa16"
         style={{ width: "100%" }}
       >
         <input
           onChange={event => this.handleChange(event.target.value, "name")}
           value={name}
-          className="title-input mb8"
+          className="title-input mb8 br4 pa8"
           placeholder="Title"
           readOnly={!canEditPost}
         />
         <Textarea
           style={{ minHeight: "30vh" }}
-          className="instruction-textarea"
+          className="instruction-textarea pa8 br4"
           placeholder="Describe this task!"
           onChange={event =>
             this.handleChange(event.target.value, "instructions")
@@ -208,9 +208,9 @@ class CustomTask extends Component {
             pushToImageDeleteArray={this.pushToImageDeleteArray}
           />
 
-          <div className="checkbox-and-writing-container spacing left">
+          <div className="checkbox-and-writing-container spacing left my8">
             <div
-              className="checkbox-box"
+              className="checkbox-box flex vc hc mr8"
               onClick={() =>
                 this.handleChange(!sendEmailReminder, "sendEmailReminder")
               }
@@ -235,7 +235,7 @@ class CustomTask extends Component {
         </div>
         {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
           <button
-            className="schedule-post-button"
+            className="schedule-post-button button br4 pa8 mt8"
             onClick={() => this.setState(trySavePost(this.state, this.props))}
           >
             Save Task!

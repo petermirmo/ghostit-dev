@@ -76,7 +76,7 @@ class ManageColumn extends Component {
       activeObjectsDivs.push(
         <div
           key={index}
-          className="user-row round4 pa8 mb8"
+          className="user-row br4 pa8 mb8"
           onClick={() => handleClickedObject(activeObjects[index])}
         >
           {name}
