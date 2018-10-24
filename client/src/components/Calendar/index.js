@@ -183,6 +183,7 @@ class Calendar extends Component {
             calendarEventsArray[
               getCurrentDay(calendarStartDate, dateIndexOfEvent)
             ];
+
           let campaignClassName = "campaign button";
 
           // If first loop of while loop
@@ -536,6 +537,7 @@ function dateIndexIsInMonth(
 ) {
   return (
     dateIndexOfEvent <= new moment(calendarEvent.endDate) &&
+    dateIndexOfEvent <= calendarEndDate &&
     dateIndexOfEvent >= calendarStartDate
   );
 }
