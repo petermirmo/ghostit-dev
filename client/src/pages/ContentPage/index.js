@@ -291,6 +291,39 @@ class Content extends Component {
         calendarEvents = calendarEvents.concat(newsletterPosts);
     if (Campaigns || All)
       if (campaigns) calendarEvents = calendarEvents.concat(campaigns);
+    if (!Campaigns && !All) {
+      // only add the campaigns that have at least 1 post that passes the filter
+      // and within that campaign, only include the qualifying posts
+      for (let i = 0; i < campaigns.length; i++) {
+        const campaign = { ...campaigns[i], posts: [] };
+        for (let j = 0; j < campaigns[i].posts.length; j++) {
+          const post = campaigns[i].posts[j];
+          switch (post.socialType) {
+            case "facebook":
+              if (Facebook) campaign.posts.push(post);
+              break;
+            case "twitter":
+              if (Twitter) campaign.posts.push(post);
+              break;
+            case "linkedin":
+              if (Linkedin) campaign.posts.push(post);
+              break;
+            case "instagram":
+              if (Instagram) campaign.posts.push(post);
+              break;
+            case "blog":
+              if (Blog) campaign.posts.push(post);
+              break;
+            case "newsletter":
+              if (Newsletter) campaign.posts.push(post);
+              break;
+          }
+        }
+        if (campaign.posts.length > 0) {
+          calendarEvents.push(campaign);
+        }
+      }
+    }
 
     return (
       <div className="content-page">
