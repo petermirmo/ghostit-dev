@@ -103,7 +103,12 @@ class PostingOptions extends Component {
     stateVariable.linkImagesArray = [];
     stateVariable.somethingChanged = false;
 
-    stateVariable.date = new moment(props.post.postingDate);
+    stateVariable.date =
+      props.post && props.post.postingDate
+        ? new moment(props.post.postingDate)
+        : props.campaignStartDate
+          ? new moment(props.campaignStartDate)
+          : new moment(props.clickedCalendarDate);
 
     if (this.state) {
       if (this.state.showInstructions === true)

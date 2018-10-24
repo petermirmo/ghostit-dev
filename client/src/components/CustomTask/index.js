@@ -47,81 +47,44 @@ class CustomTask extends Component {
     stateVariable.deleteImagesArray = [];
     stateVariable.somethingChanged = false;
 
-    if (props.recipeEditor) {
-      stateVariable.instructions = props.instructions;
-      stateVariable.date = new moment(props.clickedCalendarDate);
-      stateVariable.socialType = props.socialType;
-      stateVariable.name =
-        props.name && props.name !== "" ? props.name : "Custom Task";
-    } else {
-      stateVariable.date = props.post
+    stateVariable.date =
+      props.post && props.post.postingDate
         ? new moment(props.post.postingDate)
-        : new moment() > new moment(props.clickedCalendarDate)
-          ? new moment()
+        : props.campaignStartDate
+          ? new moment(props.campaignStartDate)
           : new moment(props.clickedCalendarDate);
-    }
 
     return stateVariable;
   };
   componentWillReceiveProps(nextProps) {
-    if (this.state.somethingChanged && nextProps.post && nextProps.post._id) {
-      if (nextProps.post._id !== this.state._id) {
-        // if we are changing to a different post, make sure somethingChanged is false so the schedule post button doesn't show
-        this.setState({ somethingChanged: false });
-      } else if (
-        !nextProps.listOfChanges ||
-        nextProps.listOfChanges.length === 0
-      ) {
-        this.setState({ somethingChanged: false });
-      }
-    }
-    if (nextProps.post) {
-      if (nextProps.post.campaignID) {
-        this.setState(this.createState(nextProps));
-      }
-    }
-
-    if (nextProps.recipeEditor) {
-      this.setState(this.createState(nextProps));
-    }
-
     if (nextProps.listOfChanges) {
       // this is run when the campaignModal's state changes which results in a re-render of this
       // Post component. this block will make sure all the previous unsaved changes to the Post component are reapplied
-      this.setState((prevState, nextProps) => {
-        let changes = {};
-        let somethingChanged = false;
-
-        for (let index in nextProps.listOfChanges) {
-          const change = nextProps.listOfChanges[index];
-          if (prevState[index] !== change) {
-            somethingChanged = true;
-            changes[index] = change;
-          }
-        }
-        if (somethingChanged) {
-          changes.somethingChanged = true;
-          return changes;
-        }
-      });
+      if (Object.keys(nextProps.listOfChanges).length > 0) {
+        this.setState({ ...nextProps.listOfChanges, somethingChanged: true });
+      } else {
+        this.setState({ somethingChanged: false });
+      }
+    } else {
+      // this block is entered when a new post is created within a campaign,
+      // or when changing to a different post within a campaign
+      // or at the beginning of a new single post creation,
+      // or when a post/campaign that already exists is opened from the calendar
+      this.setState(this.createState(nextProps));
     }
   }
   componentDidMount() {
     this._ismounted = true;
 
-    let {
-      campaignID,
-      campaignDateLowerBound,
-      campaignDateUpperBound
-    } = this.props;
+    let { campaignStartDate, campaignEndDate } = this.props;
     let { date } = this.state;
 
-    if (campaignID) {
+    if (campaignStartDate && campaignEndDate) {
       if (
-        date < new moment(campaignDateLowerBound) ||
-        date > new moment(campaignDateUpperBound)
+        date < new moment(campaignStartDate) ||
+        date > new moment(campaignEndDate)
       ) {
-        this.setState({ date: new moment(campaignDateLowerBound) });
+        this.setState({ date: new moment(campaignStartDate) });
       }
     }
   }
