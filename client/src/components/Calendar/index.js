@@ -147,9 +147,6 @@ class Calendar extends Component {
       .subtract(firstDayOfMonth, "days")
       .add(35, "days");
 
-    console.log(calendarStartDate.format("lll"));
-    console.log(calendarEndDate.format("lll"));
-
     calendarStartDate.set("hour", 0);
     calendarStartDate.set("minute", 0);
 
