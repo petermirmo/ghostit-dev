@@ -35,7 +35,12 @@ fillCampaignPosts = async (res, campaigns) => {
         }
       });
     }
-  } else return [];
+  } else {
+    return res.send({
+      success: true,
+      campaigns: []
+    });
+  }
 };
 
 module.exports = {
@@ -401,6 +406,24 @@ module.exports = {
           );
         }
       }
+    });
+  },
+  createNewCalendar: function(req, res) {
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    const newCalendar = new Calendar();
+    newCalendar.calendarName = req.body.name;
+    newCalendar.adminID = userID;
+    newCalendar.userIDs = [userID];
+    newCalendar.personalCalendar = false;
+
+    newCalendar.save().then(() => {
+      res.send({ success: true, newCalendar });
     });
   }
 };

@@ -372,4 +372,8 @@ module.exports = app => {
   app.get("/api/calendar/campaigns/:calendarID", middleware, (req, res) =>
     calendarFunctions.getCampaigns(req, res)
   );
+
+  app.post("/api/calendars/new", middleware, (req, res) =>
+    calendarFunctions.createNewCalendar(req, res)
+  );
 };

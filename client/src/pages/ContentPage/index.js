@@ -322,6 +322,23 @@ class Content extends Component {
     }
   };
 
+  updateActiveCalendar = index => {
+    this.setState({ activeCalendarIndex: index }, this.fillCalendar);
+  };
+
+  createNewCalendar = name => {
+    axios.post("/api/calendars/new", { name }).then(res => {
+      const { success, newCalendar } = res.data;
+      if (success) {
+        this.setState(prevState => {
+          return {
+            calendars: [...prevState.calendars, newCalendar]
+          };
+        });
+      }
+    });
+  };
+
   render() {
     const {
       calendarEventCategories,
@@ -407,6 +424,10 @@ class Content extends Component {
     return (
       <div className="content-page">
         <Calendar
+          calendars={calendars}
+          activeCalendarIndex={activeCalendarIndex}
+          updateActiveCalendar={this.updateActiveCalendar}
+          createNewCalendar={this.createNewCalendar}
           calendarEvents={calendarEvents}
           calendarDate={new moment()}
           onSelectDay={this.openModal}

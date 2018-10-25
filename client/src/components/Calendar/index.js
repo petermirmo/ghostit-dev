@@ -24,6 +24,7 @@ import {
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
 import Tutorial from "../Tutorial/";
+import CalendarPicker from "../CalendarPicker/";
 
 import "./styles/";
 
@@ -127,8 +128,6 @@ class Calendar extends Component {
   };
   addCalendarEvents = (calendarEvents, calendarDate) => {
     if (calendarEvents) calendarEvents = calendarEvents.sort(compareCampaigns);
-
-    console.log(calendarEvents);
 
     // Get first day of month, if it is Sunday we need 42 days in the calendar not 35
     let firstDayOfMonth = Number(
@@ -432,13 +431,14 @@ class Calendar extends Component {
             </div>
           </div>
         </div>
-        <div className="calendar-picker">{this.getCalendarPicker()}</div>
+        <CalendarPicker
+          calendars={this.props.calendars}
+          activeCalendarIndex={this.props.activeCalendarIndex}
+          updateActiveCalendar={this.props.updateActiveCalendar}
+          createNewCalendar={this.props.createNewCalendar}
+        />
       </div>
     );
-  };
-
-  getCalendarPicker = () => {
-    return <div>{"Calendar!"}</div>;
   };
 
   render() {
