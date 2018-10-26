@@ -24,7 +24,10 @@ class CalendarPicker extends Component {
           <FontAwesomeIcon
             className="manage-calendar-icon"
             icon={faCog}
-            onClick={() => {}}
+            onClick={e => {
+              e.stopPropagation();
+              this.props.enableManageCalendarModal();
+            }}
           />
         </div>
       );
