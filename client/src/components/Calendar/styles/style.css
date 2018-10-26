@@ -16,6 +16,7 @@
   grid-template-columns: 1fr 3fr 1fr;
   width: 100%;
   box-sizing: border-box;
+  overflow: visible;
 }
 .center-header-container {
   display: flex;
@@ -28,6 +29,9 @@
   font-size: var(--h1-font-size);
   font-weight: bold;
   user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .calendar-switch-month {
   color: var(--seven-primary-color);
@@ -134,20 +138,14 @@
 }
 
 .queue-container {
-  display: flex;
-  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 0 10px 0 10px;
+  min-height: 80vh;
 }
 .queue-post-container {
-  display: flex;
-
   width: 100%;
-  padding: 10px 0 10px 0;
 
   border-top: 1px solid var(--nine-primary-color);
-  cursor: pointer;
 }
 .queue-post-container:last-child {
   border-bottom: 1px solid var(--nine-primary-color);
@@ -156,7 +154,6 @@
   flex: 3;
   flex-basis: 0;
 
-  display: flex;
   align-items: center;
 }
 .queue-post-attribute.important {

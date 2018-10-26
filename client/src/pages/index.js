@@ -12,25 +12,25 @@ import {
   updateAccounts,
   setTutorial,
   openHeaderSideBar
-} from "./redux/actions/";
+} from "../redux/actions/";
 
-import LoaderWedge from "./components/Notifications/LoaderWedge";
+import LoaderWedge from "../components/Notifications/LoaderWedge";
 
-import Header from "./components/Navigations/Header/";
+import Header from "../components/Navigations/Header/";
 
-import LoginPage from "./pages/LoginPage/";
-import Subscribe from "./pages/SubscribePage/";
-import Content from "./pages/ContentPage/";
-import Strategy from "./pages/StrategyPage/";
-import Accounts from "./pages/AccountsPage/";
-import Manage from "./pages/ManagePage/";
-import Profile from "./pages/ProfilePage/";
-import MySubscription from "./pages/MySubscriptionPage/";
-import Analytics from "./pages/AnalyticsPage/";
-import WritersBrief from "./pages/WritersBriefPage/";
-import Ads from "./pages/AdsPage/";
+import LoginPage from "./LoginPage/";
+import Subscribe from "./SubscribePage/";
+import Content from "./ContentPage/";
+import Strategy from "./StrategyPage/";
+import Accounts from "./AccountsPage/";
+import Manage from "./ManagePage/";
+import Profile from "./ProfilePage/";
+import MySubscription from "./MySubscriptionPage/";
+import Analytics from "./AnalyticsPage/";
+import WritersBrief from "./WritersBriefPage/";
+import Ads from "./AdsPage/";
 
-import "./css/";
+import Website from "../website";
 
 class Routes extends Component {
   state = {
@@ -41,7 +41,7 @@ class Routes extends Component {
     axios.get("/api/user").then(res => {
       let { success, user } = res.data;
 
-      if (success) {
+      if (user) {
         // Get all connected accounts of the user
         axios.get("/api/accounts").then(res => {
           // Set user's accounts to state
@@ -64,16 +64,7 @@ class Routes extends Component {
 
           this.setState({ datebaseConnection: true });
         });
-      } else {
-        if (
-          props.activePage &&
-          props.activePage != "sign-in" &&
-          props.activePage != "sign-up"
-        )
-          props.changePage("");
-
-        this.setState({ datebaseConnection: true });
-      }
+      } else this.setState({ datebaseConnection: true });
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -131,21 +122,27 @@ class Routes extends Component {
       }
     });
   };
-  getPage = activePage => {
-    if (activePage === "") return <LoginPage />;
-    else if (activePage === "sign-up") return <LoginPage signUp={true} />;
-    else if (activePage === "sign-in") return <LoginPage />;
-    else if (activePage === "subscribe") return <Subscribe />;
-    else if (activePage === "content") return <Content />;
-    else if (activePage === "strategy") return <Strategy />;
-    else if (activePage === "analytics") return <Analytics />;
-    else if (activePage === "social-accounts") return <Accounts />;
-    else if (activePage === "writers-brief") return <WritersBrief />;
-    else if (activePage === "manage") return <Manage />;
-    else if (activePage === "profile") return <Profile />;
-    else if (activePage === "subscription") return <MySubscription />;
-    else if (activePage === "ads") return <Ads />;
-    else return <Content />;
+  getPage = (activePage, user) => {
+    if (user) {
+      if (activePage === "subscribe") return <Subscribe />;
+      else if (activePage === "content") return <Content />;
+      else if (activePage === "strategy") return <Strategy />;
+      else if (activePage === "analytics") return <Analytics />;
+      else if (activePage === "social-accounts") return <Accounts />;
+      else if (activePage === "writers-brief") return <WritersBrief />;
+      else if (activePage === "manage") return <Manage />;
+      else if (activePage === "profile") return <Profile />;
+      else if (activePage === "subscription") return <MySubscription />;
+      else if (activePage === "ads") return <Ads />;
+      else return <Content />;
+      // TODO: Should probably return a not found page^^
+    } else {
+      if (activePage === "sign-up") return <LoginPage signUp={true} />;
+      else if (activePage === "sign-in") return <LoginPage />;
+      else if (activePage === "home")
+        return <Website activePage={activePage} />;
+      else return <LoginPage />;
+    }
   };
   render() {
     const { datebaseConnection } = this.state;
@@ -157,7 +154,7 @@ class Routes extends Component {
     let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
 
-    let page = this.getPage(activePage);
+    let page = this.getPage(activePage, user);
 
     return (
       <div className="flex">

@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Routes from "./routes";
+import Routes from "./pages";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reducers from "./redux/reducers/";
 require("../public/favicon.ico");
+
+import "./css/";
 
 function logger({ getState }) {
   return next => action => {

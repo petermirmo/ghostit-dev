@@ -142,7 +142,7 @@ class Calendar extends Component {
     // Get calendar starting date
     let calendarStartDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
-      .add(firstDayOfMonth === 0 ? -6 : 1, "days");
+      .add(firstDayOfMonth === 0 ? -7 : 0, "days");
     // Get calendar ending date
     let calendarEndDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
@@ -177,13 +177,19 @@ class Calendar extends Component {
         if (calendarEvent.posts) calendarEvent.posts.sort(compareCampaignPosts);
 
         while (
-          dateIndexIsInMonth(dateIndexOfEvent, calendarStartDate, calendarEvent)
+          dateIndexIsInMonth(
+            dateIndexOfEvent,
+            calendarStartDate,
+            calendarEvent,
+            calendarEndDate
+          )
         ) {
           // Current day array
           let currentCalendarDayOfEvents =
             calendarEventsArray[
               getCurrentDay(calendarStartDate, dateIndexOfEvent)
             ];
+
           let campaignClassName = "campaign button";
 
           // If first loop of while loop
@@ -366,10 +372,10 @@ class Calendar extends Component {
     return (
       <div
         key={key}
-        className="queue-post-container"
+        className="queue-post-container flex py8 button"
         onClick={() => this.props.onSelectPost(post)}
       >
-        <div className="queue-post-attribute">
+        <div className="queue-post-attribute flex">
           {getPostIcon(post.socialType) && (
             <FontAwesomeIcon
               icon={getPostIcon(post.socialType)}
@@ -473,7 +479,7 @@ class Calendar extends Component {
         );
       }
       return (
-        <div className="queue-container">
+        <div className="queue-container flex column px8">
           {this.calendarHeader(calendarDate, queueActive)}
           {queuePostDivs}
         </div>
@@ -542,10 +548,12 @@ function isInMonth(calendarEvent, calendarStartDate, calendarEndDate) {
 function dateIndexIsInMonth(
   dateIndexOfEvent,
   calendarStartDate,
-  calendarEvent
+  calendarEvent,
+  calendarEndDate
 ) {
   return (
     dateIndexOfEvent <= new moment(calendarEvent.endDate) &&
+    dateIndexOfEvent <= calendarEndDate &&
     dateIndexOfEvent >= calendarStartDate
   );
 }
