@@ -92,6 +92,8 @@ multi-user calendars:
 
 to do next:
   ui for making multiple calendars and switching them
+  manage calendars
+    (invites, pass admin, delete, remove users, rename)
   social accounts tied to calendars
 
 facebook analytics page metrics:
