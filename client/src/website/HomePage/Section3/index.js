@@ -8,6 +8,7 @@ class Section3 extends Component {
     lines: [[]]
   };
   componentDidMount() {
+    this.createRandomChartPlots();
     setInterval(this.createRandomChartPlots, 3000);
   }
   createRandomChartPlots = () => {
@@ -20,17 +21,19 @@ class Section3 extends Component {
 
     for (let i = 0; i < amountOfLines; i++) {
       for (let j = 0; j < amountOfDataPoints; j++) {
-        lines[i].push(j + ~~(Math.random() * 10));
+        lines[i].push(j + ~~(Math.random() * 20));
       }
     }
     this.setState({ lines });
+
+    //212 712
   };
   render() {
     const { lines } = this.state;
 
     return (
       <div className="section flex hc vc px32">
-        <div className="fill platform-component-showcase">
+        <div className="platform-component-showcase fill">
           <LineChart
             {...{
               lines: lines,

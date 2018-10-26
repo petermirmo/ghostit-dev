@@ -16,7 +16,7 @@ class Section2 extends Component {
             </p>
           </div>
         </div>
-        <div className="fill platform-component-showcase">
+        <div className="platform-component-showcase fill flex vc hc">
           <Calendar
             calendarEvents={[]}
             calendarDate={new moment().add(1, "month")}

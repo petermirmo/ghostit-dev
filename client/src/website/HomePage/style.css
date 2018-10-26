@@ -50,12 +50,23 @@
     border-right-width: 30px;
   }
 }
+@keyframes ghost-transition {
+  from {
+    right: -50px;
+    opacity: 0;
+  }
+  to {
+    right: 50px;
+    opacity: 1;
+  }
+}
 .circle {
   width: 40px;
   height: 40px;
   border-radius: 100px;
 
   background-color: var(--five-purple-color);
+  transition: 3s ease;
 }
 .circle.small {
   width: 20px;
@@ -85,6 +96,7 @@
   border-right: solid 30px transparent;
   border-left: solid 30px transparent;
   border-top: solid 30px transparent;
+  transition: 3s ease;
 }
 .triangle.bottom {
   border-bottom: solid 50px var(--five-primary-color);
@@ -104,6 +116,7 @@
   width: 30px;
   height: 30px;
   background-color: var(--five-primary-color);
+  transition: 3s ease;
 }
 
 .triangle-bottom-change-color {
@@ -142,7 +155,6 @@
 }
 .section .platform-component-showcase {
   min-width: 500px;
-  height: 100vh;
   max-height: 70%;
 
   overflow: hidden;
@@ -159,4 +171,16 @@
   font-size: var(--gigantic-font-size);
 }
 .description-box .body {
+}
+.ghost-container {
+  bottom: 50px;
+  right: 50px;
+  align-items: flex-start;
+  pointer-events: none;
+
+  animation: ghost-transition;
+  animation-timing-function: ease;
+  animation-duration: 1s;
+
+  transition: 1.5s ease;
 }

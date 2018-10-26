@@ -1,0 +1,8 @@
+.message-container {
+  background-color: var(--light-grey-theme-color);
+  pointer-events: auto;
+}
+.message-container:hover {
+  background-color: var(--five-primary-color);
+  color: var(--white-theme-color);
+}

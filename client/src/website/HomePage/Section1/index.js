@@ -1,13 +1,32 @@
 import React, { Component } from "react";
 
 class Section1 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.createState();
+  }
+  componentDidMount() {
+    setInterval(() => this.setState(this.createState), 8000);
+  }
+  createState = () => {
+    return {
+      randomInt1: ~~(Math.random() * 200) + 20,
+      randomInt2: ~~(Math.random() * 200) + 20,
+      randomInt3: ~~(Math.random() * 200) + 20,
+      randomInt4: ~~(Math.random() * 200) + 20,
+      randomInt5: ~~(Math.random() * 200) + 20,
+      randomInt6: ~~(Math.random() * 200) + 20
+    };
+  };
   render() {
-    let randomInt1 = ~~(Math.random() * 200) + 20;
-    let randomInt2 = ~~(Math.random() * 200) + 20;
-    let randomInt3 = ~~(Math.random() * 200) + 20;
-    let randomInt4 = ~~(Math.random() * 200) + 20;
-    let randomInt5 = ~~(Math.random() * 200) + 20;
-    let randomInt6 = ~~(Math.random() * 200) + 20;
+    const {
+      randomInt1,
+      randomInt2,
+      randomInt3,
+      randomInt4,
+      randomInt5,
+      randomInt6
+    } = this.state;
     return (
       <div className="section flex vc hc column">
         <h1 className="silly-font">Ghostit is the best marketing software.</h1>
