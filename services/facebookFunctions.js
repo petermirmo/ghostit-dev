@@ -56,13 +56,13 @@ module.exports = {
         socialType: "facebook",
         accountType: "profile"
       },
-      function(err, account) {
+      (err, account) => {
         if (err) generalFunctions.handleError(res, err);
         else if (account) {
           // Use facebook profile access token to get account pages
           FB.setAccessToken(account.accessToken);
 
-          FB.api("me/accounts", "get", function(results) {
+          FB.api("me/accounts", "get", results => {
             let pages = results.data;
             // Init some values
             for (let index in pages) {

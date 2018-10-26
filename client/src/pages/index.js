@@ -41,7 +41,7 @@ class Routes extends Component {
     axios.get("/api/user").then(res => {
       let { success, user } = res.data;
 
-      if (success) {
+      if (user) {
         // Get all connected accounts of the user
         axios.get("/api/accounts").then(res => {
           // Set user's accounts to state
@@ -64,16 +64,7 @@ class Routes extends Component {
 
           this.setState({ datebaseConnection: true });
         });
-      } else {
-        if (
-          props.activePage &&
-          props.activePage != "sign-in" &&
-          props.activePage != "sign-up"
-        )
-          props.changePage("");
-
-        this.setState({ datebaseConnection: true });
-      }
+      } else this.setState({ datebaseConnection: true });
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -148,8 +139,9 @@ class Routes extends Component {
     } else {
       if (activePage === "sign-up") return <LoginPage signUp={true} />;
       else if (activePage === "sign-in") return <LoginPage />;
+      else if (activePage === "home")
+        return <Website activePage={activePage} />;
       else return <LoginPage />;
-      //else return <Website activePage={activePage} />;
     }
   };
   render() {

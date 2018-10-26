@@ -1,0 +1,162 @@
+@keyframes small-bounce {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 10px, 0);
+  }
+}
+@keyframes large-bounce {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 50px, 0);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+@keyframes triangle-bottom-change-color {
+  0% {
+    border-bottom-color: var(--one-primary-color);
+    border-left-width: 30px;
+    border-right-width: 30px;
+  }
+  25% {
+    border-bottom-color: var(--three-primary-color);
+    border-left-width: 40px;
+    border-right-width: 40px;
+  }
+  50% {
+    border-bottom-color: var(--five-primary-color);
+    border-left-width: 50px;
+    border-right-width: 50px;
+  }
+  75% {
+    border-bottom-color: var(--three-primary-color);
+    border-left-width: 40px;
+    border-right-width: 40px;
+  }
+  100% {
+    border-bottom-color: var(--one-primary-color);
+    border-left-width: 30px;
+    border-right-width: 30px;
+  }
+}
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+
+  background-color: var(--five-purple-color);
+}
+.circle.small {
+  width: 20px;
+  height: 20px;
+}
+.circle.large {
+  width: 60px;
+  height: 60px;
+}
+.bounce {
+  animation: small-bounce;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(0.5, 0.05, 1, 0.5);
+  animation-iteration-count: infinite;
+}
+.bounce.slow {
+  animation-duration: 0.5s;
+}
+.bounce.fast {
+  animation-duration: 2s;
+}
+.triangle {
+  width: 0;
+  height: 0;
+
+  border-bottom: solid 30px transparent;
+  border-right: solid 30px transparent;
+  border-left: solid 30px transparent;
+  border-top: solid 30px transparent;
+}
+.triangle.bottom {
+  border-bottom: solid 50px var(--five-primary-color);
+}
+.rotate {
+  animation: rotate;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+}
+.rotate.slow {
+  animation-duration: 3s;
+}
+.rotate.fast {
+  animation-duration: 1s;
+}
+.rectangle {
+  width: 30px;
+  height: 30px;
+  background-color: var(--five-primary-color);
+}
+
+.triangle-bottom-change-color {
+  animation: triangle-bottom-change-color;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.triangle-bottom-change-color.slow {
+  animation-duration: 3s;
+}
+.triangle-bottom-change-color.fast {
+  animation-duration: 4s;
+}
+
+.section {
+  position: relative;
+
+  flex-wrap: wrap;
+
+  max-width: 100%;
+  min-height: 100vh;
+  background-color: var(--one-half-primary-color);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.section .third {
+  min-width: 35%;
+  height: 100%;
+}
+.section .fill {
+  flex: 1;
+}
+.section .half {
+  height: 100%;
+  width: 50%;
+}
+.section .platform-component-showcase {
+  min-width: 500px;
+  height: 100vh;
+  max-height: 70%;
+
+  overflow: hidden;
+  box-sizing: border-box;
+
+  transform: scale(0.7, 0.7);
+}
+
+.description-box {
+  max-width: 200px;
+  max-height: 200px;
+}
+.description-box .title {
+  font-size: var(--gigantic-font-size);
+}
+.description-box .body {
+}

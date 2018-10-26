@@ -371,10 +371,10 @@ class Calendar extends Component {
     return (
       <div
         key={key}
-        className="queue-post-container"
+        className="queue-post-container flex py8 button"
         onClick={() => this.props.onSelectPost(post)}
       >
-        <div className="queue-post-attribute">
+        <div className="queue-post-attribute flex">
           {getPostIcon(post.socialType) && (
             <FontAwesomeIcon
               icon={getPostIcon(post.socialType)}
@@ -469,7 +469,7 @@ class Calendar extends Component {
         );
       }
       return (
-        <div className="queue-container">
+        <div className="queue-container flex column px8">
           {this.calendarHeader(calendarDate, queueActive)}
           {queuePostDivs}
         </div>
