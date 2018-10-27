@@ -7,7 +7,7 @@ class Section2 extends Component {
   render() {
     return (
       <div className="section flex hc vc px32">
-        <div className="third flex column vc hc">
+        <div className="third flex vc hc">
           <div className="description-box flex column hc">
             <h4 className="title silly-font pb8">Organization.</h4>
             <p className="body">
@@ -16,7 +16,7 @@ class Section2 extends Component {
             </p>
           </div>
         </div>
-        <div className="platform-component-showcase fill flex vc hc">
+        <div className="platform-component-showcase two-third flex vc hc">
           <Calendar
             calendarEvents={[]}
             calendarDate={new moment().add(1, "month")}

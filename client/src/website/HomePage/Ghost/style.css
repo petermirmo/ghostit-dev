@@ -2,8 +2,8 @@
   shape-rendering: geometricPrecision;
   background-color: transparent;
 
-  width: 15vw;
-  min-width: 200px;
+  width: 10vw;
+  min-width: 100px;
 }
 .ghost-background.left {
   transform: rotateY(180deg);

@@ -28,7 +28,7 @@ class Section1 extends Component {
       randomInt6
     } = this.state;
     return (
-      <div className="section flex vc hc column">
+      <div className="section flex vc hc column" style={{ minHeight: "100vh" }}>
         <h1 className="silly-font">Ghostit is the best marketing software.</h1>
         <h4>Something about Ghostit is the best</h4>
         <div

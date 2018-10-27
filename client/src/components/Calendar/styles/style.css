@@ -1,12 +1,12 @@
 .calendar-container {
   overflow-x: hidden;
+  min-width: 1000px;
 }
 .calendar-header-container {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   width: 100%;
   box-sizing: border-box;
-  overflow: visible;
 }
 .center-header-container {
   display: flex;
@@ -31,10 +31,10 @@
 }
 .calendar-view-change {
   background-color: var(--seven-primary-color);
-
   color: var(--white-theme-color);
-
   font-size: var(--h6-font-size);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .calendar-table {
   display: flex;

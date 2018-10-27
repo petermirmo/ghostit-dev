@@ -401,7 +401,7 @@ class Calendar extends Component {
   calendarHeader = (calendarDate, queueActive) => {
     return (
       <div className="calendar-header-container px8 pt8">
-        <div className="flex vt hc">
+        <div className="flex vc hc">
           <div className="calendar-view-change button common-transition br4">
             <Filter
               updateActiveCategory={this.props.updateActiveCategory}
@@ -426,7 +426,7 @@ class Calendar extends Component {
             onClick={this.addMonth}
           />
         </div>
-        <div className="flex vt hc">
+        <div className="flex vc hc">
           <div
             className="calendar-view-change button common-transition py8 px16 br4"
             onClick={() => this.setState({ queueActive: !queueActive })}

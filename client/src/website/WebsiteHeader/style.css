@@ -5,13 +5,13 @@
   justify-content: flex-end;
   background-color: var(--one-half-primary-color);
   box-sizing: border-box;
-
-  position: fixed;
+  pointer-events: none;
 }
 
 .website-header-button {
   background-color: transparent;
   color: black;
+  pointer-events: auto;
 }
 .website-header-button.active:after {
   border-bottom: solid 6px var(--black-theme-color);

@@ -139,9 +139,7 @@ class Routes extends Component {
     } else {
       if (activePage === "sign-up") return <LoginPage signUp={true} />;
       else if (activePage === "sign-in") return <LoginPage />;
-      else if (activePage === "home")
-        return <Website activePage={activePage} />;
-      else return <LoginPage />;
+      else return <Website />;
     }
   };
   render() {
