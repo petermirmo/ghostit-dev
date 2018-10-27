@@ -35,6 +35,16 @@ class CalendarManager extends Component {
     this._ismounted = false;
   }
 
+  presentActiveCalendar = () => {
+    const { calendars, activeCalendarIndex } = this.state;
+
+    return (
+      <div className="calendar-management">
+
+      </div>
+    );
+  };
+
   render() {
     const { saving, calendars, activeCalendarIndex } = this.state;
 
@@ -50,6 +60,7 @@ class CalendarManager extends Component {
             calendarManager={true}
             updateActiveCalendar={index => { this.setState({ activeCalendarIndex: index })}}
           />
+          {this.presentActiveCalendar()}
         </div>
         {saving && <Loader />}
       </div>
