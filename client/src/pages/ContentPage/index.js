@@ -9,6 +9,7 @@ import PostEdittingModal from "./PostingFiles/PostEdittingModal";
 import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
 import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
 import Calendar from "../../components/Calendar/";
+import CalendarManager from "../../components/CalendarManager/";
 import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/Notifications/Notification";
@@ -21,6 +22,7 @@ class Content extends Component {
 
     calendars: [],
     activeCalendarIndex: undefined,
+    calendarManagerModal: false,
 
     facebookPosts: [],
     twitterPosts: [],
@@ -85,6 +87,19 @@ class Content extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  getCalendars = () => {
+    axios.get("/api/calendars").then(res => {
+      const { success, calendars } = res.data;
+      if (!success || !calendars || calendars.length === 0) {
+        console.log(res.data.err);
+        console.log(res.data.message);
+        console.log(calendars);
+      } else {
+        this.setState({ calendars });
+      }
+    });
+  };
 
   fillCalendar = () => {
     this.getPosts();
@@ -288,6 +303,7 @@ class Content extends Component {
 
   closeModals = () => {
     this.setState({
+      calendarManagerModal: false,
       blogEdittingModal: false,
       contentModal: false,
       postEdittingModal: false,
@@ -428,6 +444,7 @@ class Content extends Component {
           activeCalendarIndex={activeCalendarIndex}
           updateActiveCalendar={this.updateActiveCalendar}
           createNewCalendar={this.createNewCalendar}
+          enableCalendarManager={() => { this.setState({ calendarManagerModal: true }) }}
           calendarEvents={calendarEvents}
           calendarDate={new moment()}
           onSelectDay={this.openModal}
@@ -437,6 +454,14 @@ class Content extends Component {
           categories={calendarEventCategories}
           updateActiveCategory={this.updateActiveCategory}
         />
+        {this.state.calendarManagerModal && (
+          <CalendarManager
+            calendars={calendars}
+            activeCalendarIndex={activeCalendarIndex}
+            close={() => { this.closeModals(); this.getCalendars(); }}
+            notify={this.notify}
+          />
+        )}
         {this.state.contentModal && (
           <ContentModal
             clickedCalendarDate={clickedDate}
