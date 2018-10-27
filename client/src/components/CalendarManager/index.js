@@ -8,14 +8,18 @@ import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../redux/actions/";
 
 import Loader from "../Notifications/Loader";
-import CalendarPicker from "../CalendarPicker"
+import CalendarPicker from "../CalendarPicker";
 
 import "./styles/";
 
 class CalendarManager extends Component {
   constructor(props) {
     super(props);
-    this.state = { saving: false, calendars: props.calendars, activeCalendarIndex: props.activeCalendarIndex };
+    this.state = {
+      saving: false,
+      calendars: props.calendars,
+      activeCalendarIndex: props.activeCalendarIndex
+    };
   }
   componentDidMount() {
     this._ismounted = true;
@@ -48,8 +52,14 @@ class CalendarManager extends Component {
             calendars={calendars}
             activeCalendarIndex={activeCalendarIndex}
             calendarManager={true}
-            updateActiveCalendar={index => { this.setState({ activeCalendarIndex: index })}}
+            updateActiveCalendar={index => {
+              this.setState({ activeCalendarIndex: index });
+            }}
           />
+          <div className={"manage-container"}>
+            <div className={"calendar-users-container"}>{/**/}</div>
+            <div className={"calendar-info-container"}>{/**/}</div>
+          </div>
         </div>
         {saving && <Loader />}
       </div>
