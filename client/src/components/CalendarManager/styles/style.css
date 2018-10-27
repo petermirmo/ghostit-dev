@@ -1,0 +1,36 @@
+.manage-calendar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.calendar-users-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-right: black solid medium;
+}
+
+.calendar-info-and-accounts-container {
+  flex: 1;
+}
+
+.calendar-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom: black solid thin;
+}
+
+.calendar-info-label {
+  color: var(--secondary-text-theme-color);
+}
+
+.calendar-info-input {
+  width: 100%;
+  box-sizing: border-box;
+}

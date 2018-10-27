@@ -39,6 +39,44 @@ class CalendarManager extends Component {
     this._ismounted = false;
   }
 
+  handleCalendarChange = (key, value, calendarIndex) => {
+    this.setState(prevState => {
+      return {
+        calendars: [
+          ...prevState.calendars.slice(0, calendarIndex),
+          { ...prevState.calendars[calendarIndex], [key]: value },
+          ...prevState.calendars.slice(calendarIndex + 1)
+        ]
+      };
+    });
+  };
+
+  presentActiveCalendar = () => {
+    const { calendars, activeCalendarIndex } = this.state;
+    const calendar = calendars[activeCalendarIndex];
+
+    return (
+      <div className={"manage-calendar-container"}>
+        <div className={"calendar-users-container pa16"}>users</div>
+        <div className="calendar-info-and-accounts-container pa16">
+          <div className={"calendar-info-container pa16"}>
+            <div className="calendar-info-label mx8 mb4">Calendar Name</div>
+            <input
+              type="text"
+              className="calendar-info-input pa8 mb16 round"
+              placeholder="Calendar Name"
+              onChange={event =>
+                this.handleCalendarChange("calendarName", event.target.value)
+              }
+              value={calendar.calendarName}
+            />
+          </div>
+          <div className="calendar-accounts-container pa16">accounts</div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const { saving, calendars, activeCalendarIndex } = this.state;
 
@@ -56,10 +94,7 @@ class CalendarManager extends Component {
               this.setState({ activeCalendarIndex: index });
             }}
           />
-          <div className={"manage-container"}>
-            <div className={"calendar-users-container"}>{/**/}</div>
-            <div className={"calendar-info-container"}>{/**/}</div>
-          </div>
+          {this.presentActiveCalendar()}
         </div>
         {saving && <Loader />}
       </div>
