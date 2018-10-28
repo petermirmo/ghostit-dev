@@ -377,11 +377,11 @@ module.exports = app => {
     calendarFunctions.createNewCalendar(req, res)
   );
 
-  app.get("/api/calendar/users", middleware, (req, res) =>
+  app.get("/api/calendar/users/:calendarID", middleware, (req, res) =>
     calendarFunctions.getUsers(req, res)
   );
 
-  app.get("/api/calendar/accounts", middleware, (req, res) =>
+  app.get("/api/calendar/accounts/:calendarID", middleware, (req, res) =>
     calendarFunctions.getAccounts(req, res)
   );
 };

@@ -429,7 +429,7 @@ module.exports = {
   getUsers: function(req, res) {
     // return a list of the users (including their names and emails) associated with a calendar
     // this function is used for the Manage Calendar modal to display the users of a calendar
-    const { id } = req.body;
+    const id = req.params.calendarID;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -446,6 +446,21 @@ module.exports = {
         });
       } else {
         // find all users that are in the calendar's userIDs array
+        // make an array to be used with the mongodb $or operator
+        const userIDList = foundCalendar.userIDs.map(userID => {
+          return { _id: userID };
+        });
+        User.find({ $or: userIDList }, "fullName email", (err, foundUsers) => {
+          if (err || !foundUsers) {
+            res.send({
+              success: false,
+              err,
+              message: `Unable to find users subscribed to calendar with id ${id}`
+            });
+          } else {
+            res.send({ success: true, users: foundUsers });
+          }
+        });
       }
     });
   },

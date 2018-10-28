@@ -35,7 +35,8 @@ class CalendarManager extends Component {
       this.props.getKeyListenerFunction[0]
     ]);
 
-    this.getCalendarUsersAndAccounts(this.state.activeCalendarIndex);
+    this.getCalendarUsers(this.state.activeCalendarIndex);
+    this.getCalendarAccounts(this.state.activeCalendarIndex);
   }
 
   componentWillUnmount() {
@@ -45,26 +46,24 @@ class CalendarManager extends Component {
   getCalendarAccounts = index => {
     const { calendars } = this.state;
 
-    axios
-      .get("/api/calendar/accounts", { id: calendars[index]._id })
-      .then(res => {
-        const { success, err, message, accounts } = res.data;
-        if (!success || err || !accounts) {
-          console.log(
-            "Retrieving calendar accounts from database was unsuccessful."
-          );
-          console.log(err);
-          console.log(message);
-        } else {
-          this.handleCalendarChange("accounts", accounts, index);
-        }
-      });
+    axios.get("/api/calendar/accounts/" + calendars[index]._id).then(res => {
+      const { success, err, message, accounts } = res.data;
+      if (!success || err || !accounts) {
+        console.log(
+          "Retrieving calendar accounts from database was unsuccessful."
+        );
+        console.log(err);
+        console.log(message);
+      } else {
+        this.handleCalendarChange("accounts", accounts, index);
+      }
+    });
   };
 
   getCalendarUsers = index => {
     const { calendars } = this.state;
 
-    axios.get("/api/calendar/users", { id: calendars[index]._id }).then(res => {
+    axios.get("/api/calendar/users/" + calendars[index]._id).then(res => {
       const { success, err, message, users } = res.data;
       if (!success || err || !users) {
         console.log(
@@ -94,9 +93,33 @@ class CalendarManager extends Component {
     const { calendars, activeCalendarIndex, unsavedChange } = this.state;
     const calendar = calendars[activeCalendarIndex];
 
+    let userDivs = undefined;
+    if (calendar.users) {
+      userDivs = calendar.users.map((userObj, index) => {
+        return (
+          <div className="calendar-user-card" key={`user${index}`}>
+            <div className="user-name-and-email">
+              <div className="user-name">{userObj.fullName}</div>
+              <div className="user-email">{userObj.email}</div>
+            </div>
+            <div className="user-icons">
+              <div
+                className="user-delete"
+                onClick={() =>
+                  console.log(`remove user ${userObj.fullName} from calendar`)
+                }
+              >
+                X
+              </div>
+            </div>
+          </div>
+        );
+      });
+    }
+
     return (
       <div className={"manage-calendar-container"}>
-        <div className={"calendar-users-container pa16"}>users</div>
+        <div className={"calendar-users-container pa16"}>{userDivs}</div>
         <div className="calendar-info-and-accounts-container pa16">
           <div className={"calendar-info-container pa16"}>
             <div className="calendar-info-label mx8 mb4">Calendar Name</div>
