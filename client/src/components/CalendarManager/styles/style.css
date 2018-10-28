@@ -34,3 +34,12 @@
   width: 100%;
   box-sizing: border-box;
 }
+
+.save-button {
+  width: 100%;
+  background-color: var(--seven-primary-color);
+}
+
+.save-button:hover {
+  background-color: var(--eight-primary-color);
+}

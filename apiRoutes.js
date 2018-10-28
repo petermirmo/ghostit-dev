@@ -376,4 +376,12 @@ module.exports = app => {
   app.post("/api/calendars/new", middleware, (req, res) =>
     calendarFunctions.createNewCalendar(req, res)
   );
+
+  app.get("/api/calendar/users", middleware, (req, res) =>
+    calendarFunctions.getUsers(req, res)
+  );
+
+  app.get("/api/calendar/accounts", middleware, (req, res) =>
+    calendarFunctions.getAccounts(req, res)
+  );
 };

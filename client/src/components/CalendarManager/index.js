@@ -18,7 +18,8 @@ class CalendarManager extends Component {
     this.state = {
       saving: false,
       calendars: props.calendars,
-      activeCalendarIndex: props.activeCalendarIndex
+      activeCalendarIndex: props.activeCalendarIndex,
+      unsavedChange: false
     };
   }
   componentDidMount() {
@@ -33,11 +34,49 @@ class CalendarManager extends Component {
       },
       this.props.getKeyListenerFunction[0]
     ]);
+
+    this.getCalendarUsersAndAccounts(this.state.activeCalendarIndex);
   }
 
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  getCalendarAccounts = index => {
+    const { calendars } = this.state;
+
+    axios
+      .get("/api/calendar/accounts", { id: calendars[index]._id })
+      .then(res => {
+        const { success, err, message, accounts } = res.data;
+        if (!success || err || !accounts) {
+          console.log(
+            "Retrieving calendar accounts from database was unsuccessful."
+          );
+          console.log(err);
+          console.log(message);
+        } else {
+          this.handleCalendarChange("accounts", accounts, index);
+        }
+      });
+  };
+
+  getCalendarUsers = index => {
+    const { calendars } = this.state;
+
+    axios.get("/api/calendar/users", { id: calendars[index]._id }).then(res => {
+      const { success, err, message, users } = res.data;
+      if (!success || err || !users) {
+        console.log(
+          "Retrieving calendar users from database was unsuccessful."
+        );
+        console.log(err);
+        console.log(message);
+      } else {
+        this.handleCalendarChange("users", users, index);
+      }
+    });
+  };
 
   handleCalendarChange = (key, value, calendarIndex) => {
     this.setState(prevState => {
@@ -52,7 +91,7 @@ class CalendarManager extends Component {
   };
 
   presentActiveCalendar = () => {
-    const { calendars, activeCalendarIndex } = this.state;
+    const { calendars, activeCalendarIndex, unsavedChange } = this.state;
     const calendar = calendars[activeCalendarIndex];
 
     return (
@@ -65,11 +104,26 @@ class CalendarManager extends Component {
               type="text"
               className="calendar-info-input pa8 mb16 round"
               placeholder="Calendar Name"
-              onChange={event =>
-                this.handleCalendarChange("calendarName", event.target.value)
-              }
+              onChange={event => {
+                this.setState({ unsavedChange: true });
+                this.handleCalendarChange(
+                  "calendarName",
+                  event.target.value,
+                  activeCalendarIndex
+                );
+              }}
               value={calendar.calendarName}
             />
+            {unsavedChange && (
+              <button
+                className="save-button pa8 round"
+                onClick={e => {
+                  e.preventDefault();
+                }}
+              >
+                Save
+              </button>
+            )}
           </div>
           <div className="calendar-accounts-container pa16">accounts</div>
         </div>

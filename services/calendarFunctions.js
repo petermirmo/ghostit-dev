@@ -425,5 +425,29 @@ module.exports = {
     newCalendar.save().then(() => {
       res.send({ success: true, newCalendar });
     });
-  }
+  },
+  getUsers: function(req, res) {
+    // return a list of the users (including their names and emails) associated with a calendar
+    // this function is used for the Manage Calendar modal to display the users of a calendar
+    const { id } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    Calendar.findOne({ _id: id }, (err, foundCalendar) => {
+      if (err || !foundCalendar) {
+        res.send({
+          success: false,
+          err,
+          message: `Unable to find calendar with id ${id}.`
+        });
+      } else {
+        // find all users that are in the calendar's userIDs array
+      }
+    });
+  },
+  getAccounts: function(req, res) {}
 };
