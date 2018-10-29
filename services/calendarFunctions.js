@@ -458,5 +458,38 @@ module.exports = {
       }
     });
   },
-  getAccounts: function(req, res) {}
+  getAccounts: function(req, res) {},
+  inviteUser: function(req, res) {
+    const { email, calendarID } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+      if (err || !foundCalendar) {
+        res.send({
+          success: false,
+          err,
+          message: `Unable to find calendar with id ${calendarID}`
+        });
+      } else {
+        if (!mongoIdArrayIncludes(foundCalendar.userIDs, userID)) {
+          res.send({
+            success: false,
+            message: `User attempting to send invitation is not a valid member of the calendar. userID: ${userID}, calendarID: ${calendarID}.`
+          });
+        } else {
+          foundCalendar.emailsInvited.push(email);
+          foundCalendar.save();
+          res.send({
+            success: true,
+            emailsInvited: foundCalendar.emailsInvited
+          });
+        }
+      }
+    });
+  }
 };

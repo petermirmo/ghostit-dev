@@ -59,6 +59,30 @@
   box-sizing: border-box;
 }
 
+.invite-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  padding-top: 20px;
+}
+
+.invite-input {
+  flex: 2;
+  box-sizing: border-box;
+}
+
+.invite-submit {
+  flex: 1;
+  border-radius: 5px;
+  height: 50%;
+  background-color: var(--seven-primary-color);
+}
+
+.invite-submit:hover {
+  background-color: var(--eight-primary-color);
+}
+
 .save-button {
   width: 100%;
   background-color: var(--seven-primary-color);

@@ -96,6 +96,8 @@ to do next:
     (invites, pass admin, delete, remove users, rename)
   social accounts tied to calendars
 
+can two user accounts be created with the same email? (shouldnt allow this)
+
 facebook analytics page metrics:
     FB.api(
       account.socialID +

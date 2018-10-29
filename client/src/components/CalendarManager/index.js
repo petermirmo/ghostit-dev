@@ -21,7 +21,8 @@ class CalendarManager extends Component {
         return { ...calObj, tempName: calObj.calendarName };
       }),
       activeCalendarIndex: props.activeCalendarIndex,
-      unsavedChange: false
+      unsavedChange: false,
+      inviteEmail: ""
     };
   }
   componentDidMount() {
@@ -91,8 +92,61 @@ class CalendarManager extends Component {
     });
   };
 
+  handleChange = (key, value) => {
+    this.setState({ [key]: value });
+  };
+
+  inviteUser = index => {
+    const { inviteEmail, calendars } = this.state;
+    const calendar = calendars[index];
+    this.setState({ saving: true });
+    axios
+      .post("/api/calendar/invite", {
+        email: inviteEmail,
+        calendarID: calendar._id
+      })
+      .then(res => {
+        this.setState({ saving: false });
+        const { success, err, message, emailsInvited } = res.data;
+        if (!success || err) {
+          console.log(err);
+          console.log(message);
+          this.props.notify(
+            "danger",
+            "Invite Failed",
+            `Failed to invite ${inviteEmail} to calendar ${
+              calendar.calendarName
+            }. Try again.`
+          );
+        } else {
+          this.props.notify(
+            "success",
+            "Invite Successful",
+            `${inviteEmail} has been invited to join calendar ${
+              calendar.calendarName
+            }.`
+          );
+          this.setState(prevState => {
+            return {
+              inviteEmail: "",
+              calendars: [
+                ...prevState.calendars.slice(0, index),
+                { ...calendar, emailsInvited },
+                ...prevState.calendars.slice(index + 1)
+              ]
+            };
+          });
+        }
+      });
+  };
+
   presentActiveCalendar = () => {
-    const { calendars, activeCalendarIndex, unsavedChange } = this.state;
+    const {
+      calendars,
+      activeCalendarIndex,
+      unsavedChange,
+      inviteEmail
+    } = this.state;
     const calendar = calendars[activeCalendarIndex];
 
     const isAdmin = calendar.adminID == this.props.user._id;
@@ -128,6 +182,27 @@ class CalendarManager extends Component {
         <div className="calendar-users-container pa16">
           <div className="calendar-users-header">Users</div>
           {userDivs}
+          <div className="invite-container">
+            <input
+              type="text"
+              className="invite-input pa8 mb16 round"
+              placeholder="usertoinvite@example.com"
+              onChange={event => {
+                this.setState({ unsavedChange: true });
+                this.handleChange("inviteEmail", event.target.value);
+              }}
+              value={inviteEmail}
+            />
+            <button
+              className="invite-submit"
+              onClick={e => {
+                e.preventDefault();
+                this.inviteUser(activeCalendarIndex);
+              }}
+            >
+              Invite
+            </button>
+          </div>
         </div>
         <div className="calendar-info-and-accounts-container pa16">
           <div className="calendar-info-container pa16">

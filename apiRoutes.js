@@ -384,4 +384,8 @@ module.exports = app => {
   app.get("/api/calendar/accounts/:calendarID", middleware, (req, res) =>
     calendarFunctions.getAccounts(req, res)
   );
+
+  app.post("/api/calendar/invite", middleware, (req, res) =>
+    calendarFunctions.inviteUser(req, res)
+  );
 };
