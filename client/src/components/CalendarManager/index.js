@@ -17,7 +17,9 @@ class CalendarManager extends Component {
     super(props);
     this.state = {
       saving: false,
-      calendars: props.calendars,
+      calendars: props.calendars.map(calObj => {
+        return { ...calObj, tempName: calObj.calendarName };
+      }),
       activeCalendarIndex: props.activeCalendarIndex,
       unsavedChange: false
     };
@@ -93,6 +95,8 @@ class CalendarManager extends Component {
     const { calendars, activeCalendarIndex, unsavedChange } = this.state;
     const calendar = calendars[activeCalendarIndex];
 
+    const isAdmin = calendar.adminID == this.props.user._id;
+
     let userDivs = undefined;
     if (calendar.users) {
       userDivs = calendar.users.map((userObj, index) => {
@@ -102,26 +106,31 @@ class CalendarManager extends Component {
               <div className="user-name">{userObj.fullName}</div>
               <div className="user-email">{userObj.email}</div>
             </div>
-            <div className="user-icons">
-              <div
-                className="user-delete"
-                onClick={() =>
-                  console.log(`remove user ${userObj.fullName} from calendar`)
-                }
-              >
-                X
+            {isAdmin && (
+              <div className="user-icons">
+                <div
+                  className="user-delete"
+                  onClick={() =>
+                    console.log(`remove user ${userObj.fullName} from calendar`)
+                  }
+                >
+                  X
+                </div>
               </div>
-            </div>
+            )}
           </div>
         );
       });
     }
 
     return (
-      <div className={"manage-calendar-container"}>
-        <div className={"calendar-users-container pa16"}>{userDivs}</div>
+      <div className="manage-calendar-container">
+        <div className="calendar-users-container pa16">
+          <div className="calendar-users-header">Users</div>
+          {userDivs}
+        </div>
         <div className="calendar-info-and-accounts-container pa16">
-          <div className={"calendar-info-container pa16"}>
+          <div className="calendar-info-container pa16">
             <div className="calendar-info-label mx8 mb4">Calendar Name</div>
             <input
               type="text"
@@ -130,12 +139,12 @@ class CalendarManager extends Component {
               onChange={event => {
                 this.setState({ unsavedChange: true });
                 this.handleCalendarChange(
-                  "calendarName",
+                  "tempName",
                   event.target.value,
                   activeCalendarIndex
                 );
               }}
-              value={calendar.calendarName}
+              value={calendar.tempName}
             />
             {unsavedChange && (
               <button
@@ -168,7 +177,18 @@ class CalendarManager extends Component {
             activeCalendarIndex={activeCalendarIndex}
             calendarManager={true}
             updateActiveCalendar={index => {
-              this.setState({ activeCalendarIndex: index });
+              this.setState(
+                { activeCalendarIndex: index, unsavedChange: false },
+                () => {
+                  this.handleCalendarChange(
+                    "tempName",
+                    calendars[index].calendarName,
+                    index
+                  );
+                  this.getCalendarUsers(index);
+                  this.getCalendarAccounts(index);
+                }
+              );
             }}
           />
           {this.presentActiveCalendar()}

@@ -430,12 +430,6 @@ module.exports = {
     // return a list of the users (including their names and emails) associated with a calendar
     // this function is used for the Manage Calendar modal to display the users of a calendar
     const id = req.params.calendarID;
-    let userID = req.user._id;
-    if (req.user.signedInAsUser) {
-      if (req.user.signedInAsUser.id) {
-        userID = req.user.signedInAsUser.id;
-      }
-    }
 
     Calendar.findOne({ _id: id }, (err, foundCalendar) => {
       if (err || !foundCalendar) {
