@@ -4,12 +4,15 @@ import "./style.css";
 
 class Ghost extends Component {
   render() {
-    const { className } = this.props;
+    const { className, style, onClick } = this.props;
+
     return (
       <svg
         viewBox="0 0 548.000000 714.000000"
         preserveAspectRatio="xMidYMid meet"
         className={"ghost-background " + className}
+        style={style}
+        onClick={onClick}
       >
         <g
           transform="translate(0.000000,714.000000) scale(0.100000,-0.100000)"

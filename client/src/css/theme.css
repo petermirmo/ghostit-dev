@@ -285,8 +285,9 @@
   right: 1px;
   top: -3px;
 
-  transform: scale(0.7);
   cursor: pointer;
+  pointer-events: auto;
+
   z-index: 1;
 }
 .close:hover,

@@ -6,7 +6,10 @@ class Section1 extends Component {
     this.state = this.createState();
   }
   componentDidMount() {
-    setInterval(() => this.setState(this.createState), 8000);
+    this.interval = setInterval(() => this.setState(this.createState), 8000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
   createState = () => {
     return {

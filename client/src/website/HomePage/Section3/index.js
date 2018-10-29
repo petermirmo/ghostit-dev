@@ -8,8 +8,12 @@ class Section3 extends Component {
     lines: [[]]
   };
   componentDidMount() {
+    this._ismounted = true;
     this.createRandomChartPlots();
-    setInterval(this.createRandomChartPlots, 5000);
+    this.interval = setInterval(this.createRandomChartPlots, 5000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
   createRandomChartPlots = () => {
     let amountOfLines = 3;

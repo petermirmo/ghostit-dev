@@ -82,13 +82,17 @@ class TeamPage extends Component {
                     className="team-member-image"
                   />
                 </div>
-                <h4 className="team-member-name py8 tac">{obj.name}</h4>
+                <h4 className="team-member-name silly-font py8 tac">
+                  {obj.name}
+                </h4>
                 <div
                   className="team-member-dropdown-container br8 pa32"
                   style={{ backgroundColor: obj.color }}
                   id={id}
                 >
-                  <h4 className="team-member-name py8">{obj.name}</h4>
+                  <h4 className="team-member-name silly-font py8">
+                    {obj.name}
+                  </h4>
                   <h4 className="team-member-title">{obj.title}</h4>
                   <p className="team-member-description">{obj.description}</p>
                 </div>

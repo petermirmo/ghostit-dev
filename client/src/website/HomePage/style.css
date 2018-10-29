@@ -50,16 +50,6 @@
     border-right-width: 30px;
   }
 }
-@keyframes ghost-transition {
-  from {
-    right: -50px;
-    opacity: 0;
-  }
-  to {
-    right: 50px;
-    opacity: 1;
-  }
-}
 .circle {
   width: 40px;
   height: 40px;
@@ -147,9 +137,20 @@
 }
 .description-box .body {
 }
+
+@keyframes ghost-transition {
+  from {
+    right: -50px;
+    opacity: 0;
+  }
+  to {
+    right: 32px;
+    opacity: 1;
+  }
+}
 .ghost-container {
-  bottom: 50px;
-  right: 50px;
+  bottom: 10px;
+  right: 32px;
   align-items: flex-start;
   pointer-events: none;
 
