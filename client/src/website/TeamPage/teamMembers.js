@@ -68,7 +68,7 @@ export const teamMembers = [
     location: "Victoria",
     title: "",
     description:
-      "Some call me a wizard.. I call myself the css wizard. Don't worry I have a social life, meet my bestfriends keyboard and mouse.",
+      "Some call me a wizard.. I call myself the css wizard. Although I love programming I do have a social life, meet my bestfriends keyboard and mouse.",
     image: "peter.jpg",
     color: "var(--five-primary-color)"
   }

@@ -14,10 +14,10 @@ class HomePage extends Component {
     displayGhostAndMessage: false
   };
   componentDidMount() {
-    setInterval(() => {
+    /*setInterval(() => {
       const { displayGhostAndMessage } = this.state;
       this.setState({ displayGhostAndMessage: !displayGhostAndMessage });
-    }, 12000);
+    }, 12000);*/
   }
   render() {
     const { displayGhostAndMessage } = this.state;

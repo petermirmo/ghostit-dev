@@ -9,11 +9,11 @@ class Section3 extends Component {
   };
   componentDidMount() {
     this.createRandomChartPlots();
-    setInterval(this.createRandomChartPlots, 3000);
+    setInterval(this.createRandomChartPlots, 5000);
   }
   createRandomChartPlots = () => {
     let amountOfLines = 3;
-    let amountOfDataPoints = 30;
+    let amountOfDataPoints = 10;
     let lines = [];
     for (let i = 0; i < amountOfLines; i++) {
       lines[i] = [];

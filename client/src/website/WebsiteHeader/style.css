@@ -3,7 +3,7 @@
   width: calc(100vw - 16px);
   max-width: 100%;
   justify-content: flex-end;
-  background-color: var(--one-half-primary-color);
+  background-color: var(--white-theme-color);
   box-sizing: border-box;
   pointer-events: none;
 }

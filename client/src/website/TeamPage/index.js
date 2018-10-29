@@ -56,10 +56,7 @@ class TeamPage extends Component {
   };
   render() {
     return (
-      <div
-        className="team-page section pa32 flex column"
-        style={{ minHeight: "100vh" }}
-      >
+      <div className="team-page section pa32 flex column">
         <h1 className="team-page-tag-line silly-font py16">
           Meet the Ghostit Team!
         </h1>
