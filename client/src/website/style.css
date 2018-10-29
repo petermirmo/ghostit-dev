@@ -1,0 +1,26 @@
+.section {
+  position: relative;
+
+  flex-wrap: wrap;
+
+  max-width: 100%;
+  min-height: 10vh;
+  background-color: var(--one-half-primary-color);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.section .third {
+  width: 33.3333%;
+  min-width: 200px;
+}
+.section .two-third {
+  width: 66.6666%;
+  min-width: 600px;
+}
+.section .fill {
+  flex: 1;
+}
+.section .half {
+  width: 50%;
+  min-width: 300px;
+}

@@ -1,0 +1,46 @@
+.team-page {
+  align-items: center;
+}
+.team-page-tag-line {
+}
+.team-members-container {
+  flex-wrap: wrap;
+}
+.team-member-container {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+}
+.team-member-image-container {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+.team-member-image {
+  width: 150px;
+}
+.team-member-name {
+  text-align: center;
+}
+.team-member-container:hover .team-member-dropdown-container {
+  display: flex;
+  flex-direction: column;
+}
+.team-member-dropdown-container {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 100%;
+
+  display: none;
+  width: 250%;
+  background-color: var(--nine-primary-color);
+  color: white;
+
+  z-index: 2;
+}
+.team-member-title {
+}
+.team-member-description {
+}
