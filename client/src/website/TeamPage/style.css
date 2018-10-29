@@ -16,12 +16,18 @@
   width: 150px;
   height: 150px;
   overflow: hidden;
+  pointer-events: none;
 }
 .team-member-image {
   width: 150px;
 }
 .team-member-name {
-  text-align: center;
+  font-weight: 900;
+  pointer-events: none;
+}
+.team-member-container:hover {
+  background-color: var(--five-purple-color);
+  color: white;
 }
 .team-member-container:hover .team-member-dropdown-container {
   display: flex;
@@ -31,14 +37,17 @@
   pointer-events: none;
   position: absolute;
   top: 50%;
-  left: 100%;
+  left: calc(100% + 8px);
 
   display: none;
   width: 250%;
-  background-color: var(--nine-primary-color);
+
+  background-color: var(--five-purple-color);
   color: white;
 
   z-index: 2;
+
+  animation: animateOpacity 0.4s ease;
 }
 .team-member-title {
 }

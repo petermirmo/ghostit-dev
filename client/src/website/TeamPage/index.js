@@ -30,9 +30,7 @@ class TeamPage extends Component {
 
     return [top, right, bottom, left];
   };
-  test = id => {
-    let element = document.getElementById(id);
-
+  test = element => {
     if (element) {
       let overflowArray = this.isElementInViewport(element);
       if (overflowArray) {
@@ -46,11 +44,11 @@ class TeamPage extends Component {
 
         if (overflowArray[1]) {
           // overflows right
-          element.style.right = "calc(100%)";
+          element.style.right = "calc(100% + 8px)";
           element.style.left = "auto";
         } else if (overflowArray[3]) {
           // overflows left
-          element.style.left = "100%";
+          element.style.left = "100% + 8px";
           element.style.right = "auto";
         }
       }
@@ -70,9 +68,15 @@ class TeamPage extends Component {
             let id = index + "team-member";
             return (
               <div
-                className="team-member-container mx16 mb32"
+                className="team-member-container pa16 br8 common-transition"
                 key={index + "team"}
-                onMouseEnter={() => this.test(id)}
+                onMouseEnter={event => {
+                  this.test(document.getElementById(id));
+                  event.target.style.backgroundColor = obj.color;
+                }}
+                onMouseOut={event => {
+                  event.target.style.backgroundColor = "transparent";
+                }}
               >
                 <div className="team-member-image-container round">
                   <img
@@ -81,9 +85,10 @@ class TeamPage extends Component {
                     className="team-member-image"
                   />
                 </div>
-                <h4 className="team-member-name py8">{obj.name}</h4>
+                <h4 className="team-member-name py8 tac">{obj.name}</h4>
                 <div
                   className="team-member-dropdown-container br8 pa32"
+                  style={{ backgroundColor: obj.color }}
                   id={id}
                 >
                   <h4 className="team-member-name py8">{obj.name}</h4>

@@ -593,6 +593,9 @@
 .flex.wrap {
   flex-wrap: wrap;
 }
+.tac {
+  text-align: center;
+}
 .absolute {
   position: absolute;
 }
