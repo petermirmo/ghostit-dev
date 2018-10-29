@@ -8,48 +8,51 @@ class TeamPage extends Component {
   isElementInViewport = el => {
     // IMPORTANT THIS FUNCTION HAS BEEN TAKEN FROM STACK OVERFLOW
     // https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
-    //special bonus for those using jQuery
-    if (typeof jQuery === "function" && el instanceof jQuery) {
-      el = el[0];
-    }
-
     var rect = el.getBoundingClientRect();
 
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight ||
-          document.documentElement.clientHeight) /*or $(window).height() */ &&
-      rect.right <=
-        (window.innerWidth ||
-          document.documentElement.clientWidth) /*or $(window).width() */
-    );
+    let top = false;
+    let right = false;
+    let bottom = false;
+    let left = false;
+
+    if (rect.top <= 0) top = rect.top;
+    if (rect.left <= 0) left = rect.left;
+
+    if (
+      rect.right >= (window.innerWidth || document.documentElement.clientWidth)
+    )
+      right = rect.right - document.documentElement.clientWidth;
+    if (
+      rect.bottom >=
+      (window.innerHeight || document.documentElement.clientHeight)
+    )
+      bottom = rect.bottom - document.documentElement.clientHeight;
+
+    return [top, right, bottom, left];
   };
   test = id => {
     let element = document.getElementById(id);
+
     if (element) {
-      if (!this.isElementInViewport(element)) {
-        element.style.right = "100%";
-        element.style.left = "auto";
-      }
-    }
+      let overflowArray = this.isElementInViewport(element);
+      if (overflowArray) {
+        if (overflowArray[0]) {
+          // overflows top
+          element.style.top = "calc(50% + " + (overflowArray[0] + 48) + "px)";
+        } else if (overflowArray[2]) {
+          // overflows bottom
+          element.style.top = "calc(50% - " + (overflowArray[2] + 48) + "px)";
+        }
 
-    let element2 = document.getElementById(id);
-    if (element2) {
-      if (!this.isElementInViewport(element2)) {
-        element.style.bottom = "100%";
-        element.style.top = "auto";
-        this.test();
-      }
-    }
-
-    let element3 = document.getElementById(id);
-    if (element3) {
-      if (!this.isElementInViewport(element3)) {
-        element.style.left = "100%";
-        element.style.right = "auto";
-        this.test();
+        if (overflowArray[1]) {
+          // overflows right
+          element.style.right = "calc(100%)";
+          element.style.left = "auto";
+        } else if (overflowArray[3]) {
+          // overflows left
+          element.style.left = "100%";
+          element.style.right = "auto";
+        }
       }
     }
   };
@@ -70,7 +73,6 @@ class TeamPage extends Component {
                 className="team-member-container mx16 mb32"
                 key={index + "team"}
                 onMouseEnter={() => this.test(id)}
-                onMouseLeave={() => this.test(id)}
               >
                 <div className="team-member-image-container round">
                   <img
