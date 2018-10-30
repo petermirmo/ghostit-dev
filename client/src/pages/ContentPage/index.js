@@ -151,7 +151,14 @@ class Content extends Component {
         console.log(res.data.message);
         console.log(calendars);
       } else {
-        this.setState({ calendars });
+        if (calendars.length - 1 < this.state.activeCalendarIndex) {
+          this.setState(
+            { activeCalendarIndex: calendars.length - 1, calendars },
+            this.fillCalendar
+          );
+        } else {
+          this.setState({ calendars }, this.fillCalendar);
+        }
       }
     });
   };

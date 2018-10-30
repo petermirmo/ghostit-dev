@@ -75,6 +75,16 @@ class CalendarManager extends Component {
         console.log(err);
         console.log(message);
       } else {
+        const adminIndex = users.findIndex(
+          userObj => userObj._id == calendars[index].adminID
+        );
+        if (adminIndex !== -1 && adminIndex !== 0) {
+          // swap admin to the top of the array so it always gets displayed first
+          const temp = users[0];
+          users[0] = users[adminIndex];
+          users[adminIndex] = temp;
+        }
+        users[0].calendarAdmin = true;
         this.handleCalendarChange("users", users, index);
       }
     });
@@ -174,7 +184,12 @@ class CalendarManager extends Component {
     } = this.state;
     const calendar = calendars[activeCalendarIndex];
 
-    const isAdmin = calendar.adminID == this.props.user._id;
+    let userID = this.props.user._id;
+    if (this.props.user.signedInAsUser) {
+      userID = this.props.user.signedInAsUser.id;
+    }
+
+    const isAdmin = calendar.adminID == userID;
 
     let userDivs = undefined;
     if (calendar.users) {
@@ -185,18 +200,21 @@ class CalendarManager extends Component {
               <div className="user-name">{userObj.fullName}</div>
               <div className="user-email">{userObj.email}</div>
             </div>
-            {isAdmin && (
-              <div className="user-icons">
-                <div
-                  className="user-delete"
-                  onClick={() =>
-                    console.log(`remove user ${userObj.fullName} from calendar`)
-                  }
-                >
-                  X
+            {isAdmin &&
+              !userObj.calendarAdmin && (
+                <div className="user-icons">
+                  <div
+                    className="user-delete"
+                    onClick={() =>
+                      console.log(
+                        `remove user ${userObj.fullName} from calendar`
+                      )
+                    }
+                  >
+                    X
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         );
       });

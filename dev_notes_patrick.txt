@@ -92,11 +92,13 @@ multi-user calendars:
 
 to do next:
   manage calendars
-    (pass admin, delete, remove users, rename)
+    (pass admin, delete, remove users, leave calendar)
     exit button
   social accounts tied to calendars
-
-can two user accounts be created with the same email? (shouldnt allow this)
+    link social accounts to user account like normal
+    when going to post, those accounts will be slightly transparent
+      clicking them will prompt you to link that social account with that calendar
+    when inviting a user, convert the string to all lower case
 
 facebook analytics page metrics:
     FB.api(
