@@ -21,6 +21,7 @@ class Content extends Component {
     recipeEditing: false,
 
     calendars: [],
+    calendarInvites: [],
     activeCalendarIndex: undefined,
     calendarManagerModal: false,
 
@@ -82,11 +83,65 @@ class Content extends Component {
         this.setState({ calendars, activeCalendarIndex }, this.fillCalendar);
       }
     });
+
+    axios.get("/api/calendars/invites").then(res => {
+      const { success, err, message, calendars } = res.data;
+      if (!success) {
+        console.log(err);
+        console.log(message);
+        console.log("failed to retrieve calendar invites.");
+      } else {
+        if (!calendars || calendars.length === 0) {
+          return;
+        } else {
+          // calendars is an array of all calendars that have this user's email in its emailsInvited array
+          this.setState({ calendarInvites: calendars });
+        }
+      }
+    });
   }
 
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  inviteResponse = (index, response) => {
+    // function that gets called when the user clicks Accept or Reject on one of their calendar invites
+    // repsonse is whether they clicked accept or reject (true or false)
+    // index is the index of the calendar in calendarInvites
+    const { calendarInvites } = this.state;
+    const calendarID = calendarInvites[index]._id;
+
+    this.setState(prevState => {
+      return {
+        calendarInvites: [
+          ...prevState.calendarInvites.slice(0, index),
+          ...prevState.calendarInvites.slice(index + 1)
+        ]
+      };
+    });
+
+    axios
+      .post("/api/calendars/invites/response", {
+        calendarID,
+        response
+      })
+      .then(res => {
+        const { success, err, message, calendar } = res.data;
+        if (!success) {
+          console.log(err);
+          console.log(message);
+        } else {
+          if (response === true) {
+            this.setState(prevState => {
+              return {
+                calendars: [...prevState.calendars, calendar]
+              };
+            });
+          }
+        }
+      });
+  };
 
   getCalendars = () => {
     axios.get("/api/calendars").then(res => {
@@ -372,6 +427,7 @@ class Content extends Component {
       campaigns,
       notification,
       calendars,
+      calendarInvites,
       activeCalendarIndex
     } = this.state;
     const {
@@ -441,10 +497,14 @@ class Content extends Component {
       <div className="content-page">
         <Calendar
           calendars={calendars}
+          calendarInvites={calendarInvites}
+          inviteResponse={this.inviteResponse}
           activeCalendarIndex={activeCalendarIndex}
           updateActiveCalendar={this.updateActiveCalendar}
           createNewCalendar={this.createNewCalendar}
-          enableCalendarManager={() => { this.setState({ calendarManagerModal: true }) }}
+          enableCalendarManager={() => {
+            this.setState({ calendarManagerModal: true });
+          }}
           calendarEvents={calendarEvents}
           calendarDate={new moment()}
           onSelectDay={this.openModal}
@@ -458,7 +518,10 @@ class Content extends Component {
           <CalendarManager
             calendars={calendars}
             activeCalendarIndex={activeCalendarIndex}
-            close={() => { this.closeModals(); this.getCalendars(); }}
+            close={() => {
+              this.closeModals();
+              this.getCalendars();
+            }}
             notify={this.notify}
           />
         )}

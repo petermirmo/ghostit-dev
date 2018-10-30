@@ -388,4 +388,16 @@ module.exports = app => {
   app.post("/api/calendar/invite", middleware, (req, res) =>
     calendarFunctions.inviteUser(req, res)
   );
+
+  app.get("/api/calendars/invites", middleware, (req, res) =>
+    calendarFunctions.getCalendarInvites(req, res)
+  );
+
+  app.post("/api/calendars/invites/response", middleware, (req, res) =>
+    calendarFunctions.calendarInviteResponse(req, res)
+  );
+
+  app.post("/api/calendar/rename", middleware, (req, res) =>
+    calendarFunctions.renameCalendar(req, res)
+  );
 };

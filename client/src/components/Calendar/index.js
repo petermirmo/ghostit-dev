@@ -400,6 +400,36 @@ class Calendar extends Component {
     );
   };
   calendarHeader = (calendarDate, queueActive) => {
+    const { calendarInvites } = this.props;
+    let calendarInviteDivs = [];
+    if (calendarInvites && calendarInvites.length > 0) {
+      calendarInviteDivs = calendarInvites.map((calendar, index) => {
+        return (
+          <div className="calendar-invite-prompt" key={`invite ${index}`}>
+            {`You have been invited to ${calendar.calendarName}.`}
+            <button
+              className="calendar-invite-accept"
+              onClick={e => {
+                e.preventDefault();
+                this.props.inviteResponse(index, true);
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className="calendar-invite-reject"
+              onClick={e => {
+                e.preventDefault();
+                this.props.inviteResponse(index, false);
+              }}
+            >
+              Reject
+            </button>
+          </div>
+        );
+      });
+    }
+
     return (
       <div className="calendar-header-two-rows">
         <div className="calendar-header-container px8 pt8">
@@ -437,6 +467,7 @@ class Calendar extends Component {
             </div>
           </div>
         </div>
+        {calendarInviteDivs}
         <CalendarPicker
           calendars={this.props.calendars}
           activeCalendarIndex={this.props.activeCalendarIndex}

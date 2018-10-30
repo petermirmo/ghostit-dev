@@ -91,9 +91,9 @@ multi-user calendars:
     change permissions: who the admin is, who can add social accounts to the calendar (should they also be able to remove other people's?)
 
 to do next:
-  ui for making multiple calendars and switching them
   manage calendars
-    (invites, pass admin, delete, remove users, rename)
+    (pass admin, delete, remove users, rename)
+    exit button
   social accounts tied to calendars
 
 can two user accounts be created with the same email? (shouldnt allow this)

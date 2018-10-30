@@ -10,8 +10,7 @@ class CalendarPicker extends Component {
     const { calendars, activeCalendarIndex, calendarManager } = this.props; // Variable
     const { updateActiveCalendar, createNewCalendar } = this.props; // Functions
     let calendarDivs = [];
-    for (let index in calendars) {
-      if (!index) break;
+    for (let index = 0; index < calendars.length; index++) {
       calendarDivs.push(
         <div
           className={index == activeCalendarIndex ? "item active" : "item"}

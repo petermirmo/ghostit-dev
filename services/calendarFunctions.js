@@ -9,7 +9,7 @@ const generalFunctions = require("./generalFunctions");
 
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
-    if (array[i].str === id.str) {
+    if (array[i].equals(id)) {
       return true;
     }
   }
@@ -482,14 +482,140 @@ module.exports = {
             message: `User attempting to send invitation is not a valid member of the calendar. userID: ${userID}, calendarID: ${calendarID}.`
           });
         } else {
-          foundCalendar.emailsInvited.push(email);
-          foundCalendar.save();
-          res.send({
-            success: true,
-            emailsInvited: foundCalendar.emailsInvited
-          });
+          if (foundCalendar.emailsInvited.includes(email)) {
+            res.send({
+              success: false,
+              message: `${email} has already been invited to this calendar.`
+            });
+          } else {
+            User.findOne({ email }, (err, foundUser) => {
+              if (err) {
+                res.send({
+                  success: false,
+                  err,
+                  message: `Error while looking for user with email ${email}. Try again.`
+                });
+              } else {
+                if (
+                  foundUser &&
+                  mongoIdArrayIncludes(foundCalendar.userIDs, foundUser._id)
+                ) {
+                  res.send({
+                    success: false,
+                    message: `User with email ${email} is already a member of this calendar.`
+                  });
+                } else {
+                  foundCalendar.emailsInvited.push(email);
+                  foundCalendar.save();
+                  res.send({
+                    success: true,
+                    emailsInvited: foundCalendar.emailsInvited
+                  });
+                }
+              }
+            });
+          }
         }
       }
     });
+  },
+  getCalendarInvites: function(req, res) {
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    User.findOne({ _id: userID }, (err, foundUser) => {
+      if (err || !foundUser) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while searching for user with ID ${userID}.`
+        });
+      } else {
+        const email = foundUser.email;
+
+        Calendar.find({ emailsInvited: email }, (err, foundCalendars) => {
+          if (err || !foundCalendars) {
+            res.send({
+              success: false,
+              err,
+              message: `Error while searching for calendars with ${email} invited.`
+            });
+          } else {
+            res.send({ success: true, calendars: foundCalendars });
+          }
+        });
+      }
+    });
+  },
+  calendarInviteResponse: function(req, res) {
+    const { calendarID, response } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    User.findOne({ _id: userID }, (err, foundUser) => {
+      if (err || !foundUser) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while searching for user with ID ${userID}.`
+        });
+      } else {
+        const email = foundUser.email;
+
+        Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+          if (err || !foundCalendar) {
+            res.send({
+              success: false,
+              err,
+              message: `Error while searching for calendar with ID ${calendarID}.`
+            });
+          } else {
+            const inviteIndex = foundCalendar.emailsInvited.indexOf(email);
+            if (inviteIndex === -1) {
+              res.send({
+                success: false,
+                message: `Calendar with id ${calendarID} does not have ${email} in its list of invited emails.`
+              });
+            } else {
+              foundCalendar.emailsInvited.splice(inviteIndex, 1); // remove the email from the invited list
+              if (response === true) {
+                foundCalendar.userIDs.push(foundUser._id); // response is true so add userID to the calendar's userID list
+              }
+              foundCalendar.save();
+              res.send({ success: true, calendar: foundCalendar });
+            }
+          }
+        });
+      }
+    });
+  },
+  renameCalendar: function(req, res) {
+    const { calendarID, name } = req.body;
+
+    if (!name || name.length < 1) {
+      res.send({ success: false, message: "Calendar names cannot be empty." });
+    } else {
+      Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+        if (err || !foundCalendar) {
+          res.send({
+            success: false,
+            err,
+            message: `Error while fetching calendar with id ${calendarID}.`
+          });
+        } else {
+          foundCalendar.calendarName = name;
+          foundCalendar.save();
+          res.send({ success: true, calendar: foundCalendar });
+        }
+      });
+    }
   }
 };

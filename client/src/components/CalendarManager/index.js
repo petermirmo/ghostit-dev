@@ -111,13 +111,7 @@ class CalendarManager extends Component {
         if (!success || err) {
           console.log(err);
           console.log(message);
-          this.props.notify(
-            "danger",
-            "Invite Failed",
-            `Failed to invite ${inviteEmail} to calendar ${
-              calendar.calendarName
-            }. Try again.`
-          );
+          this.props.notify("danger", "Invite Failed", message);
         } else {
           this.props.notify(
             "success",
@@ -138,6 +132,37 @@ class CalendarManager extends Component {
           });
         }
       });
+  };
+
+  saveCalendarName = (index, name) => {
+    const { calendars } = this.state;
+    if (name && name.length > 0) {
+      axios
+        .post("/api/calendar/rename", {
+          calendarID: calendars[index]._id,
+          name
+        })
+        .then(res => {
+          const { success, err, message, calendar } = res.data;
+          if (!success) {
+            console.log(err);
+            console.log(message);
+          } else {
+            this.setState(prevState => {
+              return {
+                calendars: [
+                  ...prevState.calendars.slice(0, index),
+                  {
+                    ...prevState.calendars[index],
+                    calendarName: calendar.calendarName
+                  },
+                  ...prevState.calendars.slice(index + 1)
+                ]
+              };
+            });
+          }
+        });
+    }
   };
 
   presentActiveCalendar = () => {
@@ -188,7 +213,6 @@ class CalendarManager extends Component {
               className="invite-input pa8 mb16 round"
               placeholder="usertoinvite@example.com"
               onChange={event => {
-                this.setState({ unsavedChange: true });
                 this.handleChange("inviteEmail", event.target.value);
               }}
               value={inviteEmail}
@@ -226,6 +250,7 @@ class CalendarManager extends Component {
                 className="save-button pa8 round"
                 onClick={e => {
                   e.preventDefault();
+                  this.saveCalendarName(activeCalendarIndex, calendar.tempName);
                 }}
               >
                 Save
