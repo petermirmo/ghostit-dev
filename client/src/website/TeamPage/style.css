@@ -1,5 +1,7 @@
 .team-page {
   align-items: center;
+  padding-top: 15vh;
+  box-sizing: border-box;
 }
 .team-page-tag-line {
 }
@@ -49,7 +51,12 @@
 
   animation: animateOpacity 0.4s ease;
 }
+.team-member-container:hover .team-member-name,
+.team-member-dropdown-container .team-member-name {
+  color: var(--white-theme-color);
+}
 .team-member-title {
 }
 .team-member-description {
+  color: var(--white-theme-color);
 }

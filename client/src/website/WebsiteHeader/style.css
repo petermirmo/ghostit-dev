@@ -4,16 +4,21 @@
   max-width: 100%;
   justify-content: flex-end;
   background-color: var(--white-theme-color);
+
   box-sizing: border-box;
   pointer-events: none;
 }
 
 .website-header-button {
   background-color: transparent;
-  color: black;
   pointer-events: auto;
+  color: var(--primary-text-color);
 }
 .website-header-button.active:after {
   border-bottom: solid 6px var(--black-theme-color);
   transform: scaleX(1);
+}
+.logo-container {
+  align-items: flex-start;
+  flex: 1;
 }

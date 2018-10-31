@@ -2,8 +2,6 @@
   shape-rendering: geometricPrecision;
   background-color: transparent;
 
-  width: 10vw;
-
   transition: all 0.4s ease;
 }
 .ghost-background.left {
@@ -13,7 +11,7 @@
   shape-rendering: geometricPrecision;
 }
 .ghost-body {
-  fill: var(--four-primary-color);
+  fill: var(--five-primary-color);
   shape-rendering: geometricPrecision;
 }
 .ghost-eye {

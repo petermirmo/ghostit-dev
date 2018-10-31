@@ -11,16 +11,31 @@ import {
   openHeaderSideBar,
   setTutorial
 } from "../../redux/actions/";
-import logo from "./logo.png";
+
 import Notification from "../../components/Notifications/Notification/";
-import "./styles/";
+import "./style.css";
 
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.createState(props);
+    window.onkeyup = e => {
+      let key = e.keyCode ? e.keyCode : e.which;
+
+      if (key == 13) {
+        const { login } = this.state;
+        if (login === "login") this.login(e);
+        else if (login === "register") this.register(e);
+      }
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState(this.createState(nextProps));
+  }
+  createState = props => {
+    return {
       login: props.signUp ? "register" : "login",
       fullName: "",
       email: "",
@@ -34,17 +49,7 @@ class Login extends Component {
         type: "danger"
       }
     };
-
-    window.onkeyup = e => {
-      let key = e.keyCode ? e.keyCode : e.which;
-
-      if (key == 13) {
-        const { login } = this.state;
-        if (login === "login") this.login(e);
-        else if (login === "register") this.register(e);
-      }
-    };
-  }
+  };
 
   handleChange = (index, value) => {
     this.setState({ [index]: value });
@@ -178,7 +183,9 @@ class Login extends Component {
 
     return (
       <div className="login-background flex column vc">
-        <img src={logo} alt="logo" className="py32" />
+        <h1 className="login-header silly-font pb16">
+          {login === "login" ? "Sign in to Ghostit!" : "Sign up for Ghostit!"}
+        </h1>
 
         <div className="login-box pa32 br16 flex column">
           {login === "login" && (
@@ -217,7 +224,7 @@ class Login extends Component {
 
               <div
                 className="login-switch mt8 button flex vc hc"
-                onClick={event => this.handleChange("login", "register")}
+                onClick={() => this.props.changePage("sign-up")}
               >
                 New to Ghostit?{" "}
                 <div className="login-switch-highlight ml4">Sign Up</div>
@@ -283,10 +290,9 @@ class Login extends Component {
                   Register
                 </div>
               </div>
-
               <div
                 className="login-switch mt8 button flex vc hc"
-                onClick={event => this.handleChange("login", "login")}
+                onClick={() => this.props.changePage("sign-in")}
               >
                 Have an account?{" "}
                 <div className="login-switch-highlight ml4"> Sign In</div>

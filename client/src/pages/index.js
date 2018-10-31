@@ -18,7 +18,6 @@ import LoaderWedge from "../components/Notifications/LoaderWedge";
 
 import Header from "../components/Navigations/Header/";
 
-import LoginPage from "./LoginPage/";
 import Subscribe from "./SubscribePage/";
 import Content from "./ContentPage/";
 import Strategy from "./StrategyPage/";
@@ -137,9 +136,7 @@ class Routes extends Component {
       else return <Content />;
       // TODO: Should probably return a not found page^^
     } else {
-      if (activePage === "sign-up") return <LoginPage signUp={true} />;
-      else if (activePage === "sign-in") return <LoginPage />;
-      else return <Website />;
+      return <Website />;
     }
   };
   render() {

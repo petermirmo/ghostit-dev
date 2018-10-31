@@ -56,8 +56,8 @@ class TeamPage extends Component {
   };
   render() {
     return (
-      <div className="team-page section pa32 flex column">
-        <h1 className="team-page-tag-line silly-font py16">
+      <div className="team-page flex column">
+        <h1 className="team-page-tag-line silly-font pb16">
           Meet the Ghostit Team!
         </h1>
         <div className="team-members-container flex vc hc wrap pb32 mb32">

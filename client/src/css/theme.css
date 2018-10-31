@@ -29,6 +29,17 @@
   --eight-purple-color: #550080;
   --nine-purple-color: #33004d;
 
+  --nine-orange-color: #c13100;
+  --eight-orange-color: #d94000;
+  --seven-orange-color: #e64800;
+  --six-orange-color: #f44f00;
+  --five-orange-color: #ff5500;
+  --four-orange-color: #ff6e33;
+  --three-orange-color: #ff895a;
+  --two-orange-color: #ffaa8a;
+  --one-orange-color: #ffcbb8;
+  --one-half-orange-color: #fce9e6;
+
   --primary-text-theme-color: #212121;
   --secondary-text-theme-color: #757575;
 
@@ -914,11 +925,30 @@ div {
   font-size: var(--regular-font-size);
   color: var(--primary-text-theme-color);
 }
+h1 {
+  color: var(--primary-text-theme-color);
+}
+h2 {
+  color: var(--primary-text-theme-color);
+}
+h3 {
+  color: var(--primary-text-theme-color);
+}
 h4 {
+  color: var(--primary-text-theme-color);
+
   margin: 0;
 }
+h5 {
+  color: var(--primary-text-theme-color);
+}
+h6 {
+  color: var(--primary-text-theme-color);
+}
+
 p {
   margin: 0;
+  color: var(--primary-text-theme-color);
 }
 [hoverinstructions]:before {
   /* needed - do not touch */
