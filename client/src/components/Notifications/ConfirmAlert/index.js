@@ -8,7 +8,8 @@ import "./styles/";
 
 class ConfirmAlert extends Component {
   state = {
-    checked: false
+    checked: false,
+    confirmText: ""
   };
   componentDidMount = () => {
     this._ismounted = true;
@@ -35,39 +36,73 @@ class ConfirmAlert extends Component {
   };
 
   render() {
-    const { checked } = this.state;
+    const { checked, confirmText } = this.state;
+    const {
+      title,
+      message,
+      type,
+      checkboxMessage,
+      extraConfirmationMessage,
+      extraConfirmationKey
+    } = this.props; // variables
+    const { close, callback } = this.props; // functions
     let firstButton = "Delete";
     let firstButtonStyle = "confirm-button";
     let secondButtonStyle = "cancel-button";
-    if (this.props.type) {
-      if (this.props.type === "modify") {
+    if (type) {
+      if (type === "modify") {
         firstButton = "Modify";
         firstButtonStyle = "cancel-button";
         secondButtonStyle = "confirm-button";
-      } else if (this.props.type === "change-post") {
+      } else if (type === "change-post") {
         firstButton = "Discard";
-      } // else "delete-campaign" or "delete-post"
+      } // else "delete-campaign" or "delete-post" or "delete-calendar"
     }
     return (
-      <div className="confirm-alert-background" onClick={this.props.close}>
+      <div className="confirm-alert-background" onClick={close}>
         <div className="confirm-alert" onClick={e => e.stopPropagation()}>
-          <div className="confirm-title">{this.props.title}</div>
-          <div className="confirm-message">{this.props.message}</div>
+          <div className="confirm-title">{title}</div>
+          <div className="confirm-message">{message}</div>
+          {extraConfirmationMessage && (
+            <div className="extra-confirm-container">
+              <div className="extra-confirm-message">
+                {extraConfirmationMessage}
+              </div>
+              <input
+                type="text"
+                className="extra-confirm-input"
+                value={confirmText}
+                onChange={event =>
+                  this.setState({ confirmText: event.target.value })
+                }
+              />
+            </div>
+          )}
           <div className="options-container">
             <button
-              onClick={() => this.props.callback(true, checked)}
+              onClick={() => {
+                if (
+                  !extraConfirmationKey ||
+                  (extraConfirmationKey && extraConfirmationKey === confirmText)
+                )
+                  callback(true, checked);
+                else
+                  alert(
+                    `You must type ${extraConfirmationKey} in the text box to confirm.`
+                  );
+              }}
               className={firstButtonStyle}
             >
               {firstButton}
             </button>
             <button
-              onClick={() => this.props.callback(false, checked)}
+              onClick={() => callback(false, checked)}
               className={secondButtonStyle}
             >
               Cancel
             </button>
           </div>
-          {this.props.checkboxMessage && (
+          {checkboxMessage && (
             <div
               className="checkbox-option"
               onClick={() => {
@@ -75,7 +110,7 @@ class ConfirmAlert extends Component {
               }}
             >
               <input type="checkbox" checked={checked} />
-              {this.props.checkboxMessage}
+              {checkboxMessage}
             </div>
           )}
         </div>

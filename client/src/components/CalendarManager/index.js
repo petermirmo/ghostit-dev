@@ -4,6 +4,7 @@ import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import faQuestionCircle from "@fortawesome/fontawesome-free-solid/faQuestionCircle";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -13,6 +14,7 @@ import { getArrayIndexWithHint } from "../../componentFunctions";
 
 import Loader from "../Notifications/Loader";
 import CalendarPicker from "../CalendarPicker";
+import ConfirmAlert from "../Notifications/ConfirmAlert";
 
 import "./styles/";
 
@@ -213,6 +215,62 @@ class CalendarManager extends Component {
     }
   };
 
+  deleteCalendarClicked = () => {
+    const { calendars, activeCalendarIndex } = this.state;
+    if (calendars[activeCalendarIndex].userIDs.length > 1) {
+      alert(
+        `You must remove all other users from the calendar before you can delete it.`
+      );
+    } else {
+      this.setState({ deleteCalendarPrompt: true });
+    }
+  };
+
+  deleteCalendar = index => {
+    const { calendars } = this.state;
+    this.setState({ saving: true });
+    axios
+      .post("/api/calendar/delete", { calendarID: calendars[index]._id })
+      .then(res => {
+        this.setState({ saving: false });
+        const { success, err, message, newCalendar } = res.data;
+        // newCalendar will only exist if the calendar being deleted is the user's personal calendar.
+        // personal calendars are calendars that contain all posts created before there were calendars.
+        // we don't want to delete those posts so we make sure the user always has 1 calendar that shows them.
+        // this will make sure that the user still has a personal calendar
+        if (!success) {
+          console.log(err);
+          this.props.notify("danger", "Delete Calendar Failed", message);
+        } else {
+          this.props.notify(
+            "success",
+            "Calendar Deleted",
+            `Calendar successfully deleted.`
+          );
+          if (newCalendar) {
+            this.setState(prevState => {
+              return {
+                calendars: [
+                  ...prevState.calendars.slice(0, index),
+                  newCalendar,
+                  ...prevState.calendars.slice(index + 1)
+                ]
+              };
+            });
+          } else {
+            this.setState(prevState => {
+              return {
+                calendars: [
+                  ...prevState.calendars.slice(0, index),
+                  ...prevState.calendars.slice(index + 1)
+                ]
+              };
+            });
+          }
+        }
+      });
+  };
+
   presentActiveCalendar = () => {
     const {
       calendars,
@@ -310,6 +368,17 @@ class CalendarManager extends Component {
                 Save
               </button>
             )}
+            {calendar.personalCalendar && (
+              <div className="personal-calendar-container">
+                Personal Calendar
+                <div
+                  className="personal-calendar-tooltip"
+                  title="Each user used to only have one calendar to work with so all of their posts were not associated with any specific calendar. Now that posts are linked to a specific calendar, those old posts don't have a calendar and so each user will have a personal calendar where those old posts will be shown. Deleting your personal calendar will not delete any of those old posts, however all new posts that were created within the personal calendar will be deleted. Upon deletion of your personal calendar, a new personal calendar will be created for you."
+                >
+                  <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
+                </div>
+              </div>
+            )}
           </div>
           <div className="calendar-accounts-container pa16">accounts</div>
         </div>
@@ -318,7 +387,19 @@ class CalendarManager extends Component {
   };
 
   render() {
-    const { saving, calendars, activeCalendarIndex } = this.state;
+    const {
+      saving,
+      calendars,
+      activeCalendarIndex,
+      deleteCalendarPrompt
+    } = this.state;
+
+    let userID = this.props.user._id;
+    if (this.props.user.signedInAsUser) {
+      userID = this.props.user.signedInAsUser.id;
+    }
+
+    const isAdmin = calendars[activeCalendarIndex].adminID == userID;
 
     return (
       <div className="modal" onClick={() => this.props.close()}>
@@ -326,12 +407,7 @@ class CalendarManager extends Component {
           className="large-modal common-transition"
           onClick={e => e.stopPropagation()}
         >
-          <div
-            className="close-container"
-            title={
-              "Campaigns are automatically saved when window is closed.\nTemplates are not."
-            }
-          >
+          <div className="close-container" title={"Close Calendar Manager"}>
             <FontAwesomeIcon
               className="close-special"
               icon={faTimes}
@@ -339,26 +415,56 @@ class CalendarManager extends Component {
               onClick={() => this.props.close()}
             />
           </div>
-          <CalendarPicker
-            calendars={calendars}
-            activeCalendarIndex={activeCalendarIndex}
-            calendarManager={true}
-            updateActiveCalendar={index => {
-              this.setState(
-                { activeCalendarIndex: index, unsavedChange: false },
-                () => {
-                  this.handleCalendarChange(
-                    "tempName",
-                    calendars[index].calendarName,
-                    index
-                  );
-                  this.getCalendarUsers(index);
-                  this.getCalendarAccounts(index);
+          <div className="trash-picker-container">
+            {isAdmin && (
+              <div
+                title={
+                  "Delete Calendar. Only calendars with one user can be deleted."
                 }
-              );
-            }}
-          />
+              >
+                <FontAwesomeIcon
+                  className="close-special delete-calendar"
+                  icon={faTrash}
+                  size="1x"
+                  onClick={this.deleteCalendarClicked}
+                />
+              </div>
+            )}
+            <CalendarPicker
+              calendars={calendars}
+              activeCalendarIndex={activeCalendarIndex}
+              calendarManager={true}
+              updateActiveCalendar={index => {
+                this.setState(
+                  { activeCalendarIndex: index, unsavedChange: false },
+                  () => {
+                    this.handleCalendarChange(
+                      "tempName",
+                      calendars[index].calendarName,
+                      index
+                    );
+                    this.getCalendarUsers(index);
+                    this.getCalendarAccounts(index);
+                  }
+                );
+              }}
+            />
+          </div>
           {this.presentActiveCalendar()}
+          {deleteCalendarPrompt && (
+            <ConfirmAlert
+              close={() => this.setState({ deleteCalendarPrompt: false })}
+              title="Delete Calendar"
+              message="Are you sure you want to delete this Calendar? All posts within the calendar will be deleted as well."
+              extraConfirmationMessage={`Type "DELETE" in the text box and click Delete.`}
+              extraConfirmationKey={"DELETE"}
+              callback={response => {
+                this.setState({ deleteCalendarPrompt: false });
+                if (response) this.deleteCalendar(activeCalendarIndex);
+              }}
+              type="delete-calendar"
+            />
+          )}
         </div>
         {saving && <Loader />}
       </div>

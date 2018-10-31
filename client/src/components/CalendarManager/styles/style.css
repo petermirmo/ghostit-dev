@@ -5,6 +5,29 @@
   width: 100%;
 }
 
+.trash-picker-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.delete-calendar {
+  cursor: pointer;
+  padding: 2px;
+  margin-right: 8px;
+}
+
+.personal-calendar-container {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+
+.personal-calendar-tooltip {
+  padding-left: 5px;
+  cursor: help;
+}
+
 .calendar-users-container {
   flex: 1;
   display: flex;

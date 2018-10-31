@@ -92,7 +92,7 @@ multi-user calendars:
 
 to do next:
   manage calendars
-    (pass admin, delete, remove users, leave calendar)
+    (pass admin, delete, leave calendar, set default calendar)
     exit button
   social accounts tied to calendars
     link social accounts to user account like normal
