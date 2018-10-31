@@ -458,7 +458,9 @@ module.exports = {
       }
     });
   },
-  getAccounts: function(req, res) {},
+  getAccounts: function(req, res) {
+    res.send({ success: true });
+  },
   inviteUser: function(req, res) {
     const { email, calendarID } = req.body;
     let userID = req.user._id;
@@ -617,5 +619,43 @@ module.exports = {
         }
       });
     }
+  },
+  removeUserFromCalendar: function(req, res) {
+    const { userID, calendarID } = req.body;
+    let thisUserID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        thisUserID = req.user.signedInAsUser.id;
+      }
+    }
+
+    Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+      if (err || !foundCalendar) {
+        res.send({
+          success: false,
+          err,
+          message: `Failed to find user with id ${userID} in the database. Try again or reload your page.`
+        });
+      } else {
+        if (foundCalendar.adminID.toString() !== thisUserID.toString()) {
+          res.send({
+            success: false,
+            message: `Only admins can remove users from a calendar. Reload your page if you are the admin of this calendar.`
+          });
+        } else {
+          const userIndex = foundCalendar.userIDs.indexOf(userID);
+          if (userIndex === -1) {
+            res.send({
+              success: false,
+              message: `Unable to find user in this calendar's user list. Try reloading your page.`
+            });
+          } else {
+            foundCalendar.userIDs.splice(userIndex, 1);
+            foundCalendar.save();
+            res.send({ success: true });
+          }
+        }
+      }
+    });
   }
 };

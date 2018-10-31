@@ -400,4 +400,8 @@ module.exports = app => {
   app.post("/api/calendar/rename", middleware, (req, res) =>
     calendarFunctions.renameCalendar(req, res)
   );
+
+  app.post("/api/calendar/user/remove", middleware, (req, res) =>
+    calendarFunctions.removeUserFromCalendar(req, res)
+  );
 };

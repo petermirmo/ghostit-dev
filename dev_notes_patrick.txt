@@ -100,6 +100,9 @@ to do next:
       clicking them will prompt you to link that social account with that calendar
     when inviting a user, convert the string to all lower case
 
+
+    laggy when logged in as another user and closing calendar manager??
+
 facebook analytics page metrics:
     FB.api(
       account.socialID +

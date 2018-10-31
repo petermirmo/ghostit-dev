@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
+
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../redux/actions/";
+
+import { getArrayIndexWithHint } from "../../componentFunctions";
 
 import Loader from "../Notifications/Loader";
 import CalendarPicker from "../CalendarPicker";
@@ -47,6 +51,7 @@ class CalendarManager extends Component {
   }
 
   getCalendarAccounts = index => {
+    return;
     const { calendars } = this.state;
 
     axios.get("/api/calendar/accounts/" + calendars[index]._id).then(res => {
@@ -85,12 +90,14 @@ class CalendarManager extends Component {
           users[adminIndex] = temp;
         }
         users[0].calendarAdmin = true;
+        users[0].fullName += " (Admin)";
         this.handleCalendarChange("users", users, index);
       }
     });
   };
 
   handleCalendarChange = (key, value, calendarIndex) => {
+    if (!this._ismounted) return;
     this.setState(prevState => {
       return {
         calendars: [
@@ -103,6 +110,7 @@ class CalendarManager extends Component {
   };
 
   handleChange = (key, value) => {
+    if (!this._ismounted) return;
     this.setState({ [key]: value });
   };
 
@@ -144,6 +152,35 @@ class CalendarManager extends Component {
       });
   };
 
+  removeUserFromCalendar = (userIndex, calendarIndex) => {
+    const { calendars } = this.state;
+    const calendar = calendars[calendarIndex];
+    const calendarID = calendar._id;
+    const userID = calendar.userIDs[userIndex];
+
+    axios
+      .post("/api/calendar/user/remove", {
+        userID,
+        calendarID
+      })
+      .then(res => {
+        const { success, err, message } = res.data;
+        if (!success) {
+          console.log(err);
+          if (message)
+            this.props.notify("danger", "Remove User Failed", message);
+        } else {
+          this.getCalendarUsers(calendarIndex);
+          this.props.notify(
+            "success",
+            "User Removed",
+            `User successfully removed from calendar.`,
+            3500
+          );
+        }
+      });
+  };
+
   saveCalendarName = (index, name) => {
     const { calendars } = this.state;
     if (name && name.length > 0) {
@@ -160,6 +197,7 @@ class CalendarManager extends Component {
           } else {
             this.setState(prevState => {
               return {
+                unsavedChange: false,
                 calendars: [
                   ...prevState.calendars.slice(0, index),
                   {
@@ -206,9 +244,7 @@ class CalendarManager extends Component {
                   <div
                     className="user-delete"
                     onClick={() =>
-                      console.log(
-                        `remove user ${userObj.fullName} from calendar`
-                      )
+                      this.removeUserFromCalendar(index, activeCalendarIndex)
                     }
                   >
                     X
@@ -290,6 +326,19 @@ class CalendarManager extends Component {
           className="large-modal common-transition"
           onClick={e => e.stopPropagation()}
         >
+          <div
+            className="close-container"
+            title={
+              "Campaigns are automatically saved when window is closed.\nTemplates are not."
+            }
+          >
+            <FontAwesomeIcon
+              className="close-special"
+              icon={faTimes}
+              size="2x"
+              onClick={() => this.props.close()}
+            />
+          </div>
           <CalendarPicker
             calendars={calendars}
             activeCalendarIndex={activeCalendarIndex}
