@@ -10,8 +10,9 @@ import "./style.css";
 
 class WebsiteHeader extends Component {
   render() {
-    const { activePage, changePage } = this.props;
+    const { activePage, changePage, user } = this.props;
     let className = "website-header-button moving-border px32";
+
     return (
       <div className="website-header fixed flex pt16 px32">
         <div className="logo-container flex">
@@ -50,22 +51,31 @@ class WebsiteHeader extends Component {
         >
           Blog
         </button>
-        <button
-          className={
-            activePage === "sign-in" ? className + " active" : className
-          }
-          onClick={() => changePage("sign-in")}
-        >
-          Sign In
-        </button>
-        <button
-          className={
-            activePage === "sign-up" ? className + " active" : className
-          }
-          onClick={() => changePage("sign-up")}
-        >
-          Start Your Free Trial
-        </button>
+        {user && (
+          <button className={className} onClick={() => changePage("content")}>
+            Go to Software
+          </button>
+        )}
+        {!user && (
+          <button
+            className={
+              activePage === "sign-in" ? className + " active" : className
+            }
+            onClick={() => changePage("sign-in")}
+          >
+            Sign In
+          </button>
+        )}
+        {!user && (
+          <button
+            className={
+              activePage === "sign-up" ? className + " active" : className
+            }
+            onClick={() => changePage("sign-up")}
+          >
+            Start Your Free Trial
+          </button>
+        )}
       </div>
     );
   }
@@ -73,7 +83,8 @@ class WebsiteHeader extends Component {
 
 function mapStateToProps(state) {
   return {
-    activePage: state.activePage
+    activePage: state.activePage,
+    user: state.user
   };
 }
 function mapDispatchToProps(dispatch) {

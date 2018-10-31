@@ -40,6 +40,9 @@ class Routes extends Component {
     axios.get("/api/user").then(res => {
       let { success, user } = res.data;
 
+      if (!user && this.isUserInPlatform(props.activePage))
+        props.changePage("sign-in");
+
       if (user) {
         // Get all connected accounts of the user
         axios.get("/api/accounts").then(res => {
@@ -64,6 +67,11 @@ class Routes extends Component {
           this.setState({ datebaseConnection: true });
         });
       } else this.setState({ datebaseConnection: true });
+    });
+
+    // Reloads the page when back or forward button clicked :)
+    window.addEventListener("popstate", () => {
+      if (window.location.href != props.activePage) window.location.reload();
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -122,22 +130,44 @@ class Routes extends Component {
     });
   };
   getPage = (activePage, user) => {
-    if (user) {
-      if (activePage === "subscribe") return <Subscribe />;
-      else if (activePage === "content") return <Content />;
-      else if (activePage === "strategy") return <Strategy />;
-      else if (activePage === "analytics") return <Analytics />;
-      else if (activePage === "social-accounts") return <Accounts />;
-      else if (activePage === "writers-brief") return <WritersBrief />;
-      else if (activePage === "manage") return <Manage />;
-      else if (activePage === "profile") return <Profile />;
-      else if (activePage === "subscription") return <MySubscription />;
-      else if (activePage === "ads") return <Ads />;
-      else return <Content />;
-      // TODO: Should probably return a not found page^^
-    } else {
+    if (activePage === "content") return <Content />;
+    else if (activePage === "subscribe") return <Subscribe />;
+    else if (activePage === "strategy") return <Strategy />;
+    else if (activePage === "analytics") return <Analytics />;
+    else if (activePage === "social-accounts") return <Accounts />;
+    else if (activePage === "writers-brief") return <WritersBrief />;
+    else if (activePage === "manage") return <Manage />;
+    else if (activePage === "profile") return <Profile />;
+    else if (activePage === "subscription") return <MySubscription />;
+    else if (activePage === "ads") return <Ads />;
+    else if (
+      activePage === "home" ||
+      activePage === "team" ||
+      activePage === "pricing" ||
+      activePage === "sign-in" ||
+      activePage === "sign-up"
+    )
       return <Website />;
-    }
+
+    // If activePage is not found
+    if (user) return <Content />;
+    else return <Website />;
+    // TODO: create page not found error
+  };
+  isUserInPlatform = activePage => {
+    if (
+      activePage === "content" ||
+      activePage === "subscribe" ||
+      activePage === "analytics" ||
+      activePage === "social-accounts" ||
+      activePage === "writers-brief" ||
+      activePage === "manage" ||
+      activePage === "profile" ||
+      activePage === "subscription" ||
+      activePage === "ads"
+    )
+      return true;
+    else return false;
   };
   render() {
     const { datebaseConnection } = this.state;
@@ -153,7 +183,7 @@ class Routes extends Component {
 
     return (
       <div className="flex">
-        {user && <Header />}
+        {this.isUserInPlatform(activePage) && <Header />}
 
         <div className="wrapper">
           {user &&
