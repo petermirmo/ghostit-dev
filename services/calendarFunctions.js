@@ -452,7 +452,11 @@ module.exports = {
               message: `Unable to find users subscribed to calendar with id ${id}`
             });
           } else {
-            res.send({ success: true, users: foundUsers });
+            res.send({
+              success: true,
+              users: foundUsers,
+              userIDs: foundCalendar.userIDs
+            });
           }
         });
       }
@@ -655,6 +659,171 @@ module.exports = {
             res.send({ success: true });
           }
         }
+      }
+    });
+  },
+  deleteCalendar: function(req, res) {
+    const { calendarID } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    User.findOne({ _id: userID }, (err, foundUser) => {
+      if (err || !foundUser) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while fetching user from database.`
+        });
+      } else {
+        Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+          if (err || !foundCalendar) {
+            res.send({
+              success: false,
+              err,
+              message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
+            });
+          } else {
+            if (foundCalendar.adminID.toString() !== userID.toString()) {
+              res.send({
+                success: false,
+                message: `Only calendar admins are allowed to delete their calendar. If you are the admin, try reloading the page.`
+              });
+            } else if (foundCalendar.userIDs.length > 1) {
+              res.send({
+                success: false,
+                message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
+              });
+            } else {
+              // calendar is eligible to be deleted and the user is the calendar admin
+              // now we must delete all posts with post.calendarID: calendarID
+              Post.find({ calendarID }, (err, foundPosts) => {
+                if (err || !foundPosts) {
+                  res.send({
+                    success: false,
+                    message: `Error while fetching all calendar posts to be deleted.`
+                  });
+                } else {
+                  for (let i = 0; i < foundPosts.length; i++) {
+                    const post = foundPosts[i];
+                    post.remove();
+                  }
+                  Campaign.find({ calendarID }, (err, foundCampaigns) => {
+                    if (err || !foundCampaigns) {
+                      res.send({
+                        success: false,
+                        message: `Error while fetching all calendar campaigns to be deleted. Posts already deleted.`
+                      });
+                    } else {
+                      for (let i = 0; i < foundCampaigns.length; i++) {
+                        const campaign = foundCampaigns[i];
+                        campaign.remove();
+                      }
+                      Blog.find({ calendarID }, (err, foundBlogs) => {
+                        if (err || !foundBlogs) {
+                          res.send({
+                            success: false,
+                            message: `Error while fetching all calendar blogs to be deleted. Posts and campaigns already deleted.`
+                          });
+                        } else {
+                          for (let i = 0; i < foundBlogs.length; i++) {
+                            const blog = foundBlogs[i];
+                            blog.remove();
+                          }
+                          Newsletter.find(
+                            { calendarID },
+                            (err, foundNewsletters) => {
+                              if (err || !foundNewsletters) {
+                                res.send({
+                                  success: false,
+                                  message: `Error while fetching all calendar newsletters to be deleted. Posts, campaigns, and blogs already deleted.`
+                                });
+                              } else {
+                                for (
+                                  let i = 0;
+                                  i < foundNewsletters.length;
+                                  i++
+                                ) {
+                                  const newsletter = foundNewsletters[i];
+                                  newsletter.remove();
+                                }
+                                foundCalendar.remove();
+                                if (foundCalendar.personalCalendar) {
+                                  // deleting their personal calendar so we need to relpace it with a new personal calendar
+                                  const newCalendar = new Calendar();
+                                  newCalendar.calendarName =
+                                    "Personal Calendar";
+                                  newCalendar.adminID = userID;
+                                  newCalendar.userIDs = [userID];
+                                  newCalendar.personalCalendar = true;
+                                  newCalendar.save();
+                                  if (
+                                    foundCalendar._id.toString() ===
+                                    foundUser.defaultCalendarID.toString()
+                                  ) {
+                                    // removing the user's default calendar so we need to replace it
+                                    foundUser.defualtCalendarID =
+                                      newCalendar._id;
+                                    foundUser.save();
+                                  }
+                                  res.send({
+                                    success: true,
+                                    newCalendar,
+                                    message: `Deleted calendar was your personal calendar so a new one has been created as a replacement. Also deleted: ${
+                                      foundPosts.length
+                                    } posts, ${
+                                      foundCampaigns.length
+                                    } campaigns, ${
+                                      foundBlogs.length
+                                    } blogs, and ${
+                                      foundNewsletters.length
+                                    } newsletters.`
+                                  });
+                                } else {
+                                  if (
+                                    foundCalendar._id.toString() ===
+                                    foundUser.defaultCalendarID.toString()
+                                  ) {
+                                    // removing the user's default calendar so we need to replace it
+                                    Calendar.findOne(
+                                      { userIDs: userID },
+                                      (err, newDefaultCalendar) => {
+                                        if (!err && newDefaultCalendar) {
+                                          foundUser.defaultCalendarID =
+                                            newDefaultCalendar._id;
+                                          foundUser.save();
+                                        }
+                                      }
+                                    );
+                                  }
+                                  res.send({
+                                    success: true,
+                                    message: `Calendar deleted as well as ${
+                                      foundPosts.length
+                                    } posts, ${
+                                      foundCampaigns.length
+                                    } campaigns, ${
+                                      foundBlogs.length
+                                    } blogs, and ${
+                                      foundNewsletters.length
+                                    } newsletters.`
+                                  });
+                                }
+                              }
+                            }
+                          );
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          }
+        });
       }
     });
   }

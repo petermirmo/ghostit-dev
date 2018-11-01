@@ -404,4 +404,8 @@ module.exports = app => {
   app.post("/api/calendar/user/remove", middleware, (req, res) =>
     calendarFunctions.removeUserFromCalendar(req, res)
   );
+
+  app.post("/api/calendar/delete", middleware, (req, res) =>
+    calendarFunctions.deleteCalendar(req, res)
+  );
 };

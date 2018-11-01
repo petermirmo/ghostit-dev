@@ -74,7 +74,7 @@ class CalendarManager extends Component {
     const { calendars } = this.state;
 
     axios.get("/api/calendar/users/" + calendars[index]._id).then(res => {
-      const { success, err, message, users } = res.data;
+      const { success, err, message, users, userIDs } = res.data;
       if (!success || err || !users) {
         console.log(
           "Retrieving calendar users from database was unsuccessful."
@@ -94,6 +94,7 @@ class CalendarManager extends Component {
         users[0].calendarAdmin = true;
         users[0].fullName += " (Admin)";
         this.handleCalendarChange("users", users, index);
+        this.handleCalendarChange("userIDs", userIDs, index);
       }
     });
   };
@@ -245,21 +246,22 @@ class CalendarManager extends Component {
           this.props.notify(
             "success",
             "Calendar Deleted",
-            `Calendar successfully deleted.`
+            message ? message : `Calendar successfully deleted.`
           );
           if (newCalendar) {
             this.setState(prevState => {
               return {
                 calendars: [
                   ...prevState.calendars.slice(0, index),
-                  newCalendar,
-                  ...prevState.calendars.slice(index + 1)
+                  ...prevState.calendars.slice(index + 1),
+                  newCalendar
                 ]
               };
             });
           } else {
             this.setState(prevState => {
               return {
+                activeCalendarIndex: index - 1,
                 calendars: [
                   ...prevState.calendars.slice(0, index),
                   ...prevState.calendars.slice(index + 1)
@@ -302,7 +304,13 @@ class CalendarManager extends Component {
                   <div
                     className="user-delete"
                     onClick={() =>
-                      this.removeUserFromCalendar(index, activeCalendarIndex)
+                      this.setState({
+                        removeUserPrompt: true,
+                        removeUserObj: {
+                          userIndex: index,
+                          calendarIndex: activeCalendarIndex
+                        }
+                      })
                     }
                   >
                     X
@@ -373,7 +381,26 @@ class CalendarManager extends Component {
                 Personal Calendar
                 <div
                   className="personal-calendar-tooltip"
-                  title="Each user used to only have one calendar to work with so all of their posts were not associated with any specific calendar. Now that posts are linked to a specific calendar, those old posts don't have a calendar and so each user will have a personal calendar where those old posts will be shown. Deleting your personal calendar will not delete any of those old posts, however all new posts that were created within the personal calendar will be deleted. Upon deletion of your personal calendar, a new personal calendar will be created for you."
+                  title={
+                    "What is a personal calendar?\n" +
+                    "Posts created before customizable calendars were " +
+                    "introduced do not have a specific calendar that they are associated with. " +
+                    "Each user account has one personal calendar and any old posts (posts without a calendar)" +
+                    " by the user will be displayed in that calendar.\n\n" +
+                    "Can you rename a personal calendar?\n" +
+                    "Yes. You can name it anything you'd like. You can tell which calendar" +
+                    " is your personal calendar by whether or not this label is present.\n\n" +
+                    "Can you invite other users to a personal calendar?\n" +
+                    "Yes. Inviting users works the same way as any other calendar.\n\n" +
+                    "What happens when you delete a personal calendar?\n" +
+                    "Like normal, all of the posts that were scheduled specifically within the calendar being deleted will also be deleted. " +
+                    'However, none of the "old posts" will be deleted and a new personal calendar will be created for you automatically. ' +
+                    'All of the "old posts" will be displayed on the new personal calendar.\n\n' +
+                    "Can I designate a different calendar as my personal calendar?\n" +
+                    "Not yet, but if it's something you want to do, please let us know so we can add that functionality.\n\n" +
+                    `Why is it called "personal calendar"?\n` +
+                    `I don't know what else to call it.`
+                  }
                 >
                   <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
                 </div>
@@ -391,7 +418,9 @@ class CalendarManager extends Component {
       saving,
       calendars,
       activeCalendarIndex,
-      deleteCalendarPrompt
+      deleteCalendarPrompt,
+      removeUserPrompt,
+      removeUserObj
     } = this.state;
 
     let userID = this.props.user._id;
@@ -461,6 +490,30 @@ class CalendarManager extends Component {
               callback={response => {
                 this.setState({ deleteCalendarPrompt: false });
                 if (response) this.deleteCalendar(activeCalendarIndex);
+              }}
+              type="delete-calendar"
+            />
+          )}
+          {removeUserPrompt && (
+            <ConfirmAlert
+              close={() =>
+                this.setState({
+                  removeUserPrompt: false,
+                  removeUserObj: undefined
+                })
+              }
+              title="Remove User"
+              message="Are you sure you want to remove this user from the calendar?"
+              callback={response => {
+                this.setState({
+                  removeUserPrompt: false,
+                  removeUserObj: undefined
+                });
+                if (response)
+                  this.removeUserFromCalendar(
+                    removeUserObj.userIndex,
+                    removeUserObj.calendarIndex
+                  );
               }}
               type="delete-calendar"
             />
