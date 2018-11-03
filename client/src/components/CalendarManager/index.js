@@ -27,6 +27,7 @@ class CalendarManager extends Component {
         return { ...calObj, tempName: calObj.calendarName };
       }),
       activeCalendarIndex: props.activeCalendarIndex,
+      defaultCalendarID: props.defaultCalendarID,
       unsavedChange: false,
       inviteEmail: ""
     };
@@ -155,6 +156,19 @@ class CalendarManager extends Component {
       });
   };
 
+  createNewCalendar = name => {
+    axios.post("/api/calendars/new", { name }).then(res => {
+      const { success, newCalendar } = res.data;
+      if (success) {
+        this.setState(prevState => {
+          return {
+            calendars: [...prevState.calendars, newCalendar]
+          };
+        });
+      }
+    });
+  };
+
   removeUserFromCalendar = (userIndex, calendarIndex) => {
     const { calendars } = this.state;
     const calendar = calendars[calendarIndex];
@@ -235,10 +249,6 @@ class CalendarManager extends Component {
       .then(res => {
         this.setState({ saving: false });
         const { success, err, message, newCalendar } = res.data;
-        // newCalendar will only exist if the calendar being deleted is the user's personal calendar.
-        // personal calendars are calendars that contain all posts created before there were calendars.
-        // we don't want to delete those posts so we make sure the user always has 1 calendar that shows them.
-        // this will make sure that the user still has a personal calendar
         if (!success) {
           console.log(err);
           this.props.notify("danger", "Delete Calendar Failed", message);
@@ -249,34 +259,71 @@ class CalendarManager extends Component {
             message ? message : `Calendar successfully deleted.`
           );
           if (newCalendar) {
-            this.setState(prevState => {
-              return {
-                calendars: [
-                  ...prevState.calendars.slice(0, index),
-                  ...prevState.calendars.slice(index + 1),
-                  newCalendar
-                ]
-              };
-            });
+            // deleted last calendar so the backend created a new one for the user
+            this.setState(
+              { activeCalendarIndex: 0, calendars: [newCalendar] },
+              () => this.updateActiveCalendar(0)
+            );
           } else {
-            this.setState(prevState => {
-              return {
-                activeCalendarIndex: index - 1,
-                calendars: [
-                  ...prevState.calendars.slice(0, index),
-                  ...prevState.calendars.slice(index + 1)
-                ]
-              };
-            });
+            let new_index = index;
+            if (calendars.length - 1 <= index) new_index = index - 1;
+
+            this.setState(
+              prevState => {
+                return {
+                  activeCalendarIndex: new_index,
+                  calendars: [
+                    ...prevState.calendars.slice(0, index),
+                    ...prevState.calendars.slice(index + 1)
+                  ]
+                };
+              },
+              () => {
+                this.updateActiveCalendar(new_index);
+              }
+            );
           }
         }
       });
+  };
+
+  setDefaultCalendar = calendarIndex => {
+    const { calendars } = this.state;
+    axios
+      .post("/api/calendar/setDefault", {
+        calendarID: calendars[calendarIndex]._id
+      })
+      .then(res => {
+        const { success, err, message } = res.data;
+        if (!success) {
+          console.log(err);
+          console.log(message);
+          this.props.notify("danger", "Set Default Calendar Failed", message);
+        } else {
+          this.props.notify("success", "Success", message);
+          this.setState({ defaultCalendarID: calendars[calendarIndex]._id });
+        }
+      });
+  };
+
+  updateActiveCalendar = index => {
+    const { calendars } = this.state;
+    this.setState({ activeCalendarIndex: index, unsavedChange: false }, () => {
+      this.handleCalendarChange(
+        "tempName",
+        calendars[index].calendarName,
+        index
+      );
+      this.getCalendarUsers(index);
+      this.getCalendarAccounts(index);
+    });
   };
 
   presentActiveCalendar = () => {
     const {
       calendars,
       activeCalendarIndex,
+      defaultCalendarID,
       unsavedChange,
       inviteEmail
     } = this.state;
@@ -287,6 +334,8 @@ class CalendarManager extends Component {
       userID = this.props.user.signedInAsUser.id;
     }
 
+    const isDefaultCalendar =
+      calendar._id.toString() === defaultCalendarID.toString();
     const isAdmin = calendar.adminID == userID;
 
     let userDivs = undefined;
@@ -376,35 +425,19 @@ class CalendarManager extends Component {
                 Save
               </button>
             )}
-            {calendar.personalCalendar && (
-              <div className="personal-calendar-container">
-                Personal Calendar
-                <div
-                  className="personal-calendar-tooltip"
-                  title={
-                    "What is a personal calendar?\n" +
-                    "Posts created before customizable calendars were " +
-                    "introduced do not have a specific calendar that they are associated with. " +
-                    "Each user account has one personal calendar and any old posts (posts without a calendar)" +
-                    " by the user will be displayed in that calendar.\n\n" +
-                    "Can you rename a personal calendar?\n" +
-                    "Yes. You can name it anything you'd like. You can tell which calendar" +
-                    " is your personal calendar by whether or not this label is present.\n\n" +
-                    "Can you invite other users to a personal calendar?\n" +
-                    "Yes. Inviting users works the same way as any other calendar.\n\n" +
-                    "What happens when you delete a personal calendar?\n" +
-                    "Like normal, all of the posts that were scheduled specifically within the calendar being deleted will also be deleted. " +
-                    'However, none of the "old posts" will be deleted and a new personal calendar will be created for you automatically. ' +
-                    'All of the "old posts" will be displayed on the new personal calendar.\n\n' +
-                    "Can I designate a different calendar as my personal calendar?\n" +
-                    "Not yet, but if it's something you want to do, please let us know so we can add that functionality.\n\n" +
-                    `Why is it called "personal calendar"?\n` +
-                    `I don't know what else to call it.`
-                  }
-                >
-                  <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
-                </div>
-              </div>
+            {isDefaultCalendar && (
+              <div className="default-calendar-label">Default Calendar</div>
+            )}
+            {!isDefaultCalendar && (
+              <button
+                className="default-calendar-button"
+                onClick={e => {
+                  e.preventDefault();
+                  this.setDefaultCalendar(activeCalendarIndex);
+                }}
+              >
+                Set As Default Calendar
+              </button>
             )}
           </div>
           <div className="calendar-accounts-container pa16">accounts</div>
@@ -463,20 +496,8 @@ class CalendarManager extends Component {
               calendars={calendars}
               activeCalendarIndex={activeCalendarIndex}
               calendarManager={true}
-              updateActiveCalendar={index => {
-                this.setState(
-                  { activeCalendarIndex: index, unsavedChange: false },
-                  () => {
-                    this.handleCalendarChange(
-                      "tempName",
-                      calendars[index].calendarName,
-                      index
-                    );
-                    this.getCalendarUsers(index);
-                    this.getCalendarAccounts(index);
-                  }
-                );
-              }}
+              createNewCalendar={this.createNewCalendar}
+              updateActiveCalendar={this.updateActiveCalendar}
             />
           </div>
           {this.presentActiveCalendar()}

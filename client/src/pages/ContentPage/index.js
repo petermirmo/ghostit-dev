@@ -23,6 +23,7 @@ class Content extends Component {
     calendars: [],
     calendarInvites: [],
     activeCalendarIndex: undefined,
+    defaultCalendarID: undefined,
     calendarManagerModal: false,
 
     facebookPosts: [],
@@ -77,10 +78,17 @@ class Content extends Component {
         console.log(calendars);
       } else {
         let activeCalendarIndex = calendars.findIndex(
-          calObj => calObj._id === defaultCalendarID
+          calObj => calObj._id.toString() === defaultCalendarID.toString()
         );
         if (activeCalendarIndex === -1) activeCalendarIndex = 0;
-        this.setState({ calendars, activeCalendarIndex }, this.fillCalendar);
+        this.setState(
+          {
+            calendars,
+            activeCalendarIndex,
+            defaultCalendarID
+          },
+          this.fillCalendar
+        );
       }
     });
 
@@ -404,19 +412,6 @@ class Content extends Component {
     this.setState({ activeCalendarIndex: index }, this.fillCalendar);
   };
 
-  createNewCalendar = name => {
-    axios.post("/api/calendars/new", { name }).then(res => {
-      const { success, newCalendar } = res.data;
-      if (success) {
-        this.setState(prevState => {
-          return {
-            calendars: [...prevState.calendars, newCalendar]
-          };
-        });
-      }
-    });
-  };
-
   render() {
     const {
       calendarEventCategories,
@@ -435,7 +430,8 @@ class Content extends Component {
       notification,
       calendars,
       calendarInvites,
-      activeCalendarIndex
+      activeCalendarIndex,
+      defaultCalendarID
     } = this.state;
     const {
       All,
@@ -508,7 +504,6 @@ class Content extends Component {
           inviteResponse={this.inviteResponse}
           activeCalendarIndex={activeCalendarIndex}
           updateActiveCalendar={this.updateActiveCalendar}
-          createNewCalendar={this.createNewCalendar}
           enableCalendarManager={() => {
             this.setState({ calendarManagerModal: true });
           }}
@@ -525,6 +520,7 @@ class Content extends Component {
           <CalendarManager
             calendars={calendars}
             activeCalendarIndex={activeCalendarIndex}
+            defaultCalendarID={defaultCalendarID}
             close={() => {
               this.closeModals();
               this.getCalendars();

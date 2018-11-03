@@ -23,7 +23,7 @@ class CalendarPicker extends Component {
       );
     }
 
-    if (!calendarManager) {
+    if (createNewCalendar) {
       calendarDivs.push(
         <div
           className={"item"}
@@ -33,6 +33,8 @@ class CalendarPicker extends Component {
           Create New Calendar
         </div>
       );
+    }
+    if (!calendarManager) {
       calendarDivs.push(
         <div
           className={"item"}

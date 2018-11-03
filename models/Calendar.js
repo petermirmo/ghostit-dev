@@ -22,15 +22,15 @@ const calendarSchema = new Schema(
         type: String
       }
     ],
-    // each account starts with a 'personal' calendar.
-    // this calendar will show all posts that do not have a calendarID already
-    // this allows old posts to be campatible with this new calendar system
-    personalCalendar: Boolean,
     calendarName: {
       type: String,
       required: true
-    }
-    // social accounts?
+    },
+    accountIDs: [
+      {
+        type: Schema.Types.ObjectId
+      }
+    ]
   },
   {
     timestamps: true

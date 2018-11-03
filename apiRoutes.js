@@ -381,10 +381,6 @@ module.exports = app => {
     calendarFunctions.getUsers(req, res)
   );
 
-  app.get("/api/calendar/accounts/:calendarID", middleware, (req, res) =>
-    calendarFunctions.getAccounts(req, res)
-  );
-
   app.post("/api/calendar/invite", middleware, (req, res) =>
     calendarFunctions.inviteUser(req, res)
   );
@@ -407,5 +403,13 @@ module.exports = app => {
 
   app.post("/api/calendar/delete", middleware, (req, res) =>
     calendarFunctions.deleteCalendar(req, res)
+  );
+
+  app.post("/api/calendar/setDefault", middleware, (req, res) =>
+    calendarFunctions.setDefaultCalendar(req, res)
+  );
+
+  app.get("/api/calendar/accounts/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getSocialAccounts(req, res)
   );
 };

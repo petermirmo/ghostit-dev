@@ -92,22 +92,20 @@ multi-user calendars:
 
 to do next:
   manage calendars
-    instead of personal calendars, just when user makes first calendar, have all their old posts get that calendarID
-    (pass admin, delete, leave calendar, set default calendar)
+    (pass admin, leave calendar)
+      when inviting a user, convert the string to all lower case?
       when deleting, might need to delete the images / files stored with the posts/blogs/newsletters and maybe disable the email notifications?
-      when deleting the defaultCalendarID of a user, replace it
-        (or when loading calendars from a user and the defualtCalendarID isn't eligible, replace it with one that is)
   social accounts tied to calendars
     link social accounts to user account like normal
     when going to post, those accounts will be slightly transparent
       clicking them will prompt you to link that social account with that calendar
-    when inviting a user, convert the string to all lower case
+    calendar objects have an accountIDs array
+      any user can link a social account to the calendar
+      when a user leaves the calendar, prompt them if they want to remove their linked accounts as well
+      if a user is removed from the calendar, warn the admin that this will un-link all of the accounts that they linked
+      removing an account doesn't delete any posts already scheduled
+  maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
 
-    someone else's personal calendar that you are a part of
-      does it load your own old posts or theirs?
-        it loads your own posts. this is no bueno.
-      should we display the personal calendar label?
-      passing admin of a personal calendar. how to handle that?
     laggy when logged in as another user and closing calendar manager??
 
 facebook analytics page metrics:

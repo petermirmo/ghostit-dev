@@ -472,7 +472,6 @@ class Calendar extends Component {
           calendars={this.props.calendars}
           activeCalendarIndex={this.props.activeCalendarIndex}
           updateActiveCalendar={this.props.updateActiveCalendar}
-          createNewCalendar={this.props.createNewCalendar}
           enableCalendarManager={this.props.enableCalendarManager}
         />
       </div>
