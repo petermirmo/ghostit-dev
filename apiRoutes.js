@@ -412,4 +412,8 @@ module.exports = app => {
   app.get("/api/calendar/accounts/:calendarID", middleware, (req, res) =>
     calendarFunctions.getSocialAccounts(req, res)
   );
+
+  app.post("/api/calendar/account", middleware, (req, res) =>
+    calendarFunctions.linkSocialAccount(req, res)
+  );
 };

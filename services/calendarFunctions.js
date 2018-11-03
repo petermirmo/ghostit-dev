@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 const Blog = require("../models/Blog");
 const Post = require("../models/Post");
@@ -821,7 +822,6 @@ module.exports = {
     });
   },
   getSocialAccounts: function(req, res) {
-    console.log("getSocialAccounts");
     const calendarID = req.params.calendarID;
     Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
       if (err || !foundCalendar) {
@@ -851,6 +851,51 @@ module.exports = {
               });
             } else {
               res.send({ success: true, accounts: foundAccounts });
+            }
+          });
+        }
+      }
+    });
+  },
+  linkSocialAccount: function(req, res) {
+    const { calendarID, accountID } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    Account.findOne({ _id: accountID }, (err, foundAccount) => {
+      // first, make sure the account actually belongs to the user
+      if (err || !foundAccount) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while looking up account in the database. Reload page and try again.`
+        });
+      } else {
+        if (foundAccount.userID.toString() !== userID.toString()) {
+          res.send({
+            success: false,
+            message: `User ID does not match the account's user ID.`
+          });
+        } else {
+          Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+            if (err || !foundCalendar) {
+              res.send({
+                success: false,
+                err,
+                message: `Error while looking up calendar in the database. Reload page and try again.`
+              });
+            } else {
+              foundCalendar.accountIDs.push(accountID);
+              foundCalendar.save();
+              res.send({
+                success: true,
+                account: foundAccount,
+                message: `Account successfully linked to calendar.`
+              });
             }
           });
         }

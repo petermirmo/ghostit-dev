@@ -27,6 +27,7 @@ class PostingOptions extends Component {
 
     this.state = this.createState(props);
     this.state.promptLinkAccountToCalendar = false;
+    this.state.linkAccountToCalendarID = undefined;
   }
 
   componentDidMount() {
@@ -73,7 +74,6 @@ class PostingOptions extends Component {
       instructions: "",
       name: "",
       promptModifyCampaignDates: false,
-      linkAccountToCalendarID: undefined,
       calendarID: props.calendarID
     };
     if (props.post) {
@@ -239,12 +239,32 @@ class PostingOptions extends Component {
     const { linkAccountToCalendarID, calendarID } = this.state;
     this.setState({
       promptLinkAccountToCalendar: false,
-      linkAccountToCalendarID: undefined
+      linkAccountToCalendarID: undefined,
+      saving: true
     });
+    axios
+      .post("/api/calendar/account", {
+        accountID: linkAccountToCalendarID,
+        calendarID
+      })
+      .then(res => {
+        const { success, err, message, account } = res.data;
+        this.setState({ saving: false });
+        if (!success) {
+          console.log(err);
+          this.props.notify("danger", "Link Account Failed", message);
+        } else {
+          this.props.notify("success", "Link Account Successful", message);
+          this.setState(prevState => {
+            return {
+              calendarAccounts: [...prevState.calendarAccounts, account]
+            };
+          });
+        }
+      });
   };
 
   render() {
-    console.log(this.state.promptLinkAccountToCalendar);
     const {
       _id,
       content,

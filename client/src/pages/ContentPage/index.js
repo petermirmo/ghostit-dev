@@ -534,6 +534,7 @@ class Content extends Component {
             timezone={timezone}
             calendarID={calendars[activeCalendarIndex]._id}
             close={this.closeModals}
+            notify={this.notify}
             savePostCallback={() => {
               this.getPosts();
               this.closeModals();
@@ -554,6 +555,7 @@ class Content extends Component {
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
+            calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
         {this.state.blogEdittingModal && (

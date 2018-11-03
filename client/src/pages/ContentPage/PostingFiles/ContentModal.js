@@ -159,6 +159,7 @@ class ContentModal extends Component {
               : undefined
           }
           backupChanges={this.backupPostChanges}
+          notify={this.props.notify}
         />
       );
     }

@@ -697,6 +697,7 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
+          notify={this.props.notify}
         />
       );
     }

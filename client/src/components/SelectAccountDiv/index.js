@@ -131,9 +131,11 @@ class SelectAccountDiv extends Component {
           </h4>
         )}
         <div className="accounts-container">{accountsListDiv}</div>
-        <div className="accounts-link-to-calendar-label">
-          Accounts not yet linked to calendar
-        </div>
+        {inactiveAccountsDiv.length !== 0 && (
+          <div className="accounts-link-to-calendar-label">
+            Accounts not yet linked to calendar
+          </div>
+        )}
         <div className="accounts-container">{inactiveAccountsDiv}</div>
       </div>
     );
