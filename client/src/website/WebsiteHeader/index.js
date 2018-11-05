@@ -46,11 +46,20 @@ class WebsiteHeader extends Component {
           Pricing
         </button>
         <button
+          className={
+            activePage === "agency" ? className + " active" : className
+          }
+          onClick={() => changePage("agency")}
+        >
+          Ghostit Agency
+        </button>
+        <button
           className={activePage === "blog" ? className + " active" : className}
           onClick={() => changePage("blog")}
         >
           Blog
         </button>
+
         {user && (
           <button className={className} onClick={() => changePage("content")}>
             Go to Software

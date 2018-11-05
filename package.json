@@ -20,6 +20,7 @@
 		"axios": "^0.18.0",
 		"bcrypt-nodejs": "0.0.3",
 		"body-parser": "^1.18.2",
+		"buttercms": "^1.1.1",
 		"cheerio": "^1.0.0-rc.2",
 		"cloudinary": "^1.10.0",
 		"concurrently": "^3.6.1",

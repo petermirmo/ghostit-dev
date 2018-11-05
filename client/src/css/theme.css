@@ -927,12 +927,15 @@ div {
 }
 h1 {
   color: var(--primary-text-theme-color);
+  margin: 0;
 }
 h2 {
   color: var(--primary-text-theme-color);
+  margin: 0;
 }
 h3 {
   color: var(--primary-text-theme-color);
+  margin: 0;
 }
 h4 {
   color: var(--primary-text-theme-color);
@@ -941,9 +944,11 @@ h4 {
 }
 h5 {
   color: var(--primary-text-theme-color);
+  margin: 0;
 }
 h6 {
   color: var(--primary-text-theme-color);
+  margin: 0;
 }
 
 p {

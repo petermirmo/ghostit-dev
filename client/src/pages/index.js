@@ -145,7 +145,9 @@ class Routes extends Component {
       activePage === "team" ||
       activePage === "pricing" ||
       activePage === "sign-in" ||
-      activePage === "sign-up"
+      activePage === "sign-up" ||
+      activePage === "agency" ||
+      activePage === "blog"
     )
       return <Website />;
 
@@ -154,10 +156,11 @@ class Routes extends Component {
     else return <Website />;
     // TODO: create page not found error
   };
-  isUserInPlatform = activePage => {
+  isUserInPlatform = (activePage, user) => {
     if (
       activePage === "content" ||
       activePage === "subscribe" ||
+      activePage === "strategy" ||
       activePage === "analytics" ||
       activePage === "social-accounts" ||
       activePage === "writers-brief" ||
@@ -167,6 +170,19 @@ class Routes extends Component {
       activePage === "ads"
     )
       return true;
+    else if (
+      activePage === "home" ||
+      activePage === "team" ||
+      activePage === "pricing" ||
+      activePage === "sign-in" ||
+      activePage === "sign-up" ||
+      activePage === "agency" ||
+      activePage === "blog"
+    )
+      return false;
+
+    // If activePage is not found
+    if (user) return true;
     else return false;
   };
   render() {
@@ -183,7 +199,7 @@ class Routes extends Component {
 
     return (
       <div className="flex">
-        {this.isUserInPlatform(activePage) && <Header />}
+        {this.isUserInPlatform(activePage, user) && <Header />}
 
         <div className="wrapper">
           {user &&

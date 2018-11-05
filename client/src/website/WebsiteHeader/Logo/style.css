@@ -9,16 +9,16 @@
 }
 
 .logo-ghost-body {
-  stroke: var(--black-theme-color);
-  stroke-width: 250;
+  stroke: #525f60;
+  stroke-width: 150;
   shape-rendering: geometricPrecision;
 }
 .logo-ghost-eye {
-  fill: var(--black-theme-color);
+  fill: #525f60;
   shape-rendering: geometricPrecision;
 }
 .logo-ghost-mouth {
-  fill: var(--black-theme-color);
+  fill: #525f60;
   shape-rendering: geometricPrecision;
 }
 .logo-ghost-bottom-shadow {

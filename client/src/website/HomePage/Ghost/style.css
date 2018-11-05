@@ -11,18 +11,22 @@
   shape-rendering: geometricPrecision;
 }
 .ghost-body {
-  fill: var(--five-primary-color);
+  stroke: #525f60;
+  stroke-width: 100;
+  fill: var(--white-theme-color);
   shape-rendering: geometricPrecision;
 }
 .ghost-eye {
-  fill: var(--white-theme-color);
+  fill: #525f60;
   shape-rendering: geometricPrecision;
 }
 .ghost-mouth {
-  fill: var(--white-theme-color);
+  fill: #525f60;
   shape-rendering: geometricPrecision;
 }
 .ghost-bottom-shadow {
   shape-rendering: geometricPrecision;
   fill: transparent;
+
+  fill: var(--seven-primary-color);
 }

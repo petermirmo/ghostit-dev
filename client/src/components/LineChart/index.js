@@ -69,9 +69,9 @@ class LineChart extends Component {
           let x2 = x;
           let y2 = y;
 
-          let pheta = Math.atan((y2 - y1) / (x2 - x1));
-          let yPadding = paddingWidth * Math.sin(pheta);
-          let xPadding = paddingWidth * Math.cos(pheta);
+          let theta = Math.atan((y2 - y1) / (x2 - x1));
+          let yPadding = paddingWidth * Math.sin(theta);
+          let xPadding = paddingWidth * Math.cos(theta);
 
           dataLineDivs.push(
             <path

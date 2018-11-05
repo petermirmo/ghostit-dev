@@ -24,3 +24,9 @@
   width: 50%;
   min-width: 300px;
 }
+.website-page {
+  padding-top: 15vh;
+  min-height: 100vh;
+  box-sizing: border-box;
+  text-align: center;
+}

@@ -20,6 +20,7 @@ let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Login extends Component {
   constructor(props) {
     super(props);
+    if (props.user) props.changePage("home");
     this.state = this.createState(props);
     window.onkeyup = e => {
       let key = e.keyCode ? e.keyCode : e.which;
@@ -183,7 +184,7 @@ class Login extends Component {
 
     return (
       <div className="login-background flex column vc">
-        <h1 className="login-header silly-font pb16">
+        <h1 className="silly-font pb16">
           {login === "login" ? "Sign in to Ghostit!" : "Sign up for Ghostit!"}
         </h1>
 
@@ -350,7 +351,11 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-  return { activePage: state.activePage, tutorial: state.tutorial };
+  return {
+    activePage: state.activePage,
+    tutorial: state.tutorial,
+    user: state.user
+  };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(

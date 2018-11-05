@@ -130,7 +130,7 @@
 
 .description-box {
   max-width: 200px;
-  max-height: 200px;
+  text-align: left;
 }
 .description-box .title {
   font-size: var(--gigantic-font-size);

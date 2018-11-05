@@ -56,10 +56,8 @@ class TeamPage extends Component {
   };
   render() {
     return (
-      <div className="team-page flex column">
-        <h1 className="team-page-tag-line silly-font pb16">
-          Meet the Ghostit Team!
-        </h1>
+      <div className="website-page flex column vc">
+        <h1 className="silly-font pb16">Meet the Ghostit Team!</h1>
         <div className="team-members-container flex vc hc wrap pb32 mb32">
           {teamMembers.map((obj, index) => {
             let id = index + "team-member";
