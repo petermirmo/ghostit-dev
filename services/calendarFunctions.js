@@ -857,6 +857,87 @@ module.exports = {
       }
     });
   },
+  getSocialAccountsExtra: function(req, res) {
+    // this function is the same as getSocialAccounts() except that this one will
+    // also return user info of the account's 'creator'
+    // (this is so we can display who linked the account to the calendar)
+    const calendarID = req.params.calendarID;
+    Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+      if (err || !foundCalendar) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while looking up calendar to get social accounts`
+        });
+      } else {
+        if (
+          !foundCalendar.accountIDs ||
+          foundCalendar.accountIDs.length === 0
+        ) {
+          res.send({ success: true, accounts: [] });
+        } else {
+          const accountIDList = foundCalendar.accountIDs.map(actID => {
+            return {
+              _id: actID
+            };
+          });
+          Account.find({ $or: accountIDList }, (err, foundAccounts) => {
+            if (err || !foundAccounts) {
+              res.send({
+                success: false,
+                err,
+                message: `Error while fetching all social accounts linked to the calendar.`
+              });
+            } else {
+              // look up each foundAccounts[i].userID and attach the user's info to the account objects
+              // then return all the account objects
+              const userIDList = foundAccounts.map(actObj => {
+                return {
+                  _id: actObj.userID
+                };
+              });
+              User.find(
+                { $or: userIDList },
+                "fullName email",
+                (err, foundUsers) => {
+                  if (err || !foundUsers) {
+                    res.send({
+                      success: false,
+                      err,
+                      message: `Error while looking up user info for all social accounts.`
+                    });
+                  } else {
+                    const extraAccounts = [];
+                    for (let i = 0; i < foundAccounts.length; i++) {
+                      const account = foundAccounts[i];
+                      const userIndex = foundUsers.findIndex(userObj => {
+                        return (
+                          userObj._id.toString() === account.userID.toString()
+                        );
+                      });
+                      if (userIndex === -1) {
+                        extraAccounts.push({
+                          ...account._doc,
+                          user: { name: "Unknown", email: "Unknown" }
+                        });
+                        continue;
+                      }
+                      const user = foundUsers[userIndex];
+                      extraAccounts.push({
+                        ...account._doc,
+                        user: { name: user.fullName, email: user.email }
+                      });
+                    }
+                    res.send({ success: true, accounts: extraAccounts });
+                  }
+                }
+              );
+            }
+          });
+        }
+      }
+    });
+  },
   linkSocialAccount: function(req, res) {
     const { calendarID, accountID } = req.body;
     let userID = req.user._id;
@@ -898,6 +979,63 @@ module.exports = {
               });
             }
           });
+        }
+      }
+    });
+  },
+  unlinkSocialAccount: function(req, res) {
+    const { accountID, calendarID } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+      if (err || !foundCalendar) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while looking up calendar in database. Reload page and try again.`
+        });
+      } else {
+        const accountIndex = foundCalendar.accountIDs.findIndex(
+          actID => actID.toString() === accountID.toString()
+        );
+        if (accountIndex === -1) {
+          res.send({
+            success: false,
+            message: `Unable to find account in the calendar's account list. Reload page and try again.`
+          });
+        } else {
+          if (foundCalendar.adminID.toString() === userID.toString()) {
+            foundCalendar.accountIDs.splice(accountIndex, 1);
+            foundCalendar.save();
+            res.send({ success: true });
+          } else {
+            // user is not the calendar's admin so we need to make sure they are the account's 'owner'
+            Account.findOne({ _id: accountID }, (err, foundAccount) => {
+              if (err || !foundAccount) {
+                res.send({
+                  success: false,
+                  err,
+                  message: `Error while looking up the account in the database. Reload page and try again.`
+                });
+              } else {
+                if (foundAccount.userID.toString() !== userID.toString()) {
+                  res.send({
+                    success: false,
+                    message: `User must be calendar admin or account 'creator' to remove it from the calendar.`
+                  });
+                } else {
+                  foundCalendar.accountIDs.splice(accountIndex, 1);
+                  foundCalendar.save();
+                  res.send({ success: true });
+                }
+              }
+            });
+          }
         }
       }
     });

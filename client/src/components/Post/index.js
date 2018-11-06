@@ -235,8 +235,13 @@ class PostingOptions extends Component {
     return activePageAccountsArray;
   };
 
-  linkAccountToCalendar = () => {
+  linkAccountToCalendar = response => {
     const { linkAccountToCalendarID, calendarID } = this.state;
+    if (!response)
+      return this.setState({
+        promptLinkAccountToCalendar: false,
+        linkAccountToCalendarID: undefined
+      });
     this.setState({
       promptLinkAccountToCalendar: false,
       linkAccountToCalendarID: undefined,
@@ -447,9 +452,13 @@ class PostingOptions extends Component {
                 this.setState({ promptLinkAccountToCalendar: false })
               }
               title="Link Account to Calendar"
-              message="To post to this calendar with this social account, the account must be linked to the calendar.\nWould you like to link them?\n(Every user within the calendar will be able to post to the account)."
+              message={
+                "To post to this calendar with this social account, the account must be linked to the calendar.\nWould you like to link them?\n(Every user within the calendar will be able to post to the account)."
+              }
               callback={this.linkAccountToCalendar}
-              type="modify"
+              type="link-account"
+              firstButton="Link"
+              secondButton="Cancel"
             />
           )}
         </div>

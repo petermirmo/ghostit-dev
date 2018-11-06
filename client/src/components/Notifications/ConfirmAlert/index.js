@@ -47,10 +47,11 @@ class ConfirmAlert extends Component {
     } = this.props; // variables
     const { close, callback } = this.props; // functions
     let firstButton = "Delete";
+    let secondButton = "Cancel";
     let firstButtonStyle = "confirm-button";
     let secondButtonStyle = "cancel-button";
     if (type) {
-      if (type === "modify") {
+      if (type === "modify" || type === "link-account") {
         firstButton = "Modify";
         firstButtonStyle = "cancel-button";
         secondButtonStyle = "confirm-button";
@@ -58,6 +59,8 @@ class ConfirmAlert extends Component {
         firstButton = "Discard";
       } // else "delete-campaign" or "delete-post" or "delete-calendar"
     }
+    if (this.props.firstButton) firstButton = this.props.firstButton;
+    if (this.props.secondButton) secondButton = this.props.secondButton;
     return (
       <div className="confirm-alert-background" onClick={close}>
         <div className="confirm-alert" onClick={e => e.stopPropagation()}>
@@ -99,7 +102,7 @@ class ConfirmAlert extends Component {
               onClick={() => callback(false, checked)}
               className={secondButtonStyle}
             >
-              Cancel
+              {secondButton}
             </button>
           </div>
           {checkboxMessage && (

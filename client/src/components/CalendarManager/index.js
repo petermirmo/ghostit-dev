@@ -54,21 +54,22 @@ class CalendarManager extends Component {
   }
 
   getCalendarAccounts = index => {
-    return;
     const { calendars } = this.state;
 
-    axios.get("/api/calendar/accounts/" + calendars[index]._id).then(res => {
-      const { success, err, message, accounts } = res.data;
-      if (!success || err || !accounts) {
-        console.log(
-          "Retrieving calendar accounts from database was unsuccessful."
-        );
-        console.log(err);
-        console.log(message);
-      } else {
-        this.handleCalendarChange("accounts", accounts, index);
-      }
-    });
+    axios
+      .get("/api/calendar/accounts/extra/" + calendars[index]._id)
+      .then(res => {
+        const { success, err, message, accounts } = res.data;
+        if (!success || err || !accounts) {
+          console.log(
+            "Retrieving calendar accounts from database was unsuccessful."
+          );
+          console.log(err);
+          console.log(message);
+        } else {
+          this.handleCalendarChange("accounts", accounts, index);
+        }
+      });
   };
 
   getCalendarUsers = index => {
@@ -319,6 +320,57 @@ class CalendarManager extends Component {
     });
   };
 
+  unlinkSocialAccount = accountID => {
+    const { calendars, activeCalendarIndex } = this.state;
+    const calendarID = calendars[activeCalendarIndex]._id;
+    axios
+      .post("/api/calendar/account/delete", { accountID, calendarID })
+      .then(res => {
+        const { success, err, message } = res.data;
+        if (!success) {
+          console.log(err);
+          this.props.notify("danger", "Failed to Remove Account", message);
+        } else {
+          const calendar = calendars[activeCalendarIndex];
+          const accountIndex = calendar.accounts.findIndex(
+            actObj => actObj._id.toString() === accountID.toString()
+          );
+          if (accountIndex === -1) {
+            this.props.notify(
+              "info",
+              "Something May Have Gone Wrong",
+              "Reload page to make sure account was removed properly."
+            );
+          } else {
+            this.props.notify(
+              "success",
+              "Successfully Removed Account",
+              message
+            );
+            this.setState(prevState => {
+              return {
+                calendars: [
+                  ...prevState.calendars.slice(0, activeCalendarIndex),
+                  {
+                    ...prevState.calendars[activeCalendarIndex],
+                    accounts: [
+                      ...prevState.calendars[
+                        activeCalendarIndex
+                      ].accounts.slice(0, accountIndex),
+                      ...prevState.calendars[
+                        activeCalendarIndex
+                      ].accounts.slice(accountIndex + 1)
+                    ]
+                  },
+                  ...prevState.calendars.slice(activeCalendarIndex + 1)
+                ]
+              };
+            });
+          }
+        }
+      });
+  };
+
   presentActiveCalendar = () => {
     const {
       calendars,
@@ -351,7 +403,7 @@ class CalendarManager extends Component {
               !userObj.calendarAdmin && (
                 <div className="user-icons">
                   <div
-                    className="user-delete"
+                    className="user-remove"
                     onClick={() =>
                       this.setState({
                         removeUserPrompt: true,
@@ -366,6 +418,40 @@ class CalendarManager extends Component {
                   </div>
                 </div>
               )}
+          </div>
+        );
+      });
+    }
+
+    let accountDivs = undefined;
+    if (calendar.accounts) {
+      accountDivs = calendar.accounts.map((account, index) => {
+        return (
+          <div className="calendar-account-card" key={`account${index}`}>
+            <div className="account-info">
+              <div className="account-label">{account.givenName}</div>
+              <div className="account-label">{`${account.socialType} ${
+                account.accountType
+              }`}</div>
+              <div className="account-label">{account.user.name}</div>
+              <div className="account-label">{account.user.email}</div>
+            </div>
+            {(isAdmin || account.userID.toString() === userID.toString()) && (
+              <div className="account-icons">
+                <div
+                  className="account-remove"
+                  title="Remove account from calendar."
+                  onClick={() =>
+                    this.setState({
+                      unlinkAccountPrompt: true,
+                      unLinkAccountID: account._id
+                    })
+                  }
+                >
+                  X
+                </div>
+              </div>
+            )}
           </div>
         );
       });
@@ -440,7 +526,10 @@ class CalendarManager extends Component {
               </button>
             )}
           </div>
-          <div className="calendar-accounts-container pa16">accounts</div>
+          <div className="calendar-accounts-container pa16">
+            Accounts
+            {accountDivs}
+          </div>
         </div>
       </div>
     );
@@ -453,7 +542,9 @@ class CalendarManager extends Component {
       activeCalendarIndex,
       deleteCalendarPrompt,
       removeUserPrompt,
-      removeUserObj
+      removeUserObj,
+      unlinkAccountPrompt,
+      unLinkAccountID
     } = this.state;
 
     let userID = this.props.user._id;
@@ -513,6 +604,27 @@ class CalendarManager extends Component {
                 if (response) this.deleteCalendar(activeCalendarIndex);
               }}
               type="delete-calendar"
+            />
+          )}
+          {unlinkAccountPrompt && (
+            <ConfirmAlert
+              close={() =>
+                this.setState({
+                  unlinkAccountPrompt: false,
+                  unLinkAccountID: undefined
+                })
+              }
+              title="Unlink Account"
+              message="Are you sure you want to remove this account from the calendar. Note: this does not delete any already scheduled posts."
+              callback={response => {
+                this.setState({
+                  unlinkAccountPrompt: false,
+                  unLinkAccountID: undefined
+                });
+                if (response) this.unlinkSocialAccount(unLinkAccountID);
+              }}
+              type="delete-calendar"
+              firstButton="Unlink"
             />
           )}
           {removeUserPrompt && (

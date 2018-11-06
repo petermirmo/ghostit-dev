@@ -35,7 +35,8 @@
   border-right: black solid medium;
 }
 
-.calendar-user-card {
+.calendar-user-card,
+.calendar-account-card {
   display: flex;
   flex-direction: row;
 
@@ -49,13 +50,15 @@
   padding-left: 8px;
 }
 
-.user-delete {
+.user-remove,
+.account-remove {
   border: black solid thin;
   border-radius: 3px;
   padding: 1px;
 }
 
-.user-delete:hover {
+.user-remove:hover,
+.account-remove {
   cursor: pointer;
 }
 

@@ -93,10 +93,12 @@ multi-user calendars:
 to do next:
   manage calendars
     (pass admin, leave calendar)
+      when exiting calendar manager, change activeCalendarIndex of ContentPage to the same as CalendarManager
       when inviting a user, convert the string to all lower case?
       when deleting, might need to delete the images / files stored with the posts/blogs/newsletters and maybe disable the email notifications?
   social accounts tied to calendars
     when updating social account access tokens, maybe update all that are linked to calendars?
+    when looking up calendar.accountIDs, if one is not found, should we remove its id from calendar.accountIDs?
     link social accounts to user account like normal
     when going to post, those accounts will be slightly transparent
       clicking them will prompt you to link that social account with that calendar
@@ -108,6 +110,8 @@ to do next:
   maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
 
     laggy when logged in as another user and closing calendar manager??
+
+  this.props.notify should extend its time when a new notification overwrites the old
 
 facebook analytics page metrics:
     FB.api(

@@ -413,7 +413,15 @@ module.exports = app => {
     calendarFunctions.getSocialAccounts(req, res)
   );
 
+  app.get("/api/calendar/accounts/extra/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getSocialAccountsExtra(req, res)
+  );
+
   app.post("/api/calendar/account", middleware, (req, res) =>
     calendarFunctions.linkSocialAccount(req, res)
+  );
+
+  app.post("/api/calendar/account/delete", middleware, (req, res) =>
+    calendarFunctions.unlinkSocialAccount(req, res)
   );
 };

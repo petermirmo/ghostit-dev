@@ -159,3 +159,17 @@
 .queue-post-attribute.important {
   flex: 8;
 }
+
+.calendar-invite-accept,
+.calendar-invite-reject {
+  background-color: var(--seven-primary-color);
+  margin-left: 4px;
+  margin-bottom: 3px;
+  border-radius: 4px;
+}
+
+.calendar-invite-accept:hover,
+.calendar-invite-reject:hover {
+  background-color: var(--eight-primary-color);
+  cursor: pointer;
+}
