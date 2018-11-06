@@ -52,8 +52,6 @@
 
 .user-remove,
 .account-remove {
-  border: black solid thin;
-  border-radius: 3px;
   padding: 1px;
 }
 

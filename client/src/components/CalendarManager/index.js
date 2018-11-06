@@ -5,6 +5,8 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faQuestionCircle from "@fortawesome/fontawesome-free-solid/faQuestionCircle";
+import faMinusCircle from "@fortawesome/fontawesome-free-solid/faMinusCircle";
+import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -231,6 +233,14 @@ class CalendarManager extends Component {
     }
   };
 
+  leaveCalendarClicked = () => {
+    console.log("leave calendar clicked");
+  };
+
+  leaveCalendar = index => {
+    console.log(`leaving calendar ${index}`);
+  };
+
   deleteCalendarClicked = () => {
     const { calendars, activeCalendarIndex } = this.state;
     if (calendars[activeCalendarIndex].userIDs.length > 1) {
@@ -402,19 +412,20 @@ class CalendarManager extends Component {
             {isAdmin &&
               !userObj.calendarAdmin && (
                 <div className="user-icons">
-                  <div
-                    className="user-remove"
-                    onClick={() =>
-                      this.setState({
-                        removeUserPrompt: true,
-                        removeUserObj: {
-                          userIndex: index,
-                          calendarIndex: activeCalendarIndex
-                        }
-                      })
-                    }
-                  >
-                    X
+                  <div title="Remove User">
+                    <FontAwesomeIcon
+                      className="user-remove"
+                      icon={faMinusCircle}
+                      onClick={() =>
+                        this.setState({
+                          removeUserPrompt: true,
+                          removeUserObj: {
+                            userIndex: index,
+                            calendarIndex: activeCalendarIndex
+                          }
+                        })
+                      }
+                    />
                   </div>
                 </div>
               )}
@@ -438,17 +449,17 @@ class CalendarManager extends Component {
             </div>
             {(isAdmin || account.userID.toString() === userID.toString()) && (
               <div className="account-icons">
-                <div
-                  className="account-remove"
-                  title="Remove account from calendar."
-                  onClick={() =>
-                    this.setState({
-                      unlinkAccountPrompt: true,
-                      unLinkAccountID: account._id
-                    })
-                  }
-                >
-                  X
+                <div title="Remove Account From Calendar">
+                  <FontAwesomeIcon
+                    className="account-remove"
+                    icon={faMinusCircle}
+                    onClick={() =>
+                      this.setState({
+                        unlinkAccountPrompt: true,
+                        unLinkAccountID: account._id
+                      })
+                    }
+                  />
                 </div>
               </div>
             )}
@@ -580,6 +591,17 @@ class CalendarManager extends Component {
                   icon={faTrash}
                   size="1x"
                   onClick={this.deleteCalendarClicked}
+                />
+              </div>
+            )}
+            {!isAdmin && (
+              <div title={"Leave Calendar"}>
+                <FontAwesomeIcon
+                  className="close-special delete-calendar"
+                  icon={faSignOutAlt}
+                  flip="horizontal"
+                  size="1x"
+                  onClick={this.leaveCalendarClicked}
                 />
               </div>
             )}
