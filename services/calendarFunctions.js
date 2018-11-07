@@ -642,7 +642,12 @@ module.exports = {
       }
     });
   },
-  deleteCalendar: function(req, res) {
+  leaveCalendar: function(req, res) {
+    // function for when a user wants to leave a calendar
+    // calendar admins cannot leave, they must delete the calendar or pass admin to a different user then leave
+    // if this is the user's default calendar, we won't update their default calendar id
+    // the next time they load their calendars, the backend will detect they dont have a valid
+    // defaultCalendarID and update it for them
     const { calendarID } = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -651,128 +656,185 @@ module.exports = {
       }
     }
 
-    User.findOne({ _id: userID }, (err, foundUser) => {
-      if (err || !foundUser) {
+    Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
+      if (err || !foundCalendars) {
         res.send({
           success: false,
           err,
-          message: `Error while fetching user from database.`
+          message: `Error while looking up all calendars associated with this user. Reload page and try again.`
         });
       } else {
-        Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
-          if (err || !foundCalendars) {
+        Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+          if (err || !foundCalendar) {
             res.send({
               success: false,
               err,
-              message: `Error while looking up all calendars associated with this user. Reload page and try again.`
+              message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
             });
           } else {
-            Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
-              if (err || !foundCalendar) {
+            if (foundCalendar.adminID.toString() === userID.toString()) {
+              res.send({
+                success: false,
+                message: `Calendar admins must delete the calendar rather than leave it. If you are not the admin, try reloading the page.`
+              });
+            } else {
+              // calendar is eligible to be left
+              const userIndex = foundCalendar.userIDs.findIndex(
+                userid => userid.toString() === userID.toString()
+              );
+              if (userIndex === -1) {
                 res.send({
-                  success: false,
-                  err,
-                  message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
+                  sucecss: false,
+                  message: `Failed to find user in the calendar's user list. Reload page and try again.`
                 });
               } else {
-                if (foundCalendar.adminID.toString() !== userID.toString()) {
+                foundCalendar.userIDs.splice(userIndex, 1);
+                foundCalendar.save();
+                if (foundCalendars.length === 1) {
+                  // user is leaving their only calendar so we need to make them a new one
+                  const newCalendar = new Calendar();
+                  newCalendar.adminID = userID;
+                  newCalendar.userIDs = [userID];
+                  newCalendar.calendarName = "First Calendar";
+                  newCalendar.save();
                   res.send({
-                    success: false,
-                    message: `Only calendar admins are allowed to delete their calendar. If you are the admin, try reloading the page.`
-                  });
-                } else if (foundCalendar.userIDs.length > 1) {
-                  res.send({
-                    success: false,
-                    message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
+                    success: true,
+                    newCalendar,
+                    message: `Successfully left your only calendar. New calendar created automatically.`
                   });
                 } else {
-                  // calendar is eligible to be deleted and the user is the calendar admin
-                  // now we must delete all posts with post.calendarID: calendarID
-                  Post.find({ calendarID }, (err, foundPosts) => {
-                    if (err || !foundPosts) {
+                  res.send({
+                    success: true,
+                    message: `Successfully left calendar.`
+                  });
+                }
+              }
+            }
+          }
+        });
+      }
+    });
+  },
+  deleteCalendar: function(req, res) {
+    const { calendarID } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+    Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
+      if (err || !foundCalendars) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while looking up all calendars associated with this user. Reload page and try again.`
+        });
+      } else {
+        Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+          if (err || !foundCalendar) {
+            res.send({
+              success: false,
+              err,
+              message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
+            });
+          } else {
+            if (foundCalendar.adminID.toString() !== userID.toString()) {
+              res.send({
+                success: false,
+                message: `Only calendar admins are allowed to delete their calendar. If you are the admin, try reloading the page.`
+              });
+            } else if (foundCalendar.userIDs.length > 1) {
+              res.send({
+                success: false,
+                message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
+              });
+            } else {
+              // calendar is eligible to be deleted and the user is the calendar admin
+              // now we must delete all posts with post.calendarID: calendarID
+              Post.find({ calendarID }, (err, foundPosts) => {
+                if (err || !foundPosts) {
+                  res.send({
+                    success: false,
+                    message: `Error while fetching all calendar posts to be deleted.`
+                  });
+                } else {
+                  for (let i = 0; i < foundPosts.length; i++) {
+                    const post = foundPosts[i];
+                    post.remove();
+                  }
+                  Campaign.find({ calendarID }, (err, foundCampaigns) => {
+                    if (err || !foundCampaigns) {
                       res.send({
                         success: false,
-                        message: `Error while fetching all calendar posts to be deleted.`
+                        message: `Error while fetching all calendar campaigns to be deleted. Posts already deleted.`
                       });
                     } else {
-                      for (let i = 0; i < foundPosts.length; i++) {
-                        const post = foundPosts[i];
-                        post.remove();
+                      for (let i = 0; i < foundCampaigns.length; i++) {
+                        const campaign = foundCampaigns[i];
+                        campaign.remove();
                       }
-                      Campaign.find({ calendarID }, (err, foundCampaigns) => {
-                        if (err || !foundCampaigns) {
+                      Blog.find({ calendarID }, (err, foundBlogs) => {
+                        if (err || !foundBlogs) {
                           res.send({
                             success: false,
-                            message: `Error while fetching all calendar campaigns to be deleted. Posts already deleted.`
+                            message: `Error while fetching all calendar blogs to be deleted. Posts and campaigns already deleted.`
                           });
                         } else {
-                          for (let i = 0; i < foundCampaigns.length; i++) {
-                            const campaign = foundCampaigns[i];
-                            campaign.remove();
+                          for (let i = 0; i < foundBlogs.length; i++) {
+                            const blog = foundBlogs[i];
+                            blog.remove();
                           }
-                          Blog.find({ calendarID }, (err, foundBlogs) => {
-                            if (err || !foundBlogs) {
-                              res.send({
-                                success: false,
-                                message: `Error while fetching all calendar blogs to be deleted. Posts and campaigns already deleted.`
-                              });
-                            } else {
-                              for (let i = 0; i < foundBlogs.length; i++) {
-                                const blog = foundBlogs[i];
-                                blog.remove();
-                              }
-                              Newsletter.find(
-                                { calendarID },
-                                (err, foundNewsletters) => {
-                                  if (err || !foundNewsletters) {
-                                    res.send({
-                                      success: false,
-                                      message: `Error while fetching all calendar newsletters to be deleted. Posts, campaigns, and blogs already deleted.`
-                                    });
-                                  } else {
-                                    for (
-                                      let i = 0;
-                                      i < foundNewsletters.length;
-                                      i++
-                                    ) {
-                                      const newsletter = foundNewsletters[i];
-                                      newsletter.remove();
-                                    }
-                                    foundCalendar.remove();
-                                    let newCalendar = undefined;
-                                    if (foundCalendars.length === 1) {
-                                      // deleting the user's only calendar so we need to replace it with a new one
-                                      newCalendar = new Calendar();
-                                      newCalendar.adminID = userID;
-                                      newCalendar.userIDs = [userID];
-                                      newCalendar.calendarName = "Calendar 1";
-                                      newCalendar.save();
-                                    }
-                                    res.send({
-                                      success: true,
-                                      newCalendar,
-                                      message: `Calendar deleted as well as ${
-                                        foundPosts.length
-                                      } posts, ${
-                                        foundCampaigns.length
-                                      } campaigns, ${
-                                        foundBlogs.length
-                                      } blogs, and ${
-                                        foundNewsletters.length
-                                      } newsletters.`
-                                    });
-                                  }
+                          Newsletter.find(
+                            { calendarID },
+                            (err, foundNewsletters) => {
+                              if (err || !foundNewsletters) {
+                                res.send({
+                                  success: false,
+                                  message: `Error while fetching all calendar newsletters to be deleted. Posts, campaigns, and blogs already deleted.`
+                                });
+                              } else {
+                                for (
+                                  let i = 0;
+                                  i < foundNewsletters.length;
+                                  i++
+                                ) {
+                                  const newsletter = foundNewsletters[i];
+                                  newsletter.remove();
                                 }
-                              );
+                                foundCalendar.remove();
+                                let newCalendar = undefined;
+                                if (foundCalendars.length === 1) {
+                                  // deleting the user's only calendar so we need to replace it with a new one
+                                  newCalendar = new Calendar();
+                                  newCalendar.adminID = userID;
+                                  newCalendar.userIDs = [userID];
+                                  newCalendar.calendarName = "Calendar 1";
+                                  newCalendar.save();
+                                }
+                                res.send({
+                                  success: true,
+                                  newCalendar,
+                                  message: `Calendar deleted as well as ${
+                                    foundPosts.length
+                                  } posts, ${
+                                    foundCampaigns.length
+                                  } campaigns, ${
+                                    foundBlogs.length
+                                  } blogs, and ${
+                                    foundNewsletters.length
+                                  } newsletters.`
+                                });
+                              }
                             }
-                          });
+                          );
                         }
                       });
                     }
                   });
                 }
-              }
-            });
+              });
+            }
           }
         });
       }

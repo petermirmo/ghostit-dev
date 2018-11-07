@@ -234,11 +234,49 @@ class CalendarManager extends Component {
   };
 
   leaveCalendarClicked = () => {
-    console.log("leave calendar clicked");
+    this.setState({ leaveCalendaraPrompt: true });
   };
 
   leaveCalendar = index => {
-    console.log(`leaving calendar ${index}`);
+    const { calendars } = this.state;
+    this.setState({ saving: true });
+    axios
+      .post("/api/calendar/leave", { calendarID: calendars[index]._id })
+      .then(res => {
+        this.setState({ saving: false });
+        const { sucess, err, message, newCalendar } = res.data;
+        if (!success) {
+          console.log(err);
+          this.props.notify("danger", "Failed to Leave Calendar", message);
+        } else {
+          this.props.notify("success", "Calendar Left", message);
+          if (newCalendar) {
+            // deleted last calendar so the backend created a new one for the user
+            this.setState(
+              { activeCalendarIndex: 0, calendars: [newCalendar] },
+              () => this.updateActiveCalendar(0)
+            );
+          } else {
+            let new_index = index;
+            if (calendars.length - 1 <= index) new_index = index - 1;
+
+            this.setState(
+              prevState => {
+                return {
+                  activeCalendarIndex: new_index,
+                  calendars: [
+                    ...prevState.calendars.slice(0, index),
+                    ...prevState.calendars.slice(index + 1)
+                  ]
+                };
+              },
+              () => {
+                this.updateActiveCalendar(new_index);
+              }
+            );
+          }
+        }
+      });
   };
 
   deleteCalendarClicked = () => {

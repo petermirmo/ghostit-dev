@@ -424,4 +424,8 @@ module.exports = app => {
   app.post("/api/calendar/account/delete", middleware, (req, res) =>
     calendarFunctions.unlinkSocialAccount(req, res)
   );
+
+  app.post("/api/calendar/leave", middleware, (req, res) =>
+    calendarFunctions.leaveCalendar(req, res)
+  );
 };
