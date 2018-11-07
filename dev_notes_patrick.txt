@@ -93,6 +93,8 @@ multi-user calendars:
 to do next:
   manage calendars
     (pass admin, leave calendar)
+      when creating a new calendar, maybe set activeCalendarIndex to that new calendar?
+      create calendar button maybe should just be a (+) icon beside the calendar picker in calendar manager
       when exiting calendar manager, change activeCalendarIndex of ContentPage to the same as CalendarManager
       when inviting a user, convert the string to all lower case?
       when deleting, might need to delete the images / files stored with the posts/blogs/newsletters and maybe disable the email notifications?
@@ -109,7 +111,7 @@ to do next:
       removing an account doesn't delete any posts already scheduled
   maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
 
-    laggy when logged in as another user and closing calendar manager??
+  laggy when logged in as another user and closing calendar manager??
 
   this.props.notify should extend its time when a new notification overwrites the old
 

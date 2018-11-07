@@ -51,12 +51,14 @@
 }
 
 .user-remove,
-.account-remove {
+.account-remove,
+.user-promote {
   padding: 1px;
 }
 
 .user-remove:hover,
-.account-remove {
+.account-remove,
+.user-promote:hover {
   cursor: pointer;
 }
 

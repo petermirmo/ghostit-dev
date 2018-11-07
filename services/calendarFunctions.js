@@ -1101,5 +1101,53 @@ module.exports = {
         }
       }
     });
+  },
+  promoteUser: function(req, res) {
+    const { userID, calendarID } = req.body;
+    let thisUserID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        thisUserID = req.user.signedInAsUser.id;
+      }
+    }
+
+    Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+      if (err || !foundCalendar) {
+        res.send({
+          success: false,
+          err,
+          message:
+            "Error while looking up calendar in database. Reload page and try again."
+        });
+      } else {
+        // make sure that the requesting user is actually the admin
+        // then make sure the user being promoted is actually in the calendar
+        if (foundCalendar.adminID.toString() !== thisUserID.toString()) {
+          res.send({
+            success: false,
+            message:
+              "Only the current calendar admin can promote another user to admin. If you are the calendar admin, reload page and try again."
+          });
+        } else {
+          const userIndex = foundCalendar.userIDs.findIndex(
+            userid => userid.toString() === userID.toString()
+          );
+          if (userIndex === -1) {
+            res.send({
+              success: false,
+              message:
+                "User being promoted could not be found in the calendar's user list. Reload page and try again."
+            });
+          } else {
+            foundCalendar.adminID = userID;
+            foundCalendar.save();
+            res.send({
+              success: true,
+              message: "User successfully promoted to new calendar admin."
+            });
+          }
+        }
+      }
+    });
   }
 };

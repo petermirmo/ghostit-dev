@@ -401,6 +401,10 @@ module.exports = app => {
     calendarFunctions.removeUserFromCalendar(req, res)
   );
 
+  app.post("/api/calendar/user/promote", middleware, (req, res) =>
+    calendarFunctions.promoteUser(req, res)
+  );
+
   app.post("/api/calendar/delete", middleware, (req, res) =>
     calendarFunctions.deleteCalendar(req, res)
   );
