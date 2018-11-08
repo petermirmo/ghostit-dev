@@ -20,21 +20,15 @@
 .post-navigation-and-post-container {
   flex: 1;
   display: flex;
-
-  min-width: 100%;
-  min-height: 0;
+  width: 100%;
 }
 .post-navigation-container {
-  width: 35%;
   border-right: 2px solid var(--secondary-text-theme-color);
-  overflow: hidden;
+  max-width: 35%;
 }
 
 .post-container {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-
   overflow: auto;
 }
 

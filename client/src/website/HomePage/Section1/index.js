@@ -32,8 +32,11 @@ class Section1 extends Component {
     } = this.state;
     return (
       <div className="section flex vc hc column">
-        <h1 className="silly-font">Ghostit is the best marketing software.</h1>
-        <h4>Something about Ghostit is the best</h4>
+        <h1 className="silly-font">Create. Customize. Convert.</h1>
+        <h4>
+          Organize your marketing process with an all-in-one solution for
+          unified content promotion.
+        </h4>
         <div
           className="circle absolute bounce slow"
           style={{ bottom: randomInt1 + "px", left: randomInt2 + "px" }}

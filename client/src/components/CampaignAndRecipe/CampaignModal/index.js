@@ -856,7 +856,7 @@ class CampaignModal extends Component {
             </div>
           )}
           {firstPostChosen && (
-            <div className="post-navigation-and-post-container">
+            <div className="post-navigation-and-post-container flex">
               <div className="post-navigation-container">
                 <PostList
                   campaign={campaign}

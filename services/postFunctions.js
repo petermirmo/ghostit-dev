@@ -1,11 +1,12 @@
 const request = require("request");
 const cheerio = require("cheerio");
+const cloudinary = require("cloudinary");
+const moment = require("moment-timezone");
 
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Email = require("../models/Email");
 const Account = require("../models/Account");
-const cloudinary = require("cloudinary");
 
 module.exports = {
   deleteFile: function(req, res) {
@@ -90,7 +91,7 @@ module.exports = {
       newPost.save().then(result => res.send({ success: true, post: result }));
     });
   },
-  getPosts: function(req, res) {
+  getPosts: (req, res) => {
     // Get all posts for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -99,10 +100,45 @@ module.exports = {
       }
     }
 
-    Post.find({ userID, campaignID: undefined }, function(err, posts) {
-      if (err) res.send(err);
-      res.send({ posts });
-    });
+    let calendarDate = new moment(req.body.calendarDate);
+
+    let firstDayOfMonth = Number(
+      moment(calendarDate.format("M"), "MM")
+        .startOf("month")
+        .format("d")
+    );
+
+    // Get calendar starting date
+    let calendarStartDate = new moment(calendarDate)
+      .subtract(firstDayOfMonth, "days")
+      .add(firstDayOfMonth === 0 ? -7 : 0, "days");
+    // Get calendar ending date
+    let calendarEndDate = new moment(calendarDate)
+      .subtract(firstDayOfMonth, "days")
+      .add(35, "days");
+
+    calendarStartDate.set("hour", 0);
+    calendarStartDate.set("minute", 0);
+
+    calendarEndDate.set("hour", 23);
+    calendarEndDate.set("minute", 59);
+
+    Post.find(
+      {
+        userID,
+        campaignID: undefined,
+        $and: [
+          { postingDate: { $lt: calendarEndDate } },
+          {
+            postingDate: { $gt: calendarStartDate }
+          }
+        ]
+      },
+      (err, posts) => {
+        if (err) res.send(err);
+        res.send({ posts });
+      }
+    );
   },
   getPost: function(req, res) {
     Post.findOne({ _id: req.params.postID }, function(err, post) {

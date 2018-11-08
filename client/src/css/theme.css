@@ -134,23 +134,26 @@
   background-color: hsla(0, 0%, 0%, 0.4);
 }
 .content-page {
+  display: inline-block;
+  overflow: auto;
   position: relative;
+  width: 100%;
 }
 
 .wrapper {
   flex: 1;
   position: relative;
 
-  max-height: 100vh;
-
   transition: all 0.4s ease;
   overflow: auto;
+  max-height: 100.5vh;
 }
 .modal {
   position: absolute;
   z-index: 10;
 
   right: 0;
+  left: 0;
   top: 0;
   bottom: 0;
 
@@ -160,7 +163,6 @@
   justify-content: center;
   align-items: flex-start;
 
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -193,8 +195,12 @@
 
   min-height: 90vh;
   max-height: 90vh;
-  min-width: 80%;
-  max-width: 80%;
+  width: 80%;
+
+  left: 10vw;
+  right: 10vw;
+
+  overflow: hidden;
 
   margin-top: 3vh;
 
@@ -1009,6 +1015,9 @@ p {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+
+  overflow: hidden;
+  max-width: 100%;
 }
 .checkbox-box {
   min-height: 16px;

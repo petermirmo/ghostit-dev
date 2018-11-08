@@ -106,6 +106,7 @@ class HeaderSideBar extends Component {
               this.props.openClientSideBar(false);
             }}
           />
+
           {(isAdmin || isManager) && (
             <FontAwesomeIcon
               icon={faUsers}

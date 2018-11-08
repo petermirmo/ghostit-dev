@@ -29,7 +29,6 @@ import "./styles/";
 
 class Calendar extends Component {
   state = {
-    calendarDate: this.props.calendarDate,
     timezone: this.props.timezone,
     queueActive: false
   };
@@ -352,15 +351,15 @@ class Calendar extends Component {
   };
 
   addMonth = () => {
-    let { calendarDate } = this.state;
+    let { calendarDate, onDateChange } = this.props;
     calendarDate.add(1, "months");
-    this.setState({ calendarDate });
+    onDateChange(calendarDate);
   };
 
   subtractMonth = () => {
-    let { calendarDate } = this.state;
+    let { calendarDate, onDateChange } = this.props;
     calendarDate.subtract(1, "months");
-    this.setState({ calendarDate: calendarDate });
+    onDateChange(calendarDate);
   };
   createQueuePostDiv = (post, key) => {
     let content = post.content;
@@ -439,9 +438,16 @@ class Calendar extends Component {
   };
 
   render() {
-    let { calendarDate, queueActive } = this.state;
+    let { queueActive } = this.state;
+    let {
+      calendarEvents,
+      onSelectDay,
+      onSelectPost,
+      calendarDate,
+      tutorial
+    } = this.props;
+
     if (queueActive) {
-      let { calendarEvents, onSelectDay, onSelectPost } = this.props;
       let quePostsToDisplay = [];
       for (let index in calendarEvents) {
         let calendarEvent = calendarEvents[index];
@@ -478,7 +484,6 @@ class Calendar extends Component {
 
     let calendarWeekArray = this.createCalendarWeeks(calendarDate);
     let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
-    const { tutorial } = this.props;
 
     return (
       <div className="calendar-container">

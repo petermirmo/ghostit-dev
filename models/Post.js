@@ -13,7 +13,7 @@ const postSchema = new Schema(
     instructions: String,
     link: String,
     linkImage: String,
-    postingDate: String,
+    postingDate: Date,
     accountType: String,
     socialType: String,
     status: String,

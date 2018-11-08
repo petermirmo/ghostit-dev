@@ -209,7 +209,7 @@ module.exports = app => {
     postFunctions.savePost(req, res)
   );
   // Get all of user's posts
-  app.get("/api/posts", middleware, (req, res) =>
+  app.post("/api/posts", middleware, (req, res) =>
     postFunctions.getPosts(req, res)
   );
   // Get post

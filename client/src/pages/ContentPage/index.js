@@ -12,9 +12,11 @@ import Calendar from "../../components/Calendar/";
 import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/Notifications/Notification";
+import Loader from "../../components/Notifications/Loader/";
 
 class Content extends Component {
   state = {
+    loading: false,
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
     recipeEditing: false,
@@ -26,6 +28,7 @@ class Content extends Component {
     newsletterPosts: [],
 
     clickedDate: new moment(),
+    calendarDate: new moment(),
 
     blogEdittingModal: false,
     contentModal: false, // modal after selecting post from the recipeModal
@@ -63,7 +66,7 @@ class Content extends Component {
       if (this._ismounted) this.setState({ timezone });
     });
 
-    this.getPosts();
+    this.getPosts(this.state.calendarDate);
     this.getBlogs();
     this.getNewsletters();
     this.getCampaigns();
@@ -94,13 +97,14 @@ class Content extends Component {
     });
   };
 
-  getPosts = () => {
+  getPosts = calendarDate => {
+    this.setState({ loading: true });
     let facebookPosts = [];
     let twitterPosts = [];
     let linkedinPosts = [];
 
     // Get all of user's posts to display in calendar
-    axios.get("/api/posts").then(res => {
+    axios.post("/api/posts", { calendarDate }).then(res => {
       // Set posts to state
       let { posts, loggedIn } = res.data;
 
@@ -122,9 +126,10 @@ class Content extends Component {
       }
       if (this._ismounted) {
         this.setState({
-          facebookPosts: facebookPosts,
-          twitterPosts: twitterPosts,
-          linkedinPosts: linkedinPosts
+          facebookPosts,
+          twitterPosts,
+          linkedinPosts,
+          loading: false
         });
       }
     });
@@ -260,7 +265,9 @@ class Content extends Component {
       recipeEditing,
       clickedDate,
       campaigns,
-      notification
+      notification,
+      calendarDate,
+      loading
     } = this.state;
     const {
       All,
@@ -327,9 +334,14 @@ class Content extends Component {
 
     return (
       <div className="content-page">
+        {loading && <Loader />}
         <Calendar
           calendarEvents={calendarEvents}
-          calendarDate={new moment()}
+          onDateChange={date => {
+            this.handleChange(date, "calendarDate");
+            this.getPosts(calendarDate);
+          }}
+          calendarDate={calendarDate}
           onSelectDay={this.openModal}
           onSelectPost={this.editPost}
           onSelectCampaign={this.openCampaign}
@@ -343,7 +355,7 @@ class Content extends Component {
             timezone={timezone}
             close={this.closeModals}
             savePostCallback={() => {
-              this.getPosts();
+              this.getPosts(clickedDate);
               this.closeModals();
             }}
             saveBlogCallback={() => {
@@ -358,7 +370,7 @@ class Content extends Component {
         )}
         {this.state.postEdittingModal && (
           <PostEdittingModal
-            savePostCallback={() => this.getPosts()}
+            savePostCallback={() => this.getPosts(clickedDate)}
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}

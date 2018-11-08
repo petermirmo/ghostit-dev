@@ -1,6 +1,7 @@
 .calendar-container {
   overflow-x: hidden;
   min-width: 1000px;
+  width: 100%;
 }
 .calendar-header-container {
   display: grid;

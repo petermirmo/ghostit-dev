@@ -198,7 +198,7 @@ class Routes extends Component {
     let page = this.getPage(activePage, user);
 
     return (
-      <div className="flex">
+      <div className="flex test10">
         {this.isUserInPlatform(activePage, user) && <Header />}
 
         <div className="wrapper">
