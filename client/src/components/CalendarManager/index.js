@@ -237,6 +237,10 @@ class CalendarManager extends Component {
 
   saveCalendarName = (index, name) => {
     const { calendars } = this.state;
+    if (!/\S/.test(name)) {
+      alert("Name must not be empty.");
+      return;
+    }
     if (name && name.length > 0) {
       axios
         .post("/api/calendar/rename", {
@@ -484,22 +488,6 @@ class CalendarManager extends Component {
             {isAdmin &&
               userObj._id.toString() !== userID.toString() && (
                 <div className="user-icons">
-                  <div title="Remove User">
-                    <FontAwesomeIcon
-                      className="user-remove"
-                      icon={faMinusCircle}
-                      color="red"
-                      onClick={() =>
-                        this.setState({
-                          removeUserPrompt: true,
-                          removeUserObj: {
-                            userIndex: index,
-                            calendarIndex: activeCalendarIndex
-                          }
-                        })
-                      }
-                    />
-                  </div>
                   <div title="Promote to Admin">
                     <FontAwesomeIcon
                       className="user-promote"
@@ -509,6 +497,22 @@ class CalendarManager extends Component {
                         this.setState({
                           promoteUserPrompt: true,
                           promoteUserObj: {
+                            userIndex: index,
+                            calendarIndex: activeCalendarIndex
+                          }
+                        })
+                      }
+                    />
+                  </div>
+                  <div title="Remove User">
+                    <FontAwesomeIcon
+                      className="user-remove"
+                      icon={faMinusCircle}
+                      color="red"
+                      onClick={() =>
+                        this.setState({
+                          removeUserPrompt: true,
+                          removeUserObj: {
                             userIndex: index,
                             calendarIndex: activeCalendarIndex
                           }
@@ -599,7 +603,7 @@ class CalendarManager extends Component {
                   activeCalendarIndex
                 );
               }}
-              value={calendar.tempName}
+              value={calendar.tempName ? calendar.tempName : ""}
             />
             {unsavedChange && (
               <button
@@ -628,7 +632,7 @@ class CalendarManager extends Component {
             )}
           </div>
           <div className="calendar-accounts-container pa16">
-            Accounts
+            <div className="calendar-accounts-header">Accounts</div>
             {accountDivs}
           </div>
         </div>
