@@ -82,7 +82,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   border-bottom: black solid thin;
 }
 
@@ -92,39 +92,44 @@
 
 .calendar-info-input {
   width: 100%;
+  border-radius: 5px;
+  margin-bottom: 5px;
   box-sizing: border-box;
+}
+
+.save-button {
+  width: 50%;
+  margin-bottom: 7px;
+  border-radius: 5px;
+  background-color: var(--seven-primary-color);
+}
+
+.save-button:hover {
+  background-color: var(--eight-primary-color);
 }
 
 .invite-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  align-items: center;
 
-  padding-top: 20px;
+  margin-top: 10px;
 }
 
 .invite-input {
-  flex: 2;
+  flex: 4;
+  border-radius: 5px;
+  margin: 3px;
   box-sizing: border-box;
 }
 
 .invite-submit {
   flex: 1;
+  margin: 3px;
   border-radius: 5px;
-  height: 50%;
   background-color: var(--seven-primary-color);
 }
 
 .invite-submit:hover {
-  background-color: var(--eight-primary-color);
-}
-
-.save-button {
-  width: 100%;
-  margin-bottom: 10px;
-  background-color: var(--seven-primary-color);
-}
-
-.save-button:hover {
   background-color: var(--eight-primary-color);
 }

@@ -570,8 +570,8 @@ class CalendarManager extends Component {
           <div className="invite-container">
             <input
               type="text"
-              className="invite-input pa8 mb16 round"
-              placeholder="usertoinvite@example.com"
+              className="invite-input"
+              placeholder="user@example.com"
               onChange={event => {
                 this.handleChange("inviteEmail", event.target.value);
               }}
@@ -593,7 +593,7 @@ class CalendarManager extends Component {
             <div className="calendar-info-label mx8 mb4">Calendar Name</div>
             <input
               type="text"
-              className="calendar-info-input pa8 mb16 round"
+              className="calendar-info-input"
               placeholder="Calendar Name"
               onChange={event => {
                 this.setState({ unsavedChange: true });
@@ -607,7 +607,7 @@ class CalendarManager extends Component {
             />
             {unsavedChange && (
               <button
-                className="save-button pa8 round"
+                className="save-button"
                 onClick={e => {
                   e.preventDefault();
                   this.saveCalendarName(activeCalendarIndex, calendar.tempName);
