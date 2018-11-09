@@ -92,8 +92,6 @@ multi-user calendars:
 
 to do next:
   manage calendars
-    (pass admin, leave calendar)
-      when creating a new calendar, maybe set activeCalendarIndex to that new calendar?
       create calendar button maybe should just be a (+) icon beside the calendar picker in calendar manager
       when exiting calendar manager, change activeCalendarIndex of ContentPage to the same as CalendarManager
       when inviting a user, convert the string to all lower case?
@@ -101,14 +99,6 @@ to do next:
   social accounts tied to calendars
     when updating social account access tokens, maybe update all that are linked to calendars?
     when looking up calendar.accountIDs, if one is not found, should we remove its id from calendar.accountIDs?
-    link social accounts to user account like normal
-    when going to post, those accounts will be slightly transparent
-      clicking them will prompt you to link that social account with that calendar
-    calendar objects have an accountIDs array
-      any user can link a social account to the calendar
-      when a user leaves the calendar, prompt them if they want to remove their linked accounts as well
-      if a user is removed from the calendar, warn the admin that this will un-link all of the accounts that they linked
-      removing an account doesn't delete any posts already scheduled
   maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
 
   laggy when logged in as another user and closing calendar manager??

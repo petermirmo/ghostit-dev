@@ -53,7 +53,8 @@ class Content extends Component {
       show: false,
       type: undefined,
       title: undefined,
-      message: undefined
+      message: undefined,
+      timer: undefined
     },
     timezone: ""
   };
@@ -179,22 +180,32 @@ class Content extends Component {
   };
 
   notify = (type, title, message, length = 5000) => {
+    // maybe this function's length should be dynamically determined based on
+    // the length of the message
+    // (long message = longer length so there is more time to read it)
     const { notification } = this.state;
-    if (!notification.show) {
-      setTimeout(() => {
-        this.setState({
-          notification: {
-            show: false
-          }
-        });
-      }, length);
+
+    const timer = setTimeout(() => {
+      this.setState({
+        notification: {
+          show: false
+        }
+      });
+    }, length);
+
+    if (notification.show) {
+      // notification is currently active so we need to clear the previous timeout
+      // so this new notification doesn't get disabled when the previous one times out
+      clearTimeout(notification.timer);
     }
+
     this.setState({
       notification: {
         show: true,
         type,
         title,
-        message
+        message,
+        timer
       }
     });
   };

@@ -129,6 +129,12 @@ class CalendarManager extends Component {
   inviteUser = index => {
     const { inviteEmail, calendars } = this.state;
     const calendar = calendars[index];
+
+    if (!/\S/.test(inviteEmail)) {
+      // inviteEmail is only whitespace so don't allow this to be invited
+      alert("Please type a valid email into the invite text box.");
+      return;
+    }
     this.setState({ saving: true });
     axios
       .post("/api/calendar/invite", {
