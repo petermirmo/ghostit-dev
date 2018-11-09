@@ -24,6 +24,7 @@ import {
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
 import Tutorial from "../Tutorial/";
+import CalendarPicker from "../CalendarPicker/";
 
 import "./styles/";
 
@@ -398,41 +399,80 @@ class Calendar extends Component {
     );
   };
   calendarHeader = (calendarDate, queueActive) => {
+    const { calendarInvites } = this.props;
+    let calendarInviteDivs = [];
+    if (calendarInvites && calendarInvites.length > 0) {
+      calendarInviteDivs = calendarInvites.map((calendar, index) => {
+        return (
+          <div className="calendar-invite-prompt" key={`invite ${index}`}>
+            {`You have been invited to ${calendar.calendarName}.`}
+            <button
+              className="calendar-invite-accept"
+              onClick={e => {
+                e.preventDefault();
+                this.props.inviteResponse(index, true);
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className="calendar-invite-reject"
+              onClick={e => {
+                e.preventDefault();
+                this.props.inviteResponse(index, false);
+              }}
+            >
+              Reject
+            </button>
+          </div>
+        );
+      });
+    }
+
     return (
-      <div className="calendar-header-container px8 pt8">
-        <div className="flex vc hc">
-          <div className="calendar-view-change button common-transition br4">
-            <Filter
-              updateActiveCategory={this.props.updateActiveCategory}
-              categories={this.props.categories}
+      <div className="calendar-header-two-rows">
+        <div className="calendar-header-container px8 pt8">
+          <div className="flex vt hc">
+            <div className="calendar-view-change button common-transition br4">
+              <Filter
+                updateActiveCategory={this.props.updateActiveCategory}
+                categories={this.props.categories}
+              />
+            </div>
+          </div>
+          <div className="center-header-container px32">
+            <FontAwesomeIcon
+              icon={faAngleLeft}
+              size="3x"
+              className="calendar-switch-month button common-transition"
+              onClick={this.subtractMonth}
+            />
+            <div className="calendar-month">
+              {calendarDate.format("MMMM YYYY")}
+            </div>
+            <FontAwesomeIcon
+              icon={faAngleRight}
+              size="3x"
+              className="calendar-switch-month button common-transition"
+              onClick={this.addMonth}
             />
           </div>
-        </div>
-        <div className="center-header-container px32">
-          <FontAwesomeIcon
-            icon={faAngleLeft}
-            size="3x"
-            className="calendar-switch-month button common-transition"
-            onClick={this.subtractMonth}
-          />
-          <div className="calendar-month">
-            {calendarDate.format("MMMM YYYY")}
-          </div>
-          <FontAwesomeIcon
-            icon={faAngleRight}
-            size="3x"
-            className="calendar-switch-month button common-transition"
-            onClick={this.addMonth}
-          />
-        </div>
-        <div className="flex vc hc">
-          <div
-            className="calendar-view-change button common-transition py8 px16 br4"
-            onClick={() => this.setState({ queueActive: !queueActive })}
-          >
-            {queueActive ? "Calendar" : "Queue Preview"}
+          <div className="flex vt hc">
+            <div
+              className="calendar-view-change button common-transition py8 px16 br4"
+              onClick={() => this.setState({ queueActive: !queueActive })}
+            >
+              {queueActive ? "Calendar" : "Queue Preview"}
+            </div>
           </div>
         </div>
+        {calendarInviteDivs}
+        <CalendarPicker
+          calendars={this.props.calendars}
+          activeCalendarIndex={this.props.activeCalendarIndex}
+          updateActiveCalendar={this.props.updateActiveCalendar}
+          enableCalendarManager={this.props.enableCalendarManager}
+        />
       </div>
     );
   };

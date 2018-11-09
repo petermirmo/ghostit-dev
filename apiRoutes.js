@@ -21,6 +21,7 @@ const planFunctions = require("./services/planFunctions");
 const writersBriefFunctions = require("./services/writersBriefFunctions");
 const SendMailFunctions = require("./MailFiles/SendMailFunctions");
 const analyticsFunctions = require("./services/analyticsFunctions");
+const calendarFunctions = require("./services/calendarFunctions");
 
 module.exports = app => {
   var middleware = function(req, res, next) {
@@ -208,10 +209,6 @@ module.exports = app => {
   app.post("/api/post", middleware, (req, res) =>
     postFunctions.savePost(req, res)
   );
-  // Get all of user's posts
-  app.post("/api/posts", middleware, (req, res) =>
-    postFunctions.getPosts(req, res)
-  );
   // Get post
   app.get("/api/post/:postID", middleware, (req, res) =>
     postFunctions.getPost(req, res)
@@ -233,10 +230,6 @@ module.exports = app => {
     postFunctions.deletePostImages(req, res)
   );
 
-  // Get all of user's campaigns
-  app.get("/api/campaigns", middleware, (req, res) =>
-    campaignFunctions.getCampaigns(req, res)
-  );
   // Save campaign as recipe
   app.post("/api/recipe", middleware, (req, res) =>
     campaignFunctions.saveRecipe(req, res)
@@ -249,41 +242,24 @@ module.exports = app => {
     campaignFunctions.deleteRecipe(req, res)
   );
 
-  // Create a blog placeholder
+  // Create or update a blog placeholder
   app.post("/api/blog", fileParser, middleware, async (req, res) =>
     blogFunctions.saveBlog(req, res)
   );
-  // Update blog
-  app.post("/api/blog/:blogID", fileParser, middleware, async (req, res) =>
-    blogFunctions.saveBlog(req, res)
-  );
+
   // Delete blog
   app.delete("/api/blog/delete/:blogID", middleware, (req, res) =>
     blogFunctions.deleteBlog(req, res)
   );
-  // Get all placeholder blogs
-  app.get("/api/blogs", middleware, (req, res) =>
-    blogFunctions.getBlogs(req, res)
-  );
 
-  // Create a newsletter placeholder
+  // Create or update a newsletter placeholder
   app.post("/api/newsletter", fileParser, middleware, async (req, res) =>
     newsletterFunctions.saveNewsletter(req, res)
   );
-  // Update newsletter
-  app.post(
-    "/api/newsletter/:newsletterID",
-    fileParser,
-    middleware,
-    async (req, res) => newsletterFunctions.saveNewsletter(req, res)
-  );
+
   // Delete newsletter
   app.delete("/api/newsletter/delete/:newsletterID", middleware, (req, res) =>
     newsletterFunctions.deleteNewsletter(req, res)
-  );
-  // Get all placeholder newsletters
-  app.get("/api/newsletters", middleware, (req, res) =>
-    newsletterFunctions.getNewsletters(req, res)
   );
 
   // Delete file in cloudinary using pulbic id
@@ -376,4 +352,84 @@ module.exports = app => {
   app.get("/api/ai/analytics/posts", middleware, (req, res) => {
     analyticsFunctions.getAllPostAnalytics(req, res);
   });
+
+  app.get("/api/calendars", middleware, (req, res) =>
+    calendarFunctions.getCalendars(req, res)
+  );
+
+  app.get("/api/calendar/posts/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getPosts(req, res)
+  );
+
+  app.get("/api/calendar/blogs/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getBlogs(req, res)
+  );
+
+  app.get("/api/calendar/newsletters/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getNewsletters(req, res)
+  );
+
+  app.get("/api/calendar/campaigns/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getCampaigns(req, res)
+  );
+
+  app.post("/api/calendars/new", middleware, (req, res) =>
+    calendarFunctions.createNewCalendar(req, res)
+  );
+
+  app.get("/api/calendar/users/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getUsers(req, res)
+  );
+
+  app.post("/api/calendar/invite", middleware, (req, res) =>
+    calendarFunctions.inviteUser(req, res)
+  );
+
+  app.get("/api/calendars/invites", middleware, (req, res) =>
+    calendarFunctions.getCalendarInvites(req, res)
+  );
+
+  app.post("/api/calendars/invites/response", middleware, (req, res) =>
+    calendarFunctions.calendarInviteResponse(req, res)
+  );
+
+  app.post("/api/calendar/rename", middleware, (req, res) =>
+    calendarFunctions.renameCalendar(req, res)
+  );
+
+  app.post("/api/calendar/user/remove", middleware, (req, res) =>
+    calendarFunctions.removeUserFromCalendar(req, res)
+  );
+
+  app.post("/api/calendar/user/promote", middleware, (req, res) =>
+    calendarFunctions.promoteUser(req, res)
+  );
+
+  app.post("/api/calendar/delete", middleware, (req, res) =>
+    calendarFunctions.deleteCalendar(req, res)
+  );
+
+  app.post("/api/calendar/setDefault", middleware, (req, res) =>
+    calendarFunctions.setDefaultCalendar(req, res)
+  );
+
+  app.get("/api/calendar/accounts/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getSocialAccounts(req, res)
+  );
+
+  app.get("/api/calendar/accounts/extra/:calendarID", middleware, (req, res) =>
+    calendarFunctions.getSocialAccountsExtra(req, res)
+  );
+
+  app.post("/api/calendar/account", middleware, (req, res) =>
+    calendarFunctions.linkSocialAccount(req, res)
+  );
+
+  app.post("/api/calendar/account/delete", middleware, (req, res) =>
+    calendarFunctions.unlinkSocialAccount(req, res)
+  );
+
+  app.post("/api/calendar/leave", middleware, (req, res) =>
+    calendarFunctions.leaveCalendar(req, res)
+  );
 };

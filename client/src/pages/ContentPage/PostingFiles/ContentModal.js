@@ -108,6 +108,7 @@ class ContentModal extends Component {
         <CreateBlog
           postingDate={clickedCalendarDate}
           callback={saveBlogCallback}
+          calendarID={this.props.calendarID}
           setSaving={this.setSaving}
         />
       );
@@ -117,6 +118,7 @@ class ContentModal extends Component {
           <CreateNewsletter
             postingDate={clickedCalendarDate}
             callback={saveNewsletterCallback}
+            calendarID={this.props.calendarID}
             setSaving={this.setSaving}
           />
         </div>
@@ -128,6 +130,7 @@ class ContentModal extends Component {
             postFinishedSavingCallback={savePostCallback}
             setSaving={this.setSaving}
             socialType={activeTab.name}
+            calendarID={this.props.calendarID}
             canEditPost={true}
           />
         </div>
@@ -145,6 +148,7 @@ class ContentModal extends Component {
             savePostCallback();
             close();
           }}
+          calendarID={this.props.calendarID}
           setSaving={this.setSaving}
           socialType={activeTab.name}
           canEditPost={true}
@@ -155,6 +159,7 @@ class ContentModal extends Component {
               : undefined
           }
           backupChanges={this.backupPostChanges}
+          notify={this.props.notify}
         />
       );
     }

@@ -26,11 +26,14 @@ class PostingOptions extends Component {
     super(props);
 
     this.state = this.createState(props);
+    this.state.promptLinkAccountToCalendar = false;
+    this.state.linkAccountToCalendarID = undefined;
   }
 
   componentDidMount() {
     this._ismounted = true;
     this.findLink(this.state.content);
+    this.getCalendarAccounts();
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -70,7 +73,8 @@ class PostingOptions extends Component {
       content: "",
       instructions: "",
       name: "",
-      promptModifyCampaignDates: false
+      promptModifyCampaignDates: false,
+      calendarID: props.calendarID
     };
     if (props.post) {
       const returnObj = this.getDefaultAccount(props);
@@ -117,6 +121,20 @@ class PostingOptions extends Component {
     } else stateVariable.showInstructions = true;
 
     return stateVariable;
+  };
+
+  getCalendarAccounts = () => {
+    const { calendarID } = this.state;
+    axios.get("/api/calendar/accounts/" + calendarID).then(res => {
+      const { success, err, message, accounts } = res.data;
+      if (!success) {
+        console.log(err);
+        console.log(message);
+        console.log("error while fetching calendar social accounts");
+      } else {
+        this.setState({ calendarAccounts: accounts });
+      }
+    });
   };
 
   getDefaultAccount = props => {
@@ -217,6 +235,40 @@ class PostingOptions extends Component {
     return activePageAccountsArray;
   };
 
+  linkAccountToCalendar = response => {
+    const { linkAccountToCalendarID, calendarID } = this.state;
+    if (!response)
+      return this.setState({
+        promptLinkAccountToCalendar: false,
+        linkAccountToCalendarID: undefined
+      });
+    this.setState({
+      promptLinkAccountToCalendar: false,
+      linkAccountToCalendarID: undefined,
+      saving: true
+    });
+    axios
+      .post("/api/calendar/account", {
+        accountID: linkAccountToCalendarID,
+        calendarID
+      })
+      .then(res => {
+        const { success, err, message, account } = res.data;
+        this.setState({ saving: false });
+        if (!success) {
+          console.log(err);
+          this.props.notify("danger", "Link Account Failed", message);
+        } else {
+          this.props.notify("success", "Link Account Successful", message);
+          this.setState(prevState => {
+            return {
+              calendarAccounts: [...prevState.calendarAccounts, account]
+            };
+          });
+        }
+      });
+  };
+
   render() {
     const {
       _id,
@@ -235,7 +287,10 @@ class PostingOptions extends Component {
       showInstructions,
       campaignID,
       name,
-      date
+      date,
+      calendarAccounts,
+      calendarID,
+      promptLinkAccountToCalendar
     } = this.state;
 
     const {
@@ -252,9 +307,15 @@ class PostingOptions extends Component {
     const linkPreviewCanEdit = returnOfCarouselOptions[1];
 
     // Loop through all accounts
+    let inactivePageAccountsArray = [];
     let activePageAccountsArray = [];
     if (canEditPost) {
       activePageAccountsArray = this.createActiveAccounts(
+        "socialType",
+        socialType,
+        calendarAccounts
+      );
+      inactivePageAccountsArray = this.createActiveAccounts(
         "socialType",
         socialType,
         accounts
@@ -263,11 +324,14 @@ class PostingOptions extends Component {
       activePageAccountsArray = this.createActiveAccounts(
         "socialID",
         accountID,
-        accounts
+        calendarAccounts
       );
     }
 
-    if (activePageAccountsArray.length === 0) {
+    if (
+      activePageAccountsArray.length === 0 &&
+      inactivePageAccountsArray.length === 0
+    ) {
       let tempMessage = socialType;
       if (socialType === "facebook") tempMessage += " group/page";
       return (
@@ -321,6 +385,13 @@ class PostingOptions extends Component {
             {!this.props.recipeEditing && (
               <SelectAccountDiv
                 activePageAccountsArray={activePageAccountsArray}
+                inactivePageAccountsArray={inactivePageAccountsArray}
+                linkAccountToCalendarPrompt={actID =>
+                  this.setState({
+                    promptLinkAccountToCalendar: true,
+                    linkAccountToCalendarID: actID
+                  })
+                }
                 activeAccount={accountID}
                 handleChange={account => {
                   this.handleChange(account.socialID, "accountID");
@@ -373,6 +444,21 @@ class PostingOptions extends Component {
               message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
               callback={this.modifyCampaignDate}
               type="modify"
+            />
+          )}
+          {promptLinkAccountToCalendar && (
+            <ConfirmAlert
+              close={() =>
+                this.setState({ promptLinkAccountToCalendar: false })
+              }
+              title="Link Account to Calendar"
+              message={
+                "To post to this calendar with this social account, the account must be linked to the calendar.\nWould you like to link them?\n(Every user within the calendar will be able to post to the account)."
+              }
+              callback={this.linkAccountToCalendar}
+              type="link-account"
+              firstButton="Link"
+              secondButton="Cancel"
             />
           )}
         </div>

@@ -118,7 +118,8 @@ export const trySavePost = (
     campaignID,
     name,
     date,
-    sendEmailReminder
+    sendEmailReminder,
+    calendarID
   } = post_state;
   const {
     recipeEditing,
@@ -166,6 +167,7 @@ export const trySavePost = (
       campaignID,
       instructions,
       name,
+      calendarID,
       sendEmailReminder
     );
   } else {
@@ -183,7 +185,8 @@ export const trySavePost = (
       deleteImagesArray,
       campaignID,
       instructions,
-      name
+      name,
+      calendarID
     );
   }
   setStateObj.somethingChanged = false;
@@ -222,4 +225,18 @@ export const trySavePostInRecipe = (post_state, post_props, skip_dates) => {
   setStateObj.somethingChanged = false;
 
   return setStateObj;
+};
+
+export const getArrayIndexWithHint = (
+  array,
+  trueOrFalseFunction,
+  probableIndex
+) => {
+  // function used when you want to double check an array index
+  // but dont want to run a search for it unless your copy of the index is wrong
+  if (array[probableIndex] && trueOrFalseFunction(array[probableIndex])) {
+    return probableIndex;
+  } else {
+    return array.indexOf(trueOrFalseFunction);
+  }
 };

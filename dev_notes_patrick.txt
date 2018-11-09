@@ -73,43 +73,47 @@ mobile app that alerts the user when they need to do a custom task?
 
 Small question marks beside things that aren't super intuitive. Mousing over the question mark displays a tooltip explaining things.
 
-analytics:
-  notes for peter:
-    functions built so far: request and store all account analytics and all post analytics.
-    post analytics record their time (unix time in ms) and you can use that time minus the posting time to see how much time had occurred since the post was posted
-    post and account analytics objects are slightly different in the way that they store the actual values
-    
-  headers for facebook, twitter, linked in
-    under development for twit/li
-    facebook has sub headers for accounts / posts
+multi-user calendars:
+  in the content page, there could be a dropdown menu with all of the calendars associated with your account
+    Filter Calendar styled button under October 2018 that shwows the name of the current calendar.
+  each user account starts with a Personal calendar
+    (should the default calendar be delete-able? should you be able to invite other people to it?)
+  users can choose which calendar is their defualt one that opens up first always
+  each post / campaign will now be associated with a calendarID instead of userID.
+    posts will also have to store the userID of the person who created (and maybe a history of who made edits and what they were?)
+  each calendar will have a list of userIDs that have access to it.
+  should social accounts be tied to userID or calendarID or both?
+    maybe the calendar admin can set certain accounts to be calendar shared?
+  sockets keep all connected users updated to the calendar whenever there are changes to it.
+  Manage Calendars page or just have all the calendar management stuff on the content page?
+    create new, delete, invite people (emails), rename,
+    attach / remove social accounts from the calendar,
+    change permissions: who the admin is, who can add social accounts to the calendar (should they also be able to remove other people's?)
 
-  aggregate by month / week (how to do weeks bcz they are just stored as day numbers?)
+to do next:
+  manage calendars
+    (pass admin, leave calendar)
+      when creating a new calendar, maybe set activeCalendarIndex to that new calendar?
+      create calendar button maybe should just be a (+) icon beside the calendar picker in calendar manager
+      when exiting calendar manager, change activeCalendarIndex of ContentPage to the same as CalendarManager
+      when inviting a user, convert the string to all lower case?
+      when deleting, might need to delete the images / files stored with the posts/blogs/newsletters and maybe disable the email notifications?
+  social accounts tied to calendars
+    when updating social account access tokens, maybe update all that are linked to calendars?
+    when looking up calendar.accountIDs, if one is not found, should we remove its id from calendar.accountIDs?
+    link social accounts to user account like normal
+    when going to post, those accounts will be slightly transparent
+      clicking them will prompt you to link that social account with that calendar
+    calendar objects have an accountIDs array
+      any user can link a social account to the calendar
+      when a user leaves the calendar, prompt them if they want to remove their linked accounts as well
+      if a user is removed from the calendar, warn the admin that this will un-link all of the accounts that they linked
+      removing an account doesn't delete any posts already scheduled
+  maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
 
-  graphing:
-    don't display all graphs by default. have a button beside each metric that toggles the graph.
-      when the graph is toggled on, have a button above the graph that switches which month is being displayed.
-    some metrics (non-logged-in page views) don't return a day if the value on the day was 0.
-      so when you go to graph it, that day is ignored and the line graph jumps from day 5-7
-      which doesn't illustrate that day 6 had 0.
-    still need to handle the cases when there can be multiple value types for one day (post reactions of a page)
-    y axis scale can be misleading. Lifetime total likes of ghostit drops from 4698 to 4667 but looks like it drops down to 5.
-    have a graph or other visual representation of when / how many posts were made so it's easy to correlate the numbers on the other graphs to the activity on the account
+  laggy when logged in as another user and closing calendar manager??
 
-
-You can make posts go out from our test DB really easily
-  Go to around line 44 in index.js in root
-  schedule.scheduleJob("*/2 * * * *", function() {
-    PostScheduler.main();
-  });
-  put it outside the if statement
-  and posts will go out
-
-Insights are only generated for a Facebook Page that has more than 100 people that like it.
-Likewise, demographic metrics, such as age, gender and location, are available in Page Insights once there is data for 100 or more people.
-
-page: Analytics Testing
-accessToken: EAATBO1uFsCMBAEVzoXO6IJ7BrFhkSqAstHWw4lg7XGU05mZCFdX5nXSGZC5OXzwabq6XaRLyKDxKHTrldysD5h02H4aFxUgHIFW29RvmKUXZCOPfvIjHjJKaHRJgl2ZBZAZAxkaYTItGtZCfmi8JEA7cn3TJfBQQ388uRXfINBK2QZDZD
-postID: 1209545782519940_1219695484838303
+  this.props.notify should extend its time when a new notification overwrites the old
 
 facebook analytics page metrics:
     FB.api(

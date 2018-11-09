@@ -91,55 +91,6 @@ module.exports = {
       newPost.save().then(result => res.send({ success: true, post: result }));
     });
   },
-  getPosts: (req, res) => {
-    // Get all posts for user
-    let userID = req.user._id;
-    if (req.user.signedInAsUser) {
-      if (req.user.signedInAsUser.id) {
-        userID = req.user.signedInAsUser.id;
-      }
-    }
-
-    let calendarDate = new moment(req.body.calendarDate);
-
-    let firstDayOfMonth = Number(
-      moment(calendarDate.format("M"), "MM")
-        .startOf("month")
-        .format("d")
-    );
-
-    // Get calendar starting date
-    let calendarStartDate = new moment(calendarDate)
-      .subtract(firstDayOfMonth, "days")
-      .add(firstDayOfMonth === 0 ? -7 : 0, "days");
-    // Get calendar ending date
-    let calendarEndDate = new moment(calendarDate)
-      .subtract(firstDayOfMonth, "days")
-      .add(35, "days");
-
-    calendarStartDate.set("hour", 0);
-    calendarStartDate.set("minute", 0);
-
-    calendarEndDate.set("hour", 23);
-    calendarEndDate.set("minute", 59);
-
-    Post.find(
-      {
-        userID,
-        campaignID: undefined,
-        $and: [
-          { postingDate: { $lt: calendarEndDate } },
-          {
-            postingDate: { $gt: calendarStartDate }
-          }
-        ]
-      },
-      (err, posts) => {
-        if (err) res.send(err);
-        res.send({ posts });
-      }
-    );
-  },
   getPost: function(req, res) {
     Post.findOne({ _id: req.params.postID }, function(err, post) {
       if (err) res.send(err);

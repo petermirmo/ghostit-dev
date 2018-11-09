@@ -9,6 +9,7 @@ import PostEdittingModal from "./PostingFiles/PostEdittingModal";
 import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
 import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
 import Calendar from "../../components/Calendar/";
+import CalendarManager from "../../components/CalendarManager/";
 import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/Notifications/Notification";
@@ -20,6 +21,12 @@ class Content extends Component {
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
     recipeEditing: false,
+
+    calendars: [],
+    calendarInvites: [],
+    activeCalendarIndex: undefined,
+    defaultCalendarID: undefined,
+    calendarManagerModal: false,
 
     facebookPosts: [],
     twitterPosts: [],
@@ -66,15 +73,113 @@ class Content extends Component {
       if (this._ismounted) this.setState({ timezone });
     });
 
-    this.getPosts(this.state.calendarDate);
-    this.getBlogs();
-    this.getNewsletters();
-    this.getCampaigns();
+    axios.get("/api/calendars").then(res => {
+      const { success, calendars, defaultCalendarID } = res.data;
+      if (!success || !calendars || calendars.length === 0) {
+        console.log(res.data.err);
+        console.log(res.data.message);
+        console.log(calendars);
+      } else {
+        let activeCalendarIndex = calendars.findIndex(
+          calObj => calObj._id.toString() === defaultCalendarID.toString()
+        );
+        if (activeCalendarIndex === -1) activeCalendarIndex = 0;
+        this.setState(
+          {
+            calendars,
+            activeCalendarIndex,
+            defaultCalendarID
+          },
+          this.fillCalendar
+        );
+      }
+    });
+
+    axios.get("/api/calendars/invites").then(res => {
+      const { success, err, message, calendars } = res.data;
+      if (!success) {
+        console.log(err);
+        console.log(message);
+        console.log("failed to retrieve calendar invites.");
+      } else {
+        if (!calendars || calendars.length === 0) {
+          return;
+        } else {
+          // calendars is an array of all calendars that have this user's email in its emailsInvited array
+          this.setState({ calendarInvites: calendars });
+        }
+      }
+    });
   }
 
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  inviteResponse = (index, response) => {
+    // function that gets called when the user clicks Accept or Reject on one of their calendar invites
+    // repsonse is whether they clicked accept or reject (true or false)
+    // index is the index of the calendar in calendarInvites
+    const { calendarInvites } = this.state;
+    const calendarID = calendarInvites[index]._id;
+
+    this.setState(prevState => {
+      return {
+        calendarInvites: [
+          ...prevState.calendarInvites.slice(0, index),
+          ...prevState.calendarInvites.slice(index + 1)
+        ]
+      };
+    });
+
+    axios
+      .post("/api/calendars/invites/response", {
+        calendarID,
+        response
+      })
+      .then(res => {
+        const { success, err, message, calendar } = res.data;
+        if (!success) {
+          console.log(err);
+          console.log(message);
+        } else {
+          if (response === true) {
+            this.setState(prevState => {
+              return {
+                calendars: [...prevState.calendars, calendar]
+              };
+            });
+          }
+        }
+      });
+  };
+
+  getCalendars = () => {
+    axios.get("/api/calendars").then(res => {
+      const { success, calendars } = res.data;
+      if (!success || !calendars || calendars.length === 0) {
+        console.log(res.data.err);
+        console.log(res.data.message);
+        console.log(calendars);
+      } else {
+        if (calendars.length - 1 < this.state.activeCalendarIndex) {
+          this.setState(
+            { activeCalendarIndex: calendars.length - 1, calendars },
+            this.fillCalendar
+          );
+        } else {
+          this.setState({ calendars }, this.fillCalendar);
+        }
+      }
+    });
+  };
+
+  fillCalendar = () => {
+    this.getPosts();
+    this.getBlogs();
+    this.getNewsletters();
+    this.getCampaigns();
+  };
 
   notify = (type, title, message, length = 5000) => {
     const { notification } = this.state;
@@ -97,88 +202,143 @@ class Content extends Component {
     });
   };
 
-  getPosts = calendarDate => {
-    this.setState({ loading: true });
+  getPosts = () => {
+    // if this (or any of the getPosts/getBlogs/getCampaigns/etc fails,
+    // we should maybe setState({ posts: [] })) so that we don't render
+    // posts from a previous calendar
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
     let facebookPosts = [];
     let twitterPosts = [];
     let linkedinPosts = [];
 
     // Get all of user's posts to display in calendar
-    axios.post("/api/posts", { calendarDate }).then(res => {
-      // Set posts to state
-      let { posts, loggedIn } = res.data;
+    axios.get("/api/calendar/posts/" + calendarID).then(res => {
+      const { success, err, message, posts, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        if (loggedIn === false) window.location.reload();
 
-      if (loggedIn === false) window.location.reload();
-
-      for (let index in posts) {
-        posts[index].startDate = posts[index].postingDate;
-        posts[index].endDate = posts[index].postingDate;
-      }
-
-      for (let index in posts) {
-        if (posts[index].socialType === "facebook") {
-          facebookPosts.push(posts[index]);
-        } else if (posts[index].socialType === "twitter") {
-          twitterPosts.push(posts[index]);
-        } else if (posts[index].socialType === "linkedin") {
-          linkedinPosts.push(posts[index]);
+        for (let index in posts) {
+          posts[index].startDate = posts[index].postingDate;
+          posts[index].endDate = posts[index].postingDate;
         }
-      }
-      if (this._ismounted) {
-        this.setState({
-          facebookPosts,
-          twitterPosts,
-          linkedinPosts,
-          loading: false
-        });
+
+        for (let index in posts) {
+          if (posts[index].socialType === "facebook") {
+            facebookPosts.push(posts[index]);
+          } else if (posts[index].socialType === "twitter") {
+            twitterPosts.push(posts[index]);
+          } else if (posts[index].socialType === "linkedin") {
+            linkedinPosts.push(posts[index]);
+          }
+        }
+        if (this._ismounted) {
+          this.setState({
+            facebookPosts,
+            twitterPosts,
+            linkedinPosts,
+            loading: false
+          });
+        }
       }
     });
   };
 
   getBlogs = () => {
-    axios.get("/api/blogs").then(res => {
-      let { blogs, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
 
-      for (let index in blogs) {
-        blogs[index].startDate = blogs[index].postingDate;
-        blogs[index].endDate = blogs[index].postingDate;
-      }
+    axios.get("/api/calendar/blogs/" + calendarID).then(res => {
+      let { success, err, message, blogs, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        if (loggedIn === false) window.location.reload();
 
-      if (this._ismounted) {
-        this.setState({ websitePosts: blogs });
+        for (let index in blogs) {
+          blogs[index].startDate = blogs[index].postingDate;
+          blogs[index].endDate = blogs[index].postingDate;
+        }
+
+        if (this._ismounted) {
+          this.setState({ websitePosts: blogs });
+        }
       }
     });
   };
 
   getNewsletters = () => {
-    axios.get("/api/newsletters").then(res => {
-      let { newsletters, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
 
-      for (let index in newsletters) {
-        newsletters[index].startDate = newsletters[index].postingDate;
-        newsletters[index].endDate = newsletters[index].postingDate;
-      }
+    axios.get("/api/calendar/newsletters/" + calendarID).then(res => {
+      let { success, err, message, newsletters, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        if (loggedIn === false) window.location.reload();
 
-      if (this._ismounted) {
-        this.setState({ newsletterPosts: newsletters });
+        for (let index in newsletters) {
+          newsletters[index].startDate = newsletters[index].postingDate;
+          newsletters[index].endDate = newsletters[index].postingDate;
+        }
+
+        if (this._ismounted) {
+          this.setState({ newsletterPosts: newsletters });
+        }
       }
     });
   };
 
   getCampaigns = () => {
-    axios.get("/api/campaigns").then(res => {
-      let { campaignArray, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || !calendars[activeCalendarIndex]) {
+      console.log(calendars);
+      console.log(activeCalendarIndex);
+      console.log("calendar error");
+      return;
+    }
+    const calendarID = calendars[activeCalendarIndex]._id;
 
-      for (let index in campaignArray) {
-        campaignArray[index].campaign.posts = campaignArray[index].posts;
-        campaignArray[index] = campaignArray[index].campaign;
-      }
+    axios.get("/api/calendar/campaigns/" + calendarID).then(res => {
+      let { success, err, message, campaigns, loggedIn } = res.data;
+      if (!success) {
+        console.log(message);
+        console.log(err);
+      } else {
+        if (loggedIn === false) window.location.reload();
 
-      if (this._ismounted) {
-        this.setState({ campaigns: campaignArray });
+        for (let index in campaigns) {
+          campaigns[index].campaign.posts = campaigns[index].posts;
+          campaigns[index] = campaigns[index].campaign;
+        }
+
+        if (this._ismounted) {
+          this.setState({ campaigns });
+        }
       }
     });
   };
@@ -217,6 +377,7 @@ class Content extends Component {
 
   closeModals = () => {
     this.setState({
+      calendarManagerModal: false,
       blogEdittingModal: false,
       contentModal: false,
       postEdittingModal: false,
@@ -227,6 +388,7 @@ class Content extends Component {
       clickedEvent: undefined
     });
   };
+
   updateActiveCategory = categoryName => {
     let calendarEventCategories = this.state.calendarEventCategories;
     calendarEventCategories[categoryName] = !calendarEventCategories[
@@ -250,6 +412,10 @@ class Content extends Component {
     }
   };
 
+  updateActiveCalendar = index => {
+    this.setState({ activeCalendarIndex: index }, this.fillCalendar);
+  };
+
   render() {
     const {
       calendarEventCategories,
@@ -266,6 +432,10 @@ class Content extends Component {
       clickedDate,
       campaigns,
       notification,
+      calendars,
+      calendarInvites,
+      activeCalendarIndex,
+      defaultCalendarID,
       calendarDate,
       loading
     } = this.state;
@@ -336,6 +506,14 @@ class Content extends Component {
       <div className="content-page">
         {loading && <Loader />}
         <Calendar
+          calendars={calendars}
+          calendarInvites={calendarInvites}
+          inviteResponse={this.inviteResponse}
+          activeCalendarIndex={activeCalendarIndex}
+          updateActiveCalendar={this.updateActiveCalendar}
+          enableCalendarManager={() => {
+            this.setState({ calendarManagerModal: true });
+          }}
           calendarEvents={calendarEvents}
           onDateChange={date => {
             this.handleChange(date, "calendarDate");
@@ -349,11 +527,25 @@ class Content extends Component {
           categories={calendarEventCategories}
           updateActiveCategory={this.updateActiveCategory}
         />
+        {this.state.calendarManagerModal && (
+          <CalendarManager
+            calendars={calendars}
+            activeCalendarIndex={activeCalendarIndex}
+            defaultCalendarID={defaultCalendarID}
+            close={() => {
+              this.closeModals();
+              this.getCalendars();
+            }}
+            notify={this.notify}
+          />
+        )}
         {this.state.contentModal && (
           <ContentModal
             clickedCalendarDate={clickedDate}
             timezone={timezone}
+            calendarID={calendars[activeCalendarIndex]._id}
             close={this.closeModals}
+            notify={this.notify}
             savePostCallback={() => {
               this.getPosts(clickedDate);
               this.closeModals();
@@ -374,6 +566,7 @@ class Content extends Component {
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
+            calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
         {this.state.blogEdittingModal && (
@@ -394,6 +587,7 @@ class Content extends Component {
           <CampaignModal
             close={this.closeModals}
             handleChange={this.handleChange}
+            calendarID={calendars[activeCalendarIndex]._id}
             timezone={timezone}
             clickedCalendarDate={clickedDate}
             updateCampaigns={this.getCampaigns}

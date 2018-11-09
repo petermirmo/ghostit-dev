@@ -8,6 +8,7 @@ const campaign = new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
+    calendarID: Schema.Types.ObjectId,
     startDate: Date,
     endDate: Date,
     color: String,

@@ -26,6 +26,7 @@ class CustomTask extends Component {
       instructions: "",
       name: "Custom Task",
       sendEmailReminder: true,
+      calendarID: props.calendarID,
       color: "var(--seven-purple-color)"
     };
     if (props.post) {

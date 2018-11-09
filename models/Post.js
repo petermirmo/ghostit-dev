@@ -8,6 +8,7 @@ const postSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
+    calendarID: Schema.Types.ObjectId,
     accountID: String,
     content: String,
     instructions: String,

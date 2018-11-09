@@ -112,6 +112,7 @@ class CampaignModal extends Component {
               : props.user._id
             : props.user._id,
           color: "var(--campaign-color3)",
+          calendarID: props.calendarID,
           recipeID: undefined
         };
 
@@ -650,6 +651,7 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
+          calendarID={this.props.calendarID}
           socialType={post_obj.socialType}
           canEditPost={true}
           listOfChanges={
@@ -681,6 +683,7 @@ class CampaignModal extends Component {
           setSaving={() => {
             this.setState({ saving: true });
           }}
+          calendarID={this.props.calendarID}
           socialType={post_obj.socialType}
           canEditPost={true}
           listOfChanges={
@@ -694,6 +697,7 @@ class CampaignModal extends Component {
           modifyCampaignDates={this.modifyCampaignDates}
           recipeEditing={recipeEditing}
           savePostChanges={this.savePostChanges}
+          notify={this.props.notify}
         />
       );
     }
@@ -935,7 +939,7 @@ class CampaignModal extends Component {
                         "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
                       }
                       onClick={() => {
-                        this.setState({ saving: true });
+                        //this.setState({ saving: true });
                         socket.emit("campaign_editted", campaign);
                         socket.on("campaign_saved", emitObject => {
                           socket.off("campaign_saved");
