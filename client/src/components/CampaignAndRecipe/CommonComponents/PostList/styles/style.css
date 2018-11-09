@@ -39,7 +39,6 @@
 .list-entry-date {
   font-size: var(--fourteen-font-size);
   color: inherit;
-  background-color: red !important;
 }
 .list-entry-name,
 .list-entry-date {
@@ -59,7 +58,7 @@
   align-items: center;
 }
 .new-post-button {
-  width: 25px !important;
+  width: 25px;
   height: 25px;
 
   margin-left: auto;

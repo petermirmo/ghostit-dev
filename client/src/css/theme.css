@@ -152,13 +152,11 @@
   position: absolute;
   z-index: 10;
 
+  top: 0;
   right: 0;
   left: 0;
-  top: 0;
   bottom: 0;
 
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -188,26 +186,21 @@
 .large-modal {
   position: fixed;
   display: flex;
-
-  justify-content: flex-start;
-  align-items: center;
   flex-direction: column;
 
   min-height: 90vh;
-  max-height: 90vh;
+  height: 90vh;
   width: 80%;
 
   left: 10vw;
   right: 10vw;
-
-  overflow: hidden;
-
   margin-top: 3vh;
 
   border-radius: 4px;
 
-  background-color: var(--white-theme-color);
+  z-index: 10;
 
+  background-color: var(--white-theme-color);
   animation: campaignModalAnimation 0.4s;
 }
 .modal-header {

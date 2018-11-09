@@ -10,7 +10,7 @@ import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
 import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
 import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
-import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
+import Campaign from "../../components/CampaignAndRecipe/Campaign";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/Notifications/Notification";
 import Loader from "../../components/Notifications/Loader/";
@@ -584,18 +584,25 @@ class Content extends Component {
           />
         )}
         {this.state.campaignModal && (
-          <CampaignModal
-            close={this.closeModals}
-            handleChange={this.handleChange}
-            calendarID={calendars[activeCalendarIndex]._id}
-            timezone={timezone}
-            clickedCalendarDate={clickedDate}
-            updateCampaigns={this.getCampaigns}
-            campaign={clickedEvent}
-            isRecipe={clickedEventIsRecipe}
-            recipeEditing={recipeEditing}
-            notify={this.notify}
-          />
+          <div className="modal">
+            <div
+              className="large-modal common-transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <Campaign
+                close={this.closeModals}
+                handleChange={this.handleChange}
+                calendarID={calendars[activeCalendarIndex]._id}
+                timezone={timezone}
+                clickedCalendarDate={clickedDate}
+                updateCampaigns={this.getCampaigns}
+                campaign={clickedEvent}
+                isRecipe={clickedEventIsRecipe}
+                recipeEditing={recipeEditing}
+                notify={this.notify}
+              />
+            </div>
+          </div>
         )}
         {this.state.recipeModal && (
           <RecipeModal

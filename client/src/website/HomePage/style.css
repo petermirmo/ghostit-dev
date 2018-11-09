@@ -122,10 +122,9 @@
 }
 
 .platform-component-showcase {
-  max-height: 70%;
-
   transform: scale(0.7, 0.7);
-  box-sizing: border-box;
+  height: 80%;
+  width: 100%;
 }
 
 .description-box {

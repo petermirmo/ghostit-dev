@@ -830,232 +830,227 @@ class CampaignModal extends Component {
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
     return (
-      <div className="modal" onClick={() => this.attemptToCloseModal()}>
-        <div
-          className="large-modal common-transition"
-          onClick={e => e.stopPropagation()}
-        >
-          <CampaignRecipeHeader
-            campaign={campaign}
-            handleChange={this.handleCampaignChange}
-            tryChangingDates={this.tryChangingCampaignDates}
-            backToRecipes={() => {
-              this.props.handleChange(false, "campaignModal");
-              this.props.handleChange(true, "recipeModal");
-            }}
-            close={() => this.attemptToCloseModal()}
-          />
-          {!firstPostChosen && (
-            <div className="campaign-start-container">
-              <div className="new-campaign-post-selection-write-up">
-                How do you want to start off your campaign?
-              </div>
-              <PostTypePicker
-                newPost={socialType => {
+      <div className="campaign-container">
+        <CampaignRecipeHeader
+          campaign={campaign}
+          handleChange={this.handleCampaignChange}
+          tryChangingDates={this.tryChangingCampaignDates}
+          backToRecipes={() => {
+            this.props.handleChange(false, "campaignModal");
+            this.props.handleChange(true, "recipeModal");
+          }}
+          close={() => this.attemptToCloseModal()}
+        />
+        {!firstPostChosen && (
+          <div className="campaign-start-container">
+            <div className="new-campaign-post-selection-write-up">
+              How do you want to start off your campaign?
+            </div>
+            <PostTypePicker
+              newPost={socialType => {
+                this.setState(
+                  newPost(socialType, posts, campaign, clickedCalendarDate)
+                );
+              }}
+            />
+          </div>
+        )}
+        {firstPostChosen && (
+          <div className="post-navigation-and-post-container flex">
+            <div className="post-navigation-container">
+              <PostList
+                campaign={campaign}
+                posts={posts}
+                activePostIndex={activePostIndex}
+                listOfPostChanges={listOfPostChanges}
+                clickedCalendarDate={clickedCalendarDate}
+                newPost={(
+                  socialType,
+                  posts,
+                  campaign,
+                  clickedCalendarDate,
+                  callback
+                ) =>
                   this.setState(
-                    newPost(socialType, posts, campaign, clickedCalendarDate)
-                  );
+                    newPost(
+                      socialType,
+                      posts,
+                      campaign,
+                      clickedCalendarDate,
+                      listOfPostChanges
+                    )
+                  )
+                }
+                deletePost={
+                  showDeletePostPrompt
+                    ? index => {
+                        this.setState({
+                          promptDeletePost: true,
+                          deleteIndex: index
+                        });
+                      }
+                    : index => {
+                        this.deletePost(index);
+                      }
+                }
+                handleChange={this.handleChange}
+                recipeEditing={recipeEditing}
+                duplicatePost={index => {
+                  this.duplicatePost(index);
                 }}
               />
             </div>
-          )}
-          {firstPostChosen && (
-            <div className="post-navigation-and-post-container flex">
-              <div className="post-navigation-container">
-                <PostList
-                  campaign={campaign}
-                  posts={posts}
-                  activePostIndex={activePostIndex}
-                  listOfPostChanges={listOfPostChanges}
-                  clickedCalendarDate={clickedCalendarDate}
-                  newPost={(
-                    socialType,
-                    posts,
-                    campaign,
-                    clickedCalendarDate,
-                    callback
-                  ) =>
-                    this.setState(
-                      newPost(
-                        socialType,
-                        posts,
-                        campaign,
-                        clickedCalendarDate,
-                        listOfPostChanges
-                      )
-                    )
-                  }
-                  deletePost={
-                    showDeletePostPrompt
-                      ? index => {
-                          this.setState({
-                            promptDeletePost: true,
-                            deleteIndex: index
-                          });
-                        }
-                      : index => {
-                          this.deletePost(index);
-                        }
-                  }
-                  handleChange={this.handleChange}
-                  recipeEditing={recipeEditing}
-                  duplicatePost={index => {
-                    this.duplicatePost(index);
-                  }}
+
+            {activePostIndex !== undefined && (
+              <div className="post-container light-scrollbar">
+                {this.getActivePost()}
+              </div>
+            )}
+          </div>
+        )}
+        <div className="modal-footer">
+          <div className="campaign-footer-options">
+            <div className="campaign-footer-option left">
+              <div
+                onClick={() => {
+                  this.props.handleChange(false, "campaignModal");
+                  this.props.handleChange(true, "recipeModal");
+                }}
+                className="round-button button pa8 ma8 round"
+              >
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  className="back-button-arrow"
                 />
+                Back to Templates
               </div>
-
-              {activePostIndex !== undefined && (
-                <div className="post-container light-scrollbar">
-                  {this.getActivePost()}
-                </div>
-              )}
             </div>
-          )}
-          <div className="modal-footer">
-            <div className="campaign-footer-options">
-              <div className="campaign-footer-option left">
-                <div
-                  onClick={() => {
-                    this.props.handleChange(false, "campaignModal");
-                    this.props.handleChange(true, "recipeModal");
-                  }}
-                  className="round-button button pa8 ma8 round"
-                >
-                  <FontAwesomeIcon
-                    icon={faArrowLeft}
-                    className="back-button-arrow"
-                  />
-                  Back to Templates
-                </div>
-              </div>
 
-              {!recipeEditing && (
-                <div className="campaign-specific-footer">
-                  <div className="campaign-footer-option right">
-                    <div
-                      className="round-button button pa8 ma8"
-                      title={
-                        "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
-                      }
-                      onClick={() => {
-                        //this.setState({ saving: true });
-                        socket.emit("campaign_editted", campaign);
-                        socket.on("campaign_saved", emitObject => {
-                          socket.off("campaign_saved");
-                          if (!emitObject) {
-                            this.props.notify(
-                              "danger",
-                              "Save Failed",
-                              "Campaign save was unsuccesful."
-                            );
-                          } else {
-                            this.props.notify(
-                              "success",
-                              "Campaign Saved",
-                              "Campaign was saved!",
-                              3000
-                            );
-                          }
-                          this.setState({ saving: false });
-                        });
-                      }}
-                    >
-                      Save Campaign
-                    </div>
-                  </div>
-                  <div className="campaign-footer-option left">
-                    <div
-                      className="round-button button pa8 ma8"
-                      title="Save a template based on this campaign."
-                      onClick={this.createRecipe}
-                    >
-                      Save as Template
-                    </div>
-                  </div>
-                </div>
-              )}
-              {!recipeEditing && (
-                <div
-                  className="campaign-footer-option right"
-                  title="Delete campaign."
-                >
-                  <FontAwesomeIcon
-                    onClick={() => this.handleChange(true, "confirmDelete")}
-                    className="delete"
-                    icon={faTrash}
-                    size="2x"
-                  />
-                </div>
-              )}
-              {recipeEditing && (
-                <div className="campaign-footer-option">
+            {!recipeEditing && (
+              <div className="campaign-specific-footer">
+                <div className="campaign-footer-option right">
                   <div
                     className="round-button button pa8 ma8"
                     title={
-                      "Click to save template. Unlike campaigns, templates are not saved automatically."
+                      "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
                     }
-                    onClick={this.createRecipe}
+                    onClick={() => {
+                      //this.setState({ saving: true });
+                      socket.emit("campaign_editted", campaign);
+                      socket.on("campaign_saved", emitObject => {
+                        socket.off("campaign_saved");
+                        if (!emitObject) {
+                          this.props.notify(
+                            "danger",
+                            "Save Failed",
+                            "Campaign save was unsuccesful."
+                          );
+                        } else {
+                          this.props.notify(
+                            "success",
+                            "Campaign Saved",
+                            "Campaign was saved!",
+                            3000
+                          );
+                        }
+                        this.setState({ saving: false });
+                      });
+                    }}
                   >
-                    Save Template
+                    Save Campaign
                   </div>
                 </div>
-              )}
-            </div>
+                <div className="campaign-footer-option left">
+                  <div
+                    className="round-button button pa8 ma8"
+                    title="Save a template based on this campaign."
+                    onClick={this.createRecipe}
+                  >
+                    Save as Template
+                  </div>
+                </div>
+              </div>
+            )}
+            {!recipeEditing && (
+              <div
+                className="campaign-footer-option right"
+                title="Delete campaign."
+              >
+                <FontAwesomeIcon
+                  onClick={() => this.handleChange(true, "confirmDelete")}
+                  className="delete"
+                  icon={faTrash}
+                  size="2x"
+                />
+              </div>
+            )}
+            {recipeEditing && (
+              <div className="campaign-footer-option">
+                <div
+                  className="round-button button pa8 ma8"
+                  title={
+                    "Click to save template. Unlike campaigns, templates are not saved automatically."
+                  }
+                  onClick={this.createRecipe}
+                >
+                  Save Template
+                </div>
+              </div>
+            )}
           </div>
-          {confirmDelete && (
-            <ConfirmAlert
-              close={() => this.setState({ confirmDelete: false })}
-              title="Delete Campaign"
-              message="Are you sure you want to delete this campaign? Deleting this campaign will also delete all posts in it."
-              callback={this.deleteCampaign}
-              type="delete-campaign"
-            />
-          )}
-          {promptDeletePost && (
-            <ConfirmAlert
-              close={() => this.setState({ promptDeletePost: false })}
-              title="Delete Post"
-              message="Are you sure you want to delete the post?"
-              checkboxMessage="Don't ask me again."
-              callback={(response, dontAskAgain) => {
-                this.setState({ promptDeletePost: false });
-                if (!response) {
-                  return;
-                }
-                this.deletePost(deleteIndex, dontAskAgain);
-              }}
-              type="delete-post"
-            />
-          )}
-          {promptChangeActivePost && (
-            <ConfirmAlert
-              close={() => this.setState({ promptChangeActivePost: false })}
-              title="Discard Unsaved Changes"
-              message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
-              callback={this.changeActivePost}
-              type="change-post"
-            />
-          )}
-          {promptDiscardPostChanges && (
-            <ConfirmAlert
-              close={() => this.setState({ promptDiscardPostChanges: false })}
-              title="Discard Unsaved Changes"
-              message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
-              callback={response => {
-                if (!response) {
-                  this.setState({ promptDiscardPostChanges: false });
-                  return;
-                }
-                this.setState(
-                  { listOfPostChanges: {}, promptDiscardPostChanges: false },
-                  this.attemptToCloseModal
-                );
-              }}
-              type="change-post"
-            />
-          )}
         </div>
+        {confirmDelete && (
+          <ConfirmAlert
+            close={() => this.setState({ confirmDelete: false })}
+            title="Delete Campaign"
+            message="Are you sure you want to delete this campaign? Deleting this campaign will also delete all posts in it."
+            callback={this.deleteCampaign}
+            type="delete-campaign"
+          />
+        )}
+        {promptDeletePost && (
+          <ConfirmAlert
+            close={() => this.setState({ promptDeletePost: false })}
+            title="Delete Post"
+            message="Are you sure you want to delete the post?"
+            checkboxMessage="Don't ask me again."
+            callback={(response, dontAskAgain) => {
+              this.setState({ promptDeletePost: false });
+              if (!response) {
+                return;
+              }
+              this.deletePost(deleteIndex, dontAskAgain);
+            }}
+            type="delete-post"
+          />
+        )}
+        {promptChangeActivePost && (
+          <ConfirmAlert
+            close={() => this.setState({ promptChangeActivePost: false })}
+            title="Discard Unsaved Changes"
+            message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
+            callback={this.changeActivePost}
+            type="change-post"
+          />
+        )}
+        {promptDiscardPostChanges && (
+          <ConfirmAlert
+            close={() => this.setState({ promptDiscardPostChanges: false })}
+            title="Discard Unsaved Changes"
+            message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
+            callback={response => {
+              if (!response) {
+                this.setState({ promptDiscardPostChanges: false });
+                return;
+              }
+              this.setState(
+                { listOfPostChanges: {}, promptDiscardPostChanges: false },
+                this.attemptToCloseModal
+              );
+            }}
+            type="change-post"
+          />
+        )}
         {saving && <Loader />}
       </div>
     );

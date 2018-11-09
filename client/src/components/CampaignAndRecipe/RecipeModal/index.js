@@ -404,7 +404,7 @@ class RecipeModal extends Component {
                 className="use-this-recipe"
                 onClick={() => this.setState({ chooseRecipeDate: true })}
               >
-                Use This Recipe
+                Use This Template
               </div>
             )}
 

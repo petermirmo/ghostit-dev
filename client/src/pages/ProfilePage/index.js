@@ -13,9 +13,10 @@ class Profile extends Component {
     super(props);
     const { user } = props;
     const { fullName, email, website } = user;
+
     if (props.user) {
       this.state = {
-        fullName,
+        fullName: fullName,
         email,
         website,
         password: "",
@@ -81,7 +82,7 @@ class Profile extends Component {
             <input
               type="text"
               className="profile-input pa8 mb16 round"
-              placeholder="Full Name"
+              placeholder="Company Name"
               onChange={event =>
                 this.handleChange("fullName", event.target.value)
               }

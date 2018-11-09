@@ -14,6 +14,8 @@ import {
   openHeaderSideBar
 } from "../redux/actions/";
 
+import { getCurrentPage } from "../extra/functions/CommonFunctions";
+
 import LoaderWedge from "../components/Notifications/LoaderWedge";
 
 import Header from "../components/Navigations/Header/";
