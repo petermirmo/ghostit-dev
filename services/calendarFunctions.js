@@ -7,6 +7,7 @@ const Newsletter = require("../models/Newsletter");
 const Campaign = require("../models/Campaign");
 
 const generalFunctions = require("./generalFunctions");
+const postFunctions = require("./postFunctions");
 
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {

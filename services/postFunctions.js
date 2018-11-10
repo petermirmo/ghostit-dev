@@ -7,6 +7,25 @@ const Email = require("../models/Email");
 const Account = require("../models/Account");
 const cloudinary = require("cloudinary");
 
+const deletePostStandalone = (postID, callback) => {
+  Post.findOne({ _id: postID }, async function(err, post) {
+    if (post && !err) {
+      if (post.images) {
+        for (let i = 0; i < post.images.length; i++) {
+          await cloudinary.uploader.destroy(post.images[i].publicID, function(
+            result
+          ) {
+            // TO DO: handle error here
+          });
+        }
+      }
+      post.remove().then(result => {
+        callback(true);
+      });
+    } else callback({ success: false, err });
+  });
+};
+
 module.exports = {
   deleteFile: function(req, res) {
     cloudinary.uploader.destroy(req.params.publicID, function(result) {
@@ -144,25 +163,8 @@ module.exports = {
       post.save().then(result => res.send(true));
     });
   },
-  deletePostStandalone: function(postID, callback) {
-    Post.findOne({ _id: postID }, async function(err, post) {
-      if (post && !err) {
-        if (post.images) {
-          for (let i = 0; i < post.images.length; i++) {
-            await cloudinary.uploader.destroy(post.images[i].publicID, function(
-              result
-            ) {
-              // TO DO: handle error here
-            });
-          }
-        }
-        post.remove().then(result => {
-          callback(true);
-        });
-      } else callback({ success: false, err });
-    });
-  },
   deletePost: function(req, res) {
     deletePostStandalone(req.params.postID, result => res.send(result));
-  }
+  },
+  deletePostStandalone
 };
