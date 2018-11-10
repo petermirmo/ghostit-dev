@@ -144,8 +144,8 @@ module.exports = {
       post.save().then(result => res.send(true));
     });
   },
-  deletePost: function(req, res) {
-    Post.findOne({ _id: req.params.postID }, async function(err, post) {
+  deletePostStandalone: function(postID, callback) {
+    Post.findOne({ _id: postID }, async function(err, post) {
       if (post && !err) {
         if (post.images) {
           for (let i = 0; i < post.images.length; i++) {
@@ -157,9 +157,12 @@ module.exports = {
           }
         }
         post.remove().then(result => {
-          res.send(true);
+          callback(true);
         });
-      } else res.send({ success: false, err });
+      } else callback({ success: false, err });
     });
+  },
+  deletePost: function(req, res) {
+    deletePostStandalone(req.params.postID, result => res.send(result));
   }
 };

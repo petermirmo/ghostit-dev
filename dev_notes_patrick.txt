@@ -100,6 +100,10 @@ to do next:
     when updating social account access tokens, maybe update all that are linked to calendars?
     when looking up calendar.accountIDs, if one is not found, should we remove its id from calendar.accountIDs?
   maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
+  have a chat "room" built into the calendar manager.
+    move the account cards below the user cards and have the chat below the name div.
+    
+
 
   laggy when logged in as another user and closing calendar manager??
 
