@@ -3,14 +3,46 @@ const fs = require("fs");
 const cloudinary = require("cloudinary");
 
 const Blog = require("../models/Blog");
+const Calendar = require("../models/Calendar");
 
 const generalFunctions = require("./generalFunctions");
 
-const deleteBlogStandalone = (blogID, callback) => {
+const deleteBlogStandalone = (req, callback) => {
   // function called when calendar gets deleted and blogs within the calendar must be deleted first
+  const { blogID, skipUserCheck } = req;
+  let userID = req.user._id;
+  if (req.user.signedInAsUser) {
+    if (req.user.signedInAsUser.id) {
+      userID = req.user.signedInAsUser.id;
+    }
+  }
+
   Blog.findOne({ _id: blogID }, async (err, blog) => {
     if (err || !blog) callback({ success: false, err });
     else {
+      if (!skipUserCheck) {
+        let invalidUser = false;
+        await Calendar.findOne(
+          { _id: blog.calendarID, userIDs: userID },
+          (err, foundCalendar) => {
+            if (err) {
+              invalidUser = true;
+              callback({
+                success: false,
+                err,
+                message: `Error while looking up calendar's user list.`
+              });
+            } else if (!foundCalendar) {
+              invalidUser = true;
+              callback({
+                success: false,
+                message: `User doesn't seem to be a valid member of the calendar. Reload page and try again.`
+              });
+            }
+          }
+        );
+        if (invalidUser) return;
+      }
       if (blog.wordDoc.publicID) {
         await cloudinary.uploader.destroy(
           blog.wordDoc.publicID,
@@ -135,6 +167,12 @@ module.exports = {
     });
   },
   deleteBlog(req, res) {
+    deleteBlogStandalone(
+      { blogID: req.params.blogID, user: req.user },
+      result => {
+        res.send(result);
+      }
+    );
     Blog.findOne({ _id: req.params.blogID }, async (err, blog) => {
       if (err) generalFunctions.handleError(res, err);
       else if (blog) {

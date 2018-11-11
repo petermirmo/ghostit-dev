@@ -5,7 +5,8 @@ const Recipe = require("../models/Recipe");
 const Post = require("../models/Post");
 const generalFunctions = require("./generalFunctions");
 
-const deleteCampaignStandalone = (campaignID, callback) => {
+const deleteCampaignStandalone = (req, callback) => {
+  const { campaignID } = req;
   Campaign.findOne({ _id: campaignID }, (err, foundCampaign) => {
     if (err || !foundCampaign) {
       callback({ success: false, err });
