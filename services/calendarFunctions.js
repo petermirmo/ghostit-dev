@@ -725,6 +725,94 @@ module.exports = {
       }
     }
     Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
+      // find all the user's calendars so that later on, if we delete the calendar
+      // and it turns out to be the user's last calendar, we can make them a new one.
+      if (err || !foundCalendars) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while looking up all calendars associated with this user. Reload page and try again.`
+        });
+      } else {
+        Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+          if (err || !foundCalendar) {
+            res.send({
+              success: false,
+              err,
+              message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
+            });
+          } else {
+            if (foundCalendar.adminID.toString() !== userID.toString()) {
+              res.send({
+                success: false,
+                message: `Only calendar admins are allowed to delete their calendar. If you are the admin, try reloading the page.`
+              });
+            } else if (foundCalendar.userIDs.length > 1) {
+              res.send({
+                success: false,
+                message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
+              });
+            } else {
+              // calendar is eligible to be deleted
+              // so now we must delete all the posts / campaigns / blogs / newsletters
+              Post.find({ calendarID }, (err, foundPosts) => {
+                if (err || !foundPosts) {
+                  res.send({
+                    success: false,
+                    message: `Error while fetching all calendar posts to be deleted.`
+                  });
+                } else {
+                  let deletedPostCount = 0;
+                  let failedPostCount = 0;
+                  let targetPostCount = foundPosts.length;
+                  if (targetPostCount === 0) {
+                    foundCalendar.remove();
+                    res.send({ success: true });
+                  }
+                  for (let i = 0; i < foundPosts.length; i++) {
+                    postFunctions.deletePostStandalone(
+                      foundPosts[i]._id,
+                      result => {
+                        if (result.success) {
+                          deletedPostCount++;
+                        } else {
+                          failedPostCount++;
+                        }
+                        if (
+                          deletedPostCount + failedPostCount ===
+                          targetPostCount
+                        ) {
+                          // last post deleted
+                          if (failedPostCount === 0) {
+                            foundCalendar.remove();
+                            res.send({ success: true });
+                          } else {
+                            res.send({
+                              success: false,
+                              message: `${targetPostCount} posts needed to be deleted. ${deletedPostCount} posts actually deleted so calendar not deleted.`
+                            });
+                          }
+                        }
+                      }
+                    );
+                  }
+                }
+              });
+            }
+          }
+        });
+      }
+    });
+  },
+  deleteCalendarOld: function(req, res) {
+    const { calendarID } = req.body;
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+    Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
       if (err || !foundCalendars) {
         res.send({
           success: false,
