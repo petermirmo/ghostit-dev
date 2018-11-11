@@ -50,21 +50,16 @@ class PostEdittingModal extends Component {
       axios
         .delete("/api/post/delete/" + this.props.clickedEvent._id)
         .then(res => {
-          let { loggedIn } = res.data;
+          this.setState({ saving: false });
+          let { loggedIn, success, err, message } = res.data;
           if (loggedIn === false) window.location.reload();
 
-          if (res.data.success) {
+          if (success) {
             this.props.savePostCallback();
+            this.props.notify("success", "Post Deleted", message);
             this.props.close();
           } else {
-            this.setState({
-              notification: {
-                on: true,
-                type: "danger",
-                title: "Something went wrong",
-                message: ""
-              }
-            });
+            this.props.notify("danger", "Post Delete Failed", message);
           }
         });
     } else {
@@ -150,14 +145,6 @@ class PostEdittingModal extends Component {
 
           {modalFooter}
         </div>
-        {this.state.notification.on && (
-          <Notification
-            type={this.state.notification.type}
-            title={this.state.notification.title}
-            message={this.state.notification.message}
-            callback={this.hideNotification}
-          />
-        )}
       </div>
     );
   }

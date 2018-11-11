@@ -566,6 +566,7 @@ class Content extends Component {
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
+            notify={this.notify}
             calendarID={calendars[activeCalendarIndex]._id}
           />
         )}

@@ -817,7 +817,11 @@ module.exports = {
                                   // stuff to delete in calendar
                                   for (let i = 0; i < foundPosts.length; i++) {
                                     postFunctions.deletePostStandalone(
-                                      foundPosts[i]._id,
+                                      {
+                                        postID: foundPosts[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
                                       result => {
                                         if (result.success) {
                                           deletedTotalCount++;
@@ -865,7 +869,11 @@ module.exports = {
                                     i++
                                   ) {
                                     campaignFunctions.deleteCampaignStandalone(
-                                      foundCampaigns[i]._id,
+                                      {
+                                        campaignID: foundCampaigns[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
                                       result => {
                                         if (result.success) {
                                           deletedTotalCount++;
@@ -909,7 +917,11 @@ module.exports = {
                                   }
                                   for (let i = 0; i < foundBlogs.length; i++) {
                                     blogFunctions.deleteBlogStandalone(
-                                      foundBlogs[i]._id,
+                                      {
+                                        blogID: foundBlogs[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
                                       result => {
                                         if (result.success) {
                                           deletedTotalCount++;
@@ -957,7 +969,11 @@ module.exports = {
                                     i++
                                   ) {
                                     newsletterFunctions.deleteNewsletterStandalone(
-                                      foundNewsletters[i]._id,
+                                      {
+                                        newsletterID: foundNewsletters[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
                                       result => {
                                         if (result.success) {
                                           deletedTotalCount++;

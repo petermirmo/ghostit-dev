@@ -5,11 +5,46 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 const Email = require("../models/Email");
 const Account = require("../models/Account");
+const Calendar = require("../models/Calendar");
 const cloudinary = require("cloudinary");
 
-const deletePostStandalone = (postID, callback) => {
+const deletePostStandalone = (req, callback) => {
+  // function called indirectly when deleting a post normally
+  // called directly (with skipUserCheck = true) when deleting an entire calendar
+  // we skip the user checks in that case bcz the user would have already been cleared to delete the calendar
+  const { postID, skipUserCheck } = req;
+  let userID = req.user._id;
+  if (req.user.signedInAsUser) {
+    if (req.user.signedInAsUser.id) {
+      userID = req.user.signedInAsUser.id;
+    }
+  }
   Post.findOne({ _id: postID }, async function(err, post) {
     if (post && !err) {
+      if (!skipUserCheck) {
+        // need to make sure the user has the right to delete this post
+        let invalidUser = false;
+        await Calendar.findOne(
+          { _id: post.calendarID, userIDs: userID },
+          (err, foundCalendar) => {
+            if (err) {
+              invalidUser = true;
+              callback({
+                success: false,
+                err,
+                message: `Error while looking up calendar's user list.`
+              });
+            } else if (!foundCalendar) {
+              invalidUser = true;
+              callback({
+                success: false,
+                message: `User is not a valid member of the calendar so cannot delete this post.`
+              });
+            }
+          }
+        );
+        if (invalidUser) return;
+      }
       if (post.images) {
         for (let i = 0; i < post.images.length; i++) {
           await cloudinary.uploader.destroy(post.images[i].publicID, function(
@@ -164,7 +199,10 @@ module.exports = {
     });
   },
   deletePost: function(req, res) {
-    deletePostStandalone(req.params.postID, result => res.send(result));
+    deletePostStandalone(
+      { postID: req.params.postID, user: req.user },
+      result => res.send(result)
+    );
   },
   deletePostStandalone
 };
