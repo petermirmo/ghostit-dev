@@ -107,7 +107,8 @@ to do next:
 
   laggy when logged in as another user and closing calendar manager??
 
-  this.props.notify should extend its time when a new notification overwrites the old
+  socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
+  
 
 
 

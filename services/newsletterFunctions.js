@@ -5,6 +5,26 @@ const generalFunctions = require("./generalFunctions");
 
 const cloudinary = require("cloudinary");
 
+const deleteNewsletterStandalone = (newsletterID, callback) => {
+  // function called when calendar gets deleted and blogs within the calendar must be deleted first
+  Newsletter.findOne({ _id: newsletterID }, async (err, foundNewsletter) => {
+    if (err || !foundNewsletter) callback({ success: false, err });
+    else {
+      if (foundNewsletter.wordDoc.publicID) {
+        await cloudinary.uploader.destroy(
+          foundNewsletter.wordDoc.publicID,
+          error => {
+            // handle error
+          },
+          { resource_type: "raw" }
+        );
+      }
+      foundNewsletter.remove();
+      callback({ success: true });
+    }
+  });
+};
+
 module.exports = {
   saveNewsletter: function(req, res) {
     let userID = req.user._id;
@@ -110,5 +130,6 @@ module.exports = {
           generalFunctions.handleError(res, "Hacker trying to delete posts");
       } else generalFunctions.handleError(res, "Newsletter not found");
     });
-  }
+  },
+  deleteNewsletterStandalone
 };

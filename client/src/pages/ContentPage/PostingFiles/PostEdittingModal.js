@@ -53,7 +53,7 @@ class PostEdittingModal extends Component {
           let { loggedIn } = res.data;
           if (loggedIn === false) window.location.reload();
 
-          if (res.data) {
+          if (res.data.success) {
             this.props.savePostCallback();
             this.props.close();
           } else {

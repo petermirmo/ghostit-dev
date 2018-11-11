@@ -20,7 +20,7 @@ const deletePostStandalone = (postID, callback) => {
         }
       }
       post.remove().then(result => {
-        callback(true);
+        callback({ success: true });
       });
     } else callback({ success: false, err });
   });

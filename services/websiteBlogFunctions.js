@@ -6,6 +6,31 @@ const Blog = require("../models/Blog");
 
 const generalFunctions = require("./generalFunctions");
 
+const deleteBlogStandalone = (blogID, callback) => {
+  // function called when calendar gets deleted and blogs within the calendar must be deleted first
+  Blog.findOne({ _id: blogID }, async (err, blog) => {
+    if (err || !blog) callback({ success: false, err });
+    else {
+      if (blog.wordDoc.publicID) {
+        await cloudinary.uploader.destroy(
+          blog.wordDoc.publicID,
+          error => {
+            // handle error
+          },
+          { resource_type: "raw" }
+        );
+      }
+      if (blog.image.publicID) {
+        await cloudinary.uploader.destroy(blog.image.publicID, function(error) {
+          // handle error
+        });
+      }
+      blog.remove();
+      callback({ success: true });
+    }
+  });
+};
+
 module.exports = {
   saveBlog: function(req, res) {
     let userID = req.user._id;
@@ -141,5 +166,6 @@ module.exports = {
           generalFunctions.handleError(res, "Hacker trying to delete posts");
       } else generalFunctions.handleError(res, "Blog not found");
     });
-  }
+  },
+  deleteBlogStandalone
 };

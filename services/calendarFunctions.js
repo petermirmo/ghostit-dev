@@ -8,6 +8,9 @@ const Campaign = require("../models/Campaign");
 
 const generalFunctions = require("./generalFunctions");
 const postFunctions = require("./postFunctions");
+const campaignFunctions = require("./campaignFunctions");
+const blogFunctions = require("./websiteBlogFunctions");
+const newsletterFunctions = require("./newsletterFunctions");
 
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
@@ -762,158 +765,241 @@ module.exports = {
                     message: `Error while fetching all calendar posts to be deleted.`
                   });
                 } else {
-                  let deletedPostCount = 0;
-                  let failedPostCount = 0;
-                  let targetPostCount = foundPosts.length;
-                  if (targetPostCount === 0) {
-                    foundCalendar.remove();
-                    res.send({ success: true });
-                  }
-                  for (let i = 0; i < foundPosts.length; i++) {
-                    postFunctions.deletePostStandalone(
-                      foundPosts[i]._id,
-                      result => {
-                        if (result.success) {
-                          deletedPostCount++;
-                        } else {
-                          failedPostCount++;
-                        }
-                        if (
-                          deletedPostCount + failedPostCount ===
-                          targetPostCount
-                        ) {
-                          // last post deleted
-                          if (failedPostCount === 0) {
-                            foundCalendar.remove();
-                            res.send({ success: true });
-                          } else {
-                            res.send({
-                              success: false,
-                              message: `${targetPostCount} posts needed to be deleted. ${deletedPostCount} posts actually deleted so calendar not deleted.`
-                            });
-                          }
-                        }
-                      }
-                    );
-                  }
-                }
-              });
-            }
-          }
-        });
-      }
-    });
-  },
-  deleteCalendarOld: function(req, res) {
-    const { calendarID } = req.body;
-    let userID = req.user._id;
-    if (req.user.signedInAsUser) {
-      if (req.user.signedInAsUser.id) {
-        userID = req.user.signedInAsUser.id;
-      }
-    }
-    Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
-      if (err || !foundCalendars) {
-        res.send({
-          success: false,
-          err,
-          message: `Error while looking up all calendars associated with this user. Reload page and try again.`
-        });
-      } else {
-        Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
-          if (err || !foundCalendar) {
-            res.send({
-              success: false,
-              err,
-              message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
-            });
-          } else {
-            if (foundCalendar.adminID.toString() !== userID.toString()) {
-              res.send({
-                success: false,
-                message: `Only calendar admins are allowed to delete their calendar. If you are the admin, try reloading the page.`
-              });
-            } else if (foundCalendar.userIDs.length > 1) {
-              res.send({
-                success: false,
-                message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
-              });
-            } else {
-              // calendar is eligible to be deleted and the user is the calendar admin
-              // now we must delete all posts with post.calendarID: calendarID
-              Post.find({ calendarID }, (err, foundPosts) => {
-                if (err || !foundPosts) {
-                  res.send({
-                    success: false,
-                    message: `Error while fetching all calendar posts to be deleted.`
-                  });
-                } else {
-                  for (let i = 0; i < foundPosts.length; i++) {
-                    const post = foundPosts[i];
-                    post.remove();
-                  }
                   Campaign.find({ calendarID }, (err, foundCampaigns) => {
                     if (err || !foundCampaigns) {
                       res.send({
                         success: false,
-                        message: `Error while fetching all calendar campaigns to be deleted. Posts already deleted.`
+                        message: `Error while fetching all calendar campaigns to be deleted.`
                       });
                     } else {
-                      for (let i = 0; i < foundCampaigns.length; i++) {
-                        const campaign = foundCampaigns[i];
-                        campaign.remove();
-                      }
                       Blog.find({ calendarID }, (err, foundBlogs) => {
                         if (err || !foundBlogs) {
                           res.send({
                             success: false,
-                            message: `Error while fetching all calendar blogs to be deleted. Posts and campaigns already deleted.`
+                            message: `Error while fetching all calendar blogs to be deleted.`
                           });
                         } else {
-                          for (let i = 0; i < foundBlogs.length; i++) {
-                            const blog = foundBlogs[i];
-                            blog.remove();
-                          }
                           Newsletter.find(
                             { calendarID },
                             (err, foundNewsletters) => {
                               if (err || !foundNewsletters) {
                                 res.send({
                                   success: false,
-                                  message: `Error while fetching all calendar newsletters to be deleted. Posts, campaigns, and blogs already deleted.`
+                                  message: `Error while fetching all calendar newsletters to be deleted.`
                                 });
                               } else {
-                                for (
-                                  let i = 0;
-                                  i < foundNewsletters.length;
-                                  i++
-                                ) {
-                                  const newsletter = foundNewsletters[i];
-                                  newsletter.remove();
+                                // foundPosts, foundCampaigns, foundBlogs, and foundNewsletters now all need to be deleted
+                                let deletedTotalCount = 0;
+                                let failedTotalCount = 0;
+                                let failedPostCount = 0;
+                                let failedCampaignCount = 0;
+                                let failedBlogCount = 0;
+                                let failedNewsletterCount = 0;
+                                let targetTotalCount =
+                                  foundPosts.length +
+                                  foundCampaigns.length +
+                                  foundBlogs.length +
+                                  foundNewsletters.length;
+                                if (targetTotalCount === 0) {
+                                  // nothing to delete in the calendar so just delete it
+                                  foundCalendar.remove();
+                                  if (foundCalendars.length === 1) {
+                                    const newCalendar = new Calendar();
+                                    newCalendar.calendarName = "First Calendar";
+                                    newCalendar.adminID = userID;
+                                    newCalendar.userIDs = [userID];
+                                    newCalendar.save();
+                                    res.send({ success: true, newCalendar });
+                                  } else {
+                                    res.send({ success: true });
+                                  }
+                                } else {
+                                  // stuff to delete in calendar
+                                  for (let i = 0; i < foundPosts.length; i++) {
+                                    postFunctions.deletePostStandalone(
+                                      foundPosts[i]._id,
+                                      result => {
+                                        if (result.success) {
+                                          deletedTotalCount++;
+                                        } else {
+                                          console.log(result);
+                                          failedTotalCount++;
+                                          failedPostCount++;
+                                        }
+                                        if (
+                                          deletedTotalCount +
+                                            failedTotalCount ===
+                                          targetTotalCount
+                                        ) {
+                                          // this is the last thing to delete, so res.send()
+                                          if (failedTotalCount === 0) {
+                                            foundCalendar.remove();
+                                            if (foundCalendars.length === 1) {
+                                              const newCalendar = new Calendar();
+                                              newCalendar.calendarName =
+                                                "First Calendar";
+                                              newCalendar.adminID = userID;
+                                              newCalendar.userIDs = [userID];
+                                              newCalendar.save();
+                                              res.send({
+                                                success: true,
+                                                newCalendar
+                                              });
+                                            } else {
+                                              res.send({ success: true });
+                                            }
+                                          } else {
+                                            // not everything was deleted so we cant delete the calendar
+                                            res.send({
+                                              success: false,
+                                              message: `Failed to delete ${failedPostCount} posts, ${failedCampaignCount} campaigns, ${failedBlogCount} blogs, and ${failedNewsletterCount} newsletters. Calendar not deleted.`
+                                            });
+                                          }
+                                        }
+                                      }
+                                    );
+                                  }
+                                  for (
+                                    let i = 0;
+                                    i < foundCampaigns.length;
+                                    i++
+                                  ) {
+                                    campaignFunctions.deleteCampaignStandalone(
+                                      foundCampaigns[i]._id,
+                                      result => {
+                                        if (result.success) {
+                                          deletedTotalCount++;
+                                        } else {
+                                          console.log(result);
+                                          failedTotalCount++;
+                                          failedCampaignCount++;
+                                        }
+                                        if (
+                                          deletedTotalCount +
+                                            failedTotalCount ===
+                                          targetTotalCount
+                                        ) {
+                                          // this is the last thing to delete, so res.send()
+                                          if (failedTotalCount === 0) {
+                                            foundCalendar.remove();
+                                            if (foundCalendars.length === 1) {
+                                              const newCalendar = new Calendar();
+                                              newCalendar.calendarName =
+                                                "First Calendar";
+                                              newCalendar.adminID = userID;
+                                              newCalendar.userIDs = [userID];
+                                              newCalendar.save();
+                                              res.send({
+                                                success: true,
+                                                newCalendar
+                                              });
+                                            } else {
+                                              res.send({ success: true });
+                                            }
+                                          } else {
+                                            // not everything was deleted so we cant delete the calendar
+                                            res.send({
+                                              success: false,
+                                              message: `Failed to delete ${failedPostCount} posts, ${failedCampaignCount} campaigns, ${failedBlogCount} blogs, and ${failedNewsletterCount} newsletters. Calendar not deleted.`
+                                            });
+                                          }
+                                        }
+                                      }
+                                    );
+                                  }
+                                  for (let i = 0; i < foundBlogs.length; i++) {
+                                    blogFunctions.deleteBlogStandalone(
+                                      foundBlogs[i]._id,
+                                      result => {
+                                        if (result.success) {
+                                          deletedTotalCount++;
+                                        } else {
+                                          console.log(result);
+                                          failedTotalCount++;
+                                          failedBlogCount++;
+                                        }
+                                        if (
+                                          deletedTotalCount +
+                                            failedTotalCount ===
+                                          targetTotalCount
+                                        ) {
+                                          // this is the last thing to delete, so res.send()
+                                          if (failedTotalCount === 0) {
+                                            foundCalendar.remove();
+                                            if (foundCalendars.length === 1) {
+                                              const newCalendar = new Calendar();
+                                              newCalendar.calendarName =
+                                                "First Calendar";
+                                              newCalendar.adminID = userID;
+                                              newCalendar.userIDs = [userID];
+                                              newCalendar.save();
+                                              res.send({
+                                                success: true,
+                                                newCalendar
+                                              });
+                                            } else {
+                                              res.send({ success: true });
+                                            }
+                                          } else {
+                                            // not everything was deleted so we cant delete the calendar
+                                            res.send({
+                                              success: false,
+                                              message: `Failed to delete ${failedPostCount} posts, ${failedCampaignCount} campaigns, ${failedBlogCount} blogs, and ${failedNewsletterCount} newsletters. Calendar not deleted.`
+                                            });
+                                          }
+                                        }
+                                      }
+                                    );
+                                  }
+                                  for (
+                                    let i = 0;
+                                    i < foundNewsletters.length;
+                                    i++
+                                  ) {
+                                    newsletterFunctions.deleteNewsletterStandalone(
+                                      foundNewsletters[i]._id,
+                                      result => {
+                                        if (result.success) {
+                                          deletedTotalCount++;
+                                        } else {
+                                          console.log(result);
+                                          failedTotalCount++;
+                                          failedNewsletterCount++;
+                                        }
+                                        if (
+                                          deletedTotalCount +
+                                            failedTotalCount ===
+                                          targetTotalCount
+                                        ) {
+                                          // this is the last thing to delete, so res.send()
+                                          if (failedTotalCount === 0) {
+                                            foundCalendar.remove();
+                                            if (foundCalendars.length === 1) {
+                                              const newCalendar = new Calendar();
+                                              newCalendar.calendarName =
+                                                "First Calendar";
+                                              newCalendar.adminID = userID;
+                                              newCalendar.userIDs = [userID];
+                                              newCalendar.save();
+                                              res.send({
+                                                success: true,
+                                                newCalendar
+                                              });
+                                            } else {
+                                              res.send({ success: true });
+                                            }
+                                          } else {
+                                            // not everything was deleted so we cant delete the calendar
+                                            res.send({
+                                              success: false,
+                                              message: `Failed to delete ${failedPostCount} posts, ${failedCampaignCount} campaigns, ${failedBlogCount} blogs, and ${failedNewsletterCount} newsletters. Calendar not deleted.`
+                                            });
+                                          }
+                                        }
+                                      }
+                                    );
+                                  }
                                 }
-                                foundCalendar.remove();
-                                let newCalendar = undefined;
-                                if (foundCalendars.length === 1) {
-                                  // deleting the user's only calendar so we need to replace it with a new one
-                                  newCalendar = new Calendar();
-                                  newCalendar.adminID = userID;
-                                  newCalendar.userIDs = [userID];
-                                  newCalendar.calendarName = "Calendar 1";
-                                  newCalendar.save();
-                                }
-                                res.send({
-                                  success: true,
-                                  newCalendar,
-                                  message: `Calendar deleted as well as ${
-                                    foundPosts.length
-                                  } posts, ${
-                                    foundCampaigns.length
-                                  } campaigns, ${
-                                    foundBlogs.length
-                                  } blogs, and ${
-                                    foundNewsletters.length
-                                  } newsletters.`
-                                });
                               }
                             }
                           );

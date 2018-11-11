@@ -5,6 +5,17 @@ const Recipe = require("../models/Recipe");
 const Post = require("../models/Post");
 const generalFunctions = require("./generalFunctions");
 
+const deleteCampaignStandalone = (campaignID, callback) => {
+  Campaign.findOne({ _id: campaignID }, (err, foundCampaign) => {
+    if (err || !foundCampaign) {
+      callback({ success: false, err });
+    } else {
+      foundCampaign.remove();
+      callback({ success: true });
+    }
+  });
+};
+
 module.exports = {
   getCampaigns: function(req, res) {
     // Get all posts for user
@@ -153,5 +164,6 @@ module.exports = {
         } else generalFunctions.handleError(res, "You have no power here.");
       } else generalFunctions.handleError(res, "Could not find recipe :/");
     });
-  }
+  },
+  deleteCampaignStandalone
 };
