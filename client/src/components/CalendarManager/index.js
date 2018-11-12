@@ -138,7 +138,7 @@ class CalendarManager extends Component {
     this.setState({ saving: true });
     axios
       .post("/api/calendar/invite", {
-        email: inviteEmail,
+        email: inviteEmail.toLowerCase(),
         calendarID: calendar._id
       })
       .then(res => {

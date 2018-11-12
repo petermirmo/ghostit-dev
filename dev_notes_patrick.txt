@@ -108,9 +108,10 @@ to do next:
   laggy when logged in as another user and closing calendar manager??
 
   socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
-  
 
+  trying to sign up for an account gives no feedback when not every box is filled in
 
+  make every email lower case in database
 
 
 

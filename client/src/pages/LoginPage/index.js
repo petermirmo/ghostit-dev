@@ -72,31 +72,33 @@ class Login extends Component {
     const { email, password } = this.state;
 
     if (email && password) {
-      axios.post("/api/login", { email, password }).then(res => {
-        const { success, user, message } = res.data;
+      axios
+        .post("/api/login", { email: email.toLowerCase(), password })
+        .then(res => {
+          const { success, user, message } = res.data;
 
-        if (success) {
-          // Get all connected accounts of the user
-          axios.get("/api/accounts").then(res => {
-            let { accounts } = res.data;
-            if (!accounts) accounts = [];
+          if (success) {
+            // Get all connected accounts of the user
+            axios.get("/api/accounts").then(res => {
+              let { accounts } = res.data;
+              if (!accounts) accounts = [];
 
-            if (user.role === "demo")
-              this.activateDemoUserLogin(user, accounts);
-            else {
-              this.props.setUser(user);
-              this.props.updateAccounts(accounts);
-              this.props.changePage("content");
-            }
-          });
-        } else {
-          this.notify({
-            message,
-            type: "danger",
-            title: "Something went wrong!"
-          });
-        }
-      });
+              if (user.role === "demo")
+                this.activateDemoUserLogin(user, accounts);
+              else {
+                this.props.setUser(user);
+                this.props.updateAccounts(accounts);
+                this.props.changePage("content");
+              }
+            });
+          } else {
+            this.notify({
+              message,
+              type: "danger",
+              title: "Something went wrong!"
+            });
+          }
+        });
     }
   };
   register = event => {
@@ -107,7 +109,7 @@ class Login extends Component {
       axios
         .post("/api/register", {
           fullName,
-          email,
+          email: email.toLowerCase(),
           website,
           timezone,
           password
@@ -152,18 +154,24 @@ class Login extends Component {
       });
       return;
     } else {
-      axios.post("/api/email/reset", { email }).then(res => {
-        let { success, errorMessage } = res.data;
-        if (success) {
-          this.notify({ message: " ", type: "success", title: "Email Sent!" });
-        } else {
-          this.notify({
-            message: errorMessage,
-            type: "danger",
-            title: "Error!"
-          });
-        }
-      });
+      axios
+        .post("/api/email/reset", { email: email.toLowerCase() })
+        .then(res => {
+          let { success, errorMessage } = res.data;
+          if (success) {
+            this.notify({
+              message: " ",
+              type: "success",
+              title: "Email Sent!"
+            });
+          } else {
+            this.notify({
+              message: errorMessage,
+              type: "danger",
+              title: "Error!"
+            });
+          }
+        });
     }
   };
   render() {
