@@ -11,7 +11,7 @@ const MongoStore = require("connect-mongo")(session); // Store sessions in mongo
 const User = require("./models/User");
 const secure = require("express-force-https"); // force https so http does not work
 
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -41,18 +41,18 @@ const TokenScheduler = require("./scheduler/TokenScheduler");
 const EmailScheduler = require("./scheduler/EmailScheduler");
 const schedule = require("node-schedule");
 
-if (process.env.NODE_ENV === "production") {
-  schedule.scheduleJob("* * * * *", function() {
-    PostScheduler.main();
-  });
+schedule.scheduleJob("* * * * *", () => {
+  PostScheduler.main();
+});
 
-  schedule.scheduleJob("0 0 * * 0", function() {
+if (process.env.NODE_ENV === "production") {
+  schedule.scheduleJob("0 0 * * 0", () => {
     console.log("starting");
     TokenScheduler.main();
   });
 }
 
-schedule.scheduleJob("* * * * *", function() {
+schedule.scheduleJob("* * * * *", () => {
   EmailScheduler.main();
 });
 

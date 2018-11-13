@@ -6,7 +6,7 @@ const moment = require("moment-timezone");
 const generalFunctions = require("./generalFunctions");
 
 module.exports = {
-  disconnectAccount: function(req, res) {
+  disconnectAccount: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -28,7 +28,7 @@ module.exports = {
       }
     });
   },
-  saveAccount: function(req, res) {
+  saveAccount: (req, res) => {
     var page = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {

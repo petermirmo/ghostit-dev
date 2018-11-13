@@ -1,7 +1,9 @@
+const functions = require("./functions");
 const Post = require("../models/Post");
 const Account = require("../models/Account");
 const cloudinary = require("cloudinary");
 const keys = require("../config/keys");
+
 const Linkedin = require("node-linkedin")(
   keys.linkedinConsumerKey,
   keys.linkedinConsumerSecret,
@@ -11,13 +13,13 @@ const request = require("request");
 const axios = require("axios");
 
 module.exports = {
-  postToProfile: function(post) {
+  postToProfile: post => {
     Account.findOne(
       {
         userID: post.userID,
         socialID: post.accountID
       },
-      async function(err, account) {
+      async (err, account) => {
         if (account) {
           var LI = Linkedin.init(account.accessToken);
           var linkedinPost = {};
@@ -40,30 +42,30 @@ module.exports = {
           }
           linkedinPost.visibility = { code: "anyone" };
 
-          LI.people.share(linkedinPost, function(nothing, results) {
+          LI.people.share(linkedinPost, (nothing, results) => {
             if (!results) {
               return;
             }
 
             if (!results.updateKey) {
-              savePostError(post._id, results);
+              functions.savePostError(post._id, results);
             } else {
-              savePostSuccessfully(post._id, results.updateKey);
+              functions.savePostSuccessfully(post._id, results.updateKey);
             }
           });
         } else {
-          savePostError(post._id, "Cannot find your account!");
+          functions.savePostError(post._id, "Cannot find your account!");
         }
       }
     );
   },
-  postToPage: function(post) {
+  postToPage: post => {
     Account.findOne(
       {
         userID: post.userID,
         socialID: post.accountID
       },
-      async function(err, account) {
+      async (err, account) => {
         if (account) {
           var LI = Linkedin.init(account.accessToken);
           var linkedinPost = {};
@@ -86,38 +88,21 @@ module.exports = {
 
           linkedinPost.visibility = { code: "anyone" };
 
-          LI.companies.share(account.socialID, linkedinPost, function(
-            error,
-            result
-          ) {
-            if (!result.updateKey) {
-              savePostError(post._id, result);
-            } else {
-              savePostSuccessfully(post._id, result.updateKey);
+          LI.companies.share(
+            account.socialID,
+            linkedinPost,
+            (error, result) => {
+              if (!result.updateKey) {
+                functions.savePostError(post._id, result);
+              } else {
+                functions.savePostSuccessfully(post._id, result.updateKey);
+              }
             }
-          });
+          );
         } else {
-          savePostError(post._id, "Account not found!");
+          functions.savePostError(post._id, "Account not found!");
         }
       }
     );
   }
 };
-function savePostError(postID, error) {
-  Post.findOne({ _id: postID }, function(err, post) {
-    post.status = "error";
-    post.errorMessage = JSON.stringify(error);
-    post.save().then(response => {
-      return;
-    });
-  });
-}
-function savePostSuccessfully(postID, linkedinPostID) {
-  Post.findOne({ _id: postID }, function(err, post) {
-    post.status = "posted";
-    post.socialMediaID = linkedinPostID;
-    post.save().then(response => {
-      return;
-    });
-  });
-}

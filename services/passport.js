@@ -79,9 +79,9 @@ module.exports = function(passport) {
         usernameField: "email",
         passReqToCallback: true
       },
-      function(req, email, password, done) {
+      (req, email, password, done) => {
         if (!req.user) {
-          User.findOne({ email: email }, function(err, existingUser) {
+          User.findOne({ email }, (err, existingUser) => {
             if (err) {
               return done(false, false, "An error occured :(");
             } else if (existingUser) {
@@ -106,8 +106,8 @@ module.exports = function(passport) {
               newUser.save().then(user => {
                 sendEmail(
                   user,
-                  "Your account is waiting for you. https://www.platform.ghostit.co",
-                  "Welcome to Ghostit!",
+                  "Ghostit sign up successful!",
+                  "Welcome to Ghostit! Your account is waiting for you. https://www.platform.ghostit.co",
                   () => {}
                 );
                 done(null, user, "Success!");

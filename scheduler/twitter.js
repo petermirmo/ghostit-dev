@@ -1,18 +1,20 @@
 const Post = require("../models/Post");
 const keys = require("../config/keys");
 const Account = require("../models/Account");
-var request = require("request").defaults({ encoding: null });
+const Notification = require("../models/Notification");
+const { savePostError, savePostSuccessfully } = require("./functions");
 
 var Twitter = require("twitter");
+var request = require("request").defaults({ encoding: null });
 
 module.exports = {
-  postToProfile: function(post) {
+  postToProfile: post => {
     Account.findOne(
       {
         userID: post.userID,
         socialID: post.accountID
       },
-      async function(err, account) {
+      async (err, account) => {
         // Initialize client
         var client = new Twitter({
           consumer_key: keys.twitterConsumerKey,
@@ -37,15 +39,11 @@ function uploadImage(mediaListID, i, client, post) {
   // and store the media_id in the mediaListID string
   if (post.images[i]) {
     // Download image from url
-    request.get(post.images[i].url, function(err, res, body) {
+    request.get(post.images[i].url, (err, res, body) => {
       // Upload image to Twitter
-      client.post("media/upload", { media: body }, function(
-        error,
-        media,
-        response
-      ) {
+      client.post("media/upload", { media: body }, (error, media, response) => {
         if (error || media.media_id === undefined) {
-          savePostError(post._id, error);
+          functions.savePostError(post._id, error);
         } else {
           mediaListID += "," + media.media_id_string;
           uploadImage(mediaListID, i + 1, client, post);
@@ -63,29 +61,11 @@ function uploadImage(mediaListID, i, client, post) {
   }
 }
 function postToTwitter(client, twitterPost, postID) {
-  client.post("statuses/update", twitterPost, function(error, tweet, response) {
+  client.post("statuses/update", twitterPost, (error, tweet, response) => {
     if (error || tweet.id === undefined) {
-      savePostError(postID, error);
+      functions.savePostError(postID, error);
     } else {
-      savePostSuccessfully(postID, tweet.id);
+      functions.savePostSuccessfully(postID, tweet.id);
     }
-  });
-}
-function savePostError(postID, error) {
-  Post.findOne({ _id: postID }, function(err, post) {
-    post.status = "error";
-    post.errorMessage = JSON.stringify(error);
-    post.save().then(response => {
-      return;
-    });
-  });
-}
-function savePostSuccessfully(postID, twitterPostID) {
-  Post.findOne({ _id: postID }, function(err, result) {
-    result.status = "posted";
-    result.socialMediaID = twitterPostID;
-    result.save().then(response => {
-      return;
-    });
   });
 }

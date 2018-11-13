@@ -128,7 +128,7 @@
 }
 
 .description-box {
-  max-width: 200px;
+  max-width: 300px;
   text-align: left;
 }
 .description-box .title {
@@ -158,4 +158,15 @@
   animation-duration: 1s;
 
   transition: 1.5s ease;
+}
+
+.test {
+}
+.test2 {
+}
+.client-testimony-container {
+}
+.client-testimony {
+}
+.client-testimony-client {
 }

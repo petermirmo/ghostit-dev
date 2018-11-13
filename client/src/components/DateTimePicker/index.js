@@ -284,7 +284,7 @@ class DatePicker extends Component {
           {inputValue}
         </div>
         {calendarDropdown && (
-          <div className="dropdown-calendar" style={style}>
+          <div className="dropdown-calendar common-shadow" style={style}>
             <div className="date-picker-calendar-month-container">
               <span
                 className="date-picker-calendar-month-switch-button left"
