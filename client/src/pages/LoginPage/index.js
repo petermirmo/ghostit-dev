@@ -27,6 +27,7 @@ class Login extends Component {
       website: "",
       timezone: timezone ? timezone : "America/Vancouver",
       password: "",
+      passwordConfirm: "",
       notification: {
         on: false,
         title: "Something went wrong!",
@@ -103,9 +104,20 @@ class Login extends Component {
   };
   register = event => {
     event.preventDefault();
-    const { fullName, email, website, timezone, password } = this.state;
+    const {
+      fullName,
+      email,
+      website,
+      timezone,
+      password,
+      passwordConfirm
+    } = this.state;
 
     if (fullName && email && website && timezone && password) {
+      if (password !== passwordConfirm) {
+        alert("Passwords do not match.");
+        return;
+      }
       axios
         .post("/api/register", {
           fullName,
@@ -126,6 +138,14 @@ class Login extends Component {
             });
           }
         });
+    } else {
+      if (!fullName || !email || !website || !password) {
+        alert("Please make sure each text field is filled in.");
+      } else if (!timezone) {
+        alert(
+          "Error with timezone. Reload page and try again. If error persists, please contact Ghostit."
+        );
+      }
     }
   };
   activateDemoUserLogin = (user, accounts) => {
@@ -181,7 +201,8 @@ class Login extends Component {
       email,
       website,
       password,
-      notification
+      notification,
+      passwordConfirm
     } = this.state;
 
     return (
@@ -279,6 +300,18 @@ class Login extends Component {
                   }
                   name="password"
                   placeholder="Password"
+                  type="password"
+                  required
+                />
+
+                <input
+                  className="login-input pa8 mb8 br4"
+                  value={passwordConfirm}
+                  onChange={event =>
+                    this.handleChange("passwordConfirm", event.target.value)
+                  }
+                  name="passwordConfirm"
+                  placeholder="Confirm Password"
                   type="password"
                   required
                 />

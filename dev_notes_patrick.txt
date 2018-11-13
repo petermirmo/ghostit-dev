@@ -94,14 +94,13 @@ to do next:
   manage calendars
       create calendar button maybe should just be a (+) icon beside the calendar picker in calendar manager
       when exiting calendar manager, change activeCalendarIndex of ContentPage to the same as CalendarManager
-      when inviting a user, convert the string to all lower case?
-      when deleting, might need to delete the images / files stored with the posts/blogs/newsletters and maybe disable the email notifications?
   social accounts tied to calendars
     when updating social account access tokens, maybe update all that are linked to calendars?
     when looking up calendar.accountIDs, if one is not found, should we remove its id from calendar.accountIDs?
   maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
   have a chat "room" built into the calendar manager.
     move the account cards below the user cards and have the chat below the name div.
+    timestamps on each message (timezone?)
 
 
 
@@ -109,9 +108,9 @@ to do next:
 
   socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
 
-  trying to sign up for an account gives no feedback when not every box is filled in
-
   make every email lower case in database
+
+  give users a name attribute as well
 
 
 
