@@ -4,6 +4,8 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 
+import io from "socket.io-client";
+
 import ContentModal from "./PostingFiles/ContentModal";
 import PostEdittingModal from "./PostingFiles/PostEdittingModal";
 import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
@@ -19,6 +21,8 @@ class Content extends Component {
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
     recipeEditing: false,
+
+    socket: undefined,
 
     calendars: [],
     calendarInvites: [],
@@ -108,11 +112,28 @@ class Content extends Component {
         }
       }
     });
+
+    this.initSocket();
   }
 
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  initSocket = () => {
+    let socket;
+
+    if (process.env.NODE_ENV === "development")
+      socket = io("http://localhost:5000");
+    else socket = io();
+
+    socket.on("response", obj => {
+      console.log(obj);
+    });
+    socket.emit("test", "val", "this is me");
+
+    this.setState({ socket });
+  };
 
   inviteResponse = (index, response) => {
     // function that gets called when the user clicks Accept or Reject on one of their calendar invites

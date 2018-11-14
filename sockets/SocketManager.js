@@ -6,6 +6,10 @@ const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
 
 module.exports = socket => {
+  let connections = [];
+  console.log(socket.id);
+  connections.push(socket);
+
   socket.on("new_campaign", campaign => {
     if (campaign) delete campaign._id;
     new Campaign(campaign).save((err, result) => {
