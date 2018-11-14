@@ -124,13 +124,8 @@ class Content extends Component {
     let socket;
 
     if (process.env.NODE_ENV === "development")
-      socket = io("http://localhost:5000");
+      socket = io("http://localhost:5000", "arg2");
     else socket = io();
-
-    socket.on("response", obj => {
-      console.log(obj);
-    });
-    socket.emit("test", "val", "this is me");
 
     this.setState({ socket });
   };
