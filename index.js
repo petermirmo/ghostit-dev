@@ -24,7 +24,7 @@ const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const SocketManager = require("./sockets/SocketManager");
-io.on("connection", SocketManager());
+io.on("connection", SocketManager(io));
 
 // Image uploads
 const cloudinary = require("cloudinary");

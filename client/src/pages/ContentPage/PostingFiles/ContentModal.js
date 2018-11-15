@@ -110,6 +110,7 @@ class ContentModal extends Component {
           callback={saveBlogCallback}
           calendarID={this.props.calendarID}
           setSaving={this.setSaving}
+          triggerSocketPeers={this.props.triggerSocketPeers}
         />
       );
     } else if (activeTab.name === "newsletter") {
@@ -120,6 +121,7 @@ class ContentModal extends Component {
             callback={saveNewsletterCallback}
             calendarID={this.props.calendarID}
             setSaving={this.setSaving}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
         </div>
       );
@@ -132,6 +134,7 @@ class ContentModal extends Component {
             socialType={activeTab.name}
             calendarID={this.props.calendarID}
             canEditPost={true}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
         </div>
       );
@@ -160,6 +163,7 @@ class ContentModal extends Component {
           }
           backupChanges={this.backupPostChanges}
           notify={this.props.notify}
+          triggerSocketPeers={this.props.triggerSocketPeers}
         />
       );
     }

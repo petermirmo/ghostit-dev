@@ -97,7 +97,6 @@ class Content extends Component {
           },
           () => {
             this.fillCalendar();
-            this.updateCalendarSocket();
           }
         );
       }
@@ -124,12 +123,20 @@ class Content extends Component {
     this._ismounted = false;
   }
 
-  updateCalendarSocket = () => {
-    const { calendars, activeCalendarIndex, socket } = this.state;
-    if (!calendars || activeCalendarIndex === undefined || !socket) {
-      return;
-    } else {
-      socket.emit("connect_to_calendar", calendars[activeCalendarIndex]._id);
+  handleSocketCalendarUpdate = calendarID => {
+    const { calendars, activeCalendarIndex } = this.state;
+    if (
+      calendars &&
+      activeCalendarIndex !== undefined &&
+      calendars[activeCalendarIndex]
+    ) {
+      if (
+        calendarID.toString() === calendars[activeCalendarIndex]._id.toString()
+      ) {
+        console.log("signal to update");
+      } else {
+        console.log("ignore signal");
+      }
     }
   };
 
@@ -140,7 +147,24 @@ class Content extends Component {
       socket = io("http://localhost:5000");
     else socket = io();
 
+    socket.on("broadcast", this.handleSocketBroadcast);
+
     this.setState({ socket });
+  };
+
+  handleSocketBroadcast = calendarID => {
+    const { calendars, activeCalendarIndex } = this.state;
+    if (!calendars || activeCalendarIndex === undefined) {
+      return;
+    } else {
+      if (
+        calendarID.toString() === calendars[activeCalendarIndex]._id.toString()
+      ) {
+        console.log("socket match");
+      } else {
+        console.log("socket ignore");
+      }
+    }
   };
 
   inviteResponse = (index, response) => {
@@ -451,8 +475,22 @@ class Content extends Component {
   updateActiveCalendar = index => {
     this.setState({ activeCalendarIndex: index }, () => {
       this.fillCalendar();
-      this.updateCalendarSocket();
     });
+  };
+
+  triggerSocketPeers = (type, arg2) => {
+    const { calendars, activeCalendarIndex, socket } = this.state;
+    if (
+      calendars &&
+      activeCalendarIndex !== undefined &&
+      calendars[activeCalendarIndex]
+    ) {
+      socket.emit("trigger_socket_peers", {
+        calendarID: calendars[activeCalendarIndex]._id,
+        type,
+        extra: arg2
+      });
+    }
   };
 
   render() {
@@ -578,6 +616,7 @@ class Content extends Component {
             calendarID={calendars[activeCalendarIndex]._id}
             close={this.closeModals}
             notify={this.notify}
+            triggerSocketPeers={this.triggerSocketPeers}
             savePostCallback={() => {
               this.getPosts();
               this.closeModals();
@@ -599,6 +638,7 @@ class Content extends Component {
             timezone={timezone}
             close={this.closeModals}
             notify={this.notify}
+            triggerSocketPeers={this.triggerSocketPeers}
             calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
@@ -607,6 +647,7 @@ class Content extends Component {
             updateCalendarBlogs={this.getBlogs}
             clickedEvent={clickedEvent}
             close={this.closeModals}
+            triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
         {this.state.newsletterEdittingModal && (
@@ -614,6 +655,7 @@ class Content extends Component {
             updateCalendarNewsletters={this.getNewsletters}
             clickedEvent={clickedEvent}
             close={this.closeModals}
+            triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
         {this.state.campaignModal && (
@@ -628,6 +670,7 @@ class Content extends Component {
             isRecipe={clickedEventIsRecipe}
             recipeEditing={recipeEditing}
             notify={this.notify}
+            triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
         {this.state.recipeModal && (
