@@ -103,7 +103,7 @@ to do next:
     timestamps on each message (timezone?)
 
   sockets:
-    when deleting the active calendar, the socket doesn't re-connect to the new active calendar
+    
 
   laggy when logged in as another user and closing calendar manager??
 

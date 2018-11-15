@@ -54,6 +54,10 @@ class BlogEdittingModal extends Component {
       axios.delete("/api/blog/delete/" + this.state.blog._id).then(res => {
         if (res.data) {
           this.props.updateCalendarBlogs();
+          this.props.triggerSocketPeers(
+            "calendar_blog_deleted",
+            this.state.blog._id
+          );
           this.props.close();
         } else {
           this.setState({
@@ -101,6 +105,7 @@ class BlogEdittingModal extends Component {
               this.props.close();
             }}
             setSaving={this.setSaving}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
           {this.state.confirmDelete && (
             <ConfirmAlert

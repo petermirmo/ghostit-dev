@@ -478,7 +478,7 @@ class Content extends Component {
     });
   };
 
-  triggerSocketPeers = (type, arg2) => {
+  triggerSocketPeers = (type, extra) => {
     const { calendars, activeCalendarIndex, socket } = this.state;
     if (
       calendars &&
@@ -488,7 +488,7 @@ class Content extends Component {
       socket.emit("trigger_socket_peers", {
         calendarID: calendars[activeCalendarIndex]._id,
         type,
-        extra: arg2
+        extra
       });
     }
   };

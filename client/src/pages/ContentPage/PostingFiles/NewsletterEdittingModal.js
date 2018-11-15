@@ -58,6 +58,10 @@ class NewsletterEdittingModal extends Component {
         .then(res => {
           if (res.data) {
             this.props.updateCalendarNewsletters();
+            this.props.triggerSocketPeers(
+              "calendar_newsletter_deleted",
+              this.state.newsletter._id
+            );
             this.props.close();
           } else {
             this.setState({
@@ -105,6 +109,7 @@ class NewsletterEdittingModal extends Component {
               this.props.close();
             }}
             setSaving={this.setSaving}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
           {this.state.confirmDelete && (
             <ConfirmAlert
@@ -118,7 +123,7 @@ class NewsletterEdittingModal extends Component {
           <div className="modal-footer">
             <div
               className="campaign-footer-option right"
-              title="Delete campaign."
+              title="Delete newsletter."
             >
               <FontAwesomeIcon
                 onClick={this.deleteNewsletterPopUp}
