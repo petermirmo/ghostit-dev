@@ -102,7 +102,8 @@ to do next:
     move the account cards below the user cards and have the chat below the name div.
     timestamps on each message (timezone?)
 
-
+  sockets:
+    when deleting the active calendar, the socket doesn't re-connect to the new active calendar
 
   laggy when logged in as another user and closing calendar manager??
 

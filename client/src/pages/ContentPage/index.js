@@ -65,6 +65,9 @@ class Content extends Component {
 
   componentDidMount() {
     this._ismounted = true;
+
+    this.initSocket();
+
     axios.get("/api/timezone").then(res => {
       let { timezone, loggedIn } = res.data;
       if (loggedIn === false) window.location.reload();
@@ -92,7 +95,10 @@ class Content extends Component {
             activeCalendarIndex,
             defaultCalendarID
           },
-          this.fillCalendar
+          () => {
+            this.fillCalendar();
+            this.updateCalendarSocket();
+          }
         );
       }
     });
@@ -112,19 +118,26 @@ class Content extends Component {
         }
       }
     });
-
-    this.initSocket();
   }
 
   componentWillUnmount() {
     this._ismounted = false;
   }
 
+  updateCalendarSocket = () => {
+    const { calendars, activeCalendarIndex, socket } = this.state;
+    if (!calendars || activeCalendarIndex === undefined || !socket) {
+      return;
+    } else {
+      socket.emit("connect_to_calendar", calendars[activeCalendarIndex]._id);
+    }
+  };
+
   initSocket = () => {
     let socket;
 
     if (process.env.NODE_ENV === "development")
-      socket = io("http://localhost:5000", "arg2");
+      socket = io("http://localhost:5000");
     else socket = io();
 
     this.setState({ socket });
@@ -436,7 +449,10 @@ class Content extends Component {
   };
 
   updateActiveCalendar = index => {
-    this.setState({ activeCalendarIndex: index }, this.fillCalendar);
+    this.setState({ activeCalendarIndex: index }, () => {
+      this.fillCalendar();
+      this.updateCalendarSocket();
+    });
   };
 
   render() {

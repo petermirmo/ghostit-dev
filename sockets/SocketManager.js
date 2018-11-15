@@ -6,16 +6,41 @@ const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
 
 module.exports = (socket, arg2) => {
-  let connections = [];
+  let connections = {};
+  connections["unassigned"] = [];
 
-  return (socket, arg2) => {
-    connections.push(socket.id);
-    console.log(`adding ${socket.id}`);
-    console.log(connections);
-    console.log(arg2);
+  return socket => {
+    connections["unassigned"].push(socket.id);
 
-    socket.on("test", obj => {
-      socket.emit("response", connections);
+    socket.on("connect_to_calendar", calendarID => {
+      console.log("connecting");
+      console.log(connections);
+
+      let br = false;
+      for (let index in connections) {
+        for (let i = 0; i < connections[index].length; i++) {
+          if (connections[index][i] === socket.id) {
+            if (index !== "unassigned" && connections[index].length === 1) {
+              delete connections[index];
+            } else {
+              connections[index].splice(i, 1);
+            }
+            br = true;
+            break;
+          }
+        }
+        if (br) break;
+      }
+
+      if (connections[calendarID]) {
+        connections[calendarID].push(socket.id);
+      } else {
+        connections[calendarID] = [socket.id];
+      }
+      connections["unassigned"] = connections["unassigned"].filter(
+        sockID => sockID != socket.id
+      );
+      console.log(connections);
     });
 
     socket.on("new_campaign", campaign => {
@@ -229,6 +254,20 @@ module.exports = (socket, arg2) => {
     socket.on("disconnect", () => {
       console.log("disconnecting");
       console.log(socket.id);
+      for (let index in connections) {
+        for (let i = 0; i < connections[index].length; i++) {
+          if (connections[index][i] === socket.id) {
+            if (index !== "unassigned" && connections[index].length === 1) {
+              delete connections[index];
+            } else {
+              connections[index].splice(i, 1);
+            }
+            console.log("success");
+            console.log(connections);
+            return;
+          }
+        }
+      }
     });
   };
 };
