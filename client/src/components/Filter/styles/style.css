@@ -7,35 +7,6 @@
   font-size: inherit;
   color: inherit;
 }
-.dropdown-title {
-  flex: 1;
-  font-size: inherit;
-  color: inherit;
-
-  white-space: nowrap;
-}
 .filter-container:hover .dropdown {
   display: flex;
-}
-.dropdown {
-  z-index: 1;
-  position: absolute;
-  top: 100%;
-  right: 0;
-
-  display: none;
-
-  flex-direction: column;
-
-  width: 100%;
-
-  background-color: var(--white-theme-color);
-  box-shadow: 0 0 10px 0 black;
-}
-.dropdown .item {
-  width: 100%;
-}
-
-.dropdown .item.active,
-.dropdown .item:hover {
 }

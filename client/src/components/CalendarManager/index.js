@@ -457,24 +457,18 @@ class CalendarManager extends Component {
       });
   };
 
-  presentActiveCalendar = () => {
+  presentActiveCalendar = (isDefaultCalendar, isAdmin, calendar) => {
     const {
       calendars,
       activeCalendarIndex,
-      defaultCalendarID,
       unsavedChange,
       inviteEmail
     } = this.state;
-    const calendar = calendars[activeCalendarIndex];
 
     let userID = this.props.user._id;
     if (this.props.user.signedInAsUser) {
       userID = this.props.user.signedInAsUser.id;
     }
-
-    const isDefaultCalendar =
-      calendar._id.toString() === defaultCalendarID.toString();
-    const isAdmin = calendar.adminID == userID;
 
     let userDivs = undefined;
     if (calendar.users) {
@@ -564,76 +558,75 @@ class CalendarManager extends Component {
 
     return (
       <div className="manage-calendar-container">
-        <div className="calendar-users-container pa16">
-          <div className="calendar-users-header">Users</div>
-          {userDivs}
-          <div className="invite-container">
-            <input
-              type="text"
-              className="invite-input"
-              placeholder="user@example.com"
-              onChange={event => {
-                this.handleChange("inviteEmail", event.target.value);
-              }}
-              value={inviteEmail}
-            />
+        <div className="calendar-info-container flex column pa16">
+          <div className="calendar-info-label mx8 mb4">Calendar Name</div>
+          <input
+            type="text"
+            className="regular-input mb4"
+            placeholder="Calendar Name"
+            onChange={event => {
+              this.setState({ unsavedChange: true });
+              this.handleCalendarChange(
+                "tempName",
+                event.target.value,
+                activeCalendarIndex
+              );
+            }}
+            value={calendar.tempName ? calendar.tempName : ""}
+          />
+          {unsavedChange && (
             <button
-              className="invite-submit"
+              className="round-button py8 px32 mb8"
               onClick={e => {
                 e.preventDefault();
-                this.inviteUser(activeCalendarIndex);
+                this.saveCalendarName(activeCalendarIndex, calendar.tempName);
               }}
             >
-              Invite
+              Save
             </button>
-          </div>
-        </div>
-        <div className="calendar-info-and-accounts-container pa16">
-          <div className="calendar-info-container pa16">
-            <div className="calendar-info-label mx8 mb4">Calendar Name</div>
-            <input
-              type="text"
-              className="calendar-info-input"
-              placeholder="Calendar Name"
-              onChange={event => {
-                this.setState({ unsavedChange: true });
-                this.handleCalendarChange(
-                  "tempName",
-                  event.target.value,
-                  activeCalendarIndex
-                );
+          )}
+          {!isDefaultCalendar && (
+            <button
+              className="round-button py8 px32"
+              onClick={e => {
+                e.preventDefault();
+                this.setDefaultCalendar(activeCalendarIndex);
               }}
-              value={calendar.tempName ? calendar.tempName : ""}
-            />
-            {unsavedChange && (
-              <button
-                className="save-button"
-                onClick={e => {
-                  e.preventDefault();
-                  this.saveCalendarName(activeCalendarIndex, calendar.tempName);
-                }}
-              >
-                Save
-              </button>
-            )}
-            {isDefaultCalendar && (
-              <div className="default-calendar-label">Default Calendar</div>
-            )}
-            {!isDefaultCalendar && (
-              <button
-                className="default-calendar-button"
-                onClick={e => {
-                  e.preventDefault();
-                  this.setDefaultCalendar(activeCalendarIndex);
-                }}
-              >
-                Set As Default Calendar
-              </button>
-            )}
+            >
+              Set As Default Calendar
+            </button>
+          )}
+        </div>
+        <div className="invite-container flex vc mt8">
+          <input
+            type="text"
+            className="regular-input mr4"
+            placeholder="user@example.com"
+            onChange={event => {
+              this.handleChange("inviteEmail", event.target.value);
+            }}
+            value={inviteEmail}
+          />
+          <button
+            className="round-button px32 py8 br4"
+            onClick={e => {
+              e.preventDefault();
+              this.inviteUser(activeCalendarIndex);
+            }}
+          >
+            Invite
+          </button>
+        </div>
+        <div className="flex hc">
+          <div className="calendar-users-container flex column pa16">
+            <div className="calendar-users-header mb4">Users</div>
+            {userDivs}
           </div>
-          <div className="calendar-accounts-container pa16">
-            <div className="calendar-accounts-header">Accounts</div>
-            {accountDivs}
+          <div className="calendar-info-and-accounts-container pa16">
+            <div className="calendar-accounts-container flex column pa16">
+              <div className="calendar-accounts-header">Accounts</div>
+              {accountDivs}
+            </div>
           </div>
         </div>
       </div>
@@ -652,7 +645,8 @@ class CalendarManager extends Component {
       unlinkAccountPrompt,
       promoteUserObj,
       removeUserObj,
-      unLinkAccountID
+      unLinkAccountID,
+      defaultCalendarID
     } = this.state;
 
     let userID = this.props.user._id;
@@ -660,6 +654,9 @@ class CalendarManager extends Component {
       userID = this.props.user.signedInAsUser.id;
     }
 
+    const calendar = calendars[activeCalendarIndex];
+    const isDefaultCalendar =
+      calendar._id.toString() === defaultCalendarID.toString();
     const isAdmin = calendars[activeCalendarIndex].adminID == userID;
 
     return (
@@ -676,7 +673,7 @@ class CalendarManager extends Component {
               onClick={() => this.props.close()}
             />
           </div>
-          <div className="trash-picker-container">
+          <div className="trash-picker-container flex vc">
             {isAdmin && (
               <div
                 title={
@@ -684,7 +681,7 @@ class CalendarManager extends Component {
                 }
               >
                 <FontAwesomeIcon
-                  className="close-special delete-calendar"
+                  className="close-special delete-calendar button pa4 mr8"
                   icon={faTrash}
                   size="1x"
                   onClick={this.deleteCalendarClicked}
@@ -692,9 +689,9 @@ class CalendarManager extends Component {
               </div>
             )}
             {!isAdmin && (
-              <div title={"Leave Calendar"}>
+              <div title="Leave Calendar">
                 <FontAwesomeIcon
-                  className="close-special delete-calendar"
+                  className="close-special delete-calendar button pa4 mr8"
                   icon={faSignOutAlt}
                   flip="horizontal"
                   size="1x"
@@ -710,7 +707,9 @@ class CalendarManager extends Component {
               updateActiveCalendar={this.updateActiveCalendar}
             />
           </div>
-          {this.presentActiveCalendar()}
+          {isDefaultCalendar && <p className="label">Default Calendar</p>}
+
+          {this.presentActiveCalendar(isDefaultCalendar, isAdmin, calendar)}
           {leaveCalendarPrompt && (
             <ConfirmAlert
               close={() => this.setState({ leaveCalendarPrompt: false })}

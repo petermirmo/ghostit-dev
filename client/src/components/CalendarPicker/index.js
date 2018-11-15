@@ -13,7 +13,11 @@ class CalendarPicker extends Component {
     for (let index = 0; index < calendars.length; index++) {
       calendarDivs.push(
         <div
-          className={index == activeCalendarIndex ? "item active" : "item"}
+          className={
+            index == activeCalendarIndex
+              ? "item-colored pa8 active"
+              : "item-colored pa8"
+          }
           key={`calendar-button-${index}`}
           onClick={() => updateActiveCalendar(index)}
           id={index}
@@ -26,7 +30,7 @@ class CalendarPicker extends Component {
     if (createNewCalendar) {
       calendarDivs.push(
         <div
-          className={"item"}
+          className="item-colored pa8"
           key={"create-new-calendar-button"}
           onClick={() => createNewCalendar(`Calendar ${calendars.length + 1}`)}
         >
@@ -37,7 +41,7 @@ class CalendarPicker extends Component {
     if (!calendarManager) {
       calendarDivs.push(
         <div
-          className={"item"}
+          className="item-colored pa8"
           key={"calendar-manager-button"}
           onClick={this.props.enableCalendarManager}
         >
@@ -47,14 +51,14 @@ class CalendarPicker extends Component {
     }
 
     return (
-      <div className="calendars-container">
+      <div className="calendars-container flex silly-font">
         <div className="dropdown-title pa8">
           {calendars && calendars.length >= 0
             ? activeCalendarIndex >= 0
               ? calendars[activeCalendarIndex].calendarName
               : "Change Calendars"
             : "Change Calendars"}
-          <FontAwesomeIcon icon={faAngleDown} style={{ marginLeft: "6px" }} />
+          <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
         <div className="dropdown">{calendarDivs}</div>
       </div>
