@@ -22,7 +22,7 @@ module.exports = {
               "Ghostit Notification",
               notification.title,
               returnObject => {
-                console.log(returnObject);
+                return returnObject;
               }
             );
           }

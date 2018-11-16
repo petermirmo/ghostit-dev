@@ -49,9 +49,9 @@ module.exports = {
             }
           } else if (post.socialType === "linkedin") {
             if (post.accountType === "profile") {
-              linkedin.postToProfile(post);
+              linkedin.postToLinkedInProfile(post);
             } else if (post.accountType === "page") {
-              linkedin.postToPage(post);
+              linkedin.postToLinkedInPage(post);
             } else {
               generalFunctions.handleError(
                 res,

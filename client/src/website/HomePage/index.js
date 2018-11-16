@@ -5,7 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage } from "../../redux/actions/";
+import { changePage, updateAccounts } from "../../redux/actions/";
 
 import Section1 from "./Section1";
 import Section2 from "./Section2";
@@ -24,6 +24,14 @@ class HomePage extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
+    this.props.updateAccounts([
+      {
+        socialType: "facebook",
+        accountType: "page",
+        username: "Facebook Page",
+        _id: "1234"
+      }
+    ]);
     setTimeout(() => {
       if (this._ismounted) this.setState({ displayGhostAndMessage: true });
     }, 8000);
@@ -77,7 +85,8 @@ class HomePage extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage
+      changePage,
+      updateAccounts
     },
     dispatch
   );

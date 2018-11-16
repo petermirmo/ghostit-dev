@@ -8,7 +8,7 @@ class Section5 extends Component {
         <h1 className="silly-font test2 pb32 mb32">
           Here's what our customers are saying
         </h1>
-        <div className="flex">
+        <div className="test5">
           <div className="team-member-image-container round">
             <img
               src="public/peter.jpg"

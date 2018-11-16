@@ -1,19 +1,14 @@
-const functions = require("./functions");
+const { savePostError, savePostSuccessfully } = require("./functions");
 const Post = require("../models/Post");
 const Account = require("../models/Account");
 const cloudinary = require("cloudinary");
 const keys = require("../config/keys");
 
-const Linkedin = require("node-linkedin")(
-  keys.linkedinConsumerKey,
-  keys.linkedinConsumerSecret,
-  keys.linkedinCallbackURL
-);
 const request = require("request");
 const axios = require("axios");
 
 module.exports = {
-  postToProfile: post => {
+  postToLinkedInProfile: post => {
     Account.findOne(
       {
         userID: post.userID,
@@ -21,45 +16,57 @@ module.exports = {
       },
       async (err, account) => {
         if (account) {
-          var LI = Linkedin.init(account.accessToken);
           var linkedinPost = {};
           var linkedinLink = {};
+
           if (post.content !== "") {
-            linkedinPost.comment = post.content;
+            linkedinPost.text = { text: post.content };
           }
-          if (post.link !== "") {
-            linkedinLink["submitted-url"] = post.link;
-            linkedinPost.content = linkedinLink;
-          }
-          if (post.linkImage !== "" && post.link !== "") {
-            linkedinLink["submitted-image-url"] = post.linkImage;
 
-            linkedinPost.content = linkedinLink;
+          if (post.linkImage !== "" || post.link !== "") {
+            linkedinPost.content = {
+              contentEntities: { entityLocation: linkedinLink }
+            };
             if (post.images[0]) {
-              linkedinLink["submitted-image-url"] = post.images[0].url;
-              linkedinPost.content = linkedinLink;
+              linkedinPost.content.thumbnails = [
+                {
+                  resolvedUrl: post.images[0].url
+                }
+              ];
             }
           }
-          linkedinPost.visibility = { code: "anyone" };
+          linkedinPost.owner = "urn:li:person:" + account.socialID;
 
-          LI.people.share(linkedinPost, (nothing, results) => {
-            if (!results) {
-              return;
-            }
-
-            if (!results.updateKey) {
-              functions.savePostError(post._id, results);
-            } else {
-              functions.savePostSuccessfully(post._id, results.updateKey);
-            }
-          });
+          axios
+            .post("https://api.linkedin.com/v2/shares", linkedinPost, {
+              headers: {
+                Authorization: "Bearer " + account.accessToken
+              }
+            })
+            .then(linkedinPostResult => {
+              if (linkedinPostResult.data.message)
+                savePostError(
+                  linkedinPostResult._id,
+                  linkedinPostResult.data.message
+                );
+              else savePostSuccessfully(post._id, linkedinPostResult.data.id);
+            })
+            .catch(linkedinPostError => {
+              let errorCatch = linkedinPostError;
+              if (linkedinPostError.response) {
+                errorCatch = linkedinPostError.response;
+                if (linkedinPostError.response.data)
+                  errorCatch = linkedinPostError.response.data;
+              }
+              savePostError(post._id, errorCatch);
+            });
         } else {
-          functions.savePostError(post._id, "Cannot find your account!");
+          savePostError(post._id, "Cannot find your account!");
         }
       }
     );
   },
-  postToPage: post => {
+  postToLinkedInPage: post => {
     Account.findOne(
       {
         userID: post.userID,
@@ -67,40 +74,58 @@ module.exports = {
       },
       async (err, account) => {
         if (account) {
-          var LI = Linkedin.init(account.accessToken);
-          var linkedinPost = {};
-          var linkedinLink = {};
-          if (post.content !== "") {
-            linkedinPost.comment = post.content;
-          }
-          if (post.link !== "") {
-            linkedinLink["submitted-url"] = post.link;
-            linkedinPost.content = linkedinLink;
-          }
-          if (post.linkImage !== "" && post.link !== "") {
-            linkedinLink["submitted-image-url"] = post.linkImage;
-            linkedinPost.content = linkedinLink;
-            if (post.images[0]) {
-              linkedinLink["submitted-image-url"] = post.images[0].url;
-              linkedinPost.content = linkedinLink;
-            }
-          }
+          let linkedinPost = {};
+          linkedinPost.author = "urn:li:organization:" + account.socialID;
+          linkedinPost.visibility = {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+          };
+          linkedinPost.lifecycleState = "PUBLISHED";
 
-          linkedinPost.visibility = { code: "anyone" };
-
-          LI.companies.share(
-            account.socialID,
-            linkedinPost,
-            (error, result) => {
-              if (!result.updateKey) {
-                functions.savePostError(post._id, result);
-              } else {
-                functions.savePostSuccessfully(post._id, result.updateKey);
+          if (post.linkImage !== "" || post.link !== "") {
+            linkedinPost.specificContent = {
+              "com.linkedin.ugc.ShareContent": {
+                primaryLandingPageUrl: post.link,
+                shareCommentary: post.content,
+                shareMediaCategory: "NONE"
               }
-            }
-          );
+            };
+          } else {
+            linkedinPost.specificContent = {
+              "com.linkedin.ugc.ShareContent": {
+                shareCommentary: {
+                  text: post.content
+                },
+                shareMediaCategory: "NONE"
+              }
+            };
+          }
+
+          axios
+            .post("https://api.linkedin.com/v2/ugcPosts", linkedinPost, {
+              headers: {
+                Authorization: "Bearer " + account.accessToken
+              }
+            })
+            .then(linkedinPostResult => {
+              console.log(linkedinPostResult);
+              if (linkedinPostResult.data.message)
+                savePostError(
+                  linkedinPostResult._id,
+                  linkedinPostResult.data.message
+                );
+              else savePostSuccessfully(post._id, linkedinPostResult.data.id);
+            })
+            .catch(linkedinPostError => {
+              let errorCatch = linkedinPostError;
+              if (linkedinPostError.response) {
+                errorCatch = linkedinPostError.response;
+                if (linkedinPostError.response.data)
+                  errorCatch = linkedinPostError.response.data;
+              }
+              savePostError(post._id, errorCatch);
+            });
         } else {
-          functions.savePostError(post._id, "Account not found!");
+          savePostError(post._id, "Cannot find your account!");
         }
       }
     );

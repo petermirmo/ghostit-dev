@@ -27,7 +27,7 @@ class Section3 extends Component {
         </div>
         <div className="third flex column vc hc">
           <div className="description-box flex column hc">
-            <h4 className="title silly-font pb8">Post Instructions.</h4>
+            <h4 className="title silly-font pb8">Post Instructions</h4>
             <p className="body">
               Add custom steps for your marketing campaign or follow existing
               ones with a pre-built template.

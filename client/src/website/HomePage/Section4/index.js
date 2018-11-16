@@ -39,7 +39,7 @@ class Section4 extends Component {
       <div className="section flex hc vc px32">
         <div className="third flex vc hc">
           <div className="description-box flex column hc">
-            <h4 className="title silly-font pb8">Social Scheduling.</h4>
+            <h4 className="title silly-font pb8">Social Scheduling</h4>
             <p className="body">
               Sync all your social sharing accounts and post directly from our
               platform.
