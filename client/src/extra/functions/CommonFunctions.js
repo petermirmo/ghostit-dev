@@ -102,10 +102,10 @@ export async function savePost(
           axios
             .post("/api/post/images", { postID: post._id, images: test })
             .then(res => {
-              callback(post);
+              callback(post._id);
             });
         } else {
-          callback(post);
+          callback(post._id);
         }
       } else {
         if (loggedIn === false) window.location.reload();
