@@ -5,41 +5,96 @@ const Newsletter = require("../models/Newsletter");
 const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
 
+searchAndRemoveSocketID = (connections, socketID) => {
+  for (let index in connections) {
+    for (let i = 0; i < connections[index].length; i++) {
+      if (connections[index][i] === socketID) {
+        connections[index].splice(i, 1);
+        if (connections[index].length === 0 && index !== "unassigned") {
+          delete connections[index];
+        }
+        return;
+      }
+    }
+  }
+};
+
 module.exports = io => {
   let connections = {};
   connections["unassigned"] = [];
+  /*
+    Example of what the connections object might look like in action:
+    {
+      unassigned: [],
+      '5bdccae8b4eb6714c40ccda2': [ 'MdioR1xA4NGrhkh-AAAC', '74r_L8aoH0f1ITAWAAAD' ],
+      '5bdccaf1b4eb6714c40ccda4': [ 'Z_VwyvljqXhQLPrYAAAE' ]
+    }
+    This means no socketIDs are unassigned, two socketIDs are connected to the first calendarID
+    and one socketID is connected to the second calendarID.
+    This object allows us to easily send updates to all users connected to a specific calendar.
+    (Say the user with socketID 'MdioR1xA4NGrhkh-AAAC' saves a new post.
+      We can see that socketID '74r_L8aoH0f1ITAWAAAD' is also connected to the same calendarID,
+      so we will send them a copy of that post so they can add it or update their existing version of that post)
+  */
 
   return socket => {
-    connections["unassigned"] = socket.id;
+    connections["unassigned"].push(socket.id);
 
-    socket.on("calendar_connect", calendarID => {
-      if (connections[calendarID.toString()]) {
-        connections[calendarID.toString()] = socket.id;
-      } else {
-        connections[calendarID.toString()] = [socket.id];
+    socket.on("calendar_connect", (calendarID, oldCalendarID) => {
+      /*
+        Potential security flaw here bcz we aren't checking the DB to make sure this user
+        is actually a valid member of the calendar. So it's possible that a user could spoof
+        their calendarID and then get access to any posts that are scheduled while they are
+        connected to the socket.
+        Not sure if it's worth the extra time to check the DB, and also I'm not sure how to
+        get the req.user object from the socket.
+      */
+      calendarID = calendarID.toString();
+      // shortcut to finding the socketIDs old place so we can remove it without having to search everywhere
+      if (oldCalendarID) {
+        oldCalendarID = oldCalendarID.toString();
+        if (connections[oldCalendarID]) {
+          const index = connections[oldCalendarID].findIndex(
+            sockID => sockID === socket.id
+          );
+          if (index !== -1) {
+            connections[oldCalendarID].splice(index, 1);
+            if (connections[oldCalendarID].length === 0) {
+              delete connections[oldCalendarID];
+            }
+            // put the socketID into the correct calendar bucket
+            if (connections[calendarID]) {
+              connections[calendarID].push(socket.id);
+            } else {
+              connections[calendarID] = [socket.id];
+            }
+            console.log(connections);
+            return;
+          }
+        }
       }
+      // haven't returned yet so there was no oldCalendarID or the socketID wasn't found in that bucket
+      // check the "unassigned" bucket first as that's the most likely place
       const index = connections["unassigned"].findIndex(
         sockID => sockID === socket.id
       );
       if (index !== -1) {
         connections["unassigned"].splice(index, 1);
+      } else {
+        // not in "unassigned" so now we have to linear search for it
+        searchAndRemoveSocketID(connections, socket.id);
       }
+      // put the socketID into the correct calendar bucket
+      if (connections[calendarID]) {
+        connections[calendarID].push(socket.id);
+      } else {
+        connections[calendarID] = [socket.id];
+      }
+      console.log(connections);
     });
 
-    socket.on("disconnect", calendarID => {
-      console.log("disconnect");
-      console.log(calendarID);
-      for (let index in connections) {
-        for (let i = 0; i < connections[index].length; i++) {
-          if (connections[index][i] === socket.id) {
-            connections[index].splice(i, 1);
-            if (connections[index].length === 0 && index !== "unassigned") {
-              delete connections[index];
-            }
-            return;
-          }
-        }
-      }
+    socket.on("disconnect", () => {
+      searchAndRemoveSocketID(connections, socket.id);
     });
 
     socket.on("trigger_socket_peers", reqObj => {

@@ -97,6 +97,7 @@ class Content extends Component {
           },
           () => {
             this.fillCalendar();
+            this.updateSocketCalendar();
           }
         );
       }
@@ -120,32 +121,8 @@ class Content extends Component {
   }
 
   componentWillUnmount() {
-    const { socket, calendars, activeCalendarIndex } = this.state;
     this._ismounted = false;
-    if (
-      calendars &&
-      activeCalendarIndex !== undefined &&
-      calendars[activeCalendarIndex]
-    )
-      socket.emit("disconnect", calendars[activeCalendarIndex]._id);
   }
-
-  handleSocketCalendarUpdate = calendarID => {
-    const { calendars, activeCalendarIndex } = this.state;
-    if (
-      calendars &&
-      activeCalendarIndex !== undefined &&
-      calendars[activeCalendarIndex]
-    ) {
-      if (
-        calendarID.toString() === calendars[activeCalendarIndex]._id.toString()
-      ) {
-        console.log("signal to update");
-      } else {
-        console.log("ignore signal");
-      }
-    }
-  };
 
   initSocket = () => {
     let socket;
@@ -159,25 +136,17 @@ class Content extends Component {
     this.setState({ socket });
   };
 
-  handleSocketBroadcast = reqObj => {
-    const { calendars, activeCalendarIndex } = this.state;
-    const { calendarID, type, extra } = reqObj;
-    if (!calendars || activeCalendarIndex === undefined) {
-      return;
-    } else {
-      if (
-        calendarID.toString() === calendars[activeCalendarIndex]._id.toString()
-      ) {
-        switch (type) {
-          case "calendar_post_saved":
-          case "calendar_post_deleted":
-            this.getPosts();
-            break;
-        }
-      } else {
-        console.log("socket ignore");
-      }
-    }
+  updateSocketCalendar = oldCalendarID => {
+    const { calendars, activeCalendarIndex, socket } = this.state;
+    if (!calendars || activeCalendarIndex === undefined || !socket) return;
+
+    if (oldCalendarID)
+      socket.emit(
+        "calendar_connect",
+        calendars[activeCalendarIndex]._id,
+        oldCalendarID
+      );
+    else socket.emit("calendar_connect", calendars[activeCalendarIndex]._id);
   };
 
   inviteResponse = (index, response) => {
@@ -486,8 +455,11 @@ class Content extends Component {
   };
 
   updateActiveCalendar = index => {
+    const { calendars, activeCalendarIndex } = this.state;
+    const oldCalendarID = calendars[activeCalendarIndex]._id;
     this.setState({ activeCalendarIndex: index }, () => {
       this.fillCalendar();
+      this.updateSocketCalendar(oldCalendarID);
     });
   };
 
