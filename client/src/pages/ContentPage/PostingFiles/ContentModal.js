@@ -147,8 +147,8 @@ class ContentModal extends Component {
                 ? new moment().add(5, "minutes")
                 : clickedCalendarDate
           }}
-          postFinishedSavingCallback={() => {
-            savePostCallback();
+          postFinishedSavingCallback={postID => {
+            savePostCallback(postID);
             close();
           }}
           calendarID={this.props.calendarID}
@@ -163,7 +163,6 @@ class ContentModal extends Component {
           }
           backupChanges={this.backupPostChanges}
           notify={this.props.notify}
-          triggerSocketPeers={this.props.triggerSocketPeers}
         />
       );
     }

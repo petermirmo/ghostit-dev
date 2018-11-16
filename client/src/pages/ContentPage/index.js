@@ -154,20 +154,26 @@ class Content extends Component {
       socket = io("http://localhost:5000");
     else socket = io();
 
-    socket.on("broadcast", this.handleSocketBroadcast);
+    socket.on("broadcast_to_peers", this.handleSocketBroadcast);
 
     this.setState({ socket });
   };
 
-  handleSocketBroadcast = calendarID => {
+  handleSocketBroadcast = reqObj => {
     const { calendars, activeCalendarIndex } = this.state;
+    const { calendarID, type, extra } = reqObj;
     if (!calendars || activeCalendarIndex === undefined) {
       return;
     } else {
       if (
         calendarID.toString() === calendars[activeCalendarIndex]._id.toString()
       ) {
-        console.log("socket match");
+        switch (type) {
+          case "calendar_post_saved":
+          case "calendar_post_deleted":
+            this.getPosts();
+            break;
+        }
       } else {
         console.log("socket ignore");
       }
@@ -624,8 +630,9 @@ class Content extends Component {
             close={this.closeModals}
             notify={this.notify}
             triggerSocketPeers={this.triggerSocketPeers}
-            savePostCallback={() => {
+            savePostCallback={postID => {
               this.getPosts();
+              this.triggerSocketPeers("calendar_post_saved", postID);
               this.closeModals();
             }}
             saveBlogCallback={() => {
