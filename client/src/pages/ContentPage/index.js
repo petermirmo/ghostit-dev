@@ -120,7 +120,14 @@ class Content extends Component {
   }
 
   componentWillUnmount() {
+    const { socket, calendars, activeCalendarIndex } = this.state;
     this._ismounted = false;
+    if (
+      calendars &&
+      activeCalendarIndex !== undefined &&
+      calendars[activeCalendarIndex]
+    )
+      socket.emit("disconnect", calendars[activeCalendarIndex]._id);
   }
 
   handleSocketCalendarUpdate = calendarID => {

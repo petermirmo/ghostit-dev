@@ -6,7 +6,42 @@ const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
 
 module.exports = io => {
+  let connections = {};
+  connections["unassigned"] = [];
+
   return socket => {
+    connections["unassigned"] = socket.id;
+
+    socket.on("calendar_connect", calendarID => {
+      if (connections[calendarID.toString()]) {
+        connections[calendarID.toString()] = socket.id;
+      } else {
+        connections[calendarID.toString()] = [socket.id];
+      }
+      const index = connections["unassigned"].findIndex(
+        sockID => sockID === socket.id
+      );
+      if (index !== -1) {
+        connections["unassigned"].splice(index, 1);
+      }
+    });
+
+    socket.on("disconnect", calendarID => {
+      console.log("disconnect");
+      console.log(calendarID);
+      for (let index in connections) {
+        for (let i = 0; i < connections[index].length; i++) {
+          if (connections[index][i] === socket.id) {
+            connections[index].splice(i, 1);
+            if (connections[index].length === 0 && index !== "unassigned") {
+              delete connections[index];
+            }
+            return;
+          }
+        }
+      }
+    });
+
     socket.on("trigger_socket_peers", reqObj => {
       io.emit("broadcast_to_peers", reqObj);
     });
