@@ -10,9 +10,11 @@ module.exports = {
   twitterConsumerSecret: process.env.TWITTER_CONSUMER_SECRET,
   twitterCallbackURL: process.env.TWITTER_CALLBACK_URL,
 
+
   linkedinConsumerKey: process.env.LI_CONSUMER_KEY,
   linkedinConsumerSecret: process.env.LI_CONSUMER_SECRET,
   linkedinCallbackURL: process.env.LI_CALLBACK_URL,
+  linkedinCallbackURLASCII: provess.env.LI_CALLBACK_URL_ASCII
   linkedinState: process.env.LI_STATE,
 
   cloudinaryName: process.env.CLOUDINARY_NAME,
