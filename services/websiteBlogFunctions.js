@@ -149,7 +149,7 @@ module.exports = {
         }
 
         newBlog.save().then(result => {
-          res.send({ success: true });
+          res.send({ success: true, blog: newBlog });
         });
       }
     });

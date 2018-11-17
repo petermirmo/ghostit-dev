@@ -57,10 +57,10 @@ class PostEdittingModal extends Component {
           if (success) {
             this.props.savePostCallback();
             this.props.notify("success", "Post Deleted", message);
-            this.props.triggerSocketPeers(
-              "calendar_post_deleted",
-              this.props.clickedEvent._id
-            );
+            this.props.triggerSocketPeers("calendar_post_deleted", {
+              postID: this.props.clickedEvent._id,
+              socialType: this.props.clickedEvent.socialType
+            });
             this.props.close();
           } else {
             this.props.notify("danger", "Post Delete Failed", message);
@@ -129,15 +129,14 @@ class PostEdittingModal extends Component {
             setSaving={this.setSaving}
             post={clickedEvent}
             canEditPost={canEditPost}
-            postFinishedSavingCallback={() => {
-              savePostCallback();
+            postFinishedSavingCallback={post => {
+              savePostCallback(post);
               close();
             }}
             accounts={accounts}
             timezone={timezone}
             maxCharacters={maxCharacters}
             calendarID={this.props.calendarID}
-            triggerSocketPeers={this.props.triggerSocketPeers}
           />
           {this.state.confirmDelete && (
             <ConfirmAlert

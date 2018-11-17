@@ -182,6 +182,42 @@ class Content extends Component {
       }
     });
 
+    socket.on("calendar_post_deleted", reqObj => {
+      const { postID, socialType } = reqObj;
+      if (!postID || !socialType) return;
+
+      let targetListName;
+      if (socialType === "facebook") targetListName = "facebookPosts";
+      else if (socialType === "twitter") targetListName = "twitterPosts";
+      else if (socialType === "linkedin") targetListName = "linkedinPosts";
+      else console.log(`unhandled post socialType: ${socialType}`);
+
+      const index = this.state[targetListName].findIndex(
+        post => post._id.toString() === postID.toString()
+      );
+      if (index === -1) return;
+      this.setState(prevState => {
+        return {
+          [targetListName]: [
+            ...prevState[targetListName].slice(0, index),
+            ...prevState[targetListName].slice(index + 1)
+          ]
+        };
+      });
+    });
+
+    socket.on("calendar_blog_saved", blog => {
+      const { calendars, activeCalendarIndex } = this.state;
+      if (!calendars || activeCalendarIndex === undefined) return;
+      const calendarID = calendars[activeCalendarIndex]._id;
+      if (blog.calendarID.toString() !== calendarID.toString()) return;
+      blog.startDate = blog.postingDate;
+      blog.endDate = blog.postingDate;
+      this.setState(prevState => {
+        return { websitePosts: [...prevState.websitePosts, blog] };
+      });
+    });
+
     this.setState({ socket });
   };
 
@@ -646,19 +682,24 @@ class Content extends Component {
               this.triggerSocketPeers("calendar_post_saved", post);
               this.closeModals();
             }}
-            saveBlogCallback={() => {
+            saveBlogCallback={blog => {
               this.getBlogs();
+              this.triggerSocketPeers("calendar_blog_saved", blog);
               this.closeModals();
             }}
             saveNewsletterCallback={() => {
               this.getNewsletters();
+              this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
               this.closeModals();
             }}
           />
         )}
         {this.state.postEdittingModal && (
           <PostEdittingModal
-            savePostCallback={() => this.getPosts()}
+            savePostCallback={post => {
+              this.getPosts();
+              this.triggerSocketPeers("calendar_post_saved", post);
+            }}
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
