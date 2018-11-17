@@ -55,7 +55,7 @@ class PostEdittingModal extends Component {
           if (loggedIn === false) window.location.reload();
 
           if (success) {
-            this.props.savePostCallback();
+            this.props.updateCalendarPosts();
             this.props.notify("success", "Post Deleted", message);
             this.props.triggerSocketPeers("calendar_post_deleted", {
               postID: this.props.clickedEvent._id,

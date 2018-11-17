@@ -207,15 +207,30 @@ class Content extends Component {
     });
 
     socket.on("calendar_blog_saved", blog => {
-      const { calendars, activeCalendarIndex } = this.state;
+      const { calendars, activeCalendarIndex, websitePosts } = this.state;
       if (!calendars || activeCalendarIndex === undefined) return;
       const calendarID = calendars[activeCalendarIndex]._id;
       if (blog.calendarID.toString() !== calendarID.toString()) return;
       blog.startDate = blog.postingDate;
       blog.endDate = blog.postingDate;
-      this.setState(prevState => {
-        return { websitePosts: [...prevState.websitePosts, blog] };
-      });
+      const index = websitePosts.findIndex(
+        blogObj => blogObj._id.toString() === blog._id.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            websitePosts: [
+              ...prevState.websitePosts.slice(0, index),
+              blog,
+              ...prevState.websitePosts.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return { websitePosts: [...prevState.websitePosts, blog] };
+        });
+      }
     });
 
     socket.on("calendar_blog_deleted", blogID => {
@@ -229,6 +244,53 @@ class Content extends Component {
             websitePosts: [
               ...websitePosts.slice(0, index),
               ...websitePosts.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("calendar_newsletter_saved", newsletter => {
+      const { calendars, activeCalendarIndex, newsletterPosts } = this.state;
+      if (!calendars || activeCalendarIndex === undefined) return;
+      const calendarID = calendars[activeCalendarIndex]._id;
+      if (newsletter.calendarID.toString() !== calendarID.toString()) return;
+      newsletter.startDate = newsletter.postingDate;
+      newsletter.endDate = newsletter.postingDate;
+      const index = newsletterPosts.findIndex(
+        newsletterObj =>
+          newsletterObj._id.toString() === newsletter._id.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            newsletterPosts: [
+              ...prevState.newsletterPosts.slice(0, index),
+              newsletter,
+              ...prevState.newsletterPosts.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return {
+            newsletterPosts: [...prevState.newsletterPosts, newsletter]
+          };
+        });
+      }
+    });
+
+    socket.on("calendar_newsletter_deleted", newsletterID => {
+      const { newsletterPosts } = this.state;
+      const index = newsletterPosts.findIndex(
+        newsletter => newsletter._id.toString() === newsletterID.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            newsletterPosts: [
+              ...newsletterPosts.slice(0, index),
+              ...newsletterPosts.slice(index + 1)
             ]
           };
         });
@@ -704,7 +766,7 @@ class Content extends Component {
               this.triggerSocketPeers("calendar_blog_saved", blog);
               this.closeModals();
             }}
-            saveNewsletterCallback={() => {
+            saveNewsletterCallback={newsletter => {
               this.getNewsletters();
               this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
               this.closeModals();
@@ -717,6 +779,7 @@ class Content extends Component {
               this.getPosts();
               this.triggerSocketPeers("calendar_post_saved", post);
             }}
+            updateCalendarPosts={this.getPosts}
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
@@ -727,6 +790,10 @@ class Content extends Component {
         )}
         {this.state.blogEdittingModal && (
           <BlogEdittingModal
+            saveBlogCallback={blog => {
+              this.getBlogs();
+              this.triggerSocketPeers("calendar_blog_saved", blog);
+            }}
             updateCalendarBlogs={this.getBlogs}
             clickedEvent={clickedEvent}
             close={this.closeModals}
@@ -735,6 +802,10 @@ class Content extends Component {
         )}
         {this.state.newsletterEdittingModal && (
           <NewsletterEdittingModal
+            saveNewsletterCallback={newsletter => {
+              this.getNewsletters();
+              this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
+            }}
             updateCalendarNewsletters={this.getNewsletters}
             clickedEvent={clickedEvent}
             close={this.closeModals}

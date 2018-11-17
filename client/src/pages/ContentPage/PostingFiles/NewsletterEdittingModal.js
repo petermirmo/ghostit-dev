@@ -104,12 +104,11 @@ class NewsletterEdittingModal extends Component {
           </div>
           <CreateNewsletter
             newsletter={this.props.clickedEvent}
-            callback={() => {
-              this.props.updateCalendarNewsletters();
+            callback={newsletter => {
+              this.props.saveNewsletterCallback(newsletter);
               this.props.close();
             }}
             setSaving={this.setSaving}
-            triggerSocketPeers={this.props.triggerSocketPeers}
           />
           {this.state.confirmDelete && (
             <ConfirmAlert

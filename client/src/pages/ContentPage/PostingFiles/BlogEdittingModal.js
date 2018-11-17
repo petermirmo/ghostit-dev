@@ -100,12 +100,11 @@ class BlogEdittingModal extends Component {
           </div>
           <CreateBlog
             blog={this.props.clickedEvent}
-            callback={() => {
-              this.props.updateCalendarBlogs();
+            callback={blogID => {
+              this.props.saveBlogCallback(blogID);
               this.props.close();
             }}
             setSaving={this.setSaving}
-            triggerSocketPeers={this.props.triggerSocketPeers}
           />
           {this.state.confirmDelete && (
             <ConfirmAlert

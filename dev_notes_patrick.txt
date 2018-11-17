@@ -104,27 +104,6 @@ to do next:
     chat should be able to be toggled to activity log which keeps a record of all post saves/deletes/updates/calendar rename/invite/user joins/kicks
 
   sockets:
-    scenario:
-      User A opens content page and loads Calendar 1
-      User B opens content page and loads Calendar 1
-      User A saves a new post
-      User B's browser renders the new post
-    deeper:
-      User A connects to socket and tells server that it is connected to Calendar 1
-      User B connects to socket and tells server that it is connected to Calendar 1
-      User A saves post and tells server
-      Server sees User B is also connected to Calendar 1 so server notifies User B
-    deeper:
-      server connections array = [unassigned: [UserA]] -> [unassigned: [], 'Calendar 1': [UserA]] ->
-        [unassigned: [UserB], 'Calendar 1': [UserA]] -> [unassigned: [], 'Calendar 1': [UserA, UserB]]
-      User A socket.emit("calendar_post_saved", post);
-      Server forwards the emit to User B
-      User B searches its posts to see if it needs to update or add.
-
-    scenario:
-      User A deletes a post
-      User B deletes the same post
-
     save / delete posts, blogs, newsletters, campaigns
 
 

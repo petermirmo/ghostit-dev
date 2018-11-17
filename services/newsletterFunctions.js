@@ -117,7 +117,7 @@ module.exports = {
         }
 
         newNewsletter.save().then(result => {
-          res.send({ success: true });
+          res.send({ success: true, newsletter: newNewsletter });
         });
       }
     });
