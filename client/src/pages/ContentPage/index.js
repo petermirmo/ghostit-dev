@@ -218,6 +218,23 @@ class Content extends Component {
       });
     });
 
+    socket.on("calendar_blog_deleted", blogID => {
+      const { websitePosts } = this.state;
+      const index = websitePosts.findIndex(
+        blog => blog._id.toString() === blogID.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            websitePosts: [
+              ...websitePosts.slice(0, index),
+              ...websitePosts.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
     this.setState({ socket });
   };
 
