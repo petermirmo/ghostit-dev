@@ -297,6 +297,53 @@ class Content extends Component {
       }
     });
 
+    socket.on("calendar_campaign_saved", campaign => {
+      console.log(campaign);
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+      if (
+        campaign.calendarID.toString() !==
+        calendars[activeCalendarIndex]._id.toString()
+      )
+        return;
+      const index = campaigns.findIndex(
+        camp => camp._id.toString() === campaign._id.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              campaign,
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return {
+            campaigns: [...prevState.campaigns, campaign]
+          };
+        });
+      }
+    });
+
+    socket.on("calendar_campaign_deleted", campaignID => {
+      const { campaigns } = this.state;
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
     this.setState({ socket });
   };
 

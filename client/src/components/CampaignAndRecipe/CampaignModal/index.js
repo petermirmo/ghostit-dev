@@ -66,7 +66,7 @@ class CampaignModal extends Component {
       socket.emit("campaign_editted", campaign);
       socket.on("campaign_saved", emitObject => {
         socket.off("campaign_saved");
-        if (!emitObject) {
+        if (!emitObject || !emitObject.campaign) {
           this.props.notify(
             "danger",
             "Save Failed",
@@ -76,18 +76,26 @@ class CampaignModal extends Component {
           !emitObject.campaign.posts ||
           emitObject.campaign.posts.length < 1
         ) {
+          if (campaign._id)
+            this.props.triggerSocketPeers(
+              "calendar_campaign_deleted",
+              campaign._id
+            );
           this.props.notify(
             "info",
             "Campaign Deleted",
             "Campaign had no scheduled posts and was deleted."
           );
         } else {
-          this.props.notify(
-            "success",
-            "Campaign Saved",
-            "Campaign was saved!",
-            3000
+          const shareCampaignWithPeers = {
+            ...emitObject.campaign,
+            posts: this.state.posts
+          };
+          this.props.triggerSocketPeers(
+            "calendar_campaign_saved",
+            shareCampaignWithPeers
           );
+          this.props.notify("success", "Campaign Saved", "", 3000);
         }
         socket.emit("close", campaign);
         this.props.updateCampaigns();
@@ -249,6 +257,7 @@ class CampaignModal extends Component {
 
     if (response) {
       socket.emit("delete", campaign);
+      this.props.triggerSocketPeers("calendar_campaign_deleted", campaign._id);
       this.props.close(false, "campaignModal");
       this.props.updateCampaigns();
     }
@@ -943,13 +952,20 @@ class CampaignModal extends Component {
                         socket.emit("campaign_editted", campaign);
                         socket.on("campaign_saved", emitObject => {
                           socket.off("campaign_saved");
-                          if (!emitObject) {
+                          if (!emitObject || !emitObject.campaign) {
                             this.props.notify(
                               "danger",
                               "Save Failed",
                               "Campaign save was unsuccesful."
                             );
                           } else {
+                            this.props.triggerSocketPeers(
+                              "calendar_campaign_saved",
+                              {
+                                ...emitObject.campaign,
+                                posts: this.state.posts
+                              }
+                            );
                             this.props.notify(
                               "success",
                               "Campaign Saved",

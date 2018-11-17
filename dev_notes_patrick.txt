@@ -104,8 +104,18 @@ to do next:
     chat should be able to be toggled to activity log which keeps a record of all post saves/deletes/updates/calendar rename/invite/user joins/kicks
 
   sockets:
-    save / delete posts, blogs, newsletters, campaigns
+    save / delete /update campaigns
+      when campaign saved, emit the campaign and all of its posts
 
+    would it be better to just emit the trigger type (and not the associated object)
+      and then have the server do a DB request for that object and then pass the object to all clients?
+      that way, the original user doesn't have to send objects (campaigns could get big?)
+
+    are images working?
+
+  socket updating campaigns doesnt work well when two users are editing the same campaign
+
+  date time picker calendar goes from monday->sunday instead of sunday->saturday
 
   laggy when logged in as another user and closing calendar manager??
 
@@ -117,8 +127,44 @@ to do next:
 
 
 
+Anytime a post/blog/newsletter is saved:
+  socket.emit("calendar_(post/blog/newsletter)_saved", post/blog/newsletter);
+  server forwards this to all other clients connected to that calendar
+  those clients accept the object and either add it to the proper list or update it if they already have a post with matching id
 
+For deletions, only the ID is passed (as well as the socialType if its a post so we don't have to check facebookPosts + twitterPosts + linkedinPosts)
+  since we just need to locate the id and then remove it.
 
+For campaign save:
+  socket.emit("calendar_campaign_saved", {...campaign, posts: this.state.posts });
+  so the campaign object as well as the entire post objects (not just their id's) are passed to the server
+  the server then forwards this object to all other clients connected to the calendar
+  those clients accept the object and either add it to their campaigns list or update it if they already have a campaign with matching id
+
+  this updates smoothly for clients who are just have the calendar open (or at least dont have that specific campaign open)
+  but if the user has the campaign open when the update comes through, we get desyncronized data that can make a big mess.
+  for example:
+    userA creates and saves campaign
+    userB receives the campaign in their calendar and they open it.
+    userA opens the campaign again.
+    (both userA and userB have the campaign open in state1)
+    userA creates and schedules a new post in the campaign so campaign is now in state2
+    userA saves the campaign
+    userB receives the update to state2 however they still have the campaign open in state1
+    userB creates and schedules a new post in the campaign so campaign is now in state2b
+    userA receives the update to campaign and it doesn't include the latest post that userA created
+
+  possible solutions:
+    only allow one user to have a specific campaign open at a time
+    come up with a scheme so that when a user saves any campaign changes, those changes update all the way into the campaign modal.
+      for example:
+        userA and userB have same campaign opened.
+        userA schedules new post.
+        userB immediately sees that post appear in their campaign modal.
+      maybe we can do sockets for campaigns the same as calendars
+      (when a user opens the campaign modal, they are connected to a socket room for that campaign
+       when they make any updates to the campaign, their socket emits the changes which are forwarded
+       to everyone in that socket room)
 
 
 
