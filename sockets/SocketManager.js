@@ -20,27 +20,16 @@ searchAndRemoveSocketID = (connections, socketID) => {
 };
 
 module.exports = io => {
-  let connections = {};
-  connections["unassigned"] = [];
   /*
-    Example of what the connections object might look like in action:
-    {
-      unassigned: [],
-      '5bdccae8b4eb6714c40ccda2': [ 'MdioR1xA4NGrhkh-AAAC', '74r_L8aoH0f1ITAWAAAD' ],
-      '5bdccaf1b4eb6714c40ccda4': [ 'Z_VwyvljqXhQLPrYAAAE' ]
-    }
-    This means no socketIDs are unassigned, two socketIDs are connected to the first calendarID
-    and one socketID is connected to the second calendarID.
-    This object allows us to easily send updates to all users connected to a specific calendar.
-    (Say the user with socketID 'MdioR1xA4NGrhkh-AAAC' saves a new post.
-      We can see that socketID '74r_L8aoH0f1ITAWAAAD' is also connected to the same calendarID,
-      so we will send them a copy of that post so they can add it or update their existing version of that post)
+    Sockets used by the ContentPage will be used as follows:
+      Each socket will be connected to ONE room.
+      That room's name/key will be the calendarID that the socket's client has active.
+      Whenever a user makes a change to their calendar, they will socket.emit
+        which will be forwarded to all other sockets within that room.
   */
 
   return socket => {
-    connections["unassigned"].push(socket.id);
-
-    socket.on("calendar_connect", (calendarID, oldCalendarID) => {
+    socket.on("calendar_connect", calendarID => {
       /*
         Potential security flaw here bcz we aren't checking the DB to make sure this user
         is actually a valid member of the calendar. So it's possible that a user could spoof
@@ -50,55 +39,18 @@ module.exports = io => {
         get the req.user object from the socket.
       */
       calendarID = calendarID.toString();
-      // shortcut to finding the socketIDs old place so we can remove it without having to search everywhere
-      if (oldCalendarID) {
-        oldCalendarID = oldCalendarID.toString();
-        if (connections[oldCalendarID]) {
-          const index = connections[oldCalendarID].findIndex(
-            sockID => sockID === socket.id
-          );
-          if (index !== -1) {
-            connections[oldCalendarID].splice(index, 1);
-            if (connections[oldCalendarID].length === 0) {
-              delete connections[oldCalendarID];
-            }
-            // put the socketID into the correct calendar bucket
-            if (connections[calendarID]) {
-              connections[calendarID].push(socket.id);
-            } else {
-              connections[calendarID] = [socket.id];
-            }
-            console.log(connections);
-            return;
-          }
-        }
-      }
-      // haven't returned yet so there was no oldCalendarID or the socketID wasn't found in that bucket
-      // check the "unassigned" bucket first as that's the most likely place
-      const index = connections["unassigned"].findIndex(
-        sockID => sockID === socket.id
-      );
-      if (index !== -1) {
-        connections["unassigned"].splice(index, 1);
-      } else {
-        // not in "unassigned" so now we have to linear search for it
-        searchAndRemoveSocketID(connections, socket.id);
-      }
-      // put the socketID into the correct calendar bucket
-      if (connections[calendarID]) {
-        connections[calendarID].push(socket.id);
-      } else {
-        connections[calendarID] = [socket.id];
-      }
-      console.log(connections);
+      socket.leaveAll();
+      socket.join(calendarID);
+      // console.log(io.sockets.adapter.rooms);
     });
 
-    socket.on("disconnect", () => {
-      searchAndRemoveSocketID(connections, socket.id);
-    });
+    socket.on("disconnect", () => {});
 
     socket.on("trigger_socket_peers", reqObj => {
-      io.emit("broadcast_to_peers", reqObj);
+      const { calendarID, type, extra } = reqObj;
+      if (calendarID && type) {
+        socket.to(calendarID).emit(type, extra);
+      }
     });
 
     socket.on("new_campaign", campaign => {

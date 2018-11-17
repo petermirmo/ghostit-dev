@@ -131,22 +131,64 @@ class Content extends Component {
       socket = io("http://localhost:5000");
     else socket = io();
 
-    socket.on("broadcast_to_peers", this.handleSocketBroadcast);
+    socket.on("calendar_post_saved", post => {
+      const { calendars, activeCalendarIndex } = this.state;
+
+      post.startDate = post.postingDate;
+      post.endDate = post.postingDate;
+
+      if (
+        calendars[activeCalendarIndex]._id.toString() !==
+        post.calendarID.toString()
+      ) {
+        return;
+      } else {
+        let targetListName;
+        if (post.socialType === "facebook") targetListName = "facebookPosts";
+        else if (post.socialType === "twitter") targetListName = "twitterPosts";
+        else if (post.socialType === "linkedin")
+          targetListName = "linkedinPosts";
+        else console.log(`unhandled post socialType: ${post.socialType}`);
+        if (targetListName) {
+          const index = this.state[targetListName].findIndex(
+            postObj => postObj._id.toString() === post._id.toString()
+          );
+          if (index === -1) {
+            console.log(targetListName);
+            // new post so just add it to the list
+            this.setState(
+              prevState => {
+                return {
+                  [targetListName]: [...prevState[targetListName], post]
+                };
+              },
+              () => {
+                console.log(this.state);
+              }
+            );
+          } else {
+            // post exists so we just need to update it
+            this.setState(prevState => {
+              return {
+                [targetListName]: [
+                  ...prevState[targetListName].slice(0, index),
+                  post,
+                  ...prevState[targetListName].slice(index + 1)
+                ]
+              };
+            });
+          }
+        }
+      }
+    });
 
     this.setState({ socket });
   };
 
-  updateSocketCalendar = oldCalendarID => {
+  updateSocketCalendar = () => {
     const { calendars, activeCalendarIndex, socket } = this.state;
     if (!calendars || activeCalendarIndex === undefined || !socket) return;
-
-    if (oldCalendarID)
-      socket.emit(
-        "calendar_connect",
-        calendars[activeCalendarIndex]._id,
-        oldCalendarID
-      );
-    else socket.emit("calendar_connect", calendars[activeCalendarIndex]._id);
+    socket.emit("calendar_connect", calendars[activeCalendarIndex]._id);
   };
 
   inviteResponse = (index, response) => {
@@ -455,11 +497,9 @@ class Content extends Component {
   };
 
   updateActiveCalendar = index => {
-    const { calendars, activeCalendarIndex } = this.state;
-    const oldCalendarID = calendars[activeCalendarIndex]._id;
     this.setState({ activeCalendarIndex: index }, () => {
       this.fillCalendar();
-      this.updateSocketCalendar(oldCalendarID);
+      this.updateSocketCalendar();
     });
   };
 
@@ -601,10 +641,9 @@ class Content extends Component {
             calendarID={calendars[activeCalendarIndex]._id}
             close={this.closeModals}
             notify={this.notify}
-            triggerSocketPeers={this.triggerSocketPeers}
-            savePostCallback={postID => {
+            savePostCallback={post => {
               this.getPosts();
-              this.triggerSocketPeers("calendar_post_saved", postID);
+              this.triggerSocketPeers("calendar_post_saved", post);
               this.closeModals();
             }}
             saveBlogCallback={() => {

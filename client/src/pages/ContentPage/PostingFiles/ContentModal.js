@@ -147,8 +147,8 @@ class ContentModal extends Component {
                 ? new moment().add(5, "minutes")
                 : clickedCalendarDate
           }}
-          postFinishedSavingCallback={postID => {
-            savePostCallback(postID);
+          postFinishedSavingCallback={post => {
+            savePostCallback(post);
             close();
           }}
           calendarID={this.props.calendarID}

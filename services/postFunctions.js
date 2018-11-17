@@ -146,7 +146,6 @@ module.exports = {
   },
   getPost: function(req, res) {
     Post.findOne({ _id: req.params.postID }, function(err, post) {
-      console.log("getPost");
       if (err) res.send({ success: false, err });
       else res.send({ success: true, post });
     });
