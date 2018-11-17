@@ -7,7 +7,7 @@ import ObjectEditTable from "../../components/ObjectEditTable/";
 import NavigationBar from "../../components/Navigations/NavigationBar/";
 import {
   nonEditableUserFields,
-  canShowUserFields
+  cantShowUserFields
 } from "../../extra/constants/Common";
 
 class UsersTable extends Component {
@@ -179,18 +179,18 @@ class UsersTable extends Component {
         }
       }
 
-      if (canShowUserFields.indexOf(index) === -1) {
+      if (cantShowUserFields.indexOf(index) === -1) {
         objectArry.push({
-          canEdit: canEdit,
+          canEdit,
           value:
             this.state.clickedUser[index] === Object(clickedUser[index])
               ? clickedUser[index].name
                 ? clickedUser[index].name
                 : clickedUser[index].id
               : clickedUser[index],
-          dropdown: dropdown,
-          dropdownList: dropdownList,
-          index: index
+          dropdown,
+          dropdownList,
+          index
         });
       }
     }
@@ -209,13 +209,12 @@ class UsersTable extends Component {
               indexSearch2="email"
             />
           </div>
-          <div>
+          <div className="flex1">
             <ObjectEditTable
               objectArray={objectArry}
               updateList={this.getUsers}
               saveObject={this.saveUser}
               clickedObject={clickedUser}
-              className="center"
               editting={editting}
               editObject={this.editObject}
             />

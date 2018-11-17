@@ -577,6 +577,9 @@
   color: var(--white-theme-color);
   background-color: var(--five-primary-color);
 }
+.flex1 {
+  flex: 1;
+}
 .flex {
   display: flex;
   flex-shrink: 0;
@@ -603,6 +606,9 @@
 }
 .flex.wrap {
   flex-wrap: wrap;
+}
+.flex .end {
+  justify-content: flex-end;
 }
 .tac {
   text-align: center;

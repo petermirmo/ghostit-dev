@@ -15,26 +15,25 @@ class ManagePage extends Component {
 
   render() {
     return (
-      <div>
-        <div className="switch">
-          {!this.state.userTable && (
-            <button
-              className="switch-button active-switch"
-              onClick={event => this.switchDivs(event)}
-            >
-              Edit Users
-            </button>
-          )}
-          {this.state.userTable && (
-            <button
-              className="switch-button active-switch"
-              onClick={event => this.switchDivs(event)}
-            >
-              Edit Plans
-            </button>
-          )}
+      <div className="flex column vc">
+        <div className="manage-navigation flex vc py8 px16 mb16 common-shadow">
+          <button
+            className="test3 px32 py8 mx8 moving-border"
+            onClick={event => this.switchDivs(event)}
+          >
+            Users
+          </button>
+
+          <button
+            className="test3 px32 py8 mx8 moving-border"
+            onClick={event => this.switchDivs(event)}
+          >
+            Plans
+          </button>
         </div>
-        {this.state.userTable ? <UsersTable /> : <PlansTable />}
+        <div className="test6">
+          {this.state.userTable ? <UsersTable /> : <PlansTable />}
+        </div>
       </div>
     );
   }
