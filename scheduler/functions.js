@@ -20,7 +20,12 @@ module.exports = {
         User.findOne({ _id: post.userID }, (err, user) => {
           if (user) {
             notification.message =
-              "User's ID: " + user._id + " user's name: " + user.fullName;
+              "User's ID: " +
+              user._id +
+              " user's name: " +
+              user.fullName +
+              " Post error: " +
+              post.errorMessage;
 
             /*
             sendEmail(
