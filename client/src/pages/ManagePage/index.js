@@ -8,10 +8,21 @@ class ManagePage extends Component {
   state = {
     userTable: true,
     categories: {
-      users: { value: "Users", active: false, onClick: },
+      users: { value: "Users", active: false, onClick: "test" },
       plans: { value: "Plans", active: false },
       createBlog: { value: "Create a Blog", active: true }
-    }
+    },
+    notifications: []
+  };
+  componentDidMount() {
+    axios.get("/api/notifications").then(res => {
+      this.setState({ notifications: res.data });
+    });
+  }
+  deleteNotification = id => {
+    axios.delete("/api/notification/" + id).then(res => {
+      console.log(res);
+    });
   };
 
   switchDivs = event => {
@@ -19,7 +30,7 @@ class ManagePage extends Component {
   };
 
   render() {
-    const { categories } = this.state;
+    const { categories, notifications } = this.state;
 
     let buttonDivs = [];
     for (let index in categories) {
@@ -46,8 +57,21 @@ class ManagePage extends Component {
           </button>
         </div>
         <div className="width100">
-          { <UsersTable /> }
-          {categories. <PlansTable />}
+          {<UsersTable />}
+          {categories.test && <PlansTable />}
+          {notifications.map((notification, index) => {
+            return (
+              <div className="flex" key={"notification" + index}>
+                <div>{notification.message}</div>
+                <button
+                  className="px32 py8 round-button"
+                  onClick={() => this.deleteNotification(notification._id)}
+                >
+                  Delete Notification
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
     );

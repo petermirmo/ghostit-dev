@@ -85,7 +85,7 @@ module.exports = {
             linkedinPost.specificContent = {
               "com.linkedin.ugc.ShareContent": {
                 primaryLandingPageUrl: post.link,
-                shareCommentary: post.content,
+                shareCommentary: { text: post.content },
                 shareMediaCategory: "NONE"
               }
             };
@@ -107,7 +107,6 @@ module.exports = {
               }
             })
             .then(linkedinPostResult => {
-              console.log(linkedinPostResult);
               if (linkedinPostResult.data.message)
                 savePostError(
                   linkedinPostResult._id,

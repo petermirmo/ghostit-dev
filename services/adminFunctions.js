@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
 const Plan = require("../models/Plan");
+const Notification = require("../models/Notification");
 const cloudinary = require("cloudinary");
 var nodemailer = require("nodemailer");
 const generalFunctions = require("./generalFunctions");
@@ -124,5 +125,22 @@ module.exports = {
         else res.send(plans);
       });
     }
+  },
+  getNotifications: (req, res) => {
+    Notification.find({ userID: req.user._id }, (err, notifications) => {
+      res.send(notifications);
+    });
+  },
+  deleteNotification: (req, res) => {
+    Notification.findOne(
+      { _id: req.params.notificationID },
+      (err, notification) => {
+        if (notification)
+          notification.remove((err, result) => {
+            if (err) res.send({ success: false });
+            else res.send({ success: true });
+          });
+      }
+    );
   }
 };

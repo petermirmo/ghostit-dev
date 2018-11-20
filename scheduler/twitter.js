@@ -1,7 +1,7 @@
 const Post = require("../models/Post");
 const keys = require("../config/keys");
 const Account = require("../models/Account");
-const Notification = require("../models/Notification");
+
 const { savePostError, savePostSuccessfully } = require("./functions");
 
 var Twitter = require("twitter");
