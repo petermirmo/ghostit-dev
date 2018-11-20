@@ -77,7 +77,14 @@ module.exports = {
                       res.send({ success: true, pages: companies });
                   })
                   .catch(linkedinCompanyError => {
-                    console.log(linkedinCompanyError);
+                    if (linkedinCompanyError.response) {
+                      if (linkedinCompanyError.response.data)
+                        console.log(linkedinCompanyError.response.data);
+                      else console.log(linkedinCompanyError.response);
+                    } else console.log(linkedinCompanyError);
+                    asyncCounter--;
+                    if (asyncCounter === 0)
+                      res.send({ success: true, pages: companies });
                   });
               }
             })
