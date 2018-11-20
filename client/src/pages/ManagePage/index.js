@@ -6,7 +6,12 @@ import "./styles/";
 
 class ManagePage extends Component {
   state = {
-    userTable: true
+    userTable: true,
+    categories: {
+      users: { value: "Users", active: false, onClick: },
+      plans: { value: "Plans", active: false },
+      createBlog: { value: "Create a Blog", active: true }
+    }
   };
 
   switchDivs = event => {
@@ -14,15 +19,24 @@ class ManagePage extends Component {
   };
 
   render() {
+    const { categories } = this.state;
+
+    let buttonDivs = [];
+    for (let index in categories) {
+      let category = categories[index];
+      let className = "px32 py8 mx8 moving-border";
+      if (category.active) className += " active";
+
+      buttonDivs.push(
+        <button className={className} onClick={event => this.switchDivs(event)}>
+          {category.value}
+        </button>
+      );
+    }
     return (
       <div className="flex column vc">
         <div className="manage-navigation flex vc py8 px16 mb16 common-shadow">
-          <button
-            className="test3 px32 py8 mx8 moving-border"
-            onClick={event => this.switchDivs(event)}
-          >
-            Users
-          </button>
+          {buttonDivs}
 
           <button
             className="test3 px32 py8 mx8 moving-border"
@@ -31,8 +45,9 @@ class ManagePage extends Component {
             Plans
           </button>
         </div>
-        <div className="test6">
-          {this.state.userTable ? <UsersTable /> : <PlansTable />}
+        <div className="width100">
+          { <UsersTable /> }
+          {categories. <PlansTable />}
         </div>
       </div>
     );
