@@ -340,6 +340,16 @@ module.exports = app => {
   );
   // Admin routes!!!!!
 
+  // Get all notifications
+  // Currently in dev
+  app.get("/api/notifications", middleware, (req, res) =>
+    adminFunctions.getNotifications(req, res)
+  );
+  // Delete notification
+  app.delete("/api/notification/:notificationID", middleware, (req, res) =>
+    adminFunctions.deleteNotification(req, res)
+  );
+
   // Get all users
   app.get("/api/users", middleware, (req, res) =>
     adminFunctions.getUsers(req, res)
