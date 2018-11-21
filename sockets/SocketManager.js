@@ -49,7 +49,24 @@ module.exports = io => {
     socket.on("trigger_socket_peers", reqObj => {
       const { calendarID, type, extra } = reqObj;
       if (calendarID && type) {
-        socket.to(calendarID).emit(type, extra);
+        socket.to(calendarID.toString()).emit(type, extra);
+      }
+    });
+
+    socket.on("campaign_connect", campaignID => {
+      /*
+        maintain "rooms" for campaignIDs so that if 2 or more users are working on the same
+        campaign at the same time, they will get real-time updates from each other's work
+      */
+      if (!campaignID) return;
+      socket.leaveAll();
+      socket.join(campaignID.toString());
+    });
+
+    socket.on("trigger_campaign_peers", reqObj => {
+      const { campaignID, type, extra } = reqObj;
+      if (campaignID && type) {
+        socket.to(campaignID.toString()).emit(type, extra);
       }
     });
 
@@ -92,6 +109,9 @@ module.exports = io => {
           foundCampaign.save((err, savedCampaign) => {
             if (savedCampaign)
               socket.emit("post_added", { campaignPosts: savedCampaign.posts });
+            socket
+              .to(foundCampaign._id.toString())
+              .emit("campaign_post_saved", post);
           });
         }
       });
@@ -190,6 +210,9 @@ module.exports = io => {
             );
           }
           foundCampaign.remove();
+          socket
+            .to(foundCampaign._id.toString())
+            .emit("campaign_deleted", foundCampaign._id);
         }
       });
     });
@@ -229,6 +252,9 @@ module.exports = io => {
                   if (foundPost) {
                     foundPost.remove();
                     removedPost = true;
+                    socket
+                      .to(foundPost.campaignID.toString())
+                      .emit("campaign_post_deleted", foundPost._id);
                     socket.emit("post-deleted", {
                       removedFromCampaign,
                       removedPost,

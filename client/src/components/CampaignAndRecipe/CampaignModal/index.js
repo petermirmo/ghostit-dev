@@ -184,6 +184,9 @@ class CampaignModal extends Component {
       confirmDelete: false,
       promptDeletePost: false,
       deleteIndex: undefined,
+      campaignDeletedPrompt: false, // when user is working on a campaign and another user deletes that campaign
+      postUpdatedPrompt: false, // when user's active post gets saved by another user, this prompt will let them know
+      postDeletedPrompt: false, // ^^ but on delete
       showDeletePostPrompt: true, // give user option "Don't ask me again" for post deletion
       promptChangeActivePost: false, // when user tries to change posts, if their current post hasn't been saved yet, ask them to save or discard
       promptDiscardPostChanges: false, // when user tries to exit modal while the current post has unsaved changes
@@ -211,11 +214,17 @@ class CampaignModal extends Component {
       socket = io("http://localhost:5000");
     else socket = io();
 
+    let socketConnected = false;
+
     if (!this.props.campaign || (isFromRecipe && !recipeEditing)) {
       socket.emit("new_campaign", campaign);
+      socketConnected = true;
 
       socket.on("new_campaign_saved", campaignID => {
+        socket.off("new_campaign_saved");
         campaign._id = campaignID;
+
+        socket.emit("campaign_connect", campaignID);
 
         this.props.notify(
           "info",
@@ -226,9 +235,146 @@ class CampaignModal extends Component {
 
         this.setState({ campaign, saving: false });
       });
+    } else if (this.props.campaign && this.props.campaign._id) {
+      socket.emit("campaign_connect", this.props.campaign._id);
+      socketConnected = true;
+      this.setState({ saving: false });
     } else this.setState({ saving: false });
 
+    if (socketConnected) {
+      socket.on("campaign_post_saved", post => {
+        // update post if it's not active
+        // if it is active, give user the option to load new changes or continue their edits.
+        if (!post) return;
+        const { posts, activePostIndex, listOfPostChanges } = this.state;
+        const index = posts.findIndex(
+          postObj => postObj._id.toString() === post._id.toString()
+        );
+        if (index === -1) {
+          this.setState(prevState => {
+            return { posts: [...prevState.posts, post] };
+          });
+        } else {
+          // post exists already so we need to update it
+          if (
+            index === activePostIndex &&
+            listOfPostChanges &&
+            Object.keys(listOfPostChanges).length > 0
+          ) {
+            // the post that was updated is also the post currently being edited by this user
+            // load the new post, but apply all the unsaved changes that this user has made
+            // the user can change posts to discard their changes and see the updated post
+            // or they can continue with their changes being applied to the updated post
+            this.setState({ postUpdatedPrompt: true });
+          }
+          this.setState(prevState => {
+            return {
+              posts: [
+                ...prevState.posts.slice(0, index),
+                post,
+                ...prevState.posts.slice(index + 1)
+              ]
+            };
+          });
+        }
+      });
+
+      socket.on("campaign_post_deleted", postID => {
+        // remove post if it's not the active post
+        // if it is the active post, notify user but give them the chance to save their edits
+        const { posts, activePostIndex, listOfPostChanges } = this.state;
+        if (
+          posts[activePostIndex]._id.toString() === postID.toString() &&
+          listOfPostChanges &&
+          Object.keys(listOfPostChanges).length > 0
+        ) {
+          // post that was deleted is also the post that the user is in the middle of modifying
+          this.setState(prevState => {
+            return {
+              postDeletedPrompt: true,
+              posts: [
+                ...prevState.posts.slice(0, activePostIndex),
+                { ...prevState.posts[activePostIndex], _id: undefined },
+                ...prevState.posts.slice(activePostIndex + 1)
+              ]
+            };
+          });
+        } else {
+          const index = posts.findIndex(
+            postObj => postObj._id.toString() === postID.toString()
+          );
+          if (index === -1) return;
+          this.setState(
+            prevState => {
+              return {
+                posts: [
+                  ...prevState.posts.slice(0, index),
+                  { ...prevState.posts[index], _id: undefined },
+                  ...prevState.posts.slice(index + 1)
+                ]
+              };
+            },
+            () => this.deletePost(index)
+          );
+        }
+      });
+
+      socket.on("campaign_deleted", campaignID => {
+        // give user the opportunity to re-save the campaign to save their work
+        const { campaign, posts } = this.state;
+        if (campaign._id.toString() !== campaignID.toString()) return;
+        let newPosts = [];
+        for (let i = 0; i < posts.length; i++) {
+          newPosts.push({ ...posts[i], _id: undefined, campaignID: undefined });
+        }
+        this.setState({
+          campaignDeletedPrompt: true,
+          posts: newPosts,
+          campaign: { ...campaign, _id: undefined }
+        });
+      });
+
+      socket.on("campaign_modified", campaign => {
+        // start/end dates, name, description, colour
+        if (campaign._id.toString() !== this.state.campaign._id.toString())
+          return;
+        this.setState({ campaign });
+      });
+    }
+
     this.setState({ socket });
+  };
+
+  triggerCampaignPeers = (type, extra) => {
+    const { socket, campaign } = this.state;
+    if (socket && type && campaign) {
+      socket.emit("trigger_campaign_peers", {
+        campaignID: campaign._id,
+        type,
+        extra
+      });
+    }
+  };
+
+  restoreCampaign = () => {
+    // save campaign to get new campaignID
+    // then apply that campaignID to each post
+    const { socket, campaign } = this.state;
+    socket.emit("new_campaign", { ...campaign, posts: [] });
+    socket.on("new_campaign_saved", campaignID => {
+      socket.off("new_campaign_saved");
+      const { posts } = this.state;
+      const newPosts = [];
+      for (let i = 0; i < posts.length; i++) {
+        newPosts.push({ ...posts[i], campaignID });
+      }
+      this.setState(prevState => {
+        return {
+          posts: newPosts,
+          campaign: { ...prevState.campaign, _id: campaignID }
+        };
+      });
+    });
   };
 
   closeChecks = () => {
@@ -278,7 +424,7 @@ class CampaignModal extends Component {
       // index is only defined if updatePost is being called because
       // the post's date is being changed to stay anchored to campaign.startDate.
       // in that case, we want listOfPostChanges to be unaffected, so only
-      // reset it if the we're saving because the user clicked Schedule Post.
+      // reset it if we're saving because the user clicked Schedule Post.
       // also, the posts don't need to be re-sorted if all posts are moving the same amount
       posts = [
         ...posts.slice(0, post_index),
@@ -510,18 +656,22 @@ class CampaignModal extends Component {
       if (startDateDiff === 0) {
         return;
       }
-      this.setState(prevState => {
-        return {
-          campaign: {
-            ...prevState.campaign,
-            startDate: date,
-            endDate: new moment(
-              prevState.campaign.endDate.add(startDateDiff, "milliseconds")
-            )
-          },
-          somethingChanged: true
-        };
-      });
+      this.setState(
+        prevState => {
+          return {
+            campaign: {
+              ...prevState.campaign,
+              startDate: date,
+              endDate: new moment(
+                prevState.campaign.endDate.add(startDateDiff, "milliseconds")
+              )
+            },
+            somethingChanged: true
+          };
+        },
+        () =>
+          this.triggerCampaignPeers("campaign_modified", this.state.campaign)
+      );
       for (let index = 0; index < posts.length; index++) {
         let post = posts[index];
         let new_date = new moment(post.postingDate).add(
@@ -556,6 +706,7 @@ class CampaignModal extends Component {
             },
             postFinishedSavingCallback: savedPost => {
               this.updatePost(savedPost, index);
+              this.triggerCampaignPeers("campaign_post_saved", savedPost);
               this.setState({ saving: false });
             }
           };
@@ -795,10 +946,19 @@ class CampaignModal extends Component {
 
   handleCampaignChange = (value, index) => {
     if (index) {
-      let { campaign } = this.state;
+      let { campaign, socket } = this.state;
       campaign[index] = value;
 
       this.setState({ campaign, somethingChanged: true });
+
+      socket.emit("campaign_editted", campaign);
+      socket.on("campaign_saved", emitObject => {
+        socket.off("campaign_saved");
+        if (!emitObject || !emitObject.campaign) {
+        } else {
+          this.triggerCampaignPeers("campaign_modified", campaign);
+        }
+      });
     }
   };
   bubbleSortPosts = (posts, activePostIndex) => {
@@ -831,7 +991,10 @@ class CampaignModal extends Component {
       showDeletePostPrompt,
       promptDeletePost,
       deleteIndex,
-      socket
+      socket,
+      postUpdatedPrompt,
+      postDeletedPrompt,
+      campaignDeletedPrompt
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -945,7 +1108,7 @@ class CampaignModal extends Component {
                     <div
                       className="round-button button pa8 ma8"
                       title={
-                        "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
+                        "Save campaign now.\nCampaigns are saved automatically when making any changes or navigating away from the campaign window."
                       }
                       onClick={() => {
                         //this.setState({ saving: true });
@@ -1019,6 +1182,50 @@ class CampaignModal extends Component {
               )}
             </div>
           </div>
+          {campaignDeletedPrompt && (
+            <ConfirmAlert
+              close={() => this.props.close()}
+              title="Campaign Deleted"
+              message="Another calendar user just deleted this campaign. To save the campaign, you'll need to click Restore and then save each post separately."
+              firstButton="Restore"
+              secondButton="Delete"
+              callback={response => {
+                if (response) {
+                  this.setState({ campaignDeletedPrompt: false });
+                  this.restoreCampaign();
+                } else {
+                  this.props.close();
+                }
+              }}
+            />
+          )}
+          {postDeletedPrompt && (
+            <ConfirmAlert
+              close={() => this.setState({ postDeletedPrompt: false })}
+              title="Current Post Deleted"
+              message="Another calendar user just deleted the post you are currently working on. If you keep working and save your changes, they will be saved as a new post."
+              firstButton="Keep Working"
+              secondButton="Delete Now"
+              callback={response => {
+                this.setState({ postDeletedPrompt: false });
+                if (!response) this.deletePost(activePostIndex);
+              }}
+              type="modify"
+            />
+          )}
+          {postUpdatedPrompt && (
+            <ConfirmAlert
+              close={() => this.setState({ postUpdatedPrompt: false })}
+              title="Current Post Updated"
+              message="Another calendar user has saved an updated version of this post. Would you like to discard your changes and load the new version?"
+              firstButton="Discard"
+              callback={response => {
+                this.setState({ postUpdatedPrompt: false });
+                if (response) this.setState({ listOfPostChanges: {} });
+              }}
+              helpTooltip="We recommend selecting Cancel, screenshotting or copying your changes somewhere else, then switch to a different post and back to this one. This allows you to view the new post changes without completely losing your changes."
+            />
+          )}
           {confirmDelete && (
             <ConfirmAlert
               close={() => this.setState({ confirmDelete: false })}

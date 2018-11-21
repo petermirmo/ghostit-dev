@@ -298,7 +298,6 @@ class Content extends Component {
     });
 
     socket.on("calendar_campaign_saved", campaign => {
-      console.log(campaign);
       const { campaigns, calendars, activeCalendarIndex } = this.state;
       if (
         campaign.calendarID.toString() !==
@@ -342,6 +341,130 @@ class Content extends Component {
           };
         });
       }
+    });
+
+    socket.on("campaign_post_saved", reqObj => {
+      const { calendarID, campaignID } = reqObj;
+      const post = reqObj.extra;
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+
+      if (calendarID.toString !== calendars[activeCalendarIndex]._id.toString())
+        return;
+
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+      const campaign = campaigns[index];
+      const postIndex = campaign.findIndex(
+        postObj => postObj._id.toString() === post._id.toString()
+      );
+
+      if (postIndex === -1) {
+        // post doesn't exist in the campaign yet so just need to add it
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              {
+                ...prevState.campaigns[index],
+                posts: [...prevState.campaigns[index].posts, post]
+              },
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        // post exists already so need to update it
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              {
+                ...prevState.campaigns[index],
+                posts: [
+                  ...prevState.campaigns[index].posts.slice(0, postIndex),
+                  post,
+                  ...prevState.campaigns[index].posts.slice(postIndex + 1)
+                ]
+              },
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("campaign_post_deleted", reqObj => {
+      console.log(reqObj);
+      const { calendarID, campaignID } = reqObj;
+      const postID = reqObj.extra;
+
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+
+      if (calendarID.toString !== calendars[activeCalendarIndex]._id.toString())
+        return;
+
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+      const campaign = campaigns[index];
+      const postIndex = campaign.findIndex(
+        postObj => postObj._id.toString() === postID.toString()
+      );
+
+      if (postIndex === -1) {
+        // post doesn't exist in the campaign yet so don't need to delete it
+        return;
+      } else {
+        // post exists so just need to remove it
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              {
+                ...prevState.campaigns[index],
+                posts: [
+                  ...prevState.campaigns[index].posts.slice(0, postIndex),
+                  ...prevState.campaigns[index].posts.slice(postIndex + 1)
+                ]
+              },
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("campaign_modified", reqObj => {
+      const { calendarID, campaignID } = reqObj;
+      const campaign = reqObj.extra;
+
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+
+      if (calendarID.toString !== calendars[activeCalendarIndex]._id.toString())
+        return;
+
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+      this.setState(prevState => {
+        return {
+          campaigns: [
+            ...prevState.campaigns.slice(0, index),
+            {
+              ...prevState.campaigns[index],
+              ...campaign
+            },
+            ...prevState.campaigns.slice(index + 1)
+          ]
+        };
+      });
     });
 
     this.setState({ socket });
