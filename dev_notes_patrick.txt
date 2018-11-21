@@ -104,16 +104,11 @@ to do next:
     chat should be able to be toggled to activity log which keeps a record of all post saves/deletes/updates/calendar rename/invite/user joins/kicks
 
   sockets:
-    save / delete /update campaigns
-      campaign updates should be sent to the ContentPage as well so the updates can be seen on the calendar
     work on the prompt that appears when your active post gets updated+saved by someone else
 
     have a label that shows how many users are currently connected to the campaign socket / calendar socket
       mousing over explains how the sockets keep each other updated
 
-    would it be better to just emit the trigger type (and not the associated object)
-      and then have the server do a DB request for that object and then pass the object to all clients?
-      that way, the original user doesn't have to send objects (campaigns could get big?)
 
     are images working?
 
@@ -127,11 +122,7 @@ to do next:
     (the list entries could show who, when, and which attributes were modified)
     (clicking on them could show a smaller popup display of the post's state after that modification?)
 
-  socket updating campaigns doesnt work well when two users are editing the same campaign
-
   date time picker calendar goes from monday->sunday instead of sunday->saturday
-
-  laggy when logged in as another user and closing calendar manager??
 
   socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
 
@@ -140,12 +131,6 @@ to do next:
   give users a name attribute as well
 
   posts should display who their creator was
-
-
-
-  sockets:
-    campaign client (i deleted this post) -> server (this post was deleted) -> other campaign clients + calendar clients
-
 
 
 
