@@ -8,7 +8,6 @@ const User = require("../models/User");
 const Email = require("../models/Email");
 const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
-const cloudinary = require("cloudinary");
 
 const deletePostStandalone = (req, callback) => {
   // function called indirectly when deleting a post normally

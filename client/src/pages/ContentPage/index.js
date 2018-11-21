@@ -16,6 +16,7 @@ import Campaign from "../../components/CampaignAndRecipe/Campaign";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/Notifications/Notification";
 import Loader from "../../components/Notifications/Loader/";
+import ConfirmAlert from "../..//components/Notifications/ConfirmAlert";
 
 class Content extends Component {
   state = {
@@ -62,6 +63,13 @@ class Content extends Component {
       title: undefined,
       message: undefined,
       timer: undefined
+    },
+    confirmAlert: {
+      show: false,
+      type: undefined,
+      title: undefined,
+      message: undefined,
+      callback: undefined
     },
     timezone: ""
   };
@@ -829,7 +837,8 @@ class Content extends Component {
       activeCalendarIndex,
       defaultCalendarID,
       calendarDate,
-      loading
+      loading,
+      confirmAlert
     } = this.state;
     const {
       All,
@@ -995,19 +1004,27 @@ class Content extends Component {
           />
         )}
         {this.state.campaignModal && (
-          <CampaignModal
-            close={this.closeModals}
-            handleChange={this.handleChange}
-            calendarID={calendars[activeCalendarIndex]._id}
-            timezone={timezone}
-            clickedCalendarDate={clickedDate}
-            updateCampaigns={this.getCampaigns}
-            campaign={clickedEvent}
-            isRecipe={clickedEventIsRecipe}
-            recipeEditing={recipeEditing}
-            notify={this.notify}
-            triggerSocketPeers={this.triggerSocketPeers}
-          />
+          <div className="modal">
+            <div
+              className="large-modal common-transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <Campaign
+                close={this.closeModals}
+                handleChange={this.handleChange}
+                calendarID={calendars[activeCalendarIndex]._id}
+                timezone={timezone}
+                clickedCalendarDate={clickedDate}
+                updateCampaigns={this.getCampaigns}
+                campaign={clickedEvent}
+                isRecipe={clickedEventIsRecipe}
+                recipeEditing={recipeEditing}
+                notify={this.notify}
+                confirmAlert={confirmAlert}
+                triggerSocketPeers={this.triggerSocketPeers}
+              />
+            </div>
+          </div>
         )}
         {this.state.recipeModal && (
           <RecipeModal
@@ -1028,6 +1045,19 @@ class Content extends Component {
                 }
               })
             }
+          />
+        )}
+        {confirmAlert.show && (
+          <ConfirmAlert
+            close={() => {
+              let { confirmAlert } = this.state;
+              confirmAlert.show = false;
+              this.setState({ confirmAlert });
+            }}
+            title={confirmAlert.title}
+            message={confirmAlert.message}
+            callback={confirmAlert.callback}
+            type={confirmAlert.type}
           />
         )}
       </div>

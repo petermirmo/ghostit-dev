@@ -327,8 +327,27 @@ class CampaignModal extends Component {
         for (let i = 0; i < posts.length; i++) {
           newPosts.push({ ...posts[i], _id: undefined, campaignID: undefined });
         }
+
+        let { confirmAlert } = this.props;
+        confirmAlert = {
+          show: true,
+          title: "Campaign Deleted",
+          message:
+            "Another calendar user just deleted this campaign. To save the campaign, you'll need to click Restore and then save each post separately.",
+          firstButton: "Restore",
+          secondButton: "Delete",
+          callback: response => {
+            if (response) {
+              this.setState({ campaignDeletedPrompt: false });
+              this.restoreCampaign();
+            } else {
+              this.props.close();
+            }
+          }
+        };
+        this.props.handleChange({ confirmAlert });
+
         this.setState({
-          campaignDeletedPrompt: true,
           posts: newPosts,
           campaign: { ...campaign, _id: undefined }
         });
@@ -383,6 +402,30 @@ class CampaignModal extends Component {
 
     if (Object.keys(listOfPostChanges).length > 0) {
       // unsaved post changes
+      let confirmAlert = {
+        close: () => {
+          let { confirmAlert } = this.props;
+          confirmAlert.show = false;
+          this.setState({ confirmAlert });
+        },
+        title: "Discard Unsaved Changes",
+        message:
+          "Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes.",
+        callback: response => {
+          if (!response) {
+            let { confirmAlert } = this.props;
+            confirmAlert.show = false;
+            this.setState({ confirmAlert });
+          } else {
+            let { confirmAlert } = this.props;
+            confirmAlert.show = false;
+            this.props.handleChange({ confirmAlert });
+
+            this.setState({ listOfPostChanges: {} }, this.attemptToCloseModal);
+          }
+        },
+        type: "change-post"
+      };
       this.setState({ promptDiscardPostChanges: true });
       return false;
     }
@@ -401,6 +444,7 @@ class CampaignModal extends Component {
 
   deleteCampaign = response => {
     let { socket, campaign } = this.state;
+    let { confirmAlert } = this.props;
 
     if (response) {
       socket.emit("delete", campaign);
@@ -409,7 +453,9 @@ class CampaignModal extends Component {
       this.props.close(false, "campaignModal");
       this.props.updateCampaigns();
     }
-    this.setState({ confirmDelete: false });
+
+    confirmAlert.show = false;
+    this.props.handleChange({ confirmAlert });
   };
 
   updatePost = (updatedPost, index) => {
@@ -1108,72 +1154,73 @@ class CampaignModal extends Component {
               </div>
             </div>
 
-              {!recipeEditing && (
-                <div className="campaign-specific-footer">
-                  <div className="campaign-footer-option right">
-                    <div
-                      className="round-button button pa8 ma8"
-                      title={
-                        "Save campaign now.\nCampaigns are saved automatically when making any changes or navigating away from the campaign window."
-                      }
-                      onClick={() => {
-                        //this.setState({ saving: true });
-                        socket.emit("campaign_editted", campaign);
-                        socket.on("campaign_saved", emitObject => {
-                          socket.off("campaign_saved");
-                          if (!emitObject || !emitObject.campaign) {
-                            this.props.notify(
-                              "danger",
-                              "Save Failed",
-                              "Campaign save was unsuccesful."
-                            );
-                          } else {
-                            this.props.triggerSocketPeers(
-                              "calendar_campaign_saved",
-                              {
-                                ...emitObject.campaign,
-                                posts: this.state.posts
-                              }
-                            );
-                            this.props.notify(
-                              "success",
-                              "Campaign Saved",
-                              "Campaign was saved!",
-                              3000
-                            );
-                          }
-                          this.setState({ saving: false });
-                        });
-                      }}
-                    >
-                      Save Campaign
-                    </div>
-                  </div>
-                  <div className="campaign-footer-option left">
-                    <div
-                      className="round-button button pa8 ma8"
-                      title="Save a template based on this campaign."
-                      onClick={this.createRecipe}
-                    >
-                      Save as Template
-                    </div>
+            {!recipeEditing && (
+              <div className="campaign-specific-footer">
+                <div className="campaign-footer-option right">
+                  <div
+                    className="round-button button pa8 ma8"
+                    title={
+                      "Save campaign now.\nCampaigns are saved automatically when making any changes or navigating away from the campaign window."
+                    }
+                    onClick={() => {
+                      //this.setState({ saving: true });
+                      socket.emit("campaign_editted", campaign);
+                      socket.on("campaign_saved", emitObject => {
+                        socket.off("campaign_saved");
+                        if (!emitObject || !emitObject.campaign) {
+                          this.props.notify(
+                            "danger",
+                            "Save Failed",
+                            "Campaign save was unsuccesful."
+                          );
+                        } else {
+                          this.props.triggerSocketPeers(
+                            "calendar_campaign_saved",
+                            {
+                              ...emitObject.campaign,
+                              posts: this.state.posts
+                            }
+                          );
+                          this.props.notify(
+                            "success",
+                            "Campaign Saved",
+                            "Campaign was saved!",
+                            3000
+                          );
+                        }
+                        this.setState({ saving: false });
+                      });
+                    }}
+                  >
+                    Save Campaign
                   </div>
                 </div>
-              )}
-              {!recipeEditing && (
-                <div
-                  className="campaign-footer-option right"
-                  title="Delete campaign."
-                >
-                  <FontAwesomeIcon
-                    onClick={() => this.handleChange(true, "confirmDelete")}
-                    className="delete"
-                    icon={faTrash}
-                    size="2x"
-                  />
+                <div className="campaign-footer-option left">
+                  <div
+                    className="round-button button pa8 ma8"
+                    title="Save a template based on this campaign."
+                    onClick={this.createRecipe}
+                  >
+                    Save as Template
+                  </div>
                 </div>
-              )}
-              {recipeEditing && (
+              </div>
+            )}
+            {!recipeEditing && (
+              <div
+                className="campaign-footer-option right"
+                title="Delete campaign."
+              >
+                <FontAwesomeIcon
+                  onClick={() => this.handleChange(true, "confirmDelete")}
+                  className="delete"
+                  icon={faTrash}
+                  size="2x"
+                />
+              </div>
+            )}
+            {recipeEditing && (
+              <div>
                 <div className="campaign-footer-option">
                   <div
                     className="round-button button pa8 ma8"
@@ -1217,19 +1264,7 @@ class CampaignModal extends Component {
                 </div>
               </div>
             )}
-            {!recipeEditing && (
-              <div
-                className="campaign-footer-option right"
-                title="Delete campaign."
-              >
-                <FontAwesomeIcon
-                  onClick={() => this.handleChange(true, "confirmDelete")}
-                  className="delete"
-                  icon={faTrash}
-                  size="2x"
-                />
-              </div>
-            )}
+
             {recipeEditing && (
               <div className="campaign-footer-option">
                 <div
@@ -1244,23 +1279,7 @@ class CampaignModal extends Component {
               </div>
             )}
           </div>
-          {campaignDeletedPrompt && (
-            <ConfirmAlert
-              close={() => this.props.close()}
-              title="Campaign Deleted"
-              message="Another calendar user just deleted this campaign. To save the campaign, you'll need to click Restore and then save each post separately."
-              firstButton="Restore"
-              secondButton="Delete"
-              callback={response => {
-                if (response) {
-                  this.setState({ campaignDeletedPrompt: false });
-                  this.restoreCampaign();
-                } else {
-                  this.props.close();
-                }
-              }}
-            />
-          )}
+
           {postDeletedPrompt && (
             <ConfirmAlert
               close={() => this.setState({ postDeletedPrompt: false })}
@@ -1375,24 +1394,7 @@ class CampaignModal extends Component {
             type="change-post"
           />
         )}
-        {promptDiscardPostChanges && (
-          <ConfirmAlert
-            close={() => this.setState({ promptDiscardPostChanges: false })}
-            title="Discard Unsaved Changes"
-            message="Your current post has unsaved changes. Cancel and schedule the post if you'd like to save those changes."
-            callback={response => {
-              if (!response) {
-                this.setState({ promptDiscardPostChanges: false });
-                return;
-              }
-              this.setState(
-                { listOfPostChanges: {}, promptDiscardPostChanges: false },
-                this.attemptToCloseModal
-              );
-            }}
-            type="change-post"
-          />
-        )}
+
         {saving && <Loader />}
       </div>
     );
