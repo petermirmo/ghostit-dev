@@ -154,18 +154,12 @@ class Content extends Component {
             postObj => postObj._id.toString() === post._id.toString()
           );
           if (index === -1) {
-            console.log(targetListName);
             // new post so just add it to the list
-            this.setState(
-              prevState => {
-                return {
-                  [targetListName]: [...prevState[targetListName], post]
-                };
-              },
-              () => {
-                console.log(this.state);
-              }
-            );
+            this.setState(prevState => {
+              return {
+                [targetListName]: [...prevState[targetListName], post]
+              };
+            });
           } else {
             // post exists so we just need to update it
             this.setState(prevState => {
@@ -348,7 +342,9 @@ class Content extends Component {
       const post = reqObj.extra;
       const { campaigns, calendars, activeCalendarIndex } = this.state;
 
-      if (calendarID.toString !== calendars[activeCalendarIndex]._id.toString())
+      if (
+        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
+      )
         return;
 
       const index = campaigns.findIndex(
@@ -357,7 +353,7 @@ class Content extends Component {
       if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
 
       const campaign = campaigns[index];
-      const postIndex = campaign.findIndex(
+      const postIndex = campaign.posts.findIndex(
         postObj => postObj._id.toString() === post._id.toString()
       );
 
@@ -397,13 +393,14 @@ class Content extends Component {
     });
 
     socket.on("campaign_post_deleted", reqObj => {
-      console.log(reqObj);
       const { calendarID, campaignID } = reqObj;
       const postID = reqObj.extra;
 
       const { campaigns, calendars, activeCalendarIndex } = this.state;
 
-      if (calendarID.toString !== calendars[activeCalendarIndex]._id.toString())
+      if (
+        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
+      )
         return;
 
       const index = campaigns.findIndex(
@@ -412,7 +409,7 @@ class Content extends Component {
       if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
 
       const campaign = campaigns[index];
-      const postIndex = campaign.findIndex(
+      const postIndex = campaign.posts.findIndex(
         postObj => postObj._id.toString() === postID.toString()
       );
 
@@ -445,7 +442,9 @@ class Content extends Component {
 
       const { campaigns, calendars, activeCalendarIndex } = this.state;
 
-      if (calendarID.toString !== calendars[activeCalendarIndex]._id.toString())
+      if (
+        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
+      )
         return;
 
       const index = campaigns.findIndex(
@@ -459,7 +458,8 @@ class Content extends Component {
             ...prevState.campaigns.slice(0, index),
             {
               ...prevState.campaigns[index],
-              ...campaign
+              ...campaign,
+              posts: prevState.campaigns[index].posts
             },
             ...prevState.campaigns.slice(index + 1)
           ]
@@ -788,7 +788,7 @@ class Content extends Component {
     });
   };
 
-  triggerSocketPeers = (type, extra) => {
+  triggerSocketPeers = (type, extra, campaignID) => {
     const { calendars, activeCalendarIndex, socket } = this.state;
     if (
       calendars &&
@@ -797,6 +797,7 @@ class Content extends Component {
     ) {
       socket.emit("trigger_socket_peers", {
         calendarID: calendars[activeCalendarIndex]._id,
+        campaignID,
         type,
         extra
       });

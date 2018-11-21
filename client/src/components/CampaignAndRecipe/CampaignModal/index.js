@@ -353,6 +353,7 @@ class CampaignModal extends Component {
         type,
         extra
       });
+      this.props.triggerSocketPeers(type, extra, campaign._id);
     }
   };
 
@@ -403,6 +404,7 @@ class CampaignModal extends Component {
 
     if (response) {
       socket.emit("delete", campaign);
+      this.triggerCampaignPeers("campaign_deleted", campaign._id);
       this.props.triggerSocketPeers("calendar_campaign_deleted", campaign._id);
       this.props.close(false, "campaignModal");
       this.props.updateCampaigns();
@@ -535,6 +537,10 @@ class CampaignModal extends Component {
               "post removed from db and in campaign in db but no newCampaign object???"
             );
           } else {
+            this.triggerCampaignPeers(
+              "campaign_post_deleted",
+              posts[index]._id
+            );
             this.setState(prevState => {
               return {
                 posts: [
@@ -804,8 +810,10 @@ class CampaignModal extends Component {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
             socket.on("post_added", emitObject => {
+              socket.off("post_added");
               campaign.posts = emitObject.campaignPosts;
               this.setState({ campaign, saving: false });
+              this.triggercampaignPeers("campaign_post_saved", savedPost);
             });
           }}
           setSaving={() => {
@@ -836,7 +844,9 @@ class CampaignModal extends Component {
             socket.emit("new_post", { campaign, post: savedPost });
             this.updatePost(savedPost);
             socket.on("post_added", emitObject => {
+              socket.off("post_added");
               campaign.posts = emitObject.campaignPosts;
+              this.triggerCampaignPeers("campaign_post_saved", savedPost);
               this.setState({ campaign, saving: false });
             });
           }}

@@ -47,7 +47,11 @@ module.exports = io => {
     socket.on("disconnect", () => {});
 
     socket.on("trigger_socket_peers", reqObj => {
-      const { calendarID, type, extra } = reqObj;
+      console.log(`forwarding ${reqObj.type}`);
+      if (reqObj.type === "campaign_post_saved") console.log(reqObj.extra);
+      const { calendarID, campaignID, type } = reqObj;
+      let extra = reqObj.extra;
+      if (campaignID) extra = { calendarID, campaignID, extra };
       if (calendarID && type) {
         socket.to(calendarID.toString()).emit(type, extra);
       }
@@ -109,9 +113,6 @@ module.exports = io => {
           foundCampaign.save((err, savedCampaign) => {
             if (savedCampaign)
               socket.emit("post_added", { campaignPosts: savedCampaign.posts });
-            socket
-              .to(foundCampaign._id.toString())
-              .emit("campaign_post_saved", post);
           });
         }
       });
@@ -210,9 +211,6 @@ module.exports = io => {
             );
           }
           foundCampaign.remove();
-          socket
-            .to(foundCampaign._id.toString())
-            .emit("campaign_deleted", foundCampaign._id);
         }
       });
     });
@@ -252,9 +250,6 @@ module.exports = io => {
                   if (foundPost) {
                     foundPost.remove();
                     removedPost = true;
-                    socket
-                      .to(foundPost.campaignID.toString())
-                      .emit("campaign_post_deleted", foundPost._id);
                     socket.emit("post-deleted", {
                       removedFromCampaign,
                       removedPost,
