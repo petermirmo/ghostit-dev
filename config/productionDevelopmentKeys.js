@@ -13,6 +13,8 @@ module.exports = {
   linkedinConsumerKey: process.env.LI_CONSUMER_KEY,
   linkedinConsumerSecret: process.env.LI_CONSUMER_SECRET,
   linkedinCallbackURL: process.env.LI_CALLBACK_URL,
+  linkedinCallbackURLASCII: process.env.LI_CALLBACK_URL_ASCII,
+  linkedinState: process.env.LI_STATE,
 
   cloudinaryName: process.env.CLOUDINARY_NAME,
   cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,

@@ -2,14 +2,12 @@ const User = require("../models/User");
 const Account = require("../models/Account");
 const keys = require("../config/keys");
 const generalFunctions = require("./generalFunctions");
+const axios = require("axios");
+var http = require("http");
+var querystring = require("querystring");
 
-var Linkedin = require("node-linkedin")(
-  keys.linkedinConsumerKey,
-  keys.linkedinConsumerSecret,
-  keys.linkedinCallbackURL
-);
 module.exports = {
-  getLinkedinPages: function(req, res) {
+  getLinkedinPages: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -23,98 +21,171 @@ module.exports = {
         socialType: "linkedin",
         accountType: "profile"
       },
-      function(err, account) {
+      (err, account) => {
         if (err) generalFunctions.handleError(res, err);
 
         if (account) {
           // Use Linkedin profile access token to get account pages
-          let LI = Linkedin.init(account.accessToken);
-
           // Get all companies that the user is an admin of
-          LI.companies.asAdmin(function(err, results) {
-            let companies = results.values;
-            if (err) return handleError(err);
-            // Linkedin groups (companies) do not come with access tokens so we will use the
-            // user's profile access token
-            // We also want to set accountType and socialType
-            for (let index in companies) {
-              companies[index].accountType = "page";
-              companies[index].socialType = "linkedin";
-              companies[index].access_token = account.accessToken;
-            }
-            res.send({ success: true, pages: companies });
-          });
+          axios
+            .get(
+              "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee",
+              {
+                headers: { Authorization: "Bearer " + account.accessToken }
+              }
+            )
+            .then(linkedinCompaniesResponse => {
+              let companyURNs = linkedinCompaniesResponse.data.elements;
+              let asyncCounter = 0;
+              let companies = [];
+
+              for (let index in companyURNs) {
+                let linkedinURN = companyURNs[index].organizationalTarget;
+                let linkedinPageID = "";
+                let colonCounter = 0;
+
+                for (let i = 0; i < linkedinURN.length; i++) {
+                  if (colonCounter === 3) linkedinPageID += linkedinURN[i];
+                  if (linkedinURN[i] === ":") colonCounter++;
+                }
+
+                asyncCounter++;
+                axios
+                  .get(
+                    "https://api.linkedin.com/v2/organizations/" +
+                      linkedinPageID,
+                    {
+                      headers: {
+                        Authorization: "Bearer " + account.accessToken
+                      }
+                    }
+                  )
+                  .then(linkedinCompanyResponse => {
+                    let company = linkedinCompanyResponse.data;
+
+                    // Linkedin groups (companies) do not come with access tokens so we will use the
+                    // user's profile access token
+                    // We also want to set accountType and socialType
+                    company.accountType = "page";
+                    company.socialType = "linkedin";
+                    company.access_token = account.accessToken;
+                    company.name = company.localizedName;
+                    companies.push(company);
+
+                    asyncCounter--;
+                    if (asyncCounter === 0)
+                      res.send({ success: true, pages: companies });
+                  })
+                  .catch(linkedinCompanyError => {
+                    if (linkedinCompanyError.response) {
+                      if (linkedinCompanyError.response.data)
+                        console.log(linkedinCompanyError.response.data);
+                      else console.log(linkedinCompanyError.response);
+                    } else console.log(linkedinCompanyError);
+                    asyncCounter--;
+                    if (asyncCounter === 0)
+                      res.send({ success: true, pages: companies });
+                  });
+              }
+            })
+            .catch(linkedinProfileErrorResonse => {
+              console.log(linkedinProfileErrorResonse);
+              generalFunctions.handleError(res, "Linkedin error");
+            });
         } else {
-          generalFunctions.handleError(res, "No account found");
+          generalFunctions.handleError(
+            res,
+            "Please connect your Linkedin profile first."
+          );
         }
       }
     );
   },
-  getLinkedinCode: function(req, res) {
+  getLinkedinCode: (req, res) => {
     // Get code from Linkedin to trade for access code
-    var scope = [
-      "r_basicprofile",
-      "r_emailaddress",
-      "rw_company_admin",
-      "w_share"
-    ];
-
-    Linkedin.auth.authorize(res, scope);
+    res.redirect(
+      "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=" +
+        keys.linkedinConsumerKey +
+        "&redirect_uri=" +
+        keys.linkedinCallbackURLASCII +
+        "&state=" +
+        keys.linkedinState +
+        "&scope=r_ads%20r_basicprofile%20r_emailaddress%20rw_company_admin%20w_organization_social%20r_ads_reporting%20r_organization_social%20rw_organization_admin%20w_share%20r_basicprofile%20rw_ads%20w_member_social"
+    );
   },
-  getLinkedinAccessToken: function(req, res) {
+  getLinkedinAccessToken: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
         userID = req.user.signedInAsUser.id;
       }
     }
-    // Get access token from Linkedin
-    Linkedin.auth.getAccessToken(
-      res,
-      req.query.code,
-      req.query.state,
-      (err, results) => {
-        if (err) generalFunctions.handleError(res, err);
-        else {
-          let accessToken = results.access_token;
 
-          // User access token to get profile information
-          let LI = Linkedin.init(accessToken);
+    if (req.query.state == keys.linkedinState && req.query.code) {
+      axios
+        .post(
+          "https://www.linkedin.com/oauth/v2/accessToken",
+          querystring.stringify({
+            grant_type: "authorization_code",
+            code: req.query.code,
+            redirect_uri: keys.linkedinCallbackURL,
+            client_id: keys.linkedinConsumerKey,
+            client_secret: keys.linkedinConsumerSecret
+          })
+        )
+        .then(linkedinTokenResponse => {
+          let accessToken = linkedinTokenResponse.data.access_token;
 
-          LI.people.me(function(err, $in) {
-            if (err) res.send(false);
-            let linkedinProfile = $in;
+          axios
+            .get("https://api.linkedin.com/v2/me", {
+              headers: { Authorization: "Bearer " + accessToken }
+            })
+            .then(linkedinProfileResponse => {
+              let linkedinProfile = linkedinProfileResponse.data;
+              Account.findOne(
+                { userID, socialID: linkedinProfile.id },
+                (err, account) => {
+                  if (!account) {
+                    let newAccount = new Account();
 
-            Account.findOne(
-              { userID, socialID: linkedinProfile.id },
-              (err, account) => {
-                if (!account) {
-                  let newAccount = new Account();
+                    newAccount.userID = userID;
+                    newAccount.socialType = "linkedin";
+                    newAccount.accountType = "profile";
+                    newAccount.accessToken = accessToken;
+                    newAccount.socialID = linkedinProfile.id;
+                    newAccount.givenName = linkedinProfile.localizedFirstName;
+                    newAccount.familyName = linkedinProfile.localizedLastName;
 
-                  newAccount.userID = userID;
-                  newAccount.socialType = "linkedin";
-                  newAccount.accountType = "profile";
-                  newAccount.accessToken = accessToken;
-                  newAccount.socialID = linkedinProfile.id;
-                  newAccount.givenName = linkedinProfile.firstName;
-                  newAccount.familyName = linkedinProfile.lastName;
-                  newAccount.email = linkedinProfile.emailAddress;
+                    newAccount.save((err, result) => {
+                      if (err) generalFunctions.handleError(res, err);
+                      else res.redirect("/social-accounts");
+                    });
+                  } else if (account) {
+                    account.accessToken = accessToken;
 
-                  newAccount.save((err, result) => {
-                    if (err) generalFunctions.handleError(res, err);
-                    else res.redirect("/social-accounts");
-                  });
-                } else if (account) {
-                  account.accessToken = accessToken;
-                  account.save((err, result) => {
-                    res.redirect("/social-accounts");
-                  });
-                } else res.redirect("/social-accounts");
-              }
-            );
-          });
-        }
-      }
-    );
+                    account.accessToken = accessToken;
+                    account.givenName = linkedinProfile.localizedFirstName;
+                    account.familyName = linkedinProfile.localizedLastName;
+
+                    account.save((err, result) => {
+                      res.redirect("/social-accounts");
+                    });
+                  } else res.redirect("/social-accounts");
+                }
+              );
+            })
+            .catch(linkedinProfileErrorResonse => {
+              console.log(linkedinProfileErrorResonse);
+              res.redirect("/social-accounts");
+            });
+        })
+        .catch(linkedinTokenErrorResponse => {
+          console.log(linkedinTokenErrorResponse.response.data);
+          res.redirect("/social-accounts");
+        });
+    } else {
+      console.log("No code received");
+      res.redirect("/social-accounts");
+    }
   }
 };
