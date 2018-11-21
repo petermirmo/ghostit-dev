@@ -4,6 +4,8 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 
+import io from "socket.io-client";
+
 import ContentModal from "./PostingFiles/ContentModal";
 import PostEdittingModal from "./PostingFiles/PostEdittingModal";
 import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
@@ -21,6 +23,8 @@ class Content extends Component {
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
     recipeEditing: false,
+
+    socket: undefined,
 
     calendars: [],
     calendarInvites: [],
@@ -56,13 +60,17 @@ class Content extends Component {
       show: false,
       type: undefined,
       title: undefined,
-      message: undefined
+      message: undefined,
+      timer: undefined
     },
     timezone: ""
   };
 
   componentDidMount() {
     this._ismounted = true;
+
+    this.initSocket();
+
     axios.get("/api/timezone").then(res => {
       let { timezone, loggedIn } = res.data;
       if (loggedIn === false) window.location.reload();
@@ -90,7 +98,10 @@ class Content extends Component {
             activeCalendarIndex,
             defaultCalendarID
           },
-          this.fillCalendar
+          () => {
+            this.fillCalendar();
+            this.updateSocketCalendar();
+          }
         );
       }
     });
@@ -115,6 +126,358 @@ class Content extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
+
+  initSocket = () => {
+    let socket;
+
+    if (process.env.NODE_ENV === "development")
+      socket = io("http://localhost:5000");
+    else socket = io();
+
+    socket.on("calendar_post_saved", post => {
+      const { calendars, activeCalendarIndex } = this.state;
+
+      post.startDate = post.postingDate;
+      post.endDate = post.postingDate;
+
+      if (
+        calendars[activeCalendarIndex]._id.toString() !==
+        post.calendarID.toString()
+      ) {
+        return;
+      } else {
+        let targetListName;
+        if (post.socialType === "facebook") targetListName = "facebookPosts";
+        else if (post.socialType === "twitter") targetListName = "twitterPosts";
+        else if (post.socialType === "linkedin")
+          targetListName = "linkedinPosts";
+        else console.log(`unhandled post socialType: ${post.socialType}`);
+        if (targetListName) {
+          const index = this.state[targetListName].findIndex(
+            postObj => postObj._id.toString() === post._id.toString()
+          );
+          if (index === -1) {
+            // new post so just add it to the list
+            this.setState(prevState => {
+              return {
+                [targetListName]: [...prevState[targetListName], post]
+              };
+            });
+          } else {
+            // post exists so we just need to update it
+            this.setState(prevState => {
+              return {
+                [targetListName]: [
+                  ...prevState[targetListName].slice(0, index),
+                  post,
+                  ...prevState[targetListName].slice(index + 1)
+                ]
+              };
+            });
+          }
+        }
+      }
+    });
+
+    socket.on("calendar_post_deleted", reqObj => {
+      const { postID, socialType } = reqObj;
+      if (!postID || !socialType) return;
+
+      let targetListName;
+      if (socialType === "facebook") targetListName = "facebookPosts";
+      else if (socialType === "twitter") targetListName = "twitterPosts";
+      else if (socialType === "linkedin") targetListName = "linkedinPosts";
+      else console.log(`unhandled post socialType: ${socialType}`);
+
+      const index = this.state[targetListName].findIndex(
+        post => post._id.toString() === postID.toString()
+      );
+      if (index === -1) return;
+      this.setState(prevState => {
+        return {
+          [targetListName]: [
+            ...prevState[targetListName].slice(0, index),
+            ...prevState[targetListName].slice(index + 1)
+          ]
+        };
+      });
+    });
+
+    socket.on("calendar_blog_saved", blog => {
+      const { calendars, activeCalendarIndex, websitePosts } = this.state;
+      if (!calendars || activeCalendarIndex === undefined) return;
+      const calendarID = calendars[activeCalendarIndex]._id;
+      if (blog.calendarID.toString() !== calendarID.toString()) return;
+      blog.startDate = blog.postingDate;
+      blog.endDate = blog.postingDate;
+      const index = websitePosts.findIndex(
+        blogObj => blogObj._id.toString() === blog._id.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            websitePosts: [
+              ...prevState.websitePosts.slice(0, index),
+              blog,
+              ...prevState.websitePosts.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return { websitePosts: [...prevState.websitePosts, blog] };
+        });
+      }
+    });
+
+    socket.on("calendar_blog_deleted", blogID => {
+      const { websitePosts } = this.state;
+      const index = websitePosts.findIndex(
+        blog => blog._id.toString() === blogID.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            websitePosts: [
+              ...websitePosts.slice(0, index),
+              ...websitePosts.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("calendar_newsletter_saved", newsletter => {
+      const { calendars, activeCalendarIndex, newsletterPosts } = this.state;
+      if (!calendars || activeCalendarIndex === undefined) return;
+      const calendarID = calendars[activeCalendarIndex]._id;
+      if (newsletter.calendarID.toString() !== calendarID.toString()) return;
+      newsletter.startDate = newsletter.postingDate;
+      newsletter.endDate = newsletter.postingDate;
+      const index = newsletterPosts.findIndex(
+        newsletterObj =>
+          newsletterObj._id.toString() === newsletter._id.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            newsletterPosts: [
+              ...prevState.newsletterPosts.slice(0, index),
+              newsletter,
+              ...prevState.newsletterPosts.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return {
+            newsletterPosts: [...prevState.newsletterPosts, newsletter]
+          };
+        });
+      }
+    });
+
+    socket.on("calendar_newsletter_deleted", newsletterID => {
+      const { newsletterPosts } = this.state;
+      const index = newsletterPosts.findIndex(
+        newsletter => newsletter._id.toString() === newsletterID.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            newsletterPosts: [
+              ...newsletterPosts.slice(0, index),
+              ...newsletterPosts.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("calendar_campaign_saved", campaign => {
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+      if (
+        campaign.calendarID.toString() !==
+        calendars[activeCalendarIndex]._id.toString()
+      )
+        return;
+      const index = campaigns.findIndex(
+        camp => camp._id.toString() === campaign._id.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              campaign,
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        this.setState(prevState => {
+          return {
+            campaigns: [...prevState.campaigns, campaign]
+          };
+        });
+      }
+    });
+
+    socket.on("calendar_campaign_deleted", campaignID => {
+      const { campaigns } = this.state;
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index !== -1) {
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("campaign_post_saved", reqObj => {
+      const { calendarID, campaignID } = reqObj;
+      const post = reqObj.extra;
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+
+      if (
+        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
+      )
+        return;
+
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+      const campaign = campaigns[index];
+      const postIndex = campaign.posts.findIndex(
+        postObj => postObj._id.toString() === post._id.toString()
+      );
+
+      if (postIndex === -1) {
+        // post doesn't exist in the campaign yet so just need to add it
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              {
+                ...prevState.campaigns[index],
+                posts: [...prevState.campaigns[index].posts, post]
+              },
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      } else {
+        // post exists already so need to update it
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              {
+                ...prevState.campaigns[index],
+                posts: [
+                  ...prevState.campaigns[index].posts.slice(0, postIndex),
+                  post,
+                  ...prevState.campaigns[index].posts.slice(postIndex + 1)
+                ]
+              },
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("campaign_post_deleted", reqObj => {
+      const { calendarID, campaignID } = reqObj;
+      const postID = reqObj.extra;
+
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+
+      if (
+        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
+      )
+        return;
+
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+      const campaign = campaigns[index];
+      const postIndex = campaign.posts.findIndex(
+        postObj => postObj._id.toString() === postID.toString()
+      );
+
+      if (postIndex === -1) {
+        // post doesn't exist in the campaign yet so don't need to delete it
+        return;
+      } else {
+        // post exists so just need to remove it
+        this.setState(prevState => {
+          return {
+            campaigns: [
+              ...prevState.campaigns.slice(0, index),
+              {
+                ...prevState.campaigns[index],
+                posts: [
+                  ...prevState.campaigns[index].posts.slice(0, postIndex),
+                  ...prevState.campaigns[index].posts.slice(postIndex + 1)
+                ]
+              },
+              ...prevState.campaigns.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+
+    socket.on("campaign_modified", reqObj => {
+      const { calendarID, campaignID } = reqObj;
+      const campaign = reqObj.extra;
+
+      const { campaigns, calendars, activeCalendarIndex } = this.state;
+
+      if (
+        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
+      )
+        return;
+
+      const index = campaigns.findIndex(
+        campaign => campaign._id.toString() === campaignID.toString()
+      );
+      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+      this.setState(prevState => {
+        return {
+          campaigns: [
+            ...prevState.campaigns.slice(0, index),
+            {
+              ...prevState.campaigns[index],
+              ...campaign,
+              posts: prevState.campaigns[index].posts
+            },
+            ...prevState.campaigns.slice(index + 1)
+          ]
+        };
+      });
+    });
+
+    this.setState({ socket });
+  };
+
+  updateSocketCalendar = () => {
+    const { calendars, activeCalendarIndex, socket } = this.state;
+    if (!calendars || activeCalendarIndex === undefined || !socket) return;
+    socket.emit("calendar_connect", calendars[activeCalendarIndex]._id);
+  };
 
   inviteResponse = (index, response) => {
     // function that gets called when the user clicks Accept or Reject on one of their calendar invites
@@ -182,22 +545,32 @@ class Content extends Component {
   };
 
   notify = (type, title, message, length = 5000) => {
+    // maybe this function's length should be dynamically determined based on
+    // the length of the message
+    // (long message = longer length so there is more time to read it)
     const { notification } = this.state;
-    if (!notification.show) {
-      setTimeout(() => {
-        this.setState({
-          notification: {
-            show: false
-          }
-        });
-      }, length);
+
+    const timer = setTimeout(() => {
+      this.setState({
+        notification: {
+          show: false
+        }
+      });
+    }, length);
+
+    if (notification.show) {
+      // notification is currently active so we need to clear the previous timeout
+      // so this new notification doesn't get disabled when the previous one times out
+      clearTimeout(notification.timer);
     }
+
     this.setState({
       notification: {
         show: true,
         type,
         title,
-        message
+        message,
+        timer
       }
     });
   };
@@ -413,7 +786,26 @@ class Content extends Component {
   };
 
   updateActiveCalendar = index => {
-    this.setState({ activeCalendarIndex: index }, this.fillCalendar);
+    this.setState({ activeCalendarIndex: index }, () => {
+      this.fillCalendar();
+      this.updateSocketCalendar();
+    });
+  };
+
+  triggerSocketPeers = (type, extra, campaignID) => {
+    const { calendars, activeCalendarIndex, socket } = this.state;
+    if (
+      calendars &&
+      activeCalendarIndex !== undefined &&
+      calendars[activeCalendarIndex]
+    ) {
+      socket.emit("trigger_socket_peers", {
+        calendarID: calendars[activeCalendarIndex]._id,
+        campaignID,
+        type,
+        extra
+      });
+    }
   };
 
   render() {
@@ -546,63 +938,76 @@ class Content extends Component {
             calendarID={calendars[activeCalendarIndex]._id}
             close={this.closeModals}
             notify={this.notify}
-            savePostCallback={() => {
-              this.getPosts(clickedDate);
+            savePostCallback={post => {
+              this.getPosts();
+              this.triggerSocketPeers("calendar_post_saved", post);
               this.closeModals();
             }}
-            saveBlogCallback={() => {
+            saveBlogCallback={blog => {
               this.getBlogs();
+              this.triggerSocketPeers("calendar_blog_saved", blog);
               this.closeModals();
             }}
-            saveNewsletterCallback={() => {
+            saveNewsletterCallback={newsletter => {
               this.getNewsletters();
+              this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
               this.closeModals();
             }}
           />
         )}
         {this.state.postEdittingModal && (
           <PostEdittingModal
-            savePostCallback={() => this.getPosts(clickedDate)}
+            savePostCallback={post => {
+              this.getPosts();
+              this.triggerSocketPeers("calendar_post_saved", post);
+            }}
+            updateCalendarPosts={this.getPosts}
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
+            notify={this.notify}
+            triggerSocketPeers={this.triggerSocketPeers}
             calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
         {this.state.blogEdittingModal && (
           <BlogEdittingModal
+            saveBlogCallback={blog => {
+              this.getBlogs();
+              this.triggerSocketPeers("calendar_blog_saved", blog);
+            }}
             updateCalendarBlogs={this.getBlogs}
             clickedEvent={clickedEvent}
             close={this.closeModals}
+            triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
         {this.state.newsletterEdittingModal && (
           <NewsletterEdittingModal
+            saveNewsletterCallback={newsletter => {
+              this.getNewsletters();
+              this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
+            }}
             updateCalendarNewsletters={this.getNewsletters}
             clickedEvent={clickedEvent}
             close={this.closeModals}
+            triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
         {this.state.campaignModal && (
-          <div className="modal">
-            <div
-              className="large-modal common-transition"
-              onClick={e => e.stopPropagation()}
-            >
-              <Campaign
-                close={this.closeModals}
-                handleChange={this.handleChange}
-                calendarID={calendars[activeCalendarIndex]._id}
-                timezone={timezone}
-                clickedCalendarDate={clickedDate}
-                updateCampaigns={this.getCampaigns}
-                campaign={clickedEvent}
-                isRecipe={clickedEventIsRecipe}
-                recipeEditing={recipeEditing}
-                notify={this.notify}
-              />
-            </div>
-          </div>
+          <CampaignModal
+            close={this.closeModals}
+            handleChange={this.handleChange}
+            calendarID={calendars[activeCalendarIndex]._id}
+            timezone={timezone}
+            clickedCalendarDate={clickedDate}
+            updateCampaigns={this.getCampaigns}
+            campaign={clickedEvent}
+            isRecipe={clickedEventIsRecipe}
+            recipeEditing={recipeEditing}
+            notify={this.notify}
+            triggerSocketPeers={this.triggerSocketPeers}
+          />
         )}
         {this.state.recipeModal && (
           <RecipeModal

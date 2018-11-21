@@ -84,7 +84,8 @@ class CreateBlogComponent extends Component {
         blogFileName: blogFile.name
       })
       .then(res => {
-        this.props.callback();
+        const { success, blog } = res.data;
+        if (success) this.props.callback(blog);
       });
   };
 

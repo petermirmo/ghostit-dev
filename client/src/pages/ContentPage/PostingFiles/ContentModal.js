@@ -110,6 +110,7 @@ class ContentModal extends Component {
           callback={saveBlogCallback}
           calendarID={this.props.calendarID}
           setSaving={this.setSaving}
+          triggerSocketPeers={this.props.triggerSocketPeers}
         />
       );
     } else if (activeTab.name === "newsletter") {
@@ -120,6 +121,7 @@ class ContentModal extends Component {
             callback={saveNewsletterCallback}
             calendarID={this.props.calendarID}
             setSaving={this.setSaving}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
         </div>
       );
@@ -132,6 +134,7 @@ class ContentModal extends Component {
             socialType={activeTab.name}
             calendarID={this.props.calendarID}
             canEditPost={true}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
         </div>
       );
@@ -144,8 +147,8 @@ class ContentModal extends Component {
                 ? new moment().add(5, "minutes")
                 : clickedCalendarDate
           }}
-          postFinishedSavingCallback={() => {
-            savePostCallback();
+          postFinishedSavingCallback={post => {
+            savePostCallback(post);
             close();
           }}
           calendarID={this.props.calendarID}

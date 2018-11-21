@@ -55,7 +55,8 @@ class CreateNewsletter extends Component {
         newsletterFileName: newsletterFile.name
       })
       .then(res => {
-        this.props.callback();
+        const { success, newsletter } = res.data;
+        if (success) this.props.callback(newsletter);
       });
   };
 

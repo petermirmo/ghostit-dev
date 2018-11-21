@@ -1,0 +1,19 @@
+.text-container {
+  height: 200px;
+  width: 200px;
+  border: none !important;
+}
+.text-container:hover + .text-options {
+  display: flex;
+}
+
+.text-options {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+
+  display: none;
+}
+.text-options:hover {
+  display: flex;
+}

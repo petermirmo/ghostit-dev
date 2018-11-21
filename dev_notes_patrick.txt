@@ -92,28 +92,49 @@ multi-user calendars:
 
 to do next:
   manage calendars
-    (pass admin, leave calendar)
-      when creating a new calendar, maybe set activeCalendarIndex to that new calendar?
       create calendar button maybe should just be a (+) icon beside the calendar picker in calendar manager
       when exiting calendar manager, change activeCalendarIndex of ContentPage to the same as CalendarManager
-      when inviting a user, convert the string to all lower case?
-      when deleting, might need to delete the images / files stored with the posts/blogs/newsletters and maybe disable the email notifications?
   social accounts tied to calendars
     when updating social account access tokens, maybe update all that are linked to calendars?
     when looking up calendar.accountIDs, if one is not found, should we remove its id from calendar.accountIDs?
-    link social accounts to user account like normal
-    when going to post, those accounts will be slightly transparent
-      clicking them will prompt you to link that social account with that calendar
-    calendar objects have an accountIDs array
-      any user can link a social account to the calendar
-      when a user leaves the calendar, prompt them if they want to remove their linked accounts as well
-      if a user is removed from the calendar, warn the admin that this will un-link all of the accounts that they linked
-      removing an account doesn't delete any posts already scheduled
   maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
+  have a chat "room" built into the calendar manager.
+    move the account cards below the user cards and have the chat below the name div.
+    timestamps on each message (timezone?)
+    chat should be able to be toggled to activity log which keeps a record of all post saves/deletes/updates/calendar rename/invite/user joins/kicks
 
-  laggy when logged in as another user and closing calendar manager??
+  sockets:
+    work on the prompt that appears when your active post gets updated+saved by someone else
 
-  this.props.notify should extend its time when a new notification overwrites the old
+    have a label that shows how many users are currently connected to the campaign socket / calendar socket
+      mousing over explains how the sockets keep each other updated
+
+
+    are images working?
+
+  deleting a post in a campaign currently deletes the postID within the campaign DB object then deletes the
+  post DB object.
+    this could be bad if the postID is deleted from the campaign object but not the post from the DB bcz
+    then the post won't be shown on the calendar but they will be posted?
+
+  for campaigns and posts, keep a history array which stores objects detailing who made what changes between each save
+    (mouse over the history to see a list of all the changes)
+    (the list entries could show who, when, and which attributes were modified)
+    (clicking on them could show a smaller popup display of the post's state after that modification?)
+
+  date time picker calendar goes from monday->sunday instead of sunday->saturday
+
+  socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
+
+  make every email lower case in database
+
+  give users a name attribute as well
+
+  posts should display who their creator was
+
+
+
+
 
 facebook analytics page metrics:
     FB.api(

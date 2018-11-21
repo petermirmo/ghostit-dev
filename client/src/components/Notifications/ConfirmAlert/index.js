@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faQuestionCircle from "@fortawesome/fontawesome-free-solid/faQuestionCircle";
+
 import "./styles/";
 
 class ConfirmAlert extends Component {
@@ -66,6 +69,11 @@ class ConfirmAlert extends Component {
         <div className="confirm-alert" onClick={e => e.stopPropagation()}>
           <div className="confirm-title">{title}</div>
           <div className="confirm-message">{message}</div>
+          {this.props.helpTooltip && (
+            <div className="help-tooltip" title={this.props.helpTooltip}>
+              <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
+            </div>
+          )}
           {extraConfirmationMessage && (
             <div className="extra-confirm-container">
               <div className="extra-confirm-message">

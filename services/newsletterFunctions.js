@@ -1,9 +1,61 @@
 const request = require("request");
 const fs = require("fs");
 const Newsletter = require("../models/Newsletter");
+const Calendar = require("../models/Calendar");
 const generalFunctions = require("./generalFunctions");
 
 const cloudinary = require("cloudinary");
+
+const deleteNewsletterStandalone = (req, callback) => {
+  // function called when calendar gets deleted and blogs within the calendar must be deleted first
+  const { newsletterID, skipUserCheck } = req;
+  let userID = req.user._id;
+  if (req.user.signedInAsUser) {
+    if (req.user.signedInAsUser.id) {
+      userID = req.user.signedInAsUser.id;
+    }
+  }
+
+  Newsletter.findOne({ _id: newsletterID }, async (err, foundNewsletter) => {
+    if (err || !foundNewsletter) callback({ success: false, err });
+    else {
+      if (!skipUserCheck) {
+        let invalidUser = false;
+        await Calendar.findOne(
+          { _id: foundNewsletter.calendarID, userIDs: userID },
+          (err, foundCalendar) => {
+            if (err) {
+              invalidUser = true;
+              callback({
+                success: false,
+                err,
+                message: `Error while looking up calendar's user list.`
+              });
+            } else if (!foundCalendar) {
+              invalidUser = true;
+              callback({
+                success: false,
+                message: `User doesn't seem to be valid member of calendar. Reload page and try again.`
+              });
+            }
+          }
+        );
+        if (invalidUser) return;
+      }
+      if (foundNewsletter.wordDoc.publicID) {
+        await cloudinary.uploader.destroy(
+          foundNewsletter.wordDoc.publicID,
+          error => {
+            // handle error
+          },
+          { resource_type: "raw" }
+        );
+      }
+      foundNewsletter.remove();
+      callback({ success: true });
+    }
+  });
+};
 
 module.exports = {
   saveNewsletter: function(req, res) {
@@ -65,7 +117,7 @@ module.exports = {
         }
 
         newNewsletter.save().then(result => {
-          res.send({ success: true });
+          res.send({ success: true, newsletter: newNewsletter });
         });
       }
     });
@@ -83,32 +135,12 @@ module.exports = {
     });
   },
   deleteNewsletter(req, res) {
-    Newsletter.findOne({ _id: req.params.newsletterID }, async function(
-      err,
-      newsletter
-    ) {
-      if (err) generalFunctions.handleError(res, err);
-      else if (newsletter) {
-        if (
-          newsletter.userID === req.user._id ||
-          req.user.role === "admin" ||
-          req.user.role === "manager"
-        ) {
-          if (newsletter.wordDoc.publicID) {
-            await cloudinary.uploader.destroy(
-              newsletter.wordDoc.publicID,
-              function(error) {
-                if (error) console.log(error);
-              },
-              { resource_type: "raw" }
-            );
-          }
-          newsletter.remove().then(result => {
-            res.send({ success: true });
-          });
-        } else
-          generalFunctions.handleError(res, "Hacker trying to delete posts");
-      } else generalFunctions.handleError(res, "Newsletter not found");
-    });
-  }
+    deleteNewsletterStandalone(
+      { newsletterID: req.params.newsletterID, user: req.user },
+      result => {
+        res.send(result);
+      }
+    );
+  },
+  deleteNewsletterStandalone
 };

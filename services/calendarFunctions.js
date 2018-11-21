@@ -7,6 +7,10 @@ const Newsletter = require("../models/Newsletter");
 const Campaign = require("../models/Campaign");
 
 const generalFunctions = require("./generalFunctions");
+const postFunctions = require("./postFunctions");
+const campaignFunctions = require("./campaignFunctions");
+const blogFunctions = require("./websiteBlogFunctions");
+const newsletterFunctions = require("./newsletterFunctions");
 
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
@@ -724,6 +728,8 @@ module.exports = {
       }
     }
     Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
+      // find all the user's calendars so that later on, if we delete the calendar
+      // and it turns out to be the user's last calendar, we can make them a new one.
       if (err || !foundCalendars) {
         res.send({
           success: false,
@@ -750,8 +756,8 @@ module.exports = {
                 message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
               });
             } else {
-              // calendar is eligible to be deleted and the user is the calendar admin
-              // now we must delete all posts with post.calendarID: calendarID
+              // calendar is eligible to be deleted
+              // so now we must delete all the posts / campaigns / blogs / newsletters
               Post.find({ calendarID }, (err, foundPosts) => {
                 if (err || !foundPosts) {
                   res.send({
@@ -759,72 +765,186 @@ module.exports = {
                     message: `Error while fetching all calendar posts to be deleted.`
                   });
                 } else {
-                  for (let i = 0; i < foundPosts.length; i++) {
-                    const post = foundPosts[i];
-                    post.remove();
-                  }
                   Campaign.find({ calendarID }, (err, foundCampaigns) => {
                     if (err || !foundCampaigns) {
                       res.send({
                         success: false,
-                        message: `Error while fetching all calendar campaigns to be deleted. Posts already deleted.`
+                        message: `Error while fetching all calendar campaigns to be deleted.`
                       });
                     } else {
-                      for (let i = 0; i < foundCampaigns.length; i++) {
-                        const campaign = foundCampaigns[i];
-                        campaign.remove();
-                      }
                       Blog.find({ calendarID }, (err, foundBlogs) => {
                         if (err || !foundBlogs) {
                           res.send({
                             success: false,
-                            message: `Error while fetching all calendar blogs to be deleted. Posts and campaigns already deleted.`
+                            message: `Error while fetching all calendar blogs to be deleted.`
                           });
                         } else {
-                          for (let i = 0; i < foundBlogs.length; i++) {
-                            const blog = foundBlogs[i];
-                            blog.remove();
-                          }
                           Newsletter.find(
                             { calendarID },
                             (err, foundNewsletters) => {
                               if (err || !foundNewsletters) {
                                 res.send({
                                   success: false,
-                                  message: `Error while fetching all calendar newsletters to be deleted. Posts, campaigns, and blogs already deleted.`
+                                  message: `Error while fetching all calendar newsletters to be deleted.`
                                 });
                               } else {
-                                for (
-                                  let i = 0;
-                                  i < foundNewsletters.length;
-                                  i++
-                                ) {
-                                  const newsletter = foundNewsletters[i];
-                                  newsletter.remove();
-                                }
-                                foundCalendar.remove();
-                                let newCalendar = undefined;
-                                if (foundCalendars.length === 1) {
-                                  // deleting the user's only calendar so we need to replace it with a new one
-                                  newCalendar = new Calendar();
-                                  newCalendar.adminID = userID;
-                                  newCalendar.userIDs = [userID];
-                                  newCalendar.calendarName = "Calendar 1";
-                                  newCalendar.save();
-                                }
-                                res.send({
-                                  success: true,
-                                  newCalendar,
-                                  message: `Calendar deleted as well as ${
-                                    foundPosts.length
-                                  } posts, ${
-                                    foundCampaigns.length
-                                  } campaigns, ${
-                                    foundBlogs.length
-                                  } blogs, and ${
+                                // foundPosts, foundCampaigns, foundBlogs, and foundNewsletters now all need to be deleted
+                                let deletedCount = {
+                                  totalDeleted: 0,
+                                  totalFailed: 0,
+                                  postFailed: 0,
+                                  campaignFailed: 0,
+                                  blogFailed: 0,
+                                  newsletterFailed: 0,
+                                  totalTarget:
+                                    foundPosts.length +
+                                    foundCampaigns.length +
+                                    foundBlogs.length +
                                     foundNewsletters.length
-                                  } newsletters.`
-                                });
+                                };
+                                if (deletedCount.totalTarget === 0) {
+                                  // nothing to delete in the calendar so just delete it
+                                  foundCalendar.remove();
+                                  if (foundCalendars.length === 1) {
+                                    const newCalendar = new Calendar();
+                                    newCalendar.calendarName = "First Calendar";
+                                    newCalendar.adminID = userID;
+                                    newCalendar.userIDs = [userID];
+                                    newCalendar.save();
+                                    res.send({ success: true, newCalendar });
+                                  } else {
+                                    res.send({ success: true });
+                                  }
+                                } else {
+                                  const deleteCallback = (
+                                    result,
+                                    type,
+                                    countObj
+                                  ) => {
+                                    if (result.success) {
+                                      countObj.totalDeleted++;
+                                    } else {
+                                      countObj.totalFailed++;
+                                      switch (type) {
+                                        case "post":
+                                          countObj.postFailed++;
+                                          break;
+                                        case "campaign":
+                                          countObj.campaignFailed++;
+                                          break;
+                                        case "blog":
+                                          countObj.blogFailed++;
+                                          break;
+                                        case "newsletter":
+                                          countObj.newsletterFailed++;
+                                          break;
+                                      }
+                                    }
+                                    if (
+                                      countObj.totalDeleted +
+                                        countObj.totalFailed ===
+                                      countObj.totalTarget
+                                    ) {
+                                      // this is the final thing to delete so now we res.send()
+                                      if (countObj.totalFailed === 0) {
+                                        foundCalendar.remove();
+                                        if (foundCalendars.length === 1) {
+                                          const newCalendar = new Calendar();
+                                          newCalendar.calendarName =
+                                            "First Calendar";
+                                          newCalendar.adminID = userID;
+                                          newCalendar.userIDs = [userID];
+                                          newCalendar.save();
+                                          res.send({
+                                            success: true,
+                                            newCalendar
+                                          });
+                                        } else {
+                                          res.send({ success: true });
+                                        }
+                                      } else {
+                                        // not everything was deleted so we cant delete the calendar
+                                        res.send({
+                                          success: false,
+                                          message: `Failed to delete ${failedPostCount} posts, ${failedCampaignCount} campaigns, ${failedBlogCount} blogs, and ${failedNewsletterCount} newsletters. Calendar not deleted.`
+                                        });
+                                      }
+                                    }
+                                  };
+                                  // stuff to delete in calendar
+                                  for (let i = 0; i < foundPosts.length; i++) {
+                                    postFunctions.deletePostStandalone(
+                                      {
+                                        postID: foundPosts[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
+                                      result => {
+                                        deleteCallback(
+                                          result,
+                                          "post",
+                                          deletedCount
+                                        );
+                                      }
+                                    );
+                                  }
+                                  for (
+                                    let i = 0;
+                                    i < foundCampaigns.length;
+                                    i++
+                                  ) {
+                                    campaignFunctions.deleteCampaignStandalone(
+                                      {
+                                        campaignID: foundCampaigns[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
+                                      result => {
+                                        deleteCallback(
+                                          result,
+                                          "campaign",
+                                          deletedCount
+                                        );
+                                      }
+                                    );
+                                  }
+                                  for (let i = 0; i < foundBlogs.length; i++) {
+                                    blogFunctions.deleteBlogStandalone(
+                                      {
+                                        blogID: foundBlogs[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
+                                      result => {
+                                        deleteCallback(
+                                          result,
+                                          "blog",
+                                          deletedCount
+                                        );
+                                      }
+                                    );
+                                  }
+                                  for (
+                                    let i = 0;
+                                    i < foundNewsletters.length;
+                                    i++
+                                  ) {
+                                    newsletterFunctions.deleteNewsletterStandalone(
+                                      {
+                                        newsletterID: foundNewsletters[i]._id,
+                                        user: req.user,
+                                        skipUserCheck: true
+                                      },
+                                      result => {
+                                        deleteCallback(
+                                          result,
+                                          "newsletter",
+                                          deletedCount
+                                        );
+                                      }
+                                    );
+                                  }
+                                }
                               }
                             }
                           );
