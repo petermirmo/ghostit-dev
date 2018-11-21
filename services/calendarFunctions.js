@@ -12,6 +12,8 @@ const campaignFunctions = require("./campaignFunctions");
 const blogFunctions = require("./websiteBlogFunctions");
 const newsletterFunctions = require("./newsletterFunctions");
 
+const moment = require("moment-timezone");
+
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
     if (array[i].toString() === id.toString()) {
@@ -223,8 +225,38 @@ module.exports = {
         } else {
           // calendar is found and associated with correct userID
           // now we fetch all the posts associated with that calendar
+
+          let calendarDate = new moment(req.body.calendarDate);
+
+          let firstDayOfMonth = Number(
+            moment(calendarDate.format("M"), "MM")
+              .startOf("month")
+              .format("d")
+          ); // Get calendar starting date
+          let calendarStartDate = new moment(calendarDate)
+            .subtract(firstDayOfMonth, "days")
+            .add(firstDayOfMonth === 0 ? -7 : 0, "days");
+          // Get calendar ending date
+          let calendarEndDate = new moment(calendarDate)
+            .subtract(firstDayOfMonth, "days")
+            .add(35, "days");
+
+          calendarStartDate.set("hour", 0);
+          calendarStartDate.set("minute", 0);
+
+          calendarEndDate.set("hour", 23);
+          calendarEndDate.set("minute", 59);
           Post.find(
-            { calendarID: req.params.calendarID, campaignID: undefined },
+            {
+              calendarID: req.params.calendarID,
+              campaignID: undefined,
+              $and: [
+                { postingDate: { $lt: calendarEndDate } },
+                {
+                  postingDate: { $gt: calendarStartDate }
+                }
+              ]
+            },
             (err, foundPosts) => {
               if (err || !foundPosts) {
                 res.send({

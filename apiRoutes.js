@@ -367,7 +367,7 @@ module.exports = app => {
     calendarFunctions.getCalendars(req, res)
   );
 
-  app.get("/api/calendar/posts/:calendarID", middleware, (req, res) =>
+  app.post("/api/calendar/posts/:calendarID", middleware, (req, res) =>
     calendarFunctions.getPosts(req, res)
   );
 

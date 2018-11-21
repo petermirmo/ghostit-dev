@@ -587,7 +587,7 @@ class Content extends Component {
     // if this (or any of the getPosts/getBlogs/getCampaigns/etc fails,
     // we should maybe setState({ posts: [] })) so that we don't render
     // posts from a previous calendar
-    const { calendars, activeCalendarIndex } = this.state;
+    const { calendars, activeCalendarIndex, calendarDate } = this.state;
     if (!calendars || !calendars[activeCalendarIndex]) {
       console.log(calendars);
       console.log(activeCalendarIndex);
@@ -600,38 +600,40 @@ class Content extends Component {
     let linkedinPosts = [];
 
     // Get all of user's posts to display in calendar
-    axios.get("/api/calendar/posts/" + calendarID).then(res => {
-      const { success, err, message, posts, loggedIn } = res.data;
-      if (!success) {
-        console.log(message);
-        console.log(err);
-      } else {
-        if (loggedIn === false) window.location.reload();
+    axios
+      .post("/api/calendar/posts/" + calendarID, { calendarDate })
+      .then(res => {
+        const { success, err, message, posts, loggedIn } = res.data;
+        if (!success) {
+          console.log(message);
+          console.log(err);
+        } else {
+          if (loggedIn === false) window.location.reload();
 
-        for (let index in posts) {
-          posts[index].startDate = posts[index].postingDate;
-          posts[index].endDate = posts[index].postingDate;
-        }
+          for (let index in posts) {
+            posts[index].startDate = posts[index].postingDate;
+            posts[index].endDate = posts[index].postingDate;
+          }
 
-        for (let index in posts) {
-          if (posts[index].socialType === "facebook") {
-            facebookPosts.push(posts[index]);
-          } else if (posts[index].socialType === "twitter") {
-            twitterPosts.push(posts[index]);
-          } else if (posts[index].socialType === "linkedin") {
-            linkedinPosts.push(posts[index]);
+          for (let index in posts) {
+            if (posts[index].socialType === "facebook") {
+              facebookPosts.push(posts[index]);
+            } else if (posts[index].socialType === "twitter") {
+              twitterPosts.push(posts[index]);
+            } else if (posts[index].socialType === "linkedin") {
+              linkedinPosts.push(posts[index]);
+            }
+          }
+          if (this._ismounted) {
+            this.setState({
+              facebookPosts,
+              twitterPosts,
+              linkedinPosts,
+              loading: false
+            });
           }
         }
-        if (this._ismounted) {
-          this.setState({
-            facebookPosts,
-            twitterPosts,
-            linkedinPosts,
-            loading: false
-          });
-        }
-      }
-    });
+      });
   };
 
   getBlogs = () => {
@@ -850,7 +852,6 @@ class Content extends Component {
       Newsletter,
       Campaigns
     } = calendarEventCategories;
-
     let calendarEvents = [];
 
     if (Facebook || All)
