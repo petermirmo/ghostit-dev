@@ -35,15 +35,14 @@ module.exports = {
               returnObject => {
                 return returnObject;
               }
-            );*/ notification.save();
+            );*/
           }
+          notification.save();
         });
       }
       post.status = "error";
       post.errorMessage = JSON.stringify(error);
-      post.save().then(response => {
-        return;
-      });
+      post.save();
     });
   },
   savePostSuccessfully: (postID, socialMediaPostID) => {

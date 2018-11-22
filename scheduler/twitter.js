@@ -43,7 +43,7 @@ function uploadImage(mediaListID, i, client, post) {
       // Upload image to Twitter
       client.post("media/upload", { media: body }, (error, media, response) => {
         if (error || media.media_id === undefined) {
-          functions.savePostError(post._id, error);
+          savePostError(post._id, error);
         } else {
           mediaListID += "," + media.media_id_string;
           uploadImage(mediaListID, i + 1, client, post);
@@ -63,9 +63,9 @@ function uploadImage(mediaListID, i, client, post) {
 function postToTwitter(client, twitterPost, postID) {
   client.post("statuses/update", twitterPost, (error, tweet, response) => {
     if (error || tweet.id === undefined) {
-      functions.savePostError(postID, error);
+      savePostError(postID, error);
     } else {
-      functions.savePostSuccessfully(postID, tweet.id);
+      savePostSuccessfully(postID, tweet.id);
     }
   });
 }
