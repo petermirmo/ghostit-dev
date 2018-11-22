@@ -224,7 +224,10 @@ class CampaignModal extends Component {
         socket.off("new_campaign_saved");
         campaign._id = campaignID;
 
-        socket.emit("campaign_connect", campaignID);
+        socket.emit("campaign_connect", {
+          campaignID,
+          name: this.props.user.email
+        });
 
         this.props.notify(
           "info",
@@ -236,7 +239,10 @@ class CampaignModal extends Component {
         this.setState({ campaign, saving: false });
       });
     } else if (this.props.campaign && this.props.campaign._id) {
-      socket.emit("campaign_connect", this.props.campaign._id);
+      socket.emit("campaign_connect", {
+        campaignID: this.props.campaign._id,
+        name: this.props.user.email
+      });
       socketConnected = true;
       this.setState({ saving: false });
     } else this.setState({ saving: false });

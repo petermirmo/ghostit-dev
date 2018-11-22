@@ -25,6 +25,7 @@ import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
 import Tutorial from "../Tutorial/";
 import CalendarPicker from "../CalendarPicker/";
+import SocketUserList from "../SocketUserList/";
 
 import "./styles/";
 
@@ -474,6 +475,7 @@ class Calendar extends Component {
           updateActiveCalendar={this.props.updateActiveCalendar}
           enableCalendarManager={this.props.enableCalendarManager}
         />
+        <SocketUserList userList={this.props.userList} />
       </div>
     );
   };

@@ -23,6 +23,7 @@ class Content extends Component {
     recipeEditing: false,
 
     socket: undefined,
+    userList: [], // list of users connected to the same calendar socket as this user (including this user)
 
     calendars: [],
     calendarInvites: [],
@@ -118,11 +119,24 @@ class Content extends Component {
         }
       }
     });
+
+    window.addEventListener("beforeunload", this.notifySocketUsersOnPageClose);
   }
 
   componentWillUnmount() {
+    const { socket } = this.state;
     this._ismounted = false;
+    window.removeEventListener(
+      "beforeunload",
+      this.notifySocketUsersOnPageClose
+    );
+    socket.emit("unmounting_socket_component");
   }
+
+  notifySocketUsersOnPageClose = () => {
+    const { socket } = this.state;
+    socket.emit("unmounting_socket_component");
+  };
 
   initSocket = () => {
     let socket;
@@ -467,13 +481,26 @@ class Content extends Component {
       });
     });
 
+    socket.on("socket_user_list", reqObj => {
+      const { roomID, userList } = reqObj;
+      const { calendars, activeCalendarIndex } = this.state;
+
+      if (roomID.toString() !== calendars[activeCalendarIndex]._id.toString())
+        return;
+
+      this.setState({ userList });
+    });
+
     this.setState({ socket });
   };
 
   updateSocketCalendar = () => {
     const { calendars, activeCalendarIndex, socket } = this.state;
     if (!calendars || activeCalendarIndex === undefined || !socket) return;
-    socket.emit("calendar_connect", calendars[activeCalendarIndex]._id);
+    socket.emit("calendar_connect", {
+      calendarID: calendars[activeCalendarIndex]._id,
+      name: this.props.user.email
+    });
   };
 
   inviteResponse = (index, response) => {
@@ -823,7 +850,8 @@ class Content extends Component {
       calendars,
       calendarInvites,
       activeCalendarIndex,
-      defaultCalendarID
+      defaultCalendarID,
+      userList
     } = this.state;
     const {
       All,
@@ -899,6 +927,7 @@ class Content extends Component {
           enableCalendarManager={() => {
             this.setState({ calendarManagerModal: true });
           }}
+          userList={userList}
           calendarEvents={calendarEvents}
           calendarDate={new moment()}
           onSelectDay={this.openModal}
