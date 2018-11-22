@@ -1,18 +1,7 @@
 import { combineReducers } from "redux";
 
-import { getCurrentPage } from "../../extra/functions/CommonFunctions";
-
 function accountReducer() {
   return [];
-}
-function activePage(state = "", action) {
-  switch (action.type) {
-    case "TAB_SELECTED":
-      return action.payload;
-    default:
-      state = getCurrentPage(window.location.href);
-      return state;
-  }
 }
 function currentUser(state = null, action) {
   switch (action.type) {

@@ -195,20 +195,3 @@ export function getPostIcon(socialType) {
   else if (socialType === "instagram") return false;
   else return false;
 }
-
-export function getCurrentPage(currentUrl) {
-  let currentPageReversed = "";
-  for (let i = currentUrl.length - 1; i >= 0; i--) {
-    let character = currentUrl[i];
-    if (character === "#" || character === "=" || character === "_") continue;
-    if (character === "/") break;
-    currentPageReversed += character;
-  }
-  let currentPage = "";
-  for (let i = currentPageReversed.length - 1; i >= 0; i--) {
-    let character = currentPageReversed[i];
-    currentPage += character;
-  }
-
-  return currentPage;
-}
