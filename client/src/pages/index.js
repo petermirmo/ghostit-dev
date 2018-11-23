@@ -131,24 +131,30 @@ class Routes extends Component {
                 </div>
               ))}
           <Route path="/content/" component={Content} />
-          <Route path="/subscribe/" component={Subscribe} />;
-          <Route path="/strategy/" component={Strategy} />;
-          <Route path="/analytics/" component={Analytics} />;
-          <Route path="/social-accounts/" component={Accounts} />;
-          <Route path="/writers-brief/" component={WritersBrief} />;
-          <Route path="/manage/" component={Manage} />;
-          <Route path="/profile/" component={Profile} />;
-          <Route path="/subscription/" component={MySubscription} />;
-          <Route path="/ads/" component={Ads} />;
+          <Route path="/subscribe/" component={Subscribe} />
+          <Route path="/strategy/" component={Strategy} />
+          <Route path="/analytics/" component={Analytics} />
+          <Route path="/social-accounts/" component={Accounts} />
+          <Route path="/writers-brief/" component={WritersBrief} />
+          <Route path="/manage/" component={Manage} />
+          <Route path="/profile/" component={Profile} />
+          <Route path="/subscription/" component={MySubscription} />
+          <Route path="/ads/" component={Ads} />
           {!this.userIsInPlatform(this.props.location.pathname) && (
             <WebsiteHeader />
           )}
-          <Route path="/home/" component={HomePage} />;
-          <Route path="/pricing/" component={PricingPage} />;
-          <Route path="/team/" component={TeamPage} />;
-          <Route path="/agency/" component={GhostitAgency} />;
-          <Route path="/sign-up/" component={LoginPage} signUp={true} />;
-          <Route path="/sign-in/" component={LoginPage} />;
+          <Route path="/home/" component={HomePage} />
+          <Route path="/pricing/" component={PricingPage} />
+          <Route path="/team/" component={TeamPage} />
+          <Route path="/agency/" component={GhostitAgency} />
+          <Route
+            path="/sign-up/"
+            render={props => {
+              return <LoginPage signUp={true} />;
+            }}
+          />
+
+          <Route path="/sign-in/" component={LoginPage} />
         </div>
       </div>
     );

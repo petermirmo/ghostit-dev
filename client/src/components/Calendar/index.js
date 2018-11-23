@@ -25,6 +25,7 @@ import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
 import Tutorial from "../Tutorial/";
 import CalendarPicker from "../CalendarPicker/";
+import SocketUserList from "../SocketUserList/";
 
 import "./styles/";
 
@@ -467,12 +468,17 @@ class Calendar extends Component {
           </div>
         </div>
         {calendarInviteDivs}
-        <CalendarPicker
-          calendars={this.props.calendars}
-          activeCalendarIndex={this.props.activeCalendarIndex}
-          updateActiveCalendar={this.props.updateActiveCalendar}
-          enableCalendarManager={this.props.enableCalendarManager}
-        />
+        <div className="calendar-picker-and-user-list">
+          <CalendarPicker
+            calendars={this.props.calendars}
+            activeCalendarIndex={this.props.activeCalendarIndex}
+            updateActiveCalendar={this.props.updateActiveCalendar}
+            enableCalendarManager={this.props.enableCalendarManager}
+          />
+          <div className="user-list-dropdown">
+            <SocketUserList userList={this.props.userList} />
+          </div>
+        </div>
       </div>
     );
   };
