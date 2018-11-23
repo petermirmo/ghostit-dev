@@ -907,7 +907,10 @@ body {
   font-size: var(--regular-font-size);
   overflow: hidden;
 }
-
+a {
+  text-decoration: none;
+  color: var(--primary-text-theme-color);
+}
 button {
   color: var(--white-theme-color);
   font-family: var(--font-theme);
