@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+
 import axios from "axios";
 import moment from "moment-timezone";
 
@@ -81,7 +83,7 @@ class Content extends Component {
 
     axios.get("/api/timezone").then(res => {
       let { timezone, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (!timezone) timezone = this.state.timezone;
       moment.tz.setDefault(timezone);
@@ -608,7 +610,7 @@ class Content extends Component {
           console.log(message);
           console.log(err);
         } else {
-          if (loggedIn === false) window.location.reload();
+          if (loggedIn === false) this.props.history.push("/sign-in");
 
           for (let index in posts) {
             posts[index].startDate = posts[index].postingDate;
@@ -652,7 +654,7 @@ class Content extends Component {
         console.log(message);
         console.log(err);
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
 
         for (let index in blogs) {
           blogs[index].startDate = blogs[index].postingDate;
@@ -682,7 +684,7 @@ class Content extends Component {
         console.log(message);
         console.log(err);
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
 
         for (let index in newsletters) {
           newsletters[index].startDate = newsletters[index].postingDate;
@@ -712,7 +714,7 @@ class Content extends Component {
         console.log(message);
         console.log(err);
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
 
         for (let index in campaigns) {
           campaigns[index].campaign.posts = campaigns[index].posts;
@@ -1067,7 +1069,6 @@ class Content extends Component {
 }
 
 function mapStateToProps(state) {
-  // at this moment (aug 7 2018), user variable is never used so might be not be worth mapping it
   return {
     user: state.user
   };

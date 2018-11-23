@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+
+import { connect } from "react-redux";
+
 import UsersTable from "./UsersTable";
 import PlansTable from "./PlansTable";
 import WebsiteBlog from "../../components/WebsiteBlog";
@@ -81,4 +84,10 @@ class ManagePage extends Component {
   }
 }
 
-export default ManagePage;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(ManagePage);

@@ -100,7 +100,7 @@ class WritersBriefForm extends Component {
 				this.setState({ saving: false });
 			}
 			let { success, errorMessage, loggedIn } = res.data;
-			if (loggedIn === false) window.location.reload();
+			if (loggedIn === false) this.props.history.push("/sign-in");
 
 			if (!success) {
 				this.notify({ type: "danger", message: errorMessage, title: "error :(" });

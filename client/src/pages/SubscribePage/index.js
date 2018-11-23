@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PayDiv from "./PayDiv";
 
+import { connect } from "react-redux";
+
 import "./styles/";
 
 class SubscribePage extends Component {
@@ -16,7 +18,6 @@ class SubscribePage extends Component {
       }
     };
   }
-
   render() {
     const { annualBilling, plan } = this.state;
 
@@ -86,4 +87,10 @@ class SubscribePage extends Component {
   }
 }
 
-export default SubscribePage;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(SubscribePage);

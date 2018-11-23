@@ -27,6 +27,7 @@ class Profile extends Component {
       window.location.reload();
     }
   }
+
   handleChange = (index, value) => {
     this.setState({ [index]: value });
   };
@@ -46,7 +47,7 @@ class Profile extends Component {
       })
       .then(res => {
         let { loggedIn, success, result, message } = res.data;
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
 
         if (success) {
           let user = result;
@@ -149,7 +150,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser: setUser }, dispatch);
+  return bindActionCreators({ setUser }, dispatch);
 }
 
 export default connect(

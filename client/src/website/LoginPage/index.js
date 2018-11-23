@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import {
-  changePage,
   setUser,
   updateAccounts,
   openHeaderSideBar,
@@ -20,7 +20,6 @@ let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Login extends Component {
   constructor(props) {
     super(props);
-    if (props.user) props.changePage("home");
     this.state = this.createState(props);
     window.onkeyup = e => {
       let key = e.keyCode ? e.keyCode : e.which;
@@ -31,6 +30,9 @@ class Login extends Component {
         else if (login === "register") this.register(e);
       }
     };
+  }
+  componentDidMount() {
+    if (this.props.user) this.props.history.push("/content");
   }
   componentWillReceiveProps(nextProps) {
     this.setState(this.createState(nextProps));
@@ -93,9 +95,9 @@ class Login extends Component {
               if (user.role === "demo")
                 this.activateDemoUserLogin(user, accounts);
               else {
+                this.props.history.push("/content");
                 this.props.setUser(user);
                 this.props.updateAccounts(accounts);
-                this.props.changePage("content");
               }
             });
           } else {
@@ -155,11 +157,11 @@ class Login extends Component {
     }
   };
   activateDemoUserLogin = (user, accounts) => {
+    this.props.history.push("/subscribe");
     this.props.setUser(user);
     this.props.updateAccounts(accounts);
 
     this.props.openHeaderSideBar(true);
-    this.props.changePage("subscribe");
     let temp = { ...this.props.tutorial };
     temp.on = true;
     let somethingChanged = false;
@@ -251,14 +253,15 @@ class Login extends Component {
                   Sign In
                 </div>
               </div>
-
-              <div
-                className="login-switch mt8 button flex vc hc"
-                onClick={() => this.props.changePage("sign-up")}
-              >
-                New to Ghostit?{" "}
-                <div className="login-switch-highlight ml4">Sign Up</div>
-              </div>
+              <p className="login-switch mt8 button flex vc hc">
+                New to Ghostit?
+                <Link to="/sign-up">
+                  <button className="login-switch-highlight ml4">
+                    {" "}
+                    Sign Up
+                  </button>
+                </Link>
+              </p>
             </div>
           )}
           {login === "register" && (
@@ -332,13 +335,15 @@ class Login extends Component {
                   Register
                 </div>
               </div>
-              <div
-                className="login-switch mt8 button flex vc hc"
-                onClick={() => this.props.changePage("sign-in")}
-              >
-                Have an account?{" "}
-                <div className="login-switch-highlight ml4"> Sign In</div>
-              </div>
+              <p className="login-switch mt8 button flex vc hc">
+                Have an account?
+                <Link to="/sign-in">
+                  <button className="login-switch-highlight ml4">
+                    {" "}
+                    Sign In
+                  </button>
+                </Link>
+              </p>
             </div>
           )}
           {login === "forgotPassword" && (
@@ -393,7 +398,6 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
-    activePage: state.activePage,
     tutorial: state.tutorial,
     user: state.user
   };
@@ -401,7 +405,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage,
       setUser,
       updateAccounts,
       openHeaderSideBar,

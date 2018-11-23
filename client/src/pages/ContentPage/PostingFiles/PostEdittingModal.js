@@ -52,7 +52,7 @@ class PostEdittingModal extends Component {
         .then(res => {
           this.setState({ saving: false });
           let { loggedIn, success, err, message } = res.data;
-          if (loggedIn === false) window.location.reload();
+          if (loggedIn === false) this.props.history.push("/sign-in");
 
           if (success) {
             this.props.updateCalendarPosts();

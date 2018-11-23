@@ -8,7 +8,6 @@ import { bindActionCreators } from "redux";
 import {
   setUser,
   updateAccounts,
-  changePage,
   openClientSideBar
 } from "../../redux/actions/";
 

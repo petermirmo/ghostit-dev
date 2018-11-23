@@ -5,7 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, setKeyListenerFunction } from "../../../redux/actions/";
+import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import CreateBlog from "../../../components/CreateBlog/";
 import CreateNewsletter from "../../../components/CreateNewsletter/";
@@ -198,7 +198,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage,
       setKeyListenerFunction
     },
     dispatch

@@ -58,7 +58,7 @@ class StrategyForm extends Component {
 		axios.get("/api/strategy").then(res => {
 			let { strategy, loggedIn } = res.data;
 
-			if (loggedIn === false) window.location.reload();
+			if (loggedIn === false) this.props.history.push("/sign-in");
 
 			if (strategy) {
 				delete strategy._id;
@@ -120,7 +120,7 @@ class StrategyForm extends Component {
 		}
 		axios.post("/api/strategy", strategy).then(res => {
 			let { loggedIn } = res.data;
-			if (loggedIn === false) window.location.reload();
+			if (loggedIn === false) this.props.history.push("/sign-in");
 
 			if (res.data) {
 				this.setState({ saving: false, saveButtonOpacity: 0.4 });

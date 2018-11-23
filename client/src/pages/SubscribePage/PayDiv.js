@@ -108,7 +108,7 @@ class ChargeCardForm extends Component {
           this.setState({ saving: false });
 
           const { success, message, user, loggedIn } = res.data;
-          if (loggedIn === false) window.location.reload();
+          if (loggedIn === false) this.props.history.push("/sign-in");
 
           if (success) {
             if (user) {

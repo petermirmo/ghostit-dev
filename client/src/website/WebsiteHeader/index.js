@@ -1,8 +1,8 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage } from "../../redux/actions/";
 
 import Logo from "./Logo";
 
@@ -10,80 +10,92 @@ import "./style.css";
 
 class WebsiteHeader extends Component {
   render() {
-    const { activePage, changePage, user } = this.props;
+    const { user } = this.props;
     let className = "website-header-button moving-border px32";
+
+    let activePage = "hello";
 
     return (
       <div className="website-header fixed flex pt16 px32">
         <div className="logo-container flex">
-          <Logo
-            onClick={() => this.props.changePage("home")}
-            style={{ cursor: "pointer" }}
-          />
+          <Link to="/home">
+            <Logo style={{ cursor: "pointer" }} />
+          </Link>
         </div>
-        <button
-          className={
-            activePage === "home" || activePage === ""
-              ? className + " active"
-              : className
-          }
-          onClick={() => changePage("home")}
-        >
-          Home
-        </button>
-        <button
-          className={activePage === "team" ? className + " active" : className}
-          onClick={() => changePage("team")}
-        >
-          Team
-        </button>
-        <button
-          className={
-            activePage === "pricing" ? className + " active" : className
-          }
-          onClick={() => changePage("pricing")}
-        >
-          Pricing
-        </button>
-        <button
-          className={
-            activePage === "agency" ? className + " active" : className
-          }
-          onClick={() => changePage("agency")}
-        >
-          Ghostit Agency
-        </button>
-        <button
-          className={activePage === "blog" ? className + " active" : className}
-          onClick={() => changePage("blog")}
-        >
-          Blog
-        </button>
+        <Link to="/home">
+          <button
+            className={
+              activePage === "home" || activePage === ""
+                ? className + " active"
+                : className
+            }
+          >
+            Home
+          </button>
+        </Link>
+        <Link to="/team">
+          <button
+            className={
+              activePage === "team" ? className + " active" : className
+            }
+          >
+            Team
+          </button>
+        </Link>
+        <Link to="/pricing">
+          <button
+            className={
+              activePage === "pricing" ? className + " active" : className
+            }
+          >
+            Pricing
+          </button>
+        </Link>
+        <Link to="/agency">
+          <button
+            className={
+              activePage === "agency" ? className + " active" : className
+            }
+          >
+            Ghostit Agency
+          </button>
+        </Link>
+        <Link to="/blog">
+          <button
+            className={
+              activePage === "blog" ? className + " active" : className
+            }
+          >
+            Blog
+          </button>
+        </Link>
 
         {user && (
-          <button className={className} onClick={() => changePage("content")}>
-            Go to Software
-          </button>
+          <Link to="/content">
+            <button className={className}>Go to Software</button>
+          </Link>
         )}
         {!user && (
-          <button
-            className={
-              activePage === "sign-in" ? className + " active" : className
-            }
-            onClick={() => changePage("sign-in")}
-          >
-            Sign In
-          </button>
+          <Link to="/sign-in">
+            <button
+              className={
+                activePage === "sign-in" ? className + " active" : className
+              }
+            >
+              Sign In
+            </button>
+          </Link>
         )}
         {!user && (
-          <button
-            className={
-              activePage === "sign-up" ? className + " active" : className
-            }
-            onClick={() => changePage("sign-up")}
-          >
-            Start Your Free Trial
-          </button>
+          <Link to="/sign-up">
+            <button
+              className={
+                activePage === "sign-up" ? className + " active" : className
+              }
+            >
+              Start Your Free Trial
+            </button>
+          </Link>
         )}
       </div>
     );
@@ -92,19 +104,7 @@ class WebsiteHeader extends Component {
 
 function mapStateToProps(state) {
   return {
-    activePage: state.activePage,
     user: state.user
   };
 }
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      changePage
-    },
-    dispatch
-  );
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WebsiteHeader);
+export default connect(mapStateToProps)(WebsiteHeader);

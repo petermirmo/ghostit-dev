@@ -3,19 +3,17 @@ import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
+
 import { bindActionCreators } from "redux";
 import {
-  changePage,
   setUser,
   updateAccounts,
   setTutorial,
   openHeaderSideBar
 } from "../redux/actions/";
-
-import { getCurrentPage } from "../extra/functions/CommonFunctions";
 
 import LoaderWedge from "../components/Notifications/LoaderWedge";
 
@@ -32,7 +30,14 @@ import Analytics from "./AnalyticsPage/";
 import WritersBrief from "./WritersBriefPage/";
 import Ads from "./AdsPage/";
 
-import Website from "../website";
+import WebsiteHeader from "../website/WebsiteHeader";
+import HomePage from "../website/HomePage";
+import PricingPage from "../website/PricingPage";
+import TeamPage from "../website/TeamPage";
+import GhostitAgency from "../website/GhostitAgency";
+import LoginPage from "../website/LoginPage";
+
+import "./style.css";
 
 class Routes extends Component {
   state = {
@@ -72,17 +77,29 @@ class Routes extends Component {
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
-      if (success) {
-        this.props.setUser(user);
-        window.location.reload();
-      } else {
-        if (loggedIn === false) window.location.reload();
-      }
+      if (success) window.location.reload();
+      else this.props.history.push("/sign-in");
     });
+  };
+  userIsInPlatform = activePage => {
+    if (
+      activePage === "/content" ||
+      activePage === "/subscribe" ||
+      activePage === "/strategy" ||
+      activePage === "/analytics" ||
+      activePage === "/social-accounts" ||
+      activePage === "/writers-brief" ||
+      activePage === "/manage" ||
+      activePage === "/profile" ||
+      activePage === "/subscription" ||
+      activePage === "/ads"
+    )
+      return true;
+    else return false;
   };
   render() {
     const { datebaseConnection } = this.state;
-    const { user, getKeyListenerFunction, changePage } = this.props;
+    const { user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
@@ -90,44 +107,54 @@ class Routes extends Component {
     let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
 
-    return (
-      <Router>
-        <div className="flex">
-          <Header />
+    let activePage = "hello";
 
-          <div className="wrapper">
-            {user &&
-              ((activePage === "content" ||
-                activePage === "strategy" ||
-                activePage === "writersBrief" ||
-                activePage === "subscribe" ||
-                activePage === "accounts") &&
-                user.signedInAsUser && (
-                  <div className="signed-in-as">
-                    Logged in as: {user.signedInAsUser.fullName}
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      onClick={() => this.signOutOfUsersAccount()}
-                      className="sign-out-of-clients-account"
-                    />
-                  </div>
-                ))}
-            <Route path="/content/" component={Content} />
-            <Route path="/subscribe/" component={Subscribe} />;
-            <Route path="/strategy/" component={Strategy} />;
-            <Route path="/analytics/" component={Analytics} />;
-            <Route path="/social-accounts/" component={Accounts} />;
-            <Route path="/writers-brief/" component={WritersBrief} />;
-            <Route path="/manage/" component={Manage} />;
-            <Route path="/profile/" component={Profile} />;
-            <Route path="/subscription/" component={MySubscription} />;
-            <Route path="/ads/" component={Ads} />;
-          </div>
+    return (
+      <div className="flex">
+        {this.userIsInPlatform(this.props.location.pathname) && <Header />}
+
+        <div className="wrapper">
+          {user &&
+            ((activePage === "content" ||
+              activePage === "strategy" ||
+              activePage === "writersBrief" ||
+              activePage === "subscribe" ||
+              activePage === "accounts") &&
+              user.signedInAsUser && (
+                <div className="signed-in-as">
+                  Logged in as: {user.signedInAsUser.fullName}
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    onClick={() => this.signOutOfUsersAccount()}
+                    className="sign-out-of-clients-account"
+                  />
+                </div>
+              ))}
+          <Route path="/content/" component={Content} />
+          <Route path="/subscribe/" component={Subscribe} />;
+          <Route path="/strategy/" component={Strategy} />;
+          <Route path="/analytics/" component={Analytics} />;
+          <Route path="/social-accounts/" component={Accounts} />;
+          <Route path="/writers-brief/" component={WritersBrief} />;
+          <Route path="/manage/" component={Manage} />;
+          <Route path="/profile/" component={Profile} />;
+          <Route path="/subscription/" component={MySubscription} />;
+          <Route path="/ads/" component={Ads} />;
+          {!this.userIsInPlatform(this.props.location.pathname) && (
+            <WebsiteHeader />
+          )}
+          <Route path="/home/" component={HomePage} />;
+          <Route path="/pricing/" component={PricingPage} />;
+          <Route path="/team/" component={TeamPage} />;
+          <Route path="/agency/" component={GhostitAgency} />;
+          <Route path="/sign-up/" component={LoginPage} signUp={true} />;
+          <Route path="/sign-in/" component={LoginPage} />;
         </div>
-      </Router>
+      </div>
     );
   }
 }
+const ShowTheLocationWithRouter = withRouter(Routes);
 
 function mapStateToProps(state) {
   return {
@@ -148,7 +175,9 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Routes);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Routes)
+);

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
@@ -6,8 +7,6 @@ import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
 
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-
-import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -54,7 +53,7 @@ class AccountsPage extends Component {
     // Get all connected accounts of the user
     axios.get("/api/accounts").then(res => {
       let { accounts, success, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (success) {
         // Set user's accounts to state
@@ -74,7 +73,7 @@ class AccountsPage extends Component {
       let errorMessage = "";
 
       let { pages, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (pages) {
         if (pages.length === 0) errorMessage = "No Facebook pages found";
@@ -101,7 +100,7 @@ class AccountsPage extends Component {
 
       // Set user's facebook groups to state
       let { groups, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (groups) {
         if (groups.length === 0) errorMessage = "No Facebook groups found";
@@ -125,7 +124,7 @@ class AccountsPage extends Component {
     });
     axios.get("/api/instagram/pages").then(res => {
       let { pages, loggedIn, errorMessage } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       // Set data to state
       this.setState({
@@ -144,7 +143,7 @@ class AccountsPage extends Component {
       let errorMessage;
       // Check to see if array is empty or a profile account was found
       let { pages, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (pages) {
         if (pages.length === 0) {
@@ -289,14 +288,13 @@ class AccountsPage extends Component {
             }}
           >
             Connect Facebook
-            {tutorial.on &&
-              tutorial.value === 1 && (
-                <Tutorial
-                  title="Tutorial"
-                  message="Click 'Connect Facebook' to connect your Facebook Profile account!"
-                  position="bottom"
-                />
-              )}
+            {tutorial.on && tutorial.value === 1 && (
+              <Tutorial
+                title="Tutorial"
+                message="Click 'Connect Facebook' to connect your Facebook Profile account!"
+                position="bottom"
+              />
+            )}
           </div>
 
           <div
@@ -304,14 +302,13 @@ class AccountsPage extends Component {
             onClick={() => this.openModal("facebook", "page")}
           >
             Page
-            {tutorial.on &&
-              tutorial.value === 2 && (
-                <Tutorial
-                  title="Tutorial"
-                  message="Click 'Page' to connect your Facebook Page!"
-                  position="bottom"
-                />
-              )}
+            {tutorial.on && tutorial.value === 2 && (
+              <Tutorial
+                title="Tutorial"
+                message="Click 'Page' to connect your Facebook Page!"
+                position="bottom"
+              />
+            )}
           </div>
           <div
             className="social-media-connect button mb16 facebook"
@@ -354,7 +351,8 @@ class AccountsPage extends Component {
         </div>
         <div className="account-column flex column vc">
           <div className="social-header-button flex hc button mb16 pa8 instagram">
-            Connect Instagram <br />(Coming Soon)
+            Connect Instagram <br />
+            (Coming Soon)
           </div>
           {connectedInstagramAccountDivs}
         </div>
@@ -385,11 +383,12 @@ function mapStateToProps(state) {
   return {
     clientSideBar: state.clientSideBar,
     accounts: state.accounts,
-    tutorial: state.tutorial
+    tutorial: state.tutorial,
+    user: state.user
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateAccounts: updateAccounts }, dispatch);
+  return bindActionCreators({ updateAccounts }, dispatch);
 }
 export default connect(
   mapStateToProps,

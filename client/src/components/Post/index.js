@@ -194,7 +194,7 @@ class PostingOptions extends Component {
     let { linkImage, link } = this.state;
     axios.post("/api/link", { link: newLink }).then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
       if (this._ismounted && res.data) {
         if (!linkImage) linkImage = res.data[0];
         if (link !== newLink) linkImage = res.data[0];

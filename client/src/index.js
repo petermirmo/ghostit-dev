@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Routes from "./pages";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reducers from "./redux/reducers/";
-require("../public/favicon.ico");
+
+import Routes from "./pages";
 
 import "./css/";
+
+require("../public/favicon.ico");
 
 function logger({ getState }) {
   return next => action => {
@@ -18,7 +22,9 @@ const store = createStore(reducers, applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Routes />
+    <Router>
+      <Routes />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

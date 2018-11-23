@@ -17,11 +17,11 @@ import {
   faUser,
   faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
-  changePage,
   setUser,
   updateAccounts,
   openClientSideBar,
@@ -34,18 +34,6 @@ import Tutorial from "../../Tutorial/";
 import "./styles/";
 
 class HeaderSideBar extends Component {
-  constructor(props) {
-    super(props);
-
-    if (
-      (!props.activePage ||
-        props.activePage === "sign-in" ||
-        props.activePage === "sign-up") &&
-      props.user
-    ) {
-      props.changePage("content");
-    }
-  }
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
@@ -53,23 +41,15 @@ class HeaderSideBar extends Component {
         this.props.setUser(user);
         window.location.reload();
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
       }
     });
   };
-  isActive = page => {
-    switch (this.props.activePage) {
-      case page:
-        return " active";
-      default:
-        return "";
-    }
-  };
+
   logout = () => {
     axios.get("/api/logout").then(res => {
       let { success, loggedIn } = res.data;
       if (success) {
-        this.props.changePage("");
         this.props.updateAccounts([]);
         this.props.setUser(null);
       } else {
@@ -77,15 +57,11 @@ class HeaderSideBar extends Component {
       }
     });
   };
+  isActive = () => {
+    return false;
+  };
   render() {
-    const {
-      user,
-      activePage,
-      changePage,
-      headerSideBar,
-      clientSideBar,
-      tutorial
-    } = this.props;
+    const { user, headerSideBar, clientSideBar, tutorial } = this.props;
 
     if (!user) {
       return <div style={{ display: "none" }} />;
@@ -120,131 +96,137 @@ class HeaderSideBar extends Component {
           )}
         </div>
 
-        {headerSideBar &&
-          !clientSideBar && (
-            <div className="navbar pa16">
-              {(user.role === "demo" || isAdmin) && (
-                <div
-                  className={"header-button mb16 " + this.isActive("subscribe")}
-                  onClick={() => changePage("subscribe")}
+        {headerSideBar && !clientSideBar && (
+          <div className="navbar pa16">
+            {(user.role === "demo" || isAdmin) && (
+              <Link to="/subscribe">
+                <button
+                  className={
+                    "header-button mb16 button" + this.isActive("subscribe")
+                  }
                 >
                   <FontAwesomeIcon icon={faStar} />
                   Upgrade to Plan
-                </div>
-              )}
-              <div
+                </button>
+              </Link>
+            )}
+            <Link to="/content">
+              <button
                 className={"header-button mb16 " + this.isActive("content")}
-                onClick={() => changePage("content")}
               >
                 <FontAwesomeIcon icon={faCalendar} />
                 Calendar
-                {tutorial.on &&
-                  tutorial.value === 3 && (
-                    <Tutorial
-                      title="Tutorial"
-                      message="Click 'Calendar' in the sidebar to go to our main screen, the calendar!"
-                      position="right"
-                    />
-                  )}
-              </div>
-              {isAdmin && (
-                <div
+                {tutorial.on && tutorial.value === 3 && (
+                  <Tutorial
+                    title="Tutorial"
+                    message="Click 'Calendar' in the sidebar to go to our main screen, the calendar!"
+                    position="right"
+                  />
+                )}
+              </button>
+            </Link>
+            {isAdmin && (
+              <Link to="/analytics">
+                <button
                   className={
                     "header-button mb16  " + this.isActive("analytics")
                   }
-                  onClick={() => changePage("analytics")}
                 >
                   <FontAwesomeIcon icon={faChartLine} />
                   Analytics
-                </div>
-              )}
-              {isAdmin &&
-                false && (
-                  <div
-                    className={"header-button mb16  " + this.isActive("ads")}
-                    onClick={() => changePage("ads")}
-                  >
-                    <FontAwesomeIcon icon={faAd} />
-                    Create an Ad
-                  </div>
-                )}
-              <div
+                </button>
+              </Link>
+            )}
+            {isAdmin && false && (
+              <Link to="/ads">
+                <button
+                  className={"header-button mb16  " + this.isActive("ads")}
+                >
+                  <FontAwesomeIcon icon={faAd} />
+                  Create an Ad
+                </button>
+              </Link>
+            )}
+            <Link to="/social-accounts">
+              <button
                 className={
                   "header-button mb16 " + this.isActive("social-accounts")
                 }
-                onClick={() => changePage("social-accounts")}
               >
                 <FontAwesomeIcon icon={faPlus} />
                 Social Profiles
-                {tutorial.on &&
-                  tutorial.value === 0 && (
-                    <Tutorial
-                      title="Tutorial"
-                      message="Click 'Social Profiles' in the sidebar to connect your first social media profile!"
-                      position="right"
-                    />
-                  )}
-              </div>
-              {isAdmin && (
-                <div
+                {tutorial.on && tutorial.value === 0 && (
+                  <Tutorial
+                    title="Tutorial"
+                    message="Click 'Social Profiles' in the sidebar to connect your first social media profile!"
+                    position="right"
+                  />
+                )}
+              </button>
+            </Link>
+            {isAdmin && (
+              <Link to="/manage">
+                <button
                   className={"header-button mb16  " + this.isActive("manage")}
-                  onClick={() => changePage("manage")}
                 >
                   <FontAwesomeIcon icon={faCogs} />
                   Manage
-                </div>
-              )}
-              <div
+                </button>
+              </Link>
+            )}
+            <Link to="/profile">
+              <button
                 className={"header-button mb16 " + this.isActive("profile")}
-                onClick={() => changePage("profile")}
               >
                 <FontAwesomeIcon icon={faUser} />
                 Profile
-              </div>
-              {(user.role === "client" || isAdmin) && (
-                <div
+              </button>
+            </Link>
+            {(user.role === "client" || isAdmin) && (
+              <Link to="/subscription">
+                <button
                   className={
                     "header-button mb16 " + this.isActive("subscription")
                   }
-                  onClick={() => changePage("subscription")}
                 >
                   <FontAwesomeIcon icon={faHistory} />
                   Billing History
-                </div>
-              )}
-              <div
+                </button>
+              </Link>
+            )}
+            <Link to="/sign-in">
+              <button
                 className="header-button mb16 "
                 onClick={() => this.logout()}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 Logout
-              </div>
-              {(isAdmin || isManager) &&
-                false && (
-                  <div
-                    className={
-                      "header-button mb16 " + this.isActive("writers-brief")
-                    }
-                    onClick={() => changePage("writers-brief")}
-                  >
-                    <FontAwesomeIcon icon={faFileAlt} />
-                    Monthly Strategy
-                  </div>
-                )}
-              {(isAdmin || isManager) &&
-                false && (
-                  <div
-                    className={
-                      "header-button mb16 " + this.isActive("strategy")
-                    }
-                    onClick={() => changePage("strategy")}
-                  >
-                    <FontAwesomeIcon icon={faFileAlt} />
-                    Your Questionnaire
-                  </div>
-                )}
-            </div>
-          )}
+              </button>
+            </Link>
+            {(isAdmin || isManager) && false && (
+              <Link to="/writers-brief">
+                <button
+                  className={
+                    "header-button mb16 " + this.isActive("writers-brief")
+                  }
+                >
+                  <FontAwesomeIcon icon={faFileAlt} />
+                  Monthly Strategy
+                </button>
+              </Link>
+            )}
+            {(isAdmin || isManager) && false && (
+              <Link to="/strategy">
+                <button
+                  className={"header-button mb16 " + this.isActive("strategy")}
+                >
+                  <FontAwesomeIcon icon={faFileAlt} />
+                  Your Questionnaire
+                </button>
+              </Link>
+            )}
+          </div>
+        )}
         {clientSideBar && <ClientsSideBar />}
       </div>
     );
@@ -253,7 +235,6 @@ class HeaderSideBar extends Component {
 
 function mapStateToProps(state) {
   return {
-    activePage: state.activePage,
     user: state.user,
     clientSideBar: state.clientSideBar,
     headerSideBar: state.headerSideBar,
@@ -263,7 +244,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage,
       setUser,
       updateAccounts,
       openHeaderSideBar,

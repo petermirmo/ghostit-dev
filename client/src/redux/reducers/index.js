@@ -55,7 +55,6 @@ function tutorial(state = { value: 0, on: false }, action) {
 const rootReducer = combineReducers({
   user: currentUser,
   account: accountReducer,
-  activePage,
   clientSideBar,
   headerSideBar,
   accounts,

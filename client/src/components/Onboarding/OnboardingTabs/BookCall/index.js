@@ -1,41 +1,28 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { changePage } from "../../../../redux/actions/";
 import "./styles/";
 
 class BookCall extends Component {
-	constructor(props) {
-		super(props);
-		props.setHeaderMessage(props.title);
-	}
-	render() {
-		const { className, value, link } = this.props;
-		return (
-			<form>
-				<button
-					className={className}
-					onClick={() => {
-						window.open(link);
-						this.props.changePage("strategy");
-					}}
-					type="submit"
-				>
-					{value}
-				</button>
-			</form>
-		);
-	}
+  constructor(props) {
+    super(props);
+    props.setHeaderMessage(props.title);
+  }
+  render() {
+    const { className, value, link } = this.props;
+    return (
+      <form>
+        <Link to="/strategy">
+          <button
+            className={className}
+            onClick={() => window.open(link)}
+            type="submit"
+          >
+            {value}
+          </button>
+        </Link>
+      </form>
+    );
+  }
 }
-
-function mapStateToProps(state) {
-	return {};
-}
-function mapDispatchToProps(dispatch) {
-	return bindActionCreators({ changePage: changePage }, dispatch);
-}
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(BookCall);
+export default BookCall;

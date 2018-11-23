@@ -108,7 +108,7 @@ export async function savePost(
           callback(post);
         }
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
       }
     });
 }

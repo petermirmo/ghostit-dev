@@ -32,7 +32,7 @@ class UsersTable extends Component {
     const { userCategories } = this.state;
     axios.get("/api/users").then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (!res) {
         // If res sends back false the user is not an admin and is likely a hacker
@@ -85,7 +85,7 @@ class UsersTable extends Component {
   getPlans = () => {
     axios.get("/api/plans").then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       this.setState({ plans: res.data });
     });
@@ -118,7 +118,7 @@ class UsersTable extends Component {
   saveUser = user => {
     axios.post("/api/updateUser", user).then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (res.data) {
         alert("success");

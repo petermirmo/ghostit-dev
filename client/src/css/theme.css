@@ -917,6 +917,7 @@ button {
   outline: 0;
 
   border: none;
+  background-color: transparent;
 }
 textarea,
 input {

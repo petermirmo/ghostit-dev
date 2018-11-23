@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, updateAccounts } from "../../redux/actions/";
+import { updateAccounts } from "../../redux/actions/";
 
 import Section1 from "./Section1";
 import Section2 from "./Section2";
@@ -58,10 +59,9 @@ class HomePage extends Component {
           )}
 
           {displayGhostAndMessage && (
-            <GhostSpeakingMessage
-              message="Ready to start your free trial?"
-              onClick={() => this.props.changePage("sign-up")}
-            />
+            <Link to="/sign-up">
+              <GhostSpeakingMessage message="Ready to start your free trial?" />
+            </Link>
           )}
 
           <Ghost
@@ -85,7 +85,6 @@ class HomePage extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage,
       updateAccounts
     },
     dispatch
