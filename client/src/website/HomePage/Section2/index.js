@@ -145,6 +145,7 @@ class Section2 extends Component {
             updateActiveCategory={() => {}}
             calendars={[]}
             onDateChange={date => this.setState({ calendarDate: date })}
+            userList={[]}
           />
         </div>
       </div>
