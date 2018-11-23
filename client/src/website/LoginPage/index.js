@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -20,6 +20,7 @@ let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Login extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = this.createState(props);
     window.onkeyup = e => {
       let key = e.keyCode ? e.keyCode : e.which;
@@ -413,7 +414,9 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Login)
+);
