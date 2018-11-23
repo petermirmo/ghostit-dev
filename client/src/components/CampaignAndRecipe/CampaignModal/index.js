@@ -58,9 +58,13 @@ class CampaignModal extends Component {
     window.removeEventListener("beforeunload", this.saveChangesOnClose);
     this.saveChangesOnClose();
     this._ismounted = false;
+    if (this.state.socket)
+      this.state.socket.emit("unmounting_socket_component");
   }
   saveChangesOnClose = () => {
     let { campaign, somethingChanged, socket, recipeEditing } = this.state;
+
+    if (socket) socket.emit("unmounting_socket_component");
 
     if (!recipeEditing && somethingChanged && campaign && socket) {
       socket.emit("campaign_editted", campaign);
@@ -178,6 +182,7 @@ class CampaignModal extends Component {
       posts,
       listOfPostChanges: {},
       activePostIndex,
+      userList: [], // list of users connected to the same campaign socket (how many users are currently modifying this campaign)
 
       saving: !props.recipeEditing,
       somethingChanged,
@@ -345,6 +350,15 @@ class CampaignModal extends Component {
         if (campaign._id.toString() !== this.state.campaign._id.toString())
           return;
         this.setState({ campaign });
+      });
+
+      socket.on("socket_user_list", reqObj => {
+        const { roomID, userList } = reqObj;
+        const { campaign } = this.state;
+
+        if (roomID.toString() !== campaign._id.toString()) return;
+
+        this.setState({ userList });
       });
     }
 
@@ -1010,7 +1024,8 @@ class CampaignModal extends Component {
       socket,
       postUpdatedPrompt,
       postDeletedPrompt,
-      campaignDeletedPrompt
+      campaignDeletedPrompt,
+      userList
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
@@ -1031,6 +1046,7 @@ class CampaignModal extends Component {
               this.props.handleChange(false, "campaignModal");
               this.props.handleChange(true, "recipeModal");
             }}
+            userList={userList}
             close={() => this.attemptToCloseModal()}
           />
           {!firstPostChosen && (

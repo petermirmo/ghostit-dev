@@ -469,13 +469,17 @@ class Calendar extends Component {
           </div>
         </div>
         {calendarInviteDivs}
-        <CalendarPicker
-          calendars={this.props.calendars}
-          activeCalendarIndex={this.props.activeCalendarIndex}
-          updateActiveCalendar={this.props.updateActiveCalendar}
-          enableCalendarManager={this.props.enableCalendarManager}
-        />
-        <SocketUserList userList={this.props.userList} />
+        <div className="calendar-picker-and-user-list">
+          <CalendarPicker
+            calendars={this.props.calendars}
+            activeCalendarIndex={this.props.activeCalendarIndex}
+            updateActiveCalendar={this.props.updateActiveCalendar}
+            enableCalendarManager={this.props.enableCalendarManager}
+          />
+          <div className="user-list-dropdown">
+            <SocketUserList userList={this.props.userList} />
+          </div>
+        </div>
       </div>
     );
   };

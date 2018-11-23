@@ -135,7 +135,7 @@ class Content extends Component {
 
   notifySocketUsersOnPageClose = () => {
     const { socket } = this.state;
-    socket.emit("unmounting_socket_component");
+    if (socket) socket.emit("unmounting_socket_component");
   };
 
   initSocket = () => {

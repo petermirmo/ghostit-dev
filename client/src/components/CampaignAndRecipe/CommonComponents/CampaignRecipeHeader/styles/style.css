@@ -12,6 +12,13 @@
   background-color: var(--white-theme-color);
   border-bottom: 2px solid var(--secondary-text-theme-color);
 }
+.user-list-and-show-more {
+}
+.user-list-container {
+  position: absolute;
+  left: 0;
+  margin-left: 8px;
+}
 .campaign-title {
   font-family: var(--silly-font-theme);
   font-size: var(--gigantic-font-size);

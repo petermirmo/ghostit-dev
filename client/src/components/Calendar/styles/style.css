@@ -8,6 +8,18 @@
   display: flex;
   justify-content: center;
 }
+.calendar-picker-and-user-list {
+  display: flex;
+  flex: 1;
+  width: 95%;
+  flex-direction: row;
+  justify-content: center;
+  position: relative;
+}
+.user-list-dropdown {
+  position: absolute;
+  right: 0;
+}
 .calendar-container {
   overflow-x: hidden;
 }

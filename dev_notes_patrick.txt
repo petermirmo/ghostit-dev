@@ -132,7 +132,14 @@ to do next:
 
   posts should display who their creator was
 
+  Filter Calendar, Queue Preview, and Month/Year text should re-size based on window size
 
+  campaign modal maybe have the name, start date, end date all appear in a "compact" version when their normal displays are hidden
+
+  calendar/socket styles to fix:
+    calendar picker (make sure all names fit properly into their containers and use ... on names that are too long)
+    user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
+    calendar manager user / account cards
 
 
 
