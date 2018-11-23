@@ -62,7 +62,15 @@ export const teamMembers = [
     image: "tori.jpg",
     color: "var(--seven-orange-color)"
   },
-
+  {
+    name: "Patrick",
+    location: "Victoria",
+    title: "",
+    description:
+      "The field of computer science waited patiently for Patrick while he spent 7 years after high school playing junior then professional hockey. Always a computer nerd and always looking to solve problems, programming was a perfect fit. Loves to get things working and then quickly asking Peter to make it look pretty.",
+    image: "patrickHolland.jpg",
+    color: "var(--five-purple-color)"
+  },
   {
     name: "Peter",
     location: "Victoria",

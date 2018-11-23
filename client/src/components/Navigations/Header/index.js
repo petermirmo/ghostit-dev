@@ -97,7 +97,7 @@ class HeaderSideBar extends Component {
         </div>
 
         {headerSideBar && !clientSideBar && (
-          <div className="navbar pa16">
+          <div className="navbar pa16 flex column">
             {(user.role === "demo" || isAdmin) && (
               <Link to="/subscribe">
                 <button
@@ -105,8 +105,8 @@ class HeaderSideBar extends Component {
                     "header-button mb16 button" + this.isActive("subscribe")
                   }
                 >
-                  <FontAwesomeIcon icon={faStar} />
-                  Upgrade to Plan
+                  <FontAwesomeIcon icon={faStar} className="test2" />
+                  <p className="test">Upgrade to Plan</p>
                 </button>
               </Link>
             )}
