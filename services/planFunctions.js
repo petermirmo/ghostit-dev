@@ -325,7 +325,7 @@ function createStripeSubscription(user, planID, tax, res) {
       else {
         user.stripeSubscriptionID = subscription.id;
         user.role = "client";
-        user.save(finalUserSavedWithSubscription => {
+        user.save((err, finalUserSavedWithSubscription) => {
           res.send({
             success: true,
             message: "Success!",
