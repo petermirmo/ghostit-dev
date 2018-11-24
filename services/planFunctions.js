@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Plan = require("../models/Plan");
 const keys = require("../config/keys");
+const generalFunctions = require("./generalFunctions");
 
 var stripe = require("stripe")(keys.stripeSecretKey);
 
@@ -23,7 +24,8 @@ module.exports = {
         Plan.findOne({ _id: user.plan.id }, function(err, plan) {
           if (err) generalFunctions.handleError(res, err);
           else if (plan) res.send(plan);
-          else if (err) generalFunctions.handleError(res, "Plan not found");
+          else if (err)
+            generalFunctions.handleError(res, err, undefined, "Plan not found");
         });
       } else {
         res.send(false);
@@ -42,6 +44,8 @@ module.exports = {
           if (err)
             generalFunctions.handleError(
               res,
+              err,
+              undefined,
               "Please reload the page and try again!"
             );
           else if (signedInAsUser) userForPlan = signedInAsUser;
@@ -79,6 +83,8 @@ module.exports = {
           if (err)
             return generalFunctions.handleError(
               res,
+              err,
+              undefined,
               "Please reload the page and try again!"
             );
           else {
@@ -87,6 +93,8 @@ module.exports = {
               if (err)
                 return generalFunctions.handleError(
                   res,
+                  err,
+                  undefined,
                   "Please reload the page and try again!"
                 );
               else {
@@ -131,6 +139,8 @@ module.exports = {
           if (err)
             return generalFunctions.handleError(
               res,
+              err,
+              undefined,
               "Please reload the page and try again!"
             );
           else if (signedInAsUser) user = signedInAsUser;
@@ -188,6 +198,8 @@ module.exports = {
       if (err)
         return generalFunctions.handleError(
           res,
+          err,
+          undefined,
           "Please reload the page and try again!"
         );
       else if (plan) {
@@ -216,6 +228,8 @@ module.exports = {
               if (err)
                 return generalFunctions.handleError(
                   res,
+                  err,
+                  undefined,
                   "Please reload the page and try again!"
                 );
               else {
@@ -254,6 +268,8 @@ module.exports = {
               if (err)
                 return generalFunctions.handleError(
                   res,
+                  err,
+                  undefined,
                   "Please reload the page and try again!"
                 );
               else {
@@ -302,6 +318,8 @@ function createStripeSubscription(user, planID, tax, res) {
       if (err)
         return generalFunctions.handleError(
           res,
+          err,
+          undefined,
           "Please contact our development team!"
         );
       else {
@@ -338,6 +356,8 @@ function signUpUserToPlan(
       if (err)
         return generalFunctions.handleError(
           res,
+          err,
+          undefined,
           "Please reload the page and try again!"
         );
       else {
@@ -348,6 +368,8 @@ function signUpUserToPlan(
           if (err)
             return generalFunctions.handleError(
               res,
+              err,
+              undefined,
               "Please reload the page and try again!"
             );
           else {
@@ -370,6 +392,8 @@ function signUpUserToPlan(
                   if (err)
                     return generalFunctions.handleError(
                       res,
+                      err,
+                      undefined,
                       "Please contact our development team!"
                     );
                   else {
@@ -391,6 +415,8 @@ function signUpUserToPlan(
                               if (err)
                                 return generalFunctions.handleError(
                                   res,
+                                  err,
+                                  undefined,
                                   "Please contact our development team!"
                                 );
                               else {
