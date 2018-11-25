@@ -1,6 +1,6 @@
 const Post = require("../models/Post");
 const Account = require("../models/Account");
-const functions = require("./functions");
+const { savePostError, savePostSuccessfully } = require("./functions");
 const keys = require("../config/keys");
 
 const cloudinary = require("cloudinary");
@@ -16,7 +16,7 @@ module.exports = {
       async function(err, account) {
         if (err) {
           console.log(err);
-          functions.savePostError(post._id, err);
+          savePostError(post._id, err);
           return;
         }
         if (account) {
@@ -32,9 +32,9 @@ module.exports = {
               facebookPostWithImage.url = post.images[i].url;
               FB.api("me/photos", "post", facebookPostWithImage, function(res) {
                 if (!res || res.error) {
-                  functions.savePostError(post._id, res.error);
+                  savePostError(post._id, res.error);
                 } else {
-                  functions.savePostSuccessfully(post._id, res.post_id);
+                  savePostSuccessfully(post._id, res.post_id);
                 }
               });
             }
@@ -49,14 +49,14 @@ module.exports = {
             }
             FB.api("me/feed", "post", facebookPostNoImage, function(res) {
               if (!res || res.error) {
-                functions.savePostError(post._id, res.error);
+                savePostError(post._id, res.error);
               } else {
-                functions.savePostSuccessfully(post._id, res.id);
+                savePostSuccessfully(post._id, res.id);
               }
             });
           }
         } else {
-          functions.savePostError(post._id, "Account not found!");
+          savePostError(post._id, "Account not found!");
         }
       }
     );
@@ -87,9 +87,9 @@ module.exports = {
                 facebookPostWithImage,
                 function(res) {
                   if (!res || res.error) {
-                    functions.savePostError(post._id, res.error);
+                    savePostError(post._id, res.error);
                   } else {
-                    functions.savePostSuccessfully(post._id, res.id);
+                    savePostSuccessfully(post._id, res.id);
                   }
                 }
               );
@@ -109,15 +109,15 @@ module.exports = {
               facebookPostNoImage,
               function(res) {
                 if (!res || res.error) {
-                  functions.savePostError(post._id, res.error);
+                  savePostError(post._id, res.error);
                 } else {
-                  functions.savePostSuccessfully(post._id, res.id);
+                  savePostSuccessfully(post._id, res.id);
                 }
               }
             );
           }
         } else {
-          functions.savePostError(post._id, "Account not found!");
+          savePostError(post._id, "Account not found!");
         }
       }
     );

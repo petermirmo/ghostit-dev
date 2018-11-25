@@ -3,8 +3,8 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { setUser, changePage } from "../../redux/actions/";
 
-import { setUser } from "../../redux/actions/";
 import Notification from "../../components/Notifications/Notification/";
 import Loader from "../../components/Notifications/Loader/";
 
@@ -115,8 +115,10 @@ class ChargeCardForm extends Component {
               if (
                 this.props.user.role !== "admin" &&
                 this.props.user.role !== "manager"
-              )
+              ) {
                 this.props.setUser(user);
+                this.props.changePage("content");
+              }
             }
           } else {
             this.notify(message, "danger", "Something went wrong!");
@@ -164,7 +166,7 @@ function mapStateToProps(state) {
   return { user: state.user };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser }, dispatch);
+  return bindActionCreators({ setUser, changePage }, dispatch);
 }
 
 export default connect(
