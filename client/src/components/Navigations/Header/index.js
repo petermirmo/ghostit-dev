@@ -17,7 +17,7 @@ import {
   faUser,
   faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -52,6 +52,7 @@ class HeaderSideBar extends Component {
       if (success) {
         this.props.setUser(null);
         this.props.updateAccounts([]);
+        this.props.history.push("/sign-in");
       } else {
         window.location.reload();
       }
@@ -253,7 +254,9 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HeaderSideBar);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(HeaderSideBar)
+);

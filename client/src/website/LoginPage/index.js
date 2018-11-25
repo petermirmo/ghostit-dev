@@ -22,7 +22,6 @@ let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 class Login extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = this.createState(props);
     window.onkeyup = e => {
       let key = e.keyCode ? e.keyCode : e.which;

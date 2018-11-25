@@ -163,7 +163,6 @@ class Routes extends Component {
     );
   }
 }
-const ShowTheLocationWithRouter = withRouter(Routes);
 
 function mapStateToProps(state) {
   return {
