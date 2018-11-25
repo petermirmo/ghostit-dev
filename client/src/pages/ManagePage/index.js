@@ -19,9 +19,13 @@ class ManagePage extends Component {
     notifications: []
   };
   componentDidMount() {
+    this._ismounted = true;
     axios.get("/api/notifications").then(res => {
-      this.setState({ notifications: res.data });
+      if (this._ismounted) this.setState({ notifications: res.data });
     });
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
   }
   deleteNotification = id => {
     axios.delete("/api/notification/" + id).then(res => {

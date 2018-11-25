@@ -99,22 +99,22 @@ class HeaderSideBar extends Component {
         </div>
 
         {headerSideBar && !clientSideBar && (
-          <div className="navbar pa16 flex column">
+          <div className="navbar pa16">
             {(user.role === "demo" || isAdmin) && (
-              <Link to="/subscribe">
-                <button
-                  className={
-                    "header-button mb16 button" + this.isActive("subscribe")
-                  }
-                >
-                  <FontAwesomeIcon icon={faStar} className="test2" />
-                  <p className="test">Upgrade to Plan</p>
-                </button>
-              </Link>
+              <div
+                className={
+                  "header-button button mb16 " + this.isActive("subscribe")
+                }
+              >
+                <FontAwesomeIcon icon={faStar} />
+                Upgrade to Plan
+              </div>
             )}
             <Link to="/content">
-              <button
-                className={"header-button mb16 " + this.isActive("content")}
+              <div
+                className={
+                  "header-button button mb16 " + this.isActive("content")
+                }
               >
                 <FontAwesomeIcon icon={faCalendar} />
                 Calendar
@@ -125,34 +125,37 @@ class HeaderSideBar extends Component {
                     position="right"
                   />
                 )}
-              </button>
+              </div>
             </Link>
             {isAdmin && (
               <Link to="/analytics">
-                <button
+                <div
                   className={
-                    "header-button mb16  " + this.isActive("analytics")
+                    "header-button button mb16  " + this.isActive("analytics")
                   }
                 >
                   <FontAwesomeIcon icon={faChartLine} />
                   Analytics
-                </button>
+                </div>
               </Link>
             )}
             {isAdmin && false && (
               <Link to="/ads">
-                <button
-                  className={"header-button mb16  " + this.isActive("ads")}
+                <div
+                  className={
+                    "header-button button mb16  " + this.isActive("ads")
+                  }
                 >
                   <FontAwesomeIcon icon={faAd} />
                   Create an Ad
-                </button>
+                </div>
               </Link>
             )}
             <Link to="/social-accounts">
-              <button
+              <div
                 className={
-                  "header-button mb16 " + this.isActive("social-accounts")
+                  "header-button button mb16 " +
+                  this.isActive("social-accounts")
                 }
               >
                 <FontAwesomeIcon icon={faPlus} />
@@ -164,67 +167,74 @@ class HeaderSideBar extends Component {
                     position="right"
                   />
                 )}
-              </button>
+              </div>
             </Link>
             {isAdmin && (
               <Link to="/manage">
-                <button
-                  className={"header-button mb16  " + this.isActive("manage")}
+                <div
+                  className={
+                    "header-button button mb16  " + this.isActive("manage")
+                  }
                 >
                   <FontAwesomeIcon icon={faCogs} />
                   Manage
-                </button>
+                </div>
               </Link>
             )}
             <Link to="/profile">
-              <button
-                className={"header-button mb16 " + this.isActive("profile")}
+              <div
+                className={
+                  "header-button button mb16 " + this.isActive("profile")
+                }
               >
                 <FontAwesomeIcon icon={faUser} />
                 Profile
-              </button>
+              </div>
             </Link>
             {(user.role === "client" || isAdmin) && (
               <Link to="/subscription">
-                <button
+                <div
                   className={
-                    "header-button mb16 " + this.isActive("subscription")
+                    "header-button button mb16 " + this.isActive("subscription")
                   }
                 >
                   <FontAwesomeIcon icon={faHistory} />
                   Billing History
-                </button>
+                </div>
               </Link>
             )}
             <Link to="/sign-in">
-              <button
-                className="header-button mb16 "
+              <div
+                className="header-button button mb16 "
                 onClick={() => this.logout()}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 Logout
-              </button>
+              </div>
             </Link>
             {(isAdmin || isManager) && false && (
               <Link to="/writers-brief">
-                <button
+                <div
                   className={
-                    "header-button mb16 " + this.isActive("writers-brief")
+                    "header-button button mb16 " +
+                    this.isActive("writers-brief")
                   }
                 >
                   <FontAwesomeIcon icon={faFileAlt} />
                   Monthly Strategy
-                </button>
+                </div>
               </Link>
             )}
             {(isAdmin || isManager) && false && (
               <Link to="/strategy">
-                <button
-                  className={"header-button mb16 " + this.isActive("strategy")}
+                <div
+                  className={
+                    "header-button button mb16 " + this.isActive("strategy")
+                  }
                 >
                   <FontAwesomeIcon icon={faFileAlt} />
                   Your Questionnaire
-                </button>
+                </div>
               </Link>
             )}
           </div>
