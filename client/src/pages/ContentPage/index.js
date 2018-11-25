@@ -103,17 +103,19 @@ class Content extends Component {
           calObj => calObj._id.toString() === defaultCalendarID.toString()
         );
         if (activeCalendarIndex === -1) activeCalendarIndex = 0;
-        this.setState(
-          {
-            calendars,
-            activeCalendarIndex,
-            defaultCalendarID
-          },
-          () => {
-            this.fillCalendar();
-            this.updateSocketCalendar();
-          }
-        );
+        if (this._ismounted) {
+          this.setState(
+            {
+              calendars,
+              activeCalendarIndex,
+              defaultCalendarID
+            },
+            () => {
+              this.fillCalendar();
+              this.updateSocketCalendar();
+            }
+          );
+        }
       }
     });
 

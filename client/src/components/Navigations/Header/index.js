@@ -49,6 +49,7 @@ class HeaderSideBar extends Component {
   logout = () => {
     axios.get("/api/logout").then(res => {
       let { success, loggedIn } = res.data;
+
       if (success) {
         this.props.setUser(null);
         this.props.updateAccounts([]);

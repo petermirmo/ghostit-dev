@@ -96,7 +96,6 @@ module.exports = app => {
   );
   // Logout user
   app.get("/api/logout", middleware, (req, res) => {
-    req.session.destroy();
     res.send({ success: true });
   });
 

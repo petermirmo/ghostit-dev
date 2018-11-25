@@ -22,12 +22,16 @@ class Analytics extends Component {
 
   componentDidMount() {
     this.getAccountAnalytics();
+    this._ismounted = true;
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
   }
 
   getAccountAnalytics = () => {
     axios.get("/api/ai/analytics/accounts").then(res => {
       const { analyticsObjects } = res.data;
-      this.setState({ analyticsObjects });
+      if (this._ismounted) this.setState({ analyticsObjects });
     });
   };
 
