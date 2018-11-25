@@ -3,7 +3,7 @@ import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Switch } from "react-router-dom";
 
 import { connect } from "react-redux";
 
@@ -55,8 +55,8 @@ class Routes extends Component {
           let { accounts } = res.data;
 
           if (!accounts) accounts = [];
-          props.updateAccounts(accounts);
           props.setUser(user);
+          props.updateAccounts(accounts);
           if (user.role === "demo") {
             let temp = { ...props.tutorial };
             temp.on = true;
@@ -130,31 +130,34 @@ class Routes extends Component {
                   />
                 </div>
               ))}
-          <Route path="/content/" component={Content} />
-          <Route path="/subscribe/" component={Subscribe} />
-          <Route path="/strategy/" component={Strategy} />
-          <Route path="/analytics/" component={Analytics} />
-          <Route path="/social-accounts/" component={Accounts} />
-          <Route path="/writers-brief/" component={WritersBrief} />
-          <Route path="/manage/" component={Manage} />
-          <Route path="/profile/" component={Profile} />
-          <Route path="/subscription/" component={MySubscription} />
-          <Route path="/ads/" component={Ads} />
           {!this.userIsInPlatform(this.props.location.pathname) && (
             <WebsiteHeader />
           )}
-          <Route path="/home/" component={HomePage} />
-          <Route path="/pricing/" component={PricingPage} />
-          <Route path="/team/" component={TeamPage} />
-          <Route path="/agency/" component={GhostitAgency} />
-          <Route
-            path="/sign-up/"
-            render={props => {
-              return <LoginPage signUp={true} />;
-            }}
-          />
+          <Switch>
+            <Route path="/content/" component={Content} />
+            <Route path="/subscribe/" component={Subscribe} />
+            <Route path="/strategy/" component={Strategy} />
+            <Route path="/analytics/" component={Analytics} />
+            <Route path="/social-accounts/" component={Accounts} />
+            <Route path="/writers-brief/" component={WritersBrief} />
+            <Route path="/manage/" component={Manage} />
+            <Route path="/profile/" component={Profile} />
+            <Route path="/subscription/" component={MySubscription} />
+            <Route path="/ads/" component={Ads} />
 
-          <Route path="/sign-in/" component={LoginPage} />
+            <Route path="/home/" component={HomePage} />
+            <Route path="/pricing/" component={PricingPage} />
+            <Route path="/team/" component={TeamPage} />
+            <Route path="/agency/" component={GhostitAgency} />
+            <Route path="/sign-in/" component={LoginPage} />
+            <Route
+              path="/sign-up/"
+              render={props => {
+                return <LoginPage signUp={true} />;
+              }}
+            />
+            <Route component={HomePage} />
+          </Switch>
         </div>
       </div>
     );

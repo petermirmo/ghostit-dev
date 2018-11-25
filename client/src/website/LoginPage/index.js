@@ -12,6 +12,8 @@ import {
   setTutorial
 } from "../../redux/actions/";
 
+import { validateEmail } from "../../extra/functions/CommonFunctions";
+
 import Notification from "../../components/Notifications/Notification/";
 import "./style.css";
 
@@ -96,9 +98,9 @@ class Login extends Component {
               if (user.role === "demo")
                 this.activateDemoUserLogin(user, accounts);
               else {
-                this.props.history.push("/content");
                 this.props.setUser(user);
                 this.props.updateAccounts(accounts);
+                this.props.history.push("/content");
               }
             });
           } else {
@@ -121,6 +123,11 @@ class Login extends Component {
       password,
       passwordConfirm
     } = this.state;
+
+    if (!validateEmail(email)) {
+      alert("Not a real email address!");
+      return;
+    }
 
     if (fullName && email && website && timezone && password) {
       if (password !== passwordConfirm) {
@@ -158,9 +165,9 @@ class Login extends Component {
     }
   };
   activateDemoUserLogin = (user, accounts) => {
-    this.props.history.push("/subscribe");
     this.props.setUser(user);
     this.props.updateAccounts(accounts);
+    this.props.history.push("/subscribe");
 
     this.props.openHeaderSideBar(true);
     let temp = { ...this.props.tutorial };
