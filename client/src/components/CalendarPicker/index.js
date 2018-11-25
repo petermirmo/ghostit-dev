@@ -11,16 +11,12 @@ class CalendarPicker extends Component {
     const { updateActiveCalendar, createNewCalendar } = this.props; // Functions
     let calendarDivs = [];
     for (let index = 0; index < calendars.length; index++) {
+      if (index == activeCalendarIndex) continue;
       calendarDivs.push(
         <div
-          className={
-            index == activeCalendarIndex
-              ? "item-colored pa8 active"
-              : "item-colored pa8"
-          }
+          className="item-colored px16 py8 common-transition"
           key={`calendar-button-${index}`}
           onClick={() => updateActiveCalendar(index)}
-          id={index}
         >
           {calendars[index].calendarName}
         </div>
@@ -30,7 +26,7 @@ class CalendarPicker extends Component {
     if (createNewCalendar) {
       calendarDivs.push(
         <div
-          className="item-colored pa8"
+          className="item-colored px16 py8"
           key={"create-new-calendar-button"}
           onClick={() => createNewCalendar(`Calendar ${calendars.length + 1}`)}
         >
@@ -41,7 +37,7 @@ class CalendarPicker extends Component {
     if (!calendarManager) {
       calendarDivs.push(
         <div
-          className="item-colored pa8"
+          className="dropdown-bottom-button item-colored px16 py8"
           key={"calendar-manager-button"}
           onClick={this.props.enableCalendarManager}
         >
@@ -51,8 +47,8 @@ class CalendarPicker extends Component {
     }
 
     return (
-      <div className="calendars-container flex silly-font">
-        <div className="dropdown-title pa8">
+      <div className="calendars-container flex relative button silly-font">
+        <div className="dropdown-title py8">
           {calendars && calendars.length >= 0
             ? activeCalendarIndex >= 0
               ? calendars[activeCalendarIndex].calendarName
@@ -60,7 +56,7 @@ class CalendarPicker extends Component {
             : "Change Calendars"}
           <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
-        <div className="dropdown">{calendarDivs}</div>
+        <div className="dropdown common-shadow br4">{calendarDivs}</div>
       </div>
     );
   }

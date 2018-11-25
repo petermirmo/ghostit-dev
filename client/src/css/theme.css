@@ -1071,10 +1071,9 @@ p {
 
   flex-direction: column;
 
-  width: 100%;
+  min-width: 100%;
 
   background-color: var(--white-theme-color);
-  box-shadow: 0 0 10px 0 black;
 }
 
 .dropdown-title {
@@ -1090,6 +1089,8 @@ p {
   box-sizing: border-box;
   text-overflow: ellipsis;
   overflow: hidden;
+  white-space: nowrap;
+  color: var(--primary-text-theme-color);
 }
 
 .dropdown .item-colored.active,
@@ -1102,4 +1103,33 @@ p {
   padding: 8px;
   border-radius: 4px;
   flex: 1;
+}
+
+.nl-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+.nl-number {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--five-primary-color);
+  color: var(--white-theme-color);
+}
+.nl-info {
+  flex: 1;
+  display: flex;
+  background-color: var(--light-grey-theme-color);
+  padding: 8px;
+  margin-left: 8px;
+}
+
+.color-red {
+  color: var(--red-theme-color);
+}
+.color-blue {
+  color: var(--five-primary-color);
 }

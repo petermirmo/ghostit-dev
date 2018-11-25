@@ -1,19 +1,6 @@
 .calendars-container {
-  position: relative;
-
   font-size: var(--medium-large-font-size);
-
-  cursor: pointer;
-  user-select: none;
-}
-.dropdown-title {
-  font-size: inherit;
-  color: inherit;
 }
 .calendars-container:hover .dropdown {
   display: flex;
-}
-
-.manage-calendar-icon {
-  right: 0;
 }

@@ -11,19 +11,23 @@ class SocketUserList extends Component {
     let userDivs = [];
     for (let index = 0; index < userList.length; index++) {
       userDivs.push(
-        <div className="socket-user" key={`socket-user-${index}`} id={index}>
+        <div
+          className="item px16 py8"
+          key={`socket-user-${index}`}
+          style={{ cursor: "default" }}
+        >
           {userList[index]}
         </div>
       );
     }
 
     return (
-      <div className="calendars-container">
-        <div className="dropdown-title pa8">
+      <div className="active-users-count relative flex button">
+        <div className="dropdown-title px16 py8">
           {userList.length}
-          <FontAwesomeIcon icon={faUsers} style={{ marginLeft: "6px" }} />
+          <FontAwesomeIcon icon={faUsers} style={{ marginLeft: "8px" }} />
         </div>
-        <div className="dropdown">{userDivs}</div>
+        <div className="dropdown common-shadow br4">{userDivs}</div>
       </div>
     );
   }

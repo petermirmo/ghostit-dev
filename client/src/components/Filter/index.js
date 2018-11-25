@@ -42,12 +42,12 @@ class Filter extends Component {
     }
 
     return (
-      <div className="filter-container button px16 py8">
+      <div className="filter-container button px16 py8 flex relative">
         <div className="dropdown-title">
           Filter Calendar
-          <FontAwesomeIcon icon={faAngleDown} style={{ marginLeft: "6px" }} />
+          <FontAwesomeIcon icon={faAngleDown} style={{ marginLeft: "8px" }} />
         </div>
-        <div className="dropdown">{categoryDivs}</div>
+        <div className="dropdown common-shadow br4">{categoryDivs}</div>
       </div>
     );
   }

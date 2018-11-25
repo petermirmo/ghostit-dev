@@ -5,9 +5,8 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faQuestionCircle from "@fortawesome/fontawesome-free-solid/faQuestionCircle";
-import faMinusCircle from "@fortawesome/fontawesome-free-solid/faMinusCircle";
 import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
-import faArrowCircleUp from "@fortawesome/fontawesome-free-solid/faArrowCircleUp";
+import faUserTie from "@fortawesome/fontawesome-free-solid/faUserTie";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -37,7 +36,10 @@ class CalendarManager extends Component {
       leaveCalendarPrompt: false,
       deleteCalendarPrompt: false,
       promoteUserPrompt: false,
-      inviteEmail: ""
+      confirmAlert: {},
+      inviteEmail: "",
+      showUserEmails: false,
+      showAccountNames: false
     };
   }
   componentDidMount() {
@@ -468,7 +470,9 @@ class CalendarManager extends Component {
       calendars,
       activeCalendarIndex,
       unsavedChange,
-      inviteEmail
+      inviteEmail,
+      showUserEmails,
+      showAccountNames
     } = this.state;
 
     let userID = this.props.user._id;
@@ -476,52 +480,56 @@ class CalendarManager extends Component {
       userID = this.props.user.signedInAsUser.id;
     }
 
-    let userDivs = undefined;
+    let userDivs;
     if (calendar.users) {
       userDivs = calendar.users.map((userObj, index) => {
         return (
-          <div className="calendar-user-card" key={`user${index}`}>
-            <div className="user-name-and-email">
-              <div className="user-name">{userObj.fullName}</div>
-              <div className="user-email">{userObj.email}</div>
-            </div>
-            {isAdmin &&
-              userObj._id.toString() !== userID.toString() && (
-                <div className="user-icons">
+          <div className="nl-item" key={`user${index}`}>
+            <div className="nl-number round pa8">{index + 1}</div>
+            <div
+              className="nl-info button"
+              onClick={() => this.setState({ showUserEmails: !showUserEmails })}
+            >
+              <p className="flex1">
+                {showUserEmails ? userObj.email : userObj.fullName}
+              </p>
+              {isAdmin && userObj._id.toString() !== userID.toString() && (
+                <div className="flex">
                   <div title="Promote to Admin">
                     <FontAwesomeIcon
-                      className="user-promote"
-                      icon={faArrowCircleUp}
-                      color="blue"
-                      onClick={() =>
+                      className="color-blue button mr4"
+                      icon={faUserTie}
+                      onClick={e => {
+                        e.stopPropagation();
                         this.setState({
                           promoteUserPrompt: true,
                           promoteUserObj: {
                             userIndex: index,
                             calendarIndex: activeCalendarIndex
                           }
-                        })
-                      }
+                        });
+                      }}
                     />
                   </div>
                   <div title="Remove User">
                     <FontAwesomeIcon
-                      className="user-remove"
-                      icon={faMinusCircle}
-                      color="red"
-                      onClick={() =>
+                      className="color-red button"
+                      icon={faTrash}
+                      onClick={e => {
+                        e.stopPropagation();
                         this.setState({
                           removeUserPrompt: true,
                           removeUserObj: {
                             userIndex: index,
                             calendarIndex: activeCalendarIndex
                           }
-                        })
-                      }
+                        });
+                      }}
                     />
                   </div>
                 </div>
               )}
+            </div>
           </div>
         );
       });
@@ -531,32 +539,37 @@ class CalendarManager extends Component {
     if (calendar.accounts) {
       accountDivs = calendar.accounts.map((account, index) => {
         return (
-          <div className="calendar-account-card" key={`account${index}`}>
-            <div className="account-info">
-              <div className="account-label">{account.givenName}</div>
-              <div className="account-label">{`${account.socialType} ${
-                account.accountType
-              }`}</div>
-              <div className="account-label">{account.user.name}</div>
-              <div className="account-label">{account.user.email}</div>
-            </div>
-            {(isAdmin || account.userID.toString() === userID.toString()) && (
-              <div className="account-icons">
+          <div className="nl-item" key={`account${index}`}>
+            <div className="nl-number round pa8 flex hc">{index + 1}</div>
+            <div
+              className="nl-info button"
+              onClick={() =>
+                this.setState({ showAccountNames: !showAccountNames })
+              }
+            >
+              <p className="flex1">
+                {showAccountNames
+                  ? account.username
+                    ? account.username
+                    : `${account.givenName} ${account.familyName}`
+                  : `${account.socialType} ${account.accountType}`}
+              </p>
+              {(isAdmin || account.userID.toString() === userID.toString()) && (
                 <div title="Remove Account From Calendar">
                   <FontAwesomeIcon
-                    className="account-remove"
-                    icon={faMinusCircle}
-                    color="red"
-                    onClick={() =>
+                    className="color-red button"
+                    icon={faTrash}
+                    onClick={e => {
+                      e.stopPropagation();
                       this.setState({
                         unlinkAccountPrompt: true,
                         unLinkAccountID: account._id
-                      })
-                    }
+                      });
+                    }}
                   />
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         );
       });
@@ -565,32 +578,6 @@ class CalendarManager extends Component {
     return (
       <div className="manage-calendar-container">
         <div className="calendar-info-container flex column pa16">
-          <div className="calendar-info-label mx8 mb4">Calendar Name</div>
-          <input
-            type="text"
-            className="regular-input mb4"
-            placeholder="Calendar Name"
-            onChange={event => {
-              this.setState({ unsavedChange: true });
-              this.handleCalendarChange(
-                "tempName",
-                event.target.value,
-                activeCalendarIndex
-              );
-            }}
-            value={calendar.tempName ? calendar.tempName : ""}
-          />
-          {unsavedChange && (
-            <button
-              className="round-button py8 px32 mb8"
-              onClick={e => {
-                e.preventDefault();
-                this.saveCalendarName(activeCalendarIndex, calendar.tempName);
-              }}
-            >
-              Save
-            </button>
-          )}
           {!isDefaultCalendar && (
             <button
               className="round-button py8 px32"
@@ -603,37 +590,60 @@ class CalendarManager extends Component {
             </button>
           )}
         </div>
-        <div className="invite-container flex vc mt8">
-          <input
-            type="text"
-            className="regular-input mr4"
-            placeholder="user@example.com"
-            onChange={event => {
-              this.handleChange("inviteEmail", event.target.value);
-            }}
-            value={inviteEmail}
-          />
-          <button
-            className="round-button px32 py8 br4"
-            onClick={e => {
-              e.preventDefault();
-              this.inviteUser(activeCalendarIndex);
-            }}
-          >
-            Invite
-          </button>
+        <div className="grid-two-columns py8">
+          <div className="flex">
+            <input
+              type="text"
+              className="regular-input px16 mx16"
+              placeholder="Calendar Name"
+              onChange={event => {
+                this.setState({ unsavedChange: true });
+                this.handleCalendarChange(
+                  "tempName",
+                  event.target.value,
+                  activeCalendarIndex
+                );
+              }}
+              value={calendar.tempName ? calendar.tempName : ""}
+            />
+            {unsavedChange && (
+              <button
+                className="round-button px32 py8 br4 mr16"
+                onClick={e => {
+                  e.preventDefault();
+                  this.saveCalendarName(activeCalendarIndex, calendar.tempName);
+                }}
+              >
+                Save
+              </button>
+            )}
+          </div>
+          <div className="flex">
+            <input
+              type="text"
+              className="regular-input px16 mx16"
+              placeholder="Invite user to calendar"
+              onChange={event => {
+                this.handleChange("inviteEmail", event.target.value);
+              }}
+              value={inviteEmail}
+            />
+            {inviteEmail !== "" && (
+              <button
+                className="round-button px32 py8 br4 mr16"
+                onClick={e => {
+                  e.preventDefault();
+                  this.inviteUser(activeCalendarIndex);
+                }}
+              >
+                Invite
+              </button>
+            )}
+          </div>
         </div>
-        <div className="flex hc">
-          <div className="calendar-users-container flex column pa16">
-            <div className="calendar-users-header mb4">Users</div>
-            {userDivs}
-          </div>
-          <div className="calendar-info-and-accounts-container pa16">
-            <div className="calendar-accounts-container flex column pa16">
-              <div className="calendar-accounts-header">Accounts</div>
-              {accountDivs}
-            </div>
-          </div>
+        <div className="flex">
+          <div className="flex column flex1">{accountDivs} </div>
+          <div className="flex column flex1">{userDivs}</div>
         </div>
       </div>
     );
@@ -671,7 +681,7 @@ class CalendarManager extends Component {
           className="large-modal common-transition"
           onClick={e => e.stopPropagation()}
         >
-          <div className="close-container" title={"Close Calendar Manager"}>
+          <div className="close-container" title="Close Calendar Manager">
             <FontAwesomeIcon
               className="close-special"
               icon={faTimes}
@@ -679,7 +689,14 @@ class CalendarManager extends Component {
               onClick={() => this.props.close()}
             />
           </div>
-          <div className="trash-picker-container flex vc">
+          <div className="flex hc vc">
+            <CalendarPicker
+              calendars={calendars}
+              activeCalendarIndex={activeCalendarIndex}
+              calendarManager={true}
+              createNewCalendar={this.createNewCalendar}
+              updateActiveCalendar={this.updateActiveCalendar}
+            />
             {isAdmin && (
               <div
                 title={
@@ -687,7 +704,7 @@ class CalendarManager extends Component {
                 }
               >
                 <FontAwesomeIcon
-                  className="close-special delete-calendar button pa4 mr8"
+                  className="color-red button  pa4 ml8"
                   icon={faTrash}
                   size="1x"
                   onClick={this.deleteCalendarClicked}
@@ -697,7 +714,7 @@ class CalendarManager extends Component {
             {!isAdmin && (
               <div title="Leave Calendar">
                 <FontAwesomeIcon
-                  className="close-special delete-calendar button pa4 mr8"
+                  className="close-special button pa4 ml8"
                   icon={faSignOutAlt}
                   flip="horizontal"
                   size="1x"
@@ -705,15 +722,7 @@ class CalendarManager extends Component {
                 />
               </div>
             )}
-            <CalendarPicker
-              calendars={calendars}
-              activeCalendarIndex={activeCalendarIndex}
-              calendarManager={true}
-              createNewCalendar={this.createNewCalendar}
-              updateActiveCalendar={this.updateActiveCalendar}
-            />
           </div>
-          {isDefaultCalendar && <p className="label">Default Calendar</p>}
 
           {this.presentActiveCalendar(isDefaultCalendar, isAdmin, calendar)}
           {leaveCalendarPrompt && (
