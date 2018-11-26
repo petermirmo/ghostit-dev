@@ -576,11 +576,11 @@ class CalendarManager extends Component {
     }
 
     return (
-      <div className="manage-calendar-container">
-        <div className="calendar-info-container flex column pa16">
+      <div className="flex column flex1">
+        <div className="flex column pa16">
           {!isDefaultCalendar && (
             <button
-              className="round-button py8 px32"
+              className="regular-button"
               onClick={e => {
                 e.preventDefault();
                 this.setDefaultCalendar(activeCalendarIndex);
@@ -594,7 +594,7 @@ class CalendarManager extends Component {
           <div className="flex">
             <input
               type="text"
-              className="regular-input px16 mx16"
+              className="regular-input mx16"
               placeholder="Calendar Name"
               onChange={event => {
                 this.setState({ unsavedChange: true });
@@ -608,7 +608,7 @@ class CalendarManager extends Component {
             />
             {unsavedChange && (
               <button
-                className="round-button px32 py8 br4 mr16"
+                className="regular-button mr16"
                 onClick={e => {
                   e.preventDefault();
                   this.saveCalendarName(activeCalendarIndex, calendar.tempName);
@@ -621,7 +621,7 @@ class CalendarManager extends Component {
           <div className="flex">
             <input
               type="text"
-              className="regular-input px16 mx16"
+              className="regular-input mx16"
               placeholder="Invite user to calendar"
               onChange={event => {
                 this.handleChange("inviteEmail", event.target.value);
@@ -630,7 +630,7 @@ class CalendarManager extends Component {
             />
             {inviteEmail !== "" && (
               <button
-                className="round-button px32 py8 br4 mr16"
+                className="regular-button mr16"
                 onClick={e => {
                   e.preventDefault();
                   this.inviteUser(activeCalendarIndex);
@@ -641,9 +641,15 @@ class CalendarManager extends Component {
             )}
           </div>
         </div>
-        <div className="flex">
-          <div className="flex column flex1">{accountDivs} </div>
-          <div className="flex column flex1">{userDivs}</div>
+        <div className="flex flex1">
+          <div className="flex column flex1 border-right">
+            <h4 className="mx16">Connected Social Accounts</h4>
+            {accountDivs}
+          </div>
+          <div className="flex column flex1">
+            <h4 className="mx16">Calendar Users</h4>
+            {userDivs}
+          </div>
         </div>
       </div>
     );

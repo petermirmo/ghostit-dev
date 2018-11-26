@@ -1101,8 +1101,23 @@ p {
 
 .regular-input {
   padding: 8px;
+  padding-right: 16px;
+  padding-left: 16px;
   border-radius: 4px;
   flex: 1;
+}
+.regular-button {
+  padding: 8px;
+  padding-right: 32px;
+  padding-left: 32px;
+  border-radius: 4px;
+  background-color: var(--five-theme-color);
+}
+.regular-button:hover {
+  background-color: var(--seven-primary-color);
+}
+.border-right {
+  border-right: 2px solid var(--divider-theme-color);
 }
 
 .nl-item {
