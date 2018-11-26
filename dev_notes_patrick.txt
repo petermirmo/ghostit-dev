@@ -106,9 +106,6 @@ to do next:
   sockets:
     work on the prompt that appears when your active post gets updated+saved by someone else
 
-    have a label that shows how many users are currently connected to the campaign socket / calendar socket
-      mousing over explains how the sockets keep each other updated
-
 
     are images working?
 
@@ -140,6 +137,11 @@ to do next:
     calendar picker (make sure all names fit properly into their containers and use ... on names that are too long)
     user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
     calendar manager user / account cards
+
+  calendar billing:
+    must be paid user to create calendars
+    demos can still be invited
+
 
 
 
