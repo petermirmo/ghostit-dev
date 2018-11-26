@@ -103,7 +103,6 @@ class CalendarManager extends Component {
           users[0] = users[adminIndex];
           users[adminIndex] = temp;
         }
-        users[0].fullName += " (Admin)";
         this.handleCalendarChange("users", users, index);
         this.handleCalendarChange("userIDs", userIDs, index);
       }
@@ -492,6 +491,7 @@ class CalendarManager extends Component {
             >
               <p className="flex1">
                 {showUserEmails ? userObj.email : userObj.fullName}
+                {userObj._id.toString() === userID.toString() ? " (Admin)" : ""}
               </p>
               {isAdmin && userObj._id.toString() !== userID.toString() && (
                 <div className="flex">
