@@ -25,7 +25,11 @@ module.exports = {
               " user's name: " +
               user.fullName +
               " Post error: " +
-              post.errorMessage;
+              post.errorMessage +
+              "Post content: " +
+              post.content +
+              " Post socialType: " +
+              post.socialType;
 
             /*
             sendEmail(
