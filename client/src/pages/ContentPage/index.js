@@ -963,16 +963,29 @@ class Content extends Component {
           updateActiveCategory={this.updateActiveCategory}
         />
         {this.state.calendarManagerModal && (
-          <CalendarManager
-            calendars={calendars}
-            activeCalendarIndex={activeCalendarIndex}
-            defaultCalendarID={defaultCalendarID}
-            close={() => {
+          <div
+            className="modal"
+            onClick={() => {
               this.closeModals();
               this.getCalendars();
             }}
-            notify={this.notify}
-          />
+          >
+            <div
+              className="large-modal common-transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <CalendarManager
+                calendars={calendars}
+                activeCalendarIndex={activeCalendarIndex}
+                defaultCalendarID={defaultCalendarID}
+                close={() => {
+                  this.closeModals();
+                  this.getCalendars();
+                }}
+                notify={this.notify}
+              />
+            </div>
+          </div>
         )}
         {this.state.contentModal && (
           <ContentModal

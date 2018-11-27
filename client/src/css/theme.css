@@ -475,8 +475,6 @@
   color: var(--dark-red-theme-color);
 }
 .label {
-  font-weight: bolder;
-
   display: flex;
   align-items: center;
 
@@ -957,7 +955,6 @@ h3 {
 }
 h4 {
   color: var(--primary-text-theme-color);
-
   margin: 0;
 }
 h5 {
@@ -1111,7 +1108,7 @@ p {
   padding-right: 32px;
   padding-left: 32px;
   border-radius: 4px;
-  background-color: var(--five-theme-color);
+  background-color: var(--five-primary-color);
 }
 .regular-button:hover {
   background-color: var(--seven-primary-color);
@@ -1119,13 +1116,16 @@ p {
 .border-right {
   border-right: 2px solid var(--divider-theme-color);
 }
+.border-bottom {
+  border-bottom: 2px solid var(--divider-theme-color);
+}
 
-.nl-item {
+.list-item {
   display: flex;
   align-items: center;
   padding: 8px;
 }
-.nl-number {
+.list-number {
   width: 20px;
   height: 20px;
   display: flex;
@@ -1134,14 +1134,13 @@ p {
   background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 }
-.nl-info {
+.list-info {
   flex: 1;
   display: flex;
   background-color: var(--light-grey-theme-color);
   padding: 8px;
-  margin-left: 8px;
+  border-radius: 4px;
 }
-
 .color-red {
   color: var(--red-theme-color);
 }

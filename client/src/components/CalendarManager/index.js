@@ -37,9 +37,7 @@ class CalendarManager extends Component {
       deleteCalendarPrompt: false,
       promoteUserPrompt: false,
       confirmAlert: {},
-      inviteEmail: "",
-      showUserEmails: false,
-      showAccountNames: false
+      inviteEmail: ""
     };
   }
   componentDidMount() {
@@ -483,18 +481,19 @@ class CalendarManager extends Component {
     if (calendar.users) {
       userDivs = calendar.users.map((userObj, index) => {
         return (
-          <div className="nl-item" key={`user${index}`}>
-            <div className="nl-number round pa8">{index + 1}</div>
-            <div
-              className="nl-info button"
-              onClick={() => this.setState({ showUserEmails: !showUserEmails })}
-            >
-              <p className="flex1">
-                {showUserEmails ? userObj.email : userObj.fullName}
-                {userObj._id.toString() === userID.toString() ? " (Admin)" : ""}
-              </p>
+          <div className="list-item" key={`user${index}`}>
+            <div className="list-info">
+              <div className="flex column flex1">
+                <p className="flex1">
+                  {userObj.fullName}
+                  {userObj._id.toString() === userID.toString()
+                    ? " (Admin)"
+                    : ""}
+                </p>
+                <p className="flex1">{userObj.email}</p>
+              </div>
               {isAdmin && userObj._id.toString() !== userID.toString() && (
-                <div className="flex">
+                <div className="flex hc vc">
                   <div title="Promote to Admin">
                     <FontAwesomeIcon
                       className="color-blue button mr4"
@@ -539,23 +538,23 @@ class CalendarManager extends Component {
     if (calendar.accounts) {
       accountDivs = calendar.accounts.map((account, index) => {
         return (
-          <div className="nl-item" key={`account${index}`}>
-            <div className="nl-number round pa8 flex hc">{index + 1}</div>
-            <div
-              className="nl-info button"
-              onClick={() =>
-                this.setState({ showAccountNames: !showAccountNames })
-              }
-            >
-              <p className="flex1">
-                {showAccountNames
-                  ? account.username
+          <div className="list-item" key={`account${index}`}>
+            <div className="list-info">
+              <div className="flex column flex1">
+                <p className="flex1">
+                  {account.username
                     ? account.username
-                    : `${account.givenName} ${account.familyName}`
-                  : `${account.socialType} ${account.accountType}`}
-              </p>
+                    : `${account.givenName} ${account.familyName}`}
+                </p>
+                <p className="flex1">
+                  {`${account.socialType} ${account.accountType}`}
+                </p>
+              </div>
               {(isAdmin || account.userID.toString() === userID.toString()) && (
-                <div title="Remove Account From Calendar">
+                <div
+                  title="Remove Account From Calendar"
+                  className="flex hc vc"
+                >
                   <FontAwesomeIcon
                     className="color-red button"
                     icon={faTrash}
@@ -576,25 +575,13 @@ class CalendarManager extends Component {
     }
 
     return (
-      <div className="flex column flex1">
-        <div className="flex column pa16">
-          {!isDefaultCalendar && (
-            <button
-              className="regular-button"
-              onClick={e => {
-                e.preventDefault();
-                this.setDefaultCalendar(activeCalendarIndex);
-              }}
-            >
-              Set As Default Calendar
-            </button>
-          )}
-        </div>
-        <div className="grid-two-columns py8">
-          <div className="flex">
+      <div className="flex column flex1 vc">
+        <div className="grid-two-columns py8 border-bottom width100">
+          <div className="flex vc hc mx16">
+            <p className="label">Rename Calendar: </p>
             <input
               type="text"
-              className="regular-input mx16"
+              className="regular-input ml16"
               placeholder="Calendar Name"
               onChange={event => {
                 this.setState({ unsavedChange: true });
@@ -608,7 +595,7 @@ class CalendarManager extends Component {
             />
             {unsavedChange && (
               <button
-                className="regular-button mr16"
+                className="regular-button ml16"
                 onClick={e => {
                   e.preventDefault();
                   this.saveCalendarName(activeCalendarIndex, calendar.tempName);
@@ -618,7 +605,7 @@ class CalendarManager extends Component {
               </button>
             )}
           </div>
-          <div className="flex">
+          <div className="flex hc vc">
             <input
               type="text"
               className="regular-input mx16"
@@ -641,16 +628,27 @@ class CalendarManager extends Component {
             )}
           </div>
         </div>
-        <div className="flex flex1">
-          <div className="flex column flex1 border-right">
-            <h4 className="mx16">Connected Social Accounts</h4>
+        <div className="flex flex1 width100">
+          <div className="flex column flex1 pa16 border-right">
+            <h4 className="mx16">Social Accounts Linked To Calendar</h4>
             {accountDivs}
           </div>
-          <div className="flex column flex1">
+          <div className="flex column flex1 pa16">
             <h4 className="mx16">Calendar Users</h4>
             {userDivs}
           </div>
         </div>
+        {!isDefaultCalendar && (
+          <button
+            className="regular-button my8"
+            onClick={e => {
+              e.preventDefault();
+              this.setDefaultCalendar(activeCalendarIndex);
+            }}
+          >
+            Set As Default Calendar
+          </button>
+        )}
       </div>
     );
   };
@@ -682,154 +680,142 @@ class CalendarManager extends Component {
     const isAdmin = calendars[activeCalendarIndex].adminID == userID;
 
     return (
-      <div className="modal" onClick={() => this.props.close()}>
-        <div
-          className="large-modal common-transition"
-          onClick={e => e.stopPropagation()}
-        >
-          <div className="close-container" title="Close Calendar Manager">
-            <FontAwesomeIcon
-              className="close-special"
-              icon={faTimes}
-              size="2x"
-              onClick={() => this.props.close()}
-            />
-          </div>
-          <div className="flex hc vc">
-            <CalendarPicker
-              calendars={calendars}
-              activeCalendarIndex={activeCalendarIndex}
-              calendarManager={true}
-              createNewCalendar={this.createNewCalendar}
-              updateActiveCalendar={this.updateActiveCalendar}
-            />
-            {isAdmin && (
-              <div
-                title={
-                  "Delete Calendar. Only calendars with one user can be deleted."
-                }
-              >
-                <FontAwesomeIcon
-                  className="color-red button  pa4 ml8"
-                  icon={faTrash}
-                  size="1x"
-                  onClick={this.deleteCalendarClicked}
-                />
-              </div>
-            )}
-            {!isAdmin && (
-              <div title="Leave Calendar">
-                <FontAwesomeIcon
-                  className="close-special button pa4 ml8"
-                  icon={faSignOutAlt}
-                  flip="horizontal"
-                  size="1x"
-                  onClick={this.leaveCalendarClicked}
-                />
-              </div>
-            )}
-          </div>
-
-          {this.presentActiveCalendar(isDefaultCalendar, isAdmin, calendar)}
-          {leaveCalendarPrompt && (
-            <ConfirmAlert
-              close={() => this.setState({ leaveCalendarPrompt: false })}
-              title="Leave Calendar"
-              message="Are you sure you want to leave this calendar? Any accounts you linked or posts you scheduled WILL NOT be deleted."
-              callback={response => {
-                this.setState({ leaveCalendarPrompt: false });
-                if (response) this.leaveCalendar(activeCalendarIndex);
-              }}
-              firstButton="Leave"
-              type="delete-calendar"
-            />
+      <div className="flex column flex1">
+        <div className="close-container" title="Close Calendar Manager">
+          <FontAwesomeIcon
+            className="close-special"
+            icon={faTimes}
+            size="2x"
+            onClick={() => this.props.close()}
+          />
+        </div>
+        <div className="flex hc vc">
+          <CalendarPicker
+            calendars={calendars}
+            activeCalendarIndex={activeCalendarIndex}
+            calendarManager={true}
+            createNewCalendar={this.createNewCalendar}
+            updateActiveCalendar={this.updateActiveCalendar}
+          />
+          {isAdmin && (
+            <div title="Delete Calendar. Only calendars with one user can be deleted.">
+              <FontAwesomeIcon
+                className="color-red button pa4 ml8"
+                icon={faTrash}
+                onClick={this.deleteCalendarClicked}
+              />
+            </div>
           )}
-          {deleteCalendarPrompt && (
-            <ConfirmAlert
-              close={() => this.setState({ deleteCalendarPrompt: false })}
-              title="Delete Calendar"
-              message="Are you sure you want to delete this Calendar? All posts within the calendar will be deleted as well."
-              extraConfirmationMessage={`Type "DELETE" in the text box and click Delete.`}
-              extraConfirmationKey={"DELETE"}
-              callback={response => {
-                this.setState({ deleteCalendarPrompt: false });
-                if (response) this.deleteCalendar(activeCalendarIndex);
-              }}
-              type="delete-calendar"
-            />
-          )}
-          {unlinkAccountPrompt && (
-            <ConfirmAlert
-              close={() =>
-                this.setState({
-                  unlinkAccountPrompt: false,
-                  unLinkAccountID: undefined
-                })
-              }
-              title="Unlink Account"
-              message="Are you sure you want to remove this account from the calendar. Note: this does not delete any already scheduled posts."
-              callback={response => {
-                this.setState({
-                  unlinkAccountPrompt: false,
-                  unLinkAccountID: undefined
-                });
-                if (response) this.unlinkSocialAccount(unLinkAccountID);
-              }}
-              type="delete-calendar"
-              firstButton="Unlink"
-            />
-          )}
-          {removeUserPrompt && (
-            <ConfirmAlert
-              close={() =>
-                this.setState({
-                  removeUserPrompt: false,
-                  removeUserObj: undefined
-                })
-              }
-              title="Remove User"
-              message="Are you sure you want to remove this user from the calendar?"
-              firstButton="Remove"
-              callback={response => {
-                this.setState({
-                  removeUserPrompt: false,
-                  removeUserObj: undefined
-                });
-                if (response)
-                  this.removeUserFromCalendar(
-                    removeUserObj.userIndex,
-                    removeUserObj.calendarIndex
-                  );
-              }}
-              type="delete-calendar"
-            />
-          )}
-          {promoteUserPrompt && (
-            <ConfirmAlert
-              close={() =>
-                this.setState({
-                  promoteUserPrompt: false,
-                  promoteUserObj: undefined
-                })
-              }
-              title="Promote User"
-              message="Are you sure you want to promote this user to be the new calendar admin? (You will be demoted to a regular user)"
-              firstButton="Promote"
-              callback={response => {
-                this.setState({
-                  promoteUserPrompt: false,
-                  promoteUserObj: undefined
-                });
-                if (response)
-                  this.promoteUser(
-                    promoteUserObj.userIndex,
-                    promoteUserObj.calendarIndex
-                  );
-              }}
-              type="delete-calendar"
-            />
+          {!isAdmin && (
+            <div title="Leave Calendar">
+              <FontAwesomeIcon
+                className="close-special button pa4 ml8"
+                icon={faSignOutAlt}
+                flip="horizontal"
+                onClick={this.leaveCalendarClicked}
+              />
+            </div>
           )}
         </div>
+        {this.presentActiveCalendar(isDefaultCalendar, isAdmin, calendar)}
+        {leaveCalendarPrompt && (
+          <ConfirmAlert
+            close={() => this.setState({ leaveCalendarPrompt: false })}
+            title="Leave Calendar"
+            message="Are you sure you want to leave this calendar? Any accounts you linked or posts you scheduled WILL NOT be deleted."
+            callback={response => {
+              this.setState({ leaveCalendarPrompt: false });
+              if (response) this.leaveCalendar(activeCalendarIndex);
+            }}
+            firstButton="Leave"
+            type="delete-calendar"
+          />
+        )}
+        {deleteCalendarPrompt && (
+          <ConfirmAlert
+            close={() => this.setState({ deleteCalendarPrompt: false })}
+            title="Delete Calendar"
+            message="Are you sure you want to delete this Calendar? All posts within the calendar will be deleted as well."
+            extraConfirmationMessage={`Type "DELETE" in the text box and click Delete.`}
+            extraConfirmationKey={"DELETE"}
+            callback={response => {
+              this.setState({ deleteCalendarPrompt: false });
+              if (response) this.deleteCalendar(activeCalendarIndex);
+            }}
+            type="delete-calendar"
+          />
+        )}
+        {unlinkAccountPrompt && (
+          <ConfirmAlert
+            close={() =>
+              this.setState({
+                unlinkAccountPrompt: false,
+                unLinkAccountID: undefined
+              })
+            }
+            title="Unlink Account"
+            message="Are you sure you want to remove this account from the calendar. Note: this does not delete any already scheduled posts."
+            callback={response => {
+              this.setState({
+                unlinkAccountPrompt: false,
+                unLinkAccountID: undefined
+              });
+              if (response) this.unlinkSocialAccount(unLinkAccountID);
+            }}
+            type="delete-calendar"
+            firstButton="Unlink"
+          />
+        )}
+        {removeUserPrompt && (
+          <ConfirmAlert
+            close={() =>
+              this.setState({
+                removeUserPrompt: false,
+                removeUserObj: undefined
+              })
+            }
+            title="Remove User"
+            message="Are you sure you want to remove this user from the calendar?"
+            firstButton="Remove"
+            callback={response => {
+              this.setState({
+                removeUserPrompt: false,
+                removeUserObj: undefined
+              });
+              if (response)
+                this.removeUserFromCalendar(
+                  removeUserObj.userIndex,
+                  removeUserObj.calendarIndex
+                );
+            }}
+            type="delete-calendar"
+          />
+        )}
+        {promoteUserPrompt && (
+          <ConfirmAlert
+            close={() =>
+              this.setState({
+                promoteUserPrompt: false,
+                promoteUserObj: undefined
+              })
+            }
+            title="Promote User"
+            message="Are you sure you want to promote this user to be the new calendar admin? (You will be demoted to a regular user)"
+            firstButton="Promote"
+            callback={response => {
+              this.setState({
+                promoteUserPrompt: false,
+                promoteUserObj: undefined
+              });
+              if (response)
+                this.promoteUser(
+                  promoteUserObj.userIndex,
+                  promoteUserObj.calendarIndex
+                );
+            }}
+            type="delete-calendar"
+          />
+        )}{" "}
         {saving && <Loader />}
       </div>
     );
