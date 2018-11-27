@@ -11,18 +11,3 @@
   width: 40%;
   background-color: var(--white-theme-color);
 }
-.profile-label {
-  color: var(--secondary-text-theme-color);
-}
-.profile-input {
-  width: 100%;
-  box-sizing: border-box;
-}
-.profile-save {
-  width: 100%;
-  background-color: var(--seven-primary-color);
-}
-
-.profile-save:hover {
-  background-color: var(--eight-primary-color);
-}

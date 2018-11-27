@@ -617,6 +617,10 @@
 .border-box {
   box-sizing: border-box;
 }
+.margin-hc {
+  margin-left: auto;
+  margin-right: auto;
+}
 .relative {
   position: relative;
 }

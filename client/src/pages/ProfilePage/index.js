@@ -78,49 +78,49 @@ class Profile extends Component {
     return (
       <div>
         <div className="profile-background flex vc hc">
-          <div className="profile-container flex column br16 pa32">
-            <div className="profile-label mx8 mb4">Company Name</div>
+          <div className="profile-container flex column br8 pa32">
+            <p className="label mx8 mb4">Company Name</p>
             <input
               type="text"
-              className="profile-input pa8 mb16 round"
+              className="regular-input width100 border-box pa8 mb16 round"
               placeholder="Company Name"
               onChange={event =>
                 this.handleChange("fullName", event.target.value)
               }
               value={fullName}
             />
-            <div className="profile-label mx8 mb4">Email</div>
+            <p className="label mx8 mb4">Email</p>
             <input
               type="text"
-              className="profile-input pa8 mb16 round"
+              className="regular-input width100 border-box pa8 mb16 round"
               placeholder="Email"
               onChange={event => this.handleChange("email", event.target.value)}
               value={email}
             />
-            <div className="profile-label mx8 mb4">Website</div>
+            <p className="label mx8 mb4">Website</p>
             <input
               type="text"
-              className="profile-input pa8 mb16 round"
+              className="regular-input width100 border-box pa8 mb16 round"
               placeholder="Website"
               onChange={event =>
                 this.handleChange("website", event.target.value)
               }
               value={website}
             />
-            <div className="profile-label mx8 mb4">Password</div>
+            <p className="label mx8 mb4">Password</p>
             <input
               type="password"
-              className="profile-input pa8 mb16 round"
+              className="regular-input width100 border-box pa8 mb16 round"
               placeholder="Password"
               onChange={event =>
                 this.handleChange("password", event.target.value)
               }
               value={password}
             />
-            <div className="profile-label mx8 mb4">New Password</div>
+            <p className="label mx8 mb4">New Password</p>
             <input
               type="password"
-              className="profile-input pa8 mb16 round"
+              className="regular-input width100 border-box pa8 mb16 round"
               placeholder="New Password"
               onChange={event =>
                 this.handleChange("newPassword", event.target.value)
@@ -128,7 +128,7 @@ class Profile extends Component {
               value={newPassword}
             />
             <button
-              className="profile-save pa8 round"
+              className="regular-button margin-hc"
               onClick={event => {
                 this.saveUser(event);
               }}

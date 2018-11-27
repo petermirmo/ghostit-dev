@@ -59,8 +59,8 @@ class HeaderSideBar extends Component {
       }
     });
   };
-  isActive = () => {
-    return false;
+  isActive = activePage => {
+    if ("/" + activePage == this.props.location.pathname) return " active";
   };
   render() {
     const { user, headerSideBar, clientSideBar, tutorial } = this.props;
@@ -101,14 +101,16 @@ class HeaderSideBar extends Component {
         {headerSideBar && !clientSideBar && (
           <div className="navbar pa16">
             {(user.role === "demo" || isAdmin) && (
-              <div
-                className={
-                  "header-button button mb16 " + this.isActive("subscribe")
-                }
-              >
-                <FontAwesomeIcon icon={faStar} />
-                Upgrade to Plan
-              </div>
+              <Link to="/subscribe">
+                <div
+                  className={
+                    "header-button button mb16 " + this.isActive("subscribe")
+                  }
+                >
+                  <FontAwesomeIcon icon={faStar} />
+                  Upgrade to Plan
+                </div>
+              </Link>
             )}
             <Link to="/content">
               <div
