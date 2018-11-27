@@ -6,6 +6,14 @@ import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 
+// Taken from stack overflow
+export function capitolizeWordsInString(str) {
+  return str.replace(/\b\w/g, l => l.toUpperCase());
+}
+export function capitolizeFirstChar(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+// Taken from stack overflow
 export function mobileAndTabletcheck() {
   let check = false;
   (function(a) {

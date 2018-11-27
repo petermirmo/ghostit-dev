@@ -13,6 +13,12 @@ import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../redux/actions/";
 
 import { getArrayIndexWithHint } from "../../componentFunctions";
+import {
+  getPostIcon,
+  getPostColor,
+  capitolizeFirstChar,
+  capitolizeWordsInString
+} from "../../extra/functions/CommonFunctions";
 
 import Loader from "../Notifications/Loader";
 import CalendarPicker from "../CalendarPicker";
@@ -540,14 +546,21 @@ class CalendarManager extends Component {
         return (
           <div className="list-item" key={`account${index}`}>
             <div className="list-info">
-              <div className="flex column flex1">
+              <FontAwesomeIcon
+                icon={getPostIcon(account.socialType)}
+                size="3x"
+                color={getPostColor(account.socialType)}
+              />
+              <div className="flex column flex1 ml8">
                 <p className="flex1">
-                  {account.username
-                    ? account.username
-                    : `${account.givenName} ${account.familyName}`}
+                  {capitolizeWordsInString(
+                    account.username
+                      ? account.username
+                      : `${account.givenName} ${account.familyName}`
+                  )}
                 </p>
                 <p className="flex1">
-                  {`${account.socialType} ${account.accountType}`}
+                  {capitolizeFirstChar(account.accountType)}
                 </p>
               </div>
               {(isAdmin || account.userID.toString() === userID.toString()) && (
