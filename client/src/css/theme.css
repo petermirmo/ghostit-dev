@@ -75,7 +75,7 @@
   --fourteen-font-size: 14px;
   --regular-font-size: 15px;
   --sixteen-font-size: 16px;
-  --large-font-size: 17px;
+  --large-font-size: 18px;
   --medium-large-font-size: 20px;
   --extra-large-font-size: 23px;
   --gigantic-font-size: 24px;
@@ -1103,12 +1103,25 @@ p {
   border-radius: 4px;
   flex: 1;
 }
+
+.icon-regular-button {
+  color: var(--seven-primary-color);
+  cursor: pointer;
+}
+.icon-regular-button:hover {
+  color: var(--eight-primary-color);
+}
 .regular-button {
+  cursor: pointer;
   padding: 8px;
-  padding-right: 32px;
-  padding-left: 32px;
+  padding-right: 16px;
+  padding-left: 16px;
   border-radius: 4px;
   background-color: var(--five-primary-color);
+  color: var(--white-theme-color);
+}
+.regular-button.large {
+  font-size: var(--large-font-size);
 }
 .regular-button:hover {
   background-color: var(--seven-primary-color);

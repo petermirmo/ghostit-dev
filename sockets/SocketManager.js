@@ -22,11 +22,11 @@ searchAndRemoveSocketID = (connections, socketID) => {
 getUsersInRoom = (rooms, room, connections) => {
   // getUsersInRoom(io.sockets.adapter.rooms, calendarID, connections);
   if (!rooms[room]) return undefined;
-  const emails = [];
+  const users = [];
   for (let index in rooms[room].sockets) {
-    emails.push(connections[index].email);
+    users.push(connections[index]);
   }
-  return emails;
+  return users;
 };
 
 getRoomsThatSocketIsIn = (rooms, socketID) => {

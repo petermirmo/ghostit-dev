@@ -1,9 +1,3 @@
-.filter-container {
-  background-color: transparent;
-
-  font-size: inherit;
-  color: inherit;
-}
 .filter-container:hover .dropdown {
   display: flex;
 }

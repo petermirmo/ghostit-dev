@@ -1,25 +1,3 @@
-.calendar-header-two-rows {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-basis: content;
-}
-.calendar-picker {
-  display: flex;
-  justify-content: center;
-}
-.calendar-picker-and-user-list {
-  display: flex;
-  flex: 1;
-  width: 95%;
-  flex-direction: row;
-  justify-content: center;
-  position: relative;
-}
-.user-list-dropdown {
-  position: absolute;
-  right: 0;
-}
 .calendar-container {
   overflow-x: hidden;
   min-width: 1000px;
@@ -28,40 +6,6 @@
 .calendar-header-container {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
-  width: 100%;
-  box-sizing: border-box;
-}
-.center-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.calendar-month {
-  font-family: var(--silly-font-theme);
-  color: var(--primary-text-theme-color);
-  font-size: var(--h1-font-size);
-  font-weight: bold;
-  user-select: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.calendar-switch-month {
-  color: var(--seven-primary-color);
-}
-.calendar-switch-month:hover {
-  color: var(--five-primary-color);
-}
-.calendar-view-change {
-  background-color: var(--seven-primary-color);
-  color: var(--white-theme-color);
-  font-size: var(--h6-font-size);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.calendar-table {
-  display: flex;
-  flex-direction: column;
 }
 .calendar-day-titles-container {
   display: flex;
