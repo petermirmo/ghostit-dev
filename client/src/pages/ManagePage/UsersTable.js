@@ -7,7 +7,7 @@ import ObjectEditTable from "../../components/ObjectEditTable/";
 import NavigationBar from "../../components/Navigations/NavigationBar/";
 import {
   nonEditableUserFields,
-  canShowUserFields
+  cantShowUserFields
 } from "../../extra/constants/Common";
 
 class UsersTable extends Component {
@@ -32,7 +32,7 @@ class UsersTable extends Component {
     const { userCategories } = this.state;
     axios.get("/api/users").then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (!res) {
         // If res sends back false the user is not an admin and is likely a hacker
@@ -85,7 +85,7 @@ class UsersTable extends Component {
   getPlans = () => {
     axios.get("/api/plans").then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       this.setState({ plans: res.data });
     });
@@ -118,7 +118,7 @@ class UsersTable extends Component {
   saveUser = user => {
     axios.post("/api/updateUser", user).then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (res.data) {
         alert("success");
@@ -179,18 +179,18 @@ class UsersTable extends Component {
         }
       }
 
-      if (canShowUserFields.indexOf(index) === -1) {
+      if (cantShowUserFields.indexOf(index) === -1) {
         objectArry.push({
-          canEdit: canEdit,
+          canEdit,
           value:
             this.state.clickedUser[index] === Object(clickedUser[index])
               ? clickedUser[index].name
                 ? clickedUser[index].name
                 : clickedUser[index].id
               : clickedUser[index],
-          dropdown: dropdown,
-          dropdownList: dropdownList,
-          index: index
+          dropdown,
+          dropdownList,
+          index
         });
       }
     }
@@ -209,13 +209,12 @@ class UsersTable extends Component {
               indexSearch2="email"
             />
           </div>
-          <div>
+          <div className="flex1">
             <ObjectEditTable
               objectArray={objectArry}
               updateList={this.getUsers}
               saveObject={this.saveUser}
               clickedObject={clickedUser}
-              className="center"
               editting={editting}
               editObject={this.editObject}
             />

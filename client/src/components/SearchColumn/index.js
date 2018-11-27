@@ -88,7 +88,7 @@ class ManageColumn extends Component {
         <textarea
           onKeyUp={e => this.searchObjects(e, indexSearch, indexSearch2)}
           placeholder="Search"
-          className="search round pa8 mb8"
+          className="search round py8 px16 mb8"
           rows={1}
         />
         {activeObjectsDivs}

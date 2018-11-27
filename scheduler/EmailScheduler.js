@@ -24,8 +24,8 @@ module.exports = {
                       : "Custom Task";
                     sendEmail(
                       user,
-                      "Your task " + taskTitle + " is due!",
                       "Ghostit Scheduled Task",
+                      "Your task " + taskTitle + " is due!",
                       () => {
                         emailReminder.remove();
                       }

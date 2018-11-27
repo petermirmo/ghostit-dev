@@ -1,0 +1,55 @@
+.team-members-container {
+  flex-wrap: wrap;
+}
+.team-member-container {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+}
+.team-member-image-container {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.team-member-image {
+  width: 150px;
+}
+.team-member-name {
+  font-weight: 900;
+  pointer-events: none;
+}
+.team-member-container:hover {
+  background-color: var(--five-purple-color);
+  color: white;
+}
+.team-member-container:hover .team-member-dropdown-container {
+  display: flex;
+  flex-direction: column;
+}
+.team-member-dropdown-container {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 8px);
+
+  display: none;
+  width: 250%;
+
+  background-color: var(--five-purple-color);
+  color: white;
+
+  z-index: 2;
+
+  animation: animateOpacity 0.4s ease;
+}
+.team-member-container:hover .team-member-name,
+.team-member-dropdown-container .team-member-name {
+  color: var(--white-theme-color);
+}
+.team-member-title {
+}
+.team-member-description {
+  color: var(--white-theme-color);
+}

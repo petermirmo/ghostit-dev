@@ -3,11 +3,12 @@ import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
+import { Route, withRouter, Switch } from "react-router-dom";
 
 import { connect } from "react-redux";
+
 import { bindActionCreators } from "redux";
 import {
-  changePage,
   setUser,
   updateAccounts,
   setTutorial,
@@ -18,7 +19,6 @@ import LoaderWedge from "../components/Notifications/LoaderWedge";
 
 import Header from "../components/Navigations/Header/";
 
-import LoginPage from "./LoginPage/";
 import Subscribe from "./SubscribePage/";
 import Content from "./ContentPage/";
 import Strategy from "./StrategyPage/";
@@ -30,7 +30,14 @@ import Analytics from "./AnalyticsPage/";
 import WritersBrief from "./WritersBriefPage/";
 import Ads from "./AdsPage/";
 
-import Website from "../website";
+import WebsiteHeader from "../website/WebsiteHeader";
+import HomePage from "../website/HomePage";
+import PricingPage from "../website/PricingPage";
+import TeamPage from "../website/TeamPage";
+import GhostitAgency from "../website/GhostitAgency";
+import LoginPage from "../website/LoginPage";
+
+import "./style.css";
 
 class Routes extends Component {
   state = {
@@ -48,8 +55,8 @@ class Routes extends Component {
           let { accounts } = res.data;
 
           if (!accounts) accounts = [];
-          props.updateAccounts(accounts);
           props.setUser(user);
+          props.updateAccounts(accounts);
           if (user.role === "demo") {
             let temp = { ...props.tutorial };
             temp.on = true;
@@ -67,86 +74,32 @@ class Routes extends Component {
       } else this.setState({ datebaseConnection: true });
     });
   }
-  componentWillReceiveProps(nextProps) {
-    // Hardcoded stuff for product pop up tutorials
-    // It is kind of complicated. if(confuzzled) Talk to Peter;
-    const { accounts, user, activePage } = nextProps;
-    if (user) {
-      if (user.role === "demo") {
-        let temp = { ...nextProps.tutorial };
-        if (activePage === "content") {
-          for (let index in accounts) {
-            let account = accounts[index];
-
-            if (
-              account.socialType === "facebook" &&
-              account.accountType === "profile"
-            ) {
-              if (temp.value < 2) temp.value = 2;
-            } else if (temp.value < 4) temp.value = 4;
-          }
-          if (temp.value < 3) temp.value = 0;
-          else if (temp.value === 3) temp.value = 4;
-        } else {
-          temp.value = 1;
-
-          for (let index in accounts) {
-            let account = accounts[index];
-
-            if (
-              account.socialType === "facebook" &&
-              account.accountType === "profile"
-            ) {
-              if (temp.value < 2) temp.value = 2;
-            } else temp.value = 3;
-          }
-        }
-        let somethingChanged = false;
-        for (let index in temp) {
-          if (temp[index] != nextProps.tutorial[index]) somethingChanged = true;
-        }
-
-        if (somethingChanged) nextProps.setTutorial(temp);
-      }
-    }
-  }
-
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
-      if (success) {
-        this.props.setUser(user);
-        window.location.reload();
-      } else {
-        if (loggedIn === false) window.location.reload();
-      }
+      if (success) window.location.reload();
+      else this.props.history.push("/sign-in");
     });
   };
-  getPage = (activePage, user) => {
-    if (user) {
-      if (activePage === "subscribe") return <Subscribe />;
-      else if (activePage === "content") return <Content />;
-      else if (activePage === "strategy") return <Strategy />;
-      else if (activePage === "analytics") return <Analytics />;
-      else if (activePage === "social-accounts") return <Accounts />;
-      else if (activePage === "writers-brief") return <WritersBrief />;
-      else if (activePage === "manage") return <Manage />;
-      else if (activePage === "profile") return <Profile />;
-      else if (activePage === "subscription") return <MySubscription />;
-      else if (activePage === "ads") return <Ads />;
-      else return <Content />;
-      // TODO: Should probably return a not found page^^
-    } else {
-      if (activePage === "sign-up") return <LoginPage signUp={true} />;
-      else if (activePage === "sign-in") return <LoginPage />;
-      else if (activePage === "home")
-        return <Website activePage={activePage} />;
-      else return <LoginPage />;
-    }
+  userIsInPlatform = activePage => {
+    if (
+      activePage === "/content" ||
+      activePage === "/subscribe" ||
+      activePage === "/strategy" ||
+      activePage === "/analytics" ||
+      activePage === "/social-accounts" ||
+      activePage === "/writers-brief" ||
+      activePage === "/manage" ||
+      activePage === "/profile" ||
+      activePage === "/subscription" ||
+      activePage === "/ads"
+    )
+      return true;
+    else return false;
   };
   render() {
     const { datebaseConnection } = this.state;
-    const { activePage, user, getKeyListenerFunction, changePage } = this.props;
+    const { user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
@@ -154,31 +107,13 @@ class Routes extends Component {
     let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
 
-    let page = this.getPage(activePage, user);
+    let activePage = "hello";
 
     return (
       <div className="flex">
-        {user && <Header />}
+        {this.userIsInPlatform(this.props.location.pathname) && <Header />}
 
         <div className="wrapper">
-          {user &&
-            user.role === "demo" &&
-            false && (
-              <div className="trial-days-left flex hc vc pa4">
-                {7 - new moment().diff(new moment(user.dateCreated), "days") > 0
-                  ? 7 - new moment().diff(new moment(user.dateCreated), "days")
-                  : 0}{" "}
-                days left in trial
-                {activePage !== "subscribe" && (
-                  <div
-                    className="sign-up-now button pl4"
-                    onClick={() => changePage("subscribe")}
-                  >
-                    Pay Now
-                  </div>
-                )}
-              </div>
-            )}
           {user &&
             ((activePage === "content" ||
               activePage === "strategy" ||
@@ -195,8 +130,34 @@ class Routes extends Component {
                   />
                 </div>
               ))}
+          {!this.userIsInPlatform(this.props.location.pathname) && (
+            <WebsiteHeader />
+          )}
+          <Switch>
+            <Route path="/content/" component={Content} />
+            <Route path="/subscribe/" component={Subscribe} />
+            <Route path="/strategy/" component={Strategy} />
+            <Route path="/analytics/" component={Analytics} />
+            <Route path="/social-accounts/" component={Accounts} />
+            <Route path="/writers-brief/" component={WritersBrief} />
+            <Route path="/manage/" component={Manage} />
+            <Route path="/profile/" component={Profile} />
+            <Route path="/subscription/" component={MySubscription} />
+            <Route path="/ads/" component={Ads} />
 
-          {page}
+            <Route path="/home/" component={HomePage} />
+            <Route path="/pricing/" component={PricingPage} />
+            <Route path="/team/" component={TeamPage} />
+            <Route path="/agency/" component={GhostitAgency} />
+            <Route path="/sign-in/" component={LoginPage} />
+            <Route
+              path="/sign-up/"
+              render={props => {
+                return <LoginPage signUp={true} />;
+              }}
+            />
+            <Route component={HomePage} />
+          </Switch>
         </div>
       </div>
     );
@@ -205,7 +166,6 @@ class Routes extends Component {
 
 function mapStateToProps(state) {
   return {
-    activePage: state.activePage,
     user: state.user,
     getKeyListenerFunction: state.getKeyListenerFunction,
     tutorial: state.tutorial,
@@ -215,7 +175,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage,
       setUser,
       updateAccounts,
       setTutorial,
@@ -224,7 +183,9 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Routes);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Routes)
+);

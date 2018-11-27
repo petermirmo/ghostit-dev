@@ -15,13 +15,14 @@
 .notifcation-title {
   margin: 0;
   padding: 0;
+  color: var(--white-theme-color);
 }
 .notification.success {
   background-color: var(--green-theme-color);
   color: var(--white-theme-color);
 }
 .notification.info {
-  background-color: var(--three-primary-color);
+  background-color: var(--four-primary-color);
   color: var(--white-theme-color);
 }
 .notification.danger {

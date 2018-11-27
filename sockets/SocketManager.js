@@ -9,7 +9,7 @@ searchAndRemoveSocketID = (connections, socketID) => {
   for (let index in connections) {
     for (let i = 0; i < connections[index].length; i++) {
       if (connections[index][i] === socketID) {
-        connections[index].splice(i, 1);
+        connections[index].name.splice(i, 1);
         if (connections[index].length === 0 && index !== "unassigned") {
           delete connections[index];
         }
@@ -22,15 +22,11 @@ searchAndRemoveSocketID = (connections, socketID) => {
 getUsersInRoom = (rooms, room, connections) => {
   // getUsersInRoom(io.sockets.adapter.rooms, calendarID, connections);
   if (!rooms[room]) return undefined;
-  const socketIDs = [];
+  const users = [];
   for (let index in rooms[room].sockets) {
-    socketIDs.push(index);
+    users.push(connections[index]);
   }
-  const emails = [];
-  for (let i = 0; i < socketIDs.length; i++) {
-    emails.push(connections[socketIDs[i]]);
-  }
-  return emails;
+  return users;
 };
 
 getRoomsThatSocketIsIn = (rooms, socketID) => {
@@ -83,7 +79,8 @@ module.exports = io => {
         Not sure if it's worth the extra time to check the DB, and also I'm not sure how to
         get the req.user object from the socket.
       */
-      let { calendarID, name } = reqObj;
+      let { calendarID, name, email } = reqObj;
+
       if (!calendarID) return;
       calendarID = calendarID.toString();
       const socketID = socket.id.toString();
@@ -97,7 +94,7 @@ module.exports = io => {
       socket.join(calendarID);
 
       if (!connections[socketID]) {
-        connections[socketID] = name;
+        connections[socketID] = { name, email };
       }
 
       roomsToEmit.push(calendarID);
@@ -148,7 +145,7 @@ module.exports = io => {
         maintain "rooms" for campaignIDs so that if 2 or more users are working on the same
         campaign at the same time, they will get real-time updates from each other's work
       */
-      let { campaignID, name } = reqObj;
+      let { campaignID, name, email } = reqObj;
       const socketID = socket.id.toString();
       campaignID = campaignID.toString();
       if (!campaignID) return;
@@ -164,7 +161,7 @@ module.exports = io => {
       roomsToEmit.push(campaignID);
 
       if (!connections[socketID]) {
-        connections[socketID] = name;
+        connections[socketID] = { name, email };
       }
 
       emitSocketUsersToRooms(

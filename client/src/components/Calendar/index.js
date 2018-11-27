@@ -31,7 +31,6 @@ import "./styles/";
 
 class Calendar extends Component {
   state = {
-    calendarDate: this.props.calendarDate,
     timezone: this.props.timezone,
     queueActive: false
   };
@@ -354,15 +353,15 @@ class Calendar extends Component {
   };
 
   addMonth = () => {
-    let { calendarDate } = this.state;
+    let { calendarDate, onDateChange } = this.props;
     calendarDate.add(1, "months");
-    this.setState({ calendarDate });
+    onDateChange(calendarDate);
   };
 
   subtractMonth = () => {
-    let { calendarDate } = this.state;
+    let { calendarDate, onDateChange } = this.props;
     calendarDate.subtract(1, "months");
-    this.setState({ calendarDate: calendarDate });
+    onDateChange(calendarDate);
   };
   createQueuePostDiv = (post, key) => {
     let content = post.content;
@@ -432,51 +431,49 @@ class Calendar extends Component {
     }
 
     return (
-      <div className="calendar-header-two-rows">
-        <div className="calendar-header-container px8 pt8">
-          <div className="flex vt hc">
-            <div className="calendar-view-change button common-transition br4">
-              <Filter
-                updateActiveCategory={this.props.updateActiveCategory}
-                categories={this.props.categories}
-              />
-            </div>
+      <div className="flex column vc">
+        <div className="calendar-header-container px8 pt8 width100 box-sizing">
+          <div className="flex hc vc">
+            <Filter
+              updateActiveCategory={this.props.updateActiveCategory}
+              categories={this.props.categories}
+            />
           </div>
-          <div className="center-header-container px32">
+          <div className="flex hc vc px32">
             <FontAwesomeIcon
               icon={faAngleLeft}
               size="3x"
-              className="calendar-switch-month button common-transition"
+              className="icon-regular-button common-transition"
               onClick={this.subtractMonth}
             />
-            <div className="calendar-month">
+            <h1 className="tac flex1 silly-font">
               {calendarDate.format("MMMM YYYY")}
-            </div>
+            </h1>
             <FontAwesomeIcon
               icon={faAngleRight}
               size="3x"
-              className="calendar-switch-month button common-transition"
+              className="icon-regular-button common-transition"
               onClick={this.addMonth}
             />
           </div>
-          <div className="flex vt hc">
-            <div
-              className="calendar-view-change button common-transition py8 px16 br4"
+          <div className="flex hc vc">
+            <button
+              className="regular-button large common-transition"
               onClick={() => this.setState({ queueActive: !queueActive })}
             >
               {queueActive ? "Calendar" : "Queue Preview"}
-            </div>
+            </button>
           </div>
         </div>
         {calendarInviteDivs}
-        <div className="calendar-picker-and-user-list">
+        <div className="flex hc width100 relative">
           <CalendarPicker
             calendars={this.props.calendars}
             activeCalendarIndex={this.props.activeCalendarIndex}
             updateActiveCalendar={this.props.updateActiveCalendar}
             enableCalendarManager={this.props.enableCalendarManager}
           />
-          <div className="user-list-dropdown">
+          <div className="absolute right">
             <SocketUserList userList={this.props.userList} />
           </div>
         </div>
@@ -485,9 +482,16 @@ class Calendar extends Component {
   };
 
   render() {
-    let { calendarDate, queueActive } = this.state;
+    let { queueActive } = this.state;
+    let {
+      calendarEvents,
+      onSelectDay,
+      onSelectPost,
+      calendarDate,
+      tutorial
+    } = this.props;
+
     if (queueActive) {
-      let { calendarEvents, onSelectDay, onSelectPost } = this.props;
       let quePostsToDisplay = [];
       for (let index in calendarEvents) {
         let calendarEvent = calendarEvents[index];
@@ -524,26 +528,24 @@ class Calendar extends Component {
 
     let calendarWeekArray = this.createCalendarWeeks(calendarDate);
     let dayHeadingsArray = this.createDayHeaders(moment.weekdays());
-    const { tutorial } = this.props;
 
     return (
       <div className="calendar-container">
         {this.calendarHeader(calendarDate, queueActive)}
 
-        <div className="calendar-table">
+        <div className="flex column">
           <div className="calendar-day-titles-container">
             {dayHeadingsArray}
           </div>
           {calendarWeekArray}
 
-          {tutorial.on &&
-            tutorial.value === 4 && (
-              <Tutorial
-                title="Tutorial"
-                message="Click on any day in the calendar to create your first post!"
-                position="center"
-              />
-            )}
+          {tutorial.on && tutorial.value === 4 && (
+            <Tutorial
+              title="Tutorial"
+              message="Click on any day in the calendar to create your first post!"
+              position="center"
+            />
+          )}
         </div>
       </div>
     );

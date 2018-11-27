@@ -33,7 +33,7 @@ module.exports = app => {
   };
 
   if (process.env.NODE_ENV === "production") {
-    app.get("/*", function(req, res, next) {
+    app.get("/*", (req, res, next) => {
       if (req.headers.host.match(/^www/) == null)
         res.redirect(301, "http://www." + req.headers.host + req.url);
       else next();
@@ -42,14 +42,14 @@ module.exports = app => {
   app.get("/api/test", (req, res, next) => facebookFunctions.test(req, res));
   // Login user
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local-login", function(err, user, message) {
+    passport.authenticate("local-login", (err, user, message) => {
       let success = true;
 
       if (err) success = false;
       if (!user) success = false;
 
       if (success) {
-        req.logIn(user, function(err) {
+        req.logIn(user, err => {
           if (err) {
             success = false;
             message =
@@ -64,11 +64,11 @@ module.exports = app => {
   });
   // Register user
   app.post("/api/register", (req, res, next) => {
-    passport.authenticate("local-signup", function(notUsed, user, message) {
+    passport.authenticate("local-signup", (notUsed, user, message) => {
       let success = true;
       if (!user) success = false;
       if (success) {
-        req.logIn(user, function(err) {
+        req.logIn(user, err => {
           if (err) {
             success = false;
             message =
@@ -96,7 +96,6 @@ module.exports = app => {
   );
   // Logout user
   app.get("/api/logout", middleware, (req, res) => {
-    req.session.destroy();
     res.send({ success: true });
   });
 
@@ -367,7 +366,7 @@ module.exports = app => {
     calendarFunctions.getCalendars(req, res)
   );
 
-  app.get("/api/calendar/posts/:calendarID", middleware, (req, res) =>
+  app.post("/api/calendar/posts/:calendarID", middleware, (req, res) =>
     calendarFunctions.getPosts(req, res)
   );
 

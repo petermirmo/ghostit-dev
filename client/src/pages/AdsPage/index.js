@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import { connect } from "react-redux";
+
 import "./styles/";
 
 class AdsPage extends Component {
@@ -16,10 +18,7 @@ class AdsPage extends Component {
       }
     }
   };
-  test = () => {
-    return;
-    axios.get("/api/test").then(res => console.log(res));
-  };
+
   headerClick = activeOption => {
     let { navigationOptions } = this.state;
     for (let index in navigationOptions) {
@@ -55,4 +54,10 @@ class AdsPage extends Component {
   }
 }
 
-export default AdsPage;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(AdsPage);

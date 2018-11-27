@@ -1,0 +1,57 @@
+.login-background {
+  background-color: var(--white-theme-color);
+  background: linear-gradient(
+    var(--white-theme-color) 70%,
+    var(--five-primary-color) 30%
+  );
+
+  width: 100vw;
+  height: 100vh;
+
+  padding-top: 15vh;
+  box-sizing: border-box;
+}
+.login-box {
+  justify-content: flex-end;
+
+  width: 40%;
+
+  background-color: var(--white-theme-color);
+  box-shadow: 0 0 10px 0;
+}
+
+.form-box {
+  flex: 1;
+  width: 100%;
+}
+
+.login-input {
+  font-size: var(--large-font-size);
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-switch {
+  width: 100%;
+  color: var(--dark-grey-theme-color);
+}
+.login-switch-highlight {
+  border-bottom: 1px solid var(--seven-primary-color);
+  color: var(--seven-primary-color);
+}
+.submit-blue {
+  min-width: 30%;
+  background-color: var(--seven-primary-color);
+  font-size: var(--sixteen-font-size);
+  color: var(--white-theme-color);
+}
+.submit-blue:hover {
+  background-color: var(--nine-primary-color) !important;
+}
+
+.forgot-password {
+  color: var(--seven-purple-color);
+  text-decoration: underline;
+  text-align: center;
+}

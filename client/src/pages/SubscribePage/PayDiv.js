@@ -3,8 +3,8 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { setUser, changePage } from "../../redux/actions/";
 
-import { setUser } from "../../redux/actions/";
 import Notification from "../../components/Notifications/Notification/";
 import Loader from "../../components/Notifications/Loader/";
 
@@ -108,15 +108,17 @@ class ChargeCardForm extends Component {
           this.setState({ saving: false });
 
           const { success, message, user, loggedIn } = res.data;
-          if (loggedIn === false) window.location.reload();
+          if (loggedIn === false) this.props.history.push("/sign-in");
 
           if (success) {
             if (user) {
               if (
                 this.props.user.role !== "admin" &&
                 this.props.user.role !== "manager"
-              )
+              ) {
                 this.props.setUser(user);
+                this.props.changePage("content");
+              }
             }
           } else {
             this.notify(message, "danger", "Something went wrong!");
@@ -149,12 +151,11 @@ class ChargeCardForm extends Component {
             <div id="card-errors" role="alert" />
           </div>
 
-          {!saving &&
-            (user.role === "demo" || user.role === "admin") && (
-              <button className="sign-up common-transition mt16 pa8 round">
-                Submit Payment
-              </button>
-            )}
+          {!saving && (user.role === "demo" || user.role === "admin") && (
+            <button className="sign-up common-transition mt16 pa8 round">
+              Submit Payment
+            </button>
+          )}
         </form>
       </div>
     );
@@ -165,7 +166,7 @@ function mapStateToProps(state) {
   return { user: state.user };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser }, dispatch);
+  return bindActionCreators({ setUser, changePage }, dispatch);
 }
 
 export default connect(

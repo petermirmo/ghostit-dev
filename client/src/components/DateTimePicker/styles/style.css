@@ -98,23 +98,21 @@
 
   background-color: transparent;
 
-  color: var(--black-theme-color);
   text-align: center;
 
   cursor: pointer;
 }
-.date-picker-day:hover {
-  background-color: var(--three-primary-color);
-  color: var(--white-theme-color);
-}
+.date-picker-day:hover,
 .date-picker-day.active {
   background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 }
+
 .faded-date-picker-days {
   background-color: var(--one-primary-color);
 }
 .date-picker-date {
+  color: inherit;
 }
 
 .time-container {

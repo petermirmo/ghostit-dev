@@ -2,7 +2,7 @@
   flex: 1;
 }
 .line-chart-axis {
-  stroke: var(--secondary-text-theme-color);
+  stroke: var(--divider-theme-color);
   fill: none;
   stroke-width: 2px;
   shape-rendering: geometricPrecision;
@@ -12,6 +12,8 @@
 
   shape-rendering: geometricPrecision;
   box-sizing: border-box;
+  min-width: 600px;
+  overflow: visible;
 }
 .line-chart-vertical-line {
   stroke: var(--divider-theme-color);
@@ -20,7 +22,7 @@
   shape-rendering: geometricPrecision;
 }
 .line-chart-data-point {
-  r: 0.2;
+  r: 1;
   stroke: var(--five-primary-color);
   fill: var(--five-primary-color);
   shape-rendering: geometricPrecision;
@@ -28,7 +30,7 @@
 }
 .line-chart-connecting-line {
   stroke: var(--five-primary-color);
-  stroke-width: 2px;
+  stroke-width: 4px;
   shape-rendering: geometricPrecision;
   transition: 1.5s ease;
 }

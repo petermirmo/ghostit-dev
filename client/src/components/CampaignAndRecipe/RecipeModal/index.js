@@ -79,13 +79,15 @@ class RecipeModal extends Component {
       if (!usersRecipes) usersRecipes = [];
       if (!allRecipes) allRecipes = [];
 
-      this.setState({
-        usersRecipes,
-        allRecipes,
-        activeRecipes: usersRecipes,
-        loading: false,
-        userID: usersRecipes.length > 0 ? usersRecipes[0].userID : undefined
-      });
+      if (this._ismounted) {
+        this.setState({
+          usersRecipes,
+          allRecipes,
+          activeRecipes: usersRecipes,
+          loading: false,
+          userID: usersRecipes.length > 0 ? usersRecipes[0].userID : undefined
+        });
+      }
     });
   };
 
@@ -296,14 +298,13 @@ class RecipeModal extends Component {
             <br /> Task
           </div>
           <div className="hover-active-div br4 px32 py8">Create</div>
-          {tutorial.on &&
-            tutorial.value === 5 && (
-              <Tutorial
-                title="Tutorial"
-                message="Click on 'Single Task' to create your first post!"
-                position="bottom"
-              />
-            )}
+          {tutorial.on && tutorial.value === 5 && (
+            <Tutorial
+              title="Tutorial"
+              message="Click on 'Single Task' to create your first post!"
+              position="bottom"
+            />
+          )}
         </div>
       </div>
     );
@@ -404,7 +405,7 @@ class RecipeModal extends Component {
                 className="use-this-recipe"
                 onClick={() => this.setState({ chooseRecipeDate: true })}
               >
-                Use This Recipe
+                Use This Template
               </div>
             )}
 

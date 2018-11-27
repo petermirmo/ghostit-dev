@@ -1,42 +1,15 @@
 .navigation-container {
-	position: relative;
-
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: var(--three-primary-color);
-	padding: 30px 80px 10px 80px;
-}
-.navigation-option-container {
-	flex-grow: 1;
-	margin: 0 10px 0 10px;
-	flex-basis: 0;
 }
 
 .nagivation-option {
-	color: var(--white-theme-color);
-	background-color: var(--turqoise-theme-color);
+  background-color: var(--seven-primary-color);
 
-	cursor: pointer;
-
-	border-radius: 4px;
-
-	text-align: center;
-	font-size: var(--large-font-size);
-	white-space: nowrap;
-	text-overflow: ellipsis;
-
-	border: none;
-
-	-webkit-transition: all 0.3s ease;
-	transition: all 0.3s ease;
+  font-size: var(--large-font-size);
 }
 
 .nagivation-option:hover:not(.active) {
-	background-color: var(--green-theme-color);
-	transform: translateY(-2px);
+  background-color: var(--nine-primary-color);
 }
 .nagivation-option.active {
-	transform: translateY(-2px);
-	background-color: var(--five-primary-color);
+  background-color: var(--nine-primary-color);
 }

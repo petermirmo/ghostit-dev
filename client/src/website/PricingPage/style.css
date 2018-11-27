@@ -1,0 +1,29 @@
+.pricing-plans-container {
+  flex-wrap: wrap;
+}
+.pricing-plan-container {
+  position: relative;
+
+  min-height: 50vh;
+  min-width: 20vw;
+}
+.plan-price-container {
+  box-sizing: border-box;
+  border-bottom: 6px solid var(--five-primary-color);
+}
+.plan-price-container.purple {
+  border-color: var(--five-purple-color);
+}
+.plan-price-container.orange {
+  border-color: var(--five-orange-color);
+}
+
+.price-important {
+  font-size: 24px;
+  font-weight: 900;
+
+  text-align: center;
+}
+.price-unimportant {
+  font-size: 16px;
+}

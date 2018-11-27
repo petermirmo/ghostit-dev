@@ -6,6 +6,14 @@ import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 
+// Taken from stack overflow
+export function capitolizeWordsInString(str) {
+  return str.replace(/\b\w/g, l => l.toUpperCase());
+}
+export function capitolizeFirstChar(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+// Taken from stack overflow
 export function mobileAndTabletcheck() {
   let check = false;
   (function(a) {
@@ -21,6 +29,10 @@ export function mobileAndTabletcheck() {
   })(navigator.userAgent || navigator.vendor || window.opera);
 
   return check;
+}
+export function validateEmail(email) {
+  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
 }
 export async function savePost(
   _id,
@@ -108,7 +120,7 @@ export async function savePost(
           callback(post);
         }
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
       }
     });
 }

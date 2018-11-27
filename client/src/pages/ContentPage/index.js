@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+
 import axios from "axios";
 import moment from "moment-timezone";
 
@@ -12,12 +14,15 @@ import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
 import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
 import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
-import CampaignModal from "../../components/CampaignAndRecipe/CampaignModal";
+import Campaign from "../../components/CampaignAndRecipe/Campaign";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/Notifications/Notification";
+import Loader from "../../components/Notifications/Loader/";
+import ConfirmAlert from "../..//components/Notifications/ConfirmAlert";
 
 class Content extends Component {
   state = {
+    loading: false,
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
     recipeEditing: false,
@@ -38,6 +43,7 @@ class Content extends Component {
     newsletterPosts: [],
 
     clickedDate: new moment(),
+    calendarDate: new moment(),
 
     blogEdittingModal: false,
     contentModal: false, // modal after selecting post from the recipeModal
@@ -61,6 +67,13 @@ class Content extends Component {
       message: undefined,
       timer: undefined
     },
+    confirmAlert: {
+      show: false,
+      type: undefined,
+      title: undefined,
+      message: undefined,
+      callback: undefined
+    },
     timezone: ""
   };
 
@@ -71,7 +84,7 @@ class Content extends Component {
 
     axios.get("/api/timezone").then(res => {
       let { timezone, loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (!timezone) timezone = this.state.timezone;
       moment.tz.setDefault(timezone);
@@ -90,17 +103,19 @@ class Content extends Component {
           calObj => calObj._id.toString() === defaultCalendarID.toString()
         );
         if (activeCalendarIndex === -1) activeCalendarIndex = 0;
-        this.setState(
-          {
-            calendars,
-            activeCalendarIndex,
-            defaultCalendarID
-          },
-          () => {
-            this.fillCalendar();
-            this.updateSocketCalendar();
-          }
-        );
+        if (this._ismounted) {
+          this.setState(
+            {
+              calendars,
+              activeCalendarIndex,
+              defaultCalendarID
+            },
+            () => {
+              this.fillCalendar();
+              this.updateSocketCalendar();
+            }
+          );
+        }
       }
     });
 
@@ -499,7 +514,8 @@ class Content extends Component {
     if (!calendars || activeCalendarIndex === undefined || !socket) return;
     socket.emit("calendar_connect", {
       calendarID: calendars[activeCalendarIndex]._id,
-      name: this.props.user.email
+      email: this.props.user.email,
+      name: this.props.user.fullName
     });
   };
 
@@ -603,7 +619,7 @@ class Content extends Component {
     // if this (or any of the getPosts/getBlogs/getCampaigns/etc fails,
     // we should maybe setState({ posts: [] })) so that we don't render
     // posts from a previous calendar
-    const { calendars, activeCalendarIndex } = this.state;
+    const { calendars, activeCalendarIndex, calendarDate } = this.state;
     if (!calendars || !calendars[activeCalendarIndex]) {
       console.log(calendars);
       console.log(activeCalendarIndex);
@@ -616,37 +632,40 @@ class Content extends Component {
     let linkedinPosts = [];
 
     // Get all of user's posts to display in calendar
-    axios.get("/api/calendar/posts/" + calendarID).then(res => {
-      const { success, err, message, posts, loggedIn } = res.data;
-      if (!success) {
-        console.log(message);
-        console.log(err);
-      } else {
-        if (loggedIn === false) window.location.reload();
+    axios
+      .post("/api/calendar/posts/" + calendarID, { calendarDate })
+      .then(res => {
+        const { success, err, message, posts, loggedIn } = res.data;
+        if (!success) {
+          console.log(message);
+          console.log(err);
+        } else {
+          if (loggedIn === false) this.props.history.push("/sign-in");
 
-        for (let index in posts) {
-          posts[index].startDate = posts[index].postingDate;
-          posts[index].endDate = posts[index].postingDate;
-        }
+          for (let index in posts) {
+            posts[index].startDate = posts[index].postingDate;
+            posts[index].endDate = posts[index].postingDate;
+          }
 
-        for (let index in posts) {
-          if (posts[index].socialType === "facebook") {
-            facebookPosts.push(posts[index]);
-          } else if (posts[index].socialType === "twitter") {
-            twitterPosts.push(posts[index]);
-          } else if (posts[index].socialType === "linkedin") {
-            linkedinPosts.push(posts[index]);
+          for (let index in posts) {
+            if (posts[index].socialType === "facebook") {
+              facebookPosts.push(posts[index]);
+            } else if (posts[index].socialType === "twitter") {
+              twitterPosts.push(posts[index]);
+            } else if (posts[index].socialType === "linkedin") {
+              linkedinPosts.push(posts[index]);
+            }
+          }
+          if (this._ismounted) {
+            this.setState({
+              facebookPosts,
+              twitterPosts,
+              linkedinPosts,
+              loading: false
+            });
           }
         }
-        if (this._ismounted) {
-          this.setState({
-            facebookPosts: facebookPosts,
-            twitterPosts: twitterPosts,
-            linkedinPosts: linkedinPosts
-          });
-        }
-      }
-    });
+      });
   };
 
   getBlogs = () => {
@@ -665,7 +684,7 @@ class Content extends Component {
         console.log(message);
         console.log(err);
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
 
         for (let index in blogs) {
           blogs[index].startDate = blogs[index].postingDate;
@@ -695,7 +714,7 @@ class Content extends Component {
         console.log(message);
         console.log(err);
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
 
         for (let index in newsletters) {
           newsletters[index].startDate = newsletters[index].postingDate;
@@ -725,7 +744,7 @@ class Content extends Component {
         console.log(message);
         console.log(err);
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
 
         for (let index in campaigns) {
           campaigns[index].campaign.posts = campaigns[index].posts;
@@ -851,6 +870,9 @@ class Content extends Component {
       calendarInvites,
       activeCalendarIndex,
       defaultCalendarID,
+      calendarDate,
+      loading,
+      confirmAlert,
       userList
     } = this.state;
     const {
@@ -863,7 +885,6 @@ class Content extends Component {
       Newsletter,
       Campaigns
     } = calendarEventCategories;
-
     let calendarEvents = [];
 
     if (Facebook || All)
@@ -918,6 +939,7 @@ class Content extends Component {
 
     return (
       <div className="content-page">
+        {loading && <Loader />}
         <Calendar
           calendars={calendars}
           calendarInvites={calendarInvites}
@@ -929,7 +951,11 @@ class Content extends Component {
           }}
           userList={userList}
           calendarEvents={calendarEvents}
-          calendarDate={new moment()}
+          onDateChange={date => {
+            this.handleChange(date, "calendarDate");
+            this.getPosts(calendarDate);
+          }}
+          calendarDate={calendarDate}
           onSelectDay={this.openModal}
           onSelectPost={this.editPost}
           onSelectCampaign={this.openCampaign}
@@ -938,16 +964,29 @@ class Content extends Component {
           updateActiveCategory={this.updateActiveCategory}
         />
         {this.state.calendarManagerModal && (
-          <CalendarManager
-            calendars={calendars}
-            activeCalendarIndex={activeCalendarIndex}
-            defaultCalendarID={defaultCalendarID}
-            close={() => {
+          <div
+            className="modal"
+            onClick={() => {
               this.closeModals();
               this.getCalendars();
             }}
-            notify={this.notify}
-          />
+          >
+            <div
+              className="large-modal common-transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <CalendarManager
+                calendars={calendars}
+                activeCalendarIndex={activeCalendarIndex}
+                defaultCalendarID={defaultCalendarID}
+                close={() => {
+                  this.closeModals();
+                  this.getCalendars();
+                }}
+                notify={this.notify}
+              />
+            </div>
+          </div>
         )}
         {this.state.contentModal && (
           <ContentModal
@@ -1013,19 +1052,27 @@ class Content extends Component {
           />
         )}
         {this.state.campaignModal && (
-          <CampaignModal
-            close={this.closeModals}
-            handleChange={this.handleChange}
-            calendarID={calendars[activeCalendarIndex]._id}
-            timezone={timezone}
-            clickedCalendarDate={clickedDate}
-            updateCampaigns={this.getCampaigns}
-            campaign={clickedEvent}
-            isRecipe={clickedEventIsRecipe}
-            recipeEditing={recipeEditing}
-            notify={this.notify}
-            triggerSocketPeers={this.triggerSocketPeers}
-          />
+          <div className="modal">
+            <div
+              className="large-modal common-transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <Campaign
+                close={this.closeModals}
+                handleChange={this.handleChange}
+                calendarID={calendars[activeCalendarIndex]._id}
+                timezone={timezone}
+                clickedCalendarDate={clickedDate}
+                updateCampaigns={this.getCampaigns}
+                campaign={clickedEvent}
+                isRecipe={clickedEventIsRecipe}
+                recipeEditing={recipeEditing}
+                notify={this.notify}
+                confirmAlert={confirmAlert}
+                triggerSocketPeers={this.triggerSocketPeers}
+              />
+            </div>
+          </div>
         )}
         {this.state.recipeModal && (
           <RecipeModal
@@ -1048,13 +1095,25 @@ class Content extends Component {
             }
           />
         )}
+        {confirmAlert.show && (
+          <ConfirmAlert
+            close={() => {
+              let { confirmAlert } = this.state;
+              confirmAlert.show = false;
+              this.setState({ confirmAlert });
+            }}
+            title={confirmAlert.title}
+            message={confirmAlert.message}
+            callback={confirmAlert.callback}
+            type={confirmAlert.type}
+          />
+        )}
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  // at this moment (aug 7 2018), user variable is never used so might be not be worth mapping it
   return {
     user: state.user
   };

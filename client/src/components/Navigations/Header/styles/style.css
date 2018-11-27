@@ -18,13 +18,14 @@
 .header-button {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: 1fr 5fr;
+
+  width: 100%;
 
   color: var(--white-theme-color);
   font-family: var(--silly-font-theme);
 
   border-bottom: 2px solid transparent;
-  cursor: pointer;
 }
 .header-button:hover,
 .header-button.active {

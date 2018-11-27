@@ -1,0 +1,35 @@
+.logo-background {
+  shape-rendering: geometricPrecision;
+  width: 10vw;
+  pointer-events: auto;
+}
+.logo-outer-shape {
+  shape-rendering: geometricPrecision;
+  fill: none;
+}
+
+.logo-ghost-body {
+  stroke: #525f60;
+  stroke-width: 150;
+  shape-rendering: geometricPrecision;
+}
+.logo-ghost-eye {
+  fill: #525f60;
+  shape-rendering: geometricPrecision;
+}
+.logo-ghost-mouth {
+  fill: #525f60;
+  shape-rendering: geometricPrecision;
+}
+.logo-ghost-bottom-shadow {
+  shape-rendering: geometricPrecision;
+  fill: var(--five-primary-color);
+}
+
+.logo-text {
+  font-size: 3500px;
+  font-family: var(--silly-font-theme);
+  fill: var(--primary-text-theme-color);
+  font-weight: bold;
+  shape-rendering: geometricPrecision;
+}

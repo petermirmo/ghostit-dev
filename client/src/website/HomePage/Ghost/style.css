@@ -1,0 +1,32 @@
+.ghost-background {
+  shape-rendering: geometricPrecision;
+  background-color: transparent;
+
+  transition: all 0.4s ease;
+}
+.ghost-background.left {
+  transform: rotateY(180deg);
+}
+.ghost-outer-shape {
+  shape-rendering: geometricPrecision;
+}
+.ghost-body {
+  stroke: #525f60;
+  stroke-width: 100;
+  fill: var(--white-theme-color);
+  shape-rendering: geometricPrecision;
+}
+.ghost-eye {
+  fill: #525f60;
+  shape-rendering: geometricPrecision;
+}
+.ghost-mouth {
+  fill: #525f60;
+  shape-rendering: geometricPrecision;
+}
+.ghost-bottom-shadow {
+  shape-rendering: geometricPrecision;
+  fill: transparent;
+
+  fill: var(--seven-primary-color);
+}
