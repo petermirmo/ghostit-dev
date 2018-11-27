@@ -491,7 +491,7 @@ class CalendarManager extends Component {
             <div className="list-info">
               <div className="flex column flex1">
                 <p className="flex1">
-                  {userObj.fullName}
+                  {capitolizeWordsInString(userObj.fullName)}
                   {userObj._id.toString() === userID.toString()
                     ? " (Admin)"
                     : ""}

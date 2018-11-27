@@ -16,7 +16,7 @@ class SocketUserList extends Component {
           key={`socket-user-${index}`}
           style={{ cursor: "default" }}
         >
-          {userList[index]}
+          {userList[index].name}
         </div>
       );
     }

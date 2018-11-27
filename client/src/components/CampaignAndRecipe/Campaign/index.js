@@ -231,7 +231,8 @@ class CampaignModal extends Component {
 
         socket.emit("campaign_connect", {
           campaignID,
-          name: this.props.user.email
+          email: this.props.user.email,
+          name: this.props.user.fullName
         });
 
         this.props.notify(
@@ -246,7 +247,8 @@ class CampaignModal extends Component {
     } else if (this.props.campaign && this.props.campaign._id) {
       socket.emit("campaign_connect", {
         campaignID: this.props.campaign._id,
-        name: this.props.user.email
+        email: this.props.user.email,
+        name: this.props.user.fullName
       });
       socketConnected = true;
       this.setState({ saving: false });

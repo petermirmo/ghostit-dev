@@ -514,7 +514,8 @@ class Content extends Component {
     if (!calendars || activeCalendarIndex === undefined || !socket) return;
     socket.emit("calendar_connect", {
       calendarID: calendars[activeCalendarIndex]._id,
-      name: this.props.user.email
+      email: this.props.user.email,
+      name: this.props.user.fullName
     });
   };
 
