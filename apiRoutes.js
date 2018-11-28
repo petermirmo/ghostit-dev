@@ -315,6 +315,10 @@ module.exports = app => {
   );
   // Admin routes!!!!!
 
+  app.post("/api/ghostit/blog", (req, res) =>
+    GhostitBlog.saveGhostitBlog(req, res)
+  );
+
   // Get all notifications
   // Currently in dev
   app.get("/api/notifications", middleware, (req, res) =>
