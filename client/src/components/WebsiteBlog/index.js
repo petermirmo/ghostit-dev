@@ -15,15 +15,17 @@ class WebsiteBlog extends Component {
           placeholder="Tell me something"
         />
         <div className="text-options">
-          <button className="round-button">bold</button>
-          <button className="round-button">italic</button>
-          <button className="round-button">underline</button>
-          <button className="round-button">h1</button>
-          <button className="round-button">h2</button>
-          <button className="round-button">h3</button>
-          <button className="round-button">h4</button>
-          <button className="round-button">h5</button>
-          <button className="round-button">h6</button>
+          <button className="plain-button">bold</button>
+          <button className="plain-button">italic</button>
+          <button className="plain-button">underline</button>
+          <button className="plain-button">h1</button>
+          <button className="plain-button">h2</button>
+          <button className="plain-button">h3</button>
+          <button className="plain-button">h4</button>
+          <button className="plain-button">h5</button>
+          <button className="plain-button">left</button>
+          <button className="plain-button">center</button>
+          <button className="plain-button">right</button>
         </div>
       </div>
     );

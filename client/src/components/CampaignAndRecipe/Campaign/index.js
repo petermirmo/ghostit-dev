@@ -1056,27 +1056,29 @@ class CampaignModal extends Component {
 
   render() {
     const {
-      posts,
-      saving,
-      confirmDelete,
-      campaign,
       activePostIndex,
-      nextChosenPostIndex,
-      promptChangeActivePost,
-      promptDiscardPostChanges,
-      listOfPostChanges,
-      recipeEditing,
-      showDeletePostPrompt,
-      promptDeletePost,
-      deleteIndex,
-      socket,
-      postUpdatedPrompt,
-      postDeletedPrompt,
+      campaign,
       campaignDeletedPrompt,
+      confirmDelete,
+      deleteIndex,
+      listOfPostChanges,
+      nextChosenPostIndex,
+      posts,
+      postDeletedPrompt,
+      postUpdatedPrompt,
+      promptChangeActivePost,
+      promptDeletePost,
+      promptDiscardPostChanges,
+      recipeEditing,
+      saving,
+      showDeletePostPrompt,
+      socket,
       userList
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
+
+    console.log(activePostIndex);
 
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
@@ -1128,6 +1130,53 @@ class CampaignModal extends Component {
                 this.duplicatePost(index);
               }}
             />
+          </div>
+        )}
+        {firstPostChosen && (
+          <div className="post-navigation-and-post-container">
+            <div className="post-navigation-container">
+              <PostList
+                campaign={campaign}
+                posts={posts}
+                activePostIndex={activePostIndex}
+                listOfPostChanges={listOfPostChanges}
+                clickedCalendarDate={clickedCalendarDate}
+                newPost={(
+                  socialType,
+                  posts,
+                  campaign,
+                  clickedCalendarDate,
+                  callback
+                ) =>
+                  this.setState(
+                    newPost(
+                      socialType,
+                      posts,
+                      campaign,
+                      clickedCalendarDate,
+                      listOfPostChanges
+                    )
+                  )
+                }
+                deletePost={
+                  showDeletePostPrompt
+                    ? index => {
+                        this.setState({
+                          promptDeletePost: true,
+                          deleteIndex: index
+                        });
+                      }
+                    : index => {
+                        this.deletePost(index);
+                      }
+                }
+                handleChange={this.handleChange}
+                recipeEditing={recipeEditing}
+                duplicatePost={index => {
+                  this.duplicatePost(index);
+                }}
+              />
+            </div>
 
             {activePostIndex !== undefined && (
               <div className="post-container light-scrollbar">
