@@ -21,6 +21,10 @@
   border-left: 1px solid var(--divider-theme-color);
   border-top: 1px solid var(--divider-theme-color);
 }
+
+.plain-button.active {
+  background-color: var(--light-grey-theme-color);
+}
 .plain-button:hover {
   color: var(--primary-text-theme-color);
 }

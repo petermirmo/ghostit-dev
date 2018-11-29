@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import UsersTable from "./UsersTable";
 import PlansTable from "./PlansTable";
-import WebsiteBlog from "../../components/WebsiteBlog";
+import CreateGhostitBlog from "../../components/GhostitBlog/Create";
 import "./styles/";
 
 class ManagePage extends Component {
@@ -66,7 +66,7 @@ class ManagePage extends Component {
         </div>
         <div className="width100">
           {categories.users.active && <UsersTable />}
-          {categories.createBlog.active && <WebsiteBlog />}
+          {categories.createBlog.active && <CreateGhostitBlog />}
           {categories.notifications.active &&
             notifications.map((notification, index) => {
               return (
