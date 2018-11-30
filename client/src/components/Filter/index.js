@@ -14,7 +14,7 @@ class Filter extends Component {
       if (!index) break;
       categoryDivs.push(
         <div
-          className="checkbox-and-writing-container spacing left"
+          className="checkbox-and-writing-container spacing left button"
           key={index}
           onClick={() => updateActiveCategory(index)}
           id={index}

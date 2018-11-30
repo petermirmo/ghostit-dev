@@ -57,16 +57,6 @@
   justify-content: center;
   align-items: center;
 }
-.new-post-button {
-  width: 25px;
-  height: 25px;
-
-  margin-left: auto;
-  margin-right: auto;
-
-  background-color: var(--seven-primary-color);
-  color: var(--white-theme-color);
-}
 .arrow-down {
   color: var(--secondary-text-theme-color);
 

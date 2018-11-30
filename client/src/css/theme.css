@@ -885,6 +885,17 @@
 .round-button.large {
   font-size: var(--large-font-size);
 }
+
+.round-icon-button {
+  width: 25px;
+  height: 25px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  background-color: var(--seven-primary-color);
+  color: var(--white-theme-color);
+}
 .common-shadow {
   box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.19);
 }
