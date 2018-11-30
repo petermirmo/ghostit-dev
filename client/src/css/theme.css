@@ -90,6 +90,19 @@
   --silly-font-theme: "Varela Round";
   --font-theme: "Open Sans";
 }
+.mx20vw {
+  margin-right: 20vw;
+  margin-left: 20vw;
+}
+.simple-button {
+  border: 2px solid var(--divider-theme-color);
+  color: var(--secondary-text-theme-color);
+  cursor: pointer;
+  text-align: center;
+}
+.simple-button:hover {
+  color: var(--primary-text-theme-color);
+}
 .fixed {
   position: fixed;
 }

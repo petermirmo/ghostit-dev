@@ -1,3 +1,10 @@
+.cover-image-container {
+  height: 50vh;
+  overflow: hidden;
+}
+.cover-image {
+  margin-top: -30%;
+}
 .text-container {
   height: 200px;
   width: 200px;

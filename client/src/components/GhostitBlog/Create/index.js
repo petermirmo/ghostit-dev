@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import faImages from "@fortawesome/fontawesome-free-solid/faImages";
 
 import ViewWebsiteBlog from "../View";
 
@@ -9,10 +10,39 @@ import "./styles";
 class CreateWebsiteBlog extends Component {
   state = {
     contentArray: [],
+    url: "",
+    title: "",
     viewBlogPreview: false
   };
   componentDidMount() {
+    window.onkeyup = e => {
+      let key = e.keyCode ? e.keyCode : e.which;
+
+      if (key == 13) {
+      }
+    };
     this.addNewTextBox();
+  }
+  showImages(event) {
+    let images = event.target.files;
+
+    let temp = [];
+
+    // Save each image to state
+    for (let index = 0; index < images.length; index++) {
+      let reader = new FileReader();
+      let image = images[index];
+
+      reader.onloadend = image =>
+        this.setState({
+          coverImage: {
+            image,
+            imagePreviewUrl: reader.result
+          }
+        });
+
+      reader.readAsDataURL(image);
+    }
   }
   addNewTextBox = () => {
     let { contentArray } = this.state;
@@ -32,15 +62,18 @@ class CreateWebsiteBlog extends Component {
     this.setState({ contentArray });
   };
   render() {
-    const { contentArray, viewBlogPreview } = this.state;
+    const { contentArray, viewBlogPreview, coverImage } = this.state;
 
     if (viewBlogPreview) {
       return (
-        <div className="border-box flex column ma32">
-          <ViewWebsiteBlog contentArray={contentArray} />
+        <div className="border-box flex column">
+          <ViewWebsiteBlog
+            contentArray={contentArray}
+            coverImage={coverImage}
+          />
           <button
             onClick={() => this.setState({ viewBlogPreview: false })}
-            className="regular-button"
+            className="regular-button mx20vw my16"
           >
             Back to Editing
           </button>
@@ -49,38 +82,86 @@ class CreateWebsiteBlog extends Component {
     }
 
     return (
-      <div className="border-box flex column ma32">
-        {contentArray.map((textObj, index) => {
+      <div className="border-box flex column mx20vw">
+        <p className="label">Blog URL</p>
+        <input
+          type="text"
+          onChange={e => this.setState({ blogUrl: e.target.value })}
+        />
+        <div className="flex my32">
+          <label htmlFor="file-upload" className="simple-button pa16 width100">
+            Upload Cover Image
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            onChange={event => this.showImages(event)}
+            multiple
+          />
+        </div>
+        {coverImage && (
+          <div className="cover-image-container">
+            <img
+              src={coverImage.imagePreviewUrl}
+              className="cover-image width100"
+            />
+          </div>
+        )}
+        {contentArray.map((divInformation, index) => {
+          let style = {};
+
+          if (divInformation.bold) style.fontWeight = "bold";
+          if (divInformation.italic) style.fontStyle = "italic";
+          if (divInformation.underline) style.textDecoration = "underline";
+
+          if (divInformation.position === "left") style.textAlign = "left";
+          else if (divInformation.position === "center")
+            style.textAlign = "center";
+          else if (divInformation.position === "right")
+            style.textAlign = "right";
+
           return (
-            <div key={"text" + index} className="relative mt32">
+            <div key={"text" + index} className="relative my32">
               <div className="text-options">
                 <button
                   className={
-                    textObj.bold ? "plain-button active" : "plain-button"
+                    divInformation.bold ? "plain-button active" : "plain-button"
                   }
                   onClick={() =>
-                    this.handleContentChange(!textObj.bold, index, "bold")
+                    this.handleContentChange(
+                      !divInformation.bold,
+                      index,
+                      "bold"
+                    )
                   }
                 >
                   bold
                 </button>
                 <button
                   className={
-                    textObj.italic ? "plain-button active" : "plain-button"
+                    divInformation.italic
+                      ? "plain-button active"
+                      : "plain-button"
                   }
                   onClick={() =>
-                    this.handleContentChange(!textObj.italic, index, "italic")
+                    this.handleContentChange(
+                      !divInformation.italic,
+                      index,
+                      "italic"
+                    )
                   }
                 >
                   italic
                 </button>
                 <button
                   className={
-                    textObj.underline ? "plain-button active" : "plain-button"
+                    divInformation.underline
+                      ? "plain-button active"
+                      : "plain-button"
                   }
                   onClick={() =>
                     this.handleContentChange(
-                      !textObj.underline,
+                      !divInformation.underline,
                       index,
                       "underline"
                     )
@@ -90,7 +171,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.type === "p"
+                    divInformation.type === "p"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -100,7 +181,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.type === "h1"
+                    divInformation.type === "h1"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -110,7 +191,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.type === "h2"
+                    divInformation.type === "h2"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -120,7 +201,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.type === "h3"
+                    divInformation.type === "h3"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -130,7 +211,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.type === "h4"
+                    divInformation.type === "h4"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -140,7 +221,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.type === "h5"
+                    divInformation.type === "h5"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -150,7 +231,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.type === "h6"
+                    divInformation.type === "h6"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -160,7 +241,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.position === "left"
+                    divInformation.position === "left"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -172,7 +253,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.position === "center"
+                    divInformation.position === "center"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -184,7 +265,7 @@ class CreateWebsiteBlog extends Component {
                 </button>
                 <button
                   className={
-                    textObj.position === "right"
+                    divInformation.position === "right"
                       ? "plain-button active"
                       : "plain-button"
                   }
@@ -196,12 +277,13 @@ class CreateWebsiteBlog extends Component {
                 </button>
               </div>
               <textarea
+                style={style}
                 className="text-container width100"
                 placeholder="Tell me something"
                 onChange={e =>
                   this.handleContentChange(e.target.value, index, "text")
                 }
-                value={textObj.text}
+                value={divInformation.text}
               />
             </div>
           );
@@ -214,9 +296,12 @@ class CreateWebsiteBlog extends Component {
         />
         <button
           onClick={() => this.setState({ viewBlogPreview: true })}
-          className="regular-button mt8"
+          className="regular-button my8"
         >
           View Preview
+        </button>
+        <button onClick={this.saveGhostitBlog} className="regular-button my8">
+          Save Ghostit Blog
         </button>
       </div>
     );
