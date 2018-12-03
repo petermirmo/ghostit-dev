@@ -2,32 +2,6 @@
   height: 200px;
   width: 200px;
 }
-.text-container:hover + .text-options {
+.text-container:hover + .div-hover-options-container {
   display: flex;
-}
-
-.text-options {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-
-  display: flex;
-}
-.text-options:hover {
-  display: flex;
-}
-.plain-button {
-  color: var(--secondary-text-theme-color);
-  border-left: 1px solid var(--divider-theme-color);
-  border-top: 1px solid var(--divider-theme-color);
-}
-
-.plain-button.active {
-  background-color: var(--light-grey-theme-color);
-}
-.plain-button:hover {
-  color: var(--primary-text-theme-color);
-}
-.plain-button:last-child {
-  border-right: 1px solid var(--divider-theme-color);
 }

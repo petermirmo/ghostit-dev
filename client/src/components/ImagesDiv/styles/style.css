@@ -31,46 +31,9 @@
   padding: 4px;
 }
 
-.image-container {
-  position: relative;
-
-  margin-left: 10px;
-}
-.image {
+.image-container:hover .x-hover {
   display: flex;
-  display: -webkit-flex;
-
-  max-height: 120px;
-  max-width: 120px;
-}
-
-.delete-image-icon {
-  color: var(--red-theme-color) !important;
-  position: absolute;
-  display: none;
-
-  align-items: center;
-  justify-content: center;
-
-  left: 0;
-  top: 0;
-  height: 100%;
-  min-width: 100%;
-}
-
-.image-container:hover .delete-image-icon {
-  display: flex;
-  display: -webkit-flex;
-
-  color: var(--red-theme-color);
-
-  cursor: pointer;
-  z-index: 500;
 }
 .image-container:hover .image {
   opacity: 0.4;
-}
-
-input[type="file"] {
-  display: none;
 }

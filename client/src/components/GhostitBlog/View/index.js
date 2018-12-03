@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./styles";
 
 class ViewWebsiteBlog extends Component {
-  createRelevantDiv = (divInformation, index) => {
+  createRelevantContentDiv = (divInformation, index) => {
     let style = { whiteSpace: "pre-line" };
 
     if (divInformation.bold) style.fontWeight = "bold";
@@ -57,12 +57,40 @@ class ViewWebsiteBlog extends Component {
         </h6>
       );
   };
+  createRelevantImageDiv = (image, index) => {
+    return (
+      <img
+        key={"image" + index}
+        src={image.imagePreviewUrl}
+        className={"image margin-hc " + image.size}
+      />
+    );
+  };
   render() {
-    const { contentArray, coverImage } = this.props;
-    let textDivs = [];
-    for (let index in contentArray) {
-      let divInformation = contentArray[index];
-      textDivs.push(this.createRelevantDiv(divInformation, index));
+    const { contentArray, coverImage, images } = this.props;
+    let divs = [];
+
+    let imageCounter = 0;
+    let contentCounter = 0;
+
+    for (let index = 0; index < contentArray.length + images.length; index++) {
+      let content = contentArray[contentCounter];
+      let image = images[imageCounter];
+      if (content && image) {
+        if (image.location > content.location) {
+          divs.push(this.createRelevantContentDiv(content, index));
+          contentCounter += 1;
+        } else {
+          divs.push(this.createRelevantImageDiv(image, index));
+          imageCounter += 1;
+        }
+      } else if (image) {
+        divs.push(this.createRelevantImageDiv(image, index));
+        imageCounter += 1;
+      } else {
+        divs.push(this.createRelevantContentDiv(content, index));
+        contentCounter += 1;
+      }
     }
     return (
       <div className="flex column">
@@ -74,7 +102,7 @@ class ViewWebsiteBlog extends Component {
             />
           </div>
         )}
-        {textDivs}
+        {divs}
       </div>
     );
   }

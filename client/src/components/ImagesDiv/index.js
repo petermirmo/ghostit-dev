@@ -88,12 +88,17 @@ class ImagesDiv extends Component {
         imageURL = postImages[index].url;
       }
       imagesDiv.push(
-        <div key={index} className="image-container">
-          <img key={index} src={imageURL} alt="error" className="image" />
+        <div key={index} className="relative ml8 image-container">
+          <img
+            key={index}
+            src={imageURL}
+            alt="error"
+            className="flex image tiny"
+          />
           {canEdit && (
             <FontAwesomeIcon
               icon={faTimes}
-              className="delete-image-icon"
+              className="icon-x-hover"
               onClick={event => this.removePhoto(index)}
               size="3x"
             />

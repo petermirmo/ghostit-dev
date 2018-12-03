@@ -31,7 +31,7 @@
   border-bottom: 4px solid var(--five-primary-color);
 }
 .calendar-day {
-  min-height: 14vh;
+  min-height: 16vh;
   border-right: 1px solid var(--divider-theme-color);
   background-color: var(--white-theme-color);
 }
