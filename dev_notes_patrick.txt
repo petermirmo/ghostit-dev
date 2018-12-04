@@ -137,10 +137,14 @@ to do next:
     calendar picker (make sure all names fit properly into their containers and use ... on names that are too long)
     user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
     calendar manager user / account cards
+    socket user list in campaign modal is outside the modal and gets cut off (longer names)
+    calendar not shrinking horizontally
+    calendar not fitting properly vertically
 
   calendar billing:
     must be paid user to create calendars
-    demos can still be invited
+    demo users can switch between being demo user and "side-account"
+    side-account's must have a "sponsor account" that is paid and the side-account can only join their calendars
 
 
 
