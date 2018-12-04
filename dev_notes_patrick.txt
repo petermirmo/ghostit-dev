@@ -138,13 +138,17 @@ to do next:
     user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
     calendar manager user / account cards
     socket user list in campaign modal is outside the modal and gets cut off (longer names)
-    calendar not shrinking horizontally
-    calendar not fitting properly vertically
 
   calendar billing:
     must be paid user to create calendars
-    demo users can switch between being demo user and "side-account"
-    side-account's must have a "sponsor account" that is paid and the side-account can only join their calendars
+    demo users get a notification when trying to create or delete calendars
+      "Only paid accounts can create or delete calendars. Unpaid accounts can use their default calendar with limited
+      functionality or be invited to a paid calendar where they have access to all of that calendar's functionality."
+    Demo calendars can only schedule two posts at a time (not including posts in the past)?
+    what happens when a paid account's subscription runs out?
+    remove ability to promote a different user to calendar admin
+      (since the calendar's functionality is tied to the admin's account type)
+
 
 
 
