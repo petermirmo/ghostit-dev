@@ -21,7 +21,14 @@ const userSchema = new Schema(
       type: String
     },
     contentArray: [
-      { text: String, css: [{ type: String, value: String }], location: Number }
+      {
+        text: String,
+        bold: Boolean,
+        italic: Boolean,
+        underline: Boolean,
+        type: String,
+        position: String
+      }
     ]
   },
   {
