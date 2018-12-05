@@ -144,10 +144,44 @@ to do next:
     demo users get a notification when trying to create or delete calendars
       "Only paid accounts can create or delete calendars. Unpaid accounts can use their default calendar with limited
       functionality or be invited to a paid calendar where they have access to all of that calendar's functionality."
-    Demo calendars can only schedule two posts at a time (not including posts in the past)?
-    what happens when a paid account's subscription runs out?
+    Demo calendars can only have 10 posts total.
+      after a post goes out from a demo calendar, decrement its postsLeft attribute.
+      postsLeft === -1 means infinite (paid)
     remove ability to promote a different user to calendar admin
       (since the calendar's functionality is tied to the admin's account type)
+
+    BASIC calendars:
+      when a user opens content page, check if they are user.role === "demo"
+        if no:
+          if they have calendars already:
+            make sure all their calendars are set to postsLeft === -1
+              (this way, if demo user upgrades to paid, their calendars will be unlocked)
+          else:
+            create them their first calendar and postsLeft === -1
+        if yes:
+          if they have calendars already:
+            any calendars with postsLeft === -1, set to postsLeft === 0
+              (this way, if a user goes from paid to demo, their calendars will become locked from creating new posts)
+          else:
+            create them their first calendar and postsLeft === 10
+
+      when a user attempts to save a post (custom task, post)
+        look up all posts in the DB with calendarID, status === "pending"
+          (we don't check for the already posted posts since if the user deleted them after they went out, they wouldnt be detected)
+          if calendar.postsLeft <== foundPosts.length: (no posts left to schedule)
+            send back an error that they are out of posts to schedule
+          else:
+            let them schedule it
+
+      when a post is sent out
+        look up its calendar in the DB.
+          if calendar.postsLeft > 1:
+            calendar.postsLeft -= 1
+              (this way, it'll never decrement from 0 to -1 accidentally causing a demo calendar to go to paid status)
+              (we decrement this attribute bcz we don't count the already posted posts when checking if the calendar can still schedule more posts)
+          else:
+            do nothing
+
 
 
 
