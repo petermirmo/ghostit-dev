@@ -96,7 +96,6 @@ class PostList extends Component {
                 <div title="Delete post.">
                   <FontAwesomeIcon
                     className="delete"
-                    key={index + "delete"}
                     onClick={() => {
                       deletePost(index);
                     }}

@@ -13,6 +13,7 @@
   background-color: transparent;
   pointer-events: auto;
   color: var(--primary-text-color);
+  font-weight: bold;
 }
 .website-header-button.active:after {
   border-bottom: solid 6px var(--black-theme-color);

@@ -2,6 +2,6 @@
   height: 200px;
   width: 200px;
 }
-.text-container:hover + .div-hover-options-container {
+.text-container:hover + .hover-options-container {
   display: flex;
 }

@@ -1,5 +1,3 @@
-const request = require("request");
-const fs = require("fs");
 const cloudinary = require("cloudinary");
 
 const Blog = require("../models/Blog");
