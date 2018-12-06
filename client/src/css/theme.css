@@ -591,6 +591,10 @@
 .width100 {
   width: 100%;
 }
+
+.width50 {
+  width: 50%;
+}
 .flex1 {
   flex: 1;
 }
@@ -645,6 +649,9 @@
 }
 .absolute.right {
   right: 5px;
+}
+.absolute.bottom {
+  bottom: 5px;
 }
 .br4 {
   border-radius: 4px;
@@ -788,6 +795,30 @@
 }
 .pl4 {
   padding-left: 4px;
+}
+
+.ma64 {
+  margin: 64px;
+}
+.mx64 {
+  margin-right: 64px;
+  margin-left: 64px;
+}
+.my64 {
+  margin-top: 64px;
+  margin-bottom: 64px;
+}
+.mt64 {
+  margin-top: 64px;
+}
+.mr64 {
+  margin-right: 64px;
+}
+.mb64 {
+  margin-bottom: 64px;
+}
+.ml64 {
+  margin-left: 64px;
 }
 
 .ma32 {
@@ -1196,26 +1227,26 @@ input[type="file"] {
   max-height: 70px;
 }
 .image.small {
-  width: 20vw;
+  width: 30vw;
 }
 .image.medium {
-  width: 40vw;
+  width: 50vw;
 }
-.image.big {
+.image.large {
   width: 70vw;
 }
 .image.max {
   width: 100vw;
 }
 
-.div-hover-options-container {
+.hover-options-container {
   position: absolute;
   bottom: 100%;
   left: 0;
 
   display: flex;
 }
-.div-hover-options-container:hover {
+.hover-options-container:hover {
   display: flex;
 }
 

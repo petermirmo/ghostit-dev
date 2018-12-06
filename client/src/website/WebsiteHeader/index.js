@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -9,11 +9,13 @@ import Logo from "./Logo";
 import "./style.css";
 
 class WebsiteHeader extends Component {
+  isActive = activePage => {
+    if ("/" + activePage == this.props.location.pathname) return " active";
+    else return "";
+  };
   render() {
     const { user } = this.props;
     let className = "website-header-button moving-border px32";
-
-    let activePage = "hello";
 
     return (
       <div className="website-header fixed flex pt16 px32">
@@ -24,50 +26,26 @@ class WebsiteHeader extends Component {
         </div>
         <Link to="/home">
           <button
-            className={
-              activePage === "home" || activePage === ""
-                ? className + " active"
-                : className
-            }
+            className={className + this.isActive("home") + this.isActive("")}
           >
             Home
           </button>
         </Link>
         <Link to="/team">
-          <button
-            className={
-              activePage === "team" ? className + " active" : className
-            }
-          >
-            Team
-          </button>
+          <button className={className + this.isActive("team")}>Team</button>
         </Link>
         <Link to="/pricing">
-          <button
-            className={
-              activePage === "pricing" ? className + " active" : className
-            }
-          >
+          <button className={className + this.isActive("pricing")}>
             Pricing
           </button>
         </Link>
         <Link to="/agency">
-          <button
-            className={
-              activePage === "agency" ? className + " active" : className
-            }
-          >
+          <button className={className + this.isActive("agency")}>
             Ghostit Agency
           </button>
         </Link>
         <Link to="/blog">
-          <button
-            className={
-              activePage === "blog" ? className + " active" : className
-            }
-          >
-            Blog
-          </button>
+          <button className={className + this.isActive("blog")}>Blog</button>
         </Link>
 
         {user && (
@@ -77,22 +55,14 @@ class WebsiteHeader extends Component {
         )}
         {!user && (
           <Link to="/sign-in">
-            <button
-              className={
-                activePage === "sign-in" ? className + " active" : className
-              }
-            >
+            <button className={className + this.isActive("sign-in")}>
               Sign In
             </button>
           </Link>
         )}
         {!user && (
           <Link to="/sign-up">
-            <button
-              className={
-                activePage === "sign-up" ? className + " active" : className
-              }
-            >
+            <button className={className + this.isActive("sign-up")}>
               Start Your Free Trial
             </button>
           </Link>
@@ -107,4 +77,4 @@ function mapStateToProps(state) {
     user: state.user
   };
 }
-export default connect(mapStateToProps)(WebsiteHeader);
+export default withRouter(connect(mapStateToProps)(WebsiteHeader));

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
-import faImages from "@fortawesome/fontawesome-free-solid/faImages";
+import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
 import ViewWebsiteBlog from "../View";
 
@@ -11,9 +12,10 @@ class CreateWebsiteBlog extends Component {
   state = {
     contentArray: [],
     images: [],
-    blogUrl: "",
+    url: "",
     viewBlogPreview: false,
-    locationCounter: 0
+    locationCounter: 0,
+    title: ""
   };
   componentDidMount() {
     window.onkeyup = e => {
@@ -89,6 +91,32 @@ class CreateWebsiteBlog extends Component {
     contentArray[index][index2] = value;
     this.setState({ contentArray });
   };
+  handleImageChange = (value, index, index2) => {
+    let { images } = this.state;
+    images[index][index2] = value;
+    this.setState({ images });
+  };
+  removeTextarea = index => {
+    let { contentArray } = this.state;
+    contentArray.splice(index, 1);
+    this.setState({ contentArray });
+  };
+  removeImage = index => {
+    let { images } = this.state;
+    images.splice(index, 1);
+    this.setState({ images });
+  };
+  saveGhostitBlog = () => {
+    let { contentArray, images, url, coverImage, title } = this.state;
+    if (coverImage) images.unshift(coverImage);
+
+    axios
+      .post("/api/ghostit/blog", { contentArray, images, url, title })
+      .then(res => {
+        console.log(res);
+        if (coverImage) images.splice(0, 1);
+      });
+  };
   textareaDiv = (content, index) => {
     let style = {};
 
@@ -102,7 +130,7 @@ class CreateWebsiteBlog extends Component {
 
     return (
       <div key={"text" + index} className="relative my32 mx20vw">
-        <div className="div-hover-options-container">
+        <div className="hover-options-container">
           <button
             className={content.bold ? "plain-button active" : "plain-button"}
             onClick={() =>
@@ -227,16 +255,50 @@ class CreateWebsiteBlog extends Component {
           }
           value={content.text}
         />
+        <FontAwesomeIcon
+          icon={faTrash}
+          className="delete absolute bottom right"
+          onClick={() => this.removeTextarea(index)}
+        />
       </div>
     );
   };
   createRelevantImageDiv = (image, index) => {
     return (
-      <img
-        key={"image" + index}
-        src={image.imagePreviewUrl}
-        className={"image margin-hc image-options " + image.size}
-      />
+      <div className="relative my32 margin-hc" key={"image" + index}>
+        <div className="hover-options-container">
+          <button
+            className="plain-button"
+            onClick={() => this.handleImageChange("tiny", index, "size")}
+          >
+            tiny
+          </button>
+          <button
+            className="plain-button"
+            onClick={() => this.handleImageChange("small", index, "size")}
+          >
+            small
+          </button>
+          <button
+            className="plain-button"
+            onClick={() => this.handleImageChange("medium", index, "size")}
+          >
+            medium
+          </button>
+          <button
+            className="plain-button"
+            onClick={() => this.handleImageChange("large", index, "size")}
+          >
+            large
+          </button>
+        </div>
+        <img src={image.imagePreviewUrl} className={"image " + image.size} />
+        <FontAwesomeIcon
+          icon={faTrash}
+          className="delete absolute bottom right"
+          onClick={() => this.removeImage(index)}
+        />
+      </div>
     );
   };
 
@@ -245,8 +307,9 @@ class CreateWebsiteBlog extends Component {
       contentArray,
       viewBlogPreview,
       coverImage,
-      blogUrl,
-      images
+      url,
+      images,
+      title
     } = this.state;
 
     if (viewBlogPreview) {
@@ -276,17 +339,17 @@ class CreateWebsiteBlog extends Component {
       let image = images[imageCounter];
       if (content && image) {
         if (image.location > content.location) {
-          divs.push(this.textareaDiv(content, index));
+          divs.push(this.textareaDiv(content, contentCounter));
           contentCounter += 1;
         } else {
-          divs.push(this.createRelevantImageDiv(image, index));
+          divs.push(this.createRelevantImageDiv(image, imageCounter));
           imageCounter += 1;
         }
       } else if (image) {
-        divs.push(this.createRelevantImageDiv(image, index));
+        divs.push(this.createRelevantImageDiv(image, imageCounter));
         imageCounter += 1;
       } else {
-        divs.push(this.textareaDiv(content, index));
+        divs.push(this.textareaDiv(content, contentCounter));
         contentCounter += 1;
       }
     }
@@ -294,17 +357,28 @@ class CreateWebsiteBlog extends Component {
     return (
       <div className="border-box flex column">
         <div className="flex mx20vw">
+          <p className="label mr8">Title:</p>
+          <input
+            type="text"
+            onChange={e => this.setState({ title: e.target.value })}
+            value={title}
+            className="regular-input"
+            placeholder="10 marketing strategies"
+          />
+        </div>
+        <div className="flex mx20vw mt8">
           <p className="label mr8">Blog URL:</p>
           <input
             type="text"
-            onChange={e => this.setState({ blogUrl: e.target.value })}
-            value={blogUrl}
+            onChange={e => this.setState({ url: e.target.value })}
+            value={url}
             className="regular-input"
             placeholder="10-marketing-strategies"
           />
         </div>
-        <div className="flex my32 mx20vw">
-          <label htmlFor="file-upload" className="simple-button pa16 width100">
+
+        <div className="flex mx20vw my8">
+          <label htmlFor="file-upload" className="simple-button pa8 width100">
             Upload Cover Image
           </label>
           <input
@@ -314,10 +388,15 @@ class CreateWebsiteBlog extends Component {
           />
         </div>
         {coverImage && (
-          <div className="cover-image-container">
+          <div className="cover-image-container relative">
             <img
               src={coverImage.imagePreviewUrl}
               className="cover-image width100"
+            />
+            <FontAwesomeIcon
+              icon={faTrash}
+              className="delete absolute bottom right"
+              onClick={() => this.setState({ coverImage: undefined })}
             />
           </div>
         )}

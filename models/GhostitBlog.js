@@ -1,11 +1,53 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt-nodejs");
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+var contentSchema = new Schema({
+  text: {
+    type: String,
+    required: true
+  },
+  bold: {
+    type: Boolean,
+    required: true
+  },
+  italic: {
+    type: Boolean,
+    required: true
+  },
+  underline: {
+    type: Boolean,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  position: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: Number,
+    required: true
+  }
+});
+var imageSchema = new Schema({
+  url: {
+    type: String,
+    required: true
+  },
+  publicID: {
+    type: String,
+    required: true
+  },
+  size: String,
+  location: Number
+});
+
+const ghostitBlogSchema = new Schema(
   {
-    author: {
+    userID: {
       type: Schema.Types.ObjectId,
       required: true
     },
@@ -20,20 +62,12 @@ const userSchema = new Schema(
     category: {
       type: String
     },
-    contentArray: [
-      {
-        text: String,
-        bold: Boolean,
-        italic: Boolean,
-        underline: Boolean,
-        type: String,
-        position: String
-      }
-    ]
+    contentArray: [contentSchema],
+    images: [imageSchema]
   },
   {
     timestamps: true
   }
 );
 
-module.exports = mongoose.model("users", userSchema);
+module.exports = mongoose.model("ghostitBlogs", ghostitBlogSchema);

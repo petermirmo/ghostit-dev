@@ -22,6 +22,7 @@ const writersBriefFunctions = require("./services/writersBriefFunctions");
 const SendMailFunctions = require("./MailFiles/SendMailFunctions");
 const analyticsFunctions = require("./services/analyticsFunctions");
 const calendarFunctions = require("./services/calendarFunctions");
+const ghostitBlogFunctions = require("./services/ghostitBlogFunctions");
 
 module.exports = app => {
   var middleware = function(req, res, next) {
@@ -96,6 +97,8 @@ module.exports = app => {
   );
   // Logout user
   app.get("/api/logout", middleware, (req, res) => {
+    req.logout();
+    req.session.destroy();
     res.send({ success: true });
   });
 
@@ -313,10 +316,18 @@ module.exports = app => {
   app.post("/api/email/reset", (req, res) =>
     SendMailFunctions.sendPasswordReset(req, res)
   );
+
+  app.get("/api/ghostit/blogs", (req, res) =>
+    ghostitBlogFunctions.getGhostitBlogs(req, res)
+  );
+
+  app.get("/api/ghostit/blog/:id", (req, res) =>
+    ghostitBlogFunctions.getGhostitBlog(req, res)
+  );
   // Admin routes!!!!!
 
   app.post("/api/ghostit/blog", (req, res) =>
-    GhostitBlog.saveGhostitBlog(req, res)
+    ghostitBlogFunctions.saveGhostitBlog(req, res)
   );
 
   // Get all notifications
