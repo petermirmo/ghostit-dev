@@ -35,12 +35,13 @@ class BlogPage extends Component {
             {ghostitBlogs.map((obj, index) => {
               return (
                 <div className="flex1 flex column mx32 width100" key={index}>
-                  <div className="top-container flex1 hc vc flex width100">
-                    {obj.images[0] && (
-                      <img src={obj.images[0].url} className="width100" />
-                    )}
-                  </div>
-                  <div className="bottom-container flex hc vc py8 px16">
+                  <div
+                    className="top-container flex1 flex hc vc width100"
+                    style={{
+                      backgroundImage: "url(" + obj.images[0].url + ")"
+                    }}
+                  />
+                  <div className="bottom-container flex hc vc py8 width100 px16">
                     <p className="width50 silly-font">{obj.title}</p>
                   </div>
                 </div>

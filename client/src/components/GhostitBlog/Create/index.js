@@ -109,6 +109,10 @@ class CreateWebsiteBlog extends Component {
   saveGhostitBlog = () => {
     let { contentArray, images, url, coverImage, title } = this.state;
     if (coverImage) images.unshift(coverImage);
+    else {
+      alert("Upload cover image!");
+      return;
+    }
 
     axios
       .post("/api/ghostit/blog", { contentArray, images, url, title })

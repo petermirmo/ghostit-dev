@@ -149,7 +149,7 @@ class Login extends Component {
             this.notify({
               message,
               type: "danger",
-              title: "Wrong email!"
+              title: "Error"
             });
           }
         });
@@ -169,15 +169,6 @@ class Login extends Component {
     this.props.history.push("/subscribe");
 
     this.props.openHeaderSideBar(true);
-    let temp = { ...this.props.tutorial };
-    temp.on = true;
-    let somethingChanged = false;
-    for (let index in temp)
-      if (temp[index] != this.props.tutorial[index]) somethingChanged = true;
-
-    if (somethingChanged) {
-      this.props.setTutorial(temp);
-    }
   };
   sendResetEmail = () => {
     const { email } = this.state;
