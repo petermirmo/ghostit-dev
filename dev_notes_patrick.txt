@@ -151,19 +151,24 @@ to do next:
       (since the calendar's functionality is tied to the admin's account type)
 
     BASIC calendars:
-      when a user opens content page, check if they are user.role === "demo"
-        if no:
-          if they have calendars already:
-            make sure all their calendars are set to postsLeft === -1
-              (this way, if demo user upgrades to paid, their calendars will be unlocked)
+      when a user opens content page and fetches their calendars
+        if there are calendars:
+          for each calendar:
+            if the user is the calendar admin:
+              if user.role === "demo":
+                if calendar.postsLeft === -1:
+                  calendar.postsLeft = 0
+                  (this way, if user goes from paid -> unpaid, their calendar becomes locked)
+              else:
+                if calendar.postsLeft !== -1:
+                  calendar.postsLeft = -1
+                  (this way, if user goes from unpaid -> paid, their calendar becomes unlocked)
+        else no calendars:
+          create a new calendar
+          if user.role === "demo":
+            calendar.postsLeft = 10
           else:
-            create them their first calendar and postsLeft === -1
-        if yes:
-          if they have calendars already:
-            any calendars with postsLeft === -1, set to postsLeft === 0
-              (this way, if a user goes from paid to demo, their calendars will become locked from creating new posts)
-          else:
-            create them their first calendar and postsLeft === 10
+            calendar.postsLeft = -1
 
       when a user attempts to save a post (custom task, post)
         look up all posts in the DB with calendarID, status === "pending"

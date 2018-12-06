@@ -30,7 +30,13 @@ const calendarSchema = new Schema(
       {
         type: Schema.Types.ObjectId
       }
-    ]
+    ],
+    postsLeft: {
+      // demo users have a limit to the number of posts they can have on their calendars
+      // if user is not demo, this value will be -1 which signifies the calendar is unlocked
+      type: Number,
+      required: true
+    }
   },
   {
     timestamps: true

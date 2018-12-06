@@ -14,6 +14,8 @@ const newsletterFunctions = require("./newsletterFunctions");
 
 const moment = require("moment-timezone");
 
+const demoCalendarMaximumPosts = 10;
+
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
     if (array[i].toString() === id.toString()) {
@@ -85,6 +87,11 @@ module.exports = {
             } else {
               foundUser.defaultCalendarID = newCalendar._id;
               foundUser.save();
+              if (foundUser.role === "demo") {
+                newCalendar.postsLeft = demoCalendarMaximumPosts;
+              } else {
+                newCalendar.postsLeft = -1;
+              }
               newCalendar.save();
 
               Post.find(
@@ -168,6 +175,27 @@ module.exports = {
                 message: `error occurred when trying to fetch user with id ${userID} in an attempt to get its defaultCalendarID`
               });
             } else {
+              for (let i = 0; i < foundCalendars.length; i++) {
+                // make sure all calendars (that this user is the admin of) are appropriately locked/unlocked based on the user's role
+                if (
+                  foundCalendars[i].adminID.toString() ===
+                  foundUser._id.toString()
+                ) {
+                  if (foundUser.role === "demo") {
+                    if (foundCalendars[i].postsLeft === -1) {
+                      // user is demo, but their calendar is unlocked so we need to change this calendar to be locked
+                      foundCalendars[i].postsLeft = 0;
+                      foundCalendars[i].save();
+                    }
+                  } else {
+                    if (foundCalendars[i].postsLeft !== -1) {
+                      // user is paid, but their calendar is locked so we need to change this calendar to be unlocked
+                      foundCalendars[i].postsLeft = -1;
+                      foundCalendars[i].save();
+                    }
+                  }
+                }
+              }
               const defaultCalendarIndex = foundCalendars.findIndex(calObj => {
                 return (
                   calObj._id.toString() ===
@@ -435,14 +463,32 @@ module.exports = {
         userID = req.user.signedInAsUser.id;
       }
     }
+    User.findOne({ _id: userID }, (err, foundUser) => {
+      if (err || !foundUser) {
+        res.send({
+          success: false,
+          err,
+          message: "Error while looking up user in database."
+        });
+      } else {
+        if (foundUser.role === "demo") {
+          res.send({
+            success: false,
+            message:
+              "Demo users do not have the ability to create new calendars."
+          });
+        } else {
+          const newCalendar = new Calendar();
+          newCalendar.calendarName = req.body.name;
+          newCalendar.adminID = userID;
+          newCalendar.userIDs = [userID];
+          newCalendar.postsLeft = -1;
 
-    const newCalendar = new Calendar();
-    newCalendar.calendarName = req.body.name;
-    newCalendar.adminID = userID;
-    newCalendar.userIDs = [userID];
-
-    newCalendar.save().then(() => {
-      res.send({ success: true, newCalendar });
+          newCalendar.save().then(() => {
+            res.send({ success: true, newCalendar });
+          });
+        }
+      }
     });
   },
   getUsers: function(req, res) {
@@ -1255,6 +1301,10 @@ module.exports = {
     });
   },
   promoteUser: function(req, res) {
+    // removing the ability for a calendar to change its admin so this function will now just return false
+    res.send({ success: false });
+    return;
+
     const { userID, calendarID } = req.body;
     let thisUserID = req.user._id;
     if (req.user.signedInAsUser) {

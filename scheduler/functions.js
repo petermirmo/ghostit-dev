@@ -2,6 +2,7 @@ const { sendEmail } = require("../MailFiles/sendEmail");
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
+const Calendar = require("../models/Calendar");
 
 module.exports = {
   savePostError: (postID, error) => {
@@ -36,6 +37,16 @@ module.exports = {
   },
   savePostSuccessfully: (postID, socialMediaPostID) => {
     Post.findOne({ _id: postID }, (err, result) => {
+      Calendar.findOne({ _id: result.calendarID }, (err, foundCalendar) => {
+        if (err || !foundCalendar) {
+        } else {
+          if (foundCalendar.postsLeft > 0) {
+            // decrementing this variable makes it so that a demo user can't just delete their past posts to get around their calendar post limit
+            foundCalendar.postsLeft = foundCalendar.postsLeft - 1;
+            foundCalendar.save();
+          }
+        }
+      });
       result.status = "posted";
       result.socialMediaID = socialMediaPostID;
       result.save().then(response => {
