@@ -128,17 +128,9 @@ class PostEdittingModal extends Component {
             setSaving={this.setSaving}
             post={clickedEvent}
             canEditPost={canEditPost}
-            postFinishedSavingCallback={(post, success, message) => {
-              console.log("here");
-              console.log(post);
-              console.log(success);
-              console.log(message);
-              if (success) {
-                savePostCallback(post);
-                close();
-              } else {
-                this.props.notify("danger", "Save Failed", message);
-              }
+            postFinishedSavingCallback={post => {
+              savePostCallback(post);
+              close();
             }}
             accounts={accounts}
             timezone={timezone}

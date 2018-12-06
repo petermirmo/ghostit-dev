@@ -138,6 +138,7 @@ to do next:
     user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
     calendar manager user / account cards
     socket user list in campaign modal is outside the modal and gets cut off (longer names)
+    not a huge fan of calendar picker not including the currently selected calendar
 
   calendar billing:
     must be paid user to create calendars
@@ -189,11 +190,9 @@ to do next:
 
 
       bugs to fix:
-        no notification when saving 3rd post when only 2 posts allowed (demo account)
-          (single task)
         discard unsaved changes alert in campaign modal is fucked.
           (new campaign, edit a post, try to exit campaign)
-
+        campaign list of posts doesn't scroll when lots of posts
 
 
 

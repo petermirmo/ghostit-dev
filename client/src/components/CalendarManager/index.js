@@ -503,22 +503,6 @@ class CalendarManager extends Component {
               {isAdmin &&
                 userObj._id.toString() !== userID.toString() && (
                   <div className="flex hc vc">
-                    <div title="Promote to Admin">
-                      <FontAwesomeIcon
-                        className="color-blue button mr4"
-                        icon={faUserTie}
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.setState({
-                            promoteUserPrompt: true,
-                            promoteUserObj: {
-                              userIndex: index,
-                              calendarIndex: activeCalendarIndex
-                            }
-                          });
-                        }}
-                      />
-                    </div>
                     <div title="Remove User">
                       <FontAwesomeIcon
                         className="color-red button"

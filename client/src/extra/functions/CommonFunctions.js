@@ -121,7 +121,6 @@ export async function savePost(
           callback(post, true);
         }
       } else {
-        console.log("callbacking");
         callback(undefined, false, message);
       }
     });
