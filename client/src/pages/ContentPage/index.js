@@ -633,7 +633,7 @@ class Content extends Component {
 
     // Get all of user's posts to display in calendar
     axios
-      .post("/api/calendar/posts/" + calendarID, { calendarDate })
+      .get("/api/calendar/posts/" + calendarID, { calendarDate })
       .then(res => {
         const { success, err, message, posts, loggedIn } = res.data;
         if (!success) {
