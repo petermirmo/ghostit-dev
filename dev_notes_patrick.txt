@@ -188,6 +188,12 @@ to do next:
             do nothing
 
 
+      bugs to fix:
+        create new calendar from demo account doesn't give notification
+        no notification when saving 3rd post when only 2 posts allowed (demo account)
+          (both in single task and also campaign)
+
+
 
 
 
