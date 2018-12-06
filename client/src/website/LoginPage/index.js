@@ -149,7 +149,7 @@ class Login extends Component {
             this.notify({
               message,
               type: "danger",
-              title: "Wrong email!"
+              title: "Error"
             });
           }
         });

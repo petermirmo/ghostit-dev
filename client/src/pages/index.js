@@ -59,14 +59,6 @@ class Routes extends Component {
           props.setUser(user);
           props.updateAccounts(accounts);
           if (user.role === "demo") {
-            let temp = { ...props.tutorial };
-            temp.on = true;
-
-            let somethingChanged = false;
-            for (let index in temp) {
-              if (temp[index] != props.tutorial[index]) somethingChanged = true;
-            }
-            if (somethingChanged) props.setTutorial(temp);
             props.openHeaderSideBar(true);
           }
 
