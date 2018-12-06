@@ -93,7 +93,7 @@ export async function savePost(
       // Now we need to save images for post, Images are saved after post
       // Becuse they are handled so differently in the database
       // Text and images do not go well together
-      let { post, success, loggedIn } = res.data;
+      let { post, success, loggedIn, message } = res.data;
 
       if (success) {
         if (post._id && imagesToSave.length !== 0) {
@@ -115,13 +115,14 @@ export async function savePost(
           axios
             .post("/api/post/images", { postID: post._id, images: test })
             .then(res => {
-              callback(post);
+              callback(post, true);
             });
         } else {
-          callback(post);
+          callback(post, true);
         }
       } else {
-        if (loggedIn === false) this.props.history.push("/sign-in");
+        console.log("callbacking");
+        callback(undefined, false, message);
       }
     });
 }

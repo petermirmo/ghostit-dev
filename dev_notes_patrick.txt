@@ -189,9 +189,10 @@ to do next:
 
 
       bugs to fix:
-        create new calendar from demo account doesn't give notification
         no notification when saving 3rd post when only 2 posts allowed (demo account)
-          (both in single task and also campaign)
+          (single task)
+        discard unsaved changes alert in campaign modal is fucked.
+          (new campaign, edit a post, try to exit campaign)
 
 
 

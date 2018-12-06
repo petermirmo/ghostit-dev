@@ -177,13 +177,15 @@ class CalendarManager extends Component {
 
   createNewCalendar = name => {
     axios.post("/api/calendars/new", { name }).then(res => {
-      const { success, newCalendar } = res.data;
+      const { success, newCalendar, message } = res.data;
       if (success) {
         this.setState(prevState => {
           return {
             calendars: [...prevState.calendars, newCalendar]
           };
         });
+      } else {
+        this.props.notify("danger", "", message);
       }
     });
   };
@@ -498,42 +500,43 @@ class CalendarManager extends Component {
                 </p>
                 <p className="flex1">{userObj.email}</p>
               </div>
-              {isAdmin && userObj._id.toString() !== userID.toString() && (
-                <div className="flex hc vc">
-                  <div title="Promote to Admin">
-                    <FontAwesomeIcon
-                      className="color-blue button mr4"
-                      icon={faUserTie}
-                      onClick={e => {
-                        e.stopPropagation();
-                        this.setState({
-                          promoteUserPrompt: true,
-                          promoteUserObj: {
-                            userIndex: index,
-                            calendarIndex: activeCalendarIndex
-                          }
-                        });
-                      }}
-                    />
+              {isAdmin &&
+                userObj._id.toString() !== userID.toString() && (
+                  <div className="flex hc vc">
+                    <div title="Promote to Admin">
+                      <FontAwesomeIcon
+                        className="color-blue button mr4"
+                        icon={faUserTie}
+                        onClick={e => {
+                          e.stopPropagation();
+                          this.setState({
+                            promoteUserPrompt: true,
+                            promoteUserObj: {
+                              userIndex: index,
+                              calendarIndex: activeCalendarIndex
+                            }
+                          });
+                        }}
+                      />
+                    </div>
+                    <div title="Remove User">
+                      <FontAwesomeIcon
+                        className="color-red button"
+                        icon={faTrash}
+                        onClick={e => {
+                          e.stopPropagation();
+                          this.setState({
+                            removeUserPrompt: true,
+                            removeUserObj: {
+                              userIndex: index,
+                              calendarIndex: activeCalendarIndex
+                            }
+                          });
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div title="Remove User">
-                    <FontAwesomeIcon
-                      className="color-red button"
-                      icon={faTrash}
-                      onClick={e => {
-                        e.stopPropagation();
-                        this.setState({
-                          removeUserPrompt: true,
-                          removeUserObj: {
-                            userIndex: index,
-                            calendarIndex: activeCalendarIndex
-                          }
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         );
