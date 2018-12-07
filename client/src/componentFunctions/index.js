@@ -127,7 +127,8 @@ export const trySavePost = (
     campaignEndDate,
     postFinishedSavingCallback,
     setSaving,
-    maxCharacters
+    maxCharacters,
+    notify
   } = post_props;
 
   const setStateObj = {};

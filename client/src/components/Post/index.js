@@ -132,17 +132,21 @@ class PostingOptions extends Component {
         console.log(message);
         console.log("error while fetching calendar social accounts");
       } else {
-        this.setState({ calendarAccounts: accounts });
+        this.setState({ calendarAccounts: accounts }, () =>
+          this.getDefaultAccount(this.props)
+        );
       }
     });
   };
 
   getDefaultAccount = props => {
-    const { accounts, socialType } = props;
-    if (accounts) {
+    if (!this.state) return { id: "", type: "" };
+    const { socialType } = props;
+    const { calendarAccounts } = this.state;
+    if (calendarAccounts) {
       // by default, set accountID to the first account
-      for (let index in accounts) {
-        let account = accounts[index];
+      for (let index in calendarAccounts) {
+        let account = calendarAccounts[index];
         if (
           account.socialType === "facebook" &&
           account.accountType === "profile"

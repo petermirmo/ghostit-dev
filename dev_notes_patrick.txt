@@ -106,9 +106,6 @@ to do next:
   sockets:
     work on the prompt that appears when your active post gets updated+saved by someone else
 
-    have a label that shows how many users are currently connected to the campaign socket / calendar socket
-      mousing over explains how the sockets keep each other updated
-
 
     are images working?
 
@@ -140,6 +137,64 @@ to do next:
     calendar picker (make sure all names fit properly into their containers and use ... on names that are too long)
     user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
     calendar manager user / account cards
+    socket user list in campaign modal is outside the modal and gets cut off (longer names)
+    not a huge fan of calendar picker not including the currently selected calendar
+
+  calendar billing:
+    must be paid user to create calendars
+    demo users get a notification when trying to create or delete calendars
+      "Only paid accounts can create or delete calendars. Unpaid accounts can use their default calendar with limited
+      functionality or be invited to a paid calendar where they have access to all of that calendar's functionality."
+    Demo calendars can only have 10 posts total.
+      after a post goes out from a demo calendar, decrement its postsLeft attribute.
+      postsLeft === -1 means infinite (paid)
+    remove ability to promote a different user to calendar admin
+      (since the calendar's functionality is tied to the admin's account type)
+
+    BASIC calendars:
+      when a user opens content page and fetches their calendars
+        if there are calendars:
+          for each calendar:
+            if the user is the calendar admin:
+              if user.role === "demo":
+                if calendar.postsLeft === -1:
+                  calendar.postsLeft = 0
+                  (this way, if user goes from paid -> unpaid, their calendar becomes locked)
+              else:
+                if calendar.postsLeft !== -1:
+                  calendar.postsLeft = -1
+                  (this way, if user goes from unpaid -> paid, their calendar becomes unlocked)
+        else no calendars:
+          create a new calendar
+          if user.role === "demo":
+            calendar.postsLeft = 10
+          else:
+            calendar.postsLeft = -1
+
+      when a user attempts to save a post (custom task, post)
+        look up all posts in the DB with calendarID, status === "pending"
+          (we don't check for the already posted posts since if the user deleted them after they went out, they wouldnt be detected)
+          if calendar.postsLeft <== foundPosts.length: (no posts left to schedule)
+            send back an error that they are out of posts to schedule
+          else:
+            let them schedule it
+
+      when a post is sent out
+        look up its calendar in the DB.
+          if calendar.postsLeft > 1:
+            calendar.postsLeft -= 1
+              (this way, it'll never decrement from 0 to -1 accidentally causing a demo calendar to go to paid status)
+              (we decrement this attribute bcz we don't count the already posted posts when checking if the calendar can still schedule more posts)
+          else:
+            do nothing
+
+
+      bugs to fix:
+        discard unsaved changes alert in campaign modal is fucked.
+          (new campaign, edit a post, try to exit campaign)
+        campaign list of posts doesn't scroll when lots of posts
+
+
 
 
 

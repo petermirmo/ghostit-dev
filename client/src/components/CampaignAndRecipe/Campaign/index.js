@@ -829,16 +829,21 @@ class CampaignModal extends Component {
       return (
         <CustomTask
           post={post_obj}
-          postFinishedSavingCallback={savedPost => {
-            this.setState({ saving: true });
-            socket.emit("new_post", { campaign, post: savedPost });
-            this.updatePost(savedPost);
-            socket.on("post_added", emitObject => {
-              socket.off("post_added");
-              campaign.posts = emitObject.campaignPosts;
-              this.setState({ campaign, saving: false });
-              this.triggercampaignPeers("campaign_post_saved", savedPost);
-            });
+          postFinishedSavingCallback={(savedPost, success, message) => {
+            if (success) {
+              this.setState({ saving: true });
+              socket.emit("new_post", { campaign, post: savedPost });
+              this.updatePost(savedPost);
+              socket.on("post_added", emitObject => {
+                socket.off("post_added");
+                campaign.posts = emitObject.campaignPosts;
+                this.setState({ campaign, saving: false });
+                this.triggerCampaignPeers("campaign_post_saved", savedPost);
+              });
+            } else {
+              this.setState({ saving: false });
+              this.props.notify("danger", "Save Failed", message, 7000);
+            }
           }}
           setSaving={() => {
             this.setState({ saving: true });
@@ -863,16 +868,21 @@ class CampaignModal extends Component {
       return (
         <Post
           post={post_obj}
-          postFinishedSavingCallback={savedPost => {
-            this.setState({ saving: true });
-            socket.emit("new_post", { campaign, post: savedPost });
-            this.updatePost(savedPost);
-            socket.on("post_added", emitObject => {
-              socket.off("post_added");
-              campaign.posts = emitObject.campaignPosts;
-              this.triggerCampaignPeers("campaign_post_saved", savedPost);
-              this.setState({ campaign, saving: false });
-            });
+          postFinishedSavingCallback={(savedPost, success, message) => {
+            if (success) {
+              this.setState({ saving: true });
+              socket.emit("new_post", { campaign, post: savedPost });
+              this.updatePost(savedPost);
+              socket.on("post_added", emitObject => {
+                socket.off("post_added");
+                campaign.posts = emitObject.campaignPosts;
+                this.triggerCampaignPeers("campaign_post_saved", savedPost);
+                this.setState({ campaign, saving: false });
+              });
+            } else {
+              this.props.notify("danger", "Save Failed", message, 7000);
+              this.setState({ saving: false });
+            }
           }}
           setSaving={() => {
             this.setState({ saving: true });
@@ -1033,8 +1043,6 @@ class CampaignModal extends Component {
     } = this.state;
     const { clickedCalendarDate } = this.props;
     const { startDate, endDate, name, color } = campaign;
-
-    console.log(activePostIndex);
 
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 

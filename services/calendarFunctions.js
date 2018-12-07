@@ -14,6 +14,8 @@ const newsletterFunctions = require("./newsletterFunctions");
 
 const moment = require("moment-timezone");
 
+const demoCalendarMaximumPosts = 10;
+
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
     if (array[i].toString() === id.toString()) {
@@ -85,6 +87,11 @@ module.exports = {
             } else {
               foundUser.defaultCalendarID = newCalendar._id;
               foundUser.save();
+              if (foundUser.role === "demo") {
+                newCalendar.postsLeft = demoCalendarMaximumPosts;
+              } else {
+                newCalendar.postsLeft = -1;
+              }
               newCalendar.save();
 
               Post.find(
@@ -168,6 +175,27 @@ module.exports = {
                 message: `error occurred when trying to fetch user with id ${userID} in an attempt to get its defaultCalendarID`
               });
             } else {
+              for (let i = 0; i < foundCalendars.length; i++) {
+                // make sure all calendars (that this user is the admin of) are appropriately locked/unlocked based on the user's role
+                if (
+                  foundCalendars[i].adminID.toString() ===
+                  foundUser._id.toString()
+                ) {
+                  if (foundUser.role === "demo") {
+                    if (foundCalendars[i].postsLeft === -1) {
+                      // user is demo, but their calendar is unlocked so we need to change this calendar to be locked
+                      foundCalendars[i].postsLeft = 0;
+                      foundCalendars[i].save();
+                    }
+                  } else {
+                    if (foundCalendars[i].postsLeft !== -1) {
+                      // user is paid, but their calendar is locked so we need to change this calendar to be unlocked
+                      foundCalendars[i].postsLeft = -1;
+                      foundCalendars[i].save();
+                    }
+                  }
+                }
+              }
               const defaultCalendarIndex = foundCalendars.findIndex(calObj => {
                 return (
                   calObj._id.toString() ===
@@ -435,14 +463,32 @@ module.exports = {
         userID = req.user.signedInAsUser.id;
       }
     }
+    User.findOne({ _id: userID }, (err, foundUser) => {
+      if (err || !foundUser) {
+        res.send({
+          success: false,
+          err,
+          message: "Error while looking up user in database."
+        });
+      } else {
+        if (foundUser.role === "demo") {
+          res.send({
+            success: false,
+            message:
+              "Demo users do not have the ability to create new calendars."
+          });
+        } else {
+          const newCalendar = new Calendar();
+          newCalendar.calendarName = req.body.name;
+          newCalendar.adminID = userID;
+          newCalendar.userIDs = [userID];
+          newCalendar.postsLeft = -1;
 
-    const newCalendar = new Calendar();
-    newCalendar.calendarName = req.body.name;
-    newCalendar.adminID = userID;
-    newCalendar.userIDs = [userID];
-
-    newCalendar.save().then(() => {
-      res.send({ success: true, newCalendar });
+          newCalendar.save().then(() => {
+            res.send({ success: true, newCalendar });
+          });
+        }
+      }
     });
   },
   getUsers: function(req, res) {
@@ -759,126 +805,98 @@ module.exports = {
         userID = req.user.signedInAsUser.id;
       }
     }
-    Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
-      // find all the user's calendars so that later on, if we delete the calendar
-      // and it turns out to be the user's last calendar, we can make them a new one.
-      if (err || !foundCalendars) {
+    User.findOne({ _id: userID }, (err, foundUser) => {
+      if (err || !foundUser) {
         res.send({
           success: false,
           err,
-          message: `Error while looking up all calendars associated with this user. Reload page and try again.`
+          message: "Error while looking up user in database."
         });
       } else {
-        Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
-          if (err || !foundCalendar) {
-            res.send({
-              success: false,
-              err,
-              message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
-            });
-          } else {
-            if (foundCalendar.adminID.toString() !== userID.toString()) {
+        if (foundUser.role === "demo") {
+          res.send({
+            success: false,
+            message:
+              "Demo users do not have the ability to create or delete calendars."
+          });
+        } else {
+          Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
+            // find all the user's calendars so that later on, if we delete the calendar
+            // and it turns out to be the user's last calendar, we can make them a new one.
+            if (err || !foundCalendars) {
               res.send({
                 success: false,
-                message: `Only calendar admins are allowed to delete their calendar. If you are the admin, try reloading the page.`
-              });
-            } else if (foundCalendar.userIDs.length > 1) {
-              res.send({
-                success: false,
-                message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
+                err,
+                message: `Error while looking up all calendars associated with this user. Reload page and try again.`
               });
             } else {
-              // calendar is eligible to be deleted
-              // so now we must delete all the posts / campaigns / blogs / newsletters
-              Post.find({ calendarID }, (err, foundPosts) => {
-                if (err || !foundPosts) {
+              Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+                if (err || !foundCalendar) {
                   res.send({
                     success: false,
-                    message: `Error while fetching all calendar posts to be deleted.`
+                    err,
+                    message: `Error while fetching calendar with id ${calendarID}. Reload page and try again.`
                   });
                 } else {
-                  Campaign.find({ calendarID }, (err, foundCampaigns) => {
-                    if (err || !foundCampaigns) {
-                      res.send({
-                        success: false,
-                        message: `Error while fetching all calendar campaigns to be deleted.`
-                      });
-                    } else {
-                      Blog.find({ calendarID }, (err, foundBlogs) => {
-                        if (err || !foundBlogs) {
-                          res.send({
-                            success: false,
-                            message: `Error while fetching all calendar blogs to be deleted.`
-                          });
-                        } else {
-                          Newsletter.find(
-                            { calendarID },
-                            (err, foundNewsletters) => {
-                              if (err || !foundNewsletters) {
+                  if (foundCalendar.adminID.toString() !== userID.toString()) {
+                    res.send({
+                      success: false,
+                      message: `Only calendar admins are allowed to delete their calendar. If you are the admin, try reloading the page.`
+                    });
+                  } else if (foundCalendar.userIDs.length > 1) {
+                    res.send({
+                      success: false,
+                      message: `Calendars can only be deleted when they have only 1 user left in them. Remove all users then try deleting.`
+                    });
+                  } else {
+                    // calendar is eligible to be deleted
+                    // so now we must delete all the posts / campaigns / blogs / newsletters
+                    Post.find({ calendarID }, (err, foundPosts) => {
+                      if (err || !foundPosts) {
+                        res.send({
+                          success: false,
+                          message: `Error while fetching all calendar posts to be deleted.`
+                        });
+                      } else {
+                        Campaign.find({ calendarID }, (err, foundCampaigns) => {
+                          if (err || !foundCampaigns) {
+                            res.send({
+                              success: false,
+                              message: `Error while fetching all calendar campaigns to be deleted.`
+                            });
+                          } else {
+                            Blog.find({ calendarID }, (err, foundBlogs) => {
+                              if (err || !foundBlogs) {
                                 res.send({
                                   success: false,
-                                  message: `Error while fetching all calendar newsletters to be deleted.`
+                                  message: `Error while fetching all calendar blogs to be deleted.`
                                 });
                               } else {
-                                // foundPosts, foundCampaigns, foundBlogs, and foundNewsletters now all need to be deleted
-                                let deletedCount = {
-                                  totalDeleted: 0,
-                                  totalFailed: 0,
-                                  postFailed: 0,
-                                  campaignFailed: 0,
-                                  blogFailed: 0,
-                                  newsletterFailed: 0,
-                                  totalTarget:
-                                    foundPosts.length +
-                                    foundCampaigns.length +
-                                    foundBlogs.length +
-                                    foundNewsletters.length
-                                };
-                                if (deletedCount.totalTarget === 0) {
-                                  // nothing to delete in the calendar so just delete it
-                                  foundCalendar.remove();
-                                  if (foundCalendars.length === 1) {
-                                    const newCalendar = new Calendar();
-                                    newCalendar.calendarName = "First Calendar";
-                                    newCalendar.adminID = userID;
-                                    newCalendar.userIDs = [userID];
-                                    newCalendar.save();
-                                    res.send({ success: true, newCalendar });
-                                  } else {
-                                    res.send({ success: true });
-                                  }
-                                } else {
-                                  const deleteCallback = (
-                                    result,
-                                    type,
-                                    countObj
-                                  ) => {
-                                    if (result.success) {
-                                      countObj.totalDeleted++;
+                                Newsletter.find(
+                                  { calendarID },
+                                  (err, foundNewsletters) => {
+                                    if (err || !foundNewsletters) {
+                                      res.send({
+                                        success: false,
+                                        message: `Error while fetching all calendar newsletters to be deleted.`
+                                      });
                                     } else {
-                                      countObj.totalFailed++;
-                                      switch (type) {
-                                        case "post":
-                                          countObj.postFailed++;
-                                          break;
-                                        case "campaign":
-                                          countObj.campaignFailed++;
-                                          break;
-                                        case "blog":
-                                          countObj.blogFailed++;
-                                          break;
-                                        case "newsletter":
-                                          countObj.newsletterFailed++;
-                                          break;
-                                      }
-                                    }
-                                    if (
-                                      countObj.totalDeleted +
-                                        countObj.totalFailed ===
-                                      countObj.totalTarget
-                                    ) {
-                                      // this is the final thing to delete so now we res.send()
-                                      if (countObj.totalFailed === 0) {
+                                      // foundPosts, foundCampaigns, foundBlogs, and foundNewsletters now all need to be deleted
+                                      let deletedCount = {
+                                        totalDeleted: 0,
+                                        totalFailed: 0,
+                                        postFailed: 0,
+                                        campaignFailed: 0,
+                                        blogFailed: 0,
+                                        newsletterFailed: 0,
+                                        totalTarget:
+                                          foundPosts.length +
+                                          foundCampaigns.length +
+                                          foundBlogs.length +
+                                          foundNewsletters.length
+                                      };
+                                      if (deletedCount.totalTarget === 0) {
+                                        // nothing to delete in the calendar so just delete it
                                         foundCalendar.remove();
                                         if (foundCalendars.length === 1) {
                                           const newCalendar = new Calendar();
@@ -895,100 +913,159 @@ module.exports = {
                                           res.send({ success: true });
                                         }
                                       } else {
-                                        // not everything was deleted so we cant delete the calendar
-                                        res.send({
-                                          success: false,
-                                          message: `Failed to delete ${failedPostCount} posts, ${failedCampaignCount} campaigns, ${failedBlogCount} blogs, and ${failedNewsletterCount} newsletters. Calendar not deleted.`
-                                        });
+                                        const deleteCallback = (
+                                          result,
+                                          type,
+                                          countObj
+                                        ) => {
+                                          if (result.success) {
+                                            countObj.totalDeleted++;
+                                          } else {
+                                            countObj.totalFailed++;
+                                            switch (type) {
+                                              case "post":
+                                                countObj.postFailed++;
+                                                break;
+                                              case "campaign":
+                                                countObj.campaignFailed++;
+                                                break;
+                                              case "blog":
+                                                countObj.blogFailed++;
+                                                break;
+                                              case "newsletter":
+                                                countObj.newsletterFailed++;
+                                                break;
+                                            }
+                                          }
+                                          if (
+                                            countObj.totalDeleted +
+                                              countObj.totalFailed ===
+                                            countObj.totalTarget
+                                          ) {
+                                            // this is the final thing to delete so now we res.send()
+                                            if (countObj.totalFailed === 0) {
+                                              foundCalendar.remove();
+                                              if (foundCalendars.length === 1) {
+                                                const newCalendar = new Calendar();
+                                                newCalendar.calendarName =
+                                                  "First Calendar";
+                                                newCalendar.adminID = userID;
+                                                newCalendar.userIDs = [userID];
+                                                newCalendar.save();
+                                                res.send({
+                                                  success: true,
+                                                  newCalendar
+                                                });
+                                              } else {
+                                                res.send({ success: true });
+                                              }
+                                            } else {
+                                              // not everything was deleted so we cant delete the calendar
+                                              res.send({
+                                                success: false,
+                                                message: `Failed to delete ${failedPostCount} posts, ${failedCampaignCount} campaigns, ${failedBlogCount} blogs, and ${failedNewsletterCount} newsletters. Calendar not deleted.`
+                                              });
+                                            }
+                                          }
+                                        };
+                                        // stuff to delete in calendar
+                                        for (
+                                          let i = 0;
+                                          i < foundPosts.length;
+                                          i++
+                                        ) {
+                                          postFunctions.deletePostStandalone(
+                                            {
+                                              postID: foundPosts[i]._id,
+                                              user: req.user,
+                                              skipUserCheck: true
+                                            },
+                                            result => {
+                                              deleteCallback(
+                                                result,
+                                                "post",
+                                                deletedCount
+                                              );
+                                            }
+                                          );
+                                        }
+                                        for (
+                                          let i = 0;
+                                          i < foundCampaigns.length;
+                                          i++
+                                        ) {
+                                          campaignFunctions.deleteCampaignStandalone(
+                                            {
+                                              campaignID: foundCampaigns[i]._id,
+                                              user: req.user,
+                                              skipUserCheck: true
+                                            },
+                                            result => {
+                                              deleteCallback(
+                                                result,
+                                                "campaign",
+                                                deletedCount
+                                              );
+                                            }
+                                          );
+                                        }
+                                        for (
+                                          let i = 0;
+                                          i < foundBlogs.length;
+                                          i++
+                                        ) {
+                                          blogFunctions.deleteBlogStandalone(
+                                            {
+                                              blogID: foundBlogs[i]._id,
+                                              user: req.user,
+                                              skipUserCheck: true
+                                            },
+                                            result => {
+                                              deleteCallback(
+                                                result,
+                                                "blog",
+                                                deletedCount
+                                              );
+                                            }
+                                          );
+                                        }
+                                        for (
+                                          let i = 0;
+                                          i < foundNewsletters.length;
+                                          i++
+                                        ) {
+                                          newsletterFunctions.deleteNewsletterStandalone(
+                                            {
+                                              newsletterID:
+                                                foundNewsletters[i]._id,
+                                              user: req.user,
+                                              skipUserCheck: true
+                                            },
+                                            result => {
+                                              deleteCallback(
+                                                result,
+                                                "newsletter",
+                                                deletedCount
+                                              );
+                                            }
+                                          );
+                                        }
                                       }
                                     }
-                                  };
-                                  // stuff to delete in calendar
-                                  for (let i = 0; i < foundPosts.length; i++) {
-                                    postFunctions.deletePostStandalone(
-                                      {
-                                        postID: foundPosts[i]._id,
-                                        user: req.user,
-                                        skipUserCheck: true
-                                      },
-                                      result => {
-                                        deleteCallback(
-                                          result,
-                                          "post",
-                                          deletedCount
-                                        );
-                                      }
-                                    );
                                   }
-                                  for (
-                                    let i = 0;
-                                    i < foundCampaigns.length;
-                                    i++
-                                  ) {
-                                    campaignFunctions.deleteCampaignStandalone(
-                                      {
-                                        campaignID: foundCampaigns[i]._id,
-                                        user: req.user,
-                                        skipUserCheck: true
-                                      },
-                                      result => {
-                                        deleteCallback(
-                                          result,
-                                          "campaign",
-                                          deletedCount
-                                        );
-                                      }
-                                    );
-                                  }
-                                  for (let i = 0; i < foundBlogs.length; i++) {
-                                    blogFunctions.deleteBlogStandalone(
-                                      {
-                                        blogID: foundBlogs[i]._id,
-                                        user: req.user,
-                                        skipUserCheck: true
-                                      },
-                                      result => {
-                                        deleteCallback(
-                                          result,
-                                          "blog",
-                                          deletedCount
-                                        );
-                                      }
-                                    );
-                                  }
-                                  for (
-                                    let i = 0;
-                                    i < foundNewsletters.length;
-                                    i++
-                                  ) {
-                                    newsletterFunctions.deleteNewsletterStandalone(
-                                      {
-                                        newsletterID: foundNewsletters[i]._id,
-                                        user: req.user,
-                                        skipUserCheck: true
-                                      },
-                                      result => {
-                                        deleteCallback(
-                                          result,
-                                          "newsletter",
-                                          deletedCount
-                                        );
-                                      }
-                                    );
-                                  }
-                                }
+                                );
                               }
-                            }
-                          );
-                        }
-                      });
-                    }
-                  });
+                            });
+                          }
+                        });
+                      }
+                    });
+                  }
                 }
               });
             }
-          }
-        });
+          });
+        }
       }
     });
   },
@@ -1255,6 +1332,10 @@ module.exports = {
     });
   },
   promoteUser: function(req, res) {
+    // removing the ability for a calendar to change its admin so this function will now just return false
+    res.send({ success: false });
+    return;
+
     const { userID, calendarID } = req.body;
     let thisUserID = req.user._id;
     if (req.user.signedInAsUser) {

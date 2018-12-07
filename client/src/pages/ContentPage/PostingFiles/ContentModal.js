@@ -147,9 +147,13 @@ class ContentModal extends Component {
                 ? new moment().add(5, "minutes")
                 : clickedCalendarDate
           }}
-          postFinishedSavingCallback={post => {
-            savePostCallback(post);
-            close();
+          postFinishedSavingCallback={(post, success, message) => {
+            this.setState({ saving: false });
+            if (success) {
+              savePostCallback(post);
+            } else {
+              this.props.notify("danger", "Save Failed", message, 7500);
+            }
           }}
           calendarID={this.props.calendarID}
           setSaving={this.setSaving}
