@@ -24,6 +24,9 @@ useful git commands:
     git branch pat-branch             // creates local pat-branch from master
     git push ghostit pat-branch
 
+how to get the local dev server to post:
+  root/index.js -> schedule.scheduleJob
+
 imagine scenario:
   var = 4; this.setState({ var: 4 });
     vs
@@ -32,19 +35,11 @@ imagine scenario:
 
 (components/CampaignModal)
 
-Ability for the users to 'duplicate' a post in a campaign.
-
-sometimes clicking an account to post to doesn't give feedback that the account was chosen until something else is changed.
-
-prompt users when they try to delete a post.
-
 when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
 
 whiteboard:
   - ability to create colour for custom task
     (should the user be able to use a full colour picker or should we just give more colours that are different from the campaign colours? what should the default colour be?)
-  - recipe.author
-    ()
   - calendar event completed checkmarks / custom task completed
     (show a checkmark beside posts on the calendar that have been posted. show them for custom tasks as well but the only way to toggle the checkmark is for the user to open the task and mark it completed themselves.)
 
@@ -52,8 +47,6 @@ recipe edit and delete
   campaign and recipe:
     recipe editing: posts need some way to display which social type it is (besides just the color of its list button)
     custom tasks need their own colour
-
-make campaignModal footer its own component
 
 campaign start and end date button "Wrap Posts" which sets the start and end dates to the earlier and latest posting date of all the posts.
 
