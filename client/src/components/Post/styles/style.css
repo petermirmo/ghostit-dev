@@ -15,9 +15,11 @@
   box-sizing: border-box;
   overflow: hidden;
 }
+.instructions-container {
+  position: relative;
+}
 .instructions-container,
 .posting-container {
-  position: relative;
   width: 60%;
 
   display: flex;

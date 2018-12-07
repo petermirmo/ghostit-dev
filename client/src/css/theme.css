@@ -212,7 +212,6 @@
   border-radius: 4px;
 
   z-index: 10;
-  overflow: hidden;
 
   background-color: var(--white-theme-color);
   animation: campaignModalAnimation 0.4s;

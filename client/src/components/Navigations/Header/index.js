@@ -59,9 +59,7 @@ class HeaderSideBar extends Component {
 
     if (this.wrapperRef.contains(event.target)) {
       return;
-    } else {
-      this.props.openHeaderSideBar(false);
-    }
+    } else if (this.props.headerSideBar) this.props.openHeaderSideBar(false);
   };
 
   setWrapperRef = node => {

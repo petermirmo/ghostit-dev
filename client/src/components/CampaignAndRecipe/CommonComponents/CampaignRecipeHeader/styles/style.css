@@ -9,7 +9,6 @@
   border-top-right-radius: inherit;
   border-top-left-radius: inherit;
 
-  background-color: var(--white-theme-color);
   border-bottom: 2px solid var(--secondary-text-theme-color);
 }
 .user-list-and-show-more {
