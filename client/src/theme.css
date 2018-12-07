@@ -1212,8 +1212,8 @@ input[type="file"] {
 .border-bottom {
   border-bottom: 1px solid var(--divider-theme-color);
 }
-
 .list-item {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   padding: 8px;

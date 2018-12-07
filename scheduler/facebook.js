@@ -10,7 +10,6 @@ module.exports = {
   postToProfileOrPage: function(post) {
     Account.findOne(
       {
-        userID: post.userID,
         socialID: post.accountID
       },
       async function(err, account) {

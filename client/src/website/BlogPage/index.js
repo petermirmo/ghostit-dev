@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import LoaderSimpleCircle from "../../components/Notifications/LoaderSimpleCircle";
+import ViewWebsiteBlog from "../../components/GhostitBlog/View";
 
 import "./style.css";
 
@@ -19,7 +20,8 @@ class BlogPage extends Component {
       roadTo100: { value: "Road to 100", active: false },
       contentAndCoffee: { value: "Content and Coffee", active: false },
       contentMarketing: { value: "Content Marketing", active: false }
-    }
+    },
+    blog: undefined
   };
   componentDidMount() {
     axios.get("/api/ghostit/blogs").then(res => {
@@ -41,11 +43,33 @@ class BlogPage extends Component {
     this.setState({ categories });
   };
   render() {
-    const { ghostitBlogs, loading, categories } = this.state;
+    const { ghostitBlogs, loading, categories, blog } = this.state;
     const { user } = this.props;
     let isAdmin = false;
     if (user) if (user.role === "admin") isAdmin = true;
 
+    if (blog) {
+      let coverImage = {};
+      for (let index in blog.images) {
+        let image = blog.images[index];
+        if (!image.size) {
+          coverImage = {
+            url: image.url,
+            publicID: image.publicID
+          };
+          blog.images.splice(index, 1);
+        }
+      }
+      blog.images.sort(ghostitBlogImagesCompare);
+      console.log(coverImage);
+      return (
+        <ViewWebsiteBlog
+          contentArray={blog.contentArray}
+          coverImage={blog.coverImage}
+          images={blog.images}
+        />
+      );
+    }
     if (loading)
       return (
         <div className="website-page">
@@ -79,8 +103,9 @@ class BlogPage extends Component {
             {ghostitBlogs.map((obj, index) => {
               return (
                 <div
-                  className="regular-container-with-border flex1 flex column mx32 br4 common-shadow relative"
+                  className="regular-container-with-border flex1 flex column mx32 br4 common-shadow relative button"
                   key={index}
+                  onClick={() => this.setState({ blog: obj })}
                 >
                   <div
                     className="preview-blog-cover flex1 flex hc vc width100"
@@ -106,6 +131,12 @@ class BlogPage extends Component {
         </div>
       );
   }
+}
+
+function ghostitBlogImagesCompare(a, b) {
+  if (a.location < b.location) return -1;
+  if (a.location > b.location) return 1;
+  return 0;
 }
 
 function mapStateToProps(state) {

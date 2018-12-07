@@ -11,7 +11,6 @@ class CalendarPicker extends Component {
     const { updateActiveCalendar, createNewCalendar } = this.props; // Functions
     let calendarDivs = [];
     for (let index = 0; index < calendars.length; index++) {
-      if (index == activeCalendarIndex) continue;
       calendarDivs.push(
         <div
           className="item-colored px16 py8 common-transition"

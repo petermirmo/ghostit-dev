@@ -6,7 +6,7 @@ import Post from "../../../components/Post";
 class Section3 extends Component {
   render() {
     return (
-      <div className="section flex hc vc px32">
+      <div className="section flex hc vc wrap width100 border-box px32">
         <div className="platform-component-showcase fill common-shadow">
           <Post
             post={undefined}

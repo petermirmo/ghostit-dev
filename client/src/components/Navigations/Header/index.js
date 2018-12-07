@@ -192,7 +192,7 @@ class HeaderSideBar extends Component {
               </div>
             </Link>
             {isAdmin && (
-              <Link to="/manage/:undefined">
+              <Link to="/manage">
                 <div
                   className={
                     "header-button button mb16  " + this.isActive("manage")

@@ -36,7 +36,7 @@ class Section4 extends Component {
     const { lines } = this.state;
 
     return (
-      <div className="section flex hc vc px32">
+      <div className="section flex hc vc wrap width100 border-box px32">
         <div className="third flex vc hc">
           <div className="description-box flex column hc">
             <h4 className="title silly-font pb8">Social Scheduling</h4>

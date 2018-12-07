@@ -1,5 +1,6 @@
 .pricing-plans-container {
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .pricing-plan-container {
   position: relative;
@@ -26,4 +27,11 @@
 }
 .price-unimportant {
   font-size: 16px;
+}
+.feature {
+  text-align: left;
+  color: var(--secondary-text-theme-color);
+}
+.feature:hover {
+  color: var(--primary-text-theme-color);
 }
