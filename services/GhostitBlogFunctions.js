@@ -21,9 +21,12 @@ module.exports = {
 
     newGhostitBlog.images = [];
     newGhostitBlog.userID = user._id;
+    newGhostitBlog.url = ghostitBlog.url;
+    newGhostitBlog.title = ghostitBlog.title;
+    newGhostitBlog.category = ghostitBlog.category;
 
     let saveBlog = blog => {
-      let unsuccessfulSave = blog => {
+      let unsuccessfulSave = (blog, error) => {
         // Make sure images are deleted from cloudinary if save was not successful
         let asyncCounter = 0;
 
@@ -34,10 +37,10 @@ module.exports = {
             cloudinary.uploader.destroy(image.publicID, cloudinaryResult => {
               asyncCounter--;
 
-              if (asyncCounter === 0) res.send({ success: false, error });
+              if (asyncCounter === 0) handleError(res, error);
             });
           });
-        } else res.send({ success: false, error });
+        } else handleError(res, error);
       };
 
       if (ghostitBlog.id) {
@@ -48,7 +51,7 @@ module.exports = {
           (error, result) => {
             if (!error && result) res.send({ success: true });
             else {
-              unsuccessfulSave(blog);
+              unsuccessfulSave(blog, error);
             }
           }
         );
@@ -56,7 +59,7 @@ module.exports = {
         blog.save((error, result) => {
           if (!error && result) res.send({ success: true });
           else {
-            unsuccessfulSave(blog);
+            unsuccessfulSave(blog, error);
           }
         });
       }
@@ -64,6 +67,7 @@ module.exports = {
 
     if (ghostitBlog.images.length != 0) {
       let asyncCounter = 0;
+      let continueCounter = ghostitBlog.images.length;
 
       for (let index in ghostitBlog.images) {
         asyncCounter++;
@@ -72,6 +76,15 @@ module.exports = {
 
         if (image.url) {
           asyncCounter--;
+          continueCounter--;
+          newGhostitBlog.images.push({
+            url: image.url,
+            publicID: image.publicID,
+            size: image.size,
+            location: image.location
+          });
+          if (continueCounter === 0) saveBlog(newGhostitBlog);
+
           continue;
         }
         cloudinary.v2.uploader.upload(
@@ -87,9 +100,7 @@ module.exports = {
                 location: image.location
               });
 
-              if (asyncCounter === 0) {
-                saveBlog(newGhostitBlog);
-              }
+              if (asyncCounter === 0) saveBlog(newGhostitBlog);
             }
           }
         );
@@ -99,15 +110,15 @@ module.exports = {
     }
   },
   getGhostitBlogs: (req, res) => {
-    GhostitBlog.find({}, { title: 1, images: 1 }, (err, ghostitBlogs) => {
+    GhostitBlog.find({}, (err, ghostitBlogs) => {
       if (!err && ghostitBlogs) res.send({ success: true, ghostitBlogs });
-      else res.send({ success: false });
+      else handleError(res, err);
     });
   },
   getGhostitBlog: (req, res) => {
     GhostitBlog.findOne({ _id: req.params.blogID }, (err, ghostitBlog) => {
       if (!err && ghostitBlog) res.send({ success: true, ghostitBlog });
-      else res.send({ success: false });
+      else handleError(res, err);
     });
   }
 };

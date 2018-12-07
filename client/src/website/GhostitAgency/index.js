@@ -6,7 +6,7 @@ class GhostitAgency extends Component {
   render() {
     return (
       <div className="website-page">
-        <h1 className="silly-font">Content Services</h1>
+        <h1 className="silly-font tac">Content Services</h1>
         <h4 className="pb16">
           Increase the amount of qualified traffic to your site.
         </h4>

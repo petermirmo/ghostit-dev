@@ -213,7 +213,7 @@ class Login extends Component {
 
     return (
       <div className="login-background flex column vc">
-        <h1 className="silly-font pb16">
+        <h1 className="silly-font pb16 tac">
           {login === "login" ? "Sign in to Ghostit!" : "Sign up for Ghostit!"}
         </h1>
 

@@ -30,7 +30,8 @@ var contentSchema = new Schema({
   location: {
     type: Number,
     required: true
-  }
+  },
+  link: String
 });
 var imageSchema = new Schema({
   url: {
@@ -42,7 +43,8 @@ var imageSchema = new Schema({
     required: true
   },
   size: String,
-  location: Number
+  location: Number,
+  alt: String
 });
 
 const ghostitBlogSchema = new Schema(
@@ -59,9 +61,7 @@ const ghostitBlogSchema = new Schema(
       type: String,
       required: true
     },
-    category: {
-      type: String
-    },
+    category: Number,
     contentArray: [contentSchema],
     images: [imageSchema]
   },

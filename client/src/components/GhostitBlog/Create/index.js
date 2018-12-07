@@ -18,29 +18,43 @@ class CreateWebsiteBlog extends Component {
     title: "",
     id: undefined
   };
-  componentWillReceiveProps(nextProps) {
-    const { ghostitBlog } = nextProps;
-    if (ghostitBlog) {
-      this.setState({
-        id: ghostitBlog._id,
-        coverImage: { imagePreviewUrl: ghostitBlog.images.splice(0, 1)[0].url },
-        title: ghostitBlog.title,
-        contentArray: ghostitBlog.contentArray,
-        images: ghostitBlog.images.slice(0, 1),
-        url: ghostitBlog.url,
-        locationCounter:
-          ghostitBlog.images.length + ghostitBlog.contentArray.length - 1
+  componentDidMount() {
+    this._ismounted = true;
+    if (this.props.id) {
+      axios.get("/api/ghostit/blog/" + this.props.id).then(res => {
+        const { ghostitBlog } = res.data;
+
+        if (ghostitBlog) {
+          let coverImage = {};
+          for (let index in ghostitBlog.images) {
+            let image = ghostitBlog.images[index];
+            if (!image.size) {
+              coverImage = {
+                url: image.url,
+                publicID: image.publicID
+              };
+              ghostitBlog.images.splice(index, 1);
+            }
+          }
+          ghostitBlog.images.sort(ghostitBlogImagesCompare);
+          if (this._ismounted) {
+            this.setState({
+              id: ghostitBlog._id,
+              coverImage,
+              title: ghostitBlog.title,
+              contentArray: ghostitBlog.contentArray,
+              url: ghostitBlog.url,
+              images: ghostitBlog.images,
+              locationCounter:
+                ghostitBlog.images.length + ghostitBlog.contentArray.length - 1
+            });
+          }
+        }
       });
     }
   }
-  componentDidMount() {
-    window.onkeyup = e => {
-      let key = e.keyCode ? e.keyCode : e.which;
-
-      if (key == 13) {
-      }
-    };
-    this.addNewTextBox();
+  componentWillUnmount() {
+    this._ismounted = false;
   }
   addCoverImage = event => {
     let images = event.target.files;
@@ -64,21 +78,22 @@ class CreateWebsiteBlog extends Component {
     }
   };
   insertImage = event => {
-    let test = event.target.files;
+    let newImages = event.target.files;
 
     let { images, locationCounter } = this.state;
 
     // Save each image to state
-    for (let index = 0; index < test.length; index++) {
+    for (let index = 0; index < newImages.length; index++) {
       let reader = new FileReader();
-      let image = test[index];
+      let image = newImages[index];
 
       reader.onloadend = image => {
         images.push({
           size: "small",
           image,
           imagePreviewUrl: reader.result,
-          location: locationCounter
+          location: locationCounter,
+          alt: ""
         });
         locationCounter += 1;
 
@@ -97,7 +112,8 @@ class CreateWebsiteBlog extends Component {
       underline: false,
       type: "p",
       position: "left",
-      location: locationCounter
+      location: locationCounter,
+      link: ""
     });
     locationCounter += 1;
     this.setState({ contentArray, locationCounter });
@@ -124,15 +140,18 @@ class CreateWebsiteBlog extends Component {
   };
   saveGhostitBlog = () => {
     let { contentArray, images, url, coverImage, title, id } = this.state;
+
     if (coverImage) images.unshift(coverImage);
     else {
       alert("Upload cover image!");
       return;
     }
-
+    alert("saving");
     axios
       .post("/api/ghostit/blog", { contentArray, images, url, title, id })
       .then(res => {
+        if (res.data.success) alert("Successfully saved Ghostit blog.");
+        else console.log(res.data);
         if (coverImage) images.splice(0, 1);
       });
   };
@@ -234,6 +253,14 @@ class CreateWebsiteBlog extends Component {
           </button>
           <button
             className={
+              content.type === "a" ? "plain-button active" : "plain-button"
+            }
+            onClick={() => this.handleContentChange("a", index, "type")}
+          >
+            a
+          </button>
+          <button
+            className={
               content.position === "left"
                 ? "plain-button active"
                 : "plain-button"
@@ -279,12 +306,25 @@ class CreateWebsiteBlog extends Component {
           className="delete absolute bottom right"
           onClick={() => this.removeTextarea(index)}
         />
+        {content.type === "a" && (
+          <input
+            className="regular-input width100 border-box"
+            value={content.link}
+            placeholder="link"
+            onChange={e =>
+              this.handleContentChange(e.target.value, index, "link")
+            }
+          />
+        )}
       </div>
     );
   };
   createRelevantImageDiv = (image, index) => {
     return (
-      <div className="relative my32 margin-hc" key={"image" + index}>
+      <div
+        className="relative my32 margin-hc flex column hc vc"
+        key={"image" + index}
+      >
         <div className="hover-options-container">
           <button
             className="plain-button"
@@ -320,6 +360,12 @@ class CreateWebsiteBlog extends Component {
           className="delete absolute bottom right"
           onClick={() => this.removeImage(index)}
         />
+        <input
+          className="regular-input width100 border-box"
+          value={image.alt ? image.alt : ""}
+          placeholder="alt"
+          onChange={e => this.handleImageChange(e.target.value, index, "alt")}
+        />
       </div>
     );
   };
@@ -331,7 +377,8 @@ class CreateWebsiteBlog extends Component {
       coverImage,
       url,
       images,
-      title
+      title,
+      category
     } = this.state;
 
     if (viewBlogPreview) {
@@ -378,16 +425,6 @@ class CreateWebsiteBlog extends Component {
 
     return (
       <div className="border-box flex column">
-        <div className="flex mx20vw">
-          <p className="label mr8">Title:</p>
-          <input
-            type="text"
-            onChange={e => this.setState({ title: e.target.value })}
-            value={title}
-            className="regular-input"
-            placeholder="10 marketing strategies"
-          />
-        </div>
         <div className="flex mx20vw mt8">
           <p className="label mr8">Blog URL:</p>
           <input
@@ -396,6 +433,15 @@ class CreateWebsiteBlog extends Component {
             value={url}
             className="regular-input"
             placeholder="10-marketing-strategies"
+          />
+        </div>
+        <div className="flex mx20vw mt8">
+          <p className="label mr8">Category: (number)</p>
+          <input
+            className="regular-input"
+            type="number"
+            value={category}
+            onChange={e => this.setState({ category: e.target.value })}
           />
         </div>
 
@@ -412,7 +458,7 @@ class CreateWebsiteBlog extends Component {
         {coverImage && (
           <div className="cover-image-container relative">
             <img
-              src={coverImage.imagePreviewUrl}
+              src={coverImage.imagePreviewUrl || coverImage.url}
               className="cover-image width100"
             />
             <FontAwesomeIcon
@@ -454,6 +500,11 @@ class CreateWebsiteBlog extends Component {
       </div>
     );
   }
+}
+function ghostitBlogImagesCompare(a, b) {
+  if (a.location < b.location) return -1;
+  if (a.location > b.location) return 1;
+  return 0;
 }
 
 export default CreateWebsiteBlog;

@@ -61,8 +61,8 @@ class ViewWebsiteBlog extends Component {
     return (
       <img
         key={"image" + index}
-        src={image.imagePreviewUrl}
-        className={"image margin-hc " + image.size}
+        src={image.imagePreviewUrl || image.url}
+        className={"image " + image.size}
       />
     );
   };
@@ -93,12 +93,12 @@ class ViewWebsiteBlog extends Component {
       }
     }
     return (
-      <div className="flex column">
+      <div className="flex column vc my32">
         {coverImage && (
           <div className="cover-image-container">
             <img
-              src={coverImage.imagePreviewUrl}
-              className="cover-image width100"
+              src={coverImage.imagePreviewUrl || image.url}
+              className="cover-image"
             />
           </div>
         )}

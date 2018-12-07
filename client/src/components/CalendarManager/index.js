@@ -628,11 +628,11 @@ class CalendarManager extends Component {
           </div>
         </div>
         <div className="flex flex1 width100">
-          <div className="flex column flex1 pa16 border-right">
+          <div className="list-container flex1 pa16 light-scrollbar border-right">
             <h4 className="mx16">Social Accounts Linked To Calendar</h4>
             {accountDivs}
           </div>
-          <div className="flex column flex1 pa16">
+          <div className="list-container flex1 pa16 light-scrollbar">
             <h4 className="mx16">Calendar Users</h4>
             {userDivs}
           </div>

@@ -21,12 +21,6 @@ class ManagePage extends Component {
     axios.get("/api/notifications").then(res => {
       if (this._ismounted) this.setState({ notifications: res.data });
     });
-    if (this.props.match.params.id) {
-      axios.get("/api/ghostit/blog/" + this.props.match.params.id).then(res => {
-        if (this._ismounted)
-          this.setState({ ghostitBlog: res.data.ghostitBlog });
-      });
-    }
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -71,7 +65,10 @@ class ManagePage extends Component {
         <div className="width100">
           {categories.users.active && <UsersTable />}
           {categories.createBlog.active && (
-            <CreateGhostitBlog ghostitBlog={ghostitBlog} />
+            <CreateGhostitBlog
+              ghostitBlog={ghostitBlog}
+              id={this.props.match.params.id}
+            />
           )}
           {categories.notifications.active &&
             notifications.map((notification, index) => {

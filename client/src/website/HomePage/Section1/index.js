@@ -31,8 +31,8 @@ class Section1 extends Component {
       randomInt6
     } = this.state;
     return (
-      <div className="section flex vc hc column">
-        <h1 className="silly-font">Create. Customize. Convert.</h1>
+      <div className="section flex vc hc column wrap width100 border-box">
+        <h1 className="silly-font tac">Create. Customize. Convert.</h1>
         <h4>
           Organize your marketing process with an all-in-one solution for
           unified content promotion.

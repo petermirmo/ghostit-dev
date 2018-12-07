@@ -128,6 +128,7 @@ class Routes extends Component {
             <Route path="/analytics/" component={Analytics} />
             <Route path="/social-accounts/" component={Accounts} />
             <Route path="/manage/:id" component={Manage} />
+            <Route path="/manage" component={Manage} />
             <Route path="/profile/" component={Profile} />
             <Route path="/subscription/" component={MySubscription} />
             <Route path="/ads/" component={Ads} />
