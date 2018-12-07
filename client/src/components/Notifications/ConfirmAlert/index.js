@@ -71,17 +71,17 @@ class ConfirmAlert extends Component {
           <div className="confirm-message">{message}</div>
           {this.props.helpTooltip && (
             <div className="help-tooltip" title={this.props.helpTooltip}>
-              <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
+              <FontAwesomeIcon icon={faQuestionCircle} />
             </div>
           )}
           {extraConfirmationMessage && (
             <div className="extra-confirm-container">
-              <div className="extra-confirm-message">
+              <div className="extra-confirm-message mt8">
                 {extraConfirmationMessage}
               </div>
               <input
                 type="text"
-                className="extra-confirm-input"
+                className="regular-input width100"
                 value={confirmText}
                 onChange={event =>
                   this.setState({ confirmText: event.target.value })
@@ -115,12 +115,12 @@ class ConfirmAlert extends Component {
           </div>
           {checkboxMessage && (
             <div
-              className="checkbox-option"
+              className="flex vc hc"
               onClick={() => {
                 this.setState({ checked: !checked });
               }}
             >
-              <input type="checkbox" checked={checked} />
+              <input type="checkbox" checked={checked} onChange={() => {}} />
               {checkboxMessage}
             </div>
           )}

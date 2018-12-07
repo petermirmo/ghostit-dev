@@ -56,7 +56,11 @@ class CalendarPicker extends Component {
             : "Change Calendars"}
           <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
-        <div className="dropdown common-shadow br4">{calendarDivs}</div>
+        <div className="dropdown center transparent">
+          <div className="absolute-child-center common-shadow br4">
+            {calendarDivs}
+          </div>
+        </div>
       </div>
     );
   }

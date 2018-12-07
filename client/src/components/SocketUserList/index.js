@@ -9,7 +9,7 @@ import "./styles/";
 
 class SocketUserList extends Component {
   render() {
-    const { userList } = this.props; // Variable
+    const { userList, left } = this.props; // Variable
     let userDivs = [];
     for (let index = 0; index < userList.length; index++) {
       userDivs.push(
@@ -30,7 +30,15 @@ class SocketUserList extends Component {
           {userList.length}
           <FontAwesomeIcon icon={faUsers} className="ml8" />
         </div>
-        <div className="dropdown common-shadow br4">{userDivs}</div>
+        <div
+          className={
+            left
+              ? "dropdown left common-shadow br4"
+              : " dropdown common-shadow br4"
+          }
+        >
+          {userDivs}
+        </div>
       </div>
     );
   }

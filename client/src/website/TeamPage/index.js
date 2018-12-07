@@ -30,7 +30,7 @@ class TeamPage extends Component {
 
     return [top, right, bottom, left];
   };
-  test = element => {
+  correctOverflow = element => {
     if (element) {
       let overflowArray = this.isElementInViewport(element);
       if (overflowArray) {
@@ -66,7 +66,7 @@ class TeamPage extends Component {
                 className="team-member-container pa16 br8 common-transition"
                 key={index + "team"}
                 onMouseEnter={event => {
-                  this.test(document.getElementById(id));
+                  this.correctOverflow(document.getElementById(id));
                   event.target.style.backgroundColor = obj.color;
                 }}
                 onMouseOut={event => {

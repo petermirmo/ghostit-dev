@@ -47,7 +47,7 @@ class Filter extends Component {
           Filter Calendar
           <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
-        <div className="dropdown common-shadow br4">{categoryDivs}</div>
+        <div className="dropdown left common-shadow br4">{categoryDivs}</div>
       </div>
     );
   }

@@ -212,6 +212,7 @@
   border-radius: 4px;
 
   z-index: 10;
+  overflow: hidden;
 
   background-color: var(--white-theme-color);
   animation: campaignModalAnimation 0.4s;
@@ -233,7 +234,6 @@
   flex-grow: 0;
   flex-shrink: 0;
 
-  position: relative;
   display: flex;
 
   justify-content: space-between;
@@ -1129,12 +1129,26 @@ input[type="file"] {
   display: none;
 
   flex-direction: column;
-
-  min-width: 100%;
-
   background-color: var(--white-theme-color);
-}
 
+  width: 100%;
+  min-width: 150px;
+}
+.dropdown.transparent {
+  background-color: transparent;
+}
+.dropdown.left {
+  left: 0;
+}
+.dropdown.center {
+  left: 50%;
+}
+.absolute-child-center {
+  position: relative;
+  left: -50%;
+  background-color: var(--white-theme-color);
+  overflow: hidden;
+}
 .dropdown-title {
   flex: 1;
   font-size: inherit;
@@ -1144,11 +1158,7 @@ input[type="file"] {
 }
 .dropdown .item,
 .dropdown .item-colored {
-  width: 100%;
   box-sizing: border-box;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   color: var(--primary-text-theme-color);
 }
 
@@ -1164,6 +1174,7 @@ input[type="file"] {
   padding-left: 16px;
   border-radius: 4px;
   flex: 1;
+  box-sizing: border-box;
 }
 
 .icon-regular-button {

@@ -132,12 +132,11 @@ class CampaignRecipeHeader extends Component {
           </div>
         </div>
         <div className="user-list-and-show-more">
-          {this.props.userList &&
-            this.props.userList.length > 0 && (
-              <div className="user-list-container">
-                <SocketUserList userList={this.props.userList} />
-              </div>
-            )}
+          {this.props.userList && this.props.userList.length > 0 && (
+            <div className="user-list-container">
+              <SocketUserList userList={this.props.userList} left={true} />
+            </div>
+          )}
           <div
             className="show-more center-horizontally bottom"
             onClick={() => this.setState({ showMore: !this.state.showMore })}
