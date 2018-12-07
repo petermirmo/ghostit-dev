@@ -18,6 +18,18 @@ module.exports = {
         notification.save();
         User.findOne({ _id: post.userID }, (err, user) => {
           if (user) {
+            notification.message =
+              "User's ID: " +
+              user._id +
+              " user's name: " +
+              user.fullName +
+              " Post error: " +
+              post.errorMessage +
+              "Post content: " +
+              post.content +
+              " Post socialType: " +
+              post.socialType;
+
             sendEmail(
               user,
               "Ghostit Notification",
