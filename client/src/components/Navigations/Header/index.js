@@ -46,6 +46,28 @@ class HeaderSideBar extends Component {
     });
   };
 
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
+  handleClickOutside = event => {
+    if (!this.wrapperRef) return;
+
+    if (this.wrapperRef.contains(event.target)) {
+      return;
+    } else {
+      this.props.openHeaderSideBar(false);
+    }
+  };
+
+  setWrapperRef = node => {
+    this.wrapperRef = node;
+  };
+
   logout = () => {
     axios.get("/api/logout").then(res => {
       let { success, loggedIn } = res.data;
@@ -73,7 +95,7 @@ class HeaderSideBar extends Component {
     let isManager = user.role === "manager";
 
     return (
-      <div className="header-navbar">
+      <div className="header-navbar" ref={this.setWrapperRef}>
         <div className="header-stationary-column pa8">
           <FontAwesomeIcon
             icon={faBars}
