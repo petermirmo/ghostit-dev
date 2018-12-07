@@ -82,7 +82,7 @@ class Routes extends Component {
       activePage === "/analytics" ||
       activePage === "/social-accounts" ||
       activePage === "/writers-brief" ||
-      activePage === "/manage" ||
+      activePage.substring(0, 7) === "/manage" ||
       activePage === "/profile" ||
       activePage === "/subscription" ||
       activePage === "/ads"
@@ -133,7 +133,7 @@ class Routes extends Component {
             <Route path="/analytics/" component={Analytics} />
             <Route path="/social-accounts/" component={Accounts} />
             <Route path="/writers-brief/" component={WritersBrief} />
-            <Route path="/manage/" component={Manage} />
+            <Route path="/manage/:id" component={Manage} />
             <Route path="/profile/" component={Profile} />
             <Route path="/subscription/" component={MySubscription} />
             <Route path="/ads/" component={Ads} />

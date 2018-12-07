@@ -1182,11 +1182,19 @@ input[type="file"] {
   background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 }
+.regular-container-with-border {
+  border: 0.5px solid var(--divider-theme-color);
+  width: 100%;
+  overflow: hidden;
+}
 .regular-button.large {
   font-size: var(--large-font-size);
 }
 .regular-button:hover {
   background-color: var(--seven-primary-color);
+}
+.border.small {
+  border: 0.5px solid var(--divider-theme-color);
 }
 .border-right {
   border-right: 2px solid var(--divider-theme-color);
@@ -1277,4 +1285,13 @@ input[type="file"] {
 }
 .plain-button:last-child {
   border-right: 1px solid var(--divider-theme-color);
+}
+
+.transparent-button {
+  color: var(--secondary-text-theme-color);
+}
+.transparent-button.active {
+  color: var(--primary-text-theme-color);
+  font-weight: bold;
+  font-size: var(--large-font-size);
 }

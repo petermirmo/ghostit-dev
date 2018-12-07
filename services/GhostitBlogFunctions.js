@@ -16,29 +16,50 @@ module.exports = {
       return;
     }
 
-    let newGhostitBlog = new GhostitBlog(ghostitBlog);
+    let newGhostitBlog = {};
+    if (!ghostitBlog.id) newGhostitBlog = new GhostitBlog(ghostitBlog);
+
     newGhostitBlog.images = [];
     newGhostitBlog.userID = user._id;
 
     let saveBlog = blog => {
-      blog.save((error, result) => {
-        if (!error && result) res.send({ success: true });
-        else {
-          let asyncCounter = 0;
+      let unsuccessfulSave = blog => {
+        // Make sure images are deleted from cloudinary if save was not successful
+        let asyncCounter = 0;
 
-          if (blog.images) {
-            blog.images.forEach(image => {
-              asyncCounter++;
+        if (blog.images) {
+          blog.images.forEach(image => {
+            asyncCounter++;
 
-              cloudinary.uploader.destroy(image.publicID, cloudinaryResult => {
-                asyncCounter--;
+            cloudinary.uploader.destroy(image.publicID, cloudinaryResult => {
+              asyncCounter--;
 
-                if (asyncCounter === 0) res.send({ success: false, error });
-              });
+              if (asyncCounter === 0) res.send({ success: false, error });
             });
-          } else res.send({ success: false, error });
-        }
-      });
+          });
+        } else res.send({ success: false, error });
+      };
+
+      if (ghostitBlog.id) {
+        GhostitBlog.updateOne(
+          { _id: ghostitBlog.id },
+          newGhostitBlog,
+          undefined,
+          (error, result) => {
+            if (!error && result) res.send({ success: true });
+            else {
+              unsuccessfulSave(blog);
+            }
+          }
+        );
+      } else {
+        blog.save((error, result) => {
+          if (!error && result) res.send({ success: true });
+          else {
+            unsuccessfulSave(blog);
+          }
+        });
+      }
     };
 
     if (ghostitBlog.images.length != 0) {
@@ -48,6 +69,11 @@ module.exports = {
         asyncCounter++;
 
         let image = ghostitBlog.images[index];
+
+        if (image.url) {
+          asyncCounter--;
+          continue;
+        }
         cloudinary.v2.uploader.upload(
           image.imagePreviewUrl,
           (error, result) => {
@@ -79,7 +105,7 @@ module.exports = {
     });
   },
   getGhostitBlog: (req, res) => {
-    GhostitBlog.find({ _id: req.params.id }, (err, ghostitBlog) => {
+    GhostitBlog.findOne({ _id: req.params.blogID }, (err, ghostitBlog) => {
       if (!err && ghostitBlog) res.send({ success: true, ghostitBlog });
       else res.send({ success: false });
     });

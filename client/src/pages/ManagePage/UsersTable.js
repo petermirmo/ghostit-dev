@@ -25,8 +25,13 @@ class UsersTable extends Component {
   };
 
   componentDidMount() {
+    this._ismounted = true;
+
     this.getUsers();
     this.getPlans();
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
   }
   getUsers = () => {
     const { userCategories } = this.state;
@@ -70,15 +75,16 @@ class UsersTable extends Component {
         } else if (userCategories["admin"]) {
           activeUsers = adminUsers;
         }
-
-        this.setState({
-          demoUsers: demoUsers,
-          clientUsers: clientUsers,
-          managerUsers: managerUsers,
-          adminUsers: adminUsers,
-          activeUsers: activeUsers,
-          untouchedUsers: activeUsers
-        });
+        if (this._ismounted) {
+          this.setState({
+            demoUsers,
+            clientUsers,
+            managerUsers,
+            adminUsers,
+            activeUsers,
+            untouchedUsers: activeUsers
+          });
+        }
       }
     });
   };

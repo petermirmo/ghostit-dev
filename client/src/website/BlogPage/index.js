@@ -1,13 +1,25 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
+
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
 import LoaderSimpleCircle from "../../components/Notifications/LoaderSimpleCircle";
 
 import "./style.css";
 
 class BlogPage extends Component {
   state = {
-    loading: true
+    loading: true,
+    categories: {
+      mostRecent: { value: "Most Recent", active: true },
+      roadTo100: { value: "Road to 100", active: false },
+      contentAndCoffee: { value: "Content and Coffee", active: false },
+      contentMarketing: { value: "Content Marketing", active: false }
+    }
   };
   componentDidMount() {
     axios.get("/api/ghostit/blogs").then(res => {
@@ -20,8 +32,20 @@ class BlogPage extends Component {
       }
     });
   }
+  switchDivs = activeCategory => {
+    let { categories } = this.state;
+    for (let index in categories) {
+      categories[index].active = false;
+    }
+    categories[activeCategory].active = true;
+    this.setState({ categories });
+  };
   render() {
-    const { ghostitBlogs, loading } = this.state;
+    const { ghostitBlogs, loading, categories } = this.state;
+    const { user } = this.props;
+    let isAdmin = false;
+    if (user) if (user.role === "admin") isAdmin = true;
+
     if (loading)
       return (
         <div className="website-page">
@@ -30,20 +54,51 @@ class BlogPage extends Component {
       );
     else
       return (
-        <div className="website-page">
-          <div className="flex wrap mx64 ">
+        <div className="website-page flex column vc mx64">
+          <h1 className="silly-font pb16">Ghostit Blog</h1>
+
+          <div className="flex hc vc ma32 width100">
+            {Object.keys(categories).map((categoryIndex, index) => {
+              let category = categories[categoryIndex];
+
+              let className = "transparent-button";
+              if (category.active) className += " active";
+
+              return (
+                <button
+                  className={className}
+                  onClick={() => this.switchDivs(categoryIndex)}
+                  key={"xyu" + index}
+                >
+                  {category.value}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex wrap width100">
             {ghostitBlogs.map((obj, index) => {
               return (
-                <div className="flex1 flex column mx32 width100" key={index}>
+                <div
+                  className="regular-container-with-border flex1 flex column mx32 br4 common-shadow relative"
+                  key={index}
+                >
                   <div
-                    className="top-container flex1 flex hc vc width100"
+                    className="preview-blog-cover flex1 flex hc vc width100"
                     style={{
                       backgroundImage: "url(" + obj.images[0].url + ")"
                     }}
                   />
-                  <div className="bottom-container flex hc vc py8 width100 px16">
+                  <div className="flex hc vc py8 width100 px16">
                     <p className="width50 silly-font">{obj.title}</p>
                   </div>
+                  {isAdmin && (
+                    <Link to={"/manage/" + obj._id}>
+                      <FontAwesomeIcon
+                        className="icon-regular-button absolute bottom right"
+                        icon={faEdit}
+                      />
+                    </Link>
+                  )}
                 </div>
               );
             })}
@@ -52,4 +107,10 @@ class BlogPage extends Component {
       );
   }
 }
-export default BlogPage;
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+export default connect(mapStateToProps)(BlogPage);

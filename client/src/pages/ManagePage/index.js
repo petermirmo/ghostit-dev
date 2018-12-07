@@ -23,6 +23,12 @@ class ManagePage extends Component {
     axios.get("/api/notifications").then(res => {
       if (this._ismounted) this.setState({ notifications: res.data });
     });
+    if (this.props.match.params.id) {
+      axios.get("/api/ghostit/blog/" + this.props.match.params.id).then(res => {
+        if (this._ismounted)
+          this.setState({ ghostitBlog: res.data.ghostitBlog });
+      });
+    }
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -42,7 +48,7 @@ class ManagePage extends Component {
   };
 
   render() {
-    const { categories, notifications } = this.state;
+    const { categories, notifications, ghostitBlog } = this.state;
 
     return (
       <div className="flex column vc">
@@ -57,7 +63,7 @@ class ManagePage extends Component {
               <button
                 className={className}
                 onClick={() => this.switchDivs(categoryIndex)}
-                key={"test" + index}
+                key={"eun" + index}
               >
                 {category.value}
               </button>
@@ -66,7 +72,9 @@ class ManagePage extends Component {
         </div>
         <div className="width100">
           {categories.users.active && <UsersTable />}
-          {categories.createBlog.active && <CreateGhostitBlog />}
+          {categories.createBlog.active && (
+            <CreateGhostitBlog ghostitBlog={ghostitBlog} />
+          )}
           {categories.notifications.active &&
             notifications.map((notification, index) => {
               return (

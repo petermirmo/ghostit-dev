@@ -15,8 +15,24 @@ class CreateWebsiteBlog extends Component {
     url: "",
     viewBlogPreview: false,
     locationCounter: 0,
-    title: ""
+    title: "",
+    id: undefined
   };
+  componentWillReceiveProps(nextProps) {
+    const { ghostitBlog } = nextProps;
+    if (ghostitBlog) {
+      this.setState({
+        id: ghostitBlog._id,
+        coverImage: { imagePreviewUrl: ghostitBlog.images.splice(0, 1)[0].url },
+        title: ghostitBlog.title,
+        contentArray: ghostitBlog.contentArray,
+        images: ghostitBlog.images.slice(0, 1),
+        url: ghostitBlog.url,
+        locationCounter:
+          ghostitBlog.images.length + ghostitBlog.contentArray.length - 1
+      });
+    }
+  }
   componentDidMount() {
     window.onkeyup = e => {
       let key = e.keyCode ? e.keyCode : e.which;
@@ -107,7 +123,7 @@ class CreateWebsiteBlog extends Component {
     this.setState({ images });
   };
   saveGhostitBlog = () => {
-    let { contentArray, images, url, coverImage, title } = this.state;
+    let { contentArray, images, url, coverImage, title, id } = this.state;
     if (coverImage) images.unshift(coverImage);
     else {
       alert("Upload cover image!");
@@ -115,9 +131,8 @@ class CreateWebsiteBlog extends Component {
     }
 
     axios
-      .post("/api/ghostit/blog", { contentArray, images, url, title })
+      .post("/api/ghostit/blog", { contentArray, images, url, title, id })
       .then(res => {
-        console.log(res);
         if (coverImage) images.splice(0, 1);
       });
   };
@@ -296,7 +311,10 @@ class CreateWebsiteBlog extends Component {
             large
           </button>
         </div>
-        <img src={image.imagePreviewUrl} className={"image " + image.size} />
+        <img
+          src={image.imagePreviewUrl || image.url}
+          className={"image " + image.size}
+        />
         <FontAwesomeIcon
           icon={faTrash}
           className="delete absolute bottom right"
