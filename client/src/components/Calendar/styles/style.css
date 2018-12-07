@@ -97,15 +97,14 @@
 .queue-container {
   justify-content: flex-start;
   align-items: flex-start;
-  min-height: 80vh;
+  min-height: 100vh;
 }
 .queue-post-container {
   width: 100%;
-
-  border-top: 1px solid var(--nine-primary-color);
+  border-top: 1px solid var(--divider-theme-color);
 }
 .queue-post-container:last-child {
-  border-bottom: 1px solid var(--nine-primary-color);
+  border-top: 1px solid var(--divider-theme-color);
 }
 .queue-post-attribute {
   flex: 3;

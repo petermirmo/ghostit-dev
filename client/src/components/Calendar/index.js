@@ -431,7 +431,7 @@ class Calendar extends Component {
     }
 
     return (
-      <div className="flex column vc">
+      <div className="flex column vc width100">
         <div className="calendar-header-container px8 pt8 width100 box-sizing">
           <div className="flex hc vc">
             <Filter
