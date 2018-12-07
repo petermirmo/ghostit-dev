@@ -140,16 +140,6 @@ to do next:
     socket user list in campaign modal is outside the modal and gets cut off (longer names)
     not a huge fan of calendar picker not including the currently selected calendar
 
-  calendar billing:
-    must be paid user to create calendars
-    demo users get a notification when trying to create or delete calendars
-      "Only paid accounts can create or delete calendars. Unpaid accounts can use their default calendar with limited
-      functionality or be invited to a paid calendar where they have access to all of that calendar's functionality."
-    Demo calendars can only have 10 posts total.
-      after a post goes out from a demo calendar, decrement its postsLeft attribute.
-      postsLeft === -1 means infinite (paid)
-    remove ability to promote a different user to calendar admin
-      (since the calendar's functionality is tied to the admin's account type)
 
     BASIC calendars:
       when a user opens content page and fetches their calendars
@@ -194,8 +184,6 @@ to do next:
         home page is making a request for  GET /api/calendar/accounts/1234 which console logs a message
         bottom of home page divs are given ugly backgrounds
         pricing page isnt ready
-        calendar manager social accounts should have a ? icon explaining how to link accounts
-        post to start with doesn't show with style that an account is selected by default
         campaign modal when the window size is small, the content half shrinks before the post list half shrinks
 
 
