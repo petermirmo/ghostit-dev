@@ -1,6 +1,6 @@
 .calendar-container {
   overflow-x: hidden;
-  min-width: 1000px;
+  min-width: 600px;
   width: 100%;
 }
 .calendar-header-container {
