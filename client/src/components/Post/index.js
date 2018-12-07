@@ -49,7 +49,15 @@ class PostingOptions extends Component {
       } else {
         this.setState({ somethingChanged: false });
       }
-      if (this.state.accountID === "") {
+      const currentAccount = this.state.calendarAccounts
+        ? this.state.calendarAccounts.find(
+            act => act.socialID === this.state.accountID
+          )
+        : undefined;
+      if (
+        this.state.accountID === "" ||
+        (currentAccount && currentAccount.socialType !== nextProps.socialType)
+      ) {
         const returnObj = this.getDefaultAccount(nextProps);
         this.setState({ accountID: returnObj.id, accountType: returnObj.type });
       }
@@ -111,8 +119,8 @@ class PostingOptions extends Component {
       props.post && props.post.postingDate
         ? new moment(props.post.postingDate)
         : props.campaignStartDate
-        ? new moment(props.campaignStartDate)
-        : new moment(props.clickedCalendarDate);
+          ? new moment(props.campaignStartDate)
+          : new moment(props.clickedCalendarDate);
 
     if (this.state) {
       if (this.state.showInstructions === true)
@@ -132,9 +140,12 @@ class PostingOptions extends Component {
         console.log(message);
         console.log("error while fetching calendar social accounts");
       } else {
-        this.setState({ calendarAccounts: accounts }, () =>
-          this.getDefaultAccount(this.props)
-        );
+        this.setState({ calendarAccounts: accounts }, () => {
+          const result = this.getDefaultAccount(this.props);
+          if (result && result.id && result.type) {
+            this.setState({ accountID: result.id, accountType: result.type });
+          }
+        });
       }
     });
   };
@@ -369,14 +380,15 @@ class PostingOptions extends Component {
               canEdit={canEditPost}
               pushToImageDeleteArray={this.pushToImageDeleteArray}
             />
-            {linkPreviewCanShow && link && (
-              <Carousel
-                linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-                linkImagesArray={linkImagesArray}
-                linkImage={linkImage}
-                handleChange={image => this.handleChange(image, "linkImage")}
-              />
-            )}
+            {linkPreviewCanShow &&
+              link && (
+                <Carousel
+                  linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+                  linkImagesArray={linkImagesArray}
+                  linkImage={linkImage}
+                  handleChange={image => this.handleChange(image, "linkImage")}
+                />
+              )}
           </div>
           {maxCharacters && (
             <div className="max-characters">
