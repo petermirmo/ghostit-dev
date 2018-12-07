@@ -193,7 +193,11 @@ to do next:
         discard unsaved changes alert in campaign modal is fucked.
           (new campaign, edit a post, try to exit campaign)
         campaign list of posts doesn't scroll when lots of posts
-
+        home page is making a request for  GET /api/calendar/accounts/1234 which console logs a message
+        bottom of home page divs are given ugly backgrounds
+        pricing page isnt ready
+        calendar manager social accounts should have a ? icon explaining how to link accounts
+        post to start with doesn't show with style that an account is selected by default
 
 
 
