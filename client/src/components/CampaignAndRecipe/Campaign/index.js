@@ -11,8 +11,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import { getSocialCharacters } from "../../../extra/functions/CommonFunctions";
-import { trySavePost } from "../../../componentFunctions";
+import { trySavePost, getSocialCharacters } from "../../../componentFunctions";
 
 import Post from "../../Post";
 import CustomTask from "../../CustomTask";
@@ -29,7 +28,7 @@ import {
   createAppropriateDate
 } from "../../../componentFunctions";
 
-import "./styles/";
+import "./style.css";
 
 class CampaignModal extends Component {
   constructor(props) {

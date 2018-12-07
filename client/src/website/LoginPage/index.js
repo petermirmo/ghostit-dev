@@ -12,7 +12,7 @@ import {
   setTutorial
 } from "../../redux/actions/";
 
-import { validateEmail } from "../../extra/functions/CommonFunctions";
+import { validateEmail } from "../../componentFunctions";
 
 import Notification from "../../components/Notifications/Notification/";
 import "./style.css";

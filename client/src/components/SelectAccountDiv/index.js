@@ -5,7 +5,7 @@ import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
-import "./styles/";
+import "./style.css";
 
 class SelectAccountDiv extends Component {
   render() {

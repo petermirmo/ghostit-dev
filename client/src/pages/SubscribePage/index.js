@@ -3,7 +3,7 @@ import PayDiv from "./PayDiv";
 
 import { connect } from "react-redux";
 
-import "./styles/";
+import "./style.css";
 
 class SubscribePage extends Component {
   constructor(props) {

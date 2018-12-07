@@ -5,7 +5,7 @@ import axios from "axios";
 
 import ImagesDiv from "../ImagesDiv/";
 import DateTimePicker from "../DateTimePicker";
-import "./styles/";
+import "./style.css";
 
 class CreateBlogComponent extends Component {
   state = {

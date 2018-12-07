@@ -18,16 +18,6 @@ export const cantShowUserFields = [
   "dateCreated",
   "updatedAt"
 ];
-export const strategyFormFields = [
-  "questionnaire",
-  "audience",
-  "styleAndStructure",
-  "brandVoice",
-  "content",
-  "notes",
-  "competitors"
-];
-
 export const postingTypes = [
   { name: "facebook" },
   { name: "twitter", maxCharacters: 280 },
@@ -36,3 +26,5 @@ export const postingTypes = [
   { name: "newsletter" },
   { name: "instagram" }
 ];
+
+export const roles = ["demo", "client", "manager", "admin"];

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
 
-import "./styles/";
+import "./style.css";
 
 class Filter extends Component {
   render() {

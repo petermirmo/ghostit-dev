@@ -15,7 +15,7 @@ import { updateAccounts } from "../../redux/actions/";
 import AddPageOrGroupModal from "./AddPagesOrGroupsModal/";
 import ConfirmAlert from "../../components/Notifications/ConfirmAlert/";
 import Tutorial from "../../components/Tutorial/";
-import "./styles/";
+import "./style.css";
 
 class AccountsPage extends Component {
   state = {

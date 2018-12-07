@@ -11,7 +11,7 @@ import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
 import DateTimePicker from "../../../DateTimePicker";
 import SocketUserList from "../../../SocketUserList";
 
-import "./styles/";
+import "./style.css";
 
 class CampaignRecipeHeader extends Component {
   constructor(props) {

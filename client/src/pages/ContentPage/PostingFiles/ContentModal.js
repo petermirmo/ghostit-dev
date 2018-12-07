@@ -13,7 +13,7 @@ import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Notifications/Loader/";
 import Post from "../../../components/Post";
 import InstagramPosting from "./InstagramPosting";
-import "./styles/";
+import "./style.css";
 
 class ContentModal extends Component {
   state = {

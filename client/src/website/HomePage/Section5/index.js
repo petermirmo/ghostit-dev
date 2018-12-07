@@ -11,7 +11,7 @@ class Section5 extends Component {
         <div className="test5">
           <div className="team-member-image-container round">
             <img
-              src="public/peter.jpg"
+              src="public/client-testimony.jpg"
               alt="'image'"
               className="team-member-image"
             />

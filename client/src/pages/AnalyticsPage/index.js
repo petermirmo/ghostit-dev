@@ -11,7 +11,7 @@ import { bindActionCreators } from "redux";
 
 import LineChart from "../../components/LineChart/";
 
-import "./styles/";
+import "./style.css";
 
 class Analytics extends Component {
   constructor(props) {

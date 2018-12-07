@@ -12,7 +12,7 @@ import Post from "../../../components/Post";
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import Loader from "../../../components/Notifications/Loader/";
-import "./styles/";
+import "./style.css";
 
 class PostEdittingModal extends Component {
   state = {

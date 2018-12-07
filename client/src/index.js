@@ -8,7 +8,7 @@ import reducers from "./redux/reducers/";
 
 import Routes from "./pages";
 
-import "./css/";
+import "./theme.css";
 
 require("../public/favicon.ico");
 

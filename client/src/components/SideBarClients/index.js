@@ -12,7 +12,7 @@ import {
 } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
-import "./styles/";
+import "./style.css";
 
 class ClientSideBar extends Component {
   state = {

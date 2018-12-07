@@ -17,12 +17,9 @@ import DateTimePicker from "../../DateTimePicker";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
 import Tutorial from "../../Tutorial/";
 
-import {
-  getPostColor,
-  getPostIcon
-} from "../../../extra/functions/CommonFunctions";
+import { getPostColor, getPostIcon } from "../../../componentFunctions";
 
-import "./styles/";
+import "./style.css";
 
 class RecipeModal extends Component {
   state = {

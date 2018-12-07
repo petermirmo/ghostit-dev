@@ -16,10 +16,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {} from "../../redux/actions/";
 
-import {
-  getPostIcon,
-  getPostColor
-} from "../../extra/functions/CommonFunctions";
+import { getPostIcon, getPostColor } from "../../componentFunctions";
 
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
@@ -27,7 +24,7 @@ import Tutorial from "../Tutorial/";
 import CalendarPicker from "../CalendarPicker/";
 import SocketUserList from "../SocketUserList/";
 
-import "./styles/";
+import "./style.css";
 
 class Calendar extends Component {
   state = {

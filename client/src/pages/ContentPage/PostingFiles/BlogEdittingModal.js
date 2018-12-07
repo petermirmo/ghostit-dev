@@ -12,7 +12,7 @@ import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateBlog from "../../../components/CreateBlog/";
 import Loader from "../../../components/Notifications/Loader/";
-import "./styles/";
+import "./style.css";
 
 class BlogEdittingModal extends Component {
   state = {

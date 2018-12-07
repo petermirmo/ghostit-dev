@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./styles/";
+import "./style.css";
 
 class Loader extends Component {
 	render() {

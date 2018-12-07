@@ -18,13 +18,13 @@ import {
   getPostColor,
   capitolizeFirstChar,
   capitolizeWordsInString
-} from "../../extra/functions/CommonFunctions";
+} from "../../componentFunctions";
 
 import Loader from "../Notifications/Loader";
 import CalendarPicker from "../CalendarPicker";
 import ConfirmAlert from "../Notifications/ConfirmAlert";
 
-import "./styles/";
+import "./style.css";
 
 class CalendarManager extends Component {
   constructor(props) {
@@ -500,27 +500,26 @@ class CalendarManager extends Component {
                 </p>
                 <p className="flex1">{userObj.email}</p>
               </div>
-              {isAdmin &&
-                userObj._id.toString() !== userID.toString() && (
-                  <div className="flex hc vc">
-                    <div title="Remove User">
-                      <FontAwesomeIcon
-                        className="color-red button"
-                        icon={faTrash}
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.setState({
-                            removeUserPrompt: true,
-                            removeUserObj: {
-                              userIndex: index,
-                              calendarIndex: activeCalendarIndex
-                            }
-                          });
-                        }}
-                      />
-                    </div>
+              {isAdmin && userObj._id.toString() !== userID.toString() && (
+                <div className="flex hc vc">
+                  <div title="Remove User">
+                    <FontAwesomeIcon
+                      className="color-red button"
+                      icon={faTrash}
+                      onClick={e => {
+                        e.stopPropagation();
+                        this.setState({
+                          removeUserPrompt: true,
+                          removeUserObj: {
+                            userIndex: index,
+                            calendarIndex: activeCalendarIndex
+                          }
+                        });
+                      }}
+                    />
                   </div>
-                )}
+                </div>
+              )}
             </div>
           </div>
         );

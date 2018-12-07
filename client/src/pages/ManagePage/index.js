@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import UsersTable from "./UsersTable";
 import CreateGhostitBlog from "../../components/GhostitBlog/Create";
-import "./styles/";
+import "./style.css";
 
 class ManagePage extends Component {
   state = {

@@ -7,7 +7,7 @@ import { setKeyListenerFunction } from "../../../redux/actions/";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faQuestionCircle from "@fortawesome/fontawesome-free-solid/faQuestionCircle";
 
-import "./styles/";
+import "./style.css";
 
 class ConfirmAlert extends Component {
   state = {

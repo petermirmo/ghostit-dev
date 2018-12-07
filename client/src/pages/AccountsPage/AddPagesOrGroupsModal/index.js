@@ -4,7 +4,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import axios from "axios";
 
 import SocialMediaDiv from "./SocialMediaDiv";
-import "./styles/";
+import "./style.css";
 
 class AddPagesOrGroupsModal extends Component {
   state = {

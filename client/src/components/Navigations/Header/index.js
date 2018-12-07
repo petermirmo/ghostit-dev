@@ -31,7 +31,7 @@ import {
 
 import ClientsSideBar from "../../SideBarClients/";
 import Tutorial from "../../Tutorial/";
-import "./styles/";
+import "./style.css";
 
 class HeaderSideBar extends Component {
   signOutOfUsersAccount = () => {

@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 
-import "./styles/";
+import "./style.css";
 
 class MySubscription extends Component {
   constructor(props) {

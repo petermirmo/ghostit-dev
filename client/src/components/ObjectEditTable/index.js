@@ -7,7 +7,7 @@ import faCheck from "@fortawesome/fontawesome-free-solid/faCheck";
 import NonEditableAttribute from "./NonEditableAttribute";
 import EditableAttribute from "./EditableAttribute";
 import DropdownAttribute from "./DropdownAttribute";
-import "./styles/";
+import "./style.css";
 
 class ObjectEditTable extends Component {
   state = {

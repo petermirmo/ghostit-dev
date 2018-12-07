@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 
-import "./styles/";
+import "./style.css";
 
 class AdsPage extends Component {
   state = {

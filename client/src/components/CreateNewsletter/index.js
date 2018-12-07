@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 import axios from "axios";
 
 import DateTimePicker from "../DateTimePicker";
-import "./styles/";
+import "./style.css";
 
 class CreateNewsletter extends Component {
   state = {

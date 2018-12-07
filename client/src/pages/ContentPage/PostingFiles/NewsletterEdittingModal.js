@@ -12,7 +12,7 @@ import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateNewsletter from "../../../components/CreateNewsletter/";
 import Loader from "../../../components/Notifications/Loader/";
-import "./styles/";
+import "./style.css";
 
 class NewsletterEdittingModal extends Component {
   state = {

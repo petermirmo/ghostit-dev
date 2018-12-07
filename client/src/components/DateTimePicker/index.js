@@ -5,7 +5,7 @@ import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
 import moment from "moment-timezone";
 
-import "./styles/";
+import "./style.css";
 
 class DatePicker extends Component {
   state = {

@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
 
-import { capitolizeWordsInString } from "../../extra/functions/CommonFunctions";
+import { capitolizeWordsInString } from "../../componentFunctions";
 
-import "./styles/";
+import "./style.css";
 
 class SocketUserList extends Component {
   render() {

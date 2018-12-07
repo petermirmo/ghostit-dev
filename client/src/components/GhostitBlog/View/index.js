@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./styles";
+import "./style.css";
 
 class ViewWebsiteBlog extends Component {
   createRelevantContentDiv = (divInformation, index) => {

@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { setUser } from "../../redux/actions/";
 
 import Loader from "../../components/Notifications/Loader/";
-import "./styles/";
+import "./style.css";
 
 class Profile extends Component {
   constructor(props) {

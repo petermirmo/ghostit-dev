@@ -21,13 +21,11 @@ import Header from "../components/Navigations/Header/";
 
 import Subscribe from "./SubscribePage/";
 import Content from "./ContentPage/";
-import Strategy from "./StrategyPage/";
 import Accounts from "./AccountsPage/";
 import Manage from "./ManagePage/";
 import Profile from "./ProfilePage/";
 import MySubscription from "./MySubscriptionPage/";
 import Analytics from "./AnalyticsPage/";
-import WritersBrief from "./WritersBriefPage/";
 import Ads from "./AdsPage/";
 
 import WebsiteHeader from "../website/WebsiteHeader";
@@ -109,8 +107,6 @@ class Routes extends Component {
         <div className="wrapper">
           {user &&
             ((activePage === "content" ||
-              activePage === "strategy" ||
-              activePage === "writersBrief" ||
               activePage === "subscribe" ||
               activePage === "accounts") &&
               user.signedInAsUser && (
@@ -129,10 +125,8 @@ class Routes extends Component {
           <Switch>
             <Route path="/content/" component={Content} />
             <Route path="/subscribe/" component={Subscribe} />
-            <Route path="/strategy/" component={Strategy} />
             <Route path="/analytics/" component={Analytics} />
             <Route path="/social-accounts/" component={Accounts} />
-            <Route path="/writers-brief/" component={WritersBrief} />
             <Route path="/manage/:id" component={Manage} />
             <Route path="/profile/" component={Profile} />
             <Route path="/subscription/" component={MySubscription} />

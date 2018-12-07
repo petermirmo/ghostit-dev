@@ -10,7 +10,7 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 
 import { trySavePost } from "../../componentFunctions";
 
-import "./styles/";
+import "./style.css";
 
 class CustomTask extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./styles/";
+import "./style.css";
 
 const LINE_CHART_HEIGHT_RATIO = 40;
 

@@ -6,11 +6,11 @@ import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faArrowDown from "@fortawesome/fontawesome-free-solid/faArrowDown";
 import faCopy from "@fortawesome/fontawesome-free-solid/faCopy";
 
-import { getPostColor } from "../../../../extra/functions/CommonFunctions";
+import { getPostColor } from "../../../../componentFunctions";
 
 import PostTypePicker from "../PostTypePicker";
 
-import "./styles/";
+import "./style.css";
 
 class PostList extends Component {
   constructor(props) {

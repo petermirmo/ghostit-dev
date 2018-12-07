@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faImages from "@fortawesome/fontawesome-free-solid/faImages";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
-import "./styles/";
+import "./style.css";
 
 class ImagesDiv extends Component {
   showImages(event) {

@@ -14,12 +14,12 @@ import DateTimePicker from "../DateTimePicker";
 import SelectAccountDiv from "../SelectAccountDiv/";
 import Carousel from "../Carousel";
 import ImagesDiv from "../ImagesDiv/";
-import { carouselOptions } from "../../extra/functions/CommonFunctions";
+import { carouselOptions } from "../../componentFunctions";
 import { trySavePost } from "../../componentFunctions";
 
 import ConfirmAlert from "../Notifications/ConfirmAlert";
 
-import "./styles";
+import "./style.css";
 
 class PostingOptions extends Component {
   constructor(props) {
@@ -111,8 +111,8 @@ class PostingOptions extends Component {
       props.post && props.post.postingDate
         ? new moment(props.post.postingDate)
         : props.campaignStartDate
-          ? new moment(props.campaignStartDate)
-          : new moment(props.clickedCalendarDate);
+        ? new moment(props.campaignStartDate)
+        : new moment(props.clickedCalendarDate);
 
     if (this.state) {
       if (this.state.showInstructions === true)
@@ -369,15 +369,14 @@ class PostingOptions extends Component {
               canEdit={canEditPost}
               pushToImageDeleteArray={this.pushToImageDeleteArray}
             />
-            {linkPreviewCanShow &&
-              link && (
-                <Carousel
-                  linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-                  linkImagesArray={linkImagesArray}
-                  linkImage={linkImage}
-                  handleChange={image => this.handleChange(image, "linkImage")}
-                />
-              )}
+            {linkPreviewCanShow && link && (
+              <Carousel
+                linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+                linkImagesArray={linkImagesArray}
+                linkImage={linkImage}
+                handleChange={image => this.handleChange(image, "linkImage")}
+              />
+            )}
           </div>
           {maxCharacters && (
             <div className="max-characters">

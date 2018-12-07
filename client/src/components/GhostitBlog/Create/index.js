@@ -6,7 +6,7 @@ import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
 import ViewWebsiteBlog from "../View";
 
-import "./styles";
+import "./style.css";
 
 class CreateWebsiteBlog extends Component {
   state = {
