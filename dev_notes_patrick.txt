@@ -134,12 +134,7 @@ to do next:
   campaign modal maybe have the name, start date, end date all appear in a "compact" version when their normal displays are hidden
 
   calendar/socket styles to fix:
-    calendar picker (make sure all names fit properly into their containers and use ... on names that are too long)
-    user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
-    calendar manager user / account cards
-    socket user list in campaign modal is outside the modal and gets cut off (longer names)
     not a huge fan of calendar picker not including the currently selected calendar
-
 
     BASIC calendars:
       when a user opens content page and fetches their calendars
