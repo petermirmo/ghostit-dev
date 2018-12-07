@@ -1233,8 +1233,8 @@ class CampaignModal extends Component {
               </div>
             )}
             {recipeEditing && (
-              <div>
-                <div className="campaign-footer-option">
+              <div className="flex">
+                <div className="campaign-footer-option right">
                   <div
                     className="round-button button pa8 ma8"
                     title={

@@ -75,7 +75,7 @@ class TeamPage extends Component {
               >
                 <div className="team-member-image-container round">
                   <img
-                    src={"public/" + obj.image}
+                    src={obj.image}
                     alt="'image'"
                     className="team-member-image"
                   />

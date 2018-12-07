@@ -6,10 +6,7 @@
 
   box-sizing: border-box;
 
-  border-top-right-radius: inherit;
-  border-top-left-radius: inherit;
-
-  border-bottom: 2px solid var(--secondary-text-theme-color);
+  border-bottom: 1px solid var(--divider-theme-color);
 }
 .user-list-and-show-more {
 }

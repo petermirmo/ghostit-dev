@@ -4,17 +4,15 @@ import axios from "axios";
 import { connect } from "react-redux";
 
 import UsersTable from "./UsersTable";
-import PlansTable from "./PlansTable";
 import CreateGhostitBlog from "../../components/GhostitBlog/Create";
 import "./styles/";
 
 class ManagePage extends Component {
   state = {
     categories: {
-      users: { value: "Users", active: false },
       createBlog: { value: "Create a Blog", active: true },
-      notifications: { value: "Notifications", active: false },
-      plans: { value: "Plans", active: false }
+      users: { value: "Users", active: false },
+      notifications: { value: "Notifications", active: false }
     },
     notifications: []
   };
@@ -89,7 +87,6 @@ class ManagePage extends Component {
                 </div>
               );
             })}
-          {categories.plans.active && <PlansTable />}
         </div>
       </div>
     );

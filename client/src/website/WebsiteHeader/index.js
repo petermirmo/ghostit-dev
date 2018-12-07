@@ -15,7 +15,7 @@ class WebsiteHeader extends Component {
   };
   render() {
     const { user } = this.props;
-    let className = "website-header-button moving-border px32";
+    let className = "website-header-button moving-border mr32";
 
     return (
       <div className="website-header fixed flex pt16 px32">

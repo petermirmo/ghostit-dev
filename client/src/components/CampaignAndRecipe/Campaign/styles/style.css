@@ -32,7 +32,7 @@
   width: 100%;
 }
 .post-navigation-container {
-  border-right: 2px solid var(--secondary-text-theme-color);
+  border-right: 1px solid var(--divider-theme-color);
   width: 30%;
   min-width: 400px;
   overflow: auto;
