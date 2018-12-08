@@ -15,10 +15,10 @@ class WebsiteHeader extends Component {
   };
   render() {
     const { user } = this.props;
-    let className = "website-header-button moving-border mr32";
+    let className = "website-header-button moving-border mr16";
 
     return (
-      <div className="website-header fixed flex pt16 px32">
+      <div className="website-header fixed flex vc pt16 px32">
         <div className="logo-container flex">
           <Link to="/home">
             <Logo style={{ cursor: "pointer" }} />

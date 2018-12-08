@@ -1,19 +1,16 @@
-.line-chart-container {
-  flex: 1;
+.line-chart {
+  max-width: 100%;
+
+  shape-rendering: geometricPrecision;
+  box-sizing: border-box;
+  min-width: 400px;
+  overflow: visible;
 }
 .line-chart-axis {
   stroke: var(--divider-theme-color);
   fill: none;
   stroke-width: 2px;
   shape-rendering: geometricPrecision;
-}
-.line-chart {
-  max-width: 100%;
-
-  shape-rendering: geometricPrecision;
-  box-sizing: border-box;
-  min-width: 600px;
-  overflow: visible;
 }
 .line-chart-vertical-line {
   stroke: var(--divider-theme-color);

@@ -23,7 +23,7 @@
   width: 100%;
 
   color: var(--white-theme-color);
-  font-family: var(--silly-font-theme);
+  font-family: var(--silly-font);
 
   border-bottom: 2px solid transparent;
 }

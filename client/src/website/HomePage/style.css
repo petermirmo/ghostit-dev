@@ -57,6 +57,7 @@
 
   background-color: var(--five-purple-color);
   transition: 3s ease;
+  z-index: -1;
 }
 .circle.small {
   width: 20px;
@@ -87,6 +88,7 @@
   border-left: solid 30px transparent;
   border-top: solid 30px transparent;
   transition: 3s ease;
+  z-index: -1;
 }
 .triangle.bottom {
   border-bottom: solid 50px var(--five-primary-color);
@@ -107,6 +109,7 @@
   height: 30px;
   background-color: var(--five-primary-color);
   transition: 3s ease;
+  z-index: -1;
 }
 
 .triangle-bottom-change-color {
@@ -123,16 +126,6 @@
 
 .platform-component-showcase {
   transform: scale(0.7, 0.7);
-  height: 80%;
-  width: 100%;
-}
-
-.description-box {
-  max-width: 300px;
-  text-align: left;
-}
-.description-box .title {
-  font-size: var(--gigantic-font-size);
 }
 
 @keyframes ghost-transition {
@@ -142,6 +135,7 @@
   }
   to {
     right: 32px;
+
     opacity: 1;
   }
 }
@@ -158,22 +152,16 @@
   transition: 1.5s ease;
 }
 
-.client-testimony-container {
+.section {
+  height: 100vh;
+  width: 100%;
+
+  box-sizing: border-box;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.client-text-testimony-container {
-  flex: 1;
-}
-.client-testimony {
-  font-style: italic;
-}
-.client-testimony-client-name {
-}
-
-.section {
-  height: 100vh;
+  flex-wrap: wrap;
 }
 .section .third {
   width: 33.3333%;

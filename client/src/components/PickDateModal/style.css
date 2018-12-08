@@ -10,7 +10,7 @@
 
 	padding: 20px;
 
-	box-shadow: 0 0 20px 2px var(--secondary-text-theme-color);
+	box-shadow: 0 0 20px 2px var(--secondary-text-color);
 
 	background-color: var(--white-theme-color);
 }

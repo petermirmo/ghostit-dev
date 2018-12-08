@@ -116,15 +116,12 @@ class Section2 extends Component {
   render() {
     const { calendarDate } = this.state;
     return (
-      <div className="section flex hc vc wrap width100 border-box px32">
-        <div className="third flex vc hc">
-          <div className="description-box flex column hc">
-            <h4 className="title silly-font pb8 tac">Custom Workflows</h4>
-            <p>
-              Map your marketing campaign from scratch or use pre-built
-              templates.
-            </p>
-          </div>
+      <div className="section px32">
+        <div className="small-box">
+          <h1 className="h1-like pb8">Custom Workflows</h1>
+          <p>
+            Map your marketing campaign from scratch or use pre-built templates.
+          </p>
         </div>
         <div className="platform-component-showcase two-third flex vc hc">
           <Calendar

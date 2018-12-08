@@ -28,14 +28,14 @@
   width: 80%;
 }
 .connected-social-media-icon {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 .connected-social {
   flex: 1;
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 
   height: 100%;
 }
 .connected-social-account {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
 }

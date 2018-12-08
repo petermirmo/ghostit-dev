@@ -24,7 +24,7 @@
   display: flex;
 }
 .plain-button {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
   border-left: 1px solid var(--divider-theme-color);
   border-top: 1px solid var(--divider-theme-color);
 }
@@ -33,7 +33,7 @@
   background-color: var(--light-grey-theme-color);
 }
 .plain-button:hover {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 .plain-button:last-child {
   border-right: 1px solid var(--divider-theme-color);

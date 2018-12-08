@@ -40,8 +40,10 @@
   --one-orange-color: #ffcbb8;
   --one-half-orange-color: #fce9e6;
 
-  --primary-text-theme-color: #212121;
-  --secondary-text-theme-color: #757575;
+  --primary-text-color: #3c4043;
+  --secondary-text-color: #757575;
+  --blue-text-color: #00aaff;
+  --purple-text-color: #aa00ff;
 
   --divider-theme-color: #bdbdbd;
 
@@ -87,8 +89,75 @@
 
   --large-line-height: 30px;
 
-  --silly-font-theme: "Varela Round";
-  --font-theme: "Open Sans";
+  --silly-font: "Varela Round";
+  --regular-font: "Open Sans";
+}
+.wrapping-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+}
+.small-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 300px;
+}
+.common-container-size {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 200px;
+  box-sizing: border-box;
+}
+.common-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-sizing: border-box;
+}
+
+.common-container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.colorful-bottom-border {
+  border-bottom: 6px solid var(--five-primary-color);
+}
+.colorful-bottom-border.purple {
+  border-color: var(--five-purple-color);
+}
+.colorful-bottom-border.orange {
+  border-color: var(--five-orange-color);
+}
+.important-text {
+  font-size: var(--gigantic-font-size);
+  font-weight: bold;
+  text-align: center;
+}
+.unimportant-text {
+  color: var(--secondary-text-color);
+  font-size: var(--sixteen-font-size);
+  text-align: left;
+}
+.h1-like {
+  font-size: var(--gigantic-font-size);
+  font-family: var(--silly-font);
+  color: var(--blue-text-color);
+}
+
+.h2-like {
+  font-size: var(--medium-large-font-size);
+  color: var(--blue-text-color);
 }
 .mx20vw {
   margin-right: 20vw;
@@ -96,12 +165,12 @@
 }
 .simple-button {
   border: 2px solid var(--divider-theme-color);
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
   cursor: pointer;
   text-align: center;
 }
 .simple-button:hover {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 .fixed {
   position: fixed;
@@ -120,7 +189,7 @@
   font-weight: 700;
 }
 .silly-font {
-  font-family: var(--silly-font-theme);
+  font-family: var(--silly-font);
 }
 .light-scrollbar::-webkit-scrollbar {
   width: 12px;
@@ -296,10 +365,10 @@
   right: 10px !important;
 }
 .close {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
 }
 .close-scroll {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
 }
 .close,
 .close-scroll {
@@ -318,7 +387,7 @@
 }
 
 .close-container {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
   position: absolute;
   top: 2px;
   right: 5px;
@@ -412,7 +481,7 @@
 .delete {
   padding: 4px;
 
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
 
   cursor: pointer;
 
@@ -460,7 +529,7 @@
   padding: 4px;
 
   border-radius: 4px;
-  border: 1px solid var(--secondary-text-theme-color);
+  border: 1px solid var(--secondary-text-color);
 }
 .date-picker:focus {
   border: 1px solid var(--five-primary-color);
@@ -490,7 +559,7 @@
   display: flex;
   align-items: center;
 
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
 }
 
 .back-button-top {
@@ -501,9 +570,9 @@
   padding: 4px 10px 4px 10px;
 
   border-radius: 100px;
-  border: 1px solid var(--primary-text-theme-color);
+  border: 1px solid var(--primary-text-color);
 
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 
   cursor: pointer;
 
@@ -529,8 +598,8 @@
   border-radius: 100px;
 
   background-color: var(--white-theme-color);
-  border: 1px solid var(--secondary-text-theme-color);
-  color: var(--secondary-text-theme-color);
+  border: 1px solid var(--secondary-text-color);
+  color: var(--secondary-text-color);
 
   cursor: pointer;
 }
@@ -958,18 +1027,18 @@ body {
   padding: 0;
   margin: 0;
 
-  font-family: var(--font-theme);
-  color: var(--primary-text-theme-color);
+  font-family: var(--regular-font);
+  color: var(--primary-text-color);
   font-size: var(--regular-font-size);
   overflow: hidden;
 }
 a {
   text-decoration: none;
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 button {
   color: var(--white-theme-color);
-  font-family: var(--font-theme);
+  font-family: var(--regular-font);
   font-size: var(--regular-font-size);
 
   cursor: pointer;
@@ -984,9 +1053,9 @@ input {
   resize: vertical;
 
   font-size: var(--regular-font-size);
-  font-family: var(--font-theme);
+  font-family: var(--regular-font);
   border: 1px solid var(--divider-theme-color);
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   background-color: transparent;
 }
 textarea:focus,
@@ -997,36 +1066,41 @@ input:focus {
 div {
   font-family: inherit;
   font-size: var(--regular-font-size);
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 h1 {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   margin: 0;
+  padding: 0;
+  font-family: var(--silly-font);
 }
 h2 {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   margin: 0;
 }
 h3 {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   margin: 0;
+  padding: 0;
 }
 h4 {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   margin: 0;
+  text-align: left;
 }
 h5 {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   margin: 0;
 }
 h6 {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   margin: 0;
 }
 
 p {
   margin: 0;
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
+  text-align: left;
 }
 input[type="file"] {
   display: none;
@@ -1093,14 +1167,14 @@ input[type="file"] {
   min-height: 16px;
   min-width: 16px;
 
-  border: 2px solid var(--primary-text-theme-color);
+  border: 2px solid var(--primary-text-color);
 }
 .checkbox-check {
   width: 9px;
   height: 5px;
 
-  border-bottom: 2px solid var(--primary-text-theme-color);
-  border-left: 2px solid var(--primary-text-theme-color);
+  border-bottom: 2px solid var(--primary-text-color);
+  border-left: 2px solid var(--primary-text-color);
 
   transform: rotate(-45deg);
 }
@@ -1108,7 +1182,7 @@ input[type="file"] {
 .moving-border:after {
   display: block;
   content: "";
-  border-bottom: solid 6px var(--black-theme-color);
+  border-bottom: solid 6px var(--divider-theme-color);
   transform: scaleX(0);
   transition: transform 0.2s ease-in-out;
   transform-origin: 100% 50%;
@@ -1119,6 +1193,9 @@ input[type="file"] {
   transform-origin: 0 50%;
 }
 
+.moving-border.active:after {
+  border-bottom: solid 6px var(--divider-theme-color);
+}
 .dropdown {
   z-index: 1;
   position: absolute;
@@ -1158,7 +1235,7 @@ input[type="file"] {
 .dropdown .item,
 .dropdown .item-colored {
   box-sizing: border-box;
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 
 .dropdown .item-colored.active,
@@ -1283,7 +1360,7 @@ input[type="file"] {
 }
 
 .plain-button {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
   border-left: 1px solid var(--divider-theme-color);
   border-top: 1px solid var(--divider-theme-color);
 }
@@ -1291,17 +1368,17 @@ input[type="file"] {
   background-color: var(--light-grey-theme-color);
 }
 .plain-button:hover {
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 .plain-button:last-child {
   border-right: 1px solid var(--divider-theme-color);
 }
 
 .transparent-button {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
 }
 .transparent-button.active {
-  color: var(--primary-text-theme-color);
+  color: var(--blue-text-color);
   font-weight: bold;
   font-size: var(--large-font-size);
 }

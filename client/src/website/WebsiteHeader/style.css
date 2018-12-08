@@ -13,11 +13,11 @@
   background-color: transparent;
   pointer-events: auto;
   color: var(--primary-text-color);
-  font-weight: bold;
+  font-family: var(--silly-font);
+  font-size: var(--large-font-size);
 }
-.website-header-button.active:after {
-  border-bottom: solid 6px var(--black-theme-color);
-  transform: scaleX(1);
+.website-header-button.active {
+  color: var(--blue-text-color);
 }
 .logo-container {
   align-items: flex-start;

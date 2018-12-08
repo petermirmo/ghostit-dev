@@ -68,7 +68,7 @@
 
 .manage-navigation button {
   background-color: transparent;
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
   font-size: var(--sixteen-font-size);
-  font-family: var(--silly-font-theme);
+  font-family: var(--silly-font);
 }

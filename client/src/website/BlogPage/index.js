@@ -79,7 +79,7 @@ class BlogPage extends Component {
     else
       return (
         <div className="website-page flex column vc mx64">
-          <h1 className="silly-font pb16">Ghostit Blog</h1>
+          <h1 className="pb16">Ghostit Blog</h1>
 
           <div className="flex hc vc ma32 width100">
             {Object.keys(categories).map((categoryIndex, index) => {
@@ -114,7 +114,9 @@ class BlogPage extends Component {
                     }}
                   />
                   <div className="flex hc vc py8 width100 px16">
-                    <p className="width50 silly-font">{obj.title}</p>
+                    <p className="width50 silly-font">
+                      {obj.contentArray[0].text}
+                    </p>
                   </div>
                   {isAdmin && (
                     <Link to={"/manage/" + obj._id}>

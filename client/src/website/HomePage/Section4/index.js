@@ -36,17 +36,17 @@ class Section4 extends Component {
     const { lines } = this.state;
 
     return (
-      <div className="section flex hc vc wrap width100 border-box px32">
-        <div className="third flex vc hc">
-          <div className="description-box flex column hc">
-            <h4 className="title silly-font pb8">Social Scheduling</h4>
-            <p className="body">
+      <div className="section px32">
+        <div className="third common-container-center">
+          <div className="small-box">
+            <h4 className="h1-like pt8">Social Scheduling</h4>
+            <p>
               Sync all your social sharing accounts and post directly from our
               platform.
             </p>
           </div>
         </div>
-        <div className="platform-component-showcase two-third flex vc hc">
+        <div className="platform-component-showcase fill">
           <LineChart
             {...{
               lines: lines,

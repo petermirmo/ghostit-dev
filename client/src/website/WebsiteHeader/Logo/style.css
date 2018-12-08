@@ -28,8 +28,8 @@
 
 .logo-text {
   font-size: 3500px;
-  font-family: var(--silly-font-theme);
-  fill: var(--primary-text-theme-color);
+  font-family: var(--silly-font);
+  fill: var(--primary-text-color);
   font-weight: bold;
   shape-rendering: geometricPrecision;
 }

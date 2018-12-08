@@ -22,8 +22,8 @@ module.exports = {
     newGhostitBlog.images = [];
     newGhostitBlog.userID = user._id;
     newGhostitBlog.url = ghostitBlog.url;
-    newGhostitBlog.title = ghostitBlog.title;
     newGhostitBlog.category = ghostitBlog.category;
+    newGhostitBlog.contentArray = ghostitBlog.contentArray;
 
     let saveBlog = blog => {
       let unsuccessfulSave = (blog, error) => {

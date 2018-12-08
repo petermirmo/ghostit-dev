@@ -13,7 +13,7 @@
 }
 .calendar-day-heading {
   text-align: center;
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 .calendar-week {
   display: flex;
@@ -24,7 +24,7 @@
 }
 
 .past-calendar-day {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
   background-color: var(--light-grey-theme-color) !important;
 }
 .present-calendar-day {
