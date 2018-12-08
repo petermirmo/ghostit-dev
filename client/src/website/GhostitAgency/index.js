@@ -7,7 +7,7 @@ class GhostitAgency extends Component {
     return (
       <div className="website-page">
         <h1 className="tac">Content Services</h1>
-        <h3 className="mx16">
+        <h3 className="tac mx16">
           Increase the amount of qualified traffic to your site.
         </h3>
         <div className="wrapping-container">

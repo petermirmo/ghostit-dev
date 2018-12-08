@@ -78,10 +78,10 @@ class BlogPage extends Component {
       );
     else
       return (
-        <div className="website-page flex column vc mx64">
-          <h1 className="pb16">Ghostit Blog</h1>
+        <div className="website-page simple-container mx32">
+          <h1 className="tac pb16">Ghostit Blog</h1>
 
-          <div className="flex hc vc ma32 width100">
+          <div className="nowrap-container my32 width100">
             {Object.keys(categories).map((categoryIndex, index) => {
               let category = categories[categoryIndex];
 
@@ -99,24 +99,24 @@ class BlogPage extends Component {
               );
             })}
           </div>
-          <div className="flex wrap width100">
+          <div className="wrapping-container">
             {ghostitBlogs.map((obj, index) => {
               return (
                 <div
-                  className="regular-container-with-border flex1 flex column mx32 br4 common-shadow relative button"
+                  className="common-container-size ma32 common-shadow relative br4 button"
                   key={index}
                   onClick={() => this.setState({ blog: obj })}
                 >
                   <div
-                    className="preview-blog-cover flex1 flex hc vc width100"
+                    className="preview-blog-cover width100"
                     style={{
                       backgroundImage: "url(" + obj.images[0].url + ")"
                     }}
                   />
-                  <div className="flex hc vc py8 width100 px16">
-                    <p className="width50 silly-font">
+                  <div className="common-container py8 px16">
+                    <h4 className="silly-font tac">
                       {obj.contentArray[0].text}
-                    </p>
+                    </h4>
                   </div>
                   {isAdmin && (
                     <Link to={"/manage/" + obj._id}>

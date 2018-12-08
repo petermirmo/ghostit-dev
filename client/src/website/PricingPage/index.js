@@ -11,7 +11,7 @@ class PricingPage extends Component {
 
         <div className="wrapping-container">
           <div className="common-container-size common-shadow pa32 ma32">
-            <div className="common-container width100 colorful-bottom-border hc vc pa16 mb16">
+            <div className="common-container colorful-bottom-border hc vc pa16 mb16">
               <h2 className="important-text">
                 Professional
                 <br />
@@ -29,7 +29,7 @@ class PricingPage extends Component {
           </div>
 
           <div className="common-container-size common-shadow pa32 ma32">
-            <div className="common-container width100 colorful-bottom-border orange hc vc pa16 mb16">
+            <div className="common-container colorful-bottom-border orange hc vc pa16 mb16">
               <h2 className="important-text">
                 Agency
                 <br />
@@ -47,7 +47,7 @@ class PricingPage extends Component {
           </div>
 
           <div className="common-container-size common-shadow pa32 ma32">
-            <div className="common-container width100 colorful-bottom-border purple hc vc pa16 mb16">
+            <div className="common-container colorful-bottom-border purple hc vc pa16 mb16">
               <h2 className="important-text">
                 Enterprise
                 <br />
