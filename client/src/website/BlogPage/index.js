@@ -79,13 +79,13 @@ class BlogPage extends Component {
     else
       return (
         <div className="website-page simple-container mx32">
-          <h1 className="tac pb16">Ghostit Blog</h1>
+          <h1 className="tac pb32">Ghostit Blog</h1>
 
-          <div className="nowrap-container my32 width100">
+          <div className="nowrap-container width100">
             {Object.keys(categories).map((categoryIndex, index) => {
               let category = categories[categoryIndex];
 
-              let className = "transparent-button";
+              let className = "transparent-button mx8";
               if (category.active) className += " active";
 
               return (
@@ -103,7 +103,7 @@ class BlogPage extends Component {
             {ghostitBlogs.map((obj, index) => {
               return (
                 <div
-                  className="common-container-size ma32 common-shadow relative br4 button"
+                  className="container-box small ma32 common-shadow relative br4 button"
                   key={index}
                   onClick={() => this.setState({ blog: obj })}
                 >

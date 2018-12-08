@@ -212,142 +212,16 @@ class Login extends Component {
     } = this.state;
 
     return (
-      <div className="login-background flex column vc">
+      <div className="website-page login-background simple-container">
         <h1 className="pb16 tac">
           {login === "login" ? "Sign in to Ghostit!" : "Sign up for Ghostit!"}
         </h1>
 
-        <div className="login-box pa32 br16 flex column">
+        <div className="basic-box common-shadow pa32 br16 margin-hc">
           {login === "login" && (
-            <div>
-              <div className="form-box flex column vc">
-                <input
-                  className="login-input pa8 mb8 br4"
-                  value={email}
-                  onChange={event =>
-                    this.handleChange("email", event.target.value)
-                  }
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  required
-                />
-                <input
-                  className="login-input pa8 mb8 br4"
-                  value={password}
-                  onChange={event =>
-                    this.handleChange("password", event.target.value)
-                  }
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                />
-                <div
-                  className="submit-blue common-transition px32 py8 my8 br4 button flex hc"
-                  onClick={this.login}
-                  type="submit"
-                >
-                  Sign In
-                </div>
-              </div>
-              <p className="login-switch mt8 button flex vc hc">
-                New to Ghostit?
-                <Link to="/sign-up">
-                  <button className="login-switch-highlight ml4">
-                    {" "}
-                    Sign Up
-                  </button>
-                </Link>
-              </p>
-            </div>
-          )}
-          {login === "register" && (
-            <div>
-              <div className="form-box flex column vc">
-                <input
-                  className="login-input pa8 mb8 br4"
-                  value={fullName}
-                  onChange={event =>
-                    this.handleChange("fullName", event.target.value)
-                  }
-                  type="text"
-                  name="fullName"
-                  placeholder="Company Name"
-                  required
-                />
-
-                <input
-                  className="login-input pa8 mb8 br4"
-                  value={email}
-                  onChange={event =>
-                    this.handleChange("email", event.target.value)
-                  }
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  required
-                />
-
-                <input
-                  className="login-input pa8 mb8 br4"
-                  value={website}
-                  onChange={event =>
-                    this.handleChange("website", event.target.value)
-                  }
-                  type="text"
-                  name="website"
-                  placeholder="Website"
-                  required
-                />
-
-                <input
-                  className="login-input pa8 mb8 br4"
-                  value={password}
-                  onChange={event =>
-                    this.handleChange("password", event.target.value)
-                  }
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                  required
-                />
-
-                <input
-                  className="login-input pa8 mb8 br4"
-                  value={passwordConfirm}
-                  onChange={event =>
-                    this.handleChange("passwordConfirm", event.target.value)
-                  }
-                  name="passwordConfirm"
-                  placeholder="Confirm Password"
-                  type="password"
-                  required
-                />
-
-                <div
-                  className="submit-blue common-transition px32 py8 my8 br4 button flex hc"
-                  onClick={this.register}
-                  type="submit"
-                >
-                  Register
-                </div>
-              </div>
-              <p className="login-switch mt8 button flex vc hc">
-                Have an account?
-                <Link to="/sign-in">
-                  <button className="login-switch-highlight ml4">
-                    {" "}
-                    Sign In
-                  </button>
-                </Link>
-              </p>
-            </div>
-          )}
-          {login === "forgotPassword" && (
-            <div>
+            <div className="common-container">
               <input
-                className="login-input pa8 mb8 br4"
+                className="regular-input mb8"
                 value={email}
                 onChange={event =>
                   this.handleChange("email", event.target.value)
@@ -357,29 +231,141 @@ class Login extends Component {
                 placeholder="Email"
                 required
               />
+              <input
+                className="regular-input mb8"
+                value={password}
+                onChange={event =>
+                  this.handleChange("password", event.target.value)
+                }
+                name="password"
+                type="password"
+                placeholder="Password"
+                required
+              />
               <button
-                className="submit-blue common-transition pa8 mb8 br4 button"
-                onClick={this.sendResetEmail}
+                className="regular-button mb8"
+                onClick={this.login}
+                type="submit"
               >
+                Sign In
+              </button>
+              <p className="unimportant-text button tac">
+                New to Ghostit?
+                <Link to="/sign-up">
+                  <button className="very-important-text ml4">Sign Up</button>
+                </Link>
+              </p>
+            </div>
+          )}
+          {login === "register" && (
+            <div className="common-container">
+              <input
+                className="regular-input mb8"
+                value={fullName}
+                onChange={event =>
+                  this.handleChange("fullName", event.target.value)
+                }
+                type="text"
+                name="fullName"
+                placeholder="Company Name"
+                required
+              />
+
+              <input
+                className="regular-input mb8"
+                value={email}
+                onChange={event =>
+                  this.handleChange("email", event.target.value)
+                }
+                type="text"
+                name="email"
+                placeholder="Email"
+                required
+              />
+
+              <input
+                className="regular-input mb8"
+                value={website}
+                onChange={event =>
+                  this.handleChange("website", event.target.value)
+                }
+                type="text"
+                name="website"
+                placeholder="Website"
+                required
+              />
+
+              <input
+                className="regular-input mb8"
+                value={password}
+                onChange={event =>
+                  this.handleChange("password", event.target.value)
+                }
+                name="password"
+                placeholder="Password"
+                type="password"
+                required
+              />
+
+              <input
+                className="regular-input mb8"
+                value={passwordConfirm}
+                onChange={event =>
+                  this.handleChange("passwordConfirm", event.target.value)
+                }
+                name="passwordConfirm"
+                placeholder="Confirm Password"
+                type="password"
+                required
+              />
+
+              <button
+                className="regular-button mb8"
+                onClick={this.register}
+                type="submit"
+              >
+                Register
+              </button>
+              <p className="unimportant-text button tac">
+                Have an account?
+                <Link to="/sign-in">
+                  <button className="very-important-text ml4">Sign In</button>
+                </Link>
+              </p>
+            </div>
+          )}
+          {login === "forgotPassword" && (
+            <div className="common-container">
+              <input
+                className="regular-input mb8"
+                value={email}
+                onChange={event =>
+                  this.handleChange("email", event.target.value)
+                }
+                type="text"
+                name="email"
+                placeholder="Email"
+                required
+              />
+              <button className="regular-button" onClick={this.sendResetEmail}>
                 Send Password Reset
               </button>
               <div
                 className="login-switch mt8 button flex vc hc"
                 onClick={event => this.handleChange("login", "login")}
               >
-                Back to{" "}
-                <div className="login-switch-highlight ml4">Sign In</div>
+                Back to <div className="very-important-text ml4">Sign In</div>
               </div>
             </div>
           )}
         </div>
         {login !== "forgotPassword" && (
-          <div
-            className="forgot-password button mt16"
+          <button
+            className="very-important-text purple mt16 margin-hc"
             onClick={event => this.handleChange("login", "forgotPassword")}
           >
             Forgot password?
-          </div>
+          </button>
         )}
         {notification.on && (
           <Notification

@@ -15,7 +15,7 @@ class Section5 extends Component {
             />
           </div>
 
-          <div className="common-container-size py32 mx32">
+          <div className="container-box small py32 mx32">
             <p>
               "Repeatedly running digital campaigns for multiple clients can get
               both cumbersome and at times confusing. Ghostit's platform lets me

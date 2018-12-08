@@ -29,12 +29,15 @@ import Analytics from "./AnalyticsPage/";
 import Ads from "./AdsPage/";
 
 import WebsiteHeader from "../website/WebsiteHeader";
+import WebsiteFooter from "../website/WebsiteFooter";
 import HomePage from "../website/HomePage";
 import PricingPage from "../website/PricingPage";
 import TeamPage from "../website/TeamPage";
 import BlogPage from "../website/BlogPage";
 import GhostitAgency from "../website/GhostitAgency";
 import LoginPage from "../website/LoginPage";
+import TermsPage from "../website/TermsPage";
+import PrivacyPage from "../website/PrivacyPage";
 
 import "./style.css";
 
@@ -132,7 +135,6 @@ class Routes extends Component {
             <Route path="/profile/" component={Profile} />
             <Route path="/subscription/" component={MySubscription} />
             <Route path="/ads/" component={Ads} />
-
             <Route path="/home/" component={HomePage} />
             <Route path="/pricing/" component={PricingPage} />
             <Route path="/team/" component={TeamPage} />
@@ -145,8 +147,14 @@ class Routes extends Component {
                 return <LoginPage signUp={true} />;
               }}
             />
+            <Route path="/terms-of-service/" component={TermsPage} />
+            <Route path="/privacy-policy/" component={PrivacyPage} />
+
             <Route component={HomePage} />
           </Switch>
+          {!this.userIsInPlatform(this.props.location.pathname) && (
+            <WebsiteFooter />
+          )}
         </div>
       </div>
     );
