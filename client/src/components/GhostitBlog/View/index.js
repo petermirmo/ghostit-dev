@@ -107,9 +107,9 @@ class ViewWebsiteBlog extends Component {
     return (
       <div className="margin-hc simple-container" key={"image" + index}>
         <img
-          key={"image " + index}
+          key={"xuwm " + index}
           src={image.imagePreviewUrl || image.url}
-          className={"image " + image.size}
+          className={"image br4 " + image.size}
         />
       </div>
     );
