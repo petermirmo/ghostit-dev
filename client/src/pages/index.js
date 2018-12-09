@@ -27,6 +27,7 @@ import Profile from "./ProfilePage/";
 import MySubscription from "./MySubscriptionPage/";
 import Analytics from "./AnalyticsPage/";
 import Ads from "./AdsPage/";
+import ViewWebsiteBlog from "../components/GhostitBlog/View";
 
 import WebsiteHeader from "../website/WebsiteHeader";
 import WebsiteFooter from "../website/WebsiteFooter";
@@ -43,7 +44,8 @@ import "./style.css";
 
 class Routes extends Component {
   state = {
-    datebaseConnection: false
+    datebaseConnection: false,
+    ghostitBlogs: []
   };
   constructor(props) {
     super(props);
@@ -68,6 +70,17 @@ class Routes extends Component {
       } else this.setState({ datebaseConnection: true });
     });
   }
+  componentDidMount() {
+    this.getBlogs();
+  }
+  getBlogs = () => {
+    axios.get("/api/ghostit/blogs").then(res => {
+      let { success, ghostitBlogs } = res.data;
+      if (success) this.setState({ ghostitBlogs, loading: false });
+      else this.getBlogs();
+    });
+  };
+
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
@@ -92,7 +105,7 @@ class Routes extends Component {
     else return false;
   };
   render() {
-    const { datebaseConnection } = this.state;
+    const { datebaseConnection, ghostitBlogs } = this.state;
     const { user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
@@ -135,6 +148,7 @@ class Routes extends Component {
             <Route path="/profile/" component={Profile} />
             <Route path="/subscription/" component={MySubscription} />
             <Route path="/ads/" component={Ads} />
+
             <Route path="/home/" component={HomePage} />
             <Route path="/pricing/" component={PricingPage} />
             <Route path="/team/" component={TeamPage} />
@@ -149,6 +163,22 @@ class Routes extends Component {
             />
             <Route path="/terms-of-service/" component={TermsPage} />
             <Route path="/privacy-policy/" component={PrivacyPage} />
+            {ghostitBlogs.map((obj, index) => {
+              return (
+                <Route
+                  path={"/" + obj.url + "/"}
+                  key={index}
+                  render={props => {
+                    return (
+                      <ViewWebsiteBlog
+                        contentArray={obj.contentArray}
+                        images={obj.images}
+                      />
+                    );
+                  }}
+                />
+              );
+            })}
 
             <Route component={HomePage} />
           </Switch>

@@ -56,18 +56,32 @@ class ViewWebsiteBlog extends Component {
           {divInformation.text}
         </h6>
       );
+    else if (divInformation.type === "span")
+      return (
+        <span style={style} key={"div" + index} className="mx20vw">
+          {divInformation.text}
+        </span>
+      );
+    else if (divInformation.type === "a")
+      return (
+        <a style={style} key={"div" + index} className="mx20vw" href={link}>
+          {divInformation.text}
+        </a>
+      );
   };
   createRelevantImageDiv = (image, index) => {
     return (
-      <img
-        key={"image" + index}
-        src={image.imagePreviewUrl || image.url}
-        className={"image " + image.size}
-      />
+      <div className="margin-hc simple-container" key={"image" + index}>
+        <img
+          key={"image " + index}
+          src={image.imagePreviewUrl || image.url}
+          className={"image " + image.size}
+        />
+      </div>
     );
   };
   render() {
-    const { contentArray, coverImage, images } = this.props;
+    const { contentArray, images } = this.props;
     let divs = [];
 
     let imageCounter = 0;
@@ -92,19 +106,7 @@ class ViewWebsiteBlog extends Component {
         contentCounter += 1;
       }
     }
-    return (
-      <div className="flex column vc my32">
-        {coverImage && (
-          <div className="cover-image-container">
-            <img
-              src={coverImage.imagePreviewUrl || image.url}
-              className="cover-image"
-            />
-          </div>
-        )}
-        {divs}
-      </div>
-    );
+    return <div className="website-page simple-container">{divs}</div>;
   }
 }
 

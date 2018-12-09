@@ -15,8 +15,9 @@ class CreateWebsiteBlog extends Component {
     url: "",
     viewBlogPreview: false,
     locationCounter: 0,
-    title: "",
-    id: undefined
+    id: undefined,
+    category: 0,
+    deleteImageArray: []
   };
   componentDidMount() {
     this._ismounted = true;
@@ -25,23 +26,10 @@ class CreateWebsiteBlog extends Component {
         const { ghostitBlog } = res.data;
 
         if (ghostitBlog) {
-          let coverImage = {};
-          for (let index in ghostitBlog.images) {
-            let image = ghostitBlog.images[index];
-            if (!image.size) {
-              coverImage = {
-                url: image.url,
-                publicID: image.publicID
-              };
-              ghostitBlog.images.splice(index, 1);
-            }
-          }
           ghostitBlog.images.sort(ghostitBlogImagesCompare);
           if (this._ismounted) {
             this.setState({
               id: ghostitBlog._id,
-              coverImage,
-              title: ghostitBlog.title,
               contentArray: ghostitBlog.contentArray,
               url: ghostitBlog.url,
               images: ghostitBlog.images,
@@ -56,27 +44,6 @@ class CreateWebsiteBlog extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
-  addCoverImage = event => {
-    let images = event.target.files;
-
-    let temp = [];
-
-    // Save each image to state
-    for (let index = 0; index < images.length; index++) {
-      let reader = new FileReader();
-      let image = images[index];
-
-      reader.onloadend = image =>
-        this.setState({
-          coverImage: {
-            image,
-            imagePreviewUrl: reader.result
-          }
-        });
-
-      reader.readAsDataURL(image);
-    }
-  };
   insertImage = event => {
     let newImages = event.target.files;
 
@@ -134,25 +101,38 @@ class CreateWebsiteBlog extends Component {
     this.setState({ contentArray });
   };
   removeImage = index => {
-    let { images } = this.state;
+    let { images, deleteImageArray } = this.state;
+    if (images[index].url) deleteImageArray.push(images[index].publicID);
     images.splice(index, 1);
-    this.setState({ images });
+    this.setState({ images, deleteImageArray });
   };
   saveGhostitBlog = () => {
-    let { contentArray, images, url, coverImage, title, id } = this.state;
+    let {
+      contentArray,
+      images,
+      url,
+      id,
+      category,
+      deleteImageArray
+    } = this.state;
 
-    if (coverImage) images.unshift(coverImage);
-    else {
-      alert("Upload cover image!");
+    if (!url) {
+      alert("Add url!");
       return;
     }
     alert("saving");
     axios
-      .post("/api/ghostit/blog", { contentArray, images, url, title, id })
+      .post("/api/ghostit/blog", {
+        contentArray,
+        images,
+        url,
+        id,
+        category,
+        deleteImageArray
+      })
       .then(res => {
         if (res.data.success) alert("Successfully saved Ghostit blog.");
         else console.log(res.data);
-        if (coverImage) images.splice(0, 1);
       });
   };
   textareaDiv = (content, index) => {
@@ -205,6 +185,22 @@ class CreateWebsiteBlog extends Component {
           </button>
           <button
             className={
+              content.type === "a" ? "plain-button active" : "plain-button"
+            }
+            onClick={() => this.handleContentChange("a", index, "type")}
+          >
+            a
+          </button>
+          <button
+            className={
+              content.type === "span" ? "plain-button active" : "plain-button"
+            }
+            onClick={() => this.handleContentChange("span", index, "type")}
+          >
+            span
+          </button>
+          <button
+            className={
               content.type === "h1" ? "plain-button active" : "plain-button"
             }
             onClick={() => this.handleContentChange("h1", index, "type")}
@@ -251,14 +247,7 @@ class CreateWebsiteBlog extends Component {
           >
             h6
           </button>
-          <button
-            className={
-              content.type === "a" ? "plain-button active" : "plain-button"
-            }
-            onClick={() => this.handleContentChange("a", index, "type")}
-          >
-            a
-          </button>
+
           <button
             className={
               content.position === "left"
@@ -371,24 +360,12 @@ class CreateWebsiteBlog extends Component {
   };
 
   render() {
-    const {
-      contentArray,
-      viewBlogPreview,
-      coverImage,
-      url,
-      images,
-      title,
-      category
-    } = this.state;
+    const { contentArray, viewBlogPreview, url, images, category } = this.state;
 
     if (viewBlogPreview) {
       return (
-        <div className="border-box flex column">
-          <ViewWebsiteBlog
-            contentArray={contentArray}
-            coverImage={coverImage}
-            images={images}
-          />
+        <div className="website-page simple-container">
+          <ViewWebsiteBlog contentArray={contentArray} images={images} />
           <button
             onClick={() => this.setState({ viewBlogPreview: false })}
             className="regular-button mx20vw my16"
@@ -445,29 +422,6 @@ class CreateWebsiteBlog extends Component {
           />
         </div>
 
-        <div className="flex mx20vw my8">
-          <label htmlFor="file-upload" className="simple-button pa8 width100">
-            Upload Cover Image
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            onChange={event => this.addCoverImage(event)}
-          />
-        </div>
-        {coverImage && (
-          <div className="cover-image-container relative">
-            <img
-              src={coverImage.imagePreviewUrl || coverImage.url}
-              className="cover-image width100"
-            />
-            <FontAwesomeIcon
-              icon={faTrash}
-              className="delete absolute bottom right"
-              onClick={() => this.setState({ coverImage: undefined })}
-            />
-          </div>
-        )}
         {divs}
 
         <div className="margin-hc flex">

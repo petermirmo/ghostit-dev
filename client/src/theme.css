@@ -111,6 +111,10 @@
   justify-content: center;
   max-width: 300px;
 }
+.background-container {
+  flex: 1;
+  position: relative;
+}
 .container-box {
   flex: 1;
   position: relative;
@@ -795,9 +799,6 @@
 .button.transparent {
   background-color: transparent;
   color: var(--white-theme-color);
-}
-.medium {
-  padding: 4px 12px 4px 12px;
 }
 .margin.bottom {
   margin-bottom: 4px;

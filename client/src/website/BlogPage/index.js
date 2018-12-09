@@ -15,13 +15,12 @@ import "./style.css";
 class BlogPage extends Component {
   state = {
     loading: true,
-    categories: {
-      mostRecent: { value: "Most Recent", active: true },
-      roadTo100: { value: "Road to 100", active: false },
-      contentAndCoffee: { value: "Content and Coffee", active: false },
-      contentMarketing: { value: "Content Marketing", active: false }
-    },
-    blog: undefined
+    categories: [
+      { value: "Most Recent", active: true },
+      { value: "Road to 100", active: false },
+      { value: "Content and Coffee", active: false },
+      { value: "Content Marketing", active: false }
+    ]
   };
   componentDidMount() {
     axios.get("/api/ghostit/blogs").then(res => {
@@ -43,95 +42,84 @@ class BlogPage extends Component {
     this.setState({ categories });
   };
   render() {
-    const { ghostitBlogs, loading, categories, blog } = this.state;
+    const { ghostitBlogs, loading, categories } = this.state;
     const { user } = this.props;
     let isAdmin = false;
     if (user) if (user.role === "admin") isAdmin = true;
 
-    if (blog) {
-      let coverImage = {};
-      for (let index in blog.images) {
-        let image = blog.images[index];
-        if (!image.size) {
-          coverImage = {
-            url: image.url,
-            publicID: image.publicID
-          };
-          blog.images.splice(index, 1);
-        }
-      }
-      blog.images.sort(ghostitBlogImagesCompare);
-      console.log(coverImage);
-      return (
-        <ViewWebsiteBlog
-          contentArray={blog.contentArray}
-          coverImage={blog.coverImage}
-          images={blog.images}
-        />
-      );
-    }
     if (loading)
       return (
         <div className="website-page">
           <LoaderSimpleCircle />
         </div>
       );
-    else
-      return (
-        <div className="website-page simple-container mx32">
-          <h1 className="tac pb32">Ghostit Blog</h1>
 
-          <div className="nowrap-container width100">
-            {Object.keys(categories).map((categoryIndex, index) => {
-              let category = categories[categoryIndex];
+    let ghostitBlogDivs = [];
+    for (let index in ghostitBlogs) {
+      let ghostitBlog = ghostitBlogs[index];
+      if (!categories[0].active) {
+        if (!ghostitBlog.category) continue;
+        else if (!categories[ghostitBlog.category].active) continue;
+      }
 
-              let className = "transparent-button mx8";
-              if (category.active) className += " active";
-
-              return (
-                <button
-                  className={className}
-                  onClick={() => this.switchDivs(categoryIndex)}
-                  key={"xyu" + index}
-                >
-                  {category.value}
-                </button>
-              );
-            })}
-          </div>
-          <div className="wrapping-container">
-            {ghostitBlogs.map((obj, index) => {
-              return (
-                <div
-                  className="container-box small ma32 common-shadow relative br4 button"
-                  key={index}
-                  onClick={() => this.setState({ blog: obj })}
-                >
-                  <div
-                    className="preview-blog-cover width100"
-                    style={{
-                      backgroundImage: "url(" + obj.images[0].url + ")"
-                    }}
-                  />
-                  <div className="common-container py8 px16">
-                    <h4 className="silly-font tac">
-                      {obj.contentArray[0].text}
-                    </h4>
-                  </div>
-                  {isAdmin && (
-                    <Link to={"/manage/" + obj._id}>
-                      <FontAwesomeIcon
-                        className="icon-regular-button absolute bottom right"
-                        icon={faEdit}
-                      />
-                    </Link>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+      ghostitBlogDivs.push(
+        <div className="background-container" key={index}>
+          <Link
+            to={ghostitBlog.url}
+            className="container-box small ma32 common-shadow relative br4 button"
+          >
+            <div
+              className="preview-blog-cover width100"
+              style={
+                ghostitBlog.images[0]
+                  ? {
+                      backgroundImage: "url(" + ghostitBlog.images[0].url + ")"
+                    }
+                  : {}
+              }
+            />
+            <div className="common-container py8 px16">
+              <h4 className="silly-font tac">
+                {ghostitBlog.contentArray[0].text}
+              </h4>
+            </div>
+          </Link>
+          {isAdmin && (
+            <Link to={"/manage/" + ghostitBlog._id}>
+              <FontAwesomeIcon
+                className="icon-regular-button absolute bottom right"
+                icon={faEdit}
+              />
+            </Link>
+          )}
         </div>
       );
+    }
+    return (
+      <div className="website-page simple-container mx32">
+        <h1 className="tac pb32">Ghostit Blog</h1>
+
+        <div className="nowrap-container width100">
+          {Object.keys(categories).map((categoryIndex, index) => {
+            let category = categories[categoryIndex];
+
+            let className = "transparent-button mx8";
+            if (category.active) className += " active";
+
+            return (
+              <button
+                className={className}
+                onClick={() => this.switchDivs(categoryIndex)}
+                key={"xyu" + index}
+              >
+                {category.value}
+              </button>
+            );
+          })}
+        </div>
+        <div className="wrapping-container">{ghostitBlogDivs}</div>
+      </div>
+    );
   }
 }
 
