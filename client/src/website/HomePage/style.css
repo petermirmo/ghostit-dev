@@ -150,6 +150,7 @@
   animation-duration: 1s;
 
   transition: 1.5s ease;
+  z-index: 1;
 }
 
 .section {

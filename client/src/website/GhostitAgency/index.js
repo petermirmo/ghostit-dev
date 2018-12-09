@@ -11,7 +11,7 @@ class GhostitAgency extends Component {
           Increase the amount of qualified traffic to your site.
         </h3>
         <div className="wrapping-container">
-          <div className="container-box small common-shadow pa32 ma32">
+          <div className="container-box medium common-shadow pa32 ma32">
             <h4 className="h2-like mb8">1. Understanding Your Business</h4>
             <p>
               ‍Before we can start creating your content, we need to know who
@@ -24,7 +24,7 @@ class GhostitAgency extends Component {
             </p>
           </div>
 
-          <div className="container-box small common-shadow pa32 ma32">
+          <div className="container-box medium common-shadow pa32 ma32">
             <h4 className="h2-like mb8">2. Content Marketing Strategy</h4>
             <p>
               ‍Before we can start creating your content, we need to know who
@@ -37,7 +37,7 @@ class GhostitAgency extends Component {
             </p>
           </div>
 
-          <div className="container-box small common-shadow pa32 ma32">
+          <div className="container-box medium common-shadow pa32 ma32">
             <h4 className="h2-like mb8">3. Content Creation and Refinement</h4>
             <p>
               Once your content strategy has been created and we are ready to

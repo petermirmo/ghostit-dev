@@ -79,11 +79,13 @@ class BlogPage extends Component {
                   : {}
               }
             />
-            <div className="common-container py8 px16">
-              <h4 className="silly-font tac">
-                {ghostitBlog.contentArray[0].text}
-              </h4>
-            </div>
+            {ghostitBlog.contentArray[0] && (
+              <div className="common-container py8 px16">
+                <h4 className="silly-font tac">
+                  {ghostitBlog.contentArray[0].text}
+                </h4>
+              </div>
+            )}
           </Link>
           {isAdmin && (
             <Link to={"/manage/" + ghostitBlog._id}>

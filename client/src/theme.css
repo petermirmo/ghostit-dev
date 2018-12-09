@@ -99,6 +99,12 @@
   box-sizing: border-box;
   width: 100%;
 }
+.wrapping-container-no-center {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
+}
 .nowrap-container {
   display: flex;
   justify-content: center;
@@ -114,6 +120,8 @@
 .background-container {
   flex: 1;
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 .container-box {
   flex: 1;
@@ -126,12 +134,18 @@
   box-sizing: border-box;
   overflow: hidden;
 }
-.container-box.small {
+
+.container-box.tiny {
   min-width: 200px;
 }
-.container-box.large {
-  min-width: 200px;
-  width: 50%;
+.container-box.small {
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.container-box.medium {
+  min-width: 400px;
+  max-width: 500px;
 }
 .common-container {
   display: flex;

@@ -154,7 +154,7 @@ class ViewWebsiteBlog extends Component {
         contentArrayIndex += 1;
       }
     }
-    return <div className="website-page simple-container">{divs}</div>;
+    return <div className="website-page simple-container pb32">{divs}</div>;
   }
 }
 

@@ -10,8 +10,8 @@ class WebsiteFooter extends Component {
   };
   render() {
     return (
-      <div className="wrapping-container px32 border-top">
-        <div className="container-box small my16">
+      <div className="wrapping-container-no-center px32 border-top">
+        <div className="container-box tiny my16">
           <h4 className="unimportant-text mb8">Resources</h4>
           <Link to="/home">
             <button
@@ -42,7 +42,7 @@ class WebsiteFooter extends Component {
             </button>
           </Link>
         </div>
-        <div className="container-box small my16">
+        <div className="container-box tiny my16">
           <h4 className="unimportant-text mb8">Terms & Privacy</h4>
           <Link to="/terms-of-service">
             <button
@@ -63,7 +63,7 @@ class WebsiteFooter extends Component {
             </button>
           </Link>
         </div>
-        <div className="container-box small my16">
+        <div className="container-box tiny my16">
           <h4 className="unimportant-text mb8">Contact Us</h4>
           <p className="unimportant-text mt8">250-415-3093</p>
           <p className="unimportant-text mt8">hello@ghostit.co</p>
