@@ -6,11 +6,11 @@ import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faArrowDown from "@fortawesome/fontawesome-free-solid/faArrowDown";
 import faCopy from "@fortawesome/fontawesome-free-solid/faCopy";
 
-import { getPostColor } from "../../../../extra/functions/CommonFunctions";
+import { getPostColor } from "../../../../componentFunctions";
 
 import PostTypePicker from "../PostTypePicker";
 
-import "./styles/";
+import "./style.css";
 
 class PostList extends Component {
   constructor(props) {
@@ -96,7 +96,6 @@ class PostList extends Component {
                 <div title="Delete post.">
                   <FontAwesomeIcon
                     className="delete"
-                    key={index + "delete"}
                     onClick={() => {
                       deletePost(index);
                     }}
@@ -117,7 +116,7 @@ class PostList extends Component {
         {!newPostPrompt && (
           <FontAwesomeIcon
             onClick={() => this.setState({ newPostPrompt: true })}
-            className="new-post-button button round pa8 common-shadow"
+            className="round-icon-button button round pa8 common-shadow"
             icon={faPlus}
             size="2x"
           />

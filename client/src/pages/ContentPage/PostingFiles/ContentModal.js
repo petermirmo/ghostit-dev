@@ -5,7 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { changePage, setKeyListenerFunction } from "../../../redux/actions/";
+import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import CreateBlog from "../../../components/CreateBlog/";
 import CreateNewsletter from "../../../components/CreateNewsletter/";
@@ -13,7 +13,7 @@ import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Notifications/Loader/";
 import Post from "../../../components/Post";
 import InstagramPosting from "./InstagramPosting";
-import "./styles/";
+import "./style.css";
 
 class ContentModal extends Component {
   state = {
@@ -48,21 +48,22 @@ class ContentModal extends Component {
 
   switchTabState = activeTab => {
     if (activeTab.name === this.state.activeTab.name) return;
-    this.setState(prevState => {
-      return {
-        activeTab,
-        listOfPostChanges: {
-          ...prevState.listOfPostChanges,
-          accountID: "",
-          accountType: "",
-          socialType: activeTab.name
-        }
-      };
-    });
+    if (this._ismounted)
+      this.setState(prevState => {
+        return {
+          activeTab,
+          listOfPostChanges: {
+            ...prevState.listOfPostChanges,
+            accountID: "",
+            accountType: "",
+            socialType: activeTab.name
+          }
+        };
+      });
   };
 
   setSaving = () => {
-    this.setState({ saving: true });
+    if (this._ismounted) this.setState({ saving: true });
   };
 
   backupPostChanges = (value, index) => {
@@ -72,19 +73,20 @@ class ContentModal extends Component {
       // don't save the account chosen
       return;
     }
-    this.setState(prevState => {
-      const newChanges = { ...prevState.listOfPostChanges };
-      if (newChanges.accountID === "") {
-        delete newChanges.accountID;
-        delete newChanges.accountType;
-      }
-      return {
-        listOfPostChanges: {
-          ...newChanges,
-          [index]: value
+    if (this._ismounted)
+      this.setState(prevState => {
+        const newChanges = { ...prevState.listOfPostChanges };
+        if (newChanges.accountID === "") {
+          delete newChanges.accountID;
+          delete newChanges.accountType;
         }
-      };
-    });
+        return {
+          listOfPostChanges: {
+            ...newChanges,
+            [index]: value
+          }
+        };
+      });
   };
 
   render() {
@@ -108,7 +110,9 @@ class ContentModal extends Component {
         <CreateBlog
           postingDate={clickedCalendarDate}
           callback={saveBlogCallback}
+          calendarID={this.props.calendarID}
           setSaving={this.setSaving}
+          triggerSocketPeers={this.props.triggerSocketPeers}
         />
       );
     } else if (activeTab.name === "newsletter") {
@@ -117,7 +121,9 @@ class ContentModal extends Component {
           <CreateNewsletter
             postingDate={clickedCalendarDate}
             callback={saveNewsletterCallback}
+            calendarID={this.props.calendarID}
             setSaving={this.setSaving}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
         </div>
       );
@@ -128,7 +134,9 @@ class ContentModal extends Component {
             postFinishedSavingCallback={savePostCallback}
             setSaving={this.setSaving}
             socialType={activeTab.name}
+            calendarID={this.props.calendarID}
             canEditPost={true}
+            triggerSocketPeers={this.props.triggerSocketPeers}
           />
         </div>
       );
@@ -141,10 +149,15 @@ class ContentModal extends Component {
                 ? new moment().add(5, "minutes")
                 : clickedCalendarDate
           }}
-          postFinishedSavingCallback={() => {
-            savePostCallback();
-            close();
+          postFinishedSavingCallback={(post, success, message) => {
+            if (this._ismounted) this.setState({ saving: false });
+            if (success) {
+              savePostCallback(post);
+            } else {
+              this.props.notify("danger", "Save Failed", message, 7500);
+            }
           }}
+          calendarID={this.props.calendarID}
           setSaving={this.setSaving}
           socialType={activeTab.name}
           canEditPost={true}
@@ -155,6 +168,7 @@ class ContentModal extends Component {
               : undefined
           }
           backupChanges={this.backupPostChanges}
+          notify={this.props.notify}
         />
       );
     }
@@ -190,7 +204,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      changePage,
       setKeyListenerFunction
     },
     dispatch

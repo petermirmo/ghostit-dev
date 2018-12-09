@@ -1,0 +1,10 @@
+.message-container {
+  background-color: var(--light-grey-theme-color);
+  pointer-events: auto;
+  animation: animateOpacity 0.4s;
+}
+.message-container:hover .message,
+.message-container:hover {
+  background-color: var(--five-primary-color);
+  color: var(--white-theme-color);
+}

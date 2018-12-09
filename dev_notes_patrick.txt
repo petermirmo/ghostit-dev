@@ -24,6 +24,9 @@ useful git commands:
     git branch pat-branch             // creates local pat-branch from master
     git push ghostit pat-branch
 
+how to get the local dev server to post:
+  root/index.js -> schedule.scheduleJob
+
 imagine scenario:
   var = 4; this.setState({ var: 4 });
     vs
@@ -32,19 +35,11 @@ imagine scenario:
 
 (components/CampaignModal)
 
-Ability for the users to 'duplicate' a post in a campaign.
-
-sometimes clicking an account to post to doesn't give feedback that the account was chosen until something else is changed.
-
-prompt users when they try to delete a post.
-
 when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
 
 whiteboard:
   - ability to create colour for custom task
     (should the user be able to use a full colour picker or should we just give more colours that are different from the campaign colours? what should the default colour be?)
-  - recipe.author
-    ()
   - calendar event completed checkmarks / custom task completed
     (show a checkmark beside posts on the calendar that have been posted. show them for custom tasks as well but the only way to toggle the checkmark is for the user to open the task and mark it completed themselves.)
 
@@ -52,8 +47,6 @@ recipe edit and delete
   campaign and recipe:
     recipe editing: posts need some way to display which social type it is (besides just the color of its list button)
     custom tasks need their own colour
-
-make campaignModal footer its own component
 
 campaign start and end date button "Wrap Posts" which sets the start and end dates to the earlier and latest posting date of all the posts.
 
@@ -73,43 +66,77 @@ mobile app that alerts the user when they need to do a custom task?
 
 Small question marks beside things that aren't super intuitive. Mousing over the question mark displays a tooltip explaining things.
 
-analytics:
-  notes for peter:
-    functions built so far: request and store all account analytics and all post analytics.
-    post analytics record their time (unix time in ms) and you can use that time minus the posting time to see how much time had occurred since the post was posted
-    post and account analytics objects are slightly different in the way that they store the actual values
-    
-  headers for facebook, twitter, linked in
-    under development for twit/li
-    facebook has sub headers for accounts / posts
+multi-user calendars:
+  in the content page, there could be a dropdown menu with all of the calendars associated with your account
+    Filter Calendar styled button under October 2018 that shwows the name of the current calendar.
+  each user account starts with a Personal calendar
+    (should the default calendar be delete-able? should you be able to invite other people to it?)
+  users can choose which calendar is their defualt one that opens up first always
+  each post / campaign will now be associated with a calendarID instead of userID.
+    posts will also have to store the userID of the person who created (and maybe a history of who made edits and what they were?)
+  each calendar will have a list of userIDs that have access to it.
+  should social accounts be tied to userID or calendarID or both?
+    maybe the calendar admin can set certain accounts to be calendar shared?
+  sockets keep all connected users updated to the calendar whenever there are changes to it.
+  Manage Calendars page or just have all the calendar management stuff on the content page?
+    create new, delete, invite people (emails), rename,
+    attach / remove social accounts from the calendar,
+    change permissions: who the admin is, who can add social accounts to the calendar (should they also be able to remove other people's?)
 
-  aggregate by month / week (how to do weeks bcz they are just stored as day numbers?)
+to do next:
+  manage calendars
+      create calendar button maybe should just be a (+) icon beside the calendar picker in calendar manager
+      when exiting calendar manager, change activeCalendarIndex of ContentPage to the same as CalendarManager
+  social accounts tied to calendars
+    when updating social account access tokens, maybe update all that are linked to calendars?
+    when looking up calendar.accountIDs, if one is not found, should we remove its id from calendar.accountIDs?
+  maybe have other attributes for calendars (created by, date created, name history, post count (pending/posted))
+  have a chat "room" built into the calendar manager.
+    move the account cards below the user cards and have the chat below the name div.
+    timestamps on each message (timezone?)
+    chat should be able to be toggled to activity log which keeps a record of all post saves/deletes/updates/calendar rename/invite/user joins/kicks
 
-  graphing:
-    don't display all graphs by default. have a button beside each metric that toggles the graph.
-      when the graph is toggled on, have a button above the graph that switches which month is being displayed.
-    some metrics (non-logged-in page views) don't return a day if the value on the day was 0.
-      so when you go to graph it, that day is ignored and the line graph jumps from day 5-7
-      which doesn't illustrate that day 6 had 0.
-    still need to handle the cases when there can be multiple value types for one day (post reactions of a page)
-    y axis scale can be misleading. Lifetime total likes of ghostit drops from 4698 to 4667 but looks like it drops down to 5.
-    have a graph or other visual representation of when / how many posts were made so it's easy to correlate the numbers on the other graphs to the activity on the account
+  sockets:
+    work on the prompt that appears when your active post gets updated+saved by someone else
 
 
-You can make posts go out from our test DB really easily
-  Go to around line 44 in index.js in root
-  schedule.scheduleJob("*/2 * * * *", function() {
-    PostScheduler.main();
-  });
-  put it outside the if statement
-  and posts will go out
+    are images working?
 
-Insights are only generated for a Facebook Page that has more than 100 people that like it.
-Likewise, demographic metrics, such as age, gender and location, are available in Page Insights once there is data for 100 or more people.
+  deleting a post in a campaign currently deletes the postID within the campaign DB object then deletes the
+  post DB object.
+    this could be bad if the postID is deleted from the campaign object but not the post from the DB bcz
+    then the post won't be shown on the calendar but they will be posted?
 
-page: Analytics Testing
-accessToken: EAATBO1uFsCMBAEVzoXO6IJ7BrFhkSqAstHWw4lg7XGU05mZCFdX5nXSGZC5OXzwabq6XaRLyKDxKHTrldysD5h02H4aFxUgHIFW29RvmKUXZCOPfvIjHjJKaHRJgl2ZBZAZAxkaYTItGtZCfmi8JEA7cn3TJfBQQ388uRXfINBK2QZDZD
-postID: 1209545782519940_1219695484838303
+  for campaigns and posts, keep a history array which stores objects detailing who made what changes between each save
+    (mouse over the history to see a list of all the changes)
+    (the list entries could show who, when, and which attributes were modified)
+    (clicking on them could show a smaller popup display of the post's state after that modification?)
+
+  date time picker calendar goes from monday->sunday instead of sunday->saturday
+
+  socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
+
+  make every email lower case in database
+
+  give users a name attribute as well
+
+  posts should display who their creator was
+
+  Filter Calendar, Queue Preview, and Month/Year text should re-size based on window size
+
+  campaign modal maybe have the name, start date, end date all appear in a "compact" version when their normal displays are hidden
+
+  calendar/socket styles to fix:
+    not a huge fan of calendar picker not including the currently selected calendar
+
+      bugs to fix:
+        campaign list of posts doesn't scroll when lots of posts
+        bottom of home page divs are given ugly backgrounds
+        pricing page isnt ready
+        campaign modal when the window size is small, the content half shrinks before the post list half shrinks
+
+
+
 
 facebook analytics page metrics:
     FB.api(

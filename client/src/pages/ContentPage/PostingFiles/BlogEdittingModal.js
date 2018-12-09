@@ -12,7 +12,7 @@ import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateBlog from "../../../components/CreateBlog/";
 import Loader from "../../../components/Notifications/Loader/";
-import "./styles/";
+import "./style.css";
 
 class BlogEdittingModal extends Component {
   state = {
@@ -54,6 +54,10 @@ class BlogEdittingModal extends Component {
       axios.delete("/api/blog/delete/" + this.state.blog._id).then(res => {
         if (res.data) {
           this.props.updateCalendarBlogs();
+          this.props.triggerSocketPeers(
+            "calendar_blog_deleted",
+            this.state.blog._id
+          );
           this.props.close();
         } else {
           this.setState({
@@ -96,8 +100,8 @@ class BlogEdittingModal extends Component {
           </div>
           <CreateBlog
             blog={this.props.clickedEvent}
-            callback={() => {
-              this.props.updateCalendarBlogs();
+            callback={blogID => {
+              this.props.saveBlogCallback(blogID);
               this.props.close();
             }}
             setSaving={this.setSaving}

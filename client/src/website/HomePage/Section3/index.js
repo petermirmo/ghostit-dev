@@ -1,55 +1,38 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 
-import LineChart from "../../../components/LineChart";
+import Post from "../../../components/Post";
 
 class Section3 extends Component {
-  state = {
-    lines: [[]]
-  };
-  componentDidMount() {
-    setInterval(this.createRandomChartPlots, 3000);
-  }
-  createRandomChartPlots = () => {
-    let amountOfLines = 3;
-    let amountOfDataPoints = 30;
-    let lines = [];
-    for (let i = 0; i < amountOfLines; i++) {
-      lines[i] = [];
-    }
-
-    for (let i = 0; i < amountOfLines; i++) {
-      for (let j = 0; j < amountOfDataPoints; j++) {
-        lines[i].push(j + ~~(Math.random() * 10));
-      }
-    }
-    this.setState({ lines });
-  };
   render() {
-    const { lines } = this.state;
-
     return (
-      <div className="section flex hc vc px32">
-        <div className="fill platform-component-showcase">
-          <LineChart
-            {...{
-              lines: lines,
-              colors: [
-                "var(--five-purple-color)",
-                "var(--five-primary-color)",
-                "var(--seven-purple-color)",
-                "var(--seven-primary-color)"
-              ]
-            }}
-          />
-        </div>
-        <div className="third flex column vc hc">
-          <div className="description-box flex column hc">
-            <h4 className="title silly-font pb8">Attribution.</h4>
-            <p className="body">
-              Analytics reporting on all of your marketing campaigns.
+      <div className="section px32">
+        <div className="third common-container-center">
+          <div className="small-box">
+            <h4 className="h1-like pt8">Post Instructions</h4>
+            <p>
+              Add custom steps for your marketing campaign or follow existing
+              ones with a pre-built template.
             </p>
           </div>
+        </div>
+        <div className="platform-component-showcase fill common-shadow">
+          <Post
+            post={undefined}
+            postFinishedSavingCallback={() => {}}
+            setSaving={() => {}}
+            calendarID="1234"
+            socialType="facebook"
+            canEditPost={true}
+            listOfChanges={undefined}
+            backupChanges={() => {}}
+            campaignStartDate={new moment()}
+            campaignEndDate={new moment().add(7, "day")}
+            modifyCampaignDates={() => {}}
+            recipeEditing={false}
+            savePostChanges={() => {}}
+            notify={() => {}}
+          />
         </div>
       </div>
     );

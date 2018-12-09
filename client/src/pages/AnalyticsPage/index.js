@@ -11,7 +11,7 @@ import { bindActionCreators } from "redux";
 
 import LineChart from "../../components/LineChart/";
 
-import "./styles/";
+import "./style.css";
 
 class Analytics extends Component {
   constructor(props) {
@@ -22,12 +22,16 @@ class Analytics extends Component {
 
   componentDidMount() {
     this.getAccountAnalytics();
+    this._ismounted = true;
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
   }
 
   getAccountAnalytics = () => {
     axios.get("/api/ai/analytics/accounts").then(res => {
       const { analyticsObjects } = res.data;
-      this.setState({ analyticsObjects });
+      if (this._ismounted) this.setState({ analyticsObjects });
     });
   };
 

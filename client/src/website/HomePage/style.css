@@ -56,6 +56,8 @@
   border-radius: 100px;
 
   background-color: var(--five-purple-color);
+  transition: 3s ease;
+  z-index: -1;
 }
 .circle.small {
   width: 20px;
@@ -85,6 +87,8 @@
   border-right: solid 30px transparent;
   border-left: solid 30px transparent;
   border-top: solid 30px transparent;
+  transition: 3s ease;
+  z-index: -1;
 }
 .triangle.bottom {
   border-bottom: solid 50px var(--five-primary-color);
@@ -104,6 +108,8 @@
   width: 30px;
   height: 30px;
   background-color: var(--five-primary-color);
+  transition: 3s ease;
+  z-index: -1;
 }
 
 .triangle-bottom-change-color {
@@ -118,45 +124,62 @@
   animation-duration: 4s;
 }
 
+.platform-component-showcase {
+  transform: scale(0.7, 0.7);
+}
+
+@keyframes ghost-transition {
+  from {
+    right: -50px;
+    opacity: 0;
+  }
+  to {
+    right: 32px;
+
+    opacity: 1;
+  }
+}
+.ghost-container {
+  bottom: 10px;
+  right: 32px;
+  align-items: flex-start;
+  pointer-events: none;
+
+  animation: ghost-transition;
+  animation-timing-function: ease;
+  animation-duration: 1s;
+
+  transition: 1.5s ease;
+  z-index: 1;
+}
+
 .section {
-  position: relative;
+  height: 100vh;
+  width: 100%;
 
-  flex-wrap: wrap;
-
-  max-width: 100%;
-  min-height: 100vh;
-  background-color: var(--one-half-primary-color);
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .section .third {
-  min-width: 35%;
-  height: 100%;
+  width: 33.3333%;
+  min-width: 200px;
+}
+.section .two-third {
+  width: 66.6666%;
+  min-width: 600px;
 }
 .section .fill {
   flex: 1;
 }
 .section .half {
-  height: 100%;
   width: 50%;
+  min-width: 300px;
 }
-.section .platform-component-showcase {
-  min-width: 500px;
-  height: 100vh;
-  max-height: 70%;
-
-  overflow: hidden;
-  box-sizing: border-box;
-
-  transform: scale(0.7, 0.7);
-}
-
-.description-box {
-  max-width: 200px;
-  max-height: 200px;
-}
-.description-box .title {
-  font-size: var(--gigantic-font-size);
-}
-.description-box .body {
+.website-page {
+  padding-top: 15vh;
+  min-height: 100vh;
 }

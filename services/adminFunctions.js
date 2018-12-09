@@ -7,31 +7,31 @@ var nodemailer = require("nodemailer");
 const generalFunctions = require("./generalFunctions");
 
 module.exports = {
-  getUsers: function(req, res) {
+  getUsers: (req, res) => {
     if (req.user.role !== "admin")
       generalFunctions.handleError(res, "HACKER ALERT!!!!");
     else {
-      User.find({}, function(err, users) {
+      User.find({}, (err, users) => {
         if (err) generalFunctions.handleError(res, err);
         else if (!users) generalFunctions.handleError(res, "Users not found");
         else res.send(users);
       });
     }
   },
-  updateUser: function(req, res) {
+  updateUser: (req, res) => {
     if (req.user.role !== "admin")
       generalFunctions.handleError(res, "HACKER ALERT!!!!");
     else {
       let user = req.body;
-      User.findOneAndUpdate({ _id: user._id }, user, function(err, oldUser) {
+      User.findOneAndUpdate({ _id: user._id }, user, (err, oldUser) => {
         if (err) generalFunctions.handleError(res, err);
         else res.send(true);
       });
     }
   },
-  getClients: function(req, res) {
+  getClients: (req, res) => {
     if (req.user.role === "admin" || req.user.role === "manager") {
-      User.find({ role: "client" }, function(err, users) {
+      User.find({ role: "client" }, (err, users) => {
         if (err) generalFunctions.handleError(res, err);
         else if (!users) generalFunctions.handleError(res, "Users not found");
         else res.send({ users, success: true });
@@ -51,7 +51,7 @@ module.exports = {
       );
     }
   },
-  signInAsUser: function(req, res) {
+  signInAsUser: (req, res) => {
     let currentUser = req.user;
     let clientUser = req.body;
     if (currentUser.role === "manager") {
@@ -60,7 +60,7 @@ module.exports = {
         id: clientUser._id,
         fullName: clientUser.fullName
       };
-      Account.find({ userID: clientUser._id }, function(err, accounts) {
+      Account.find({ userID: clientUser._id }, (err, accounts) => {
         currentUser
           .save()
           .then(result => res.send({ success: true, user: result, accounts }));
@@ -72,21 +72,21 @@ module.exports = {
         id: clientUser._id,
         fullName: clientUser.fullName
       };
-      Account.find({ userID: clientUser._id }, function(err, accounts) {
+      Account.find({ userID: clientUser._id }, (err, accounts) => {
         currentUser
           .save()
           .then(result => res.send({ success: true, user: result, accounts }));
       });
     } else generalFunctions.handleError(res, "HACKER ALERT!!!!");
   },
-  signOutOfUserAccount: function(req, res) {
+  signOutOfUserAccount: (req, res) => {
     let currentUser = req.user;
     currentUser.signedInAsUser = undefined;
     currentUser.save().then(result => {
       res.send({ success: true, user: result });
     });
   },
-  createPlan: function(req, res) {
+  createPlan: (req, res) => {
     if (req.user.role !== "admin")
       generalFunctions.handleError(res, "HACKER ALERT!!!!");
     else {
@@ -98,7 +98,7 @@ module.exports = {
           res.send({ success: true });
         });
       } else {
-        Plan.find({ name: newPlan.name }, function(err, plans) {
+        Plan.find({ name: newPlan.name }, (err, plans) => {
           if (err) generalFunctions.handleError(res, err);
           else if (plans.length > 0) {
             // There is already a plan with this name!
@@ -115,11 +115,11 @@ module.exports = {
       }
     }
   },
-  getPlans: function(req, res) {
+  getPlans: (req, res) => {
     if (req.user.role !== "admin")
       generalFunctions.handleError(res, "Hacker ALert");
     else {
-      Plan.find({}, function(err, plans) {
+      Plan.find({}, (err, plans) => {
         if (err) generalFunctions.handleError(res, err);
         else if (!plans) generalFunctions.handleError(res, "No plans found");
         else res.send(plans);

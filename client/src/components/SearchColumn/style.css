@@ -1,0 +1,34 @@
+.user-column {
+  display: flex;
+
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.search {
+  background-color: var(--white-theme-color);
+  width: 100%;
+  resize: none;
+  box-sizing: border-box;
+}
+.user-row {
+  display: flex;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  background-color: var(--nine-primary-color);
+  color: var(--white-theme-color);
+  box-sizing: border-box;
+}
+.user-row:nth-child(even) {
+  background-color: var(--seven-primary-color);
+}
+.user-row:hover {
+  background-color: var(--green-theme-color);
+  cursor: pointer;
+}
+.row-header {
+  padding: 5px;
+}

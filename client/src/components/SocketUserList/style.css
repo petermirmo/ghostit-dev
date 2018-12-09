@@ -1,0 +1,9 @@
+.active-users-count:hover .dropdown {
+  display: flex;
+}
+.green-dot {
+  background-color: var(--green-theme-color);
+  border-radius: 100px;
+  width: 10px;
+  height: 10px;
+}

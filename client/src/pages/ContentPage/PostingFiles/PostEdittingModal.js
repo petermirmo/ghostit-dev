@@ -12,7 +12,7 @@ import Post from "../../../components/Post";
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import Loader from "../../../components/Notifications/Loader/";
-import "./styles/";
+import "./style.css";
 
 class PostEdittingModal extends Component {
   state = {
@@ -50,21 +50,19 @@ class PostEdittingModal extends Component {
       axios
         .delete("/api/post/delete/" + this.props.clickedEvent._id)
         .then(res => {
-          let { loggedIn } = res.data;
-          if (loggedIn === false) window.location.reload();
+          let { loggedIn, success, err, message } = res.data;
+          if (loggedIn === false) this.props.history.push("/sign-in");
 
-          if (res.data) {
-            this.props.savePostCallback();
+          if (success) {
+            this.props.updateCalendarPosts();
+            this.props.notify("success", "Post Deleted", message);
+            this.props.triggerSocketPeers("calendar_post_deleted", {
+              postID: this.props.clickedEvent._id,
+              socialType: this.props.clickedEvent.socialType
+            });
             this.props.close();
           } else {
-            this.setState({
-              notification: {
-                on: true,
-                type: "danger",
-                title: "Something went wrong",
-                message: ""
-              }
-            });
+            this.props.notify("danger", "Post Delete Failed", message);
           }
         });
     } else {
@@ -130,13 +128,14 @@ class PostEdittingModal extends Component {
             setSaving={this.setSaving}
             post={clickedEvent}
             canEditPost={canEditPost}
-            postFinishedSavingCallback={() => {
-              savePostCallback();
+            postFinishedSavingCallback={post => {
+              savePostCallback(post);
               close();
             }}
             accounts={accounts}
             timezone={timezone}
             maxCharacters={maxCharacters}
+            calendarID={this.props.calendarID}
           />
           {this.state.confirmDelete && (
             <ConfirmAlert
@@ -149,14 +148,6 @@ class PostEdittingModal extends Component {
 
           {modalFooter}
         </div>
-        {this.state.notification.on && (
-          <Notification
-            type={this.state.notification.type}
-            title={this.state.notification.title}
-            message={this.state.notification.message}
-            callback={this.hideNotification}
-          />
-        )}
       </div>
     );
   }

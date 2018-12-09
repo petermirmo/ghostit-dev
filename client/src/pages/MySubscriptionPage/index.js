@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
-import "./styles/";
+import { connect } from "react-redux";
+
+import "./style.css";
 
 class MySubscription extends Component {
   constructor(props) {
@@ -62,10 +64,16 @@ class MySubscription extends Component {
     let invoiceRowDivs;
     if (invoices) invoiceRowDivs = this.createInvoiceRows(invoices);
     return (
-      <div  >
+      <div>
         <div className="invoice-container">{invoiceRowDivs}</div>
       </div>
     );
   }
 }
-export default MySubscription;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(MySubscription);

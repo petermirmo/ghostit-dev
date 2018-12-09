@@ -5,10 +5,7 @@ import moment from "moment-timezone";
 import SearchColumn from "../../components/SearchColumn/";
 import ObjectEditTable from "../../components/ObjectEditTable/";
 import NavigationBar from "../../components/Navigations/NavigationBar/";
-import {
-  nonEditableUserFields,
-  canShowUserFields
-} from "../../extra/constants/Common";
+import { nonEditableUserFields, cantShowUserFields } from "../../constants";
 
 class UsersTable extends Component {
   state = {
@@ -25,14 +22,19 @@ class UsersTable extends Component {
   };
 
   componentDidMount() {
+    this._ismounted = true;
+
     this.getUsers();
     this.getPlans();
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
   }
   getUsers = () => {
     const { userCategories } = this.state;
     axios.get("/api/users").then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (!res) {
         // If res sends back false the user is not an admin and is likely a hacker
@@ -70,22 +72,23 @@ class UsersTable extends Component {
         } else if (userCategories["admin"]) {
           activeUsers = adminUsers;
         }
-
-        this.setState({
-          demoUsers: demoUsers,
-          clientUsers: clientUsers,
-          managerUsers: managerUsers,
-          adminUsers: adminUsers,
-          activeUsers: activeUsers,
-          untouchedUsers: activeUsers
-        });
+        if (this._ismounted) {
+          this.setState({
+            demoUsers,
+            clientUsers,
+            managerUsers,
+            adminUsers,
+            activeUsers,
+            untouchedUsers: activeUsers
+          });
+        }
       }
     });
   };
   getPlans = () => {
     axios.get("/api/plans").then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       this.setState({ plans: res.data });
     });
@@ -118,7 +121,7 @@ class UsersTable extends Component {
   saveUser = user => {
     axios.post("/api/updateUser", user).then(res => {
       let { loggedIn } = res.data;
-      if (loggedIn === false) window.location.reload();
+      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (res.data) {
         alert("success");
@@ -179,18 +182,18 @@ class UsersTable extends Component {
         }
       }
 
-      if (canShowUserFields.indexOf(index) === -1) {
+      if (cantShowUserFields.indexOf(index) === -1) {
         objectArry.push({
-          canEdit: canEdit,
+          canEdit,
           value:
             this.state.clickedUser[index] === Object(clickedUser[index])
               ? clickedUser[index].name
                 ? clickedUser[index].name
                 : clickedUser[index].id
               : clickedUser[index],
-          dropdown: dropdown,
-          dropdownList: dropdownList,
-          index: index
+          dropdown,
+          dropdownList,
+          index
         });
       }
     }
@@ -209,13 +212,12 @@ class UsersTable extends Component {
               indexSearch2="email"
             />
           </div>
-          <div>
+          <div className="flex1">
             <ObjectEditTable
               objectArray={objectArry}
               updateList={this.getUsers}
               saveObject={this.saveUser}
               clickedObject={clickedUser}
-              className="center"
               editting={editting}
               editObject={this.editObject}
             />

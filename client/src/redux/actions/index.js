@@ -1,10 +1,3 @@
-export const changePage = activePage => {
-  history.pushState(null, null, "/" + activePage);
-  return {
-    type: "TAB_SELECTED",
-    payload: activePage
-  };
-};
 export const setUser = user => {
   return {
     type: "CURRENT_USER",

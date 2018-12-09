@@ -3,7 +3,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faLongArrowAltLeft from "@fortawesome/fontawesome-free-solid/faLongArrowAltLeft";
 import faLongArrowAltRight from "@fortawesome/fontawesome-free-solid/faLongArrowAltRight";
 
-import "./styles/";
+import "./style.css";
 
 class Carousel extends Component {
   state = {

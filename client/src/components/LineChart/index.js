@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./styles/";
+import "./style.css";
 
 const LINE_CHART_HEIGHT_RATIO = 40;
 
@@ -62,19 +62,30 @@ class LineChart extends Component {
         y = LINE_CHART_HEIGHT_RATIO - y;
 
         if (prevDataPoint) {
+          let paddingWidth = 2;
+
+          let x1 = prevDataPoint.x;
+          let y1 = prevDataPoint.y;
+          let x2 = x;
+          let y2 = y;
+
+          let theta = Math.atan((y2 - y1) / (x2 - x1));
+          let yPadding = paddingWidth * Math.sin(theta);
+          let xPadding = paddingWidth * Math.cos(theta);
+
           dataLineDivs.push(
             <path
               style={{ stroke: colors[lineIndex] }}
               className="line-chart-connecting-line"
               d={
                 "M" +
-                prevDataPoint.x +
+                (x1 + xPadding) +
                 "," +
-                prevDataPoint.y +
+                (y1 + yPadding) +
                 " L " +
-                x +
+                (x2 - xPadding) +
                 "," +
-                y +
+                (y2 - yPadding) +
                 ""
               }
               key={dataIndex + "line" + lineIndex}
@@ -138,8 +149,8 @@ class LineChart extends Component {
         {this.XAxis()}
         {this.YAxis()}
         {this.createVerticalLines(xMax)}
-        {dataPointDivs}
         {dataLineDivs}
+        {dataPointDivs}
       </svg>
     );
   }

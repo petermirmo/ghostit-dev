@@ -3,7 +3,7 @@ import moment from "moment-timezone";
 
 import DateTimePicker from "../DateTimePicker";
 
-import "./styles/";
+import "./style.css";
 
 class PickDateModal extends Component {
 	render() {

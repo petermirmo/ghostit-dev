@@ -1,0 +1,39 @@
+.images-container {
+  flex-shrink: 0;
+  display: flex;
+
+  align-items: center;
+}
+.custom-file-upload {
+  float: left;
+  color: var(--black-theme-color);
+
+  padding: 20px;
+
+  border-radius: 10px;
+  border: 2px dashed var(--black-theme-color);
+  opacity: 0.2;
+
+  cursor: pointer;
+}
+.custom-file-upload:hover {
+  border: 2px dashed var(--five-primary-color);
+  color: var(--five-primary-color);
+
+  opacity: 1;
+}
+.custom-file-upload:hover .image-upload-icon {
+  background-color: var(--five-primary-color);
+}
+.image-upload-icon {
+  background-color: transparent !important;
+
+  padding: 4px;
+}
+
+.image-container:hover .x-hover {
+  display: flex;
+}
+.image-container:hover .image {
+  opacity: 0.4;
+}

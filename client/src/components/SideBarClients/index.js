@@ -8,12 +8,11 @@ import { bindActionCreators } from "redux";
 import {
   setUser,
   updateAccounts,
-  changePage,
   openClientSideBar
 } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
-import "./styles/";
+import "./style.css";
 
 class ClientSideBar extends Component {
   state = {
@@ -37,7 +36,7 @@ class ClientSideBar extends Component {
           this.setState({ untouchedClients: users });
         }
       } else {
-        if (loggedIn === false) window.location.reload();
+        if (loggedIn === false) this.props.history.push("/sign-in");
       }
     });
   };
@@ -76,10 +75,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setUser: setUser,
-      updateAccounts: updateAccounts,
-      changePage: changePage,
-      openClientSideBar: openClientSideBar
+      setUser,
+      updateAccounts,
+      openClientSideBar
     },
     dispatch
   );

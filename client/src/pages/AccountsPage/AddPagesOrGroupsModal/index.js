@@ -4,7 +4,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import axios from "axios";
 
 import SocialMediaDiv from "./SocialMediaDiv";
-import "./styles/";
+import "./style.css";
 
 class AddPagesOrGroupsModal extends Component {
   state = {
@@ -28,7 +28,7 @@ class AddPagesOrGroupsModal extends Component {
         page.socialType = this.props.socialType;
         axios.post("/api/account", page).then(res => {
           let { loggedIn } = res.data;
-          if (loggedIn === false) window.location.reload();
+          if (loggedIn === false) this.props.history.push("/sign-in");
 
           // Check to see if accounts were successfully saved
           if (res.data) {

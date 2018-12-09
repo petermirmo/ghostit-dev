@@ -1,10 +1,65 @@
-const request = require("request");
-const fs = require("fs");
 const cloudinary = require("cloudinary");
 
 const Blog = require("../models/Blog");
+const Calendar = require("../models/Calendar");
 
 const generalFunctions = require("./generalFunctions");
+
+const deleteBlogStandalone = (req, callback) => {
+  // function called when calendar gets deleted and blogs within the calendar must be deleted first
+  const { blogID, skipUserCheck } = req;
+  let userID = req.user._id;
+  if (req.user.signedInAsUser) {
+    if (req.user.signedInAsUser.id) {
+      userID = req.user.signedInAsUser.id;
+    }
+  }
+
+  Blog.findOne({ _id: blogID }, async (err, blog) => {
+    if (err || !blog) callback({ success: false, err });
+    else {
+      if (!skipUserCheck) {
+        let invalidUser = false;
+        await Calendar.findOne(
+          { _id: blog.calendarID, userIDs: userID },
+          (err, foundCalendar) => {
+            if (err) {
+              invalidUser = true;
+              callback({
+                success: false,
+                err,
+                message: `Error while looking up calendar's user list.`
+              });
+            } else if (!foundCalendar) {
+              invalidUser = true;
+              callback({
+                success: false,
+                message: `User doesn't seem to be a valid member of the calendar. Reload page and try again.`
+              });
+            }
+          }
+        );
+        if (invalidUser) return;
+      }
+      if (blog.wordDoc.publicID) {
+        await cloudinary.uploader.destroy(
+          blog.wordDoc.publicID,
+          error => {
+            // handle error
+          },
+          { resource_type: "raw" }
+        );
+      }
+      if (blog.image.publicID) {
+        await cloudinary.uploader.destroy(blog.image.publicID, function(error) {
+          // handle error
+        });
+      }
+      blog.remove();
+      callback({ success: true });
+    }
+  });
+};
 
 module.exports = {
   saveBlog: function(req, res) {
@@ -15,7 +70,7 @@ module.exports = {
       }
     }
 
-    Blog.findOne({ _id: req.params.blogID }, async (err, foundBlog) => {
+    Blog.findOne({ _id: req.body.blog._id }, async (err, foundBlog) => {
       if (err) return generalFunctions.handleError(res, err);
       else {
         let newBlog;
@@ -92,7 +147,7 @@ module.exports = {
         }
 
         newBlog.save().then(result => {
-          res.send({ success: true });
+          res.send({ success: true, blog: newBlog });
         });
       }
     });
@@ -110,6 +165,12 @@ module.exports = {
     });
   },
   deleteBlog(req, res) {
+    deleteBlogStandalone(
+      { blogID: req.params.blogID, user: req.user },
+      result => {
+        res.send(result);
+      }
+    );
     Blog.findOne({ _id: req.params.blogID }, async (err, blog) => {
       if (err) generalFunctions.handleError(res, err);
       else if (blog) {
@@ -141,5 +202,6 @@ module.exports = {
           generalFunctions.handleError(res, "Hacker trying to delete posts");
       } else generalFunctions.handleError(res, "Blog not found");
     });
-  }
+  },
+  deleteBlogStandalone
 };

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
 
-import "./styles/";
+import "./style.css";
 
 class Filter extends Component {
   render() {
@@ -14,7 +14,7 @@ class Filter extends Component {
       if (!index) break;
       categoryDivs.push(
         <div
-          className="checkbox-and-writing-container spacing left"
+          className="checkbox-and-writing-container spacing left button"
           key={index}
           onClick={() => updateActiveCategory(index)}
           id={index}
@@ -42,12 +42,12 @@ class Filter extends Component {
     }
 
     return (
-      <div className="filter-container button px16 py8">
-        <div className="dropdown-title">
+      <div className="filter-container flex relative">
+        <div className="regular-button large common-transition">
           Filter Calendar
-          <FontAwesomeIcon icon={faAngleDown} style={{ marginLeft: "6px" }} />
+          <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
-        <div className="dropdown">{categoryDivs}</div>
+        <div className="dropdown left common-shadow br4">{categoryDivs}</div>
       </div>
     );
   }

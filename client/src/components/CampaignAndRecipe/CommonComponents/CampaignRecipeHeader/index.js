@@ -9,8 +9,9 @@ import faAngleUp from "@fortawesome/fontawesome-free-solid/faAngleUp";
 import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
 
 import DateTimePicker from "../../../DateTimePicker";
+import SocketUserList from "../../../SocketUserList";
 
-import "./styles/";
+import "./style.css";
 
 class CampaignRecipeHeader extends Component {
   constructor(props) {
@@ -130,12 +131,18 @@ class CampaignRecipeHeader extends Component {
             <div className="colors-container flex vc">{colorDivs}</div>
           </div>
         </div>
-
-        <div
-          className="show-more center-horizontally bottom"
-          onClick={() => this.setState({ showMore: !this.state.showMore })}
-        >
-          <FontAwesomeIcon icon={showMore ? faAngleUp : faAngleDown} />
+        <div className="user-list-and-show-more">
+          {this.props.userList && this.props.userList.length > 0 && (
+            <div className="user-list-container">
+              <SocketUserList userList={this.props.userList} left={true} />
+            </div>
+          )}
+          <div
+            className="show-more center-horizontally bottom"
+            onClick={() => this.setState({ showMore: !this.state.showMore })}
+          >
+            <FontAwesomeIcon icon={showMore ? faAngleUp : faAngleDown} />
+          </div>
         </div>
       </div>
     );

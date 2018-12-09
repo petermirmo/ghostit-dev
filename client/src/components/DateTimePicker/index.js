@@ -5,7 +5,7 @@ import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
 import moment from "moment-timezone";
 
-import "./styles/";
+import "./style.css";
 
 class DatePicker extends Component {
   state = {
@@ -284,7 +284,7 @@ class DatePicker extends Component {
           {inputValue}
         </div>
         {calendarDropdown && (
-          <div className="dropdown-calendar" style={style}>
+          <div className="dropdown-calendar common-shadow" style={style}>
             <div className="date-picker-calendar-month-container">
               <span
                 className="date-picker-calendar-month-switch-button left"

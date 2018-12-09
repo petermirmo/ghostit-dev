@@ -8,12 +8,11 @@ import { bindActionCreators } from "redux";
 import {
   setUser,
   updateAccounts,
-  changePage,
   openClientSideBar
 } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
-import "./styles/";
+import "./style.css";
 
 class Tutorial extends Component {
   state = {

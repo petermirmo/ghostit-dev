@@ -12,7 +12,7 @@ import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import CreateNewsletter from "../../../components/CreateNewsletter/";
 import Loader from "../../../components/Notifications/Loader/";
-import "./styles/";
+import "./style.css";
 
 class NewsletterEdittingModal extends Component {
   state = {
@@ -58,6 +58,10 @@ class NewsletterEdittingModal extends Component {
         .then(res => {
           if (res.data) {
             this.props.updateCalendarNewsletters();
+            this.props.triggerSocketPeers(
+              "calendar_newsletter_deleted",
+              this.state.newsletter._id
+            );
             this.props.close();
           } else {
             this.setState({
@@ -100,8 +104,8 @@ class NewsletterEdittingModal extends Component {
           </div>
           <CreateNewsletter
             newsletter={this.props.clickedEvent}
-            callback={() => {
-              this.props.updateCalendarNewsletters();
+            callback={newsletter => {
+              this.props.saveNewsletterCallback(newsletter);
               this.props.close();
             }}
             setSaving={this.setSaving}
@@ -118,7 +122,7 @@ class NewsletterEdittingModal extends Component {
           <div className="modal-footer">
             <div
               className="campaign-footer-option right"
-              title="Delete campaign."
+              title="Delete newsletter."
             >
               <FontAwesomeIcon
                 onClick={this.deleteNewsletterPopUp}

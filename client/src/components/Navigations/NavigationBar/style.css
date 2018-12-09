@@ -1,0 +1,15 @@
+.navigation-container {
+}
+
+.nagivation-option {
+  background-color: var(--seven-primary-color);
+
+  font-size: var(--large-font-size);
+}
+
+.nagivation-option:hover:not(.active) {
+  background-color: var(--nine-primary-color);
+}
+.nagivation-option.active {
+  background-color: var(--nine-primary-color);
+}

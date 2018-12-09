@@ -10,7 +10,7 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 
 import { trySavePost } from "../../componentFunctions";
 
-import "./styles/";
+import "./style.css";
 
 class CustomTask extends Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class CustomTask extends Component {
       instructions: "",
       name: "Custom Task",
       sendEmailReminder: true,
+      calendarID: props.calendarID,
       color: "var(--seven-purple-color)"
     };
     if (props.post) {

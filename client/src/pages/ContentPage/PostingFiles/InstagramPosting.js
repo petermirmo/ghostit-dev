@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
-import "./styles/";
+import "./style.css";
 
 class InstagramPosting extends Component {
 	state = {
