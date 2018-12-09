@@ -7,8 +7,8 @@
   font-weight: 400;
 }
 .tutorial-title {
-  font-family: var(--silly-font-theme);
-  color: var(--secondary-text-theme-color);
+  font-family: var(--silly-font);
+  color: var(--secondary-text-color);
   border-bottom: 2px solid var(--seven-primary-color);
   font-size: var(--sixteen-font-size);
 }

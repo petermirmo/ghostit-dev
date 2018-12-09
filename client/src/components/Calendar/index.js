@@ -443,9 +443,7 @@ class Calendar extends Component {
               className="icon-regular-button common-transition"
               onClick={this.subtractMonth}
             />
-            <h1 className="tac flex1 silly-font">
-              {calendarDate.format("MMMM YYYY")}
-            </h1>
+            <h1 className="tac flex1">{calendarDate.format("MMMM YYYY")}</h1>
             <FontAwesomeIcon
               icon={faAngleRight}
               size="3x"

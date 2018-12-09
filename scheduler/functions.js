@@ -6,6 +6,8 @@ const Calendar = require("../models/Calendar");
 
 module.exports = {
   savePostError: (postID, error) => {
+    console.log(error);
+
     Post.findOne({ _id: postID }, (err, post) => {
       if (post) {
         let notification = new Notification();
@@ -14,8 +16,6 @@ module.exports = {
           "Oh no! Your " +
           post.socialType +
           " session with Ghostit has ended. Please reconnect this account as soon as possible so there are no more interuptions in your social media posting.";
-        console.log(error);
-        notification.save();
         User.findOne({ _id: post.userID }, (err, user) => {
           if (user) {
             notification.message =
@@ -30,6 +30,11 @@ module.exports = {
               " Post socialType: " +
               post.socialType;
 
+            let notificationToPeter = notification;
+            notificationToPeter.userID = "5acfa9409f3e9e06ac173d26";
+            notification.save();
+            notificationToPeter.save();
+
             sendEmail(
               user,
               "Ghostit Notification",
@@ -39,7 +44,6 @@ module.exports = {
               }
             );
           }
-          notification.save();
         });
       }
       post.status = "error";

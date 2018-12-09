@@ -58,7 +58,7 @@
   align-items: center;
 }
 .arrow-down {
-  color: var(--secondary-text-theme-color);
+  color: var(--secondary-text-color);
 
   margin-left: auto;
   margin-right: auto;

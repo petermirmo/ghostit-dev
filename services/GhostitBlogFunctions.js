@@ -15,6 +15,14 @@ module.exports = {
       res.send({ success: false });
       return;
     }
+    if (ghostitBlog.deleteImageArray) {
+      for (let index in ghostitBlog.deleteImageArray) {
+        cloudinary.uploader.destroy(
+          ghostitBlog.deleteImageArray[index],
+          cloudinaryResult => {}
+        );
+      }
+    }
 
     let newGhostitBlog = {};
     if (!ghostitBlog.id) newGhostitBlog = new GhostitBlog(ghostitBlog);
@@ -22,8 +30,8 @@ module.exports = {
     newGhostitBlog.images = [];
     newGhostitBlog.userID = user._id;
     newGhostitBlog.url = ghostitBlog.url;
-    newGhostitBlog.title = ghostitBlog.title;
     newGhostitBlog.category = ghostitBlog.category;
+    newGhostitBlog.contentArray = ghostitBlog.contentArray;
 
     let saveBlog = blog => {
       let unsuccessfulSave = (blog, error) => {
@@ -77,33 +85,28 @@ module.exports = {
         if (image.url) {
           asyncCounter--;
           continueCounter--;
-          newGhostitBlog.images.push({
-            url: image.url,
-            publicID: image.publicID,
-            size: image.size,
-            location: image.location
-          });
+          newGhostitBlog.images.push(image);
           if (continueCounter === 0) saveBlog(newGhostitBlog);
 
           continue;
-        }
-        cloudinary.v2.uploader.upload(
-          image.imagePreviewUrl,
-          (error, result) => {
-            if (error) return handleError(res, error);
-            else {
-              asyncCounter--;
-              newGhostitBlog.images.push({
-                url: result.url,
-                publicID: result.public_id,
-                size: image.size,
-                location: image.location
-              });
+        } else
+          cloudinary.v2.uploader.upload(
+            image.imagePreviewUrl,
+            (error, result) => {
+              if (error) return handleError(res, error);
+              else {
+                asyncCounter--;
+                newGhostitBlog.images.push({
+                  url: result.url,
+                  publicID: result.public_id,
+                  size: image.size,
+                  location: image.location
+                });
 
-              if (asyncCounter === 0) saveBlog(newGhostitBlog);
+                if (asyncCounter === 0) saveBlog(newGhostitBlog);
+              }
             }
-          }
-        );
+          );
       }
     } else {
       saveBlog(newGhostitBlog);

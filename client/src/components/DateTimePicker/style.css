@@ -10,7 +10,7 @@
   user-select: none;
 }
 .display-date {
-  border-bottom: 1px solid var(--secondary-text-theme-color);
+  border-bottom: 1px solid var(--secondary-text-color);
 }
 .display-date:hover {
   border-color: var(--five-primary-color);
@@ -138,7 +138,7 @@
 
   min-width: 30px;
 
-  border: 1px solid var(--secondary-text-theme-color);
+  border: 1px solid var(--secondary-text-color);
 
   cursor: pointer;
 }
@@ -152,7 +152,7 @@
 
 .time-dropdown-container {
   background-color: var(--white-theme-color);
-  border: 1px solid var(--secondary-text-theme-color);
+  border: 1px solid var(--secondary-text-color);
 
   position: absolute;
   display: flex;

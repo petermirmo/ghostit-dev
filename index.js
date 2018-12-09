@@ -50,11 +50,11 @@ if (process.env.NODE_ENV === "production") {
     console.log("starting");
     TokenScheduler.main();
   });
-}
 
-schedule.scheduleJob("* * * * *", () => {
-  EmailScheduler.main();
-});
+  schedule.scheduleJob("* * * * *", () => {
+    EmailScheduler.main();
+  });
+}
 
 // Connect to database
 mongoose.connect(

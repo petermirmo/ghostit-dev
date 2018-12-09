@@ -17,11 +17,11 @@
 
   box-sizing: border-box;
 
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 .invoice-container-row:nth-child(odd) {
   background-color: var(--light-grey-theme-color);
-  color: var(--primary-text-theme-color);
+  color: var(--primary-text-color);
 }
 
 .invoice-container-row .item {

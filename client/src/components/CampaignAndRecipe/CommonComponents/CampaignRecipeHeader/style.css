@@ -16,7 +16,7 @@
   margin-left: 8px;
 }
 .campaign-title {
-  font-family: var(--silly-font-theme);
+  font-family: var(--silly-font);
   font-size: var(--gigantic-font-size);
 }
 .campaign-description {

@@ -6,7 +6,16 @@ import Post from "../../../components/Post";
 class Section3 extends Component {
   render() {
     return (
-      <div className="section flex hc vc wrap width100 border-box px32">
+      <div className="section px32">
+        <div className="third common-container-center">
+          <div className="small-box">
+            <h4 className="h1-like pt8">Post Instructions</h4>
+            <p>
+              Add custom steps for your marketing campaign or follow existing
+              ones with a pre-built template.
+            </p>
+          </div>
+        </div>
         <div className="platform-component-showcase fill common-shadow">
           <Post
             post={undefined}
@@ -24,15 +33,6 @@ class Section3 extends Component {
             savePostChanges={() => {}}
             notify={() => {}}
           />
-        </div>
-        <div className="third flex column vc hc">
-          <div className="description-box flex column hc">
-            <h4 className="title silly-font pb8">Post Instructions</h4>
-            <p className="body">
-              Add custom steps for your marketing campaign or follow existing
-              ones with a pre-built template.
-            </p>
-          </div>
         </div>
       </div>
     );
