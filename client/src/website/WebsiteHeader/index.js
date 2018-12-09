@@ -9,8 +9,16 @@ import Logo from "./Logo";
 import "./style.css";
 
 class WebsiteHeader extends Component {
-  isActive = activePage => {
-    if ("/" + activePage == this.props.location.pathname) return " active";
+  isActive = page => {
+    if ("/" + page === this.props.location.pathname) return " active";
+    else return "";
+  };
+  isRootActive = page => {
+    if (
+      "/" + page ===
+      this.props.location.pathname.substring(0, page.length + 1)
+    )
+      return " active";
     else return "";
   };
   render() {
@@ -45,7 +53,9 @@ class WebsiteHeader extends Component {
           </button>
         </Link>
         <Link to="/blog">
-          <button className={className + this.isActive("blog")}>Blog</button>
+          <button className={className + this.isRootActive("blog")}>
+            Blog
+          </button>
         </Link>
 
         {user && (

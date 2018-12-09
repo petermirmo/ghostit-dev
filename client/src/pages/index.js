@@ -152,7 +152,7 @@ class Routes extends Component {
             <Route path="/home/" component={HomePage} />
             <Route path="/pricing/" component={PricingPage} />
             <Route path="/team/" component={TeamPage} />
-            <Route path="/blog/" component={BlogPage} />
+            <Route path="/blog/" component={BlogPage} exact />
             <Route path="/agency/" component={GhostitAgency} />
             <Route path="/sign-in/" component={LoginPage} />
             <Route
@@ -166,7 +166,7 @@ class Routes extends Component {
             {ghostitBlogs.map((obj, index) => {
               return (
                 <Route
-                  path={"/" + obj.url + "/"}
+                  path={"/blog/" + obj.url + "/"}
                   key={index}
                   render={props => {
                     return (

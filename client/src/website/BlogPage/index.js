@@ -19,7 +19,8 @@ class BlogPage extends Component {
       { value: "Most Recent", active: true },
       { value: "Road to 100", active: false },
       { value: "Content and Coffee", active: false },
-      { value: "Content Marketing", active: false }
+      { value: "Content Marketing", active: false },
+      { value: "Business", active: false }
     ]
   };
   componentDidMount() {
@@ -65,8 +66,8 @@ class BlogPage extends Component {
       ghostitBlogDivs.push(
         <div className="background-container" key={index}>
           <Link
-            to={ghostitBlog.url}
-            className="container-box small ma32 common-shadow relative br4 button"
+            to={"blog/" + ghostitBlog.url}
+            className="container-box small ma32 common-shadow br4 button"
           >
             <div
               className="preview-blog-cover width100"

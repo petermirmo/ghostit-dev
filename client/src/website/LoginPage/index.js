@@ -34,7 +34,7 @@ class Login extends Component {
     };
   }
   componentDidMount() {
-    if (this.props.user) this.props.history.push("/content");
+    if (this.props.user) this.props.history.push("/home");
   }
   componentWillReceiveProps(nextProps) {
     this.setState(this.createState(nextProps));
