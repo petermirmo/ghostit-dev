@@ -500,26 +500,27 @@ class CalendarManager extends Component {
                 </p>
                 <p className="flex1">{userObj.email}</p>
               </div>
-              {isAdmin && userObj._id.toString() !== userID.toString() && (
-                <div className="flex hc vc">
-                  <div title="Remove User">
-                    <FontAwesomeIcon
-                      className="color-red button"
-                      icon={faTrash}
-                      onClick={e => {
-                        e.stopPropagation();
-                        this.setState({
-                          removeUserPrompt: true,
-                          removeUserObj: {
-                            userIndex: index,
-                            calendarIndex: activeCalendarIndex
-                          }
-                        });
-                      }}
-                    />
+              {isAdmin &&
+                userObj._id.toString() !== userID.toString() && (
+                  <div className="flex hc vc">
+                    <div title="Remove User">
+                      <FontAwesomeIcon
+                        className="color-red button"
+                        icon={faTrash}
+                        onClick={e => {
+                          e.stopPropagation();
+                          this.setState({
+                            removeUserPrompt: true,
+                            removeUserObj: {
+                              userIndex: index,
+                              calendarIndex: activeCalendarIndex
+                            }
+                          });
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         );
@@ -629,7 +630,15 @@ class CalendarManager extends Component {
         </div>
         <div className="flex flex1 width100">
           <div className="list-container flex1 pa16 light-scrollbar border-right">
-            <h4 className="mx16">Social Accounts Linked To Calendar</h4>
+            <div className="flex row">
+              <h4 className="mx16">Social Accounts Linked To Calendar</h4>
+              <div
+                className="add-accounts-tooltip"
+                title="To link social accounts from your user account to a calendar, create a new post and click on the account you want to link."
+              >
+                <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
+              </div>
+            </div>
             {accountDivs}
           </div>
           <div className="list-container flex1 pa16 light-scrollbar">

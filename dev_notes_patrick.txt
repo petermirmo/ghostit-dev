@@ -24,6 +24,9 @@ useful git commands:
     git branch pat-branch             // creates local pat-branch from master
     git push ghostit pat-branch
 
+how to get the local dev server to post:
+  root/index.js -> schedule.scheduleJob
+
 imagine scenario:
   var = 4; this.setState({ var: 4 });
     vs
@@ -32,19 +35,11 @@ imagine scenario:
 
 (components/CampaignModal)
 
-Ability for the users to 'duplicate' a post in a campaign.
-
-sometimes clicking an account to post to doesn't give feedback that the account was chosen until something else is changed.
-
-prompt users when they try to delete a post.
-
 when user has no posts on their calendar to show, have a "Create your first campaign" button on today's date.
 
 whiteboard:
   - ability to create colour for custom task
     (should the user be able to use a full colour picker or should we just give more colours that are different from the campaign colours? what should the default colour be?)
-  - recipe.author
-    ()
   - calendar event completed checkmarks / custom task completed
     (show a checkmark beside posts on the calendar that have been posted. show them for custom tasks as well but the only way to toggle the checkmark is for the user to open the task and mark it completed themselves.)
 
@@ -52,8 +47,6 @@ recipe edit and delete
   campaign and recipe:
     recipe editing: posts need some way to display which social type it is (besides just the color of its list button)
     custom tasks need their own colour
-
-make campaignModal footer its own component
 
 campaign start and end date button "Wrap Posts" which sets the start and end dates to the earlier and latest posting date of all the posts.
 
@@ -134,66 +127,13 @@ to do next:
   campaign modal maybe have the name, start date, end date all appear in a "compact" version when their normal displays are hidden
 
   calendar/socket styles to fix:
-    calendar picker (make sure all names fit properly into their containers and use ... on names that are too long)
-    user list (make sure all names fit like calendar picker but also make sure the dropdown stays within the page)
-    calendar manager user / account cards
-    socket user list in campaign modal is outside the modal and gets cut off (longer names)
     not a huge fan of calendar picker not including the currently selected calendar
 
-  calendar billing:
-    must be paid user to create calendars
-    demo users get a notification when trying to create or delete calendars
-      "Only paid accounts can create or delete calendars. Unpaid accounts can use their default calendar with limited
-      functionality or be invited to a paid calendar where they have access to all of that calendar's functionality."
-    Demo calendars can only have 10 posts total.
-      after a post goes out from a demo calendar, decrement its postsLeft attribute.
-      postsLeft === -1 means infinite (paid)
-    remove ability to promote a different user to calendar admin
-      (since the calendar's functionality is tied to the admin's account type)
-
-    BASIC calendars:
-      when a user opens content page and fetches their calendars
-        if there are calendars:
-          for each calendar:
-            if the user is the calendar admin:
-              if user.role === "demo":
-                if calendar.postsLeft === -1:
-                  calendar.postsLeft = 0
-                  (this way, if user goes from paid -> unpaid, their calendar becomes locked)
-              else:
-                if calendar.postsLeft !== -1:
-                  calendar.postsLeft = -1
-                  (this way, if user goes from unpaid -> paid, their calendar becomes unlocked)
-        else no calendars:
-          create a new calendar
-          if user.role === "demo":
-            calendar.postsLeft = 10
-          else:
-            calendar.postsLeft = -1
-
-      when a user attempts to save a post (custom task, post)
-        look up all posts in the DB with calendarID, status === "pending"
-          (we don't check for the already posted posts since if the user deleted them after they went out, they wouldnt be detected)
-          if calendar.postsLeft <== foundPosts.length: (no posts left to schedule)
-            send back an error that they are out of posts to schedule
-          else:
-            let them schedule it
-
-      when a post is sent out
-        look up its calendar in the DB.
-          if calendar.postsLeft > 1:
-            calendar.postsLeft -= 1
-              (this way, it'll never decrement from 0 to -1 accidentally causing a demo calendar to go to paid status)
-              (we decrement this attribute bcz we don't count the already posted posts when checking if the calendar can still schedule more posts)
-          else:
-            do nothing
-
-
       bugs to fix:
-        discard unsaved changes alert in campaign modal is fucked.
-          (new campaign, edit a post, try to exit campaign)
         campaign list of posts doesn't scroll when lots of posts
-
+        bottom of home page divs are given ugly backgrounds
+        pricing page isnt ready
+        campaign modal when the window size is small, the content half shrinks before the post list half shrinks
 
 
 

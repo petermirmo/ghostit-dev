@@ -50,7 +50,15 @@ class PostingOptions extends Component {
       } else {
         if (this._ismounted) this.setState({ somethingChanged: false });
       }
-      if (this.state.accountID === "") {
+      const currentAccount = this.state.calendarAccounts
+        ? this.state.calendarAccounts.find(
+            act => act.socialID === this.state.accountID
+          )
+        : undefined;
+      if (
+        this.state.accountID === "" ||
+        (currentAccount && currentAccount.socialType !== nextProps.socialType)
+      ) {
         const returnObj = this.getDefaultAccount(nextProps);
         if (this._ismounted)
           this.setState({
@@ -136,10 +144,13 @@ class PostingOptions extends Component {
         console.log(err);
         console.log(message);
         console.log("error while fetching calendar social accounts");
-      } else if (this._ismounted) {
-        this.setState({ calendarAccounts: accounts }, () =>
-          this.getDefaultAccount(this.props)
-        );
+      } else {
+        this.setState({ calendarAccounts: accounts }, () => {
+          const result = this.getDefaultAccount(this.props);
+          if (result && result.id && result.type) {
+            this.setState({ accountID: result.id, accountType: result.type });
+          }
+        });
       }
     });
   };
