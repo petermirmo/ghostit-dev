@@ -129,47 +129,8 @@ to do next:
   calendar/socket styles to fix:
     not a huge fan of calendar picker not including the currently selected calendar
 
-    BASIC calendars:
-      when a user opens content page and fetches their calendars
-        if there are calendars:
-          for each calendar:
-            if the user is the calendar admin:
-              if user.role === "demo":
-                if calendar.postsLeft === -1:
-                  calendar.postsLeft = 0
-                  (this way, if user goes from paid -> unpaid, their calendar becomes locked)
-              else:
-                if calendar.postsLeft !== -1:
-                  calendar.postsLeft = -1
-                  (this way, if user goes from unpaid -> paid, their calendar becomes unlocked)
-        else no calendars:
-          create a new calendar
-          if user.role === "demo":
-            calendar.postsLeft = 10
-          else:
-            calendar.postsLeft = -1
-
-      when a user attempts to save a post (custom task, post)
-        look up all posts in the DB with calendarID, status === "pending"
-          (we don't check for the already posted posts since if the user deleted them after they went out, they wouldnt be detected)
-          if calendar.postsLeft <== foundPosts.length: (no posts left to schedule)
-            send back an error that they are out of posts to schedule
-          else:
-            let them schedule it
-
-      when a post is sent out
-        look up its calendar in the DB.
-          if calendar.postsLeft > 1:
-            calendar.postsLeft -= 1
-              (this way, it'll never decrement from 0 to -1 accidentally causing a demo calendar to go to paid status)
-              (we decrement this attribute bcz we don't count the already posted posts when checking if the calendar can still schedule more posts)
-          else:
-            do nothing
-
-
       bugs to fix:
         campaign list of posts doesn't scroll when lots of posts
-        home page is making a request for  GET /api/calendar/accounts/1234 which console logs a message
         bottom of home page divs are given ugly backgrounds
         pricing page isnt ready
         campaign modal when the window size is small, the content half shrinks before the post list half shrinks
