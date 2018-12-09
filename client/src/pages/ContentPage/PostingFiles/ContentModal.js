@@ -48,21 +48,22 @@ class ContentModal extends Component {
 
   switchTabState = activeTab => {
     if (activeTab.name === this.state.activeTab.name) return;
-    this.setState(prevState => {
-      return {
-        activeTab,
-        listOfPostChanges: {
-          ...prevState.listOfPostChanges,
-          accountID: "",
-          accountType: "",
-          socialType: activeTab.name
-        }
-      };
-    });
+    if (this._ismounted)
+      this.setState(prevState => {
+        return {
+          activeTab,
+          listOfPostChanges: {
+            ...prevState.listOfPostChanges,
+            accountID: "",
+            accountType: "",
+            socialType: activeTab.name
+          }
+        };
+      });
   };
 
   setSaving = () => {
-    this.setState({ saving: true });
+    if (this._ismounted) this.setState({ saving: true });
   };
 
   backupPostChanges = (value, index) => {
@@ -72,19 +73,20 @@ class ContentModal extends Component {
       // don't save the account chosen
       return;
     }
-    this.setState(prevState => {
-      const newChanges = { ...prevState.listOfPostChanges };
-      if (newChanges.accountID === "") {
-        delete newChanges.accountID;
-        delete newChanges.accountType;
-      }
-      return {
-        listOfPostChanges: {
-          ...newChanges,
-          [index]: value
+    if (this._ismounted)
+      this.setState(prevState => {
+        const newChanges = { ...prevState.listOfPostChanges };
+        if (newChanges.accountID === "") {
+          delete newChanges.accountID;
+          delete newChanges.accountType;
         }
-      };
-    });
+        return {
+          listOfPostChanges: {
+            ...newChanges,
+            [index]: value
+          }
+        };
+      });
   };
 
   render() {
@@ -148,7 +150,7 @@ class ContentModal extends Component {
                 : clickedCalendarDate
           }}
           postFinishedSavingCallback={(post, success, message) => {
-            this.setState({ saving: false });
+            if (this._ismounted) this.setState({ saving: false });
             if (success) {
               savePostCallback(post);
             } else {

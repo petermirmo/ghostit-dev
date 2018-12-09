@@ -6,7 +6,7 @@ class Section5 extends Component {
     return (
       <div className="common-container pb32 mb64">
         <h1 className="tac mx16">Here's what our customers are saying</h1>
-        <div className="wrapping-container">
+        <div className="wrapping-container-full-center">
           <div className="team-member-image-container round mx32">
             <img
               src="public/client-testimony.jpg"
@@ -15,7 +15,7 @@ class Section5 extends Component {
             />
           </div>
 
-          <div className="container-box small py32 mx32">
+          <div className="container-box tiny py32 mx32">
             <p>
               "Repeatedly running digital campaigns for multiple clients can get
               both cumbersome and at times confusing. Ghostit's platform lets me

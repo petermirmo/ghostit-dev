@@ -679,7 +679,7 @@ class CalendarManager extends Component {
     const isAdmin = calendars[activeCalendarIndex].adminID == userID;
 
     return (
-      <div className="flex column flex1">
+      <div className="simple-container flex1">
         <div className="close-container" title="Close Calendar Manager">
           <FontAwesomeIcon
             className="close-special"

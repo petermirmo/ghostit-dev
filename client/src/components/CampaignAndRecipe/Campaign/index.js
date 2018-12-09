@@ -30,7 +30,7 @@ import {
 
 import "./style.css";
 
-class CampaignModal extends Component {
+class Campaign extends Component {
   constructor(props) {
     super(props);
     this.state = this.createStateVariable(this.props);
@@ -670,7 +670,7 @@ class CampaignModal extends Component {
     setDisplayAndMessage,
     anchorDates = false
   ) => {
-    // function that gets passed to <DateTimePicker/> which lets it modify <CampaignModal/>'s start and end dates
+    // function that gets passed to <DateTimePicker/> which lets it modify <Campaign/>'s start and end dates
     // before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
     // for example, if you had a campaign from Sept 1 -> Sept 4 and a post on Sept 3,
     // then you tried to change the campaign to Sept 1 -> Sept 2, the post on Sept 3 will no longer be within the campaign dates
@@ -1413,4 +1413,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CampaignModal);
+)(Campaign);

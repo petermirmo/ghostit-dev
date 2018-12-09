@@ -1,0 +1,22 @@
+#website-header {
+  position: fixed;
+  display: flex;
+
+  align-items: center;
+  padding-top: 16px;
+  padding-left: 32px;
+  padding-right: 32px;
+  flex-wrap: wrap;
+  z-index: 1;
+  width: calc(100vw - 16px);
+  max-width: 100%;
+  justify-content: flex-end;
+  background-color: var(--white-theme-color);
+
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+#logo-container {
+  flex: 1;
+}

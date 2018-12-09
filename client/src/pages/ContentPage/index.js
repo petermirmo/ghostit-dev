@@ -936,7 +936,6 @@ class Content extends Component {
         }
       }
     }
-
     return (
       <div className="content-page">
         {loading && <Loader />}
@@ -1079,6 +1078,7 @@ class Content extends Component {
             close={this.closeModals}
             handleChange={this.handleChange}
             clickedCalendarDate={clickedDate}
+            calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
         {notification.show && (

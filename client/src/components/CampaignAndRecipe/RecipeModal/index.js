@@ -416,6 +416,7 @@ class RecipeModal extends Component {
                 handleChange={date => {
                   recipe.chosenStartDate = date;
                   recipe.recipeID = recipe._id;
+                  recipe.calendarID = this.props.calendarID;
                   this.props.handleChange(recipe, "clickedEvent");
                   this.props.handleChange(true, "clickedEventIsRecipe");
                   this.props.handleChange(false, "recipeEditing");

@@ -99,6 +99,14 @@
   box-sizing: border-box;
   width: 100%;
 }
+.wrapping-container-full-center {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+}
 .wrapping-container-no-center {
   display: flex;
   flex-wrap: wrap;
@@ -159,6 +167,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .regular-border {
   border-radius: 4px;
@@ -563,8 +572,6 @@
   color: var(--white-theme-color);
 }
 
-.bright-save-button-background {
-}
 .bright-save-button {
   font-size: var(--large-font-size);
   background-color: var(--pink-theme-color);
@@ -698,26 +705,6 @@
   color: var(--seven-primary-color);
 }
 
-.box-button {
-  padding: 4px 10px 4px 10px;
-
-  font-size: inherit;
-  color: var(--five-primary-color);
-  border: 2px solid var(--five-primary-color);
-
-  cursor: pointer;
-  box-sizing: border-box;
-}
-.box-button.left {
-  margin-left: 10px;
-}
-.box-button.bottom {
-  margin-bottom: 10px;
-}
-.box-button:hover {
-  color: var(--white-theme-color);
-  background-color: var(--five-primary-color);
-}
 .width100 {
   width: 100%;
 }
@@ -1444,4 +1431,15 @@ input[type="file"] {
   color: var(--blue-text-color);
   font-weight: bold;
   font-size: var(--large-font-size);
+}
+
+.transparent-button-important {
+  pointer-events: auto;
+  color: var(--primary-text-color);
+  font-family: var(--silly-font);
+  font-size: var(--large-font-size);
+}
+
+.transparent-button-important.active {
+  color: var(--blue-text-color);
 }
