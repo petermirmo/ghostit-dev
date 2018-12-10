@@ -84,7 +84,6 @@ class Content extends Component {
 
     axios.get("/api/timezone").then(res => {
       let { timezone, loggedIn } = res.data;
-      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (!timezone) timezone = this.state.timezone;
       moment.tz.setDefault(timezone);

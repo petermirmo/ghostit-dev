@@ -67,6 +67,9 @@ class Routes extends Component {
 
           this.setState({ datebaseConnection: true });
         });
+      } else if (this.userIsInPlatform(this.props.location.pathname)) {
+        this.props.history.push("/sign-in");
+        this.setState({ datebaseConnection: true });
       } else this.setState({ datebaseConnection: true });
     });
   }
