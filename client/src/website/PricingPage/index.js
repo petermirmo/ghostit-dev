@@ -7,10 +7,12 @@ class PricingPage extends Component {
     return (
       <div className="website-page flex column vc">
         <h1 className="tac">Ghostit Pricing</h1>
-        <h3 className="mx16">Have questions? Give us a call: 250-415-3093</h3>
+        <h3 className="tac mx16">
+          Have questions? Give us a call: 250-415-3093
+        </h3>
 
         <div className="wrapping-container">
-          <div className="container-box medium common-shadow pa32 ma32">
+          <div className="container-box small common-shadow pa32 ma32">
             <div className="common-container colorful-bottom-border hc vc pa16 mb16">
               <h2 className="important-text">
                 Professional
@@ -28,7 +30,7 @@ class PricingPage extends Component {
             <p className="unimportant-text pt8">Real-time multi-user</p>
           </div>
 
-          <div className="container-box medium common-shadow pa32 ma32">
+          <div className="container-box small common-shadow pa32 ma32">
             <div className="common-container colorful-bottom-border orange hc vc pa16 mb16">
               <h2 className="important-text">
                 Agency
@@ -46,7 +48,7 @@ class PricingPage extends Component {
             <p className="unimportant-text pt8">Competitive analysis</p>{" "}
           </div>
 
-          <div className="container-box medium common-shadow pa32 ma32">
+          <div className="container-box small common-shadow pa32 ma32">
             <div className="common-container colorful-bottom-border purple hc vc pa16 mb16">
               <h2 className="important-text">
                 Enterprise

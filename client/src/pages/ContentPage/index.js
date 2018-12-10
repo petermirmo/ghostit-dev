@@ -84,7 +84,6 @@ class Content extends Component {
 
     axios.get("/api/timezone").then(res => {
       let { timezone, loggedIn } = res.data;
-      if (loggedIn === false) this.props.history.push("/sign-in");
 
       if (!timezone) timezone = this.state.timezone;
       moment.tz.setDefault(timezone);
@@ -936,7 +935,6 @@ class Content extends Component {
         }
       }
     }
-
     return (
       <div className="content-page">
         {loading && <Loader />}
@@ -1079,6 +1077,7 @@ class Content extends Component {
             close={this.closeModals}
             handleChange={this.handleChange}
             clickedCalendarDate={clickedDate}
+            calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
         {notification.show && (

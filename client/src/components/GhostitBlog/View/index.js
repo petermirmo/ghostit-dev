@@ -34,7 +34,7 @@ class ViewWebsiteBlog extends Component {
           spanDivs.push(
             <a
               style={style2}
-              key={"div" + contentArrayIndex}
+              key={"a" + contentArrayIndex}
               href={divInformation2.link}
             >
               {divInformation2.text}
@@ -43,7 +43,7 @@ class ViewWebsiteBlog extends Component {
         }
         if (divInformation2.type === "span") {
           spanDivs.push(
-            <span style={style2} key={"div" + contentArrayIndex}>
+            <span style={style2} key={"span" + contentArrayIndex}>
               {divInformation2.text}
             </span>
           );
@@ -107,9 +107,9 @@ class ViewWebsiteBlog extends Component {
     return (
       <div className="margin-hc simple-container" key={"image" + index}>
         <img
-          key={"image " + index}
+          key={"xuwm " + index}
           src={image.imagePreviewUrl || image.url}
-          className={"image " + image.size}
+          className={"image br4 " + image.size}
         />
       </div>
     );

@@ -4,11 +4,18 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+let { mobileAndTabletcheck } = require("../../componentFunctions");
+
 import Logo from "./Logo";
 
-import "./style.css";
+import "./styles";
 
 class WebsiteHeader extends Component {
+  state = {
+    showHeader: !mobileAndTabletcheck()
+  };
   isActive = page => {
     if ("/" + page === this.props.location.pathname) return " active";
     else return "";
@@ -22,14 +29,34 @@ class WebsiteHeader extends Component {
     else return "";
   };
   render() {
+    const { showHeader } = this.state;
     const { user } = this.props;
-    let className = "website-header-button moving-border mr16";
+    let className = "transparent-button-important moving-border mr16";
+
+    if (!showHeader) {
+      return (
+        <FontAwesomeIcon
+          icon={faBars}
+          id="mobile-open-header-button"
+          size="2x"
+          onClick={() => this.setState({ showHeader: true })}
+        />
+      );
+    }
 
     return (
-      <div className="website-header fixed flex vc pt16 px32">
-        <div className="logo-container flex">
+      <div id="website-header">
+        {mobileAndTabletcheck() && (
+          <FontAwesomeIcon
+            icon={faTimes}
+            size="2x"
+            className="close"
+            onClick={() => this.setState({ showHeader: false })}
+          />
+        )}
+        <div id="logo-container">
           <Link to="/home">
-            <Logo style={{ cursor: "pointer" }} />
+            <Logo className="button" />
           </Link>
         </div>
         <Link to="/home">
