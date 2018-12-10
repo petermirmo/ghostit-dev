@@ -126,14 +126,8 @@ to do next:
 
   campaign modal maybe have the name, start date, end date all appear in a "compact" version when their normal displays are hidden
 
-  calendar/socket styles to fix:
-    not a huge fan of calendar picker not including the currently selected calendar
-
-      bugs to fix:
-        campaign list of posts doesn't scroll when lots of posts
-        bottom of home page divs are given ugly backgrounds
-        pricing page isnt ready
-        campaign modal when the window size is small, the content half shrinks before the post list half shrinks
+  bugs to fix:
+    campaign list of posts doesn't scroll when lots of posts
 
 
 
