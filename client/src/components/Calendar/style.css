@@ -98,6 +98,8 @@
   justify-content: flex-start;
   align-items: flex-start;
   min-height: 100vh;
+  max-width: 100%;
+  overflow: hidden;
 }
 .queue-post-container {
   width: 100%;
@@ -111,6 +113,7 @@
   flex-basis: 0;
 
   align-items: center;
+  word-break: break-word;
 }
 .queue-post-attribute.important {
   flex: 8;

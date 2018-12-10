@@ -528,7 +528,7 @@ class Section2 extends Component {
             Map your marketing campaign from scratch or use pre-built templates.
           </p>
         </div>
-        <div className="platform-component-showcase two-third flex vc hc">
+        <div className="platform-component-showcase two-third small-overflow-box">
           <Calendar
             calendarEvents={calendarEvents}
             calendarDate={new moment()}

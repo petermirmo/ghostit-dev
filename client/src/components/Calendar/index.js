@@ -453,7 +453,7 @@ class Calendar extends Component {
           </div>
           <div className="flex hc vc">
             <button
-              className="regular-button large common-transition"
+              className="regular-button no-text-wrap large common-transition"
               onClick={() => this.setState({ queueActive: !queueActive })}
             >
               {queueActive ? "Calendar" : "Queue Preview"}
