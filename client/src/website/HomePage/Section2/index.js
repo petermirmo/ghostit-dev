@@ -59,7 +59,7 @@ const calendarEvents = [
         color: "#0077b5",
         status: "pending",
         accountID: "qOY79iYOOp",
-        content: "",
+        content: "Check out our new blog!",
         instructions:
           "Blog post link: ghostit.co/blog\n\nCreate a LinkedIn post that talks about your blog post. Stories or long form posts do better than shorter posts on LinkedIn. Try and incorporate more of your blog post into the LinkedIn post than you would on Facebook or Twitter. \n\n-----\n\nExample post from Ryan Bonnici Vp of marketing at G2 Crowd. \n\n\"I wouldn't be where I am today if it weren't for the help of some amazing mentors (and a hell of a lot of luck!!).\n\nFor the last few years I've made a real effort to #throwitback and say yes whenever i can to people asking for mentorship.\n\nIt has been an absolute blast meeting so many smart folks of all ages that want to learn and grow. But it has also been really difficult to manage at scale (especially since taking on my new role at G2 Crowd last year).\n\nThat's why this year I'm trying to share my learnings through more scalable channels, like podcasts, webinars and events.\n\nMost recently, the legendary Max Altschuler from Sales Hacker, Inc. launched his new #book 'Career Hacking for Millennials'. He and I caught up on his new #podcast, which you can have a listen to now. Or, if you want a free copy of his book, let me know in the comments.\n\nLink below:\n",
         postingDate: new moment().add(2, "day"),
@@ -149,7 +149,7 @@ const calendarEvents = [
         color: "#0077b5",
         status: "pending",
         accountID: "qOY79iYOOp",
-        content: "",
+        content: "Come check out our new Blog!",
         instructions:
           'Blog post link: ghostit.co/blog\n\nCreate a LinkedIn post posts that talks about your blog post. Since it has been a week and there is probably activity on your LinkedIn feed since then you can reuse the earlier post from the 17th. This post can be shorter since you already posted a long form post on LinkedIn. \n\nExample twitter post: "The best way to promote is to have a standard operating procedure so everyone is on the same page with what needs to be done. We created a standard operating procedure for you that you can follow and get maximum engagement on every post: www.ghostit.co/blog"\n\n',
         postingDate: new moment().add(7, "day"),
@@ -205,7 +205,7 @@ const calendarEvents = [
         color: "#0077b5",
         status: "pending",
         accountID: "qOY79iYOOp",
-        content: "t",
+        content: "Come check out our awesome new site!",
         instructions: "",
         postingDate: new moment().add(3, "day"),
         link: "",
@@ -298,7 +298,8 @@ const calendarEvents = [
         color: "#1da1f2",
         status: "pending",
         accountID: "921756558161088512",
-        content: "",
+        content:
+          "Telling your personal brand story can be a challenge, but it’s one of the most important things you can do in 2018.",
         instructions:
           "Example Twitter Post: \n\nTelling your personal brand story can be a challenge, but it’s one of the most important things you can do in 2018.\n\nAt (our company) we created a guide on how to tell your brand story that includes over 40 real examples. \n\nDownload it here: ",
         postingDate: new moment().add(10, "day"),
@@ -320,7 +321,7 @@ const calendarEvents = [
         color: "#0077b5",
         status: "pending",
         accountID: "qOY79iYOOp",
-        content: "",
+        content: "Hilarious and cool, can life get any better?",
         instructions:
           "First LinkedIn post on the day of your content launch:\n\nExample post: \n\nKnowing how to tell your personal brand story is one of the most important things you can do in 2018.\n\nEspecially on LinkedIn, we have seen this too many times where people don't know what they should be saying or how to properly tell their story.  \n\nYou can get our guide here: (insert link)",
         postingDate: new moment().add(10, "day"),
@@ -411,7 +412,7 @@ const calendarEvents = [
         color: "#0077b5",
         status: "pending",
         accountID: "qOY79iYOOp",
-        content: "",
+        content: "Our new team member Jake, growing every day!",
         instructions:
           'Post another call to action about your content. Chances are your audience has forgotten about it or could have missed it. \n\nThe LinkedIn feed also updates so frequently that you can use your previous post. \n\n"Telling your brand story is one of the most important things you can do in 2018. \n\nWe found a lot of professionals struggle with it so we created a guide with over 40 examples that you can use.\n\nDownload it here: "',
         postingDate: new moment().add(16, "day"),
@@ -433,7 +434,8 @@ const calendarEvents = [
         color: "#1da1f2",
         status: "pending",
         accountID: "921756558161088512",
-        content: "",
+        content:
+          "Only 5% of your audience sees what you post on twitter so make sure you update them with your call to action.",
         instructions:
           'Post another call to action about your content. \n\nOnly 5% of your audience sees what you post on twitter so make sure you update them with your call to action. \n\nYou can paraphrase what you already said in LinkedIn and Facebook. \n\n"Telling your brand story is one of the most important things you can do in 2018. \n\nWe found a lot of professionals struggle with it so we created a guide with over 40 examples that you can use.\n\nCheck it out here: "',
         postingDate: new moment().add(17, "day"),
@@ -472,9 +474,10 @@ const calendarEvents = [
         color: "#1da1f2",
         status: "pending",
         accountID: "921756558161088512",
-        content: "",
+        content:
+          "Do you struggle to tell your brand story or sometimes don't know what to write when people ask?",
         instructions:
-          "Remind your audience that  you spent time and effort creating this guide that they would find helpful.\n\nDo you struggle to tell your brand story or sometimes don't know what to write when people ask?\n\nDon't worry we spent a lot of time researching the best at this and created over 40+ examples and an in-depth guide that you can use.\n\nGet it here: ",
+          "Remind your audience that you spent time and effort creating this guide that they would find helpful.\n\nDo you struggle to tell your brand story or sometimes don't know what to write when people ask?\n\nDon't worry we spent a lot of time researching the best at this and created over 40+ examples and an in-depth guide that you can use.\n\nGet it here: ",
         postingDate: new moment().add(23, "day"),
         link: "",
         linkImage: "",
@@ -494,7 +497,8 @@ const calendarEvents = [
         color: "#1da1f2",
         status: "pending",
         accountID: "921756558161088512",
-        content: "",
+        content:
+          "Don't worry we spent a lot of time researching the best at this and created over 40+ examples and an in-depth guide that you can use.",
         instructions:
           "Remind your audience that  you spent time and effort creating this guide that they would find helpful.\n\nDo you struggle to tell your brand story or sometimes don't know what to write when people ask?\n\nDon't worry we spent a lot of time researching the best at this and created over 40+ examples and an in-depth guide that you can use.\n\nGet it here: ",
         postingDate: new moment().add(24, "day"),
