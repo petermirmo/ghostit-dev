@@ -13,6 +13,7 @@
 }
 .navbar {
   background-color: var(--five-primary-color);
+  overflow: auto;
 }
 
 .header-button {

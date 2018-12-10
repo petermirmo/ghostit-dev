@@ -117,17 +117,17 @@ class Routes extends Component {
     let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
 
-    let activePage = "hello";
+    let activePage = this.props.location.pathname;
 
     return (
       <div className="flex">
-        {this.userIsInPlatform(this.props.location.pathname) && <Header />}
+        {this.userIsInPlatform(activePage) && <Header />}
 
         <div className="wrapper">
           {user &&
-            ((activePage === "content" ||
-              activePage === "subscribe" ||
-              activePage === "accounts") &&
+            ((activePage === "/content" ||
+              activePage === "/subscribe" ||
+              activePage === "/accounts") &&
               user.signedInAsUser && (
                 <div className="signed-in-as">
                   Logged in as: {user.signedInAsUser.fullName}
@@ -138,9 +138,7 @@ class Routes extends Component {
                   />
                 </div>
               ))}
-          {!this.userIsInPlatform(this.props.location.pathname) && (
-            <WebsiteHeader />
-          )}
+          {!this.userIsInPlatform(activePage) && <WebsiteHeader />}
           <Switch>
             <Route path="/content/" component={Content} />
             <Route path="/subscribe/" component={Subscribe} />
@@ -185,9 +183,7 @@ class Routes extends Component {
 
             <Route component={HomePage} />
           </Switch>
-          {!this.userIsInPlatform(this.props.location.pathname) && (
-            <WebsiteFooter />
-          )}
+          {!this.userIsInPlatform(activePage) && <WebsiteFooter />}
         </div>
       </div>
     );
