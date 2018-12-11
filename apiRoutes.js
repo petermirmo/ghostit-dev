@@ -33,13 +33,6 @@ module.exports = app => {
     next();
   };
 
-  if (process.env.NODE_ENV === "production") {
-    app.get("/*", (req, res, next) => {
-      if (req.headers.host.match(/^www/) == null)
-        res.redirect(301, "http://www." + req.headers.host + req.url);
-      else next();
-    });
-  }
   app.get("/api/test", (req, res, next) => facebookFunctions.test(req, res));
   // Login user
   app.post("/api/login", (req, res, next) => {
