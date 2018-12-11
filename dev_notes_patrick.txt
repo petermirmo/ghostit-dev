@@ -112,8 +112,6 @@ to do next:
     (the list entries could show who, when, and which attributes were modified)
     (clicking on them could show a smaller popup display of the post's state after that modification?)
 
-  date time picker calendar goes from monday->sunday instead of sunday->saturday
-
   socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
 
   make every email lower case in database
@@ -126,8 +124,9 @@ to do next:
 
   campaign modal maybe have the name, start date, end date all appear in a "compact" version when their normal displays are hidden
 
-  bugs to fix:
-    campaign list of posts doesn't scroll when lots of posts
+  socket user list "Patrick Holland - Logged in as StorageCraft"
+
+  calendar socket updates don't attach images to the post
 
 
 
