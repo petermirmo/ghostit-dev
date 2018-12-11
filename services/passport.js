@@ -107,7 +107,7 @@ module.exports = function(passport) {
                 sendEmail(
                   user,
                   "Ghostit sign up successful!",
-                  "Welcome to Ghostit! Your account is waiting for you. https://www.platform.ghostit.co",
+                  "Welcome to Ghostit! Your account is waiting for you. https://www.ghostit.co",
                   () => {}
                 );
                 done(null, user, "Success!");

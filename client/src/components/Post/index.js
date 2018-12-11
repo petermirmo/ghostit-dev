@@ -145,12 +145,13 @@ class PostingOptions extends Component {
         console.log(message);
         console.log("error while fetching calendar social accounts");
       } else {
-        this.setState({ calendarAccounts: accounts }, () => {
-          const result = this.getDefaultAccount(this.props);
-          if (result && result.id && result.type) {
-            this.setState({ accountID: result.id, accountType: result.type });
-          }
-        });
+        if (this._ismounted)
+          this.setState({ calendarAccounts: accounts }, () => {
+            const result = this.getDefaultAccount(this.props);
+            if (result && result.id && result.type) {
+              this.setState({ accountID: result.id, accountType: result.type });
+            }
+          });
       }
     });
   };

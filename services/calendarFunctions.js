@@ -274,6 +274,7 @@ module.exports = {
 
           calendarEndDate.set("hour", 23);
           calendarEndDate.set("minute", 59);
+
           Post.find(
             {
               calendarID: req.params.calendarID,

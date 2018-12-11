@@ -22,7 +22,7 @@ const writersBriefFunctions = require("./services/writersBriefFunctions");
 const SendMailFunctions = require("./MailFiles/SendMailFunctions");
 const analyticsFunctions = require("./services/analyticsFunctions");
 const calendarFunctions = require("./services/calendarFunctions");
-const ghostitBlogFunctions = require("./services/ghostitBlogFunctions");
+const ghostitBlogFunctions = require("./services/GhostitBlogFunctions");
 
 module.exports = app => {
   var middleware = function(req, res, next) {
@@ -33,13 +33,6 @@ module.exports = app => {
     next();
   };
 
-  if (process.env.NODE_ENV === "production") {
-    app.get("/*", (req, res, next) => {
-      if (req.headers.host.match(/^www/) == null)
-        res.redirect(301, "http://www." + req.headers.host + req.url);
-      else next();
-    });
-  }
   app.get("/api/test", (req, res, next) => facebookFunctions.test(req, res));
   // Login user
   app.post("/api/login", (req, res, next) => {
@@ -381,7 +374,7 @@ module.exports = app => {
     calendarFunctions.getCalendars(req, res)
   );
 
-  app.get("/api/calendar/posts/:calendarID", middleware, (req, res) =>
+  app.post("/api/calendar/posts/:calendarID", middleware, (req, res) =>
     calendarFunctions.getPosts(req, res)
   );
 

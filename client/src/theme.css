@@ -185,6 +185,11 @@
   background-color: var(--white-theme-color);
 }
 
+.no-text-wrap {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .common-container-center {
   display: flex;
   justify-content: center;

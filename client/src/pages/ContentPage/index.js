@@ -85,10 +85,11 @@ class Content extends Component {
     axios.get("/api/timezone").then(res => {
       let { timezone, loggedIn } = res.data;
 
-      if (!timezone) timezone = this.state.timezone;
+      if (!timezone) timezone = moment.tz.guess();
       moment.tz.setDefault(timezone);
 
-      if (this._ismounted) this.setState({ timezone });
+      if (this._ismounted)
+        this.setState({ timezone, calendarDate: new moment() });
     });
 
     axios.get("/api/calendars").then(res => {
@@ -619,6 +620,7 @@ class Content extends Component {
     // we should maybe setState({ posts: [] })) so that we don't render
     // posts from a previous calendar
     const { calendars, activeCalendarIndex, calendarDate } = this.state;
+
     if (!calendars || !calendars[activeCalendarIndex]) {
       console.log(calendars);
       console.log(activeCalendarIndex);
@@ -632,7 +634,7 @@ class Content extends Component {
 
     // Get all of user's posts to display in calendar
     axios
-      .get("/api/calendar/posts/" + calendarID, { calendarDate })
+      .post("/api/calendar/posts/" + calendarID, { calendarDate })
       .then(res => {
         const { success, err, message, posts, loggedIn } = res.data;
         if (!success) {
@@ -766,6 +768,7 @@ class Content extends Component {
     this.setState({ [index]: value });
   };
   editPost = post => {
+    console.log(post);
     // Open editting modal
     if (post.socialType === "blog") {
       this.setState({ blogEdittingModal: true, clickedEvent: post });
@@ -951,7 +954,7 @@ class Content extends Component {
           calendarEvents={calendarEvents}
           onDateChange={date => {
             this.handleChange(date, "calendarDate");
-            this.getPosts(calendarDate);
+            this.getPosts();
           }}
           calendarDate={calendarDate}
           onSelectDay={this.openModal}
