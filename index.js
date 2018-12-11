@@ -58,7 +58,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Connect to database
 mongoose.connect(
-  keys.mongoDevelopentURI,
+  keys.mongoDevelopmentURI,
   {
     useNewUrlParser: true,
     useCreateIndex: true
