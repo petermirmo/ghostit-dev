@@ -226,7 +226,9 @@ module.exports = {
           });
         });
       }
-      post.save().then(result => res.send(true));
+      post
+        .save()
+        .then(result => res.send({ success: true, savedPost: result }));
     });
   },
   deletePostImages: async function(req, res) {

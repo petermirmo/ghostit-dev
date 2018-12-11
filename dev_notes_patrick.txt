@@ -112,8 +112,6 @@ to do next:
     (the list entries could show who, when, and which attributes were modified)
     (clicking on them could show a smaller popup display of the post's state after that modification?)
 
-  date time picker calendar goes from monday->sunday instead of sunday->saturday
-
   socket manager for deleting posts from a campaign doesn't delete images. test with cloudinary to make sure that images arent deleted properly.
 
   make every email lower case in database
@@ -126,14 +124,9 @@ to do next:
 
   campaign modal maybe have the name, start date, end date all appear in a "compact" version when their normal displays are hidden
 
-  calendar/socket styles to fix:
-    not a huge fan of calendar picker not including the currently selected calendar
+  socket user list "Patrick Holland - Logged in as StorageCraft"
 
-      bugs to fix:
-        campaign list of posts doesn't scroll when lots of posts
-        bottom of home page divs are given ugly backgrounds
-        pricing page isnt ready
-        campaign modal when the window size is small, the content half shrinks before the post list half shrinks
+  calendar socket updates don't attach images to the post
 
 
 

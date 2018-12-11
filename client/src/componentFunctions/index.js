@@ -351,8 +351,12 @@ export async function savePost(
           // Make post request for images
           axios
             .post("/api/post/images", { postID: post._id, images: test })
-            .then(res => {
-              callback(post, true);
+            .then(response => {
+              if (response.data.success) {
+                callback(response.data.savedPost, true);
+              } else {
+                callback(post, true);
+              }
             });
         } else {
           callback(post, true);
