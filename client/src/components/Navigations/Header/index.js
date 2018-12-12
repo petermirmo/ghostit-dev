@@ -21,19 +21,17 @@ import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setUser,
-  updateAccounts,
-  openClientSideBar,
-  openHeaderSideBar,
-  setTutorial
-} from "../../../redux/actions/";
+import { setUser, updateAccounts, setTutorial } from "../../../redux/actions/";
 
 import ClientsSideBar from "../../SideBarClients/";
 import Tutorial from "../../Tutorial/";
 import "./style.css";
 
 class HeaderSideBar extends Component {
+  state = {
+    headerSideBar: false,
+    clientSideBar: false
+  };
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       let { success, loggedIn, user } = res.data;
@@ -59,7 +57,8 @@ class HeaderSideBar extends Component {
 
     if (this.wrapperRef.contains(event.target)) {
       return;
-    } else if (this.props.headerSideBar) this.props.openHeaderSideBar(false);
+    } else if (this.props.headerSideBar)
+      this.setState({ headerSideBar: false });
   };
 
   setWrapperRef = node => {
@@ -83,7 +82,8 @@ class HeaderSideBar extends Component {
     if ("/" + activePage == this.props.location.pathname) return " active";
   };
   render() {
-    const { user, headerSideBar, clientSideBar, tutorial } = this.props;
+    const { user, tutorial } = this.props;
+    const { clientSideBar, headerSideBar } = this.state;
 
     if (!user) {
       return <div style={{ display: "none" }} />;
@@ -103,10 +103,12 @@ class HeaderSideBar extends Component {
             icon={faBars}
             size="2x"
             className="button transparent common-transition pb8"
-            onClick={() => {
-              this.props.openHeaderSideBar(!headerSideBar);
-              this.props.openClientSideBar(false);
-            }}
+            onClick={() =>
+              this.setState({
+                headerSideBar: !headerSideBar,
+                clientSideBar: false
+              })
+            }
           />
 
           {(isAdmin || isManager) && (
@@ -114,10 +116,12 @@ class HeaderSideBar extends Component {
               icon={faUsers}
               size="2x"
               className="button transparent common-transition pb8"
-              onClick={() => {
-                this.props.openHeaderSideBar(false);
-                this.props.openClientSideBar(!clientSideBar);
-              }}
+              onClick={() =>
+                this.setState({
+                  clientSideBar: !clientSideBar,
+                  headerSideBar: false
+                })
+              }
             />
           )}
         </div>
@@ -274,8 +278,6 @@ class HeaderSideBar extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    clientSideBar: state.clientSideBar,
-    headerSideBar: state.headerSideBar,
     tutorial: state.tutorial
   };
 }
@@ -284,8 +286,6 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      openHeaderSideBar,
-      openClientSideBar,
       setTutorial
     },
     dispatch

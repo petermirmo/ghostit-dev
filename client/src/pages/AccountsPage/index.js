@@ -383,7 +383,6 @@ class AccountsPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    clientSideBar: state.clientSideBar,
     accounts: state.accounts,
     tutorial: state.tutorial,
     user: state.user

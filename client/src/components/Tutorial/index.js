@@ -5,11 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setUser,
-  updateAccounts,
-  openClientSideBar
-} from "../../redux/actions/";
+import { setUser, updateAccounts } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
 import "./style.css";

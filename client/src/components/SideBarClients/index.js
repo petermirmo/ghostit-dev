@@ -5,11 +5,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setUser,
-  updateAccounts,
-  openClientSideBar
-} from "../../redux/actions/";
+import { setUser, updateAccounts } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
 import "./style.css";
@@ -23,9 +19,12 @@ class ClientSideBar extends Component {
 
     this.getMyClients();
   }
-  closeClientSideBar = () => {
-    this.props.openClientSideBar(false);
-  };
+  componentDidMount() {
+    this._ismounted = true;
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
+  }
   getMyClients = () => {
     axios.get("/api/clients").then(res => {
       let { users, loggedIn, success } = res.data;
@@ -33,7 +32,7 @@ class ClientSideBar extends Component {
       if (success) {
         if (Array.isArray(users)) {
           users.sort(compare);
-          this.setState({ untouchedClients: users });
+          if (this._ismounted) this.setState({ untouchedClients: users });
         }
       } else {
         if (loggedIn === false) this.props.history.push("/sign-in");
@@ -76,8 +75,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      updateAccounts,
-      openClientSideBar
+      updateAccounts
     },
     dispatch
   );

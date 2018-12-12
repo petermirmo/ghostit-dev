@@ -11,15 +11,6 @@ function currentUser(state = null, action) {
       return state;
   }
 }
-function clientSideBar(state = false, action) {
-  switch (action.type) {
-    case "CLIENT_SIDE_BAR":
-      return action.payload;
-    default:
-      return state;
-  }
-}
-
 function accounts(state = [], action) {
   switch (action.type) {
     case "SOCIAL_ACCOUNTS":
@@ -36,14 +27,6 @@ function getKeyListenerFunction(state = [() => {}], action) {
       return state;
   }
 }
-function headerSideBar(state = false, action) {
-  switch (action.type) {
-    case "HEADER_SIDE_BAR":
-      return action.payload;
-    default:
-      return state;
-  }
-}
 function tutorial(state = { value: 0, on: false }, action) {
   switch (action.type) {
     case "TUTORIAL":
@@ -55,8 +38,6 @@ function tutorial(state = { value: 0, on: false }, action) {
 const rootReducer = combineReducers({
   user: currentUser,
   account: accountReducer,
-  clientSideBar,
-  headerSideBar,
   accounts,
   getKeyListenerFunction,
   tutorial

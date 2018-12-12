@@ -6,12 +6,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import {
-  setUser,
-  updateAccounts,
-  openHeaderSideBar,
-  setTutorial
-} from "../../redux/actions/";
+import { setUser, updateAccounts, setTutorial } from "../../redux/actions/";
 
 import { validateEmail } from "../../componentFunctions";
 
@@ -170,8 +165,6 @@ class Login extends Component {
     this.props.setUser(user);
     this.props.updateAccounts(accounts);
     this.props.history.push("/subscribe");
-
-    this.props.openHeaderSideBar(true);
   };
   sendResetEmail = () => {
     const { email } = this.state;
@@ -407,7 +400,6 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      openHeaderSideBar,
       setTutorial
     },
     dispatch

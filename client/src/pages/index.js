@@ -8,12 +8,7 @@ import { Route, withRouter, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import {
-  setUser,
-  updateAccounts,
-  setTutorial,
-  openHeaderSideBar
-} from "../redux/actions/";
+import { setUser, updateAccounts, setTutorial } from "../redux/actions/";
 
 import LoaderWedge from "../components/Notifications/LoaderWedge";
 
@@ -61,9 +56,6 @@ class Routes extends Component {
           if (!accounts) accounts = [];
           props.setUser(user);
           props.updateAccounts(accounts);
-          if (user.role === "demo") {
-            props.openHeaderSideBar(true);
-          }
 
           this.setState({ datebaseConnection: true });
         });
@@ -219,8 +211,7 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      setTutorial,
-      openHeaderSideBar
+      setTutorial
     },
     dispatch
   );
