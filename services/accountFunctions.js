@@ -29,16 +29,16 @@ module.exports = {
     });
   },
   saveAccount: (req, res) => {
-    var page = req.body;
+    let page = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
         userID = req.user.signedInAsUser.id;
       }
     }
-    Account.findOne({ userID, socialID: page.id }, (err, account) => {
-      if (!account) {
-        var newAccount = new Account();
+    Account.find({ socialID: page.id }, (err, accounts) => {
+      if (accounts.length === 0) {
+        let newAccount = new Account();
         newAccount.userID = userID;
         newAccount.socialType = page.socialType;
         newAccount.accountType = page.accountType;
@@ -50,11 +50,19 @@ module.exports = {
         newAccount.lastRenewed = new Date().getTime();
 
         newAccount.save().then(result => res.send(true));
-      } else if (account) {
-        account.accessToken = page.access_token;
-        account.save((err, result) => {
-          return res.send(true);
-        });
+      } else if (accounts.length > 0) {
+        let asyncCounter = 0;
+
+        for (let index in accounts) {
+          let account = accounts[index];
+          account.accessToken = page.access_token;
+          asyncCounter++;
+
+          account.save((err, result) => {
+            asyncCounter--;
+            if (asyncCounter === 0) return res.send(true);
+          });
+        }
       } else return res.send(true);
     });
   },
