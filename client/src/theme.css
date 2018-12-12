@@ -107,6 +107,7 @@
   width: 100%;
 }
 .wrapping-container-no-center {
+  flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
   box-sizing: border-box;
@@ -301,6 +302,7 @@
 .wrapper {
   flex: 1;
   display: flex;
+  flex-direction: column;
   position: relative;
 
   transition: all 0.4s ease;

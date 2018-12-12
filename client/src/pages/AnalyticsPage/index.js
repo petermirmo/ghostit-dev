@@ -82,36 +82,34 @@ class Analytics extends Component {
     }
 
     return (
-      <div className="wrapper" style={this.props.margin}>
-        <div className="flex">
-          <div className="flex column line-chart-navigation-container">
-            {dataLinesInformation.map((object, index) => (
-              <div
-                className="line-chart-navigation-item button ma4 pa4"
-                onClick={() => {}}
-                key={index + "item"}
-              >
-                {object.title}
-              </div>
-            ))}
-          </div>
-          <div className="line-chart-container">
-            <LineChart
-              {...{
-                lines: singleDataArray,
-                colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
-                labels: ["Cats", "Dogs", "Ducks", "Cows"],
-                axis: [
-                  "October",
-                  "November",
-                  "December",
-                  "January",
-                  "February",
-                  "Marsh"
-                ]
-              }}
-            />
-          </div>
+      <div className="flex">
+        <div className="flex column line-chart-navigation-container">
+          {dataLinesInformation.map((object, index) => (
+            <div
+              className="line-chart-navigation-item button ma4 pa4"
+              onClick={() => {}}
+              key={index + "item"}
+            >
+              {object.title}
+            </div>
+          ))}
+        </div>
+        <div className="line-chart-container">
+          <LineChart
+            {...{
+              lines: singleDataArray,
+              colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
+              labels: ["Cats", "Dogs", "Ducks", "Cows"],
+              axis: [
+                "October",
+                "November",
+                "December",
+                "January",
+                "February",
+                "Marsh"
+              ]
+            }}
+          />
         </div>
       </div>
     );
