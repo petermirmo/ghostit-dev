@@ -31,7 +31,7 @@
   padding: 4px;
 }
 
-.image-container:hover .x-hover {
+.image-container:hover .icon-x-hover {
   display: flex;
 }
 .image-container:hover .image {
