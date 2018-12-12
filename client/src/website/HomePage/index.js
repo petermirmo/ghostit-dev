@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import MetaTags from "react-meta-tags";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -44,6 +45,13 @@ class HomePage extends Component {
     const { displayGhostAndMessage } = this.state;
     return (
       <div>
+        <MetaTags>
+          <title>All-In-One Marketing Solution</title>
+          <meta
+            name="description"
+            content="Organize your marketing process with an all-in-one solution for unified content promotion."
+          />
+        </MetaTags>
         <Section1 />
         <Section2 />
         <Section3 />

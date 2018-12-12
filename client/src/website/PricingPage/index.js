@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import MetaTags from "react-meta-tags";
 
 import "./style.css";
 
@@ -6,6 +7,13 @@ class PricingPage extends Component {
   render() {
     return (
       <div className="website-page flex column vc">
+        <MetaTags>
+          <title>Ghostit | Pricing</title>
+          <meta
+            name="description"
+            content="Have questions? Give us a call: 250-415-3093"
+          />
+        </MetaTags>
         <h1 className="tac">Ghostit Pricing</h1>
         <h3 className="tac mx16">
           Have questions? Give us a call: 250-415-3093

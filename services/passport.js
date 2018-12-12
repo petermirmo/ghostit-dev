@@ -140,8 +140,8 @@ module.exports = function(passport) {
             userID = req.user.signedInAsUser.id;
           }
         }
-        Account.findOne({ userID, socialID: profile.id }, (err, account) => {
-          if (!account) {
+        Account.find({ socialID: profile.id }, (err, accounts) => {
+          if (!accounts) {
             let newAccount = new Account();
             newAccount.userID = userID;
             newAccount.socialType = "facebook";
@@ -157,11 +157,20 @@ module.exports = function(passport) {
             newAccount.save().then(account => {
               done(null, req.session.passport.user);
             });
-          } else if (account) {
-            account.accessToken = accessToken;
-            account.save((err, result) => {
-              return done(null, req.session.passport.user);
-            });
+          } else if (accounts) {
+            let asyncCounter = 0;
+            for (let index in accounts) {
+              let account = accounts[index];
+
+              account.accessToken = accessToken;
+              asyncCounter++;
+
+              account.save((err, result) => {
+                asyncCounter--;
+                if (asyncCounter === 0)
+                  return done(null, req.session.passport.user);
+              });
+            }
           } else return done(null, req.session.passport.user);
         });
       }
@@ -186,8 +195,8 @@ module.exports = function(passport) {
             userID = req.user.signedInAsUser.id;
           }
         }
-        Account.findOne({ userID, socialID: profile.id }, (err, account) => {
-          if (!account) {
+        Account.find({ userID, socialID: profile.id }, (err, accounts) => {
+          if (accounts.length === 0) {
             let newAccount = new Account();
 
             // Split displayName into first name and last name
@@ -219,12 +228,24 @@ module.exports = function(passport) {
               if (err) return done(err);
               return done(null, user);
             });
-          } else if (account) {
-            account.accessToken = token;
-            account.tokenSecret = tokenSecret;
-            account.save((err, result) => {
-              return done(null, req.session.passport.user);
-            });
+          } else if (accounts) {
+            let asyncCounter = 0;
+            for (let index in accounts) {
+              let account = accounts[index];
+
+              account.accessToken = token;
+              account.tokenSecret = tokenSecret;
+
+              account.accessToken = token;
+              account.tokenSecret = tokenSecret;
+
+              asyncCounter++;
+              account.save((err, result) => {
+                asyncCounter--;
+                if (asyncCounter === 0)
+                  return done(null, req.session.passport.user);
+              });
+            }
           } else return done(null, req.session.passport.user);
         });
       }

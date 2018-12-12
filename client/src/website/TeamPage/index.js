@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import MetaTags from "react-meta-tags";
 
 import { teamMembers } from "./teamMembers";
 
@@ -57,6 +58,10 @@ class TeamPage extends Component {
   render() {
     return (
       <div className="website-page flex column vc">
+        <MetaTags>
+          <title>Ghostit | Team</title>
+          <meta name="description" content="Meet the Ghostit Team!" />
+        </MetaTags>
         <h1 className="pb16 tac">Meet the Ghostit Team!</h1>
         <div className="team-members-container flex vc hc wrap pb32 mb32">
           {teamMembers.map((obj, index) => {

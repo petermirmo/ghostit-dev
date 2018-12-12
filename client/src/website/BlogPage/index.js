@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MetaTags from "react-meta-tags";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
@@ -81,9 +82,9 @@ class BlogPage extends Component {
             />
             {ghostitBlog.contentArray[0] && (
               <div className="common-container py8 px16">
-                <h4 className="silly-font tac">
+                <h3 className="silly-font tac">
                   {ghostitBlog.contentArray[0].text}
-                </h4>
+                </h3>
               </div>
             )}
           </Link>
@@ -100,6 +101,13 @@ class BlogPage extends Component {
     }
     return (
       <div className="website-page simple-container mx32">
+        <MetaTags>
+          <title>Ghostit | Blog</title>
+          <meta
+            name="description"
+            content="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
+          />
+        </MetaTags>
         <h1 className="tac pb32">Ghostit Blog</h1>
 
         <div className="nowrap-container width100">

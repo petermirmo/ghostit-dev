@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import MetaTags from "react-meta-tags";
 
 import "./style.css";
 
@@ -6,6 +7,13 @@ class GhostitAgency extends Component {
   render() {
     return (
       <div className="website-page">
+        <MetaTags>
+          <title>Ghostit | Agency</title>
+          <meta
+            name="description"
+            content="Increase the amount of qualified traffic to your site."
+          />
+        </MetaTags>
         <h1 className="tac">Content Services</h1>
         <h3 className="tac mx16">
           Increase the amount of qualified traffic to your site.
