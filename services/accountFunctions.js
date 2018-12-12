@@ -37,7 +37,7 @@ module.exports = {
       }
     }
     Account.find({ socialID: page.id }, (err, accounts) => {
-      if (accounts.length === 0) {
+      let createNewAccount = () => {
         let newAccount = new Account();
         newAccount.userID = userID;
         newAccount.socialType = page.socialType;
@@ -50,17 +50,26 @@ module.exports = {
         newAccount.lastRenewed = new Date().getTime();
 
         newAccount.save().then(result => res.send(true));
+      };
+      if (accounts.length === 0) {
+        createNewAccount();
       } else if (accounts.length > 0) {
         let asyncCounter = 0;
+        let accountFoundUser = false;
 
         for (let index in accounts) {
           let account = accounts[index];
           account.accessToken = page.access_token;
+          if (account.userID == userID) accountFoundUser = true;
+
           asyncCounter++;
 
           account.save((err, result) => {
             asyncCounter--;
-            if (asyncCounter === 0) return res.send(true);
+            if (asyncCounter === 0) {
+              if (!accountFoundUser) createNewAccount();
+              else return res.send(true);
+            }
           });
         }
       } else return res.send(true);
