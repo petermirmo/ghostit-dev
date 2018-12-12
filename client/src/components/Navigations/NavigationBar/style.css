@@ -4,7 +4,7 @@
 .nagivation-option {
   background-color: var(--seven-primary-color);
 
-  font-size: var(--large-font-size);
+  font-size: var(--eighteen-font-size);
 }
 
 .nagivation-option:hover:not(.active) {

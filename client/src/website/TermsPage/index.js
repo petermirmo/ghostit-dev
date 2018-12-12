@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import MetaTags from "react-meta-tags";
 
 class TermsPage extends Component {
   render() {
     return (
       <div className="website-page mx32">
+        <MetaTags>
+          <title>Ghostit | Terms</title>
+          <meta name="description" content="Ghostit terms and conditions." />
+        </MetaTags>
         <h1 className="my16 tac">Terms & Conditions</h1>
         <p className="my8">
           These Terms and Conditions (“Terms”, “Terms and Conditions”) govern

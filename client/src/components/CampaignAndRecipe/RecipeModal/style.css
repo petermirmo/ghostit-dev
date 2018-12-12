@@ -70,7 +70,7 @@
   width: 100%;
   padding: 0 10px 0 10px;
 
-  font-size: var(--small-font-size);
+  font-size: var(--thirteen-font-size);
   box-sizing: border-box;
 }
 
@@ -173,7 +173,7 @@
 }
 .post-preview .title {
   font-weight: bold;
-  font-size: var(--extra-large-font-size);
+  font-size: var(--twenty-two-font-size);
   margin-bottom: 20px;
 }
 .preview-recipe-description {

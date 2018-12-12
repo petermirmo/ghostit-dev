@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import MetaTags from "react-meta-tags";
 
 import "./style.css";
 
@@ -154,7 +155,26 @@ class ViewWebsiteBlog extends Component {
         contentArrayIndex += 1;
       }
     }
-    return <div className="website-page simple-container pb32">{divs}</div>;
+    return (
+      <div className="website-page simple-container pb32">
+        <MetaTags>
+          <title>
+            {contentArray[0]
+              ? "Ghosit | " + contentArray[0].text
+              : "Ghostit | Blog Post."}
+          </title>
+          <meta
+            name="description"
+            content={
+              contentArray[1]
+                ? contentArray[1].text
+                : "What are you waiting for? Get reading!."
+            }
+          />
+        </MetaTags>
+        {divs}
+      </div>
+    );
   }
 }
 

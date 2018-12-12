@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import MetaTags from "react-meta-tags";
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -213,6 +214,19 @@ class Login extends Component {
 
     return (
       <div className="website-page login-background simple-container">
+        <MetaTags>
+          <title>
+            {login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"}
+          </title>
+          <meta
+            name="description"
+            content={
+              login === "login"
+                ? "Ghostit sign in."
+                : "What are you waiting for!? Sign up today!"
+            }
+          />
+        </MetaTags>
         <h1 className="pb16 tac">
           {login === "login" ? "Sign in to Ghostit!" : "Sign up for Ghostit!"}
         </h1>

@@ -165,6 +165,8 @@ class Routes extends Component {
             <Route path="/terms-of-service/" component={TermsPage} />
             <Route path="/privacy-policy/" component={PrivacyPage} />
             {ghostitBlogs.map((obj, index) => {
+              if (obj.images) obj.images.sort(ghostitBlogImagesCompare);
+
               return (
                 <Route
                   path={"/blog/" + obj.url + "/"}
@@ -188,6 +190,12 @@ class Routes extends Component {
       </div>
     );
   }
+}
+
+function ghostitBlogImagesCompare(a, b) {
+  if (a.location < b.location) return -1;
+  if (a.location > b.location) return 1;
+  return 0;
 }
 
 function mapStateToProps(state) {

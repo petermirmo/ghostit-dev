@@ -22,7 +22,7 @@
 }
 .checkout-title {
   color: #34495e;
-  font-size: var(--gigantic-font-size);
+  font-size: var(--twenty-four-font-size);
 }
 .checkout-row-container {
   display: flex;
@@ -39,7 +39,7 @@
 .checkout-plan-label,
 .checkout-plan {
   padding: 20px 0 20px 20px;
-  font-size: var(--medium-large-font-size);
+  font-size: var(--twenty-font-size);
 }
 
 .payment-length-container {
@@ -75,10 +75,10 @@
 }
 
 .checkout-payment-total-due-label {
-  font-size: var(--medium-large-font-size);
+  font-size: var(--twenty-font-size);
 }
 .checkout-payment-total-due {
-  font-size: var(--gigantic-font-size);
+  font-size: var(--twenty-four-font-size);
 }
 
 .pay-div-container {
@@ -90,7 +90,7 @@
 }
 
 .sign-up {
-  font-size: var(--large-font-size);
+  font-size: var(--eighteen-font-size);
   background-color: var(--seven-primary-color);
   width: 100%;
 }

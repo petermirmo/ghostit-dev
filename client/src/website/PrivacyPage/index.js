@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import MetaTags from "react-meta-tags";
 
 class PrivacyPage extends Component {
   render() {
     return (
       <div className="website-page mx32">
+        <MetaTags>
+          <title>Ghostit | Privacy</title>
+          <meta name="description" content="Ghostit privacy policy." />
+        </MetaTags>
         <h1 className="my16 tac">Privacy Policy</h1>
         <p className="my8">
           Ghostit (“us”, “we”, or “our”) operates the http://ghostit.co/ website
