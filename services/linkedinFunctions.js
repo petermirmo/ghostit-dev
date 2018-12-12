@@ -142,10 +142,10 @@ module.exports = {
             })
             .then(linkedinProfileResponse => {
               let linkedinProfile = linkedinProfileResponse.data;
-              Account.findOne(
-                { userID, socialID: linkedinProfile.id },
-                (err, account) => {
-                  if (!account) {
+              Account.find(
+                { socialID: linkedinProfile.id },
+                (err, accounts) => {
+                  if (accounts.length === 0) {
                     let newAccount = new Account();
 
                     newAccount.userID = userID;
@@ -160,16 +160,23 @@ module.exports = {
                       if (err) generalFunctions.handleError(res, err);
                       else res.redirect("/social-accounts");
                     });
-                  } else if (account) {
-                    account.accessToken = accessToken;
+                  } else if (accounts.length > 0) {
+                    let asyncCounter = 0;
 
-                    account.accessToken = accessToken;
-                    account.givenName = linkedinProfile.localizedFirstName;
-                    account.familyName = linkedinProfile.localizedLastName;
+                    for (let index in accounts) {
+                      let account = accounts[index];
 
-                    account.save((err, result) => {
-                      res.redirect("/social-accounts");
-                    });
+                      account.accessToken = accessToken;
+                      account.accessToken = accessToken;
+                      account.givenName = linkedinProfile.localizedFirstName;
+                      account.familyName = linkedinProfile.localizedLastName;
+
+                      account.save((err, result) => {
+                        asyncCounter--;
+                        if (asyncCounter === 0)
+                          res.redirect("/social-accounts");
+                      });
+                    }
                   } else res.redirect("/social-accounts");
                 }
               );
