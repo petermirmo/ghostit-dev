@@ -1,3 +1,5 @@
+const cloudinary = require("cloudinary");
+
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Blog = require("../models/Blog");
@@ -351,8 +353,18 @@ module.exports = io => {
               } else {
                 removedFromCampaign = true;
                 newCampaign = savedCampaign;
-                Post.findOne({ _id: post._id }, (err, foundPost) => {
+                Post.findOne({ _id: post._id }, async (err, foundPost) => {
                   if (foundPost) {
+                    if (foundPost.images) {
+                      for (let i = 0; i < foundPost.images.length; i++) {
+                        await cloudinary.uploader.destroy(
+                          foundPost.images[i].publicID,
+                          function(result) {
+                            // TO DO: handle error here
+                          }
+                        );
+                      }
+                    }
                     foundPost.remove();
                     removedPost = true;
                     socket.emit("post-deleted", {
