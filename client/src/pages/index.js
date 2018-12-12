@@ -101,7 +101,7 @@ class Routes extends Component {
   };
   render() {
     const { datebaseConnection, ghostitBlogs } = this.state;
-    const { user, getKeyListenerFunction, headerWidth } = this.props;
+    const { user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
@@ -112,10 +112,7 @@ class Routes extends Component {
     let activePage = this.props.location.pathname;
 
     return (
-      <div
-        className="wrapper"
-        style={headerWidth ? { marginLeft: headerWidth } : {}}
-      >
+      <div className="wrapper">
         {this.userIsInPlatform(activePage) && <Header />}
 
         {user &&
@@ -196,8 +193,7 @@ function mapStateToProps(state) {
     user: state.user,
     getKeyListenerFunction: state.getKeyListenerFunction,
     tutorial: state.tutorial,
-    accounts: state.accounts,
-    headerWidth: state.headerWidth
+    accounts: state.accounts
   };
 }
 function mapDispatchToProps(dispatch) {

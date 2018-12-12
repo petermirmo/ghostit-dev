@@ -21,12 +21,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setUser,
-  updateAccounts,
-  setTutorial,
-  setHeaderWidth
-} from "../../../redux/actions/";
+import { setUser, updateAccounts, setTutorial } from "../../../redux/actions/";
 
 import ClientsSideBar from "../../SideBarClients/";
 import Tutorial from "../../Tutorial/";
@@ -51,9 +46,6 @@ class HeaderSideBar extends Component {
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
-    this.props.setHeaderWidth(
-      document.getElementById("header-sidebar").offsetWidth
-    );
   }
 
   componentWillUnmount() {
@@ -89,13 +81,10 @@ class HeaderSideBar extends Component {
     if ("/" + activePage == this.props.location.pathname) return " active";
   };
   setStateMiddleware = state => {
-    this.props.setHeaderWidth(
-      document.getElementById("header-sidebar").offsetWidth
-    );
     this.setState(state);
   };
   render() {
-    const { user, tutorial, setHeaderWidth } = this.props;
+    const { user, tutorial } = this.props;
     const { clientSideBar, headerSideBar } = this.state;
 
     if (!user) {
@@ -299,8 +288,7 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      setTutorial,
-      setHeaderWidth
+      setTutorial
     },
     dispatch
   );
