@@ -79,12 +79,12 @@
   --sixteen-font-size: 16px;
   --large-font-size: 18px;
   --medium-large-font-size: 20px;
-  --extra-large-font-size: 23px;
+  --extra-large-font-size: 22px;
   --gigantic-font-size: 24px;
   --medium-gigantic-font-size: 32px;
   --super-gigantic-font-size: 34px;
 
-  --h1-font-size: 48px;
+  --ultra-gigantic-font-size: 40px;
   --h6-font-size: 20px;
 
   --large-line-height: 30px;
@@ -214,8 +214,6 @@
 }
 .unimportant-text {
   color: var(--secondary-text-color);
-  font-size: var(--sixteen-font-size);
-  text-align: left;
 }
 .very-important-text {
   border-bottom: 1px solid var(--five-primary-color);
@@ -225,6 +223,11 @@
   border-color: var(--seven-purple-color);
   color: var(--seven-purple-color);
 }
+
+.big-h1 {
+  font-size: var(--ultra-gigantic-font-size);
+}
+
 .h1-like {
   font-size: var(--gigantic-font-size);
   font-family: var(--silly-font);
