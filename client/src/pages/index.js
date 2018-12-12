@@ -112,17 +112,7 @@ class Routes extends Component {
     let activePage = this.props.location.pathname;
 
     return (
-      <div
-        className="wrapper"
-        style={
-          document.getElementById("header-sidebar")
-            ? {
-                marginLeft: document.getElementById("header-sidebar")
-                  .offsetWidth
-              }
-            : undefined
-        }
-      >
+      <div className="wrapper" id="test">
         {this.userIsInPlatform(activePage) && <Header />}
 
         {user &&

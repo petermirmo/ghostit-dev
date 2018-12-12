@@ -35,6 +35,14 @@ function tutorial(state = { value: 0, on: false }, action) {
       return state;
   }
 }
+function setHeaderWidth(state = null, action) {
+  switch (action.type) {
+    case "HEADER_WIDTH":
+      return action.payload;
+    default:
+      return state;
+  }
+}
 const rootReducer = combineReducers({
   user: currentUser,
   account: accountReducer,

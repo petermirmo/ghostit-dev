@@ -21,7 +21,12 @@ import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser, updateAccounts, setTutorial } from "../../../redux/actions/";
+import {
+  setUser,
+  updateAccounts,
+  setTutorial,
+  setHeaderWidth
+} from "../../../redux/actions/";
 
 import ClientsSideBar from "../../SideBarClients/";
 import Tutorial from "../../Tutorial/";
@@ -46,6 +51,9 @@ class HeaderSideBar extends Component {
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
+    document.getElementById("test").style.marginLeft = document.getElementById(
+      "header-sidebar"
+    ).offsetWidth;
   }
 
   componentWillUnmount() {
@@ -55,10 +63,9 @@ class HeaderSideBar extends Component {
   handleClickOutside = event => {
     if (!this.wrapperRef) return;
 
-    if (this.wrapperRef.contains(event.target)) {
-      return;
-    } else if (this.props.headerSideBar)
-      this.setState({ headerSideBar: false });
+    if (this.wrapperRef.contains(event.target)) return;
+    else if (this.props.headerSideBar)
+      this.setStateMiddleware({ headerSideBar: false, clientSideBar: false });
   };
 
   setWrapperRef = node => {
@@ -80,6 +87,13 @@ class HeaderSideBar extends Component {
   };
   isActive = activePage => {
     if ("/" + activePage == this.props.location.pathname) return " active";
+  };
+  setStateMiddleware = state => {
+    console.log(document.getElementById("header-sidebar").offsetWidth);
+    document.getElementById("test").style.marginLeft = document.getElementById(
+      "header-sidebar"
+    ).offsetWidth;
+    this.setState(state);
   };
   render() {
     const { user, tutorial } = this.props;
@@ -104,7 +118,7 @@ class HeaderSideBar extends Component {
             size="2x"
             className="button transparent common-transition pb8"
             onClick={() =>
-              this.setState({
+              this.setStateMiddleware({
                 headerSideBar: !headerSideBar,
                 clientSideBar: false
               })
@@ -117,7 +131,7 @@ class HeaderSideBar extends Component {
               size="2x"
               className="button transparent common-transition pb8"
               onClick={() =>
-                this.setState({
+                this.setStateMiddleware({
                   clientSideBar: !clientSideBar,
                   headerSideBar: false
                 })
@@ -286,7 +300,8 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      setTutorial
+      setTutorial,
+      setHeaderWidth
     },
     dispatch
   );
