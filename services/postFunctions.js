@@ -14,16 +14,16 @@ const deletePostStandalone = (req, callback) => {
   // called directly (with skipUserCheck = true) when deleting an entire calendar
   // we skip the user checks in that case bcz the user would have already been cleared to delete the calendar
   const { postID, skipUserCheck } = req;
-  let userID = req.user._id;
-  if (req.user.signedInAsUser) {
-    if (req.user.signedInAsUser.id) {
-      userID = req.user.signedInAsUser.id;
-    }
-  }
   Post.findOne({ _id: postID }, async function(err, post) {
     if (post && !err) {
       if (!skipUserCheck) {
         // need to make sure the user has the right to delete this post
+        let userID = req.user._id;
+        if (req.user.signedInAsUser) {
+          if (req.user.signedInAsUser.id) {
+            userID = req.user.signedInAsUser.id;
+          }
+        }
         let invalidUser = false;
         await Calendar.findOne(
           { _id: post.calendarID, userIDs: userID },

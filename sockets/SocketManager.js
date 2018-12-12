@@ -1,9 +1,13 @@
+const cloudinary = require("cloudinary");
+
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Blog = require("../models/Blog");
 const Newsletter = require("../models/Newsletter");
 const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
+
+const postFunctions = require("../services/postFunctions");
 
 searchAndRemoveSocketID = (connections, socketID) => {
   for (let index in connections) {
@@ -292,13 +296,36 @@ module.exports = io => {
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
         if (foundCampaign) {
           if (foundCampaign.posts) {
+            let deletedCount = 0;
+            let failedCount = 0;
             for (let index = 0; index < foundCampaign.posts.length; index++) {
               let post = foundCampaign.posts[index];
-
-              Post.findOne({ _id: post._id }, (err, foundPost) => {
-                if (foundPost) foundPost.remove();
-              });
+              postFunctions.deletePostStandalone(
+                { postID: post._id, skipUserCheck: true },
+                response => {
+                  const { success } = response;
+                  if (success) deletedCount++;
+                  else failedCount++;
+                  if (
+                    deletedCount + failedCount >=
+                    foundCampaign.posts.length
+                  ) {
+                    // this is the last post being deleted
+                    if (failedCount > 0) {
+                      // didn't get all of the posts deleted successfully so we shouldn't delete the campaign yet
+                      socket.emit("campaign_deleted", false);
+                    } else {
+                      // all posts were deleted succesfully so we can delete the campaign
+                      foundCampaign.remove();
+                      socket.emit("campaign_deleted", true);
+                    }
+                  }
+                }
+              );
             }
+          } else {
+            foundCampaign.remove();
+            socket.emit("campaign_deleted", true);
           }
           if (foundCampaign.recipeID) {
             Recipe.findOne(
@@ -315,7 +342,6 @@ module.exports = io => {
               }
             );
           }
-          foundCampaign.remove();
         }
       });
     });
@@ -351,8 +377,18 @@ module.exports = io => {
               } else {
                 removedFromCampaign = true;
                 newCampaign = savedCampaign;
-                Post.findOne({ _id: post._id }, (err, foundPost) => {
+                Post.findOne({ _id: post._id }, async (err, foundPost) => {
                   if (foundPost) {
+                    if (foundPost.images) {
+                      for (let i = 0; i < foundPost.images.length; i++) {
+                        await cloudinary.uploader.destroy(
+                          foundPost.images[i].publicID,
+                          function(result) {
+                            // TO DO: handle error here
+                          }
+                        );
+                      }
+                    }
                     foundPost.remove();
                     removedPost = true;
                     socket.emit("post-deleted", {
