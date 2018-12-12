@@ -15,7 +15,7 @@ class GhostitAgency extends Component {
           />
         </MetaTags>
         <h1 className="tac">Content Services</h1>
-        <h3 className="tac mx16">
+        <h3 className="tac mx16 unimportant-text">
           Increase the amount of qualified traffic to your site.
         </h3>
         <div className="wrapping-container">

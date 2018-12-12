@@ -33,10 +33,10 @@ class Section1 extends Component {
     return (
       <div className="section common-container-center width100">
         <h1 className="big-h1 mx16 tac">Create. Customize. Convert.</h1>
-        <h2 className="mx16 tac unimportant-text">
+        <h3 className="mx16 tac unimportant-text">
           Organize your marketing process with an all-in-one solution for
           unified content promotion.
-        </h2>
+        </h3>
         <div
           className="circle absolute bounce slow"
           style={{ bottom: randomInt1 + "px", left: randomInt2 + "px" }}

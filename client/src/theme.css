@@ -40,7 +40,7 @@
   --one-orange-color: #ffcbb8;
   --one-half-orange-color: #fce9e6;
 
-  --primary-text-color: #3c4043;
+  --primary-text-color: #212121;
   --secondary-text-color: #757575;
   --blue-text-color: #00aaff;
   --purple-text-color: #aa00ff;
@@ -73,18 +73,17 @@
   --campaign-color3: #41dcfe;
   --campaign-color4: #4cd137;
 
-  --small-font-size: 13px;
+  --thirteen-font-size: 13px;
   --fourteen-font-size: 14px;
-  --regular-font-size: 15px;
-  --sixteen-font-size: 16px;
-  --large-font-size: 18px;
-  --medium-large-font-size: 20px;
-  --extra-large-font-size: 22px;
-  --gigantic-font-size: 24px;
-  --medium-gigantic-font-size: 32px;
-  --super-gigantic-font-size: 34px;
 
-  --ultra-gigantic-font-size: 40px;
+  --sixteen-font-size: 16px;
+  --eighteen-font-size: 18px;
+  --twenty-font-size: 20px;
+  --twenty-two-font-size: 22px;
+  --twenty-four-font-size: 24px;
+  --thirty-two-font-size: 32px;
+  --forty-font-size: 40px;
+
   --h6-font-size: 20px;
 
   --large-line-height: 30px;
@@ -208,7 +207,7 @@
   border-color: var(--five-orange-color);
 }
 .important-text {
-  font-size: var(--gigantic-font-size);
+  font-size: var(--twenty-four-font-size);
   font-weight: bold;
   text-align: center;
 }
@@ -225,17 +224,16 @@
 }
 
 .big-h1 {
-  font-size: var(--ultra-gigantic-font-size);
+  font-size: var(--forty-font-size);
 }
-
 .h1-like {
-  font-size: var(--gigantic-font-size);
+  font-size: var(--twenty-four-font-size);
   font-family: var(--silly-font);
   color: var(--blue-text-color);
 }
 
 .h2-like {
-  font-size: var(--medium-large-font-size);
+  font-size: var(--twenty-font-size);
   color: var(--blue-text-color);
 }
 .mx20vw {
@@ -581,7 +579,7 @@
 }
 
 .bright-save-button {
-  font-size: var(--large-font-size);
+  font-size: var(--eighteen-font-size);
   background-color: var(--pink-theme-color);
   min-width: 30%;
   padding: 10px 0 10px 0;
@@ -597,7 +595,6 @@
 .date-label {
   margin: 0 20px 0 0;
   padding: 0;
-  font-size: var(--regular-font-size);
   display: inline-block;
   background-color: transparent;
 }
@@ -1049,7 +1046,7 @@
   background-color: var(--eight-primary-color);
 }
 .round-button.large {
-  font-size: var(--large-font-size);
+  font-size: var(--eighteen-font-size);
 }
 
 .round-icon-button {
@@ -1083,7 +1080,7 @@ body {
 
   font-family: var(--regular-font);
   color: var(--primary-text-color);
-  font-size: var(--regular-font-size);
+  font-size: var(--sixteen-font-size);
   overflow: hidden;
 }
 a {
@@ -1093,7 +1090,7 @@ a {
 button {
   color: var(--white-theme-color);
   font-family: var(--regular-font);
-  font-size: var(--regular-font-size);
+  font-size: var(--sixteen-font-size);
 
   cursor: pointer;
   outline: 0;
@@ -1106,7 +1103,7 @@ input {
   outline: none;
   resize: vertical;
 
-  font-size: var(--regular-font-size);
+  font-size: var(--sixteen-font-size);
   font-family: var(--regular-font);
   border: 1px solid var(--divider-theme-color);
   color: var(--primary-text-color);
@@ -1119,7 +1116,7 @@ input:focus {
 }
 div {
   font-family: inherit;
-  font-size: var(--regular-font-size);
+  font-size: var(--sixteen-font-size);
   color: var(--primary-text-color);
 }
 h1 {
@@ -1136,6 +1133,7 @@ h3 {
   color: var(--primary-text-color);
   margin: 0;
   padding: 0;
+  font-size: var(--twenty-font-size);
 }
 h4 {
   color: var(--primary-text-color);
@@ -1155,6 +1153,7 @@ p {
   margin: 0;
   color: var(--primary-text-color);
   text-align: left;
+  font-size: var(--sixteen-font-size);
 }
 input[type="file"] {
   display: none;
@@ -1329,7 +1328,7 @@ input[type="file"] {
   overflow: hidden;
 }
 .regular-button.large {
-  font-size: var(--large-font-size);
+  font-size: var(--eighteen-font-size);
 }
 .regular-button:hover {
   background-color: var(--seven-primary-color);
@@ -1438,14 +1437,14 @@ input[type="file"] {
 .transparent-button.active {
   color: var(--blue-text-color);
   font-weight: bold;
-  font-size: var(--large-font-size);
+  font-size: var(--eighteen-font-size);
 }
 
 .transparent-button-important {
   pointer-events: auto;
   color: var(--primary-text-color);
   font-family: var(--silly-font);
-  font-size: var(--large-font-size);
+  font-size: var(--eighteen-font-size);
 }
 
 .transparent-button-important.active {

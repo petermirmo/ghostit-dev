@@ -15,19 +15,15 @@ class PricingPage extends Component {
           />
         </MetaTags>
         <h1 className="tac">Ghostit Pricing</h1>
-        <h3 className="tac mx16">
+        <h3 className="tac mx16 unimportant-text">
           Have questions? Give us a call: 250-415-3093
         </h3>
 
         <div className="wrapping-container">
           <div className="container-box small common-shadow pa32 ma32">
             <div className="common-container colorful-bottom-border hc vc pa16 mb16">
-              <h2 className="important-text">
-                Professional
-                <br />
-                <span className="unimportant-text">$40</span>
-                <span className="unimportant-text">/month</span>
-              </h2>
+              <h2 className="important-text">Professional</h2>
+              <h4 className="unimportant-text tac">$40 / month</h4>
             </div>
             <p className="unimportant-text pt8">
               Marketing campaign templates (custom or pre-built)
@@ -43,10 +39,11 @@ class PricingPage extends Component {
               <h2 className="important-text">
                 Agency
                 <br />
-                <span className="unimportant-text">
-                  Plans starting at $300 / month
-                </span>
+                <span className="unimportant-text" />
               </h2>
+              <h4 className="unimportant-text tac">
+                Plans starting at $300 / month
+              </h4>
             </div>
             <p className="unimportant-text pt8">Dedicated industry writer</p>
             <p className="unimportant-text pt8">Blog posts</p>
@@ -58,11 +55,8 @@ class PricingPage extends Component {
 
           <div className="container-box small common-shadow pa32 ma32">
             <div className="common-container colorful-bottom-border purple hc vc pa16 mb16">
-              <h2 className="important-text">
-                Enterprise
-                <br />
-                <span className="unimportant-text">Contact us for pricing</span>
-              </h2>
+              <h2 className="important-text">Enterprise</h2>
+              <h4 className="unimportant-text tac">Contact us for pricing </h4>
             </div>
             <p className="unimportant-text pt8">Custom reporting</p>
             <p className="unimportant-text pt8">Custom feature-building</p>

@@ -19,7 +19,6 @@
   border: 2px solid var(--five-primary-color);
   border-radius: 4px;
   padding: 5px;
-  font-size: var(--regular-font-size);
   margin-left: 10px;
   resize: none;
   width: 100%;
@@ -45,7 +44,6 @@
   border: 2px solid var(--purple-theme-color);
   border-radius: 4px;
   padding: 5px;
-  font-size: var(--regular-font-size);
   box-sizing: border-box;
   outline: none;
 }

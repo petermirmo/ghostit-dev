@@ -1,5 +1,5 @@
 .calendars-container {
-  font-size: var(--medium-large-font-size);
+  font-size: var(--twenty-font-size);
 }
 .calendars-container:hover .dropdown {
   display: flex;

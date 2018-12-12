@@ -186,7 +186,7 @@
 }
 .date-picker-message {
   color: var(--red-theme-color);
-  font-size: var(--small-font-size);
+  font-size: var(--thirteen-font-size);
   text-align: center;
 }
 .anchor-dates-checkbox {
