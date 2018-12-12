@@ -195,7 +195,7 @@ module.exports = {
             });
         })
         .catch(linkedinTokenErrorResponse => {
-          console.log(linkedinTokenErrorResponse.response.data);
+          console.log(linkedinTokenErrorResponse);
           res.redirect("/social-accounts");
         });
     } else {
