@@ -22,7 +22,7 @@ export const setTutorial = value => {
     payload: value
   };
 };
-export const headerWidth = value => {
+export const setHeaderWidth = value => {
   return {
     type: "HEADER_WIDTH",
     payload: value

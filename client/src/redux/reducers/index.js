@@ -35,7 +35,7 @@ function tutorial(state = { value: 0, on: false }, action) {
       return state;
   }
 }
-function setHeaderWidth(state = null, action) {
+function headerWidth(state = null, action) {
   switch (action.type) {
     case "HEADER_WIDTH":
       return action.payload;
@@ -48,7 +48,8 @@ const rootReducer = combineReducers({
   account: accountReducer,
   accounts,
   getKeyListenerFunction,
-  tutorial
+  tutorial,
+  headerWidth
 });
 
 export default rootReducer;

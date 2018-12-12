@@ -51,9 +51,9 @@ class HeaderSideBar extends Component {
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
-    document.getElementById("test").style.marginLeft = document.getElementById(
-      "header-sidebar"
-    ).offsetWidth;
+    this.props.setHeaderWidth(
+      document.getElementById("header-sidebar").offsetWidth
+    );
   }
 
   componentWillUnmount() {
@@ -89,14 +89,13 @@ class HeaderSideBar extends Component {
     if ("/" + activePage == this.props.location.pathname) return " active";
   };
   setStateMiddleware = state => {
-    console.log(document.getElementById("header-sidebar").offsetWidth);
-    document.getElementById("test").style.marginLeft = document.getElementById(
-      "header-sidebar"
-    ).offsetWidth;
+    this.props.setHeaderWidth(
+      document.getElementById("header-sidebar").offsetWidth
+    );
     this.setState(state);
   };
   render() {
-    const { user, tutorial } = this.props;
+    const { user, tutorial, setHeaderWidth } = this.props;
     const { clientSideBar, headerSideBar } = this.state;
 
     if (!user) {
