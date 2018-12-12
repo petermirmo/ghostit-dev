@@ -141,7 +141,7 @@ module.exports = function(passport) {
           }
         }
         Account.find({ socialID: profile.id }, (err, accounts) => {
-          if (accounts.length === 0) {
+          let createNewAccount = () => {
             let newAccount = new Account();
             newAccount.userID = userID;
             newAccount.socialType = "facebook";
@@ -157,18 +157,26 @@ module.exports = function(passport) {
             newAccount.save().then(account => {
               done(null, req.session.passport.user);
             });
+          };
+          if (accounts.length === 0) {
+            createNewAccount();
           } else if (accounts.length > 0) {
             let asyncCounter = 0;
+            let accountFoundUser = false;
             for (let index in accounts) {
               let account = accounts[index];
+
+              if (account.userID == userID) accountFoundUser = true;
 
               account.accessToken = accessToken;
               asyncCounter++;
 
               account.save((err, result) => {
                 asyncCounter--;
-                if (asyncCounter === 0)
-                  return done(null, req.session.passport.user);
+                if (asyncCounter === 0) {
+                  if (!accountFoundUser) createNewAccount();
+                  else return done(null, req.session.passport.user);
+                }
               });
             }
           } else return done(null, req.session.passport.user);
@@ -196,7 +204,7 @@ module.exports = function(passport) {
           }
         }
         Account.find({ userID, socialID: profile.id }, (err, accounts) => {
-          if (accounts.length === 0) {
+          let createNewAccount = () => {
             let newAccount = new Account();
 
             // Split displayName into first name and last name
@@ -224,17 +232,20 @@ module.exports = function(passport) {
             newAccount.email = profile.email;
             newAccount.lastRenewed = new Date().getTime();
 
-            newAccount.save(function(err) {
+            newAccount.save(err => {
               if (err) return done(err);
               return done(null, user);
             });
+          };
+          if (accounts.length === 0) {
+            createNewAccount();
           } else if (accounts.length > 0) {
             let asyncCounter = 0;
+            let accountFoundUser = false;
+
             for (let index in accounts) {
               let account = accounts[index];
-
-              account.accessToken = token;
-              account.tokenSecret = tokenSecret;
+              if (account.userID == userID) accountFoundUser = true;
 
               account.accessToken = token;
               account.tokenSecret = tokenSecret;
@@ -242,8 +253,10 @@ module.exports = function(passport) {
               asyncCounter++;
               account.save((err, result) => {
                 asyncCounter--;
-                if (asyncCounter === 0)
-                  return done(null, req.session.passport.user);
+                if (asyncCounter === 0) {
+                  if (!accountFoundUser) createNewAccount();
+                  else return done(null, req.session.passport.user);
+                }
               });
             }
           } else return done(null, req.session.passport.user);

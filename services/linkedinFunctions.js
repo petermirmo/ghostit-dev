@@ -145,7 +145,7 @@ module.exports = {
               Account.find(
                 { socialID: linkedinProfile.id },
                 (err, accounts) => {
-                  if (accounts.length === 0) {
+                  let createNewAccount = () => {
                     let newAccount = new Account();
 
                     newAccount.userID = userID;
@@ -160,11 +160,17 @@ module.exports = {
                       if (err) generalFunctions.handleError(res, err);
                       else res.redirect("/social-accounts");
                     });
+                  };
+
+                  if (accounts.length === 0) {
+                    createNewAccount();
                   } else if (accounts.length > 0) {
                     let asyncCounter = 0;
+                    let accountFoundUser = false;
 
                     for (let index in accounts) {
                       let account = accounts[index];
+                      if (account.userID == userID) accountFoundUser = true;
 
                       account.accessToken = accessToken;
                       account.accessToken = accessToken;
@@ -173,8 +179,10 @@ module.exports = {
 
                       account.save((err, result) => {
                         asyncCounter--;
-                        if (asyncCounter === 0)
-                          res.redirect("/social-accounts");
+                        if (asyncCounter === 0) {
+                          if (!accountFoundUser) createNewAccount();
+                          else res.redirect("/social-accounts");
+                        }
                       });
                     }
                   } else res.redirect("/social-accounts");
