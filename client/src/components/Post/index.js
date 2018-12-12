@@ -294,7 +294,7 @@ class PostingOptions extends Component {
   };
 
   render() {
-    const {
+    let {
       _id,
       content,
       instructions,
@@ -322,8 +322,10 @@ class PostingOptions extends Component {
       setSaving,
       accounts,
       canEditPost,
-      maxCharacters
+      maxCharacters,
+      accountsHomePage
     } = this.props;
+    if (accountsHomePage) calendarAccounts = accountsHomePage;
 
     const returnOfCarouselOptions = carouselOptions(socialType);
 

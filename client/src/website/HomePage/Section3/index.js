@@ -32,6 +32,14 @@ class Section3 extends Component {
             recipeEditing={false}
             savePostChanges={() => {}}
             notify={() => {}}
+            accountsHomePage={[
+              {
+                socialType: "facebook",
+                accountType: "page",
+                username: "Facebook Page",
+                _id: "1234"
+              }
+            ]}
           />
         </div>
       </div>
