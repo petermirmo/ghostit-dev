@@ -17,6 +17,8 @@ class ManagePage extends Component {
     notifications: []
   };
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     this._ismounted = true;
     axios.get("/api/notifications").then(res => {
       console.log(res.data);

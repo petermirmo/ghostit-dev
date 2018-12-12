@@ -25,6 +25,8 @@ class HomePage extends Component {
     displayGhostAndMessage: false
   };
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     this._ismounted = true;
     this.props.updateAccounts([
       {
@@ -44,7 +46,7 @@ class HomePage extends Component {
   render() {
     const { displayGhostAndMessage } = this.state;
     return (
-      <div>
+      <div className="test">
         <MetaTags>
           <title>All-In-One Marketing Solution</title>
           <meta
@@ -52,7 +54,9 @@ class HomePage extends Component {
             content="Organize your marketing process with an all-in-one solution for unified content promotion."
           />
         </MetaTags>
+
         <Section1 />
+
         <Section2 />
         <Section3 />
         <Section4 />

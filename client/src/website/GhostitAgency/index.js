@@ -4,6 +4,9 @@ import MetaTags from "react-meta-tags";
 import "./style.css";
 
 class GhostitAgency extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <div className="website-page">

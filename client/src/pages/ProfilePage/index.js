@@ -27,6 +27,9 @@ class Profile extends Component {
       window.location.reload();
     }
   }
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
 
   handleChange = (index, value) => {
     this.setState({ [index]: value });

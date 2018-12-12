@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import MetaTags from "react-meta-tags";
 
 class PrivacyPage extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <div className="website-page mx32">

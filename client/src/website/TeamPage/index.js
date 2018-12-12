@@ -6,6 +6,9 @@ import { teamMembers } from "./teamMembers";
 import "./style.css";
 
 class TeamPage extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   isElementInViewport = el => {
     // IMPORTANT THIS FUNCTION HAS BEEN TAKEN FROM STACK OVERFLOW
     // https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433

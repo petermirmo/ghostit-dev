@@ -28,7 +28,9 @@ class AccountsPage extends Component {
     accountToDelete: undefined,
     deleteAccount: false
   };
-
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   openModal = (socialType, accountType) => {
     // Open facebook add page modal
     this.setState({ addPageOrGroupModal: true });

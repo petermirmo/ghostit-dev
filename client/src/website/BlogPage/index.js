@@ -25,6 +25,8 @@ class BlogPage extends Component {
     ]
   };
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     axios.get("/api/ghostit/blogs").then(res => {
       let { success, ghostitBlogs } = res.data;
       if (success) this.setState({ ghostitBlogs, loading: false });

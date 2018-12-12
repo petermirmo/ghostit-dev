@@ -93,7 +93,11 @@ class HeaderSideBar extends Component {
     let isManager = user.role === "manager";
 
     return (
-      <div className="header-navbar" ref={this.setWrapperRef}>
+      <div
+        className="header-navbar"
+        ref={this.setWrapperRef}
+        id="header-sidebar"
+      >
         <div className="header-stationary-column pa8">
           <FontAwesomeIcon
             icon={faBars}

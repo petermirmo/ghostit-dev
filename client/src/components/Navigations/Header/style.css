@@ -1,7 +1,10 @@
 .header-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   display: flex;
-
-  height: 100vh;
+  z-index: 1;
 }
 .header-stationary-column {
   display: flex;

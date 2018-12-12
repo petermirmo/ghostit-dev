@@ -294,17 +294,16 @@
 }
 .content-page {
   display: inline-block;
-  overflow: auto;
   position: relative;
   width: 100%;
 }
 
 .wrapper {
   flex: 1;
+  display: flex;
   position: relative;
 
   transition: all 0.4s ease;
-  overflow: auto;
   max-height: 100.5vh;
 }
 .modal {
@@ -1081,7 +1080,6 @@ body {
   font-family: var(--regular-font);
   color: var(--primary-text-color);
   font-size: var(--sixteen-font-size);
-  overflow: hidden;
 }
 a {
   text-decoration: none;
