@@ -1,5 +1,5 @@
 module.exports = {
-  mongoDevelopentURI: process.env.MONGO_URI,
+  mongoDevelopmentURI: process.env.MONGO_URI,
   cookieKey: process.env.COOKIE_KEY,
 
   fbCallbackUrl: process.env.FB_CALLBACK_URL,
