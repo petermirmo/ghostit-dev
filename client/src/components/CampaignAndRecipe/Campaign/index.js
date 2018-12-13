@@ -426,10 +426,31 @@ class Campaign extends Component {
 
     if (response) {
       socket.emit("delete", campaign);
-      this.triggerCampaignPeers("campaign_deleted", campaign._id);
-      this.props.triggerSocketPeers("calendar_campaign_deleted", campaign._id);
-      this.props.close(false, "campaignModal");
-      this.props.updateCampaigns();
+      socket.on("campaign_deleted", success => {
+        socket.off("campaign_deleted");
+        if (success) {
+          this.triggerCampaignPeers("campaign_deleted", campaign._id);
+          this.props.triggerSocketPeers(
+            "calendar_campaign_deleted",
+            campaign._id
+          );
+          this.props.notify(
+            "success",
+            "Campaign Deleted",
+            "Campaign and all of its posts were successfully deleted."
+          );
+          this.props.close(false, "campaignModal");
+          this.props.updateCampaigns();
+        } else {
+          this.props.notify(
+            "danger",
+            "Campaign Not Deleted",
+            "At least one of the campaign posts failed to delete. Please try again."
+          );
+          this.props.close(false, "campaignModal");
+          this.props.updateCampaigns();
+        }
+      });
     }
 
     this.setState({ confirmDelete: false });

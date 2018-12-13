@@ -5,10 +5,6 @@ import MetaTags from "react-meta-tags";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { updateAccounts } from "../../redux/actions/";
-
 import Section1 from "./Section1";
 import Section2 from "./Section2";
 import Section3 from "./Section3";
@@ -28,14 +24,7 @@ class HomePage extends Component {
     window.scrollTo(0, 0);
 
     this._ismounted = true;
-    this.props.updateAccounts([
-      {
-        socialType: "facebook",
-        accountType: "page",
-        username: "Facebook Page",
-        _id: "1234"
-      }
-    ]);
+
     setTimeout(() => {
       if (this._ismounted) this.setState({ displayGhostAndMessage: true });
     }, 8000);
@@ -94,15 +83,4 @@ class HomePage extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      updateAccounts
-    },
-    dispatch
-  );
-}
-export default connect(
-  null,
-  mapDispatchToProps
-)(HomePage);
+export default HomePage;

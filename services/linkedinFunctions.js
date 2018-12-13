@@ -142,10 +142,10 @@ module.exports = {
             })
             .then(linkedinProfileResponse => {
               let linkedinProfile = linkedinProfileResponse.data;
-              Account.findOne(
-                { userID, socialID: linkedinProfile.id },
-                (err, account) => {
-                  if (!account) {
+              Account.find(
+                { socialID: linkedinProfile.id },
+                (err, accounts) => {
+                  let createNewAccount = () => {
                     let newAccount = new Account();
 
                     newAccount.userID = userID;
@@ -160,16 +160,32 @@ module.exports = {
                       if (err) generalFunctions.handleError(res, err);
                       else res.redirect("/social-accounts");
                     });
-                  } else if (account) {
-                    account.accessToken = accessToken;
+                  };
 
-                    account.accessToken = accessToken;
-                    account.givenName = linkedinProfile.localizedFirstName;
-                    account.familyName = linkedinProfile.localizedLastName;
+                  if (accounts.length === 0) {
+                    createNewAccount();
+                  } else if (accounts.length > 0) {
+                    let asyncCounter = 0;
+                    let accountFoundUser = false;
 
-                    account.save((err, result) => {
-                      res.redirect("/social-accounts");
-                    });
+                    for (let index in accounts) {
+                      let account = accounts[index];
+                      if (account.userID == userID) accountFoundUser = true;
+
+                      account.accessToken = accessToken;
+                      account.accessToken = accessToken;
+                      account.givenName = linkedinProfile.localizedFirstName;
+                      account.familyName = linkedinProfile.localizedLastName;
+
+                      asyncCounter++;
+                      account.save((err, result) => {
+                        asyncCounter--;
+                        if (asyncCounter === 0) {
+                          if (!accountFoundUser) createNewAccount();
+                          else res.redirect("/social-accounts");
+                        }
+                      });
+                    }
                   } else res.redirect("/social-accounts");
                 }
               );
@@ -180,7 +196,7 @@ module.exports = {
             });
         })
         .catch(linkedinTokenErrorResponse => {
-          console.log(linkedinTokenErrorResponse.response.data);
+          console.log(linkedinTokenErrorResponse);
           res.redirect("/social-accounts");
         });
     } else {
