@@ -126,8 +126,9 @@ to do next:
 
   socket user list "Patrick Holland - Logged in as StorageCraft"
 
-  calendar socket updates don't attach images to the post
-
+  calendar chat:
+    be able to move the chat button in case its blocking an important calendar day
+      either drag or just a toggle from right->left
 
 
 
