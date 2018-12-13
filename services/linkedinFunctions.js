@@ -149,9 +149,11 @@ module.exports = {
               console.log("here4");
 
               let linkedinProfile = linkedinProfileResponse.data;
+              console.log(linkedinProfile);
               Account.find(
                 { socialID: linkedinProfile.id },
                 (err, accounts) => {
+                  console.log(accounts);
                   let createNewAccount = () => {
                     let newAccount = new Account();
 
@@ -184,6 +186,7 @@ module.exports = {
                       account.givenName = linkedinProfile.localizedFirstName;
                       account.familyName = linkedinProfile.localizedLastName;
 
+                      asyncCounter++;
                       account.save((err, result) => {
                         asyncCounter--;
                         if (asyncCounter === 0) {
