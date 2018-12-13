@@ -18,6 +18,7 @@ import {
   faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, withRouter } from "react-router-dom";
+import sizeMe from "react-sizeme";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -95,11 +96,7 @@ class HeaderSideBar extends Component {
     let isManager = user.role === "manager";
 
     return (
-      <div
-        className="header-navbar"
-        ref={this.setWrapperRef}
-        id="header-sidebar"
-      >
+      <div className="header-navbar" ref={this.setWrapperRef}>
         <div className="header-stationary-column pa8">
           <FontAwesomeIcon
             icon={faBars}
@@ -293,9 +290,11 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(HeaderSideBar)
+export default sizeMe()(
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(HeaderSideBar)
+  )
 );

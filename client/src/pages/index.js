@@ -4,6 +4,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
 import { Route, withRouter, Switch } from "react-router-dom";
+import { SizeMe } from "react-sizeme";
 
 import { connect } from "react-redux";
 
@@ -40,7 +41,8 @@ import "./style.css";
 class Routes extends Component {
   state = {
     datebaseConnection: false,
-    ghostitBlogs: []
+    ghostitBlogs: [],
+    headerWidth: 0
   };
   constructor(props) {
     super(props);
@@ -99,8 +101,11 @@ class Routes extends Component {
       return true;
     else return false;
   };
+  onSize = sizeChangeObj => {
+    this.setState({ headerWidth: sizeChangeObj.width });
+  };
   render() {
-    const { datebaseConnection, ghostitBlogs } = this.state;
+    const { datebaseConnection, ghostitBlogs, headerWidth } = this.state;
     const { user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
@@ -112,8 +117,8 @@ class Routes extends Component {
     let activePage = this.props.location.pathname;
 
     return (
-      <div className="wrapper">
-        {this.userIsInPlatform(activePage) && <Header />}
+      <div className="wrapper" style={{ marginLeft: headerWidth }}>
+        {this.userIsInPlatform(activePage) && <Header onSize={this.onSize} />}
 
         {user &&
           ((activePage === "/content" ||

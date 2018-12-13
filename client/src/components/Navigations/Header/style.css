@@ -5,6 +5,7 @@
   bottom: 0;
   display: flex;
   z-index: 1;
+  transition: all 0.2s ease;
 }
 .header-stationary-column {
   display: flex;
