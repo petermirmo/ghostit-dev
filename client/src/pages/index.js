@@ -117,7 +117,12 @@ class Routes extends Component {
     let activePage = this.props.location.pathname;
 
     return (
-      <div className="wrapper" style={{ marginLeft: headerWidth }}>
+      <div
+        className="wrapper"
+        style={
+          this.userIsInPlatform(activePage) ? { marginLeft: headerWidth } : {}
+        }
+      >
         {this.userIsInPlatform(activePage) && <Header onSize={this.onSize} />}
 
         {user &&
