@@ -139,6 +139,7 @@ module.exports = {
         .then(linkedinTokenResponse => {
           let accessToken = linkedinTokenResponse.data.access_token;
           console.log("here3");
+          console.log(accessToken);
 
           axios
             .get("https://api.linkedin.com/v2/me", {
