@@ -114,7 +114,6 @@ module.exports = {
     );
   },
   getLinkedinAccessToken: (req, res) => {
-    console.log("here");
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -123,8 +122,6 @@ module.exports = {
     }
 
     if (req.query.state == keys.linkedinState && req.query.code) {
-      console.log("here2");
-
       axios
         .post(
           "https://www.linkedin.com/oauth/v2/accessToken",
@@ -138,22 +135,16 @@ module.exports = {
         )
         .then(linkedinTokenResponse => {
           let accessToken = linkedinTokenResponse.data.access_token;
-          console.log("here3");
-          console.log(accessToken);
 
           axios
             .get("https://api.linkedin.com/v2/me", {
               headers: { Authorization: "Bearer " + accessToken }
             })
             .then(linkedinProfileResponse => {
-              console.log("here4");
-
               let linkedinProfile = linkedinProfileResponse.data;
-              console.log(linkedinProfile);
               Account.find(
                 { socialID: linkedinProfile.id },
                 (err, accounts) => {
-                  console.log(accounts);
                   let createNewAccount = () => {
                     let newAccount = new Account();
 
@@ -200,15 +191,11 @@ module.exports = {
               );
             })
             .catch(linkedinProfileErrorResonse => {
-              console.log("catch2");
-
               console.log(linkedinProfileErrorResonse);
               res.redirect("/social-accounts");
             });
         })
         .catch(linkedinTokenErrorResponse => {
-          console.log("catch1");
-
           console.log(linkedinTokenErrorResponse);
           res.redirect("/social-accounts");
         });
