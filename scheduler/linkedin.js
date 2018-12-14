@@ -15,24 +15,17 @@ module.exports = {
       },
       async (err, account) => {
         if (account) {
-          var linkedinPost = {};
-          var linkedinLink = {};
+          let linkedinPost = {};
 
           if (post.content !== "") {
             linkedinPost.text = { text: post.content };
           }
 
-          if (post.linkImage !== "" || post.link !== "") {
+          if (post.link !== "") {
             linkedinPost.content = {
-              contentEntities: { entityLocation: linkedinLink }
+              contentEntities: [{ entityLocation: post.link }],
+              title: "test title2"
             };
-            if (post.images[0]) {
-              linkedinPost.content.thumbnails = [
-                {
-                  resolvedUrl: post.images[0].url
-                }
-              ];
-            }
           }
           linkedinPost.owner = "urn:li:person:" + account.socialID;
 

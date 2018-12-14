@@ -119,6 +119,12 @@
   box-sizing: border-box;
   width: 100%;
 }
+.nowrap-container-center {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+}
 .small-box {
   display: flex;
   flex-direction: column;
@@ -309,7 +315,7 @@
   max-height: 100.5vh;
 }
 .modal {
-  position: absolute;
+  position: fixed;
   z-index: 10;
 
   top: 0;
@@ -722,7 +728,7 @@
   flex: 1;
 }
 .flex {
-  display: flex;
+  display: flex !important;
   flex-shrink: 0;
 }
 .flex.vt {
@@ -763,6 +769,15 @@
 }
 .relative {
   position: relative;
+}
+.absolute-bottom-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  display: flex;
+  background: rgba(0, 0, 0, 0.1);
 }
 .absolute {
   position: absolute;
@@ -1082,6 +1097,9 @@ body {
   font-family: var(--regular-font);
   color: var(--primary-text-color);
   font-size: var(--sixteen-font-size);
+
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 a {
   text-decoration: none;
@@ -1261,7 +1279,8 @@ input[type="file"] {
   background-color: var(--white-theme-color);
 
   width: 100%;
-  min-width: 150px;
+  min-width: 100px;
+  overflow: visible;
 }
 .dropdown.transparent {
   background-color: transparent;
@@ -1312,6 +1331,12 @@ input[type="file"] {
 }
 .icon-regular-button:hover {
   color: var(--eight-primary-color);
+}
+.square-button {
+  background-color: var(--seven-primary-color);
+}
+.square-button:hover {
+  background-color: var(--eight-primary-color);
 }
 .regular-button {
   cursor: pointer;

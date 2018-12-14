@@ -68,9 +68,12 @@ class DatePicker extends Component {
 
   createDayHeaders = () => {
     let dayHeadingsArray = [];
-    for (let index = 1; index < 8; index++) {
+    for (let index = 0; index < 7; index++) {
       dayHeadingsArray.push(
-        <div className="date-picker-dropdown-header" key={index + "dayheading"}>
+        <div
+          className="date-picker-dropdown-header py4"
+          key={index + "dayheading"}
+        >
           {moment()
             .day(index)
             .format("dddd")
@@ -80,14 +83,14 @@ class DatePicker extends Component {
     }
     return dayHeadingsArray;
   };
-  createCalendarDays = calendarDate => {
+  createCalendarWeeks = calendarDate => {
     const { date } = this.state;
     let { dateLowerBound, dateUpperBound } = this.props;
 
-    let calendarDayArray = [];
+    let calendarWeekArray = [];
 
     // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
-    let startOfMonth = Number(
+    let firstDayOfMonth = Number(
       moment(calendarDate.format("M"), "MM")
         .startOf("month")
         .format("d")
@@ -102,56 +105,61 @@ class DatePicker extends Component {
 
     // To determine if 42 or 35 days in the calendar should be displayed
     let lowerBound = 1;
-    if (startOfMonth === 0) lowerBound = -6;
+    let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
-    for (let index = lowerBound; index <= 35; index++) {
-      // Set day to beginning of the month
-      let calendarDay = new moment(calendarDate);
-      calendarDay = calendarDay.date(1);
+    for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
+      let calendarDayArray = [];
 
-      // Subtract the start date of current month
-      calendarDay.subtract(startOfMonth, "days");
-      // Add our index
-      calendarDay.add(index, "days");
-      // Now we have the days before the current month ex 27 28 29 30 1 2 3 4
+      for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
+        let calendarDay = new moment(calendarDate);
+        calendarDay = calendarDay.date(1);
 
-      calendarDay.set("hour", date.get("hour"));
-      calendarDay.set("minute", date.get("minute"));
+        // Subtract the start date of current month
+        calendarDay.subtract(firstDayOfMonth, "days");
+        // Add our index
+        calendarDay.add(weekIndex * 7 + dayIndex, "days");
 
-      let className = "date-picker-day";
+        let pastDate = calendarDay.diff(new moment(), "days") < 0;
+        let currentDate = calendarDay.isSame(new moment(), "day");
 
-      // Check if index is before or after current month
-      if (index < startOfMonth || index > endOfMonth + startOfMonth - 1) {
-        className += " faded-date-picker-days";
+        let className = "date-picker-day";
+
+        // Check if index is before or after current month
+        if (pastDate) {
+          className += " faded-date-picker-days";
+        }
+        if (currentDate) {
+          className += " active";
+        }
+
+        if (
+          (calendarDay.format("YYYY-MM-DD") >=
+            dateLowerBound.format("YYYY-MM-DD") ||
+            !dateLowerBound) &&
+          (calendarDay <= dateUpperBound || !dateUpperBound)
+        ) {
+          calendarDayArray.push(
+            <div
+              className={className}
+              onClick={() => this.handleChange(calendarDay, "date")}
+              key={dayIndex + "day" + weekIndex}
+            >
+              <div className="date-picker-date">{calendarDay.date()}</div>
+            </div>
+          );
+        } else {
+          calendarDayArray.push(
+            <div className="past-calendar-date" key={dayIndex + "day"}>
+              <div className="date-picker-date">{calendarDay.date()}</div>
+            </div>
+          );
+        }
       }
-      if (calendarDay.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
-        className += " active";
-      }
-
-      if (
-        (calendarDay.format("YYYY-MM-DD") >=
-          dateLowerBound.format("YYYY-MM-DD") ||
-          !dateLowerBound) &&
-        (calendarDay <= dateUpperBound || !dateUpperBound)
-      ) {
-        calendarDayArray.push(
-          <div
-            className={className}
-            onClick={() => this.handleChange(calendarDay, "date")}
-            key={index + "day"}
-          >
-            <div className="date-picker-date">{calendarDay.date()}</div>
-          </div>
-        );
-      } else {
-        calendarDayArray.push(
-          <div className="past-calendar-date" key={index + "day"}>
-            <div className="date-picker-date">{calendarDay.date()}</div>
-          </div>
-        );
-      }
+      calendarWeekArray.push(
+        <div className="nowrap-container">{calendarDayArray}</div>
+      );
     }
-    return calendarDayArray;
+    return calendarWeekArray;
   };
 
   addMonth = () => {
@@ -177,7 +185,7 @@ class DatePicker extends Component {
 
       hourDivs.push(
         <div
-          className="time-dropdown-item"
+          className="item-colored"
           key={index + "hour"}
           onClick={() => this.handleChange(newDate, "date")}
         >
@@ -197,7 +205,7 @@ class DatePicker extends Component {
 
       minuteDivs.push(
         <div
-          className="time-dropdown-item"
+          className="item-colored"
           key={index + "minute"}
           onClick={() => this.handleChange(newDate, "date")}
         >
@@ -218,7 +226,7 @@ class DatePicker extends Component {
     if (!isAM) newDate = new moment(tempDate.subtract(12, "hours"));
     minuteDivs.push(
       <div
-        className="time-dropdown-item"
+        className="item-colored"
         key="am"
         onClick={() => this.handleChange(newDate, "date")}
       >
@@ -231,7 +239,7 @@ class DatePicker extends Component {
 
     minuteDivs.push(
       <div
-        className="time-dropdown-item"
+        className="item-colored"
         key="pm"
         onClick={() => this.handleChange(newDate2, "date")}
       >
@@ -251,7 +259,7 @@ class DatePicker extends Component {
     this.setState({ [index]: value });
   };
   render() {
-    let {
+    const {
       inputValue,
       calendarDropdown,
       hourDropdown,
@@ -263,9 +271,9 @@ class DatePicker extends Component {
       anchorDatesOption,
       anchorDates
     } = this.state;
-    let { style, disableTime } = this.props;
+    const { style, disableTime, className } = this.props;
 
-    let calendarDays = this.createCalendarDays(displayDate);
+    let calendarDays = this.createCalendarWeeks(displayDate);
     let dayHeaders = this.createDayHeaders();
 
     let hours = this.hourDropdown(date);
@@ -273,7 +281,11 @@ class DatePicker extends Component {
     let amPM = this.amPmDropdown(date);
 
     return (
-      <div className="date-picker-dropdown" ref={this.setWrapperRef}>
+      <div
+        className={"button relative " + className}
+        ref={this.setWrapperRef}
+        id="date-time-picker"
+      >
         <div
           className="display-date"
           onClick={() => {
@@ -284,75 +296,85 @@ class DatePicker extends Component {
           {inputValue}
         </div>
         {calendarDropdown && (
-          <div className="dropdown-calendar common-shadow" style={style}>
-            <div className="date-picker-calendar-month-container">
-              <span
-                className="date-picker-calendar-month-switch-button left"
+          <div
+            className="dropdown flex simple-container common-shadow pa8"
+            style={style}
+          >
+            <div className="nowrap-container-center">
+              <FontAwesomeIcon
+                icon={faAngleLeft}
+                size="3x"
+                color="var(--five-primary-color)"
+                className="pl16"
                 onClick={this.subtractMonth}
-              >
-                <FontAwesomeIcon
-                  icon={faAngleLeft}
-                  size="3x"
-                  color="var(--five-primary-color)"
-                />
-              </span>
-              <h2 className="date-picker-calendar-month">
-                {displayDate.format("MMMM")}
-              </h2>
+              />
 
-              <span
-                className="date-picker-calendar-month-switch-button right"
+              <h2 className="flex1 tac">{displayDate.format("MMMM")}</h2>
+
+              <FontAwesomeIcon
+                className="pr16"
                 onClick={this.addMonth}
-              >
-                <FontAwesomeIcon
-                  icon={faAngleRight}
-                  size="3x"
-                  color="var(--five-primary-color)"
-                />
-              </span>
+                icon={faAngleRight}
+                size="3x"
+                color="var(--five-primary-color)"
+              />
             </div>
-            {message &&
-              message !== "" && (
-                <div className="date-picker-message">{message}</div>
-              )}
-            {dayHeaders}
-            {calendarDays}
-            <div className="time-container">
+            {message && message !== "" && (
+              <div className="date-picker-message">{message}</div>
+            )}
+            <div className="nowrap-container">{dayHeaders}</div>
+            <div className="wrapping-container">{calendarDays}</div>
+            <div className="nowrap-container py4">
               {!disableTime && (
                 <div
-                  className="time-dropdown"
+                  className="time-dropdown mr4 pa4"
                   onClick={() => this.setActive("hourDropdown")}
                 >
                   {date.format("h")} <FontAwesomeIcon icon={faCaretDown} />
                   {hourDropdown && (
-                    <div className="time-dropdown-container">{hours}</div>
+                    <div
+                      className="dropdown flex common-shadow simple-container"
+                      style={{ overflow: "auto", maxHeight: "120px" }}
+                    >
+                      {hours}
+                    </div>
                   )}
                 </div>
               )}
               {!disableTime && (
                 <div
-                  className="time-dropdown"
+                  className="time-dropdown mr4 pa4"
                   onClick={() => this.setActive("minuteDropdown")}
                 >
                   {date.format("mm")} <FontAwesomeIcon icon={faCaretDown} />
                   {minuteDropdown && (
-                    <div className="time-dropdown-container">{minutes}</div>
+                    <div
+                      className="dropdown flex common-shadow simple-container"
+                      style={{ overflow: "auto", maxHeight: "120px" }}
+                    >
+                      {minutes}
+                    </div>
                   )}
                 </div>
               )}
               {!disableTime && (
                 <div
-                  className="time-dropdown"
+                  className="time-dropdown mr4 pa4"
                   onClick={() => this.setActive("amPmDropdown")}
                 >
                   {date.format("A")} <FontAwesomeIcon icon={faCaretDown} />
                   {amPmDropdown && (
-                    <div className="time-dropdown-container">{amPM}</div>
+                    <div
+                      className="dropdown flex common-shadow simple-container"
+                      style={{ overflow: "auto", maxHeight: "120px" }}
+                    >
+                      {amPM}
+                    </div>
                   )}
                 </div>
               )}
               <button
-                className="finished-button"
+                className="square-button px16"
                 onClick={() => {
                   this.setActive("calendarDropdown");
                   this.props.handleChange(

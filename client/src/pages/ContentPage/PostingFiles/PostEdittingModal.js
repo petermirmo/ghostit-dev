@@ -115,7 +115,7 @@ class PostEdittingModal extends Component {
 
     return (
       <div className="modal" onClick={this.props.close}>
-        <div className="modal-content" onClick={e => e.stopPropagation()}>
+        <div className="large-modal" onClick={e => e.stopPropagation()}>
           <div className="modal-header">
             <FontAwesomeIcon
               icon={faTimes}

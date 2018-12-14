@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+let { mobileAndTabletcheck } = require("../../../componentFunctions");
+
 class Section1 extends Component {
   constructor(props) {
     super(props);
@@ -41,10 +43,12 @@ class Section1 extends Component {
           className="circle absolute bounce slow"
           style={{ bottom: randomInt1 + "px", left: randomInt2 + "px" }}
         />
-        <div
-          className="triangle absolute bottom triangle-bottom-change-color fast"
-          style={{ bottom: randomInt3 + "px", right: randomInt4 + "px" }}
-        />
+        {!mobileAndTabletcheck() && (
+          <div
+            className="triangle absolute bottom triangle-bottom-change-color fast"
+            style={{ bottom: randomInt3 + "px", right: randomInt4 + "px" }}
+          />
+        )}
         <div
           className="rectangle absolute rotate slow "
           style={{ top: randomInt5 + 50 + "px", left: randomInt6 + "px" }}

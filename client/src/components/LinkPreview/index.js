@@ -5,7 +5,7 @@ import faLongArrowAltRight from "@fortawesome/fontawesome-free-solid/faLongArrow
 
 import "./style.css";
 
-class Carousel extends Component {
+class LinkPreview extends Component {
   state = {
     linkImagesArray: this.props.linkImagesArray
       ? this.props.linkImagesArray
@@ -35,35 +35,38 @@ class Carousel extends Component {
     this.setState({ activeImageIndex: activeImageIndex });
   };
   render() {
-    let { linkPreviewCanEdit, linkImage } = this.props;
+    let { linkPreviewCanEdit, linkImage, className } = this.props;
     return (
-      <div className="carousel-container">
-        <div className="carousel-image-container">
-          {linkPreviewCanEdit && (
-            <span
-              className="carousel-previous-button"
+      <div
+        className={"link-preview-container common-shadow " + className}
+        style={
+          linkImage
+            ? {
+                backgroundImage: "url(" + linkImage + ")"
+              }
+            : {}
+        }
+      >
+        {linkPreviewCanEdit && (
+          <div className="absolute-bottom-container">
+            <FontAwesomeIcon
+              icon={faLongArrowAltLeft}
+              size="2x"
+              className="icon-regular-button"
               onClick={() => this.changeImage(-1)}
-            >
-              <FontAwesomeIcon icon={faLongArrowAltLeft} />
-            </span>
-          )}
-          <img
-            alt=" No images at this url!"
-            src={linkImage}
-            className="carousel-image"
-          />
-          {linkPreviewCanEdit && (
-            <span
-              className="carousel-next-button"
+            />
+            <div className="flex1" />
+            <FontAwesomeIcon
+              icon={faLongArrowAltRight}
+              size="2x"
+              className="icon-regular-button"
               onClick={() => this.changeImage(1)}
-            >
-              <FontAwesomeIcon icon={faLongArrowAltRight} />
-            </span>
-          )}
-        </div>
+            />
+          </div>
+        )}
       </div>
     );
   }
 }
 
-export default Carousel;
+export default LinkPreview;

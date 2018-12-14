@@ -12,9 +12,9 @@ import { bindActionCreators } from "redux";
 
 import DateTimePicker from "../DateTimePicker";
 import SelectAccountDiv from "../SelectAccountDiv/";
-import Carousel from "../Carousel";
+import LinkPreview from "../LinkPreview";
 import ImagesDiv from "../ImagesDiv/";
-import { carouselOptions } from "../../componentFunctions";
+import { linkPreviewOptions } from "../../componentFunctions";
 import { trySavePost } from "../../componentFunctions";
 
 import ConfirmAlert from "../Notifications/ConfirmAlert";
@@ -211,9 +211,15 @@ class PostingOptions extends Component {
   }
   getDataFromURL = newLink => {
     let { linkImage, link } = this.state;
+    console.log("going to backend");
     axios.post("/api/link", { link: newLink }).then(res => {
       let { loggedIn } = res.data;
       if (loggedIn === false) this.props.history.push("/sign-in");
+
+      console.log("back to front end");
+      console.log(res.data);
+      console.log("\n");
+
       if (this._ismounted && res.data) {
         if (!linkImage) linkImage = res.data[0];
         if (link !== newLink) linkImage = res.data[0];
@@ -327,10 +333,10 @@ class PostingOptions extends Component {
     } = this.props;
     if (accountsHomePage) calendarAccounts = accountsHomePage;
 
-    const returnOfCarouselOptions = carouselOptions(socialType);
+    const returnOfLinkPreviewOptions = linkPreviewOptions(socialType);
 
-    const linkPreviewCanShow = returnOfCarouselOptions[0];
-    const linkPreviewCanEdit = returnOfCarouselOptions[1];
+    const linkPreviewCanShow = returnOfLinkPreviewOptions[0];
+    const linkPreviewCanEdit = returnOfLinkPreviewOptions[1];
 
     // Loop through all accounts
     let inactivePageAccountsArray = [];
@@ -370,7 +376,7 @@ class PostingOptions extends Component {
     return (
       <div className="post-instruction-container">
         <div
-          className="posting-container light-scrollbar pa16"
+          className="posting-container common-transition light-scrollbar pa16"
           style={{ width: showInstructions ? "60%" : "100%" }}
         >
           <Textarea
@@ -383,7 +389,7 @@ class PostingOptions extends Component {
             value={content}
             readOnly={!canEditPost}
           />
-          <div className="post-images-and-carousel">
+          <div className="post-images-and-linkPreview">
             <ImagesDiv
               postImages={images}
               handleChange={images => this.handleChange(images, "images")}
@@ -391,52 +397,60 @@ class PostingOptions extends Component {
               canEdit={canEditPost}
               pushToImageDeleteArray={this.pushToImageDeleteArray}
             />
-            {linkPreviewCanShow && link && (
-              <Carousel
-                linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-                linkImagesArray={linkImagesArray}
-                linkImage={linkImage}
-                handleChange={image => this.handleChange(image, "linkImage")}
-              />
-            )}
           </div>
+
           {maxCharacters && (
             <div className="max-characters">
               {maxCharacters - content.length}
             </div>
           )}
 
-          <div className="flex vc wrap spacing top">
-            {!this.props.recipeEditing && (
-              <SelectAccountDiv
-                activePageAccountsArray={activePageAccountsArray}
-                inactivePageAccountsArray={inactivePageAccountsArray}
-                linkAccountToCalendarPrompt={actID => {
-                  if (this._ismounted)
-                    this.setState({
-                      promptLinkAccountToCalendar: true,
-                      linkAccountToCalendarID: actID
-                    });
-                }}
-                activeAccount={accountID}
-                handleChange={account => {
-                  this.handleChange(account.socialID, "accountID");
-                  this.handleChange(account.accountType, "accountType");
+          <div className="flex wrap">
+            <div className="flex column flex1">
+              {linkPreviewCanShow && link && (
+                <LinkPreview
+                  linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+                  linkImagesArray={linkImagesArray}
+                  linkImage={linkImage}
+                  handleChange={image => this.handleChange(image, "linkImage")}
+                  className="mx16 mt16"
+                />
+              )}
+              <DateTimePicker
+                date={date}
+                dateFormat="MMMM Do YYYY hh:mm A"
+                handleChange={date => this.handleChange(date, "date")}
+                style={{
+                  bottom: "100%",
+                  top: "auto"
                 }}
                 canEdit={canEditPost}
+                dateLowerBound={new moment()}
+                dateUpperBound={undefined}
+                className="mx16 mt16"
               />
+            </div>
+            {!this.props.recipeEditing && (
+              <div className="flex1">
+                <SelectAccountDiv
+                  activePageAccountsArray={activePageAccountsArray}
+                  inactivePageAccountsArray={inactivePageAccountsArray}
+                  linkAccountToCalendarPrompt={actID => {
+                    if (this._ismounted)
+                      this.setState({
+                        promptLinkAccountToCalendar: true,
+                        linkAccountToCalendarID: actID
+                      });
+                  }}
+                  activeAccount={accountID}
+                  handleChange={account => {
+                    this.handleChange(account.socialID, "accountID");
+                    this.handleChange(account.accountType, "accountType");
+                  }}
+                  canEdit={canEditPost}
+                />
+              </div>
             )}
-            <DateTimePicker
-              date={date}
-              dateFormat="MMMM Do YYYY hh:mm A"
-              handleChange={date => this.handleChange(date, "date")}
-              style={{
-                bottom: "-80px"
-              }}
-              canEdit={canEditPost}
-              dateLowerBound={new moment()}
-              dateUpperBound={undefined}
-            />
           </div>
           {canEditPost &&
             (somethingChanged || (!this.props.recipeEditing && !_id)) && (

@@ -770,7 +770,6 @@ class Content extends Component {
     this.setState({ [index]: value });
   };
   editPost = post => {
-    console.log(post);
     // Open editting modal
     if (post.socialType === "blog") {
       this.setState({ blogEdittingModal: true, clickedEvent: post });

@@ -303,7 +303,7 @@ export async function savePost(
     if (!postImages[i].url) imagesToSave.push(postImages[i].image);
   }
 
-  // If link previews are allowed get src of active image from carousel
+  // If link previews are allowed get src of active image from linkPreview
   let linkPreviewImage = "";
   if (linkImage) {
     linkPreviewImage = linkImage;
@@ -401,7 +401,7 @@ export function postChecks(
   }
   return true;
 }
-export function carouselOptions(socialType) {
+export function linkPreviewOptions(socialType) {
   if (socialType === "facebook") {
     return [true, false];
   } else if (socialType === "twitter") {

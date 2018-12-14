@@ -30,7 +30,9 @@ module.exports = {
               " Post socialType: " +
               post.socialType;
 
-            let notificationToPeter = new Notification(notification);
+            let notificationToPeter = new Notification();
+            notificationToPeter.message = notification.message;
+            notificationToPeter.title = notification.title;
             notificationToPeter.userID = "5acfa9409f3e9e06ac173d26";
             notification.save();
             notificationToPeter.save();
