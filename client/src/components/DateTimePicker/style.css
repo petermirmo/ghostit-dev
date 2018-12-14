@@ -1,6 +1,7 @@
 .display-date {
   border-bottom: 1px solid var(--secondary-text-color);
   text-align: center;
+  white-space: nowrap;
 }
 .display-date:hover {
   border-color: var(--five-primary-color);

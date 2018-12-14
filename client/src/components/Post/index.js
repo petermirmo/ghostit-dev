@@ -429,7 +429,7 @@ class PostingOptions extends Component {
               />
             </div>
             {!this.props.recipeEditing && (
-              <div className="flex1">
+              <div className="flex1 mt16">
                 <SelectAccountDiv
                   activePageAccountsArray={activePageAccountsArray}
                   inactivePageAccountsArray={inactivePageAccountsArray}
@@ -507,7 +507,7 @@ class PostingOptions extends Component {
           )}
         </div>
         <div
-          className="instructions-container common-shadow light-scrollbar pa16"
+          className="instructions-container common-shadow-left light-scrollbar pa16"
           style={{
             width: showInstructions ? "40%" : "0",
             padding: showInstructions ? undefined : 0

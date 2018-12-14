@@ -273,9 +273,8 @@ class DatePicker extends Component {
 
     return (
       <div
-        className={"button relative " + className}
+        className={"button relative flex1 " + className}
         ref={this.setWrapperRef}
-        id="date-time-picker"
       >
         <div
           className="display-date"

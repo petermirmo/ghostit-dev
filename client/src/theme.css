@@ -1077,7 +1077,10 @@
   color: var(--white-theme-color);
 }
 .common-shadow {
-  box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.19);
+  box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.2);
+}
+.common-shadow-left {
+  box-shadow: -4px 0 6px 0 rgba(0, 0, 0, 0.2);
 }
 .trial-days-left {
   box-sizing: border-box;
