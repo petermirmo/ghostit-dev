@@ -116,7 +116,7 @@ class BlogPage extends Component {
           {Object.keys(categories).map((categoryIndex, index) => {
             let category = categories[categoryIndex];
 
-            let className = "transparent-button mx8";
+            let className = "transparent-button mx8 hover-blue";
             if (category.active) className += " active";
 
             return (
