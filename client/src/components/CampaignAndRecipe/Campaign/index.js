@@ -1080,10 +1080,10 @@ class Campaign extends Component {
           close={() => this.attemptToCloseModal()}
         />
         {!firstPostChosen && (
-          <div className="campaign-start-container">
-            <div className="new-campaign-post-selection-write-up">
+          <div className="column-fill-container">
+            <p className="tac my16 h3-like">
               How do you want to start off your campaign?
-            </div>
+            </p>
             <PostTypePicker
               newPost={socialType => {
                 this.setState(

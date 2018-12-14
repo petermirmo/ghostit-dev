@@ -126,6 +126,14 @@
   box-sizing: border-box;
   width: 100%;
 }
+.column-fill-container {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+}
 .small-box {
   display: flex;
   flex-direction: column;
@@ -243,6 +251,9 @@
 .h2-like {
   font-size: var(--twenty-font-size);
   color: var(--blue-text-color);
+}
+.h3-like {
+  font-size: var(--twenty-font-size);
 }
 .mx20vw {
   margin-right: 20vw;
