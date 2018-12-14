@@ -57,7 +57,7 @@ class HeaderSideBar extends Component {
     if (!this.wrapperRef) return;
 
     if (this.wrapperRef.contains(event.target)) return;
-    else if (this.props.headerSideBar)
+    else if (this.state.headerSideBar)
       this.setStateMiddleware({ headerSideBar: false, clientSideBar: false });
   };
 

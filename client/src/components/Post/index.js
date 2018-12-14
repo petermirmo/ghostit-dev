@@ -207,27 +207,31 @@ class PostingOptions extends Component {
     if (match) {
       link = match[0];
       this.getDataFromURL(link);
-    } else if (this._ismounted) this.setState({ link: "" });
+    } else if (this._ismounted)
+      this.setState({
+        link: "",
+        linkTitle: "",
+        linkImage: "",
+        linkDescription: ""
+      });
   }
   getDataFromURL = newLink => {
-    let { linkImage, link } = this.state;
-    console.log("going to backend");
     axios.post("/api/link", { link: newLink }).then(res => {
       let { loggedIn } = res.data;
       if (loggedIn === false) this.props.history.push("/sign-in");
 
-      console.log("back to front end");
-      console.log(res.data);
-      console.log("\n");
+      let { imgSrc, linkTitle, linkDescription } = res.data;
 
-      if (this._ismounted && res.data) {
-        if (!linkImage) linkImage = res.data[0];
-        if (link !== newLink) linkImage = res.data[0];
+      if (this._ismounted && res.data && imgSrc[0]) {
+        let linkImage = imgSrc[0];
+
         if (this._ismounted)
           this.setState({
             link: newLink,
-            linkImagesArray: res.data,
-            linkImage: linkImage
+            linkImagesArray: imgSrc,
+            linkImage,
+            linkTitle,
+            linkDescription
           });
       }
     });
@@ -306,6 +310,8 @@ class PostingOptions extends Component {
       instructions,
       link,
       linkImage,
+      linkTitle,
+      linkDescription,
       linkImagesArray,
       images,
       socialType,
@@ -409,7 +415,9 @@ class PostingOptions extends Component {
                 <LinkPreview
                   linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
                   linkImagesArray={linkImagesArray}
-                  linkImage={linkImage}
+                  linkTitle={linkTitle}
+                  linkDescription={linkDescription}
+                  link={link}
                   handleChange={image => this.handleChange(image, "linkImage")}
                   className="mx16 mt16"
                 />

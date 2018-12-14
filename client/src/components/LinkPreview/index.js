@@ -6,64 +6,68 @@ import faLongArrowAltRight from "@fortawesome/fontawesome-free-solid/faLongArrow
 import "./style.css";
 
 class LinkPreview extends Component {
-  state = {
-    linkImagesArray: this.props.linkImagesArray
-      ? this.props.linkImagesArray
-      : [],
-    activeImageIndex: 0
-  };
-
-  componentDidMount() {
-    if (this.props.linkImage) {
-      let temp = this.props.linkImagesArray;
-      temp.unshift(this.props.linkImage);
-      this.setState({ linkImagesArray: temp });
-    }
-  }
+  state = { activeImageIndex: 0 };
   componentWillReceiveProps(nextProps) {
-    this.setState({ linkImagesArray: nextProps.linkImagesArray });
+    if (nextProps.link != this.props.link)
+      this.setState({ activeImageIndex: 0 });
   }
   changeImage = increment => {
-    let { activeImageIndex, linkImagesArray } = this.state;
+    let { activeImageIndex } = this.state;
+    const { linkImagesArray } = this.props;
     activeImageIndex += increment;
-    if (activeImageIndex >= linkImagesArray.length) {
-      activeImageIndex = 0;
-    } else if (activeImageIndex <= 0) {
+
+    if (activeImageIndex >= linkImagesArray.length) activeImageIndex = 0;
+    else if (activeImageIndex <= 0)
       activeImageIndex = linkImagesArray.length - 1;
-    }
+
     this.props.handleChange(linkImagesArray[activeImageIndex]);
-    this.setState({ activeImageIndex: activeImageIndex });
+    this.setState({ activeImageIndex });
   };
   render() {
-    let { linkPreviewCanEdit, linkImage, className } = this.props;
+    const { activeImageIndex } = this.state;
+    const {
+      linkPreviewCanEdit,
+      className,
+      linkTitle,
+      linkDescription,
+      linkImagesArray
+    } = this.props;
+
     return (
-      <div
-        className={"link-preview-container common-shadow " + className}
-        style={
-          linkImage
-            ? {
-                backgroundImage: "url(" + linkImage + ")"
-              }
-            : {}
-        }
-      >
-        {linkPreviewCanEdit && (
-          <div className="absolute-bottom-container">
-            <FontAwesomeIcon
-              icon={faLongArrowAltLeft}
-              size="2x"
-              className="icon-regular-button"
-              onClick={() => this.changeImage(-1)}
-            />
-            <div className="flex1" />
-            <FontAwesomeIcon
-              icon={faLongArrowAltRight}
-              size="2x"
-              className="icon-regular-button"
-              onClick={() => this.changeImage(1)}
-            />
-          </div>
-        )}
+      <div className={className}>
+        <div
+          className={"link-preview-container common-shadow"}
+          style={
+            linkImagesArray[activeImageIndex]
+              ? {
+                  backgroundImage:
+                    "url(" + linkImagesArray[activeImageIndex] + ")"
+                }
+              : {}
+          }
+        >
+          {linkPreviewCanEdit && (
+            <div className="absolute-bottom-container">
+              <FontAwesomeIcon
+                icon={faLongArrowAltLeft}
+                size="2x"
+                className="icon-regular-button"
+                onClick={() => this.changeImage(-1)}
+              />
+              <div className="flex1" />
+              <FontAwesomeIcon
+                icon={faLongArrowAltRight}
+                size="2x"
+                className="icon-regular-button"
+                onClick={() => this.changeImage(1)}
+              />
+            </div>
+          )}
+        </div>
+        <div className="simple-container py4">
+          <h4>{linkTitle}</h4>
+          <p>{linkDescription}</p>
+        </div>
       </div>
     );
   }

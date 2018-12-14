@@ -112,6 +112,8 @@ export const trySavePost = (
     instructions,
     link,
     linkImage,
+    linkTitle,
+    linkDescription,
     images,
     socialType,
     accountID,
@@ -189,7 +191,10 @@ export const trySavePost = (
       campaignID,
       instructions,
       name,
-      calendarID
+      calendarID,
+      undefined,
+      linkTitle,
+      linkDescription
     );
   }
   setStateObj.somethingChanged = false;
@@ -288,7 +293,9 @@ export async function savePost(
   instructions,
   name,
   calendarID,
-  sendEmailReminder
+  sendEmailReminder,
+  linkTitle,
+  linkDescription
 ) {
   if (deleteImagesArray) {
     if (deleteImagesArray.length !== 0) {
@@ -303,12 +310,6 @@ export async function savePost(
     if (!postImages[i].url) imagesToSave.push(postImages[i].image);
   }
 
-  // If link previews are allowed get src of active image from linkPreview
-  let linkPreviewImage = "";
-  if (linkImage) {
-    linkPreviewImage = linkImage;
-  }
-
   // Everything seems okay, save post to database!
   axios
     .post("/api/post", {
@@ -318,13 +319,15 @@ export async function savePost(
       instructions,
       postingDate: dateToPostInUtcTime,
       link,
-      linkImage: linkPreviewImage,
+      linkImage,
       accountType,
       socialType,
       campaignID,
       name,
       calendarID,
-      sendEmailReminder
+      sendEmailReminder,
+      linkTitle,
+      linkDescription
     })
     .then(res => {
       // Now we need to save images for post, Images are saved after post

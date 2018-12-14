@@ -136,6 +136,7 @@ class PostEdittingModal extends Component {
             timezone={timezone}
             maxCharacters={maxCharacters}
             calendarID={this.props.calendarID}
+            notify={this.props.notify}
           />
           {this.state.confirmDelete && (
             <ConfirmAlert

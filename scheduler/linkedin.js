@@ -23,8 +23,18 @@ module.exports = {
 
           if (post.link !== "") {
             linkedinPost.content = {
-              contentEntities: [{ entityLocation: post.link }],
-              title: "test title2"
+              contentEntities: [
+                {
+                  entityLocation: post.link,
+                  thumbnails: [
+                    {
+                      resolvedUrl: post.linkImage
+                    }
+                  ]
+                }
+              ],
+              title: post.linkTitle,
+              description: post.linkDescription
             };
           }
           linkedinPost.owner = "urn:li:person:" + account.socialID;
@@ -44,12 +54,12 @@ module.exports = {
               else savePostSuccessfully(post._id, linkedinPostResult.data.id);
             })
             .catch(linkedinPostError => {
-              let errorCatch = linkedinPostError;
-              if (linkedinPostError.response) {
-                errorCatch = linkedinPostError.response;
+              let errorCatch = linkedinPostError.response;
+
+              if (errorCatch)
                 if (linkedinPostError.response.data)
                   errorCatch = linkedinPostError.response.data;
-              }
+
               savePostError(post._id, errorCatch);
             });
         } else {
@@ -73,7 +83,7 @@ module.exports = {
           };
           linkedinPost.lifecycleState = "PUBLISHED";
 
-          if (post.linkImage !== "" || post.link !== "") {
+          if (post.link !== "") {
             linkedinPost.specificContent = {
               "com.linkedin.ugc.ShareContent": {
                 primaryLandingPageUrl: post.link,
@@ -107,12 +117,11 @@ module.exports = {
               else savePostSuccessfully(post._id, linkedinPostResult.data.id);
             })
             .catch(linkedinPostError => {
-              let errorCatch = linkedinPostError;
-              if (linkedinPostError.response) {
-                errorCatch = linkedinPostError.response;
+              let errorCatch = linkedinPostError.response;
+              if (errorCatch)
                 if (linkedinPostError.response.data)
                   errorCatch = linkedinPostError.response.data;
-              }
+
               savePostError(post._id, errorCatch);
             });
         } else {
