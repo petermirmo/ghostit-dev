@@ -72,7 +72,6 @@ class HeaderSideBar extends Component {
       if (success) {
         this.props.setUser(null);
         this.props.updateAccounts([]);
-        this.props.history.push("/sign-in");
       } else {
         window.location.reload();
       }
@@ -232,7 +231,7 @@ class HeaderSideBar extends Component {
                 </div>
               </Link>
             )}
-            <Link to="/sign-in">
+            <Link to="/home">
               <div
                 className="header-button button mb16 "
                 onClick={() => this.logout()}
