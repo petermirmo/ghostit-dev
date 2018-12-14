@@ -77,33 +77,36 @@ module.exports = {
       async (err, account) => {
         if (account) {
           let linkedinPost = {};
-          linkedinPost.author = "urn:li:organization:" + account.socialID;
-          linkedinPost.visibility = {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+          linkedinPost.distribution = {
+            linkedInDistributionTarget: {
+              visibleToGuest: true
+            }
           };
-          linkedinPost.lifecycleState = "PUBLISHED";
 
-          if (post.link !== "") {
-            linkedinPost.specificContent = {
-              "com.linkedin.ugc.ShareContent": {
-                primaryLandingPageUrl: post.link,
-                shareCommentary: { text: post.content },
-                shareMediaCategory: "NONE"
-              }
-            };
-          } else {
-            linkedinPost.specificContent = {
-              "com.linkedin.ugc.ShareContent": {
-                shareCommentary: {
-                  text: post.content
-                },
-                shareMediaCategory: "NONE"
-              }
-            };
+          if (post.content !== "") {
+            linkedinPost.text = { text: post.content };
           }
 
+          if (post.link !== "") {
+            linkedinPost.content = {
+              contentEntities: [
+                {
+                  entityLocation: post.link,
+                  thumbnails: [
+                    {
+                      resolvedUrl: post.linkImage
+                    }
+                  ]
+                }
+              ],
+              title: post.linkTitle,
+              description: post.linkDescription
+            };
+          }
+          linkedinPost.owner = "urn:li:organization:" + account.socialID;
+
           axios
-            .post("https://api.linkedin.com/v2/ugcPosts", linkedinPost, {
+            .post("https://api.linkedin.com/v2/shares", linkedinPost, {
               headers: {
                 Authorization: "Bearer " + account.accessToken
               }

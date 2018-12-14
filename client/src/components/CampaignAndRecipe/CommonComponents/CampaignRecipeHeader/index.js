@@ -134,7 +134,7 @@ class CampaignRecipeHeader extends Component {
         <div className="user-list-and-show-more">
           {this.props.userList && this.props.userList.length > 0 && (
             <div className="user-list-container">
-              <SocketUserList userList={this.props.userList} left={true} />
+              <SocketUserList userList={this.props.userList} />
             </div>
           )}
           <div

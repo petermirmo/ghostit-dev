@@ -1288,13 +1288,13 @@ input[type="file"] {
   top: 100%;
   left: 0;
 
+  min-width: 100px;
+
   display: none;
 
   flex-direction: column;
   background-color: var(--white-theme-color);
 
-  min-width: 100%;
-  min-height: 300px;
   overflow: visible;
 }
 .dropdown.transparent {

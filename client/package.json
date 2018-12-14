@@ -27,6 +27,7 @@
     "moment-timezone": "^0.5.14",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-ga": "^2.5.6",
     "react-meta-tags": "^0.7.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
