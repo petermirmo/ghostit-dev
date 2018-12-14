@@ -147,7 +147,9 @@ class DatePicker extends Component {
         }
       }
       calendarWeekArray.push(
-        <div className="nowrap-container">{calendarDayArray}</div>
+        <div className="nowrap-container" key={weekIndex + "day"}>
+          {calendarDayArray}
+        </div>
       );
     }
     return calendarWeekArray;
