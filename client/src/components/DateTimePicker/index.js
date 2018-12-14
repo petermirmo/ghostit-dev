@@ -43,23 +43,14 @@ class DatePicker extends Component {
       return;
     }
 
-    this.setState({ message: "", date: this.props.date });
-
-    let {
-      hourDropdown,
-      minuteDropdown,
-      amPmDropdown,
-      calendarDropdown
-    } = this.state;
-    if (hourDropdown) {
-      this.setState({ hourDropdown: false });
-    } else if (minuteDropdown) {
-      this.setState({ minuteDropdown: false });
-    } else if (amPmDropdown) {
-      this.setState({ amPmDropdown: false });
-    } else if (calendarDropdown) {
-      this.setState({ calendarDropdown: false });
-    }
+    this.setState({
+      message: "",
+      date: this.props.date,
+      hourDropdown: false,
+      minuteDropdown: false,
+      amPmDropdown: false,
+      calendarDropdown: false
+    });
   };
 
   setWrapperRef = node => {

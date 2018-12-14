@@ -30,7 +30,6 @@
   flex: 1;
   display: flex;
   width: 100%;
-  overflow: hidden;
 }
 .post-navigation-container {
   border-right: 1px solid var(--divider-theme-color);
@@ -41,7 +40,6 @@
 
 .post-container {
   flex: 1;
-  overflow: auto;
 }
 
 .campaign-footer-options {

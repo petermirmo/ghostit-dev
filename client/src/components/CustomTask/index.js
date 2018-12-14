@@ -52,8 +52,8 @@ class CustomTask extends Component {
       props.post && props.post.postingDate
         ? new moment(props.post.postingDate)
         : props.campaignStartDate
-          ? new moment(props.campaignStartDate)
-          : new moment(props.clickedCalendarDate);
+        ? new moment(props.campaignStartDate)
+        : new moment(props.clickedCalendarDate);
 
     return stateVariable;
   };
@@ -191,7 +191,8 @@ class CustomTask extends Component {
             dateFormat="MMMM Do YYYY hh:mm A"
             handleChange={date => this.handleChange(date, "date")}
             style={{
-              bottom: "-80px"
+              bottom: "100%",
+              top: "auto"
             }}
             dateLowerBound={new moment()}
             dateUpperBound={undefined}
@@ -199,7 +200,7 @@ class CustomTask extends Component {
         </div>
         {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
           <button
-            className="schedule-post-button button br4 pa8 mt8"
+            className="regular-button mt8"
             onClick={() => this.setState(trySavePost(this.state, this.props))}
           >
             Save Task!

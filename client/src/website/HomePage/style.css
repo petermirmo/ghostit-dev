@@ -126,6 +126,7 @@
 
 .platform-component-showcase {
   transform: scale(0.7, 0.7);
+  overflow: hidden;
 }
 
 @keyframes ghost-transition {

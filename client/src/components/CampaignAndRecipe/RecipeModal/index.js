@@ -426,7 +426,8 @@ class RecipeModal extends Component {
                 dateLowerBound={new moment()}
                 disableTime={true}
                 style={{
-                  bottom: "-80px"
+                  bottom: "100%",
+                  top: "auto"
                 }}
               />
             )}

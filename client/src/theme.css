@@ -92,6 +92,7 @@
   --regular-font: "Open Sans";
 }
 .wrapping-container {
+  flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -1271,15 +1272,15 @@ input[type="file"] {
   z-index: 1;
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 0;
 
   display: none;
 
   flex-direction: column;
   background-color: var(--white-theme-color);
 
-  width: 100%;
-  min-width: 100px;
+  min-width: 100%;
+  min-height: 300px;
   overflow: visible;
 }
 .dropdown.transparent {
@@ -1339,6 +1340,7 @@ input[type="file"] {
   background-color: var(--eight-primary-color);
 }
 .regular-button {
+  flex-shrink: 0;
   cursor: pointer;
   padding: 8px;
   padding-right: 16px;

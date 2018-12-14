@@ -380,7 +380,7 @@ class PostingOptions extends Component {
           style={{ width: showInstructions ? "60%" : "100%" }}
         >
           <Textarea
-            className="posting-textarea pa8"
+            className="posting-textarea pa8 light-scrollbar"
             placeholder="Success doesn't write itself!"
             onChange={event => {
               this.findLink(event.target.value);
@@ -400,12 +400,10 @@ class PostingOptions extends Component {
           </div>
 
           {maxCharacters && (
-            <div className="max-characters">
-              {maxCharacters - content.length}
-            </div>
+            <div className="ml16">{maxCharacters - content.length}</div>
           )}
 
-          <div className="flex wrap">
+          <div className="wrapping-container">
             <div className="flex column flex1">
               {linkPreviewCanShow && link && (
                 <LinkPreview
@@ -455,7 +453,7 @@ class PostingOptions extends Component {
           {canEditPost &&
             (somethingChanged || (!this.props.recipeEditing && !_id)) && (
               <button
-                className="schedule-post-button button br4 pa8 mt8"
+                className="regular-button mt8"
                 onClick={() => {
                   if (this._ismounted)
                     this.setState(trySavePost(this.state, this.props));
@@ -526,7 +524,7 @@ class PostingOptions extends Component {
           )}
           {showInstructions && (
             <Textarea
-              className="instruction-textarea br4 pa8"
+              className="instruction-textarea br4 pa8 light-scrollbar"
               placeholder="Include any comments or instructions here."
               onChange={event => {
                 this.handleChange(event.target.value, "instructions");
