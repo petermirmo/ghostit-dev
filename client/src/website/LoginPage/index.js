@@ -217,9 +217,27 @@ class Login extends Component {
             name="description"
             content={
               login === "login"
-                ? "Ghostit sign in."
+                ? "Ghostit sign in :)"
                 : "What are you waiting for!? Sign up today!"
             }
+          />
+          <meta
+            property="og:title"
+            content={
+              login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"
+            }
+          />
+          <meta
+            property="og:description"
+            content={
+              login === "login"
+                ? "Ghostit sign in :)"
+                : "What are you waiting for!? Sign up today!"
+            }
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544851159/5993441872de2b0001f8b90c_Ghostit_Logo_-_Final_webclip.png"
           />
         </MetaTags>
         <h1 className="pb16 tac">

@@ -64,6 +64,12 @@ class TeamPage extends Component {
         <MetaTags>
           <title>Ghostit | Team</title>
           <meta name="description" content="Meet the Ghostit Team!" />
+          <meta property="og:title" content="Ghostit | Team" />
+          <meta property="og:description" content="Meet the Ghostit Team!" />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544851159/5993441872de2b0001f8b90c_Ghostit_Logo_-_Final_webclip.png"
+          />
         </MetaTags>
         <h1 className="pb16 tac">Meet the Ghostit Team!</h1>
         <div className="team-members-container flex vc hc wrap pb32 mb32">

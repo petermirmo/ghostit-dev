@@ -35,12 +35,21 @@ class HomePage extends Component {
   render() {
     const { displayGhostAndMessage } = this.state;
     return (
-      <div className="test">
+      <div>
         <MetaTags>
           <title>All-In-One Marketing Solution</title>
           <meta
             name="description"
             content="Organize your marketing process with an all-in-one solution for unified content promotion."
+          />
+          <meta property="og:title" content="All-In-One Marketing Solution" />
+          <meta
+            property="og:description"
+            content="Organize your marketing process with an all-in-one solution for unified content promotion."
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544851159/5993441872de2b0001f8b90c_Ghostit_Logo_-_Final_webclip.png"
           />
         </MetaTags>
 

@@ -11,6 +11,12 @@ class PrivacyPage extends Component {
         <MetaTags>
           <title>Ghostit | Privacy</title>
           <meta name="description" content="Ghostit privacy policy." />
+          <meta property="og:title" content="Ghostit | Privacy" />
+          <meta property="og:description" content="Ghostit privacy policy." />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544851159/5993441872de2b0001f8b90c_Ghostit_Logo_-_Final_webclip.png"
+          />
         </MetaTags>
         <h1 className="my16 tac">Privacy Policy</h1>
         <p className="my8">

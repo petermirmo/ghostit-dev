@@ -16,6 +16,15 @@ class GhostitAgency extends Component {
             name="description"
             content="Increase the amount of qualified traffic to your site."
           />
+          <meta property="og:title" content="Agency" />
+          <meta
+            property="og:description"
+            content="Increase the amount of qualified traffic to your site."
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544851159/5993441872de2b0001f8b90c_Ghostit_Logo_-_Final_webclip.png"
+          />
         </MetaTags>
         <h1 className="tac">Content Services</h1>
         <h3 className="tac mx16 unimportant-text">

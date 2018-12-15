@@ -16,6 +16,15 @@ class PricingPage extends Component {
             name="description"
             content="Have questions? Give us a call: 250-415-3093"
           />
+          <meta property="og:title" content="Ghostit | Pricing" />
+          <meta
+            property="og:description"
+            content="Have questions? Give us a call: 250-415-3093"
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544851159/5993441872de2b0001f8b90c_Ghostit_Logo_-_Final_webclip.png"
+          />
         </MetaTags>
         <h1 className="tac">Ghostit Pricing</h1>
         <h3 className="tac mx16 unimportant-text">

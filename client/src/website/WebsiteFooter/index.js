@@ -34,11 +34,19 @@ class WebsiteFooter extends Component {
               Agency Process
             </button>
           </Link>
+
           <Link to="/blog">
             <button
               className={"transparent-button mt8" + this.isActive("blog")}
             >
               Ghostit Blog
+            </button>
+          </Link>
+          <Link to="/team">
+            <button
+              className={"transparent-button mt8" + this.isActive("team")}
+            >
+              Ghostit Team
             </button>
           </Link>
         </div>
