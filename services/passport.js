@@ -166,7 +166,7 @@ module.exports = function(passport) {
             for (let index in accounts) {
               let account = accounts[index];
 
-              if (account.userID == userID) accountFoundUser = true;
+              if (String(account.userID) == userID) accountFoundUser = true;
 
               account.accessToken = accessToken;
               asyncCounter++;
@@ -245,7 +245,7 @@ module.exports = function(passport) {
 
             for (let index in accounts) {
               let account = accounts[index];
-              if (account.userID == userID) accountFoundUser = true;
+              if (String(account.userID) == userID) accountFoundUser = true;
 
               account.accessToken = token;
               account.tokenSecret = tokenSecret;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import MetaTags from "react-meta-tags";
 
 import axios from "axios";
 import moment from "moment-timezone";
@@ -941,6 +942,9 @@ class Content extends Component {
     }
     return (
       <div className="content-page">
+        <MetaTags>
+          <title>Ghostit | Content</title>
+        </MetaTags>
         {loading && <Loader />}
         <Calendar
           calendars={calendars}

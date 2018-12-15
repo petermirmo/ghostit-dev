@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MetaTags from "react-meta-tags";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -80,6 +81,9 @@ class Profile extends Component {
     } = this.state;
     return (
       <div>
+        <MetaTags>
+          <title>Ghostit | Profile</title>
+        </MetaTags>
         <div className="profile-background flex vc hc">
           <div className="profile-container flex column br8 pa32">
             <p className="label mx8 mb4">Company Name</p>
@@ -140,7 +144,6 @@ class Profile extends Component {
             </button>
           </div>
         </div>
-
         {saving && <Loader />}
       </div>
     );

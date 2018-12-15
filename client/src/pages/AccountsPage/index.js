@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MetaTags from "react-meta-tags";
+
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
@@ -282,6 +284,9 @@ class AccountsPage extends Component {
     }
     return (
       <div className="accounts-wrapper py16 px32">
+        <MetaTags>
+          <title>Ghostit | Social Accounts</title>
+        </MetaTags>
         <div className="account-column flex column vc">
           <div
             className="social-header-button flex hc button mb16 pa8 button mb16 pa8 facebook"

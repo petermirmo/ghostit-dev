@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PayDiv from "./PayDiv";
+import MetaTags from "react-meta-tags";
 
 import { connect } from "react-redux";
 
@@ -34,6 +35,9 @@ class SubscribePage extends Component {
 
     return (
       <div>
+        <MetaTags>
+          <title>Ghostit | Subscribe</title>
+        </MetaTags>
         <div className="plans-page-container">
           <div className="checkout-container">
             <div className="checkout-title">Checkout</div>

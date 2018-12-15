@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MetaTags from "react-meta-tags";
 
 import { connect } from "react-redux";
 
@@ -50,7 +51,14 @@ class AdsPage extends Component {
         </div>
       );
     }
-    return <div className="ads-navigation mb8 px32 pt16">{navigationDivs}</div>;
+    return (
+      <div className="ads-navigation mb8 px32 pt16">
+        <MetaTags>
+          <title>Ghostit | Ads</title>
+        </MetaTags>
+        {navigationDivs}
+      </div>
+    );
   };
   render() {
     return <div>{this.createHeader()}</div>;

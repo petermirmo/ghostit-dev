@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import axios from "axios";
+import MetaTags from "react-meta-tags";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
@@ -83,6 +84,9 @@ class Analytics extends Component {
 
     return (
       <div className="flex">
+        <MetaTags>
+          <title>Ghostit | Analytics</title>
+        </MetaTags>
         <div className="flex column line-chart-navigation-container">
           {dataLinesInformation.map((object, index) => (
             <div
