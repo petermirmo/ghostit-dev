@@ -124,19 +124,19 @@ class SelectAccountDiv extends Component {
       );
     }
     return (
-      <div className="select-accounts-container">
+      <div className="simple-container">
         {activePageAccountsArray.length == 0 && (
-          <h4 className="select-accounts-header">
-            Connect an account to create a post!
-          </h4>
+          <h4>Connect an account to create a post!</h4>
         )}
-        <div className="accounts-container">{accountsListDiv}</div>
+        <div className="wrapping-container-no-center">{accountsListDiv}</div>
         {inactiveAccountsDiv.length !== 0 && (
           <div className="accounts-link-to-calendar-label">
             Accounts not yet linked to calendar
           </div>
         )}
-        <div className="accounts-container">{inactiveAccountsDiv}</div>
+        <div className="wrapping-container-no-center">
+          {inactiveAccountsDiv}
+        </div>
       </div>
     );
   }

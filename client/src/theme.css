@@ -639,6 +639,7 @@
 
   background-color: var(--green-theme-color);
   color: var(--white-theme-color);
+  box-sizing: border-box;
 }
 .sign-out-of-clients-account {
   padding-left: 4px;

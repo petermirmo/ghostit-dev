@@ -130,7 +130,7 @@ class Routes extends Component {
             activePage === "/subscribe" ||
             activePage === "/accounts") &&
             user.signedInAsUser && (
-              <div className="signed-in-as">
+              <div className="signed-in-as pa16">
                 Logged in as: {user.signedInAsUser.fullName}
                 <FontAwesomeIcon
                   icon={faTimes}

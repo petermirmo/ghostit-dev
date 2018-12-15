@@ -16,7 +16,11 @@ module.exports = {
       async (err, account) => {
         if (account) {
           let linkedinPost = {};
-
+          linkedinPost.distribution = {
+            linkedInDistributionTarget: {
+              visibleToGuest: true
+            }
+          };
           if (post.content !== "") {
             linkedinPost.text = { text: post.content };
           }
