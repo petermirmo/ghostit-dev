@@ -70,6 +70,11 @@ module.exports = io => {
       Then when we want to know who are all the users in any given room (io.sockets.adapter.rooms[calendarID]),
         we can see the socket.id's of all the users in the room and then use this connections object
         to find out their name.
+
+    To get access to the socket's user object, use socket.request.user
+      (similar to req.user in axios requests)
+    console.log("user:");
+    console.log(socket.request.user);
   */
   const connections = {};
 
