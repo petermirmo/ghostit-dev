@@ -111,7 +111,6 @@ class DatePicker extends Component {
         calendarDay.add(weekIndex * 7 + dayIndex, "days");
 
         let pastDate = calendarDay.diff(new moment(), "days") < 0;
-        let currentDate = calendarDay.isSame(new moment(), "day");
 
         let className = "date-picker-day";
 
@@ -119,7 +118,7 @@ class DatePicker extends Component {
         if (pastDate) {
           className += " faded-date-picker-days";
         }
-        if (currentDate) {
+        if (calendarDay.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
           className += " active";
         }
 
@@ -265,6 +264,10 @@ class DatePicker extends Component {
       anchorDates
     } = this.state;
     const { style, disableTime, className } = this.props;
+
+    console.log(inputValue);
+    console.log(displayDate);
+    console.log(date);
 
     let calendarDays = this.createCalendarWeeks(displayDate);
     let dayHeaders = this.createDayHeaders();
