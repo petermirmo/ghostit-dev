@@ -1,10 +1,10 @@
-.link-preview-container {
+#link-preview-container {
   position: relative;
 
   display: flex;
   align-items: center;
 
-  min-height: 100px;
+  min-height: 200px;
   min-width: 300px;
   flex: 1;
   background-size: cover;
