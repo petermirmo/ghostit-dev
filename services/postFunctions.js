@@ -84,7 +84,6 @@ module.exports = {
         res.send(false);
         return;
       }
-      console.log(body);
 
       let $ = cheerio.load(body);
       $("img").each((index, img) => {

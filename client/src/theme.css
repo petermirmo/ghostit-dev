@@ -91,6 +91,11 @@
   --silly-font: "Varela Round";
   --regular-font: "Open Sans";
 }
+.full-height-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .wrapping-container {
   flex-shrink: 0;
   display: flex;

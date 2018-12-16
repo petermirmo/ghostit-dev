@@ -41,6 +41,7 @@ class Content extends Component {
     twitterPosts: [],
     linkedinPosts: [],
     websitePosts: [],
+    customPosts: [],
     newsletterPosts: [],
 
     clickedDate: new moment(),
@@ -59,7 +60,8 @@ class Content extends Component {
       Twitter: false,
       Linkedin: false,
       Blog: false,
-      Campaigns: false
+      Campaigns: false,
+      Custom: false
     },
     notification: {
       show: false,
@@ -180,6 +182,7 @@ class Content extends Component {
         else if (post.socialType === "twitter") targetListName = "twitterPosts";
         else if (post.socialType === "linkedin")
           targetListName = "linkedinPosts";
+        else if (post.socialType === "custom") targetListName = "customPosts";
         else console.log(`unhandled post socialType: ${post.socialType}`);
         if (targetListName) {
           const index = this.state[targetListName].findIndex(
@@ -216,6 +219,7 @@ class Content extends Component {
       if (socialType === "facebook") targetListName = "facebookPosts";
       else if (socialType === "twitter") targetListName = "twitterPosts";
       else if (socialType === "linkedin") targetListName = "linkedinPosts";
+      else if (socialType === "custom") targetListName = "customPosts";
       else console.log(`unhandled post socialType: ${socialType}`);
 
       const index = this.state[targetListName].findIndex(
@@ -634,6 +638,7 @@ class Content extends Component {
     let facebookPosts = [];
     let twitterPosts = [];
     let linkedinPosts = [];
+    let customPosts = [];
 
     // Get all of user's posts to display in calendar
     axios
@@ -658,6 +663,8 @@ class Content extends Component {
               twitterPosts.push(posts[index]);
             } else if (posts[index].socialType === "linkedin") {
               linkedinPosts.push(posts[index]);
+            } else if (posts[index].socialType === "custom") {
+              customPosts.push(posts[index]);
             }
           }
           if (this._ismounted) {
@@ -665,6 +672,7 @@ class Content extends Component {
               facebookPosts,
               twitterPosts,
               linkedinPosts,
+              customPosts,
               loading: false
             });
           }
@@ -779,7 +787,8 @@ class Content extends Component {
     } else if (
       post.socialType === "facebook" ||
       post.socialType === "twitter" ||
-      post.socialType === "linkedin"
+      post.socialType === "linkedin" ||
+      post.socialType === "custom"
     ) {
       this.setState({ postEdittingModal: true, clickedEvent: post });
     }
@@ -823,11 +832,12 @@ class Content extends Component {
           Twitter: false,
           Linkedin: false,
           Blog: false,
-          Campaigns: false
+          Campaigns: false,
+          Custom: false
         }
       });
     } else {
-      this.setState({ calendarEventCategories: calendarEventCategories });
+      this.setState({ calendarEventCategories });
     }
   };
 
@@ -863,6 +873,7 @@ class Content extends Component {
       instagramPosts,
       websitePosts,
       newsletterPosts,
+      customPosts,
       timezone,
       clickedEvent,
       clickedEventIsRecipe,
@@ -887,10 +898,13 @@ class Content extends Component {
       Instagram,
       Blog,
       Newsletter,
-      Campaigns
+      Campaigns,
+      Custom
     } = calendarEventCategories;
     let calendarEvents = [];
 
+    if (Custom || All)
+      if (customPosts) calendarEvents = calendarEvents.concat(customPosts);
     if (Facebook || All)
       if (facebookPosts) calendarEvents = calendarEvents.concat(facebookPosts);
     if (Twitter || All)

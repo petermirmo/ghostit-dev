@@ -31,7 +31,7 @@ class CampaignRecipeHeader extends Component {
           color: "var(--campaign-color4)"
         }
       },
-      showMore: false
+      showMore: true
     };
   }
 
