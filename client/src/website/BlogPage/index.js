@@ -116,7 +116,7 @@ class BlogPage extends Component {
           />
           <meta
             property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544851159/5993441872de2b0001f8b90c_Ghostit_Logo_-_Final_webclip.png"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
           />
         </MetaTags>
         <h1 className="tac pb32">Ghostit Blog</h1>
