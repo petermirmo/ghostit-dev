@@ -36,7 +36,8 @@ class LinkPreview extends Component {
     return (
       <div className={className}>
         <div
-          className="link-preview-container common-shadow"
+          id="link-preview-container"
+          className="common-shadow"
           style={
             linkImagesArray[activeImageIndex]
               ? {
