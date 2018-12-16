@@ -5,6 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
 import { Route, withRouter, Switch } from "react-router-dom";
 import { SizeMe } from "react-sizeme";
+import ReactGA from "react-ga";
 
 import { connect } from "react-redux";
 
@@ -66,6 +67,8 @@ class Routes extends Component {
         this.setState({ datebaseConnection: true });
       } else this.setState({ datebaseConnection: true });
     });
+
+    ReactGA.initialize("UA-121236003-1");
   }
   componentDidMount() {
     this.getBlogs();
@@ -105,6 +108,8 @@ class Routes extends Component {
     this.setState({ headerWidth: sizeChangeObj.width });
   };
   render() {
+    ReactGA.pageview(this.props.location.pathname);
+
     const { datebaseConnection, ghostitBlogs, headerWidth } = this.state;
     const { user, getKeyListenerFunction } = this.props;
 

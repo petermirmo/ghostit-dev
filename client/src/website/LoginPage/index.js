@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import MetaTags from "react-meta-tags";
 import axios from "axios";
+import ReactGA from "react-ga";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -87,6 +88,10 @@ class Login extends Component {
           const { success, user, message } = res.data;
 
           if (success) {
+            ReactGA.event({
+              category: "User",
+              action: "Login"
+            });
             // Get all connected accounts of the user
             axios.get("/api/accounts").then(res => {
               let { accounts } = res.data;
@@ -162,6 +167,10 @@ class Login extends Component {
     }
   };
   activateDemoUserLogin = (user, accounts) => {
+    ReactGA.event({
+      category: "User",
+      action: "Register"
+    });
     this.props.setUser(user);
     this.props.updateAccounts(accounts);
     this.props.history.push("/subscribe");

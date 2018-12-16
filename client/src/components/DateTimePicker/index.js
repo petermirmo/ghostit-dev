@@ -265,10 +265,6 @@ class DatePicker extends Component {
     } = this.state;
     const { style, disableTime, className } = this.props;
 
-    console.log(inputValue);
-    console.log(displayDate);
-    console.log(date);
-
     let calendarDays = this.createCalendarWeeks(displayDate);
     let dayHeaders = this.createDayHeaders();
 
