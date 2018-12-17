@@ -147,12 +147,20 @@ module.exports = io => {
               edited: false
             };
             foundCalendar.chatHistory.push(msgObj);
-            foundCalendar.save();
-            socket.emit("calendar_chat_message_received", msgObj);
-            const socketRoom = `${calendarID.toString()}-chat`;
-            socket
-              .to(socketRoom)
-              .emit("calendar_chat_message_broadcast", { calendarID, msgObj });
+            foundCalendar.save((err, savedCalendar) => {
+              if (savedCalendar && savedCalendar.chatHistory) {
+                const savedMsgObj =
+                  savedCalendar.chatHistory[
+                    savedCalendar.chatHistory.length - 1
+                  ];
+                socket.emit("calendar_chat_message_received", savedMsgObj);
+                const socketRoom = `${calendarID.toString()}-chat`;
+                socket.to(socketRoom).emit("calendar_chat_message_broadcast", {
+                  calendarID,
+                  savedMsgObj
+                });
+              }
+            });
           }
         }
       );
