@@ -423,53 +423,11 @@
 
   border-top: 1px solid var(--divider-theme-color);
 }
-@keyframes animatetop {
-  from {
-    top: -50px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
-
 @keyframes animateOpacity {
   from {
     opacity: 0;
   }
   to {
-    opacity: 1;
-  }
-}
-@keyframes animateRight {
-  from {
-    right: -50px;
-    opacity: 0;
-  }
-  to {
-    right: 0;
-    opacity: 1;
-  }
-}
-@keyframes animateleft {
-  from {
-    left: -50px;
-    opacity: 0;
-  }
-  to {
-    left: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes headerSideBarAnimateLeft {
-  from {
-    left: -20%;
-    opacity: 0;
-  }
-  to {
-    left: 0;
     opacity: 1;
   }
 }
@@ -531,15 +489,6 @@
   color: var(--white-theme-color);
 }
 
-.animate-left {
-  position: relative;
-  animation: animateleft 0.4s;
-}
-
-.animate-right {
-  position: relative;
-  animation: animateRight 0.4s;
-}
 .facebook {
   background-color: #4267b2;
 }
@@ -611,20 +560,6 @@
   background-color: var(--five-primary-color);
   cursor: pointer;
   color: var(--white-theme-color);
-}
-
-.bright-save-button {
-  font-size: var(--eighteen-font-size);
-  background-color: var(--pink-theme-color);
-  min-width: 30%;
-  padding: 10px 0 10px 0;
-  margin: 20px 0 10px 0;
-  border-radius: 4px;
-  transition: all 1s ease;
-  -webkit-transition: all 1s ease;
-}
-.bright-save-button:hover {
-  transform: scale(1.1);
 }
 
 .date-label {
@@ -1291,6 +1226,9 @@ input[type="file"] {
   transition: transform 0.2s ease-in-out;
   transform-origin: 100% 50%;
 }
+.moving-border.white.after {
+  border-bottom: solid 6px var(--white-theme-color);
+}
 .moving-border.active:after,
 .moving-border:hover:after {
   transform: scaleX(1);
@@ -1299,6 +1237,9 @@ input[type="file"] {
 
 .moving-border.active:after {
   border-bottom: solid 6px var(--divider-theme-color);
+}
+.moving-border.white.active.after {
+  border-bottom: solid 6px var(--white-theme-color);
 }
 .dropdown {
   z-index: 1;
@@ -1511,4 +1452,23 @@ input[type="file"] {
 
 .transparent-button-important.active {
   color: var(--blue-text-color);
+}
+.bold-hover:hover {
+  font-weight: bold;
+}
+
+@keyframes animateFromLeft100 {
+  0% {
+    transform: translate(-100%);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+.animate-from-left-100 {
+  animation: animateFromLeft100 0.2s ease;
+}
+.animate-opacity {
+  animation: animateOpacity 0.2s ease;
 }

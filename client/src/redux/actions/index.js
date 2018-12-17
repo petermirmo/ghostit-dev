@@ -22,3 +22,22 @@ export const setTutorial = value => {
     payload: value
   };
 };
+export const openContentModal = value => {
+  return {
+    type: "CONTENT_MODAL",
+    payload: value
+  };
+};
+export const openCampaignModal = value => {
+  return {
+    type: "CAMPAIGN_MODAL",
+    payload: value
+  };
+};
+
+export const openCalendarManagerModal = value => {
+  return {
+    type: "CALENDAR_MANAGE_MODAL",
+    payload: value
+  };
+};

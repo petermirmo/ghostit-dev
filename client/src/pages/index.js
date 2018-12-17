@@ -37,8 +37,6 @@ import LoginPage from "../website/LoginPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
 
-import "./style.css";
-
 class Routes extends Component {
   state = {
     datebaseConnection: false,
@@ -107,6 +105,7 @@ class Routes extends Component {
   onSize = sizeChangeObj => {
     this.setState({ headerWidth: sizeChangeObj.width });
   };
+  childRef = (test, test2) => {};
   render() {
     ReactGA.pageview(this.props.location.pathname);
 

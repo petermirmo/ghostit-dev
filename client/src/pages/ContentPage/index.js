@@ -6,6 +6,12 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+  openContentModal,
+  openCampaignModal,
+  openCalendarManagerModal
+} from "../../redux/actions/";
 
 import io from "socket.io-client";
 
@@ -36,7 +42,6 @@ class Content extends Component {
     calendarInvites: [],
     activeCalendarIndex: undefined,
     defaultCalendarID: undefined,
-    calendarManagerModal: false,
 
     facebookPosts: [],
     twitterPosts: [],
@@ -49,10 +54,8 @@ class Content extends Component {
     calendarDate: new moment(),
 
     blogEdittingModal: false,
-    contentModal: false, // modal after selecting post from the recipeModal
     postEdittingModal: false,
     newsletterEdittingModal: false,
-    campaignModal: false,
     recipeModal: false,
 
     calendarEventCategories: {
@@ -805,13 +808,13 @@ class Content extends Component {
   };
 
   closeModals = () => {
+    this.props.openCampaignModal(false);
+    this.props.openContentModal(false);
+    this.props.openCalendarManagerModal(false);
     this.setState({
-      calendarManagerModal: false,
       blogEdittingModal: false,
-      contentModal: false,
       postEdittingModal: false,
       newsletterEdittingModal: false,
-      campaignModal: false,
       recipeModal: false,
       recipeEditorModal: false,
       clickedEvent: undefined
@@ -985,7 +988,7 @@ class Content extends Component {
           updateActiveCategory={this.updateActiveCategory}
         />
         <CalendarChat calendars={calendars} />
-        {this.state.calendarManagerModal && (
+        {this.props.calendarManagerModal && (
           <div
             className="modal"
             onClick={() => {
@@ -1010,7 +1013,7 @@ class Content extends Component {
             </div>
           </div>
         )}
-        {this.state.contentModal && (
+        {this.props.contentModal && (
           <ContentModal
             clickedCalendarDate={clickedDate}
             timezone={timezone}
@@ -1073,7 +1076,7 @@ class Content extends Component {
             triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
-        {this.state.campaignModal && (
+        {this.props.campaignModal && (
           <div className="modal">
             <div
               className="large-modal common-transition"
@@ -1141,5 +1144,14 @@ function mapStateToProps(state) {
     user: state.user
   };
 }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { openContentModal, openCampaignModal, openCalendarManagerModal },
+    dispatch
+  );
+}
 
-export default connect(mapStateToProps)(Content);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Content);

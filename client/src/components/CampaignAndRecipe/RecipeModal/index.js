@@ -165,7 +165,7 @@ class RecipeModal extends Component {
                     document
                       .getElementById("current-displayed-recipe")
                       .scrollIntoView();
-                }, 100);
+                }, 10);
 
                 this.setState({
                   previewRecipeLocation: recipeIndex2,

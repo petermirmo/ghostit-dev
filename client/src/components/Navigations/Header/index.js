@@ -85,6 +85,7 @@ class HeaderSideBar extends Component {
   };
   render() {
     const { user, tutorial } = this.props;
+    console.log(this.props);
     const { clientSideBar, headerSideBar } = this.state;
 
     if (!user) {
@@ -125,13 +126,14 @@ class HeaderSideBar extends Component {
         </div>
 
         {headerSideBar && !clientSideBar && (
-          <div className="navbar pa16">
+          <div
+            className="navbar pa16 animate-from-left-100"
+            style={{ zIndex: "-1" }}
+          >
             {(user.role === "demo" || isAdmin) && (
               <Link to="/subscribe">
                 <div
-                  className={
-                    "header-button button mb16 " + this.isActive("subscribe")
-                  }
+                  className={"header-button mb16 " + this.isActive("subscribe")}
                 >
                   <FontAwesomeIcon icon={faStar} />
                   Upgrade to Plan
@@ -139,11 +141,7 @@ class HeaderSideBar extends Component {
               </Link>
             )}
             <Link to="/content">
-              <div
-                className={
-                  "header-button button mb16 " + this.isActive("content")
-                }
-              >
+              <div className={"header-button mb8 " + this.isActive("content")}>
                 <FontAwesomeIcon icon={faCalendar} />
                 Calendar
                 {tutorial.on && tutorial.value === 3 && (
@@ -155,11 +153,18 @@ class HeaderSideBar extends Component {
                 )}
               </div>
             </Link>
+            {this.isActive("content") && (
+              <div className="container-box ml32 mb16">
+                <button className="bold-hover mb4">Create a Post</button>
+                <button className="bold-hover mb4">Create a Campaign</button>
+                <button className="bold-hover">Manage Calendars</button>
+              </div>
+            )}
             {isAdmin && (
               <Link to="/analytics">
                 <div
                   className={
-                    "header-button button mb16  " + this.isActive("analytics")
+                    "header-button mb16  " + this.isActive("analytics")
                   }
                 >
                   <FontAwesomeIcon icon={faChartLine} />
@@ -169,11 +174,7 @@ class HeaderSideBar extends Component {
             )}
             {isAdmin && false && (
               <Link to="/ads">
-                <div
-                  className={
-                    "header-button button mb16  " + this.isActive("ads")
-                  }
-                >
+                <div className={"header-button mb16  " + this.isActive("ads")}>
                   <FontAwesomeIcon icon={faAd} />
                   Create an Ad
                 </div>
@@ -182,8 +183,7 @@ class HeaderSideBar extends Component {
             <Link to="/social-accounts">
               <div
                 className={
-                  "header-button button mb16 " +
-                  this.isActive("social-accounts")
+                  "header-button mb16 " + this.isActive("social-accounts")
                 }
               >
                 <FontAwesomeIcon icon={faPlus} />
@@ -200,9 +200,7 @@ class HeaderSideBar extends Component {
             {isAdmin && (
               <Link to="/manage">
                 <div
-                  className={
-                    "header-button button mb16  " + this.isActive("manage")
-                  }
+                  className={"header-button mb16  " + this.isActive("manage")}
                 >
                   <FontAwesomeIcon icon={faCogs} />
                   Manage
@@ -210,11 +208,7 @@ class HeaderSideBar extends Component {
               </Link>
             )}
             <Link to="/profile">
-              <div
-                className={
-                  "header-button button mb16 " + this.isActive("profile")
-                }
-              >
+              <div className={"header-button mb16 " + this.isActive("profile")}>
                 <FontAwesomeIcon icon={faUser} />
                 Profile
               </div>
@@ -223,7 +217,7 @@ class HeaderSideBar extends Component {
               <Link to="/subscription">
                 <div
                   className={
-                    "header-button button mb16 " + this.isActive("subscription")
+                    "header-button mb16 " + this.isActive("subscription")
                   }
                 >
                   <FontAwesomeIcon icon={faHistory} />
@@ -233,7 +227,7 @@ class HeaderSideBar extends Component {
             )}
             <Link to="/home">
               <div
-                className="header-button button mb16 "
+                className="header-button mb16 "
                 onClick={() => this.logout()}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} />
@@ -244,8 +238,7 @@ class HeaderSideBar extends Component {
               <Link to="/writers-brief">
                 <div
                   className={
-                    "header-button button mb16 " +
-                    this.isActive("writers-brief")
+                    "header-button mb16 " + this.isActive("writers-brief")
                   }
                 >
                   <FontAwesomeIcon icon={faFileAlt} />
@@ -256,9 +249,7 @@ class HeaderSideBar extends Component {
             {(isAdmin || isManager) && false && (
               <Link to="/strategy">
                 <div
-                  className={
-                    "header-button button mb16 " + this.isActive("strategy")
-                  }
+                  className={"header-button mb16 " + this.isActive("strategy")}
                 >
                   <FontAwesomeIcon icon={faFileAlt} />
                   Your Questionnaire
