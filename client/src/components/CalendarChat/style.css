@@ -1,0 +1,56 @@
+.chat-btn,
+.chat-calendar-list-and-header,
+.chat-calendar {
+  position: fixed;
+  bottom: 0px;
+  right: 20px;
+
+  min-width: 5vw;
+  max-width: 20vw;
+
+  padding: 3px 12px;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  border-style: solid;
+  border-color: red;
+  border-radius: 4px;
+
+  background-color: white;
+}
+
+.chat-btn {
+  cursor: pointer;
+  text-align: center;
+}
+
+.chat-calendar-list-header {
+  text-align: right;
+  cursor: pointer;
+}
+
+.chat-calendar-list {
+}
+
+.chat-calendar-btn {
+  cursor: pointer;
+}
+
+.chat-calendar-header {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.chat-calendar-header-back-btn {
+  cursor: pointer;
+  position: absolute;
+  right: 0px;
+}
+
+.chat-calendar-send-btn {
+  background-color: red;
+}
