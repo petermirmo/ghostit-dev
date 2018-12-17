@@ -2,6 +2,20 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const messageSchema = new Schema(
+  {
+    userID: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+    content: String,
+    edited: Boolean
+  },
+  {
+    timestamps: true
+  }
+);
+
 const calendarSchema = new Schema(
   {
     adminID: {
@@ -36,7 +50,8 @@ const calendarSchema = new Schema(
       // if user is not demo, this value will be -1 which signifies the calendar is unlocked
       type: Number,
       required: true
-    }
+    },
+    chatHistory: [messageSchema]
   },
   {
     timestamps: true

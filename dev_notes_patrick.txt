@@ -129,6 +129,16 @@ to do next:
   calendar chat:
     be able to move the chat button in case its blocking an important calendar day
       either drag or just a toggle from right->left
+    edit / delete own messages
+      on edit, have a note that says when it was edited
+    timestamps on messages
+    system:
+      calendars sent to <CalendarChat/> through <ContentPage/>
+      <CalendarChat/> joins socket chat room for each of its calendars
+      when a different calendar is added, <CalendarChat/> notices in componentWillReceiveProps()
+        and joins that socket chat room
+      
+
 
 
 

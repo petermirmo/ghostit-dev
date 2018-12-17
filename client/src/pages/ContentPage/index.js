@@ -18,7 +18,8 @@ import Campaign from "../../components/CampaignAndRecipe/Campaign";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/Notifications/Notification";
 import Loader from "../../components/Notifications/Loader/";
-import ConfirmAlert from "../..//components/Notifications/ConfirmAlert";
+import ConfirmAlert from "../../components/Notifications/ConfirmAlert";
+import CalendarChat from "../../components/CalendarChat";
 
 class Content extends Component {
   state = {
@@ -964,6 +965,7 @@ class Content extends Component {
           categories={calendarEventCategories}
           updateActiveCategory={this.updateActiveCategory}
         />
+        <CalendarChat calendars={calendars} />
         {this.state.calendarManagerModal && (
           <div
             className="modal"
