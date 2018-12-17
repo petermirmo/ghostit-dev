@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
+import MetaTags from "react-meta-tags";
 
 import { connect } from "react-redux";
 
@@ -15,6 +16,8 @@ class MySubscription extends Component {
     this.getInvoices();
   }
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     this._ismounted = true;
   }
   componentWillUnmount() {
@@ -65,6 +68,9 @@ class MySubscription extends Component {
     if (invoices) invoiceRowDivs = this.createInvoiceRows(invoices);
     return (
       <div>
+        <MetaTags>
+          <title>Ghostit | Subscription</title>
+        </MetaTags>
         <div className="invoice-container">{invoiceRowDivs}</div>
       </div>
     );

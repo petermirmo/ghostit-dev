@@ -7,7 +7,12 @@ import "./style.css";
 
 class CalendarPicker extends Component {
   render() {
-    const { calendars, activeCalendarIndex, calendarManager } = this.props; // Variable
+    const {
+      calendars,
+      activeCalendarIndex,
+      calendarManager,
+      style
+    } = this.props; // Variable
     const { updateActiveCalendar, createNewCalendar } = this.props; // Functions
     let calendarDivs = [];
     for (let index = 0; index < calendars.length; index++) {
@@ -55,7 +60,7 @@ class CalendarPicker extends Component {
             : "Change Calendars"}
           <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
-        <div className="dropdown center transparent">
+        <div className="dropdown center transparent" style={style}>
           <div className="absolute-child-center common-shadow br4">
             {calendarDivs}
           </div>

@@ -4,6 +4,9 @@ import MetaTags from "react-meta-tags";
 import "./style.css";
 
 class GhostitAgency extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <div className="website-page">
@@ -12,6 +15,15 @@ class GhostitAgency extends Component {
           <meta
             name="description"
             content="Increase the amount of qualified traffic to your site."
+          />
+          <meta property="og:title" content="Agency" />
+          <meta
+            property="og:description"
+            content="Increase the amount of qualified traffic to your site."
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
           />
         </MetaTags>
         <h1 className="tac">Content Services</h1>

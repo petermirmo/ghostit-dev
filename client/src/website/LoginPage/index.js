@@ -2,16 +2,12 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import MetaTags from "react-meta-tags";
 import axios from "axios";
+import ReactGA from "react-ga";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import {
-  setUser,
-  updateAccounts,
-  openHeaderSideBar,
-  setTutorial
-} from "../../redux/actions/";
+import { setUser, updateAccounts, setTutorial } from "../../redux/actions/";
 
 import { validateEmail } from "../../componentFunctions";
 
@@ -35,6 +31,8 @@ class Login extends Component {
     };
   }
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     if (this.props.user) this.props.history.push("/home");
   }
   componentWillReceiveProps(nextProps) {
@@ -90,6 +88,10 @@ class Login extends Component {
           const { success, user, message } = res.data;
 
           if (success) {
+            ReactGA.event({
+              category: "User",
+              action: "Login"
+            });
             // Get all connected accounts of the user
             axios.get("/api/accounts").then(res => {
               let { accounts } = res.data;
@@ -165,11 +167,13 @@ class Login extends Component {
     }
   };
   activateDemoUserLogin = (user, accounts) => {
+    ReactGA.event({
+      category: "User",
+      action: "Register"
+    });
     this.props.setUser(user);
     this.props.updateAccounts(accounts);
     this.props.history.push("/subscribe");
-
-    this.props.openHeaderSideBar(true);
   };
   sendResetEmail = () => {
     const { email } = this.state;
@@ -222,9 +226,27 @@ class Login extends Component {
             name="description"
             content={
               login === "login"
-                ? "Ghostit sign in."
+                ? "Ghostit sign in :)"
                 : "What are you waiting for!? Sign up today!"
             }
+          />
+          <meta
+            property="og:title"
+            content={
+              login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"
+            }
+          />
+          <meta
+            property="og:description"
+            content={
+              login === "login"
+                ? "Ghostit sign in :)"
+                : "What are you waiting for!? Sign up today!"
+            }
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
           />
         </MetaTags>
         <h1 className="pb16 tac">
@@ -405,7 +427,6 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      openHeaderSideBar,
       setTutorial
     },
     dispatch

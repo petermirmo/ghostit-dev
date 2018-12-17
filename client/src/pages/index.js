@@ -4,16 +4,13 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
 import { Route, withRouter, Switch } from "react-router-dom";
+import { SizeMe } from "react-sizeme";
+import ReactGA from "react-ga";
 
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import {
-  setUser,
-  updateAccounts,
-  setTutorial,
-  openHeaderSideBar
-} from "../redux/actions/";
+import { setUser, updateAccounts, setTutorial } from "../redux/actions/";
 
 import LoaderWedge from "../components/Notifications/LoaderWedge";
 
@@ -45,7 +42,8 @@ import "./style.css";
 class Routes extends Component {
   state = {
     datebaseConnection: false,
-    ghostitBlogs: []
+    ghostitBlogs: [],
+    headerWidth: 0
   };
   constructor(props) {
     super(props);
@@ -61,9 +59,6 @@ class Routes extends Component {
           if (!accounts) accounts = [];
           props.setUser(user);
           props.updateAccounts(accounts);
-          if (user.role === "demo") {
-            props.openHeaderSideBar(true);
-          }
 
           this.setState({ datebaseConnection: true });
         });
@@ -72,6 +67,8 @@ class Routes extends Component {
         this.setState({ datebaseConnection: true });
       } else this.setState({ datebaseConnection: true });
     });
+
+    ReactGA.initialize("UA-121236003-1");
   }
   componentDidMount() {
     this.getBlogs();
@@ -107,8 +104,13 @@ class Routes extends Component {
       return true;
     else return false;
   };
+  onSize = sizeChangeObj => {
+    this.setState({ headerWidth: sizeChangeObj.width });
+  };
   render() {
-    const { datebaseConnection, ghostitBlogs } = this.state;
+    ReactGA.pageview(this.props.location.pathname);
+
+    const { datebaseConnection, ghostitBlogs, headerWidth } = this.state;
     const { user, getKeyListenerFunction } = this.props;
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
@@ -120,73 +122,76 @@ class Routes extends Component {
     let activePage = this.props.location.pathname;
 
     return (
-      <div className="flex">
-        {this.userIsInPlatform(activePage) && <Header />}
+      <div
+        className="wrapper"
+        style={
+          this.userIsInPlatform(activePage) ? { marginLeft: headerWidth } : {}
+        }
+      >
+        {this.userIsInPlatform(activePage) && <Header onSize={this.onSize} />}
 
-        <div className="wrapper">
-          {user &&
-            ((activePage === "/content" ||
-              activePage === "/subscribe" ||
-              activePage === "/accounts") &&
-              user.signedInAsUser && (
-                <div className="signed-in-as">
-                  Logged in as: {user.signedInAsUser.fullName}
-                  <FontAwesomeIcon
-                    icon={faTimes}
-                    onClick={() => this.signOutOfUsersAccount()}
-                    className="sign-out-of-clients-account"
-                  />
-                </div>
-              ))}
-          {!this.userIsInPlatform(activePage) && <WebsiteHeader />}
-          <Switch>
-            <Route path="/content/" component={Content} />
-            <Route path="/subscribe/" component={Subscribe} />
-            <Route path="/analytics/" component={Analytics} />
-            <Route path="/social-accounts/" component={Accounts} />
-            <Route path="/manage/:id" component={Manage} />
-            <Route path="/manage" component={Manage} />
-            <Route path="/profile/" component={Profile} />
-            <Route path="/subscription/" component={MySubscription} />
-            <Route path="/ads/" component={Ads} />
-
-            <Route path="/home/" component={HomePage} />
-            <Route path="/pricing/" component={PricingPage} />
-            <Route path="/team/" component={TeamPage} />
-            <Route path="/blog/" component={BlogPage} exact />
-            <Route path="/agency/" component={GhostitAgency} />
-            <Route path="/sign-in/" component={LoginPage} />
-            <Route
-              path="/sign-up/"
-              render={props => {
-                return <LoginPage signUp={true} />;
-              }}
-            />
-            <Route path="/terms-of-service/" component={TermsPage} />
-            <Route path="/privacy-policy/" component={PrivacyPage} />
-            {ghostitBlogs.map((obj, index) => {
-              if (obj.images) obj.images.sort(ghostitBlogImagesCompare);
-
-              return (
-                <Route
-                  path={"/blog/" + obj.url + "/"}
-                  key={index}
-                  render={props => {
-                    return (
-                      <ViewWebsiteBlog
-                        contentArray={obj.contentArray}
-                        images={obj.images}
-                      />
-                    );
-                  }}
+        {user &&
+          ((activePage === "/content" ||
+            activePage === "/subscribe" ||
+            activePage === "/accounts") &&
+            user.signedInAsUser && (
+              <div className="signed-in-as pa16">
+                Logged in as: {user.signedInAsUser.fullName}
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  onClick={() => this.signOutOfUsersAccount()}
+                  className="sign-out-of-clients-account"
                 />
-              );
-            })}
+              </div>
+            ))}
+        {!this.userIsInPlatform(activePage) && <WebsiteHeader />}
+        <Switch>
+          <Route path="/content/" component={Content} />
+          <Route path="/subscribe/" component={Subscribe} />
+          <Route path="/analytics/" component={Analytics} />
+          <Route path="/social-accounts/" component={Accounts} />
+          <Route path="/manage/:id" component={Manage} />
+          <Route path="/manage" component={Manage} />
+          <Route path="/profile/" component={Profile} />
+          <Route path="/subscription/" component={MySubscription} />
+          <Route path="/ads/" component={Ads} />
 
-            <Route component={HomePage} />
-          </Switch>
-          {!this.userIsInPlatform(activePage) && <WebsiteFooter />}
-        </div>
+          <Route path="/home/" component={HomePage} />
+          <Route path="/pricing/" component={PricingPage} />
+          <Route path="/team/" component={TeamPage} />
+          <Route path="/blog/" component={BlogPage} exact />
+          <Route path="/agency/" component={GhostitAgency} />
+          <Route path="/sign-in/" component={LoginPage} />
+          <Route
+            path="/sign-up/"
+            render={props => {
+              return <LoginPage signUp={true} />;
+            }}
+          />
+          <Route path="/terms-of-service/" component={TermsPage} />
+          <Route path="/privacy-policy/" component={PrivacyPage} />
+          {ghostitBlogs.map((obj, index) => {
+            if (obj.images) obj.images.sort(ghostitBlogImagesCompare);
+
+            return (
+              <Route
+                path={"/blog/" + obj.url + "/"}
+                key={index}
+                render={props => {
+                  return (
+                    <ViewWebsiteBlog
+                      contentArray={obj.contentArray}
+                      images={obj.images}
+                    />
+                  );
+                }}
+              />
+            );
+          })}
+
+          <Route component={HomePage} />
+        </Switch>
+        {!this.userIsInPlatform(activePage) && <WebsiteFooter />}
       </div>
     );
   }
@@ -211,8 +216,7 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      setTutorial,
-      openHeaderSideBar
+      setTutorial
     },
     dispatch
   );

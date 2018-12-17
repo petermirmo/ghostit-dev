@@ -10,8 +10,6 @@ import ConfirmAlert from "../Notifications/ConfirmAlert";
 
 import { trySavePost } from "../../componentFunctions";
 
-import "./style.css";
-
 class CustomTask extends Component {
   constructor(props) {
     super(props);
@@ -52,8 +50,8 @@ class CustomTask extends Component {
       props.post && props.post.postingDate
         ? new moment(props.post.postingDate)
         : props.campaignStartDate
-          ? new moment(props.campaignStartDate)
-          : new moment(props.clickedCalendarDate);
+        ? new moment(props.campaignStartDate)
+        : new moment(props.clickedCalendarDate);
 
     return stateVariable;
   };
@@ -139,72 +137,80 @@ class CustomTask extends Component {
     } = this.state;
     let { date } = this.state;
 
-    const { postFinishedSavingCallback, setSaving, canEditPost } = this.props;
+    const { postFinishedSavingCallback, canEditPost } = this.props;
 
     return (
-      <div
-        className="posting-container light-scrollbar pa16"
-        style={{ width: "100%" }}
-      >
-        <input
-          onChange={event => this.handleChange(event.target.value, "name")}
-          value={name}
-          className="title-input mb8 br4 pa8"
-          placeholder="Title"
-          readOnly={!canEditPost}
-        />
-        <Textarea
-          style={{ minHeight: "30vh" }}
-          className="instruction-textarea pa8 br4"
-          placeholder="Describe this task!"
-          onChange={event =>
-            this.handleChange(event.target.value, "instructions")
-          }
-          value={instructions}
-          readOnly={!canEditPost}
-        />
-        <div className="flex vc wrap spacing top">
-          <ImagesDiv
-            postImages={images}
-            handleChange={images => this.handleChange(images, "images")}
-            imageLimit={4}
-            canEdit={canEditPost}
-            pushToImageDeleteArray={this.pushToImageDeleteArray}
-          />
-
-          <div className="checkbox-and-writing-container spacing left my8">
-            <div
-              className="checkbox-box flex vc hc mr8"
-              onClick={() =>
-                this.handleChange(!sendEmailReminder, "sendEmailReminder")
+      <div className="full-height-container">
+        <div className="post-instruction-container">
+          <div
+            className="posting-container light-scrollbar pa16"
+            style={{ width: "100%" }}
+          >
+            <input
+              onChange={event => this.handleChange(event.target.value, "name")}
+              value={name}
+              className="title-input mb8 br4 pa8"
+              placeholder="Title"
+              readOnly={!canEditPost}
+            />
+            <Textarea
+              style={{ minHeight: "30vh" }}
+              className="instruction-textarea pa8 br4"
+              placeholder="Describe this task!"
+              onChange={event =>
+                this.handleChange(event.target.value, "instructions")
               }
-            >
-              <div
-                className="checkbox-check"
-                style={{ display: sendEmailReminder ? undefined : "none" }}
+              value={instructions}
+              readOnly={!canEditPost}
+            />
+            <div className="wrapping-container-no-center mt8">
+              <ImagesDiv
+                postImages={images}
+                handleChange={images => this.handleChange(images, "images")}
+                imageLimit={4}
+                canEdit={canEditPost}
+                pushToImageDeleteArray={this.pushToImageDeleteArray}
               />
+
+              <div className="checkbox-and-writing-container my8 ml8">
+                <div
+                  className="checkbox-box flex vc hc mr8"
+                  onClick={() =>
+                    this.handleChange(!sendEmailReminder, "sendEmailReminder")
+                  }
+                >
+                  <div
+                    className="checkbox-check"
+                    style={{ display: sendEmailReminder ? undefined : "none" }}
+                  />
+                </div>
+                Send an email reminder 30 minutes before scheduled time
+              </div>
             </div>
-            Send an email reminder 30 minutes before scheduled time
           </div>
+        </div>
+        <div className="common-container-center border-top">
           <DateTimePicker
             date={date}
             dateFormat="MMMM Do YYYY hh:mm A"
             handleChange={date => this.handleChange(date, "date")}
             style={{
-              bottom: "-80px"
+              bottom: "100%",
+              top: "auto"
             }}
             dateLowerBound={new moment()}
             dateUpperBound={undefined}
+            className="my8"
           />
+          {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
+            <button
+              className="square-button py8 width100"
+              onClick={() => this.setState(trySavePost(this.state, this.props))}
+            >
+              Save Task!
+            </button>
+          )}
         </div>
-        {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
-          <button
-            className="schedule-post-button button br4 pa8 mt8"
-            onClick={() => this.setState(trySavePost(this.state, this.props))}
-          >
-            Save Task!
-          </button>
-        )}
         {promptModifyCampaignDates && (
           <ConfirmAlert
             close={() => this.setState({ promptModifyCampaignDates: false })}

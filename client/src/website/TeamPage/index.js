@@ -6,6 +6,9 @@ import { teamMembers } from "./teamMembers";
 import "./style.css";
 
 class TeamPage extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   isElementInViewport = el => {
     // IMPORTANT THIS FUNCTION HAS BEEN TAKEN FROM STACK OVERFLOW
     // https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
@@ -61,6 +64,12 @@ class TeamPage extends Component {
         <MetaTags>
           <title>Ghostit | Team</title>
           <meta name="description" content="Meet the Ghostit Team!" />
+          <meta property="og:title" content="Ghostit | Team" />
+          <meta property="og:description" content="Meet the Ghostit Team!" />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
+          />
         </MetaTags>
         <h1 className="pb16 tac">Meet the Ghostit Team!</h1>
         <div className="team-members-container flex vc hc wrap pb32 mb32">

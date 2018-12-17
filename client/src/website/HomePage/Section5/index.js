@@ -9,7 +9,7 @@ class Section5 extends Component {
         <div className="wrapping-container-full-center">
           <div className="team-member-image-container round mx32">
             <img
-              src="https://res.cloudinary.com/ghostit-co/image/upload/v1544476531/client-testimony.jpg"
+              src="https://res.cloudinary.com/ghostit-co/image/upload/v1544851312/IMG_9627_2.jpg"
               alt="'image'"
               className="team-member-image"
             />

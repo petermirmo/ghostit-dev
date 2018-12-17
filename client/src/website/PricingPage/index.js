@@ -4,6 +4,9 @@ import MetaTags from "react-meta-tags";
 import "./style.css";
 
 class PricingPage extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <div className="website-page flex column vc">
@@ -12,6 +15,15 @@ class PricingPage extends Component {
           <meta
             name="description"
             content="Have questions? Give us a call: 250-415-3093"
+          />
+          <meta property="og:title" content="Ghostit | Pricing" />
+          <meta
+            property="og:description"
+            content="Have questions? Give us a call: 250-415-3093"
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
           />
         </MetaTags>
         <h1 className="tac">Ghostit Pricing</h1>

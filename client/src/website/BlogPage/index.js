@@ -25,6 +25,8 @@ class BlogPage extends Component {
     ]
   };
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     axios.get("/api/ghostit/blogs").then(res => {
       let { success, ghostitBlogs } = res.data;
       if (success) this.setState({ ghostitBlogs, loading: false });
@@ -107,6 +109,15 @@ class BlogPage extends Component {
             name="description"
             content="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
           />
+          <meta property="og:title" content="Blog" />
+          <meta
+            property="og:description"
+            content="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
+          />
         </MetaTags>
         <h1 className="tac pb32">Ghostit Blog</h1>
 
@@ -114,7 +125,7 @@ class BlogPage extends Component {
           {Object.keys(categories).map((categoryIndex, index) => {
             let category = categories[categoryIndex];
 
-            let className = "transparent-button mx8";
+            let className = "transparent-button mx8 hover-blue";
             if (category.active) className += " active";
 
             return (

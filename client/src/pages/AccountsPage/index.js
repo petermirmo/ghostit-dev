@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MetaTags from "react-meta-tags";
+
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
@@ -28,7 +30,9 @@ class AccountsPage extends Component {
     accountToDelete: undefined,
     deleteAccount: false
   };
-
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   openModal = (socialType, accountType) => {
     // Open facebook add page modal
     this.setState({ addPageOrGroupModal: true });
@@ -280,6 +284,9 @@ class AccountsPage extends Component {
     }
     return (
       <div className="accounts-wrapper py16 px32">
+        <MetaTags>
+          <title>Ghostit | Social Accounts</title>
+        </MetaTags>
         <div className="account-column flex column vc">
           <div
             className="social-header-button flex hc button mb16 pa8 button mb16 pa8 facebook"
@@ -381,7 +388,6 @@ class AccountsPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    clientSideBar: state.clientSideBar,
     accounts: state.accounts,
     tutorial: state.tutorial,
     user: state.user

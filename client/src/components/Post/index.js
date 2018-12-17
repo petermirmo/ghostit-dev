@@ -12,9 +12,9 @@ import { bindActionCreators } from "redux";
 
 import DateTimePicker from "../DateTimePicker";
 import SelectAccountDiv from "../SelectAccountDiv/";
-import Carousel from "../Carousel";
+import LinkPreview from "../LinkPreview";
 import ImagesDiv from "../ImagesDiv/";
-import { carouselOptions } from "../../componentFunctions";
+import { linkPreviewOptions } from "../../componentFunctions";
 import { trySavePost } from "../../componentFunctions";
 
 import ConfirmAlert from "../Notifications/ConfirmAlert";
@@ -207,21 +207,31 @@ class PostingOptions extends Component {
     if (match) {
       link = match[0];
       this.getDataFromURL(link);
-    } else if (this._ismounted) this.setState({ link: "" });
+    } else if (this._ismounted)
+      this.setState({
+        link: "",
+        linkTitle: "",
+        linkImage: "",
+        linkDescription: ""
+      });
   }
   getDataFromURL = newLink => {
-    let { linkImage, link } = this.state;
     axios.post("/api/link", { link: newLink }).then(res => {
       let { loggedIn } = res.data;
       if (loggedIn === false) this.props.history.push("/sign-in");
-      if (this._ismounted && res.data) {
-        if (!linkImage) linkImage = res.data[0];
-        if (link !== newLink) linkImage = res.data[0];
+
+      let { imgSrc, linkTitle, linkDescription } = res.data;
+
+      if (this._ismounted && res.data && imgSrc[0]) {
+        let linkImage = imgSrc[0];
+
         if (this._ismounted)
           this.setState({
             link: newLink,
-            linkImagesArray: res.data,
-            linkImage: linkImage
+            linkImagesArray: imgSrc,
+            linkImage,
+            linkTitle,
+            linkDescription
           });
       }
     });
@@ -300,6 +310,8 @@ class PostingOptions extends Component {
       instructions,
       link,
       linkImage,
+      linkTitle,
+      linkDescription,
       linkImagesArray,
       images,
       socialType,
@@ -327,10 +339,10 @@ class PostingOptions extends Component {
     } = this.props;
     if (accountsHomePage) calendarAccounts = accountsHomePage;
 
-    const returnOfCarouselOptions = carouselOptions(socialType);
+    const returnOfLinkPreviewOptions = linkPreviewOptions(socialType);
 
-    const linkPreviewCanShow = returnOfCarouselOptions[0];
-    const linkPreviewCanEdit = returnOfCarouselOptions[1];
+    const linkPreviewCanShow = returnOfLinkPreviewOptions[0];
+    const linkPreviewCanEdit = returnOfLinkPreviewOptions[1];
 
     // Loop through all accounts
     let inactivePageAccountsArray = [];
@@ -368,80 +380,149 @@ class PostingOptions extends Component {
     }
 
     return (
-      <div className="post-instruction-container">
-        <div
-          className="posting-container light-scrollbar pa16"
-          style={{ width: showInstructions ? "60%" : "100%" }}
-        >
-          <Textarea
-            className="posting-textarea pa8"
-            placeholder="Success doesn't write itself!"
-            onChange={event => {
-              this.findLink(event.target.value);
-              this.handleChange(event.target.value, "content");
-            }}
-            value={content}
-            readOnly={!canEditPost}
-          />
-          <div className="post-images-and-carousel">
-            <ImagesDiv
-              postImages={images}
-              handleChange={images => this.handleChange(images, "images")}
-              imageLimit={4}
-              canEdit={canEditPost}
-              pushToImageDeleteArray={this.pushToImageDeleteArray}
+      <div className="full-height-container">
+        <div className="post-instruction-container">
+          <div
+            className="posting-container common-transition light-scrollbar pa16"
+            style={{ width: showInstructions ? "60%" : "100%" }}
+          >
+            <Textarea
+              className="posting-textarea pa8 light-scrollbar"
+              placeholder="Success doesn't write itself!"
+              onChange={event => {
+                this.findLink(event.target.value);
+                this.handleChange(event.target.value, "content");
+              }}
+              value={content}
+              readOnly={!canEditPost}
             />
-            {linkPreviewCanShow && link && (
-              <Carousel
-                linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-                linkImagesArray={linkImagesArray}
-                linkImage={linkImage}
-                handleChange={image => this.handleChange(image, "linkImage")}
+            <div className="post-images-and-linkPreview">
+              <ImagesDiv
+                postImages={images}
+                handleChange={images => this.handleChange(images, "images")}
+                imageLimit={4}
+                canEdit={canEditPost}
+                pushToImageDeleteArray={this.pushToImageDeleteArray}
               />
-            )}
-          </div>
-          {maxCharacters && (
-            <div className="max-characters">
-              {maxCharacters - content.length}
             </div>
-          )}
 
-          <div className="flex vc wrap spacing top">
-            {!this.props.recipeEditing && (
-              <SelectAccountDiv
-                activePageAccountsArray={activePageAccountsArray}
-                inactivePageAccountsArray={inactivePageAccountsArray}
-                linkAccountToCalendarPrompt={actID => {
+            {maxCharacters && (
+              <div className="ml16">{maxCharacters - content.length}</div>
+            )}
+
+            <div className="wrapping-container">
+              {linkPreviewCanShow && link && (
+                <div className="container-box medium mx16 mt16">
+                  <LinkPreview
+                    linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+                    linkImagesArray={linkImagesArray}
+                    linkTitle={linkTitle}
+                    linkDescription={linkDescription}
+                    link={link}
+                    handleChange={image =>
+                      this.handleChange(image, "linkImage")
+                    }
+                  />
+                </div>
+              )}
+              {!this.props.recipeEditing && (
+                <div className="flex1 mt16 mx16">
+                  <SelectAccountDiv
+                    activePageAccountsArray={activePageAccountsArray}
+                    inactivePageAccountsArray={inactivePageAccountsArray}
+                    linkAccountToCalendarPrompt={actID => {
+                      if (this._ismounted)
+                        this.setState({
+                          promptLinkAccountToCalendar: true,
+                          linkAccountToCalendarID: actID
+                        });
+                    }}
+                    activeAccount={accountID}
+                    handleChange={account => {
+                      this.handleChange(account.socialID, "accountID");
+                      this.handleChange(account.accountType, "accountType");
+                    }}
+                    canEdit={canEditPost}
+                  />
+                </div>
+              )}
+            </div>
+
+            {!showInstructions && (
+              <div
+                className="show-more center-vertically right"
+                onClick={() => {
                   if (this._ismounted)
                     this.setState({
-                      promptLinkAccountToCalendar: true,
-                      linkAccountToCalendarID: actID
+                      showInstructions: true
                     });
                 }}
-                activeAccount={accountID}
-                handleChange={account => {
-                  this.handleChange(account.socialID, "accountID");
-                  this.handleChange(account.accountType, "accountType");
-                }}
-                canEdit={canEditPost}
+              >
+                <FontAwesomeIcon icon={faAngleLeft} />
+              </div>
+            )}
+          </div>
+          <div
+            className="instructions-container common-shadow-left light-scrollbar pa16"
+            style={{
+              width: showInstructions ? "40%" : "0",
+              padding: showInstructions ? undefined : 0
+            }}
+          >
+            {showInstructions && (
+              <input
+                onChange={event =>
+                  this.handleChange(event.target.value, "name")
+                }
+                value={name}
+                className="pa8 mb8 br4"
+                placeholder="Title"
+                readOnly={!canEditPost}
               />
             )}
-            <DateTimePicker
-              date={date}
-              dateFormat="MMMM Do YYYY hh:mm A"
-              handleChange={date => this.handleChange(date, "date")}
-              style={{
-                bottom: "-80px"
-              }}
-              canEdit={canEditPost}
-              dateLowerBound={new moment()}
-              dateUpperBound={undefined}
-            />
+            {showInstructions && (
+              <Textarea
+                className="instruction-textarea br4 pa8 light-scrollbar"
+                placeholder="Include any comments or instructions here."
+                onChange={event => {
+                  this.handleChange(event.target.value, "instructions");
+                }}
+                value={instructions}
+                readOnly={!canEditPost}
+              />
+            )}
+            {showInstructions && (
+              <div
+                className="show-more center-vertically left"
+                onClick={() =>
+                  this.setState({
+                    showInstructions: false
+                  })
+                }
+              >
+                <FontAwesomeIcon icon={faAngleRight} />
+              </div>
+            )}
           </div>
+        </div>
+        <div className="common-container-center border-top">
+          <DateTimePicker
+            date={date}
+            dateFormat="MMMM Do YYYY hh:mm A"
+            handleChange={date => this.handleChange(date, "date")}
+            style={{
+              bottom: "100%",
+              top: "auto"
+            }}
+            canEdit={canEditPost}
+            dateLowerBound={new moment()}
+            dateUpperBound={undefined}
+            className="mx16 my8"
+          />
           {canEditPost &&
             (somethingChanged || (!this.props.recipeEditing && !_id)) && (
               <button
-                className="schedule-post-button button br4 pa8 mt8"
+                className="square-button py8 width100"
                 onClick={() => {
                   if (this._ismounted)
                     this.setState(trySavePost(this.state, this.props));
@@ -450,90 +531,36 @@ class PostingOptions extends Component {
                 {this.props.recipeEditing ? "Save Post" : "Schedule Post!"}
               </button>
             )}
-
-          {!showInstructions && (
-            <div
-              className="show-more center-vertically right"
-              onClick={() => {
-                if (this._ismounted)
-                  this.setState({
-                    showInstructions: true
-                  });
-              }}
-            >
-              <FontAwesomeIcon icon={faAngleLeft} />
-            </div>
-          )}
-
-          {promptModifyCampaignDates && (
-            <ConfirmAlert
-              close={() => {
-                if (this._ismounted)
-                  this.setState({ promptModifyCampaignDates: false });
-              }}
-              title="Modify Campaign Dates"
-              message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
-              callback={this.modifyCampaignDate}
-              type="modify"
-            />
-          )}
-          {promptLinkAccountToCalendar && (
-            <ConfirmAlert
-              close={() => {
-                if (this._ismounted)
-                  this.setState({ promptLinkAccountToCalendar: false });
-              }}
-              title="Link Account to Calendar"
-              message={
-                "To post to this calendar with this social account, the account must be linked to the calendar.\nWould you like to link them?\n(Every user within the calendar will be able to post to the account)."
-              }
-              callback={this.linkAccountToCalendar}
-              type="link-account"
-              firstButton="Link"
-              secondButton="Cancel"
-            />
-          )}
         </div>
-        <div
-          className="instructions-container common-shadow light-scrollbar pa16"
-          style={{
-            width: showInstructions ? "40%" : "0",
-            padding: showInstructions ? undefined : 0
-          }}
-        >
-          {showInstructions && (
-            <input
-              onChange={event => this.handleChange(event.target.value, "name")}
-              value={name}
-              className="pa8 mb8 br4"
-              placeholder="Title"
-              readOnly={!canEditPost}
-            />
-          )}
-          {showInstructions && (
-            <Textarea
-              className="instruction-textarea br4 pa8"
-              placeholder="Include any comments or instructions here."
-              onChange={event => {
-                this.handleChange(event.target.value, "instructions");
-              }}
-              value={instructions}
-              readOnly={!canEditPost}
-            />
-          )}
-          {showInstructions && (
-            <div
-              className="show-more center-vertically left"
-              onClick={() =>
-                this.setState({
-                  showInstructions: false
-                })
-              }
-            >
-              <FontAwesomeIcon icon={faAngleRight} />
-            </div>
-          )}
-        </div>
+
+        {promptModifyCampaignDates && (
+          <ConfirmAlert
+            close={() => {
+              if (this._ismounted)
+                this.setState({ promptModifyCampaignDates: false });
+            }}
+            title="Modify Campaign Dates"
+            message="Posting date is not within campaign start and end dates. Do you want to adjust campaign dates accordingly?"
+            callback={this.modifyCampaignDate}
+            type="modify"
+          />
+        )}
+        {promptLinkAccountToCalendar && (
+          <ConfirmAlert
+            close={() => {
+              if (this._ismounted)
+                this.setState({ promptLinkAccountToCalendar: false });
+            }}
+            title="Link Account to Calendar"
+            message={
+              "To post to this calendar with this social account, the account must be linked to the calendar.\nWould you like to link them?\n(Every user within the calendar will be able to post to the account)."
+            }
+            callback={this.linkAccountToCalendar}
+            type="link-account"
+            firstButton="Link"
+            secondButton="Cancel"
+          />
+        )}
       </div>
     );
   }

@@ -1,9 +1,3 @@
-.select-accounts-header {
-}
-.accounts-container {
-  display: grid;
-  grid-template-columns: auto auto;
-}
 .account-container {
   display: flex;
 

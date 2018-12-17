@@ -19,13 +19,13 @@
   }
 }
 .loader-background {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--one-half-primary-color);
 
   height: 100vh;
-  width: 100vw;
 }
 .lds-wedges {
   position: relative;

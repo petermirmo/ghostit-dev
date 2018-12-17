@@ -56,31 +56,85 @@ class WebsiteHeader extends Component {
         )}
         <div id="logo-container">
           <Link to="/home">
-            <Logo className="button" />
+            <Logo
+              className="button"
+              onClick={
+                mobileAndTabletcheck()
+                  ? () => {
+                      this.setState({ showHeader: false });
+                    }
+                  : () => {}
+              }
+            />
           </Link>
         </div>
         <Link to="/home">
           <button
             className={className + this.isActive("home") + this.isActive("")}
+            onClick={
+              mobileAndTabletcheck()
+                ? () => {
+                    this.setState({ showHeader: false });
+                  }
+                : () => {}
+            }
           >
             Home
           </button>
         </Link>
         <Link to="/team">
-          <button className={className + this.isActive("team")}>Team</button>
+          <button
+            className={className + this.isActive("team")}
+            onClick={
+              mobileAndTabletcheck()
+                ? () => {
+                    this.setState({ showHeader: false });
+                  }
+                : () => {}
+            }
+          >
+            Team
+          </button>
         </Link>
         <Link to="/pricing">
-          <button className={className + this.isActive("pricing")}>
+          <button
+            className={className + this.isActive("pricing")}
+            onClick={
+              mobileAndTabletcheck()
+                ? () => {
+                    this.setState({ showHeader: false });
+                  }
+                : () => {}
+            }
+          >
             Pricing
           </button>
         </Link>
         <Link to="/agency">
-          <button className={className + this.isActive("agency")}>
+          <button
+            className={className + this.isActive("agency")}
+            onClick={
+              mobileAndTabletcheck()
+                ? () => {
+                    this.setState({ showHeader: false });
+                  }
+                : () => {}
+            }
+          >
             Ghostit Agency
           </button>
         </Link>
         <Link to="/blog">
-          <button className={className + this.isRootActive("blog")}>
+          <button
+            className={className + this.isRootActive("blog")}
+            onClick={
+              mobileAndTabletcheck()
+                ? () => {
+                    this.setState({ showHeader: false });
+                  }
+                : () => {}
+            }
+          >
             Blog
           </button>
         </Link>

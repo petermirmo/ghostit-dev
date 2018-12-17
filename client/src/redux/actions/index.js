@@ -4,18 +4,6 @@ export const setUser = user => {
     payload: user
   };
 };
-export const openClientSideBar = value => {
-  return {
-    type: "CLIENT_SIDE_BAR",
-    payload: value
-  };
-};
-export const openHeaderSideBar = value => {
-  return {
-    type: "HEADER_SIDE_BAR",
-    payload: value
-  };
-};
 export const updateAccounts = value => {
   return {
     type: "SOCIAL_ACCOUNTS",

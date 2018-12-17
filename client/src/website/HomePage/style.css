@@ -126,6 +126,7 @@
 
 .platform-component-showcase {
   transform: scale(0.7, 0.7);
+  overflow: hidden;
 }
 
 @keyframes ghost-transition {
@@ -180,6 +181,7 @@
   min-width: 300px;
 }
 .website-page {
+  flex-shrink: 0;
   padding-top: 15vh;
   min-height: 100vh;
 }

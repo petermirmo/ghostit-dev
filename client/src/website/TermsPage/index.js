@@ -2,12 +2,24 @@ import React, { Component } from "react";
 import MetaTags from "react-meta-tags";
 
 class TermsPage extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <div className="website-page mx32">
         <MetaTags>
           <title>Ghostit | Terms</title>
           <meta name="description" content="Ghostit terms and conditions." />
+          <meta property="og:title" content="Ghostit | Terms" />
+          <meta
+            property="og:description"
+            content="Ghostit terms and conditions"
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
+          />
         </MetaTags>
         <h1 className="my16 tac">Terms & Conditions</h1>
         <p className="my8">

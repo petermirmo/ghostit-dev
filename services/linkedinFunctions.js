@@ -170,7 +170,8 @@ module.exports = {
 
                     for (let index in accounts) {
                       let account = accounts[index];
-                      if (account.userID == userID) accountFoundUser = true;
+                      if (String(account.userID) == userID)
+                        accountFoundUser = true;
 
                       account.accessToken = accessToken;
                       account.accessToken = accessToken;

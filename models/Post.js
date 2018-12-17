@@ -14,6 +14,8 @@ const postSchema = new Schema(
     instructions: String,
     link: String,
     linkImage: String,
+    linkTitle: String,
+    linkDescription: String,
     postingDate: Date,
     accountType: String,
     socialType: String,

@@ -9,6 +9,7 @@ import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import Post from "../../../components/Post";
+import CustomTask from "../../../components/CustomTask";
 import Notification from "../../../components/Notifications/Notification";
 import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
 import Loader from "../../../components/Notifications/Loader/";
@@ -115,7 +116,7 @@ class PostEdittingModal extends Component {
 
     return (
       <div className="modal" onClick={this.props.close}>
-        <div className="modal-content" onClick={e => e.stopPropagation()}>
+        <div className="large-modal" onClick={e => e.stopPropagation()}>
           <div className="modal-header">
             <FontAwesomeIcon
               icon={faTimes}
@@ -124,19 +125,35 @@ class PostEdittingModal extends Component {
               onClick={() => close()}
             />
           </div>
-          <Post
-            setSaving={this.setSaving}
-            post={clickedEvent}
-            canEditPost={canEditPost}
-            postFinishedSavingCallback={post => {
-              savePostCallback(post);
-              close();
-            }}
-            accounts={accounts}
-            timezone={timezone}
-            maxCharacters={maxCharacters}
-            calendarID={this.props.calendarID}
-          />
+          {clickedEvent.socialType === "custom" && (
+            <CustomTask
+              setSaving={this.setSaving}
+              post={clickedEvent}
+              canEditPost={canEditPost}
+              postFinishedSavingCallback={post => {
+                savePostCallback(post);
+                close();
+              }}
+              calendarID={this.props.calendarID}
+              notify={this.props.notify}
+            />
+          )}
+          {clickedEvent.socialType !== "custom" && (
+            <Post
+              setSaving={this.setSaving}
+              post={clickedEvent}
+              canEditPost={canEditPost}
+              postFinishedSavingCallback={post => {
+                savePostCallback(post);
+                close();
+              }}
+              accounts={accounts}
+              timezone={timezone}
+              maxCharacters={maxCharacters}
+              calendarID={this.props.calendarID}
+              notify={this.props.notify}
+            />
+          )}
           {this.state.confirmDelete && (
             <ConfirmAlert
               close={() => this.setState({ confirmDelete: false })}

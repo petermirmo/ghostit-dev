@@ -15,24 +15,31 @@ module.exports = {
       },
       async (err, account) => {
         if (account) {
-          var linkedinPost = {};
-          var linkedinLink = {};
-
+          let linkedinPost = {};
+          linkedinPost.distribution = {
+            linkedInDistributionTarget: {
+              visibleToGuest: true
+            }
+          };
           if (post.content !== "") {
             linkedinPost.text = { text: post.content };
           }
 
-          if (post.linkImage !== "" || post.link !== "") {
+          if (post.link !== "") {
             linkedinPost.content = {
-              contentEntities: { entityLocation: linkedinLink }
-            };
-            if (post.images[0]) {
-              linkedinPost.content.thumbnails = [
+              contentEntities: [
                 {
-                  resolvedUrl: post.images[0].url
+                  entityLocation: post.link,
+                  thumbnails: [
+                    {
+                      resolvedUrl: post.linkImage
+                    }
+                  ]
                 }
-              ];
-            }
+              ],
+              title: post.linkTitle,
+              description: post.linkDescription
+            };
           }
           linkedinPost.owner = "urn:li:person:" + account.socialID;
 
@@ -51,12 +58,12 @@ module.exports = {
               else savePostSuccessfully(post._id, linkedinPostResult.data.id);
             })
             .catch(linkedinPostError => {
-              let errorCatch = linkedinPostError;
-              if (linkedinPostError.response) {
-                errorCatch = linkedinPostError.response;
+              let errorCatch = linkedinPostError.response;
+
+              if (errorCatch)
                 if (linkedinPostError.response.data)
                   errorCatch = linkedinPostError.response.data;
-              }
+
               savePostError(post._id, errorCatch);
             });
         } else {
@@ -74,33 +81,36 @@ module.exports = {
       async (err, account) => {
         if (account) {
           let linkedinPost = {};
-          linkedinPost.author = "urn:li:organization:" + account.socialID;
-          linkedinPost.visibility = {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+          linkedinPost.distribution = {
+            linkedInDistributionTarget: {
+              visibleToGuest: true
+            }
           };
-          linkedinPost.lifecycleState = "PUBLISHED";
 
-          if (post.linkImage !== "" || post.link !== "") {
-            linkedinPost.specificContent = {
-              "com.linkedin.ugc.ShareContent": {
-                primaryLandingPageUrl: post.link,
-                shareCommentary: { text: post.content },
-                shareMediaCategory: "NONE"
-              }
-            };
-          } else {
-            linkedinPost.specificContent = {
-              "com.linkedin.ugc.ShareContent": {
-                shareCommentary: {
-                  text: post.content
-                },
-                shareMediaCategory: "NONE"
-              }
-            };
+          if (post.content !== "") {
+            linkedinPost.text = { text: post.content };
           }
 
+          if (post.link !== "") {
+            linkedinPost.content = {
+              contentEntities: [
+                {
+                  entityLocation: post.link,
+                  thumbnails: [
+                    {
+                      resolvedUrl: post.linkImage
+                    }
+                  ]
+                }
+              ],
+              title: post.linkTitle,
+              description: post.linkDescription
+            };
+          }
+          linkedinPost.owner = "urn:li:organization:" + account.socialID;
+
           axios
-            .post("https://api.linkedin.com/v2/ugcPosts", linkedinPost, {
+            .post("https://api.linkedin.com/v2/shares", linkedinPost, {
               headers: {
                 Authorization: "Bearer " + account.accessToken
               }
@@ -114,12 +124,11 @@ module.exports = {
               else savePostSuccessfully(post._id, linkedinPostResult.data.id);
             })
             .catch(linkedinPostError => {
-              let errorCatch = linkedinPostError;
-              if (linkedinPostError.response) {
-                errorCatch = linkedinPostError.response;
+              let errorCatch = linkedinPostError.response;
+              if (errorCatch)
                 if (linkedinPostError.response.data)
                   errorCatch = linkedinPostError.response.data;
-              }
+
               savePostError(post._id, errorCatch);
             });
         } else {

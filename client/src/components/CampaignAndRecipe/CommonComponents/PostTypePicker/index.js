@@ -1,35 +1,38 @@
 import React, { Component } from "react";
 
-import "./style.css";
-
+import { getPostColor } from "../../../../componentFunctions";
 class PostTypePicker extends Component {
   render() {
     return (
-      <div className="new-post-prompt flex mt16">
-        <div
-          className="account-option br4 pa8 mr4 button"
+      <div className="wrapping-container">
+        <button
+          className="regular-button mt8 mx4 flex1"
           onClick={() => this.props.newPost("facebook")}
+          style={{ backgroundColor: getPostColor("facebook") }}
         >
-          Facebook<br />Post
-        </div>
-        <div
-          className="account-option br4 pa8 mr4 button"
+          Facebook Post
+        </button>
+        <button
+          className="regular-button mt8 mx4 flex1"
           onClick={() => this.props.newPost("twitter")}
+          style={{ backgroundColor: getPostColor("twitter") }}
         >
-          Twitter<br />Post
-        </div>
-        <div
-          className="account-option br4 pa8 mr4 button"
+          Twitter Post
+        </button>
+        <button
+          className="regular-button mt8 mx4 flex1"
           onClick={() => this.props.newPost("linkedin")}
+          style={{ backgroundColor: getPostColor("linkedin") }}
         >
-          LinkedIn<br />Post
-        </div>
-        <div
-          className="account-option br4 pa8 mr4 button"
+          LinkedIn Post
+        </button>
+        <button
+          className="regular-button mt8 mx4 flex1"
           onClick={() => this.props.newPost("custom")}
+          style={{ backgroundColor: getPostColor("custom") }}
         >
-          Custom<br />Task
-        </div>
+          Custom Task
+        </button>
       </div>
     );
   }

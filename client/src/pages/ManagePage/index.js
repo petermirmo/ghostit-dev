@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MetaTags from "react-meta-tags";
 
 import { connect } from "react-redux";
 
@@ -17,6 +18,8 @@ class ManagePage extends Component {
     notifications: []
   };
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     this._ismounted = true;
     axios.get("/api/notifications").then(res => {
       console.log(res.data);
@@ -45,6 +48,9 @@ class ManagePage extends Component {
 
     return (
       <div className="flex column vc">
+        <MetaTags>
+          <title>Ghostit | Manage</title>
+        </MetaTags>
         <div className="manage-navigation flex vc py8 px16 mb16 common-shadow">
           {Object.keys(categories).map((categoryIndex, index) => {
             let category = categories[categoryIndex];

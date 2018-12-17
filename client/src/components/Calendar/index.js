@@ -467,9 +467,13 @@ class Calendar extends Component {
             activeCalendarIndex={this.props.activeCalendarIndex}
             updateActiveCalendar={this.props.updateActiveCalendar}
             enableCalendarManager={this.props.enableCalendarManager}
+            style={{ width: "100%" }}
           />
           <div className="absolute right">
-            <SocketUserList userList={this.props.userList} />
+            <SocketUserList
+              userList={this.props.userList}
+              style={{ right: 0, left: "auto" }}
+            />
           </div>
         </div>
       </div>

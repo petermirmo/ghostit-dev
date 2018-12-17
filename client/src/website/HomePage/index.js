@@ -21,6 +21,8 @@ class HomePage extends Component {
     displayGhostAndMessage: false
   };
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     this._ismounted = true;
 
     setTimeout(() => {
@@ -40,8 +42,19 @@ class HomePage extends Component {
             name="description"
             content="Organize your marketing process with an all-in-one solution for unified content promotion."
           />
+          <meta property="og:title" content="All-In-One Marketing Solution" />
+          <meta
+            property="og:description"
+            content="Organize your marketing process with an all-in-one solution for unified content promotion."
+          />
+          <meta
+            property="og:image"
+            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
+          />
         </MetaTags>
+
         <Section1 />
+
         <Section2 />
         <Section3 />
         <Section4 />

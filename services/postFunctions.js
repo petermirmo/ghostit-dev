@@ -72,7 +72,7 @@ module.exports = {
   getImagesFromUrl: function(req, res) {
     let url = req.body.link;
 
-    request(url, function(err, result, body) {
+    request(url, (err, result, body) => {
       if (err) {
         console.log(err);
         res.send(false);
@@ -84,12 +84,52 @@ module.exports = {
         res.send(false);
         return;
       }
+
       let $ = cheerio.load(body);
-      $("img").each(function(index, img) {
+      $("img").each((index, img) => {
         imgSrc.push(img.attribs.src);
       });
 
-      res.send(imgSrc);
+      let linkTitle;
+      let linkDescription;
+
+      let foundMetaImage = false;
+
+      $("meta").each((index, meta) => {
+        if (meta.attribs.property == "url") {
+        } else if (meta.attribs.property == "og:url") {
+        } else if (meta.attribs.property == "og:image" && !foundMetaImage) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (
+          meta.attribs.property == "og:image:secure_url" &&
+          !foundMetaImage
+        ) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (meta.attribs.property == "image" && !foundMetaImage) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (
+          meta.attribs.property == "image:secure_url" &&
+          !foundMetaImage
+        ) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (meta.attribs.property == "title" && !linkTitle) {
+          linkTitle = meta.attribs.content;
+        } else if (meta.attribs.property == "description" && !linkDescription) {
+          linkDescription = meta.attribs.content;
+        } else if (meta.attribs.property == "og:title" && !linkTitle) {
+          linkTitle = meta.attribs.content;
+        } else if (
+          meta.attribs.property == "og:description" &&
+          !linkDescription
+        ) {
+          linkDescription = meta.attribs.content;
+        }
+      });
+      res.send({ imgSrc, linkTitle, linkDescription });
     });
   },
   savePost: function(req, res) {

@@ -24,7 +24,7 @@ const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const SocketManager = require("./sockets/SocketManager");
-io.on("connection", SocketManager(io));
+var passportSocketIo = require("passport.socketio");
 
 // Image uploads
 const cloudinary = require("cloudinary");
@@ -45,7 +45,6 @@ if (process.env.NODE_ENV === "production") {
   schedule.scheduleJob("* * * * *", function() {
     PostScheduler.main();
   });
-
   schedule.scheduleJob("0 0 * * 0", function() {
     console.log("starting");
     TokenScheduler.main();
@@ -74,12 +73,15 @@ app.use(cookieParser()); // Read cookies (needed for auth)
 app.use(bodyParser.json({ limit: "50mb" })); //Read data from html forms
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+var sessionStore = new MongoStore({ mongooseConnection: db });
+
 app.use(
   session({
+    key: "connect.sid",
     secret: keys.cookieKey,
     resave: true,
     saveUninitialized: true,
-    store: new MongoStore({ mongooseConnection: db })
+    store: sessionStore
   })
 );
 
@@ -102,3 +104,26 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT);
+
+io.use(
+  passportSocketIo.authorize({
+    passport,
+    cookieParser,
+    key: "connect.sid",
+    secret: keys.cookieKey,
+    store: sessionStore,
+    success: onAuthorizeSuccess,
+    fail: onAuthorizeFail
+  })
+);
+
+function onAuthorizeSuccess(data, accept) {
+  accept();
+}
+
+function onAuthorizeFail(data, message, error, accept) {
+  console.log("failed connection to socket.io:", data, message);
+  if (error) accept(new Error(message));
+}
+
+io.on("connection", SocketManager(io));

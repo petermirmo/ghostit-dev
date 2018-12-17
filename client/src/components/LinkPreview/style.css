@@ -1,0 +1,12 @@
+#link-preview-container {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 200px;
+  min-width: 300px;
+  flex: 1;
+  background-size: cover;
+  overflow: hidden;
+}

@@ -60,7 +60,7 @@ module.exports = {
         for (let index in accounts) {
           let account = accounts[index];
           account.accessToken = page.access_token;
-          if (account.userID == userID) accountFoundUser = true;
+          if (String(account.userID) == userID) accountFoundUser = true;
 
           asyncCounter++;
 

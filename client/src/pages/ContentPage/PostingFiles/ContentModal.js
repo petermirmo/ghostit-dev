@@ -7,11 +7,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import CreateBlog from "../../../components/CreateBlog/";
-import CreateNewsletter from "../../../components/CreateNewsletter/";
 import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Notifications/Loader/";
 import Post from "../../../components/Post";
+import CustomTask from "../../../components/CustomTask";
 import InstagramPosting from "./InstagramPosting";
 import "./style.css";
 
@@ -23,9 +22,7 @@ class ContentModal extends Component {
       { name: "facebook" },
       { name: "twitter", maxCharacters: 280 },
       { name: "linkedin", maxCharacters: 700 },
-      { name: "blog" },
-      { name: "newsletter" },
-      { name: "instagram" }
+      { name: "custom" }
     ],
     listOfPostChanges: {}
   };
@@ -104,39 +101,35 @@ class ContentModal extends Component {
     } = this.props;
     let modalBody;
 
-    // Check if this is a blog placeholder
-    if (activeTab.name === "blog") {
-      modalBody = (
-        <CreateBlog
-          postingDate={clickedCalendarDate}
-          callback={saveBlogCallback}
-          calendarID={this.props.calendarID}
-          setSaving={this.setSaving}
-          triggerSocketPeers={this.props.triggerSocketPeers}
-        />
-      );
-    } else if (activeTab.name === "newsletter") {
+    if (activeTab.name === "custom") {
       modalBody = (
         <div className="modal-body">
-          <CreateNewsletter
-            postingDate={clickedCalendarDate}
-            callback={saveNewsletterCallback}
+          <CustomTask
+            post={{
+              postingDate:
+                clickedCalendarDate < new moment()
+                  ? new moment().add(5, "minutes")
+                  : clickedCalendarDate
+            }}
+            postFinishedSavingCallback={(post, success, message) => {
+              if (this._ismounted) this.setState({ saving: false });
+              if (success) {
+                savePostCallback(post);
+              } else {
+                this.props.notify("danger", "Save Failed", message, 7500);
+              }
+            }}
             calendarID={this.props.calendarID}
-            setSaving={this.setSaving}
-            triggerSocketPeers={this.props.triggerSocketPeers}
-          />
-        </div>
-      );
-    } else if (activeTab.name === "instagram") {
-      modalBody = (
-        <div className="modal-body">
-          <InstagramPosting
-            postFinishedSavingCallback={savePostCallback}
             setSaving={this.setSaving}
             socialType={activeTab.name}
-            calendarID={this.props.calendarID}
             canEditPost={true}
-            triggerSocketPeers={this.props.triggerSocketPeers}
+            listOfChanges={
+              Object.keys(listOfPostChanges).length > 0
+                ? listOfPostChanges
+                : undefined
+            }
+            backupChanges={this.backupPostChanges}
+            notify={this.props.notify}
           />
         </div>
       );
