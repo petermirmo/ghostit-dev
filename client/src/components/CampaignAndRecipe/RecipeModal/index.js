@@ -160,6 +160,13 @@ class RecipeModal extends Component {
                   activePost: undefined
                 });
               } else {
+                window.setTimeout(() => {
+                  if (document.getElementById("current-displayed-recipe"))
+                    document
+                      .getElementById("current-displayed-recipe")
+                      .scrollIntoView();
+                }, 100);
+
                 this.setState({
                   previewRecipeLocation: recipeIndex2,
                   activePost: recipe.posts[0]
@@ -328,6 +335,7 @@ class RecipeModal extends Component {
       <div
         className="preview-recipe"
         key={recipeRow + "preview_recipe" + recipeColumn}
+        id="current-displayed-recipe"
       >
         <div className="recipe-posts-navigation">
           {recipe.posts.map((post_obj, index) => {
