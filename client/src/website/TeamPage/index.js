@@ -72,12 +72,12 @@ class TeamPage extends Component {
           />
         </MetaTags>
         <h1 className="pb16 tac">Meet the Ghostit Team!</h1>
-        <div className="team-members-container flex vc hc wrap pb32 mb32">
+        <div className="wrapping-container pb32 mb32">
           {teamMembers.map((obj, index) => {
             let id = index + "team-member";
             return (
               <div
-                className="team-member-container pa16 br8 common-transition"
+                className="simple-column-box pa16 br8 common-transition"
                 key={index + "team"}
                 onMouseEnter={event => {
                   this.correctOverflow(document.getElementById(id));
@@ -94,7 +94,10 @@ class TeamPage extends Component {
                     className="team-member-image"
                   />
                 </div>
-                <h4 className="team-member-name silly-font py8 tac">
+                <h4
+                  className="team-member-name silly-font py8 tac"
+                  style={{ color: obj.color }}
+                >
                   {obj.name}
                 </h4>
                 <div

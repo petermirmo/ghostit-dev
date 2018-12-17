@@ -11,9 +11,16 @@ class ViewWebsiteBlog extends Component {
     if (divInformation.italic) style.fontStyle = "italic";
     if (divInformation.underline) style.textDecoration = "underline";
 
-    if (divInformation.position === "left") style.textAlign = "left";
-    else if (divInformation.position === "center") style.textAlign = "center";
-    else if (divInformation.position === "right") style.textAlign = "right";
+    if (divInformation.position === "left") {
+      style.alignItems = "flex-start";
+      style.textAlign = "left";
+    } else if (divInformation.position === "center") {
+      style.alignItems = "center";
+      style.textAlign = "center";
+    } else if (divInformation.position === "right") {
+      style.alignItems = "flex-end";
+      style.textAlign = "right";
+    }
     return style;
   };
   createRelevantContentDiv = (
@@ -56,49 +63,49 @@ class ViewWebsiteBlog extends Component {
 
     if (divInformation.type === "p")
       return (
-        <p style={style} key={"div" + index} className="mx20vw">
+        <p style={style} key={"div" + index} className="medium-box mx16">
           {divInformation.text}
           {spanDivs}
         </p>
       );
     else if (divInformation.type === "h1")
       return (
-        <h1 style={style} key={"div" + index} className="mx20vw">
+        <h1 style={style} key={"div" + index} className="medium-box mx16">
           {divInformation.text}
           {spanDivs}
         </h1>
       );
     else if (divInformation.type === "h2")
       return (
-        <h2 style={style} key={"div" + index} className="mx20vw">
+        <h2 style={style} key={"div" + index} className="medium-box mx16">
           {divInformation.text}
           {spanDivs}
         </h2>
       );
     else if (divInformation.type === "h3")
       return (
-        <h3 style={style} key={"div" + index} className="mx20vw">
+        <h3 style={style} key={"div" + index} className="medium-box mx16">
           {divInformation.text}
           {spanDivs}
         </h3>
       );
     else if (divInformation.type === "h4")
       return (
-        <h4 style={style} key={"div" + index} className="mx20vw">
+        <h4 style={style} key={"div" + index} className="medium-box mx16">
           {divInformation.text}
           {spanDivs}
         </h4>
       );
     else if (divInformation.type === "h5")
       return (
-        <h5 style={style} key={"div" + index} className="mx20vw">
+        <h5 style={style} key={"div" + index} className="medium-box mx16">
           {divInformation.text}
           {spanDivs}
         </h5>
       );
     else if (divInformation.type === "h6")
       return (
-        <h6 style={style} key={"div" + index} className="mx20vw">
+        <h6 style={style} key={"div" + index} className="medium-box mx16">
           {divInformation.text}
           {spanDivs}
         </h6>
@@ -106,7 +113,7 @@ class ViewWebsiteBlog extends Component {
   };
   createRelevantImageDiv = (image, index) => {
     return (
-      <div className="margin-hc simple-container" key={"image" + index}>
+      <div className="simple-container" key={"image" + index}>
         <img
           key={"xuwm " + index}
           src={image.imagePreviewUrl || image.url}
@@ -172,7 +179,7 @@ class ViewWebsiteBlog extends Component {
             }
           />
         </MetaTags>
-        {divs}
+        <div className="common-container-center">{divs}</div>
       </div>
     );
   }
