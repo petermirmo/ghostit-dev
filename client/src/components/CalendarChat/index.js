@@ -24,11 +24,9 @@ class CalendarChat extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
-  componentWillReceiveProps(props) {
-    const { calendars } = this.state;
-    if (calendars.length !== props.calendars.length) {
-      this.setState({ calendars: props.calendars });
-      console.log("detected calendar change");
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.calendars.length !== this.props.calendars.length) {
+      this.setState({ calendars: this.props.calendars }, this.joinSocketRooms);
     }
   }
 
@@ -39,7 +37,38 @@ class CalendarChat extends Component {
       socket = io("http://localhost:5000");
     else socket = io();
 
-    this.setState({ socket });
+    socket.on("calendar_chat_connect_error", reqObj => {
+      console.log(reqObj);
+      if (reqObj && reqObj.message) alert(reqObj.message);
+    });
+
+    socket.on("calendar_chat_message_broadcast", reqObj => {
+      const { calendarID, msgObj } = reqObj;
+      const { calendars } = this.state;
+
+      const index = calendars.findIndex(
+        calObj => calObj._id.toString() === calendarID.toString()
+      );
+      if (index === -1) return;
+
+      this.addMessageToChatHistory(msgObj, index);
+    });
+
+    this.setState({ socket }, this.joinSocketRooms);
+  };
+
+  joinSocketRooms = () => {
+    const { socket, calendars } = this.state;
+
+    if (!socket || !calendars || calendars.length === 0) return;
+
+    const calendarIDList = calendars.map(calObj => {
+      return {
+        _id: calObj._id
+      };
+    });
+
+    socket.emit("calendar_chat_connect", { calendarIDList });
   };
 
   getChatHistoryDiv = () => {
@@ -53,29 +82,6 @@ class CalendarChat extends Component {
       return undefined;
 
     let chatHistory = calendars[activeChatIndex].chatHistory;
-    chatHistory = [
-      {
-        userID: 11111,
-        content: "hi",
-        edited: true,
-        createdAt: "2018-12-15T00:30:03.455Z",
-        updatedAt: "2018-12-15T00:35:00.937Z"
-      },
-      {
-        userID: 22222,
-        content: "hello",
-        edited: false,
-        createdAt: "2018-12-15T00:36:03.455Z",
-        updatedAt: "2018-12-15T00:36:03.455Z"
-      },
-      {
-        userID: 33333,
-        content: "bye",
-        edited: false,
-        createdAt: "2018-12-15T00:41:03.455Z",
-        updatedAt: "2018-12-15T00:41:03.455Z"
-      }
-    ];
 
     return (
       <div className="chat-calendar-history">
@@ -84,11 +90,11 @@ class CalendarChat extends Component {
             <div
               className="chat-calendar-history-message"
               key={`message-${index}`}
-              title={new moment(chatObj.createdAt).format(
+              title={`${new moment(chatObj.createdAt).format(
                 "YYYY-MM-DD HH:mm:ss"
-              )}
+              )}\n${chatObj.userEmail}`}
             >
-              {`${chatObj.userID}: ${chatObj.content}`}
+              {`${chatObj.username}: ${chatObj.content}`}
             </div>
           );
         })}
@@ -96,17 +102,46 @@ class CalendarChat extends Component {
     );
   };
 
+  addMessageToChatHistory = (msgObj, calendarIndex) => {
+    const { calendars } = this.state;
+
+    const newCalendarChatHistory = [
+      ...calendars[calendarIndex].chatHistory,
+      msgObj
+    ];
+    const newCalendar = {
+      ...calendars[calendarIndex],
+      chatHistory: newCalendarChatHistory
+    };
+
+    this.setState(prevState => {
+      return {
+        calendars: [
+          ...prevState.calendars.slice(0, calendarIndex),
+          newCalendar,
+          ...prevState.calendars.slice(calendarIndex + 1)
+        ]
+      };
+    });
+  };
+
   sendMessage = () => {
-    const { calendars, activeChatIndex, inputText } = this.state;
+    const { calendars, activeChatIndex, inputText, socket } = this.state;
 
     if (!inputText || !/\S/.test(inputText)) {
       // second clause is to catch a full white-space string
       return;
     }
 
-    /*
-      socket.emit("calendar_chat_message_send")
-    */
+    socket.emit("calendar_chat_message_send", {
+      calendarID: calendars[activeChatIndex]._id,
+      inputText
+    });
+    socket.on("calendar_chat_message_received", msgObj => {
+      socket.off("calendar_chat_message_received");
+      this.addMessageToChatHistory(msgObj, activeChatIndex);
+      this.setState({ inputText: "" });
+    });
   };
 
   render() {

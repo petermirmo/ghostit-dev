@@ -4,10 +4,8 @@ const Schema = mongoose.Schema;
 
 const messageSchema = new Schema(
   {
-    userID: {
-      type: Schema.Types.ObjectId,
-      required: true
-    },
+    username: String,
+    userEmail: String,
     content: String,
     edited: Boolean
   },
