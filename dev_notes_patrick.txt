@@ -131,13 +131,21 @@ to do next:
       either drag or just a toggle from right->left
     edit / delete own messages
       on edit, have a note that says when it was edited
-    timestamps on messages
-    system:
-      calendars sent to <CalendarChat/> through <ContentPage/>
-      <CalendarChat/> joins socket chat room for each of its calendars
-      when a different calendar is added, <CalendarChat/> notices in componentWillReceiveProps()
-        and joins that socket chat room
-      
+    each chat message should overflow wrap but the second/third/etc lines of a message should be indented
+    the window should have a max-height and when that height is reached, overflow should be scroll
+    the chat window should only display ~50 messages. if there are more, it should wait until user
+      scrolls all the way to the top before loading more.
+    names should have different font style than the messages (maybe names should be bold or colored)
+      name color should be different based on if the message belongs to the current user or not
+      (so it's easy for a user to see their own last message)
+    when there are unread messages, there should be a notification
+      (how to keep track of this?)
+      (maybe each message has a seenBy array that keeps track of all the userIDs that have seen the message)
+      (maybe each user has a seenMessages array that keeps track of how many messages were in each chatHistory
+        the last time it was opened. for example, if calendar Pat 1 has 12 messages and userA opens the chat,
+        their seenMessages element for Pat 1 will be set to 12. the next the user loads the page, there are 14
+        messages so the user knows to render a notification icon beside Pat 1 chat. also when a new socket msg is broadcast)
+
 
 
 
