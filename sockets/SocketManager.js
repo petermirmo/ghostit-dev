@@ -1,6 +1,7 @@
 const cloudinary = require("cloudinary");
 
 const User = require("../models/User");
+const Calendar = require("../models/Calendar");
 const Post = require("../models/Post");
 const Blog = require("../models/Blog");
 const Newsletter = require("../models/Newsletter");
@@ -80,39 +81,52 @@ module.exports = io => {
 
   return socket => {
     socket.on("calendar_connect", reqObj => {
-      /*
-        Potential security flaw here bcz we aren't checking the DB to make sure this user
-        is actually a valid member of the calendar. So it's possible that a user could spoof
-        their calendarID and then get access to any posts that are scheduled while they are
-        connected to the socket.
-        Not sure if it's worth the extra time to check the DB, and also I'm not sure how to
-        get the req.user object from the socket.
-      */
       let { calendarID, name, email } = reqObj;
 
       if (!calendarID) return;
       calendarID = calendarID.toString();
       const socketID = socket.id.toString();
 
-      let roomsToEmit = getRoomsThatSocketIsIn(
-        io.sockets.adapter.rooms,
-        socketID
-      );
-
-      socket.leaveAll();
-      socket.join(calendarID);
-
-      if (!connections[socketID]) {
-        connections[socketID] = { name, email };
+      let userID = socket.request.user._id;
+      if (socket.request.user.signedInAsUser) {
+        if (socket.request.user.signedInAsUser.id) {
+          userID = socket.request.user.signedInAsUser.id;
+          name = `"${name}" signed in as "${
+            socket.request.user.signedInAsUser.fullName
+          }"`;
+        }
       }
 
-      roomsToEmit.push(calendarID);
+      Calendar.findOne(
+        { _id: calendarID, userIDs: userID },
+        (err, foundCalendar) => {
+          if (err) {
+            console.log(err);
+          } else if (!foundCalendar) {
+            console.log("unable to find user within the calendar's user list.");
+          } else {
+            let roomsToEmit = getRoomsThatSocketIsIn(
+              io.sockets.adapter.rooms,
+              socketID
+            );
 
-      emitSocketUsersToRooms(
-        roomsToEmit,
-        io,
-        io.sockets.adapter.rooms,
-        connections
+            socket.leaveAll();
+            socket.join(calendarID);
+
+            if (!connections[socketID]) {
+              connections[socketID] = { name, email };
+            }
+
+            roomsToEmit.push(calendarID);
+
+            emitSocketUsersToRooms(
+              roomsToEmit,
+              io,
+              io.sockets.adapter.rooms,
+              connections
+            );
+          }
+        }
       );
     });
 
@@ -159,26 +173,58 @@ module.exports = io => {
       campaignID = campaignID.toString();
       if (!campaignID) return;
 
-      let roomsToEmit = getRoomsThatSocketIsIn(
-        io.sockets.adapter.rooms,
-        socketID
-      );
-
-      socket.leaveAll();
-      socket.join(campaignID);
-
-      roomsToEmit.push(campaignID);
-
-      if (!connections[socketID]) {
-        connections[socketID] = { name, email };
+      let userID = socket.request.user._id;
+      if (socket.request.user.signedInAsUser) {
+        if (socket.request.user.signedInAsUser.id) {
+          userID = socket.request.user.signedInAsUser.id;
+          name = `"${name}" signed in as "${
+            socket.request.user.signedInAsUser.fullName
+          }"`;
+        }
       }
 
-      emitSocketUsersToRooms(
-        roomsToEmit,
-        io,
-        io.sockets.adapter.rooms,
-        connections
-      );
+      Campaign.findOne({ _id: campaignID }, (err, foundCampaign) => {
+        if (err || !foundCampaign) {
+          console.log(err);
+          console.log(
+            "error while looking up campaign in DB to make sure new socket connection is authorized."
+          );
+        } else {
+          Calendar.findOne(
+            { _id: foundCampaign.calendarID, userIDs: userID },
+            (err, foundCalendar) => {
+              if (err) {
+                console.log(err);
+              } else if (!foundCalendar) {
+                console.log(
+                  "unable to find user within the calendar's user list."
+                );
+              } else {
+                let roomsToEmit = getRoomsThatSocketIsIn(
+                  io.sockets.adapter.rooms,
+                  socketID
+                );
+
+                socket.leaveAll();
+                socket.join(campaignID);
+
+                roomsToEmit.push(campaignID);
+
+                if (!connections[socketID]) {
+                  connections[socketID] = { name, email };
+                }
+
+                emitSocketUsersToRooms(
+                  roomsToEmit,
+                  io,
+                  io.sockets.adapter.rooms,
+                  connections
+                );
+              }
+            }
+          );
+        }
+      });
     });
 
     socket.on("trigger_campaign_peers", reqObj => {
