@@ -94,7 +94,8 @@ class CalendarChat extends Component {
                 "YYYY-MM-DD HH:mm:ss"
               )}\n${chatObj.userEmail}`}
             >
-              {`${chatObj.username}: ${chatObj.content}`}
+              <b>{`${chatObj.username}`}</b>
+              {`: ${chatObj.content}`}
             </div>
           );
         })}
