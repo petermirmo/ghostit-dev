@@ -4,7 +4,12 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setKeyListenerFunction, setTutorial } from "../../../redux/actions/";
+import {
+  setKeyListenerFunction,
+  setTutorial,
+  openContentModal,
+  openCampaignModal
+} from "../../../redux/actions/";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -240,7 +245,7 @@ class RecipeModal extends Component {
             this.props.handleChange(undefined, "clickedEvent");
             this.props.handleChange(false, "clickedEventIsRecipe");
             this.props.handleChange(false, "recipeEditing");
-            this.props.handleChange(true, "campaignModal");
+            this.props.openCampaignModal(true);
             this.props.handleChange(false, "recipeModal");
           }}
         >
@@ -267,7 +272,7 @@ class RecipeModal extends Component {
             this.props.handleChange(undefined, "clickedEvent");
             this.props.handleChange(false, "clickedEventIsRecipe");
             this.props.handleChange(true, "recipeEditing");
-            this.props.handleChange(true, "campaignModal");
+            this.props.openCampaignModal(true);
             this.props.handleChange(false, "recipeModal");
           }}
         >
@@ -292,7 +297,7 @@ class RecipeModal extends Component {
           className="custom-option"
           onClick={() => {
             this.props.handleChange(undefined, "clickedEvent");
-            this.props.handleChange(true, "contentModal");
+            this.props.openContentModal(true);
             this.props.handleChange(false, "recipeModal");
           }}
         >
@@ -391,7 +396,7 @@ class RecipeModal extends Component {
                       this.props.handleChange(true, "clickedEventIsRecipe");
                       this.props.handleChange(true, "recipeEditing");
                       this.props.handleChange(false, "recipeModal");
-                      this.props.handleChange(true, "campaignModal");
+                      this.props.openCampaignModal(true);
                     }}
                   />
                   <FontAwesomeIcon
@@ -429,7 +434,7 @@ class RecipeModal extends Component {
                   this.props.handleChange(true, "clickedEventIsRecipe");
                   this.props.handleChange(false, "recipeEditing");
                   this.props.handleChange(false, "recipeModal");
-                  this.props.handleChange(true, "campaignModal");
+                  this.props.openCampaignModal(true);
                 }}
                 dateLowerBound={new moment()}
                 disableTime={true}
@@ -535,7 +540,9 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setKeyListenerFunction,
-      setTutorial
+      setTutorial,
+      openContentModal,
+      openCampaignModal
     },
     dispatch
   );

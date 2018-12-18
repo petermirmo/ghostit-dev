@@ -70,3 +70,5 @@ const rootReducer = combineReducers({
   campaignModal,
   calendarManagerModal
 });
+
+export default rootReducer;

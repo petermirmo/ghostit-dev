@@ -22,7 +22,14 @@ import sizeMe from "react-sizeme";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser, updateAccounts, setTutorial } from "../../../redux/actions/";
+import {
+  setUser,
+  updateAccounts,
+  setTutorial,
+  openContentModal,
+  openCampaignModal,
+  openCalendarManagerModal
+} from "../../../redux/actions/";
 
 import ClientsSideBar from "../../SideBarClients/";
 import Tutorial from "../../Tutorial/";
@@ -85,7 +92,6 @@ class HeaderSideBar extends Component {
   };
   render() {
     const { user, tutorial } = this.props;
-    console.log(this.props);
     const { clientSideBar, headerSideBar } = this.state;
 
     if (!user) {
@@ -155,9 +161,33 @@ class HeaderSideBar extends Component {
             </Link>
             {this.isActive("content") && (
               <div className="container-box ml32 mb16">
-                <button className="bold-hover mb4">Create a Post</button>
-                <button className="bold-hover mb4">Create a Campaign</button>
-                <button className="bold-hover">Manage Calendars</button>
+                <button
+                  className="bold-hover mb4"
+                  onClick={() => {
+                    this.setState({ headerSideBar: false });
+                    this.props.openContentModal(true);
+                  }}
+                >
+                  Create a Post
+                </button>
+                <button
+                  className="bold-hover mb4"
+                  onClick={() => {
+                    this.setState({ headerSideBar: false });
+                    this.props.openCampaignModal(true);
+                  }}
+                >
+                  Create a Campaign
+                </button>
+                <button
+                  className="bold-hover"
+                  onClick={() => {
+                    this.setState({ headerSideBar: false });
+                    this.props.openCalendarManagerModal(true);
+                  }}
+                >
+                  Manage Calendars
+                </button>
               </div>
             )}
             {isAdmin && (
@@ -176,7 +206,7 @@ class HeaderSideBar extends Component {
               <Link to="/ads">
                 <div className={"header-button mb16  " + this.isActive("ads")}>
                   <FontAwesomeIcon icon={faAd} />
-                  Create an Ad
+                  Ads
                 </div>
               </Link>
             )}
@@ -275,7 +305,10 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       updateAccounts,
-      setTutorial
+      setTutorial,
+      openContentModal,
+      openCampaignModal,
+      openCalendarManagerModal
     },
     dispatch
   );

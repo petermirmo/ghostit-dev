@@ -427,30 +427,35 @@ module.exports = io => {
           if (foundCampaign.posts) {
             let deletedCount = 0;
             let failedCount = 0;
-            for (let index = 0; index < foundCampaign.posts.length; index++) {
-              let post = foundCampaign.posts[index];
-              postFunctions.deletePostStandalone(
-                { postID: post._id, skipUserCheck: true },
-                response => {
-                  const { success } = response;
-                  if (success) deletedCount++;
-                  else failedCount++;
-                  if (
-                    deletedCount + failedCount >=
-                    foundCampaign.posts.length
-                  ) {
-                    // this is the last post being deleted
-                    if (failedCount > 0) {
-                      // didn't get all of the posts deleted successfully so we shouldn't delete the campaign yet
-                      socket.emit("campaign_deleted", false);
-                    } else {
-                      // all posts were deleted succesfully so we can delete the campaign
-                      foundCampaign.remove();
-                      socket.emit("campaign_deleted", true);
+            if (foundCampaign.posts.length !== 0) {
+              for (let index = 0; index < foundCampaign.posts.length; index++) {
+                let post = foundCampaign.posts[index];
+                postFunctions.deletePostStandalone(
+                  { postID: post._id, skipUserCheck: true },
+                  response => {
+                    const { success } = response;
+                    if (success) deletedCount++;
+                    else failedCount++;
+                    if (
+                      deletedCount + failedCount >=
+                      foundCampaign.posts.length
+                    ) {
+                      // this is the last post being deleted
+                      if (failedCount > 0) {
+                        // didn't get all of the posts deleted successfully so we shouldn't delete the campaign yet
+                        socket.emit("campaign_deleted", false);
+                      } else {
+                        // all posts were deleted succesfully so we can delete the campaign
+                        foundCampaign.remove();
+                        socket.emit("campaign_deleted", true);
+                      }
                     }
                   }
-                }
-              );
+                );
+              }
+            } else {
+              foundCampaign.remove();
+              socket.emit("campaign_deleted", true);
             }
           } else {
             foundCampaign.remove();

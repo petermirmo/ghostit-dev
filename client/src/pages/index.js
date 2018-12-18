@@ -105,7 +105,6 @@ class Routes extends Component {
   onSize = sizeChangeObj => {
     this.setState({ headerWidth: sizeChangeObj.width });
   };
-  childRef = (test, test2) => {};
   render() {
     ReactGA.pageview(this.props.location.pathname);
 

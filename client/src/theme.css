@@ -42,6 +42,7 @@
 
   --primary-text-color: #515151;
   --secondary-text-color: #567183;
+  --grey-text-color: #95a5a6;
   --blue-text-color: #00aaff;
   --purple-text-color: #aa00ff;
 
@@ -395,7 +396,7 @@
   z-index: 10;
 
   background-color: var(--white-theme-color);
-  animation: campaignModalAnimation 0.4s;
+  animation: animateOpacity 0.4s;
 }
 .modal-header {
   margin: 0;
@@ -604,7 +605,7 @@
   display: flex;
   align-items: center;
 
-  color: var(--secondary-text-color);
+  color: var(--grey-text-color);
 }
 
 .back-button-top {

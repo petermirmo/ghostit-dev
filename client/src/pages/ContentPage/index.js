@@ -74,13 +74,6 @@ class Content extends Component {
       message: undefined,
       timer: undefined
     },
-    confirmAlert: {
-      show: false,
-      type: undefined,
-      title: undefined,
-      message: undefined,
-      callback: undefined
-    },
     timezone: ""
   };
 
@@ -799,8 +792,8 @@ class Content extends Component {
   };
 
   openCampaign = campaign => {
+    this.props.openCampaignModal(true);
     this.setState({
-      campaignModal: true,
       clickedEvent: campaign,
       clickedEventIsRecipe: false,
       recipeEditing: false
@@ -808,8 +801,6 @@ class Content extends Component {
   };
 
   closeModals = () => {
-    this.props.openCampaignModal(false);
-    this.props.openContentModal(false);
     this.props.openCalendarManagerModal(false);
     this.setState({
       blogEdittingModal: false,
@@ -891,7 +882,6 @@ class Content extends Component {
       defaultCalendarID,
       calendarDate,
       loading,
-      confirmAlert,
       userList
     } = this.state;
     const {
@@ -970,9 +960,9 @@ class Content extends Component {
           inviteResponse={this.inviteResponse}
           activeCalendarIndex={activeCalendarIndex}
           updateActiveCalendar={this.updateActiveCalendar}
-          enableCalendarManager={() => {
-            this.setState({ calendarManagerModal: true });
-          }}
+          enableCalendarManager={() =>
+            this.props.openCalendarManagerModal(true)
+          }
           userList={userList}
           calendarEvents={calendarEvents}
           onDateChange={date => {
@@ -1013,22 +1003,21 @@ class Content extends Component {
             </div>
           </div>
         )}
-        {this.props.contentModal && (
+        {this.props.contentModal && calendars[activeCalendarIndex] && (
           <ContentModal
             clickedCalendarDate={clickedDate}
             timezone={timezone}
             calendarID={calendars[activeCalendarIndex]._id}
-            close={this.closeModals}
             notify={this.notify}
             savePostCallback={post => {
               this.getPosts();
               this.triggerSocketPeers("calendar_post_saved", post);
-              this.closeModals();
+              this.props.openContentModal(false);
             }}
             saveBlogCallback={blog => {
               this.getBlogs();
               this.triggerSocketPeers("calendar_blog_saved", blog);
-              this.closeModals();
+              this.props.openContentModal(false);
             }}
             saveNewsletterCallback={newsletter => {
               this.getNewsletters();
@@ -1076,14 +1065,16 @@ class Content extends Component {
             triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
-        {this.props.campaignModal && (
-          <div className="modal">
+        {this.props.campaignModal && calendars[activeCalendarIndex] && (
+          <div
+            className="modal"
+            onClick={() => this.props.openCampaignModal(false)}
+          >
             <div
               className="large-modal common-transition"
               onClick={e => e.stopPropagation()}
             >
               <Campaign
-                close={this.closeModals}
                 handleChange={this.handleChange}
                 calendarID={calendars[activeCalendarIndex]._id}
                 timezone={timezone}
@@ -1093,7 +1084,6 @@ class Content extends Component {
                 isRecipe={clickedEventIsRecipe}
                 recipeEditing={recipeEditing}
                 notify={this.notify}
-                confirmAlert={confirmAlert}
                 triggerSocketPeers={this.triggerSocketPeers}
               />
             </div>
@@ -1121,19 +1111,6 @@ class Content extends Component {
             }
           />
         )}
-        {confirmAlert.show && (
-          <ConfirmAlert
-            close={() => {
-              let { confirmAlert } = this.state;
-              confirmAlert.show = false;
-              this.setState({ confirmAlert });
-            }}
-            title={confirmAlert.title}
-            message={confirmAlert.message}
-            callback={confirmAlert.callback}
-            type={confirmAlert.type}
-          />
-        )}
       </div>
     );
   }
@@ -1141,7 +1118,10 @@ class Content extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    contentModal: state.contentModal,
+    campaignModal: state.campaignModal,
+    calendarManagerModal: state.calendarManagerModal
   };
 }
 function mapDispatchToProps(dispatch) {
