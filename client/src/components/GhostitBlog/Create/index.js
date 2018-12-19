@@ -168,7 +168,7 @@ class CreateWebsiteBlog extends Component {
         </div>
         <img
           src={image.imagePreviewUrl || image.url}
-          className={"image br4 " + image.size}
+          className={"image br4 my32 " + image.size}
         />
         <FontAwesomeIcon
           icon={faTrash}

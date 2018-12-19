@@ -525,12 +525,15 @@ class Section2 extends Component {
   render() {
     const { calendarDate } = this.state;
     return (
-      <div className="section px32">
-        <div className="small-box">
-          <h1 className="h1-like pb8">Custom Workflows</h1>
-          <p>
-            Map your marketing campaign from scratch or use pre-built templates.
-          </p>
+      <div className="section px32 my64 py64">
+        <div className="flex1 common-container-center">
+          <div className="small-box">
+            <h1 className="h1-like pb8">Custom Workflows</h1>
+            <p>
+              Map your marketing campaign from scratch or use pre-built
+              templates.
+            </p>
+          </div>
         </div>
         <div className="platform-component-showcase two-third small-overflow-box">
           <Calendar
