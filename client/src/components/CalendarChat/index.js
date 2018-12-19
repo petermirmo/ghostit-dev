@@ -128,7 +128,7 @@ class CalendarChat extends Component {
   };
 
   addMessageToChatHistory = (msgObj, calendarIndex) => {
-    const { calendars } = this.state;
+    const { calendars, activeChatIndex } = this.state;
 
     const newCalendarChatHistory = [
       ...calendars[calendarIndex].chatHistory,
@@ -139,15 +139,20 @@ class CalendarChat extends Component {
       chatHistory: newCalendarChatHistory
     };
 
-    this.setState(prevState => {
-      return {
-        calendars: [
-          ...prevState.calendars.slice(0, calendarIndex),
-          newCalendar,
-          ...prevState.calendars.slice(calendarIndex + 1)
-        ]
-      };
-    });
+    this.setState(
+      prevState => {
+        return {
+          calendars: [
+            ...prevState.calendars.slice(0, calendarIndex),
+            newCalendar,
+            ...prevState.calendars.slice(calendarIndex + 1)
+          ]
+        };
+      },
+      () => {
+        if (activeChatIndex === calendarIndex) this.scrollChatHistoryToBottom();
+      }
+    );
   };
 
   sendMessage = () => {
