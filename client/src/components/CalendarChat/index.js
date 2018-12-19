@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import io from "socket.io-client";
 import moment from "moment-timezone";
+import TextArea from "react-textarea-autosize";
 
 import "./style.css";
 
@@ -20,15 +21,30 @@ class CalendarChat extends Component {
     this._ismounted = true;
 
     this.initSocket();
+
+    window.addEventListener("keypress", this.submitByEnterKey);
   }
   componentWillUnmount() {
     this._ismounted = false;
+    window.removeEventListener("keypress", this.submitByEnterKey);
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.calendars.length !== this.props.calendars.length) {
       this.setState({ calendars: this.props.calendars }, this.joinSocketRooms);
     }
   }
+
+  submitByEnterKey = e => {
+    const { collapsed, activeChatIndex } = this.state;
+
+    if (e && e.keyCode && e.keyCode === 13) {
+      // user pressed enter key
+      if (!collapsed && activeChatIndex !== undefined) {
+        // chat window is open
+        this.sendMessage();
+      }
+    }
+  };
 
   initSocket = () => {
     let socket;
@@ -84,7 +100,7 @@ class CalendarChat extends Component {
     let chatHistory = calendars[activeChatIndex].chatHistory;
 
     return (
-      <div className="chat-calendar-history">
+      <div className="chat-calendar-history" id="chat-history-div">
         {chatHistory.map((chatObj, index) => {
           return (
             <div
@@ -101,6 +117,14 @@ class CalendarChat extends Component {
         })}
       </div>
     );
+  };
+
+  scrollChatHistoryToBottom = () => {
+    // function to force the chat history to scroll to the bottom
+    // called whenever a new calendar chat is rendered or
+    // when a new message on the current chat is received
+    const chatHistoryDiv = document.getElementById("chat-history-div");
+    if (chatHistoryDiv) chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
   };
 
   addMessageToChatHistory = (msgObj, calendarIndex) => {
@@ -177,8 +201,7 @@ class CalendarChat extends Component {
             </div>
             {this.getChatHistoryDiv()}
             <div className="chat-calendar-input">
-              <input
-                type="text"
+              <TextArea
                 value={inputText}
                 onChange={event => {
                   this.setState({ inputText: event.target.value });
@@ -214,7 +237,10 @@ class CalendarChat extends Component {
                     className="chat-calendar-btn"
                     key={`calendar-btn-${index}`}
                     onClick={() =>
-                      this.setState({ activeChatIndex: index, inputText: "" })
+                      this.setState(
+                        { activeChatIndex: index, inputText: "" },
+                        this.scrollChatHistoryToBottom
+                      )
                     }
                   >
                     {calendar.calendarName}
