@@ -53,19 +53,30 @@ class ViewWebsiteBlog extends Component {
         contentArrayIndex += 1;
       }
     }
+    let metaTitle = "";
+    let temp = document.createElement("div");
+    temp.innerHTML =
+      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[0].html + "";
+
+    metaTitle = temp.textContent || temp.innerText || "";
+
+    let metaDescription = "";
+    let temp2 = document.createElement("div");
+    temp2.innerHTML =
+      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[1].html + "";
+
+    metaDescription = temp2.textContent || temp2.innerText || "";
     return (
       <div className="website-page common-container-center pb32">
         <MetaTags>
           <title>
-            {contentArray[0]
-              ? "Ghosit | " + contentArray[0].text
-              : "Ghostit | Blog Post."}
+            {metaTitle ? "Ghosit | " + metaTitle : "Ghostit | Blog Post."}
           </title>
           <meta
             name="description"
             content={
-              contentArray[1]
-                ? contentArray[1].text
+              metaDescription
+                ? metaDescription
                 : "What are you waiting for? Get reading!."
             }
           />
