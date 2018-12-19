@@ -100,7 +100,8 @@ module.exports = {
                   url: result.url,
                   publicID: result.public_id,
                   size: image.size,
-                  location: image.location
+                  location: image.location,
+                  alt: image.alt
                 });
 
                 if (asyncCounter === 0) saveBlog(newGhostitBlog);

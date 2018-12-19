@@ -139,7 +139,9 @@
   flex-direction: column;
 
   width: 100%;
+  box-sizing: border-box;
 }
+
 .small-box {
   display: flex;
   flex-direction: column;
@@ -190,11 +192,23 @@
 
   box-sizing: border-box;
 }
+.common-container-center {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+}
 .simple-container {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   overflow: hidden;
+}
+.simple-container.medium {
+  min-width: 400px;
+  max-width: 500px;
 }
 .regular-border {
   border-radius: 4px;
@@ -217,13 +231,6 @@
   white-space: nowrap;
 }
 
-.common-container-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  box-sizing: border-box;
-}
 .simple-column-box {
   position: relative;
   display: flex;
@@ -539,6 +546,14 @@
 .right-switch {
   border-radius: 0 20px 20px 0;
 }
+
+.hover-blue:hover {
+  color: var(--blue-text-color);
+}
+.no-underline {
+  text-decoration: none;
+}
+
 .copy,
 .delete {
   padding: 4px;
@@ -735,6 +750,11 @@
 .relative {
   position: relative;
 }
+.top-right-over-div {
+  position: absolute;
+  top: 0;
+  right: -25px;
+}
 .absolute-bottom-container {
   position: absolute;
   bottom: 0;
@@ -755,6 +775,9 @@
 }
 .absolute.bottom {
   bottom: 5px;
+}
+.br0 {
+  border-radius: 0 !important;
 }
 .br4 {
   border-radius: 4px;
@@ -1070,8 +1093,8 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 a {
-  text-decoration: none;
-  color: var(--primary-text-color);
+  color: var(--blue-text-color);
+  font-weight: bold;
 }
 button {
   color: var(--white-theme-color);
@@ -1399,7 +1422,7 @@ input[type="file"] {
   bottom: 100%;
   left: 0;
 
-  display: flex;
+  display: none;
 }
 .hover-options-container:hover {
   display: flex;
@@ -1418,11 +1441,12 @@ input[type="file"] {
   cursor: pointer;
   z-index: 500;
 }
-
 .plain-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
   color: var(--secondary-text-color);
-  border-left: 1px solid var(--divider-theme-color);
-  border-top: 1px solid var(--divider-theme-color);
 }
 .plain-button.active {
   background-color: var(--light-grey-theme-color);
@@ -1430,10 +1454,6 @@ input[type="file"] {
 .plain-button:hover {
   color: var(--primary-text-color);
 }
-.plain-button:last-child {
-  border-right: 1px solid var(--divider-theme-color);
-}
-
 .transparent-button {
   color: var(--secondary-text-color);
   padding: 0;

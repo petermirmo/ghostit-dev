@@ -377,11 +377,7 @@ class PostingOptions extends Component {
       return (
         <div className="simple-column-box mt32 no-accounts">
           Connect {tempMessage} account!
-          <Link to="/social-accounts">
-            <button className="regular-button">
-              Go to Social Profiles Page
-            </button>
-          </Link>
+          <Link to="/social-accounts">Go to Social Profiles Page</Link>
         </div>
       );
     }

@@ -70,7 +70,7 @@ class BlogPage extends Component {
         <div className="background-container" key={index}>
           <Link
             to={"blog/" + ghostitBlog.url}
-            className="container-box small ma32 common-shadow br4 button"
+            className="container-box small ma32 common-shadow br4 button no-underline"
           >
             <div
               className="preview-blog-cover width100"
@@ -84,9 +84,12 @@ class BlogPage extends Component {
             />
             {ghostitBlog.contentArray[0] && (
               <div className="common-container py8 px16">
-                <h3 className="silly-font tac">
-                  {ghostitBlog.contentArray[0].text}
-                </h3>
+                <h3
+                  className="silly-font tac"
+                  dangerouslySetInnerHTML={{
+                    __html: ghostitBlog.contentArray[0].html
+                  }}
+                />
               </div>
             )}
           </Link>

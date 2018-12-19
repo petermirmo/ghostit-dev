@@ -1089,7 +1089,7 @@ class Content extends Component {
             </div>
           </div>
         )}
-        {this.state.recipeModal && (
+        {this.state.recipeModal && calendars[activeCalendarIndex] && (
           <RecipeModal
             close={this.closeModals}
             handleChange={this.handleChange}

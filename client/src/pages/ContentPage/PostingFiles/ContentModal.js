@@ -176,7 +176,7 @@ class ContentModal extends Component {
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => close("contentModal")}
+            onClick={() => this.props.openContentModal(false)}
           />
 
           <ContentModalHeader

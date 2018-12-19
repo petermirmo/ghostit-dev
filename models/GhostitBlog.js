@@ -3,27 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 var contentSchema = new Schema({
-  text: {
-    type: String,
-    required: true
-  },
-  bold: {
-    type: Boolean,
-    required: true
-  },
-  italic: {
-    type: Boolean,
-    required: true
-  },
-  underline: {
-    type: Boolean,
-    required: true
-  },
-  type: {
-    type: String,
-    required: true
-  },
-  position: {
+  html: {
     type: String,
     required: true
   },
