@@ -52,7 +52,7 @@ class ViewWebsiteBlog extends Component {
       }
     }
     return (
-      <div className="website-page simple-container pb32">
+      <div className="website-page common-container-center pb32">
         <MetaTags>
           <title>
             {contentArray[0]
@@ -68,7 +68,7 @@ class ViewWebsiteBlog extends Component {
             }
           />
         </MetaTags>
-        <div className="common-container-center">{divs}</div>
+        <div className="simple-container medium">{divs}</div>
       </div>
     );
   }

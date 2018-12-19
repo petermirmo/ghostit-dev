@@ -65,6 +65,15 @@ class BlogPage extends Component {
         if (!ghostitBlog.category) continue;
         else if (!categories[ghostitBlog.category].active) continue;
       }
+      let title = "";
+      let temp = document.createElement("div");
+      temp.innerHTML =
+        "<div   dangerouslySetInnerHTML={{__html: " +
+        ghostitBlog.contentArray[0].html +
+        "";
+
+      title = temp.textContent || temp.innerText || "";
+      ghostitBlog.images.sort(ghostitBlogImagesCompare);
 
       ghostitBlogDivs.push(
         <div className="background-container" key={index}>
@@ -84,12 +93,7 @@ class BlogPage extends Component {
             />
             {ghostitBlog.contentArray[0] && (
               <div className="common-container py8 px16">
-                <h3
-                  className="silly-font tac"
-                  dangerouslySetInnerHTML={{
-                    __html: ghostitBlog.contentArray[0].html
-                  }}
-                />
+                <h3 className="silly-font tac">{title}</h3>
               </div>
             )}
           </Link>
