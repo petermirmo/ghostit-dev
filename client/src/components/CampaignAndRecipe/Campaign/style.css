@@ -34,9 +34,6 @@
 .campaign-footer-option.left {
   justify-content: flex-start;
 }
-.campaign-footer-option.right {
-  justify-content: flex-end;
-}
 
 .campaign-footer-option.right {
   display: flex;

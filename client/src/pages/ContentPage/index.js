@@ -977,7 +977,7 @@ class Content extends Component {
           categories={calendarEventCategories}
           updateActiveCategory={this.updateActiveCategory}
         />
-        <CalendarChat calendars={calendars} />
+        {false && <CalendarChat calendars={calendars} />}
         {this.props.calendarManagerModal && (
           <div
             className="modal"

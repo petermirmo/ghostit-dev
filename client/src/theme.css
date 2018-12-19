@@ -1165,6 +1165,11 @@ p {
   font-size: var(--sixteen-font-size);
   font-family: var(--silly-font);
 }
+span {
+  font-size: var(--sixteen-font-size);
+  font-family: var(--silly-font);
+  color: var(--secondary-text-color);
+}
 input[type="file"] {
   display: none;
 }

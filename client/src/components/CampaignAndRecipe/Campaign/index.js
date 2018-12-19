@@ -1170,7 +1170,7 @@ class Campaign extends Component {
           </div>
         )}
         <div className="modal-footer">
-          <div className="campaign-footer-options">
+          <div className="campaign-footer-options wrapping-container">
             <div className="campaign-footer-option left">
               <div
                 onClick={() => {
