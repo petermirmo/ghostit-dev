@@ -4,6 +4,10 @@ import io from "socket.io-client";
 import moment from "moment-timezone";
 import TextArea from "react-textarea-autosize";
 
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
+
 import "./style.css";
 
 class CalendarChat extends Component {
@@ -201,7 +205,7 @@ class CalendarChat extends Component {
                   this.setState({ activeChatIndex: undefined, inputText: "" })
                 }
               >
-                {"->"}
+                <FontAwesomeIcon icon={faAngleRight} size="1x" />
               </div>
             </div>
             {this.getChatHistoryDiv()}
@@ -229,11 +233,14 @@ class CalendarChat extends Component {
         // render a list of all calendars
         return (
           <div className="chat-calendar-list-and-header">
-            <div
-              className="chat-calendar-list-header"
-              onClick={() => this.setState({ collapsed: true })}
-            >
-              {"x"}
+            <div className="chat-calendar-list-header">
+              Your Calendars
+              <div
+                className="chat-calendar-list-back-btn"
+                onClick={() => this.setState({ collapsed: true })}
+              >
+                <FontAwesomeIcon icon={faAngleDown} />
+              </div>
             </div>
             <div className="chat-calendar-list">
               {calendars.map((calendar, index) => {
