@@ -6,7 +6,7 @@ import "./style.css";
 class ViewWebsiteBlog extends Component {
   createRelevantImageDiv = (image, index) => {
     return (
-      <div className="simple-container" key={"image" + index}>
+      <div className="simple-container my32" key={"image" + index}>
         <img
           key={"xuwm " + index}
           src={image.imagePreviewUrl || image.url}
@@ -29,8 +29,9 @@ class ViewWebsiteBlog extends Component {
         if (image.location > content.location) {
           divs.push(
             <div
-              dangerouslySetInnerHTML={{ __html: content.html }}
               key={"fdj" + index}
+              className="simple-container large px32"
+              dangerouslySetInnerHTML={{ __html: content.html }}
             />
           );
           contentArrayIndex += 1;
@@ -44,8 +45,9 @@ class ViewWebsiteBlog extends Component {
       } else {
         divs.push(
           <div
-            dangerouslySetInnerHTML={{ __html: content.html }}
             key={"fdj" + index}
+            className="simple-container large px32"
+            dangerouslySetInnerHTML={{ __html: content.html }}
           />
         );
         contentArrayIndex += 1;
@@ -68,7 +70,7 @@ class ViewWebsiteBlog extends Component {
             }
           />
         </MetaTags>
-        <div className="simple-container medium">{divs}</div>
+        <div className="common-container-center">{divs}</div>
       </div>
     );
   }
