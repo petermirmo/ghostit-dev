@@ -147,7 +147,13 @@ class HeaderSideBar extends Component {
               </Link>
             )}
             <Link to="/content">
-              <div className={"header-button mb8 " + this.isActive("content")}>
+              <div
+                className={
+                  this.isActive("content")
+                    ? "header-button mb8 " + this.isActive("content")
+                    : "header-button mb16"
+                }
+              >
                 <FontAwesomeIcon icon={faCalendar} />
                 Calendar
                 {tutorial.on && tutorial.value === 3 && (
@@ -160,9 +166,9 @@ class HeaderSideBar extends Component {
               </div>
             </Link>
             {this.isActive("content") && (
-              <div className="container-box ml32 mb16">
+              <div className="container-box ml32">
                 <button
-                  className="bold-hover mb4"
+                  className="bold-hover"
                   onClick={() => {
                     this.setState({ headerSideBar: false });
                     this.props.openContentModal(true);
@@ -171,7 +177,7 @@ class HeaderSideBar extends Component {
                   Create a Post
                 </button>
                 <button
-                  className="bold-hover mb4"
+                  className="bold-hover mt8"
                   onClick={() => {
                     this.setState({ headerSideBar: false });
                     this.props.openCampaignModal(true);
@@ -180,7 +186,7 @@ class HeaderSideBar extends Component {
                   Create a Campaign
                 </button>
                 <button
-                  className="bold-hover"
+                  className="bold-hover mt8 mb16"
                   onClick={() => {
                     this.setState({ headerSideBar: false });
                     this.props.openCalendarManagerModal(true);
@@ -264,28 +270,6 @@ class HeaderSideBar extends Component {
                 Logout
               </div>
             </Link>
-            {(isAdmin || isManager) && false && (
-              <Link to="/writers-brief">
-                <div
-                  className={
-                    "header-button mb16 " + this.isActive("writers-brief")
-                  }
-                >
-                  <FontAwesomeIcon icon={faFileAlt} />
-                  Monthly Strategy
-                </div>
-              </Link>
-            )}
-            {(isAdmin || isManager) && false && (
-              <Link to="/strategy">
-                <div
-                  className={"header-button mb16 " + this.isActive("strategy")}
-                >
-                  <FontAwesomeIcon icon={faFileAlt} />
-                  Your Questionnaire
-                </div>
-              </Link>
-            )}
           </div>
         )}
         {clientSideBar && <ClientsSideBar />}

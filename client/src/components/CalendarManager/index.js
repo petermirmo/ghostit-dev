@@ -529,6 +529,12 @@ class CalendarManager extends Component {
     let accountDivs = undefined;
     if (calendar.accounts) {
       accountDivs = calendar.accounts.map((account, index) => {
+        let title = account.username;
+        if (!title) {
+          if (account.givenName && account.familyName)
+            title = `${account.givenName} ${account.familyName}`;
+          else title = account.givenName;
+        }
         return (
           <div className="list-item" key={`account${index}`}>
             <div className="list-info">
@@ -538,13 +544,7 @@ class CalendarManager extends Component {
                 color={getPostColor(account.socialType)}
               />
               <div className="flex column flex1 ml8">
-                <div className="flex1">
-                  {capitolizeWordsInString(
-                    account.username
-                      ? account.username
-                      : `${account.givenName} ${account.familyName}`
-                  )}
-                </div>
+                <div className="flex1">{capitolizeWordsInString(title)}</div>
                 <div className="flex1">
                   {capitolizeFirstChar(account.accountType)}
                 </div>
