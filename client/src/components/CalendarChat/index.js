@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import io from "socket.io-client";
 import moment from "moment-timezone";
@@ -7,6 +8,8 @@ import TextArea from "react-textarea-autosize";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
 import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
+import faCircle from "@fortawesome/fontawesome-free-solid/faCircle";
+import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import "./style.css";
 
@@ -63,7 +66,7 @@ class CalendarChat extends Component {
     });
 
     socket.on("calendar_chat_message_broadcast", reqObj => {
-      const { calendarID, msgObj } = reqObj;
+      const { calendarID, savedMsgObj } = reqObj;
       const { calendars } = this.state;
 
       const index = calendars.findIndex(
@@ -71,7 +74,7 @@ class CalendarChat extends Component {
       );
       if (index === -1) return;
 
-      this.addMessageToChatHistory(msgObj, index);
+      this.addMessageToChatHistory(savedMsgObj, index);
     });
 
     this.setState({ socket }, this.joinSocketRooms);
@@ -173,17 +176,14 @@ class CalendarChat extends Component {
     });
     socket.on("calendar_chat_message_received", msgObj => {
       socket.off("calendar_chat_message_received");
+      this.updateChatOpenedTime(activeChatIndex);
       this.addMessageToChatHistory(msgObj, activeChatIndex);
       this.setState({ inputText: "" });
     });
   };
 
-  setActiveChatIndex = index => {
+  updateChatOpenedTime = index => {
     const { socket } = this.state;
-
-    if (!this.state.calendars || !this.state.calendars[index] || !socket)
-      return;
-
     socket.emit("calendar_chat_opened", {
       calendarID: this.state.calendars[index]._id,
       timestamp: new moment()
@@ -196,6 +196,17 @@ class CalendarChat extends Component {
       newCalendars[index] = newCalendar;
       this.setState({ calendars: newCalendars });
     });
+  };
+
+  setActiveChatIndex = index => {
+    if (
+      !this.state.calendars ||
+      !this.state.calendars[index] ||
+      !this.state.socket
+    )
+      return;
+
+    this.updateChatOpenedTime(index);
 
     this.setState(
       { activeChatIndex: index, inputText: "" },
@@ -208,12 +219,37 @@ class CalendarChat extends Component {
 
     if (collapsed) {
       // just render a small Chat rectangle in the bottom right of the page
+      let unread = false;
+      for (let i = 0; i < calendars.length; i++) {
+        // detect if any calendar chats have unread messages
+        if (calendars[i].chatHistory.length === 0) continue; // chat history empty so skip calendar
+        const chatLastOpened = calendars[i].chatLastOpened.find(
+          chatLastOpenedObj =>
+            chatLastOpenedObj.userID.toString() ===
+            this.props.user._id.toString()
+        );
+        if (!chatLastOpened) {
+          unread = true;
+          break;
+        } else {
+          const lastMessage =
+            calendars[i].chatHistory[calendars[i].chatHistory.length - 1];
+          if (
+            new moment(lastMessage.createdAt) >
+            new moment(chatLastOpened.timestamp)
+          ) {
+            unread = true;
+            break;
+          }
+        }
+      }
       return (
         <div
           className="chat-btn"
           onClick={() => this.setState({ collapsed: false })}
         >
           Chat
+          {unread && <FontAwesomeIcon icon={faCircle} color="red" />}
         </div>
       );
     } else {
@@ -224,13 +260,27 @@ class CalendarChat extends Component {
           <div className="chat-calendar">
             <div className="chat-calendar-header">
               {calendars[activeChatIndex].calendarName}
-              <div
-                className="chat-calendar-header-back-btn"
-                onClick={() =>
-                  this.setState({ activeChatIndex: undefined, inputText: "" })
-                }
-              >
-                <FontAwesomeIcon icon={faAngleRight} size="1x" />
+              <div className="chat-calendar-header-btns">
+                <div
+                  className="chat-calendar-header-back-btn"
+                  onClick={() =>
+                    this.setState({ activeChatIndex: undefined, inputText: "" })
+                  }
+                >
+                  <FontAwesomeIcon icon={faAngleRight} size="1x" />
+                </div>
+                <div
+                  className="chat-calendar-header-close-btn"
+                  onClick={() =>
+                    this.setState({
+                      activeChatIndex: undefined,
+                      inputText: "",
+                      collapsed: true
+                    })
+                  }
+                >
+                  <FontAwesomeIcon icon={faTimes} size="1x" />
+                </div>
               </div>
             </div>
             {this.getChatHistoryDiv()}
@@ -287,4 +337,10 @@ class CalendarChat extends Component {
   }
 }
 
-export default CalendarChat;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(CalendarChat);

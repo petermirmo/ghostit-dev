@@ -45,11 +45,22 @@
   padding: 0px 15px 0px 15px;
 }
 
-.chat-calendar-header-back-btn,
+.chat-calendar-header-btns,
 .chat-calendar-list-back-btn {
-  cursor: pointer;
   position: absolute;
   right: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.chat-calendar-list-back-btn,
+.chat-calendar-header-back-btn,
+.chat-calendar-header-close-btn {
+  cursor: pointer;
+}
+
+.chat-calendar-header-back-btn {
+  margin-right: 10px;
 }
 
 .chat-calendar-send-btn {
