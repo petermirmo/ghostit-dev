@@ -92,6 +92,13 @@
   --silly-font: "Varela Round";
   --regular-font: "Open Sans";
 }
+[draggable="true"] {
+  cursor: move;
+}
+.resizeable {
+  outline: none;
+  cursor: pointer;
+}
 .full-fill-container {
   display: flex;
   flex-direction: column;

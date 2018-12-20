@@ -1,4 +1,10 @@
 .line-chart-navigation-container {
 }
+.line-chart-container {
+  flex: 2;
+  display: flex;
+  min-width: 350px;
+  box-sizing: border-box;
+}
 .line-chart-navigation-item {
 }

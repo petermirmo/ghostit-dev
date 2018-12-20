@@ -89,27 +89,47 @@ class Calendar extends Component {
         let pastDate = calendarDay.diff(new moment(), "days") < 0;
         let currentDate = calendarDay.isSame(new moment(), "day");
 
-        let calendarClass = "calendar-day";
+        let calendarClass = "calendar-day common-transition ";
 
-        if (currentDate) calendarClass = "calendar-day present-calendar-day";
-        else if (pastDate) calendarClass = "calendar-day past-calendar-day";
+        if (currentDate) calendarClass += "present-calendar-day";
+        else if (pastDate) calendarClass += "past-calendar-day";
 
         calendarDays.push(
           <div
+            id="test"
             className={calendarClass}
             onClick={() => onSelectDay(calendarDay)}
             key={weekIndex + "week" + dayIndex + "day"}
+            onDrop={e => {}}
+            onDragOver={e => {
+              e.preventDefault();
+              if (e.currentTarget.style)
+                e.currentTarget.style.backgroundColor =
+                  "var(--one-half-primary-color)";
+            }}
+            onDragLeave={e => {
+              e.preventDefault();
+              if (e.currentTarget.style)
+                e.currentTarget.style.backgroundColor = "transparent";
+            }}
+            onDragEnd={e => {
+              e.preventDefault();
+              if (e.currentTarget.style)
+                e.currentTarget.style.backgroundColor = "transparent";
+            }}
           >
-            <div className="date-plus-container">
-              <div className="calendar-day-date">{calendarDay.date()}</div>
-              {!pastDate && (
-                <FontAwesomeIcon
-                  icon={faPlus}
-                  className="calendar-day-plus common-transition ma4"
-                />
-              )}
+            <div onDragOver={e => e.preventDefault()}>
+              <div className="date-plus-container">
+                <div className="calendar-day-date">{calendarDay.date()}</div>
+                {!pastDate && (
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    className="calendar-day-plus common-transition ma4"
+                  />
+                )}
+              </div>
+              {calendarCampaignsArray[loopDay]}
             </div>
-            {calendarCampaignsArray[loopDay]}
           </div>
         );
         loopDay++;
@@ -319,7 +339,9 @@ class Calendar extends Component {
           key={index + "post3"}
         >
           <div
-            className="calendar-post common-transition button"
+            id={index}
+            draggable={true}
+            className="calendar-post common-transition button resizeable"
             style={{ backgroundColor: color }}
             onClick={event => {
               event.stopPropagation();
@@ -334,7 +356,9 @@ class Calendar extends Component {
     } else {
       return (
         <div
-          className="calendar-post common-transition button"
+          id={index}
+          draggable={true}
+          className="calendar-post common-transition button resizeable"
           key={index + "post3"}
           style={{ backgroundColor: color }}
           onClick={event => {

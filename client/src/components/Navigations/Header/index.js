@@ -86,6 +86,7 @@ class HeaderSideBar extends Component {
   };
   isActive = activePage => {
     if ("/" + activePage == this.props.location.pathname) return " active";
+    else return false;
   };
   setStateMiddleware = state => {
     this.setState(state);
