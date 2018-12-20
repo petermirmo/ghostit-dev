@@ -59,6 +59,7 @@
 .chat-calendar-history {
   white-space: initial;
   max-height: 65vh;
+  min-width: 30vw;
   overflow: auto;
 }
 

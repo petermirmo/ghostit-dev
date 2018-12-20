@@ -178,6 +178,31 @@ class CalendarChat extends Component {
     });
   };
 
+  setActiveChatIndex = index => {
+    const { socket } = this.state;
+
+    if (!this.state.calendars || !this.state.calendars[index] || !socket)
+      return;
+
+    socket.emit("calendar_chat_opened", {
+      calendarID: this.state.calendars[index]._id,
+      timestamp: new moment()
+    });
+    socket.on("calendar_chat_opened_response", chatLastOpened => {
+      const { calendars } = this.state;
+      socket.off("calendar_chat_opened_response");
+      const newCalendar = { ...calendars[index], chatLastOpened };
+      const newCalendars = [...calendars];
+      newCalendars[index] = newCalendar;
+      this.setState({ calendars: newCalendars });
+    });
+
+    this.setState(
+      { activeChatIndex: index, inputText: "" },
+      this.scrollChatHistoryToBottom
+    );
+  };
+
   render() {
     const { collapsed, activeChatIndex, calendars, inputText } = this.state;
 
@@ -248,12 +273,7 @@ class CalendarChat extends Component {
                   <div
                     className="chat-calendar-btn"
                     key={`calendar-btn-${index}`}
-                    onClick={() =>
-                      this.setState(
-                        { activeChatIndex: index, inputText: "" },
-                        this.scrollChatHistoryToBottom
-                      )
-                    }
+                    onClick={() => this.setActiveChatIndex(index)}
                   >
                     {calendar.calendarName}
                   </div>

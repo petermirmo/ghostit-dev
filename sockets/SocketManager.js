@@ -166,6 +166,48 @@ module.exports = io => {
       );
     });
 
+    socket.on("calendar_chat_opened", reqObj => {
+      const { calendarID, timestamp } = reqObj;
+
+      let userID = socket.request.user._id;
+      if (socket.request.user.signedInAsUser) {
+        if (socket.request.user.signedInAsUser.id) {
+          // the user didn't actually read the message so don't update anything
+          return;
+        }
+      }
+
+      Calendar.findOne(
+        { _id: calendarID, userIDs: userID },
+        (err, foundCalendar) => {
+          if (err || !foundCalendar) {
+            console.log(err);
+            console.log(
+              "error while looking up calendar in db in socket.on('calendar_chat_opened');"
+            );
+          } else {
+            const index = foundCalendar.chatLastOpened.findIndex(
+              obj => obj.userID.toString() === userID.toString()
+            );
+
+            if (index === -1) {
+              foundCalendar.chatLastOpened.push({ userID, timestamp });
+            } else {
+              foundCalendar.chatLastOpened[index].timestamp = timestamp;
+            }
+            foundCalendar.save((err, savedCalendar) => {
+              if (!err) {
+                socket.emit(
+                  "calendar_chat_opened_response",
+                  savedCalendar.chatLastOpened
+                );
+              }
+            });
+          }
+        }
+      );
+    });
+
     socket.on("calendar_connect", reqObj => {
       let { calendarID, name, email } = reqObj;
 

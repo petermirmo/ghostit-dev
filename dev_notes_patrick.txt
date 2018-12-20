@@ -139,14 +139,14 @@ to do next:
       name color should be different based on if the message belongs to the current user or not
       (so it's easy for a user to see their own last message)
     when there are unread messages, there should be a notification
+      maybe ignore if user.signedInAsUser so that the real user doesn't wrongfully get assumed to have read the chat
       (how to keep track of this?)
-      (maybe each message has a seenBy array that keeps track of all the userIDs that have seen the message)
-      (maybe each user has a seenMessages array that keeps track of how many messages were in each chatHistory
-        the last time it was opened. for example, if calendar Pat 1 has 12 messages and userA opens the chat,
-        their seenMessages element for Pat 1 will be set to 12. the next the user loads the page, there are 14
-        messages so the user knows to render a notification icon beside Pat 1 chat. also when a new socket msg is broadcast)
-
-
+      (for each calendar that a user is part of, keep a timestamp of the last time that user opened that calendar's messages.
+        if that timestamp is less than the newest message in the chat, display a notification that there are new messages)
+        (how to store this in the db?)
+        (in the calendar object? chatLastOpened: { userID, timestamp })
+          every time the user opens the chat, use socketManager to update their chatLastOpened element in the db.
+    when the user opens an unread chat, display a line where they last read.
 
 
 

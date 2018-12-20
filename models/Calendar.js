@@ -49,7 +49,13 @@ const calendarSchema = new Schema(
       type: Number,
       required: true
     },
-    chatHistory: [messageSchema]
+    chatHistory: [messageSchema],
+    chatLastOpened: [
+      {
+        userID: Schema.Types.ObjectId,
+        timestamp: Date
+      }
+    ]
   },
   {
     timestamps: true
