@@ -137,7 +137,7 @@ class CreateWebsiteBlog extends Component {
   createRelevantImageDiv = (image, index) => {
     return (
       <div
-        className="common-container-center"
+        className="common-container-center my32"
         key={"image" + index}
         id="ghostit-blog-img-container"
       >
@@ -168,7 +168,7 @@ class CreateWebsiteBlog extends Component {
         </div>
         <img
           src={image.imagePreviewUrl || image.url}
-          className={"image br4 my32 " + image.size}
+          className={"image br4 " + image.size}
         />
         <FontAwesomeIcon
           icon={faTrash}
@@ -283,6 +283,7 @@ class CreateWebsiteBlog extends Component {
             placeholder="Type your hyperlink value here"
           />
           <EditButton cmd="insertParagraph" name="Insert new Paragraph" />
+          <EditButton cmd="removeFormat" name="Clear formatting" />
         </div>
 
         <div className="flex my16">

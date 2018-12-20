@@ -22,12 +22,13 @@ module.exports = {
           // Use facebook profile access token to get account groups
           FB.setAccessToken(account.accessToken);
           if (post.images.length !== 0) {
-            var facebookPostWithImage = {};
+            let facebookPostWithImage = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
               facebookPostWithImage.caption = post.content;
             }
-            for (var i = 0; i < post.images.length; i++) {
+            for (let i = 0; i < post.images.length; i++) {
+              if (!post.images[i].url) continue;
               facebookPostWithImage.url = post.images[i].url;
               FB.api("me/photos", "post", facebookPostWithImage, function(res) {
                 if (!res || res.error) {
@@ -38,7 +39,7 @@ module.exports = {
               });
             }
           } else {
-            var facebookPostNoImage = {};
+            let facebookPostNoImage = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
               facebookPostNoImage.message = post.content;
