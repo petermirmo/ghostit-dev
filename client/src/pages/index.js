@@ -106,18 +106,17 @@ class Routes extends Component {
     this.setState({ headerWidth: sizeChangeObj.width });
   };
   render() {
-    ReactGA.pageview(this.props.location.pathname);
-
     const { datebaseConnection, ghostitBlogs, headerWidth } = this.state;
     const { user, getKeyListenerFunction } = this.props;
+
+    let activePage = this.props.location.pathname;
+    if (!this.userIsInPlatform(activePage)) ReactGA.pageview(activePage);
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
 
     let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
-
-    let activePage = this.props.location.pathname;
 
     return (
       <div

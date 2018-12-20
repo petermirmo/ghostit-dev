@@ -34,7 +34,7 @@ class Section1 extends Component {
     } = this.state;
     return (
       <div
-        className="section common-container-center width100"
+        className="section common-container-center"
         style={{ height: "100vh" }}
       >
         <h1 className="big-h1 mx16 tac">Create. Customize. Convert.</h1>

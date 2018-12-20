@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 
 import Calendar from "../../../components/Calendar";
+
+import { mobileAndTabletcheck } from "../../../componentFunctions";
+
 const calendarEvents = [
   {
     _id: "5c0d925bf241b544d81f8be9",
@@ -525,8 +528,8 @@ class Section2 extends Component {
   render() {
     const { calendarDate } = this.state;
     return (
-      <div className="section px32 my64 py64">
-        <div className="flex1 common-container-center">
+      <div id="home-page-sub-section">
+        <div className="home-page-text mb32">
           <div className="small-box">
             <h1 className="h1-like pb8">Custom Workflows</h1>
             <p>
@@ -535,28 +538,36 @@ class Section2 extends Component {
             </p>
           </div>
         </div>
-        <div className="platform-component-showcase two-third small-overflow-box">
-          <Calendar
-            calendarEvents={calendarEvents}
-            calendarDate={new moment()}
-            onSelectDay={() => {}}
-            onSelectPost={() => {}}
-            onSelectCampaign={() => {}}
-            timezone={"America/Vancouver"}
-            categories={{
-              All: true,
-              Facebook: false,
-              Twitter: false,
-              Linkedin: false,
-              Blog: false,
-              Campaigns: false
-            }}
-            updateActiveCategory={() => {}}
-            calendars={[]}
-            onDateChange={date => this.setState({ calendarDate: date })}
-            userList={[]}
+        {!mobileAndTabletcheck() && (
+          <div className="px64" id="home-page-calendar-container">
+            <Calendar
+              calendarEvents={calendarEvents}
+              calendarDate={new moment()}
+              onSelectDay={() => {}}
+              onSelectPost={() => {}}
+              onSelectCampaign={() => {}}
+              timezone={"America/Vancouver"}
+              categories={{
+                All: true,
+                Facebook: false,
+                Twitter: false,
+                Linkedin: false,
+                Blog: false,
+                Campaigns: false
+              }}
+              updateActiveCategory={() => {}}
+              calendars={[]}
+              onDateChange={date => this.setState({ calendarDate: date })}
+              userList={[]}
+            />
+          </div>
+        )}
+        {mobileAndTabletcheck() && (
+          <img
+            className="width100"
+            src="https://res.cloudinary.com/ghostit-co/image/upload/v1545336001/Screenshot_168.png"
           />
-        </div>
+        )}
       </div>
     );
   }

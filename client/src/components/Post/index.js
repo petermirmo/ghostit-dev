@@ -383,7 +383,7 @@ class PostingOptions extends Component {
     }
 
     return (
-      <div className="full-height-container">
+      <div className="full-fill-container">
         <div className="post-instruction-container">
           <div
             className="posting-container common-transition light-scrollbar pa16"

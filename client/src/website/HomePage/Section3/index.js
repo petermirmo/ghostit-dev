@@ -6,9 +6,9 @@ import Post from "../../../components/Post";
 class Section3 extends Component {
   render() {
     return (
-      <div className="section px32 my64 py64">
-        <div className="flex1 common-container-center mb32">
-          <div className="container-box small">
+      <div id="home-page-sub-section">
+        <div className="home-page-text mb32">
+          <div className="small-box">
             <h4 className="h1-like pt8">Post Instructions</h4>
             <p>
               Add custom steps for your marketing campaign or follow existing
@@ -16,7 +16,7 @@ class Section3 extends Component {
             </p>
           </div>
         </div>
-        <div className="common-shadow mx16 flex1" id="home-page-post-container">
+        <div className="common-shadow px64" id="home-page-post-container">
           <Post
             post={undefined}
             postFinishedSavingCallback={() => {}}

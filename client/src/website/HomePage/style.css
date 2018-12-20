@@ -124,11 +124,6 @@
   animation-duration: 4s;
 }
 
-.platform-component-showcase {
-  transform: scale(0.7, 0.7);
-  overflow: hidden;
-}
-
 @keyframes ghost-transition {
   from {
     right: -50px;
@@ -189,10 +184,46 @@
   overflow: auto;
 }
 
+.home-page-text {
+  flex: 1;
+  min-width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#home-page-calendar-container {
+  display: flex;
+  flex: 2;
+  min-width: 700px;
+  max-height: 500px;
+  overflow: auto;
+  box-sizing: border-box;
+}
 #home-page-post-container {
-  max-width: 100%;
+  flex: 2;
+  display: flex;
+  min-width: 350px;
+  box-sizing: border-box;
 }
 #home-page-chart-container {
-  min-width: 400px;
-  width: 50%;
+  flex: 2;
+  display: flex;
+  min-width: 350px;
+  box-sizing: border-box;
+}
+#home-page-sub-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  margin-top: 64px;
+  margin-bottom: 64px;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
