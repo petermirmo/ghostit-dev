@@ -651,16 +651,18 @@ class Content extends Component {
           for (let index in posts) {
             posts[index].startDate = posts[index].postingDate;
             posts[index].endDate = posts[index].postingDate;
-          }
 
-          for (let index in posts) {
             if (posts[index].socialType === "facebook") {
+              posts[index].index = facebookPosts.length;
               facebookPosts.push(posts[index]);
             } else if (posts[index].socialType === "twitter") {
+              posts[index].index = twitterPosts.length;
               twitterPosts.push(posts[index]);
             } else if (posts[index].socialType === "linkedin") {
+              posts[index].index = linkedinPosts.length;
               linkedinPosts.push(posts[index]);
             } else if (posts[index].socialType === "custom") {
+              posts[index].index = customPosts.length;
               customPosts.push(posts[index]);
             }
           }
@@ -675,6 +677,28 @@ class Content extends Component {
           }
         }
       });
+  };
+  editIndividualPost = post => {
+    let {
+      facebookPosts,
+      twitterPosts,
+      linkedinPosts,
+      customPosts
+    } = this.state;
+
+    if (post.socialType === "facebook") {
+      facebookPosts[post.index] = post;
+      this.setState({ facebookPosts });
+    } else if (post.socialType === "linkedin") {
+      linkedinPosts[post.index] = post;
+      this.setState({ linkedinPosts });
+    } else if (post.socialType === "twitter") {
+      twitterPosts[post.index] = post;
+      this.setState({ twitterPosts });
+    } else if (post.socialType === "custom") {
+      customPosts[post.index] = post;
+      this.setState({ customPosts });
+    }
   };
 
   getBlogs = () => {
@@ -979,6 +1003,7 @@ class Content extends Component {
           triggerSocketPeers={this.triggerSocketPeers}
           updatePosts={this.getPosts}
           updateCampaigns={this.getCampaigns}
+          editIndividualPost={this.editIndividualPost}
         />
         {false && <CalendarChat calendars={calendars} />}
         {this.props.calendarManagerModal && (

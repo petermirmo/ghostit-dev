@@ -19,7 +19,8 @@ import {} from "../../redux/actions/";
 import {
   getPostIcon,
   getPostColor,
-  trySavePost
+  trySavePost,
+  postChecks
 } from "../../componentFunctions";
 
 import ImagesDiv from "../ImagesDiv/";
@@ -109,17 +110,26 @@ class Calendar extends Component {
                 e.currentTarget.style.backgroundColor = "transparent";
 
               let { draggedPost } = this.state;
-              let newPostingDate = new moment(draggedPost.postingDate);
+              // First thing to do is clone object because if we modify this object directly
+              // it will change it in state because it is a pointer to the same object
+              let postObject = {};
+              for (let index in draggedPost) {
+                postObject[index] = draggedPost[index];
+              }
+
+              let newPostingDate = new moment(postObject.postingDate);
               let daysToAdd = calendarDay.date() - newPostingDate.date();
               newPostingDate.add(daysToAdd, "days");
-              draggedPost.date = newPostingDate;
+              postObject.date = newPostingDate;
+              postObject.startDate = newPostingDate;
+              postObject.endDate = newPostingDate;
 
-              trySavePost(draggedPost, {
+              trySavePost(postObject, {
                 setSaving: () => {
-                  console.log("saving");
+                  console.log("here");
+                  this.props.editIndividualPost(postObject);
                 },
                 postFinishedSavingCallback: post => {
-                  console.log("finished saving");
                   this.props.updatePosts();
                   this.props.triggerSocketPeers("calendar_post_saved", post);
                 }
