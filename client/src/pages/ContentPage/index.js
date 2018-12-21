@@ -976,6 +976,9 @@ class Content extends Component {
           timezone={timezone}
           categories={calendarEventCategories}
           updateActiveCategory={this.updateActiveCategory}
+          triggerSocketPeers={this.triggerSocketPeers}
+          updatePosts={this.getPosts}
+          updateCampaigns={this.getCampaigns}
         />
         {false && <CalendarChat calendars={calendars} />}
         {this.props.calendarManagerModal && (

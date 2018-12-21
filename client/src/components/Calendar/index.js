@@ -16,7 +16,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {} from "../../redux/actions/";
 
-import { getPostIcon, getPostColor } from "../../componentFunctions";
+import {
+  getPostIcon,
+  getPostColor,
+  trySavePost
+} from "../../componentFunctions";
 
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
@@ -96,11 +100,31 @@ class Calendar extends Component {
 
         calendarDays.push(
           <div
-            id="test"
             className={calendarClass}
             onClick={() => onSelectDay(calendarDay)}
             key={weekIndex + "week" + dayIndex + "day"}
-            onDrop={e => {}}
+            onDrop={e => {
+              e.preventDefault();
+              if (e.currentTarget.style)
+                e.currentTarget.style.backgroundColor = "transparent";
+
+              let { draggedPost } = this.state;
+              let newPostingDate = new moment(draggedPost.postingDate);
+              let daysToAdd = calendarDay.date() - newPostingDate.date();
+              newPostingDate.add(daysToAdd, "days");
+              draggedPost.date = newPostingDate;
+
+              trySavePost(draggedPost, {
+                setSaving: () => {
+                  console.log("saving");
+                },
+                postFinishedSavingCallback: post => {
+                  console.log("finished saving");
+                  this.props.updatePosts();
+                  this.props.triggerSocketPeers("calendar_post_saved", post);
+                }
+              });
+            }}
             onDragOver={e => {
               e.preventDefault();
               if (e.currentTarget.style)
@@ -118,18 +142,16 @@ class Calendar extends Component {
                 e.currentTarget.style.backgroundColor = "transparent";
             }}
           >
-            <div onDragOver={e => e.preventDefault()}>
-              <div className="date-plus-container">
-                <div className="calendar-day-date">{calendarDay.date()}</div>
-                {!pastDate && (
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    className="calendar-day-plus common-transition ma4"
-                  />
-                )}
-              </div>
-              {calendarCampaignsArray[loopDay]}
+            <div className="date-plus-container">
+              <div className="calendar-day-date">{calendarDay.date()}</div>
+              {!pastDate && (
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className="calendar-day-plus common-transition ma4"
+                />
+              )}
             </div>
+            {calendarCampaignsArray[loopDay]}
           </div>
         );
         loopDay++;
@@ -339,8 +361,8 @@ class Calendar extends Component {
           key={index + "post3"}
         >
           <div
-            id={index}
-            draggable={true}
+            draggable={post.status !== "posted" ? true : false}
+            onDragStart={() => this.setState({ draggedPost: post })}
             className="calendar-post common-transition button resizeable"
             style={{ backgroundColor: color }}
             onClick={event => {
@@ -356,8 +378,8 @@ class Calendar extends Component {
     } else {
       return (
         <div
-          id={index}
           draggable={true}
+          onDragStart={() => this.setState({ draggedPost: post })}
           className="calendar-post common-transition button resizeable"
           key={index + "post3"}
           style={{ backgroundColor: color }}
