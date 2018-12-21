@@ -351,8 +351,6 @@
   background-color: hsla(0, 0%, 0%, 0.4);
 }
 .content-page {
-  display: inline-block;
-  position: relative;
   width: 100%;
 }
 
