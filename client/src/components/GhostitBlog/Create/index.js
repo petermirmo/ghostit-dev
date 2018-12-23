@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
+
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+import {
+  faTrash,
+  faPlus,
+  faImage,
+  faFont
+} from "@fortawesome/fontawesome-free-solid";
+
 import ContentEditable from "react-contenteditable";
+
+import { Link, withRouter } from "react-router-dom";
 
 import ViewWebsiteBlog from "../View";
 
@@ -58,16 +66,7 @@ class CreateWebsiteBlog extends Component {
     images[index][index2] = value;
     this.setState({ images });
   };
-  insertTextbox = () => {
-    let { contentArray, locationCounter } = this.state;
 
-    contentArray.push({
-      html: "<p>Start Writing!</p>",
-      location: locationCounter
-    });
-    locationCounter++;
-    this.setState({ contentArray, locationCounter });
-  };
   removeTextarea = index => {
     const { contentArray, locationCounter } = this.state;
     contentArray.splice(index, 1);
@@ -79,15 +78,25 @@ class CreateWebsiteBlog extends Component {
     images.splice(index, 1);
     this.setState({ images, deleteImageArray });
   };
-  insertImage = event => {
+  insertTextbox = index => {
+    let { contentArray, locationCounter } = this.state;
+
+    contentArray.push({
+      html: "<p>Start Writing!</p>",
+      location: locationCounter
+    });
+    locationCounter++;
+    this.setState({ contentArray, locationCounter });
+  };
+  insertImage = (event, index) => {
     let newImages = event.target.files;
 
     let { images, locationCounter } = this.state;
 
     // Save each image to state
-    for (let index = 0; index < newImages.length; index++) {
+    for (let index2 = 0; index2 < newImages.length; index2++) {
       let reader = new FileReader();
-      let image = newImages[index];
+      let image = newImages[index2];
 
       reader.onloadend = image => {
         images.push({
@@ -130,8 +139,14 @@ class CreateWebsiteBlog extends Component {
         deleteImageArray
       })
       .then(res => {
-        if (res.data.success) alert("Successfully saved Ghostit blog.");
-        else console.log(res.data);
+        const { success, ghostitBlog } = res.data;
+        if (success) {
+          if (!id) {
+            this.props.history.push("/manage/" + ghostitBlog._id);
+            this.setState({ id: ghostitBlog._id });
+            alert("Successfully saved Ghostit blog.");
+          } else alert("Successfully saved Ghostit blog.");
+        } else console.log(res.data);
       });
   };
   createRelevantImageDiv = (image, index) => {
@@ -170,11 +185,23 @@ class CreateWebsiteBlog extends Component {
           src={image.imagePreviewUrl || image.url}
           className={"image br4 " + image.size}
         />
-        <FontAwesomeIcon
-          icon={faTrash}
-          className="delete top-right-over-div"
-          onClick={() => this.removeImage(index)}
-        />
+        <div className="top-right-over-div">
+          <FontAwesomeIcon
+            icon={faTrash}
+            className="delete"
+            onClick={() => this.removeImage(index)}
+          />
+          <FontAwesomeIcon
+            icon={faImage}
+            className="icon-regular-button"
+            onClick={() => this.removeImage(index)}
+          />
+          <FontAwesomeIcon
+            icon={faFont}
+            className="icon-regular-button"
+            onClick={() => this.removeImage(index)}
+          />
+        </div>
         <input
           className="regular-input width100 border-box"
           value={image.alt ? image.alt : ""}
@@ -197,11 +224,23 @@ class CreateWebsiteBlog extends Component {
           }
           className="simple-container medium pa4"
         />
-        <FontAwesomeIcon
-          icon={faTrash}
-          className="delete top-right-over-div"
-          onClick={() => this.removeTextarea(index)}
-        />
+        <div className="top-right-over-div">
+          <FontAwesomeIcon
+            icon={faTrash}
+            className="delete"
+            onClick={() => this.removeTextarea(index)}
+          />
+          <FontAwesomeIcon
+            icon={faImage}
+            className="icon-regular-button my8"
+            onClick={() => this.removeImage(index)}
+          />
+          <FontAwesomeIcon
+            icon={faFont}
+            className="icon-regular-button"
+            onClick={() => this.removeImage(index)}
+          />
+        </div>
       </div>
     );
   };
@@ -332,4 +371,4 @@ function ghostitBlogImagesCompare(a, b) {
   return 0;
 }
 
-export default CreateWebsiteBlog;
+export default withRouter(CreateWebsiteBlog);

@@ -61,25 +61,31 @@ class Calendar extends Component {
     );
     let calendarWeekArray = [];
 
+    calendarDate.date(1);
+
     // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
-    let firstDayOfMonth = Number(
-      moment(calendarDate.format("M"), "MM")
-        .startOf("month")
-        .format("d")
-    );
+    let firstDayOfMonth = calendarDate.day();
 
     let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
+
+    let weekEndMonth =
+      firstDayOfMonth + calendarDate.daysInMonth() > 35 && weekStartMonth !== -1
+        ? 6
+        : 5;
 
     let loopDay = 1;
 
     // Week for loop
     // To determine if 5 or 6 weeks are needed in the calendar
-    for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
+    for (
+      let weekIndex = weekStartMonth;
+      weekIndex < weekEndMonth;
+      weekIndex++
+    ) {
       let calendarDays = [];
 
       for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
         let calendarDay = new moment(calendarDate);
-        calendarDay = calendarDay.date(1);
 
         // Subtract the start date of current month
         calendarDay.subtract(firstDayOfMonth, "days");
