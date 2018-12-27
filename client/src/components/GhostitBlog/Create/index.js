@@ -81,10 +81,13 @@ class CreateWebsiteBlog extends Component {
   insertTextbox = index => {
     let { contentArray, locationCounter } = this.state;
 
-    contentArray.push({
-      html: "<p>Start Writing!</p>",
-      location: locationCounter
-    });
+    if (index) {
+    } else {
+      contentArray.push({
+        html: "<p>Start Writing!</p>",
+        location: locationCounter
+      });
+    }
     locationCounter++;
     this.setState({ contentArray, locationCounter });
   };
@@ -194,12 +197,12 @@ class CreateWebsiteBlog extends Component {
           <FontAwesomeIcon
             icon={faImage}
             className="icon-regular-button"
-            onClick={() => this.removeImage(index)}
+            onClick={event => this.insertImage(event, index)}
           />
           <FontAwesomeIcon
             icon={faFont}
             className="icon-regular-button"
-            onClick={() => this.removeImage(index)}
+            onClick={() => this.insertTextbox(index)}
           />
         </div>
         <input
@@ -233,12 +236,12 @@ class CreateWebsiteBlog extends Component {
           <FontAwesomeIcon
             icon={faImage}
             className="icon-regular-button my8"
-            onClick={() => this.removeImage(index)}
+            onClick={event => this.insertImage(event, index)}
           />
           <FontAwesomeIcon
             icon={faFont}
             className="icon-regular-button"
-            onClick={() => this.removeImage(index)}
+            onClick={() => this.insertTextbox(index)}
           />
         </div>
       </div>

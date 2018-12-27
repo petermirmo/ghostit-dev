@@ -132,15 +132,11 @@ class Calendar extends Component {
   addCalendarEvents = (calendarEvents, calendarDate) => {
     if (calendarEvents) calendarEvents = calendarEvents.sort(compareCampaigns);
 
-    // Get first day of month, if it is Sunday we need 42 days in the calendar not 35
-    let firstDayOfMonth = Number(
-      moment(calendarDate.format("M"), "MM")
-        .startOf("month")
-        .format("d")
-    );
-
     // Initialize date to first day of the month
     calendarDate.date(1);
+
+    // Get first day of month, if it is Sunday we need 42 days in the calendar not 35
+    let firstDayOfMonth = calendarDate.day();
 
     // Get calendar starting date
     let calendarStartDate = new moment(calendarDate)
