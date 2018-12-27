@@ -137,15 +137,22 @@ class Calendar extends Component {
 
     // Get first day of month, if it is Sunday we need 42 days in the calendar not 35
     let firstDayOfMonth = calendarDate.day();
+    let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
     // Get calendar starting date
     let calendarStartDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
       .add(firstDayOfMonth === 0 ? -7 : 0, "days");
+
+    let weekEndMonth =
+      firstDayOfMonth + calendarDate.daysInMonth() > 35 && weekStartMonth !== -1
+        ? 42
+        : 35;
+
     // Get calendar ending date
     let calendarEndDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
-      .add(35, "days");
+      .add(weekEndMonth, "days");
 
     calendarStartDate.set("hour", 0);
     calendarStartDate.set("minute", 0);
