@@ -113,7 +113,6 @@ class CreateWebsiteBlog extends Component {
     this.setState({ contentArray, locationCounter, images });
   };
   insertImage = (event, location) => {
-    console.log("location: " + location);
     let newImages = event.target.files;
 
     let { images, locationCounter } = this.state;
