@@ -82,7 +82,18 @@ class CreateWebsiteBlog extends Component {
     let { contentArray, locationCounter, images } = this.state;
 
     if (!isNaN(location)) {
-      let index = 0;
+      let index = contentArray.length;
+
+      for (let i = 0; i < contentArray.length; i++) {
+        if (location == contentArray[i].location) {
+          index = i + 1;
+          break;
+        }
+        if (location < contentArray[i].location) {
+          index = i + 1;
+          break;
+        }
+      }
 
       contentArray.splice(index, 0, {
         html: "<p>Start Writing!</p>",
@@ -101,7 +112,8 @@ class CreateWebsiteBlog extends Component {
     locationCounter++;
     this.setState({ contentArray, locationCounter, images });
   };
-  insertImage = (event, index) => {
+  insertImage = (event, location) => {
+    console.log("location: " + location);
     let newImages = event.target.files;
 
     let { images, locationCounter } = this.state;
@@ -112,18 +124,42 @@ class CreateWebsiteBlog extends Component {
       let image = newImages[index2];
 
       reader.onloadend = image => {
-        images.push({
-          size: "small",
-          image,
-          imagePreviewUrl: reader.result,
-          location: locationCounter,
-          alt: ""
-        });
-        locationCounter += 1;
+        if (!isNaN(location)) {
+          let index = images.length;
 
+          for (let i = 0; i < images.length; i++) {
+            if (location == images[i].location) {
+              index = i + 1;
+              break;
+            }
+            if (location < images[i].location) {
+              index = i + 1;
+              break;
+            }
+          }
+
+          images.splice(index, 0, {
+            size: "small",
+            image,
+            imagePreviewUrl: reader.result,
+            location: location + 1,
+            alt: ""
+          });
+          for (let i = index + 1; i < images.length; i++) {
+            images[i].location++;
+          }
+        } else {
+          images.push({
+            size: "small",
+            image,
+            imagePreviewUrl: reader.result,
+            location: locationCounter,
+            alt: ""
+          });
+          locationCounter += 1;
+        }
         this.setState({ images, locationCounter });
       };
-
       reader.readAsDataURL(image);
     }
   };
@@ -200,10 +236,19 @@ class CreateWebsiteBlog extends Component {
             className="delete"
             onClick={() => this.removeImage(index)}
           />
-          <FontAwesomeIcon
-            icon={faImage}
-            className="icon-regular-button my8"
-            onClick={event => this.insertImage(event, image.location)}
+
+          <label htmlFor={"image-file-upload" + index}>
+            <FontAwesomeIcon
+              icon={faImage}
+              className="icon-regular-button my8"
+            />
+          </label>
+          <input
+            id={"image-file-upload" + index}
+            type="file"
+            onChange={event => {
+              this.insertImage(event, image.location);
+            }}
           />
           <FontAwesomeIcon
             icon={faFont}
@@ -248,10 +293,16 @@ class CreateWebsiteBlog extends Component {
             className="delete"
             onClick={() => this.removeTextarea(index)}
           />
-          <FontAwesomeIcon
-            icon={faImage}
-            className="icon-regular-button my8"
-            onClick={event => this.insertImage(event, content.location)}
+          <label htmlFor={"text-file-upload" + index}>
+            <FontAwesomeIcon
+              icon={faImage}
+              className="icon-regular-button my8"
+            />
+          </label>
+          <input
+            id={"text-file-upload" + index}
+            type="file"
+            onChange={event => this.insertImage(event, content.location)}
           />
           <FontAwesomeIcon
             icon={faFont}
@@ -265,7 +316,6 @@ class CreateWebsiteBlog extends Component {
 
   render() {
     const { url, category, hyperlink, contentArray, images } = this.state;
-    console.log(contentArray);
     let blogDivs = [];
 
     let imageCounter = 0;
@@ -344,11 +394,11 @@ class CreateWebsiteBlog extends Component {
         </div>
 
         <div className="flex my16">
-          <label htmlFor="file-upload2" className="regular-button mr8">
+          <label htmlFor="file-upload3" className="regular-button mr8">
             Insert Image
           </label>
           <input
-            id="file-upload2"
+            id="file-upload3"
             type="file"
             onChange={event => this.insertImage(event)}
           />
