@@ -79,16 +79,10 @@ class DatePicker extends Component {
     let { dateLowerBound, dateUpperBound } = this.props;
 
     let calendarWeekArray = [];
+    calendarDate.date(1);
 
     // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
     let firstDayOfMonth = calendarDate.day();
-
-    // Used to see which day the month ends on, 29 or 30 or 31 ...
-    let endOfMonth = Number(
-      moment(calendarDate.format("M"), "MM")
-        .endOf("month")
-        .date()
-    );
 
     // To determine if 42 or 35 days in the calendar should be displayed
     let lowerBound = 1;
@@ -108,7 +102,6 @@ class DatePicker extends Component {
 
       for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
         let calendarDay = new moment(calendarDate);
-        calendarDay = calendarDay.date(1);
 
         // Subtract the start date of current month
         calendarDay.subtract(firstDayOfMonth, "days");

@@ -78,18 +78,28 @@ class CreateWebsiteBlog extends Component {
     images.splice(index, 1);
     this.setState({ images, deleteImageArray });
   };
-  insertTextbox = index => {
-    let { contentArray, locationCounter } = this.state;
+  insertTextbox = location => {
+    let { contentArray, locationCounter, images } = this.state;
 
-    if (index) {
+    if (!isNaN(location)) {
+      let index = 0;
+
+      contentArray.splice(index, 0, {
+        html: "<p>Start Writing!</p>",
+        location: location + 1
+      });
+      for (let i = index + 1; i < contentArray.length; i++) {
+        contentArray[i].location++;
+      }
     } else {
       contentArray.push({
         html: "<p>Start Writing!</p>",
         location: locationCounter
       });
     }
+
     locationCounter++;
-    this.setState({ contentArray, locationCounter });
+    this.setState({ contentArray, locationCounter, images });
   };
   insertImage = (event, index) => {
     let newImages = event.target.files;
@@ -184,10 +194,6 @@ class CreateWebsiteBlog extends Component {
             large
           </button>
         </div>
-        <img
-          src={image.imagePreviewUrl || image.url}
-          className={"image br4 " + image.size}
-        />
         <div className="top-right-over-div">
           <FontAwesomeIcon
             icon={faTrash}
@@ -196,15 +202,20 @@ class CreateWebsiteBlog extends Component {
           />
           <FontAwesomeIcon
             icon={faImage}
-            className="icon-regular-button"
-            onClick={event => this.insertImage(event, index)}
+            className="icon-regular-button my8"
+            onClick={event => this.insertImage(event, image.location)}
           />
           <FontAwesomeIcon
             icon={faFont}
             className="icon-regular-button"
-            onClick={() => this.insertTextbox(index)}
+            onClick={() => this.insertTextbox(image.location)}
           />
         </div>
+        <img
+          src={image.imagePreviewUrl || image.url}
+          className={"image br4 " + image.size}
+        />
+
         <input
           className="regular-input width100 border-box"
           value={image.alt ? image.alt : ""}
@@ -217,7 +228,11 @@ class CreateWebsiteBlog extends Component {
 
   editableTextbox = (index, content) => {
     return (
-      <div key={"jsk" + index} className="relative">
+      <div
+        key={"jsk" + index}
+        className="relative"
+        id="editable-text-container"
+      >
         <ContentEditable
           innerRef={this.contentEditable}
           html={content.html}
@@ -236,12 +251,12 @@ class CreateWebsiteBlog extends Component {
           <FontAwesomeIcon
             icon={faImage}
             className="icon-regular-button my8"
-            onClick={event => this.insertImage(event, index)}
+            onClick={event => this.insertImage(event, content.location)}
           />
           <FontAwesomeIcon
             icon={faFont}
             className="icon-regular-button"
-            onClick={() => this.insertTextbox(index)}
+            onClick={() => this.insertTextbox(content.location)}
           />
         </div>
       </div>
@@ -250,7 +265,7 @@ class CreateWebsiteBlog extends Component {
 
   render() {
     const { url, category, hyperlink, contentArray, images } = this.state;
-
+    console.log(contentArray);
     let blogDivs = [];
 
     let imageCounter = 0;

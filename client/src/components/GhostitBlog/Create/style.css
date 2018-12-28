@@ -7,3 +7,9 @@
   background-color: var(--white-theme-color);
   max-width: 80%;
 }
+#editable-text-container:hover .top-right-over-div {
+  display: flex;
+}
+#ghostit-blog-img-container:hover .top-right-over-div {
+  display: flex;
+}
