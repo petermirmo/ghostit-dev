@@ -10,6 +10,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import { Link } from "react-router-dom";
+
 import DateTimePicker from "../DateTimePicker";
 import SelectAccountDiv from "../SelectAccountDiv/";
 import LinkPreview from "../LinkPreview";
@@ -373,14 +375,15 @@ class PostingOptions extends Component {
       let tempMessage = socialType;
       if (socialType === "facebook") tempMessage += " group/page";
       return (
-        <div className="flex hc mt32 no-accounts">
-          Connect {tempMessage} account! (Go to Social Profiles in the sidebar)
+        <div className="simple-column-box mt32 no-accounts">
+          Connect {tempMessage} account!
+          <Link to="/social-accounts">Go to Social Profiles Page</Link>
         </div>
       );
     }
 
     return (
-      <div className="full-height-container">
+      <div className="full-fill-container">
         <div className="post-instruction-container">
           <div
             className="posting-container common-transition light-scrollbar pa16"

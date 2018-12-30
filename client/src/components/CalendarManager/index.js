@@ -492,35 +492,34 @@ class CalendarManager extends Component {
           <div className="list-item" key={`user${index}`}>
             <div className="list-info">
               <div className="flex column flex1">
-                <p className="flex1">
+                <div className="flex1">
                   {capitolizeWordsInString(userObj.fullName)}
                   {userObj._id.toString() === userID.toString()
                     ? " (Admin)"
                     : ""}
-                </p>
-                <p className="flex1">{userObj.email}</p>
+                </div>
+                <div className="flex1">{userObj.email}</div>
               </div>
-              {isAdmin &&
-                userObj._id.toString() !== userID.toString() && (
-                  <div className="flex hc vc">
-                    <div title="Remove User">
-                      <FontAwesomeIcon
-                        className="color-red button"
-                        icon={faTrash}
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.setState({
-                            removeUserPrompt: true,
-                            removeUserObj: {
-                              userIndex: index,
-                              calendarIndex: activeCalendarIndex
-                            }
-                          });
-                        }}
-                      />
-                    </div>
+              {isAdmin && userObj._id.toString() !== userID.toString() && (
+                <div className="flex hc vc">
+                  <div title="Remove User">
+                    <FontAwesomeIcon
+                      className="color-red button"
+                      icon={faTrash}
+                      onClick={e => {
+                        e.stopPropagation();
+                        this.setState({
+                          removeUserPrompt: true,
+                          removeUserObj: {
+                            userIndex: index,
+                            calendarIndex: activeCalendarIndex
+                          }
+                        });
+                      }}
+                    />
                   </div>
-                )}
+                </div>
+              )}
             </div>
           </div>
         );
@@ -530,6 +529,12 @@ class CalendarManager extends Component {
     let accountDivs = undefined;
     if (calendar.accounts) {
       accountDivs = calendar.accounts.map((account, index) => {
+        let title = account.username;
+        if (!title) {
+          if (account.givenName && account.familyName)
+            title = `${account.givenName} ${account.familyName}`;
+          else title = account.givenName;
+        }
         return (
           <div className="list-item" key={`account${index}`}>
             <div className="list-info">
@@ -539,16 +544,10 @@ class CalendarManager extends Component {
                 color={getPostColor(account.socialType)}
               />
               <div className="flex column flex1 ml8">
-                <p className="flex1">
-                  {capitolizeWordsInString(
-                    account.username
-                      ? account.username
-                      : `${account.givenName} ${account.familyName}`
-                  )}
-                </p>
-                <p className="flex1">
+                <div className="flex1">{capitolizeWordsInString(title)}</div>
+                <div className="flex1">
                   {capitolizeFirstChar(account.accountType)}
-                </p>
+                </div>
               </div>
               {(isAdmin || account.userID.toString() === userID.toString()) && (
                 <div
@@ -578,7 +577,7 @@ class CalendarManager extends Component {
       <div className="flex column flex1 vc">
         <div className="grid-two-columns py8 border-bottom width100">
           <div className="flex vc hc mx16">
-            <p className="label">Rename Calendar: </p>
+            <div className="label">Rename Calendar: </div>
             <input
               type="text"
               className="regular-input ml16"

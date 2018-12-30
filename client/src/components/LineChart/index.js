@@ -142,7 +142,7 @@ class LineChart extends Component {
 
     return (
       <svg
-        className="line-chart pa32"
+        className="line-chart"
         viewBox={"0 0 100 " + LINE_CHART_HEIGHT_RATIO}
         preserveAspectRatio="none"
       >

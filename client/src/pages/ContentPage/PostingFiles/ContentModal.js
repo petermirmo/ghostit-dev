@@ -5,7 +5,10 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setKeyListenerFunction } from "../../../redux/actions/";
+import {
+  setKeyListenerFunction,
+  openContentModal
+} from "../../../redux/actions/";
 
 import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../../components/Notifications/Loader/";
@@ -33,7 +36,7 @@ class ContentModal extends Component {
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.close(); // escape button pushed
+          this.props.openContentModal(false); // escape button pushed
         }
       },
       this.props.getKeyListenerFunction[0]
@@ -167,13 +170,13 @@ class ContentModal extends Component {
     }
 
     return (
-      <div className="modal" onClick={this.props.close}>
+      <div className="modal" onClick={() => this.props.openContentModal(false)}>
         <div className="post-modal" onClick={e => e.stopPropagation()}>
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => close("contentModal")}
+            onClick={() => this.props.openContentModal(false)}
           />
 
           <ContentModalHeader
@@ -197,7 +200,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setKeyListenerFunction
+      setKeyListenerFunction,
+      openContentModal
     },
     dispatch
   );

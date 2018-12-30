@@ -19,6 +19,7 @@
 .instructions-container,
 .posting-container {
   width: 60%;
+  position: relative;
 
   display: flex;
   flex-direction: column;

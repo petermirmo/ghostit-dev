@@ -35,12 +35,40 @@ function tutorial(state = { value: 0, on: false }, action) {
       return state;
   }
 }
+function contentModal(state = false, action) {
+  switch (action.type) {
+    case "CONTENT_MODAL":
+      return action.payload;
+    default:
+      return state;
+  }
+}
+function campaignModal(state = false, action) {
+  switch (action.type) {
+    case "CAMPAIGN_MODAL":
+      return action.payload;
+    default:
+      return state;
+  }
+}
+function calendarManagerModal(state = false, action) {
+  switch (action.type) {
+    case "CALENDAR_MANAGE_MODAL":
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   user: currentUser,
   account: accountReducer,
   accounts,
   getKeyListenerFunction,
-  tutorial
+  tutorial,
+  contentModal,
+  campaignModal,
+  calendarManagerModal
 });
 
 export default rootReducer;

@@ -6,6 +6,12 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+  openContentModal,
+  openCampaignModal,
+  openCalendarManagerModal
+} from "../../redux/actions/";
 
 import io from "socket.io-client";
 
@@ -36,7 +42,6 @@ class Content extends Component {
     calendarInvites: [],
     activeCalendarIndex: undefined,
     defaultCalendarID: undefined,
-    calendarManagerModal: false,
 
     facebookPosts: [],
     twitterPosts: [],
@@ -49,10 +54,8 @@ class Content extends Component {
     calendarDate: new moment(),
 
     blogEdittingModal: false,
-    contentModal: false, // modal after selecting post from the recipeModal
     postEdittingModal: false,
     newsletterEdittingModal: false,
-    campaignModal: false,
     recipeModal: false,
 
     calendarEventCategories: {
@@ -70,13 +73,6 @@ class Content extends Component {
       title: undefined,
       message: undefined,
       timer: undefined
-    },
-    confirmAlert: {
-      show: false,
-      type: undefined,
-      title: undefined,
-      message: undefined,
-      callback: undefined
     },
     timezone: ""
   };
@@ -796,8 +792,8 @@ class Content extends Component {
   };
 
   openCampaign = campaign => {
+    this.props.openCampaignModal(true);
     this.setState({
-      campaignModal: true,
       clickedEvent: campaign,
       clickedEventIsRecipe: false,
       recipeEditing: false
@@ -805,13 +801,11 @@ class Content extends Component {
   };
 
   closeModals = () => {
+    this.props.openCalendarManagerModal(false);
     this.setState({
-      calendarManagerModal: false,
       blogEdittingModal: false,
-      contentModal: false,
       postEdittingModal: false,
       newsletterEdittingModal: false,
-      campaignModal: false,
       recipeModal: false,
       recipeEditorModal: false,
       clickedEvent: undefined
@@ -888,7 +882,6 @@ class Content extends Component {
       defaultCalendarID,
       calendarDate,
       loading,
-      confirmAlert,
       userList
     } = this.state;
     const {
@@ -967,9 +960,9 @@ class Content extends Component {
           inviteResponse={this.inviteResponse}
           activeCalendarIndex={activeCalendarIndex}
           updateActiveCalendar={this.updateActiveCalendar}
-          enableCalendarManager={() => {
-            this.setState({ calendarManagerModal: true });
-          }}
+          enableCalendarManager={() =>
+            this.props.openCalendarManagerModal(true)
+          }
           userList={userList}
           calendarEvents={calendarEvents}
           onDateChange={date => {
@@ -984,8 +977,8 @@ class Content extends Component {
           categories={calendarEventCategories}
           updateActiveCategory={this.updateActiveCategory}
         />
-        <CalendarChat calendars={calendars} />
-        {this.state.calendarManagerModal && (
+        {false && <CalendarChat calendars={calendars} />}
+        {this.props.calendarManagerModal && (
           <div
             className="modal"
             onClick={() => {
@@ -1010,22 +1003,21 @@ class Content extends Component {
             </div>
           </div>
         )}
-        {this.state.contentModal && (
+        {this.props.contentModal && calendars[activeCalendarIndex] && (
           <ContentModal
             clickedCalendarDate={clickedDate}
             timezone={timezone}
             calendarID={calendars[activeCalendarIndex]._id}
-            close={this.closeModals}
             notify={this.notify}
             savePostCallback={post => {
               this.getPosts();
               this.triggerSocketPeers("calendar_post_saved", post);
-              this.closeModals();
+              this.props.openContentModal(false);
             }}
             saveBlogCallback={blog => {
               this.getBlogs();
               this.triggerSocketPeers("calendar_blog_saved", blog);
-              this.closeModals();
+              this.props.openContentModal(false);
             }}
             saveNewsletterCallback={newsletter => {
               this.getNewsletters();
@@ -1073,14 +1065,16 @@ class Content extends Component {
             triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
-        {this.state.campaignModal && (
-          <div className="modal">
+        {this.props.campaignModal && calendars[activeCalendarIndex] && (
+          <div
+            className="modal"
+            onClick={() => this.props.openCampaignModal(false)}
+          >
             <div
               className="large-modal common-transition"
               onClick={e => e.stopPropagation()}
             >
               <Campaign
-                close={this.closeModals}
                 handleChange={this.handleChange}
                 calendarID={calendars[activeCalendarIndex]._id}
                 timezone={timezone}
@@ -1090,13 +1084,12 @@ class Content extends Component {
                 isRecipe={clickedEventIsRecipe}
                 recipeEditing={recipeEditing}
                 notify={this.notify}
-                confirmAlert={confirmAlert}
                 triggerSocketPeers={this.triggerSocketPeers}
               />
             </div>
           </div>
         )}
-        {this.state.recipeModal && (
+        {this.state.recipeModal && calendars[activeCalendarIndex] && (
           <RecipeModal
             close={this.closeModals}
             handleChange={this.handleChange}
@@ -1118,19 +1111,6 @@ class Content extends Component {
             }
           />
         )}
-        {confirmAlert.show && (
-          <ConfirmAlert
-            close={() => {
-              let { confirmAlert } = this.state;
-              confirmAlert.show = false;
-              this.setState({ confirmAlert });
-            }}
-            title={confirmAlert.title}
-            message={confirmAlert.message}
-            callback={confirmAlert.callback}
-            type={confirmAlert.type}
-          />
-        )}
       </div>
     );
   }
@@ -1138,8 +1118,20 @@ class Content extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    contentModal: state.contentModal,
+    campaignModal: state.campaignModal,
+    calendarManagerModal: state.calendarManagerModal
   };
 }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { openContentModal, openCampaignModal, openCalendarManagerModal },
+    dispatch
+  );
+}
 
-export default connect(mapStateToProps)(Content);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Content);

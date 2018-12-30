@@ -61,25 +61,31 @@ class Calendar extends Component {
     );
     let calendarWeekArray = [];
 
+    calendarDate.date(1);
+
     // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
-    let firstDayOfMonth = Number(
-      moment(calendarDate.format("M"), "MM")
-        .startOf("month")
-        .format("d")
-    );
+    let firstDayOfMonth = calendarDate.day();
 
     let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
+
+    let weekEndMonth =
+      firstDayOfMonth + calendarDate.daysInMonth() > 35 && weekStartMonth !== -1
+        ? 6
+        : 5;
 
     let loopDay = 1;
 
     // Week for loop
     // To determine if 5 or 6 weeks are needed in the calendar
-    for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
+    for (
+      let weekIndex = weekStartMonth;
+      weekIndex < weekEndMonth;
+      weekIndex++
+    ) {
       let calendarDays = [];
 
       for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
         let calendarDay = new moment(calendarDate);
-        calendarDay = calendarDay.date(1);
 
         // Subtract the start date of current month
         calendarDay.subtract(firstDayOfMonth, "days");
@@ -126,24 +132,27 @@ class Calendar extends Component {
   addCalendarEvents = (calendarEvents, calendarDate) => {
     if (calendarEvents) calendarEvents = calendarEvents.sort(compareCampaigns);
 
-    // Get first day of month, if it is Sunday we need 42 days in the calendar not 35
-    let firstDayOfMonth = Number(
-      moment(calendarDate.format("M"), "MM")
-        .startOf("month")
-        .format("d")
-    );
-
     // Initialize date to first day of the month
     calendarDate.date(1);
+
+    // Get first day of month, if it is Sunday we need 42 days in the calendar not 35
+    let firstDayOfMonth = calendarDate.day();
+    let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
     // Get calendar starting date
     let calendarStartDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
       .add(firstDayOfMonth === 0 ? -7 : 0, "days");
+
+    let weekEndMonth =
+      firstDayOfMonth + calendarDate.daysInMonth() > 35 && weekStartMonth !== -1
+        ? 42
+        : 35;
+
     // Get calendar ending date
     let calendarEndDate = new moment(calendarDate)
       .subtract(firstDayOfMonth, "days")
-      .add(35, "days");
+      .add(weekEndMonth, "days");
 
     calendarStartDate.set("hour", 0);
     calendarStartDate.set("minute", 0);

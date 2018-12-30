@@ -9,7 +9,10 @@ import io from "socket.io-client";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setKeyListenerFunction } from "../../../redux/actions/";
+import {
+  setKeyListenerFunction,
+  openCampaignModal
+} from "../../../redux/actions/";
 
 import { trySavePost, getSocialCharacters } from "../../../componentFunctions";
 
@@ -84,11 +87,6 @@ class Campaign extends Component {
               "calendar_campaign_deleted",
               campaign._id
             );
-          this.props.notify(
-            "info",
-            "Campaign Deleted",
-            "Campaign had no scheduled posts and was deleted."
-          );
         } else {
           const shareCampaignWithPeers = {
             ...emitObject.campaign,
@@ -418,7 +416,7 @@ class Campaign extends Component {
     if (!this.closeChecks()) {
       return;
     }
-    this.props.close();
+    this.props.openCampaignModal(false);
   };
 
   deleteCampaign = response => {
@@ -428,6 +426,7 @@ class Campaign extends Component {
       socket.emit("delete", campaign);
       socket.on("campaign_deleted", success => {
         socket.off("campaign_deleted");
+
         if (success) {
           this.triggerCampaignPeers("campaign_deleted", campaign._id);
           this.props.triggerSocketPeers(
@@ -439,7 +438,8 @@ class Campaign extends Component {
             "Campaign Deleted",
             "Campaign and all of its posts were successfully deleted."
           );
-          this.props.close(false, "campaignModal");
+
+          this.props.openCampaignModal(false);
           this.props.updateCampaigns();
         } else {
           this.props.notify(
@@ -447,7 +447,7 @@ class Campaign extends Component {
             "Campaign Not Deleted",
             "At least one of the campaign posts failed to delete. Please try again."
           );
-          this.props.close(false, "campaignModal");
+          this.props.openCampaignModal(false);
           this.props.updateCampaigns();
         }
       });
@@ -1067,7 +1067,7 @@ class Campaign extends Component {
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
     return (
-      <div className="campaign-container">
+      <div className="full-height-container br4">
         <CampaignRecipeHeader
           campaign={campaign}
           handleChange={this.handleCampaignChange}
@@ -1170,11 +1170,11 @@ class Campaign extends Component {
           </div>
         )}
         <div className="modal-footer">
-          <div className="campaign-footer-options">
+          <div className="campaign-footer-options wrapping-container">
             <div className="campaign-footer-option left">
               <div
                 onClick={() => {
-                  this.props.handleChange(false, "campaignModal");
+                  this.props.openCampaignModal(false);
                   this.props.handleChange(true, "recipeModal");
                 }}
                 className="round-button button pa8 ma8 round"
@@ -1183,7 +1183,7 @@ class Campaign extends Component {
                   icon={faArrowLeft}
                   className="back-button-arrow"
                 />
-                Back to Templates
+                Back to Navigation
               </div>
             </div>
 
@@ -1314,7 +1314,7 @@ class Campaign extends Component {
           </div>
           {campaignDeletedPrompt && (
             <ConfirmAlert
-              close={() => this.props.close()}
+              close={() => this.props.openCampaignModal(false)}
               title="Campaign Deleted"
               message="Another calendar user just deleted this campaign. To save the campaign, you'll need to click Restore and then save each post separately."
               firstButton="Restore"
@@ -1323,9 +1323,7 @@ class Campaign extends Component {
                 if (response) {
                   this.setState({ campaignDeletedPrompt: false });
                   this.restoreCampaign();
-                } else {
-                  this.props.close();
-                }
+                } else this.props.openCampaignModal(false);
               }}
             />
           )}
@@ -1417,19 +1415,21 @@ class Campaign extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      setKeyListenerFunction
-    },
-    dispatch
-  );
-}
 function mapStateToProps(state) {
   return {
     user: state.user,
     getKeyListenerFunction: state.getKeyListenerFunction
   };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setKeyListenerFunction,
+      openCampaignModal
+    },
+    dispatch
+  );
 }
 export default connect(
   mapStateToProps,

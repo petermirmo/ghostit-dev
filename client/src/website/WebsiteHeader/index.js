@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-let { mobileAndTabletcheck } = require("../../componentFunctions");
+import { mobileAndTabletcheck } from "../../componentFunctions";
 
 import Logo from "./Logo";
 

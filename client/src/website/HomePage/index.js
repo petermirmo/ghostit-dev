@@ -69,7 +69,7 @@ class HomePage extends Component {
           )}
 
           {displayGhostAndMessage && (
-            <Link to="/sign-up">
+            <Link to="/sign-up" className="no-underline">
               <GhostSpeakingMessage message="Ready to start your free trial?" />
             </Link>
           )}

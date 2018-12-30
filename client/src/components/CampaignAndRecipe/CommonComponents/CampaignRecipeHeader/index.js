@@ -65,11 +65,8 @@ class CampaignRecipeHeader extends Component {
       );
     }
 
-    let display;
-    if (!showMore) display = "none";
-
     return (
-      <div className="campaign-information-container flex column pb32">
+      <div className="simple-column-box border-bottom pb32">
         <div
           className="close-container"
           title={
@@ -83,7 +80,7 @@ class CampaignRecipeHeader extends Component {
             onClick={() => this.props.close()}
           />
         </div>
-        <div style={{ display }}>
+        {showMore && (
           <input
             onChange={event => handleChange(event.target.value, "name")}
             value={campaign.name}
@@ -91,6 +88,8 @@ class CampaignRecipeHeader extends Component {
             placeholder="Click here to give me a title!"
             readOnly={false}
           />
+        )}
+        {showMore && (
           <Textarea
             className="campaign-description"
             placeholder="Click here to give me a description!"
@@ -98,9 +97,11 @@ class CampaignRecipeHeader extends Component {
             value={campaign.description}
             readOnly={false}
           />
-          <div className="grid-container px16">
-            <div className="flex vc hc">
-              <div className="label">Start Date: </div>
+        )}
+        {showMore && (
+          <div className="wrapping-container-full-center">
+            <div className="label mr8">Start Date: </div>
+            <div>
               <DateTimePicker
                 date={new moment(campaign.startDate)}
                 dateFormat="MMMM Do YYYY hh:mm A"
@@ -117,8 +118,8 @@ class CampaignRecipeHeader extends Component {
               />
             </div>
 
-            <div className="flex vc hc">
-              <div className="label">End Date: </div>
+            <div className="label ml16 mr8">End Date: </div>
+            <div className="mr16">
               <DateTimePicker
                 date={new moment(campaign.endDate)}
                 dateFormat="MMMM Do YYYY hh:mm A"
@@ -128,12 +129,12 @@ class CampaignRecipeHeader extends Component {
                 dateLowerBound={new moment()}
               />
             </div>
-            <div className="colors-container flex vc">{colorDivs}</div>
+            {colorDivs}
           </div>
-        </div>
-        <div className="user-list-and-show-more">
+        )}
+        <div>
           {this.props.userList && this.props.userList.length > 0 && (
-            <div className="user-list-container">
+            <div className="absolute left">
               <SocketUserList userList={this.props.userList} />
             </div>
           )}

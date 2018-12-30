@@ -4,109 +4,9 @@ import MetaTags from "react-meta-tags";
 import "./style.css";
 
 class ViewWebsiteBlog extends Component {
-  createDivStyle = divInformation => {
-    let style = { whiteSpace: "pre-line" };
-
-    if (divInformation.bold) style.fontWeight = "bold";
-    if (divInformation.italic) style.fontStyle = "italic";
-    if (divInformation.underline) style.textDecoration = "underline";
-
-    if (divInformation.position === "left") style.textAlign = "left";
-    else if (divInformation.position === "center") style.textAlign = "center";
-    else if (divInformation.position === "right") style.textAlign = "right";
-    return style;
-  };
-  createRelevantContentDiv = (
-    divInformation,
-    index,
-    contentArray,
-    contentArrayIndex
-  ) => {
-    let style = this.createDivStyle(divInformation);
-
-    let spanDivs = [];
-    if (contentArray[contentArrayIndex + 1]) {
-      let counter = 0;
-      let divInformation2 = contentArray[contentArrayIndex + 1];
-      while (divInformation2.type === "a" || divInformation2.type === "span") {
-        counter++;
-        let style2 = this.createDivStyle(divInformation2);
-        if (divInformation2.type === "a") {
-          spanDivs.push(
-            <a
-              style={style2}
-              key={"a" + contentArrayIndex}
-              href={divInformation2.link}
-            >
-              {divInformation2.text}
-            </a>
-          );
-        }
-        if (divInformation2.type === "span") {
-          spanDivs.push(
-            <span style={style2} key={"span" + contentArrayIndex}>
-              {divInformation2.text}
-            </span>
-          );
-        }
-        divInformation2 = contentArray[contentArrayIndex + 1 + counter];
-        if (!divInformation2) break;
-      }
-    }
-
-    if (divInformation.type === "p")
-      return (
-        <p style={style} key={"div" + index} className="mx20vw">
-          {divInformation.text}
-          {spanDivs}
-        </p>
-      );
-    else if (divInformation.type === "h1")
-      return (
-        <h1 style={style} key={"div" + index} className="mx20vw">
-          {divInformation.text}
-          {spanDivs}
-        </h1>
-      );
-    else if (divInformation.type === "h2")
-      return (
-        <h2 style={style} key={"div" + index} className="mx20vw">
-          {divInformation.text}
-          {spanDivs}
-        </h2>
-      );
-    else if (divInformation.type === "h3")
-      return (
-        <h3 style={style} key={"div" + index} className="mx20vw">
-          {divInformation.text}
-          {spanDivs}
-        </h3>
-      );
-    else if (divInformation.type === "h4")
-      return (
-        <h4 style={style} key={"div" + index} className="mx20vw">
-          {divInformation.text}
-          {spanDivs}
-        </h4>
-      );
-    else if (divInformation.type === "h5")
-      return (
-        <h5 style={style} key={"div" + index} className="mx20vw">
-          {divInformation.text}
-          {spanDivs}
-        </h5>
-      );
-    else if (divInformation.type === "h6")
-      return (
-        <h6 style={style} key={"div" + index} className="mx20vw">
-          {divInformation.text}
-          {spanDivs}
-        </h6>
-      );
-  };
   createRelevantImageDiv = (image, index) => {
     return (
-      <div className="margin-hc simple-container" key={"image" + index}>
+      <div className="simple-container my32" key={"image" + index}>
         <img
           key={"xuwm " + index}
           src={image.imagePreviewUrl || image.url}
@@ -128,12 +28,11 @@ class ViewWebsiteBlog extends Component {
       if (content && image) {
         if (image.location > content.location) {
           divs.push(
-            this.createRelevantContentDiv(
-              content,
-              index,
-              contentArray,
-              contentArrayIndex
-            )
+            <div
+              key={"fdj" + index}
+              className="simple-container large px32"
+              dangerouslySetInnerHTML={{ __html: content.html }}
+            />
           );
           contentArrayIndex += 1;
         } else {
@@ -145,34 +44,44 @@ class ViewWebsiteBlog extends Component {
         imageCounter += 1;
       } else {
         divs.push(
-          this.createRelevantContentDiv(
-            content,
-            index,
-            contentArray,
-            contentArrayIndex
-          )
+          <div
+            key={"fdj" + index}
+            className="simple-container large px32"
+            dangerouslySetInnerHTML={{ __html: content.html }}
+          />
         );
         contentArrayIndex += 1;
       }
     }
+    let metaTitle = "";
+    let temp = document.createElement("div");
+    temp.innerHTML =
+      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[0].html + "";
+
+    metaTitle = temp.textContent || temp.innerText || "";
+
+    let metaDescription = "";
+    let temp2 = document.createElement("div");
+    temp2.innerHTML =
+      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[1].html + "";
+
+    metaDescription = temp2.textContent || temp2.innerText || "";
     return (
-      <div className="website-page simple-container pb32">
+      <div className="website-page common-container-center pb32">
         <MetaTags>
           <title>
-            {contentArray[0]
-              ? "Ghosit | " + contentArray[0].text
-              : "Ghostit | Blog Post."}
+            {metaTitle ? "Ghosit | " + metaTitle : "Ghostit | Blog Post."}
           </title>
           <meta
             name="description"
             content={
-              contentArray[1]
-                ? contentArray[1].text
+              metaDescription
+                ? metaDescription
                 : "What are you waiting for? Get reading!."
             }
           />
         </MetaTags>
-        {divs}
+        <div className="common-container-center">{divs}</div>
       </div>
     );
   }

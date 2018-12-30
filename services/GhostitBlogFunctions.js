@@ -58,14 +58,14 @@ module.exports = {
           undefined,
           (error, result) => {
             if (!error && result) res.send({ success: true });
-            else {
-              unsuccessfulSave(blog, error);
-            }
+            else unsuccessfulSave(blog, error);
           }
         );
       } else {
         blog.save((error, result) => {
-          if (!error && result) res.send({ success: true });
+          console.log(result);
+          if (!error && result)
+            res.send({ success: true, ghostitBlog: result });
           else {
             unsuccessfulSave(blog, error);
           }
@@ -100,7 +100,8 @@ module.exports = {
                   url: result.url,
                   publicID: result.public_id,
                   size: image.size,
-                  location: image.location
+                  location: image.location,
+                  alt: image.alt
                 });
 
                 if (asyncCounter === 0) saveBlog(newGhostitBlog);

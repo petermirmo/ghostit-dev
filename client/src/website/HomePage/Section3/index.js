@@ -6,8 +6,8 @@ import Post from "../../../components/Post";
 class Section3 extends Component {
   render() {
     return (
-      <div className="section px32">
-        <div className="third common-container-center">
+      <div id="home-page-sub-section">
+        <div className="home-page-text mb32">
           <div className="small-box">
             <h4 className="h1-like pt8">Post Instructions</h4>
             <p>
@@ -16,7 +16,7 @@ class Section3 extends Component {
             </p>
           </div>
         </div>
-        <div className="platform-component-showcase fill common-shadow">
+        <div className="common-shadow px64" id="home-page-post-container">
           <Post
             post={undefined}
             postFinishedSavingCallback={() => {}}

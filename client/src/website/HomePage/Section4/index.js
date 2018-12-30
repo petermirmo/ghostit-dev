@@ -36,8 +36,8 @@ class Section4 extends Component {
     const { lines } = this.state;
 
     return (
-      <div className="section px32">
-        <div className="third common-container-center">
+      <div id="home-page-sub-section">
+        <div className="home-page-text mb32">
           <div className="small-box">
             <h4 className="h1-like pt8">Social Scheduling</h4>
             <p>
@@ -46,7 +46,7 @@ class Section4 extends Component {
             </p>
           </div>
         </div>
-        <div className="platform-component-showcase fill">
+        <div id="home-page-chart-container" className="px64">
           <LineChart
             {...{
               lines: lines,

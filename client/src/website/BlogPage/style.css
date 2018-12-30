@@ -3,7 +3,3 @@
   background-size: cover;
   background-color: var(--five-primary-color);
 }
-.hover-blue:hover {
-  color:var(--blue-text-color);
-
-}

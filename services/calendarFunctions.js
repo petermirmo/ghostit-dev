@@ -256,18 +256,22 @@ module.exports = {
 
           let calendarDate = new moment(req.body.calendarDate);
 
-          let firstDayOfMonth = Number(
-            moment(calendarDate.format("M"), "MM")
-              .startOf("month")
-              .format("d")
-          ); // Get calendar starting date
+          let firstDayOfMonth = calendarDate.day();
+          let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
+          let weekEndMonth =
+            firstDayOfMonth + calendarDate.daysInMonth() > 35 &&
+            weekStartMonth !== -1
+              ? 42
+              : 35;
+
+          // Get calendar starting date
           let calendarStartDate = new moment(calendarDate)
             .subtract(firstDayOfMonth, "days")
             .add(firstDayOfMonth === 0 ? -7 : 0, "days");
           // Get calendar ending date
           let calendarEndDate = new moment(calendarDate)
             .subtract(firstDayOfMonth, "days")
-            .add(35, "days");
+            .add(weekEndMonth, "days");
 
           calendarStartDate.set("hour", 0);
           calendarStartDate.set("minute", 0);
