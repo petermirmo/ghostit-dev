@@ -147,6 +147,12 @@ to do next:
         (in the calendar object? chatLastOpened: { userID, timestamp })
           every time the user opens the chat, use socketManager to update their chatLastOpened element in the db.
     when the user opens an unread chat, display a line where they last read.
+    instead of checking for unread messages every render, check for unread messages whenever:
+      - a new message is added
+      - a new calendar is added
+      - componentDidMount
+      and then store that in state
+      modify state to read anytime socket.emit("calendar_chat_opened") is called
 
 
 

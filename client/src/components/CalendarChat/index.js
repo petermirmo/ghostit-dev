@@ -21,13 +21,15 @@ class CalendarChat extends Component {
       collapsed: true,
       activeChatIndex: undefined,
       calendars: props.calendars,
-      inputText: ""
+      inputText: "",
+      unread: [] // unread[i] === true if calendars[i] has unread messages
     };
   }
   componentDidMount() {
     this._ismounted = true;
 
     this.initSocket();
+    this.updateUnreadMessages();
 
     window.addEventListener("keypress", this.submitByEnterKey);
   }
@@ -37,7 +39,10 @@ class CalendarChat extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.calendars.length !== this.props.calendars.length) {
-      this.setState({ calendars: this.props.calendars }, this.joinSocketRooms);
+      this.setState({ calendars: this.props.calendars }, () => {
+        this.joinSocketRooms();
+        this.updateUnreadMessages();
+      });
     }
   }
 
@@ -135,7 +140,7 @@ class CalendarChat extends Component {
   };
 
   addMessageToChatHistory = (msgObj, calendarIndex) => {
-    const { calendars, activeChatIndex } = this.state;
+    const { calendars, activeChatIndex, unread } = this.state;
 
     const newCalendarChatHistory = [
       ...calendars[calendarIndex].chatHistory,
@@ -146,6 +151,11 @@ class CalendarChat extends Component {
       chatHistory: newCalendarChatHistory
     };
 
+    const newUnread = [...unread];
+    if (activeChatIndex !== calendarIndex) {
+      newUnread[calendarIndex] = true;
+    }
+
     this.setState(
       prevState => {
         return {
@@ -153,7 +163,8 @@ class CalendarChat extends Component {
             ...prevState.calendars.slice(0, calendarIndex),
             newCalendar,
             ...prevState.calendars.slice(calendarIndex + 1)
-          ]
+          ],
+          unread: newUnread
         };
       },
       () => {
@@ -183,7 +194,12 @@ class CalendarChat extends Component {
   };
 
   updateChatOpenedTime = index => {
-    const { socket } = this.state;
+    const { socket, unread } = this.state;
+
+    const newUnread = [...unread];
+    newUnread[index] = false;
+    this.setState({ unread: newUnread });
+
     socket.emit("calendar_chat_opened", {
       calendarID: this.state.calendars[index]._id,
       timestamp: new moment()
@@ -214,42 +230,52 @@ class CalendarChat extends Component {
     );
   };
 
+  calendarHasUnreadMessages = calendar => {
+    if (calendar.chatHistory.length === 0) return false; // no msgs so no unread
+
+    const chatLastOpened = calendar.chatLastOpened.find(
+      chatLastOpenedObj =>
+        chatLastOpenedObj.userID.toString() === this.props.user._id.toString()
+    );
+    if (!chatLastOpened) return true; // this user has never opened the chat so must be unread
+
+    const lastMessage = calendar.chatHistory[calendar.chatHistory.length - 1];
+    if (
+      new moment(lastMessage.createdAt) > new moment(chatLastOpened.timestamp)
+    )
+      return true; // newest msg happened after the last time the user opened this chat so must be unread
+  };
+
+  updateUnreadMessages = () => {
+    const { calendars } = this.state;
+    const unread = [];
+
+    for (let i = 0; i < calendars.length; i++) {
+      unread.push(this.calendarHasUnreadMessages(calendars[i]));
+    }
+
+    this.setState({ unread });
+  };
+
   render() {
-    const { collapsed, activeChatIndex, calendars, inputText } = this.state;
+    const {
+      collapsed,
+      activeChatIndex,
+      calendars,
+      inputText,
+      unread
+    } = this.state;
 
     if (collapsed) {
       // just render a small Chat rectangle in the bottom right of the page
-      let unread = false;
-      for (let i = 0; i < calendars.length; i++) {
-        // detect if any calendar chats have unread messages
-        if (calendars[i].chatHistory.length === 0) continue; // chat history empty so skip calendar
-        const chatLastOpened = calendars[i].chatLastOpened.find(
-          chatLastOpenedObj =>
-            chatLastOpenedObj.userID.toString() ===
-            this.props.user._id.toString()
-        );
-        if (!chatLastOpened) {
-          unread = true;
-          break;
-        } else {
-          const lastMessage =
-            calendars[i].chatHistory[calendars[i].chatHistory.length - 1];
-          if (
-            new moment(lastMessage.createdAt) >
-            new moment(chatLastOpened.timestamp)
-          ) {
-            unread = true;
-            break;
-          }
-        }
-      }
+      const notifyUnread = unread.findIndex(tmp => tmp === true) !== -1;
       return (
         <div
           className="chat-btn"
           onClick={() => this.setState({ collapsed: false })}
         >
           Chat
-          {unread && <FontAwesomeIcon icon={faCircle} color="red" />}
+          {notifyUnread && <FontAwesomeIcon icon={faCircle} color="red" />}
         </div>
       );
     } else {
@@ -319,6 +345,8 @@ class CalendarChat extends Component {
             </div>
             <div className="chat-calendar-list">
               {calendars.map((calendar, index) => {
+                const notifyUnread = unread[index];
+
                 return (
                   <div
                     className="chat-calendar-btn"
@@ -326,6 +354,9 @@ class CalendarChat extends Component {
                     onClick={() => this.setActiveChatIndex(index)}
                   >
                     {calendar.calendarName}
+                    {notifyUnread && (
+                      <FontAwesomeIcon icon={faCircle} color="red" />
+                    )}
                   </div>
                 );
               })}
