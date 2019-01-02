@@ -68,6 +68,11 @@ class Calendar extends Component {
       calendarWeekRows.push(
         <div className="calendar-week-row" key={"week" + weekIndex}>
           {calendarDayOutlines}
+          <div className="events-container">
+            <div className="event-row">
+              <div className="event">te</div>
+            </div>
+          </div>
         </div>
       );
     }
@@ -75,7 +80,6 @@ class Calendar extends Component {
     return <div className="calendar">{calendarWeekRows}</div>;
   }
 }
-
 function mapStateToProps(state) {
   return {
     tutorial: state.tutorial

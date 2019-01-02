@@ -3,6 +3,7 @@
 .calendar-week-row {
   position: relative;
   display: flex;
+  margin-top: 20px;
 }
 .calendar-day-outline {
   min-height: 40px;
@@ -10,4 +11,25 @@
 
   border-top: 1px solid var(--divider-theme-color);
   border-right: 1px solid var(--divider-theme-color);
+}
+.events-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  display: flex;
+  padding-top: 10px;
+}
+
+.event-row {
+  flex: 1;
+  background-color: orange;
+  display: flex;
+}
+.event {
+  background-color: red;
+  flex-basis: 28.5714%;
+  max-width: 28.5714%;
 }
