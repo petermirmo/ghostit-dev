@@ -37,20 +37,13 @@ class Calendar extends Component {
     queueActive: false
   };
 
-  render() {
-    let events = this.props.calendarEvents;
-    let calendarDate = new moment().date(1);
-
-    calendarDate.date(1);
-
-    // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
-    let firstDayOfMonth = moment(calendarDate).weekday();
-
-    let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
-
-    let calendarWeekRows = [];
-    let rowIndex = 0;
-
+  convertEventsToCalendarArray = (
+    firstDayOfMonth,
+    weekStartMonth,
+    rowIndex,
+    events,
+    calendarDate
+  ) => {
     let testArray = [];
     for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
       testArray.push([[0, 0, 0, 0, 0, 0, 0]]);
@@ -86,37 +79,32 @@ class Calendar extends Component {
         }
       }
     }
+    return testArray;
+  };
 
-    console.log(testArray);
+  render() {
+    let events = this.props.calendarEvents;
+    let calendarDate = new moment().date(1);
 
-    let someArray = [];
+    calendarDate.date(1);
 
-    // Week for loop
-    // To determine if 5 or 6 weeks are needed in the calendar
-    for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
-      let calendarDayOutlines = [];
+    // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
+    let firstDayOfMonth = moment(calendarDate).weekday();
 
-      for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
-        let calendarDay = new moment(calendarDate)
-          .subtract(firstDayOfMonth, "days")
-          .add(weekIndex * 7 + dayIndex, "days");
+    let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
-        calendarDayOutlines.push(
-          <td key={weekIndex + "day" + dayIndex}>{calendarDay.date()}</td>
-        );
-      }
+    let rowIndex = 0;
 
-      calendarWeekRows.push(
-        <table className="test" key={"week" + weekIndex}>
-          <thead>
-            <tr className="">{calendarDayOutlines}</tr>
-          </thead>
-          <tbody>{someArray}</tbody>
-        </table>
-      );
-    }
+    let array = this.convertEventsToCalendarArray(
+      firstDayOfMonth,
+      weekStartMonth,
+      rowIndex,
+      events,
+      calendarDate
+    );
+    console.log(array);
 
-    return <div className="test1">{calendarWeekRows}</div>;
+    return <div className="test1">test</div>;
   }
 }
 function mapStateToProps(state) {
