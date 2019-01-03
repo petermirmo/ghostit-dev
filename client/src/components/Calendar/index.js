@@ -49,6 +49,7 @@ class Calendar extends Component {
     let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
     let calendarWeekRows = [];
+    let rowIndex = 0;
 
     let testArray = [];
     for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
@@ -71,16 +72,24 @@ class Calendar extends Component {
             weekEnd < new moment(currentEvent.startDate)
           )
         ) {
-          console.log(weekIndex);
-        }
-
-        if (new moment(currentEvent.endDate) > weekStart) {
-          console.log(weekStart.format("lll"));
-          console.log(currentEvent);
-          break;
+          for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
+            let calendarDay = new moment(calendarDate)
+              .subtract(firstDayOfMonth, "days")
+              .add(weekIndex * 7 + dayIndex, "days");
+            if (
+              calendarDay >= new moment(currentEvent.startDate) &&
+              calendarDay <= new moment(currentEvent.endDate)
+            ) {
+              testArray[weekIndex][rowIndex][dayIndex] = 1;
+            }
+          }
         }
       }
     }
+
+    console.log(testArray);
+
+    let someArray = [];
 
     // Week for loop
     // To determine if 5 or 6 weeks are needed in the calendar
@@ -96,8 +105,6 @@ class Calendar extends Component {
           <td key={weekIndex + "day" + dayIndex}>{calendarDay.date()}</td>
         );
       }
-
-      let someArray = [];
 
       calendarWeekRows.push(
         <table className="test" key={"week" + weekIndex}>
