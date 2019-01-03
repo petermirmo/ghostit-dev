@@ -38,14 +38,17 @@ class Calendar extends Component {
   };
 
   render() {
-    let calendarDate = new moment();
+    let events = this.props.calendarEvents;
+    let calendarDate = new moment().date(1);
 
     // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
-    let firstDayOfMonth = moment(calendarDate.date(1)).weekday();
+    let firstDayOfMonth = moment(calendarDate).weekday();
 
     let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
     let calendarWeekRows = [];
+    let eventCounter = 0;
+
     // Week for loop
     // To determine if 5 or 6 weeks are needed in the calendar
     for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
@@ -53,31 +56,54 @@ class Calendar extends Component {
 
       for (let dayIndex = 0; dayIndex <= 6; dayIndex++) {
         let calendarDay = new moment(calendarDate)
-          .date(1)
           .subtract(firstDayOfMonth, "days")
           .add(weekIndex * 7 + dayIndex, "days");
 
         calendarDayOutlines.push(
-          <div
-            className="calendar-day-outline"
-            key={weekIndex + "day" + dayIndex}
-          />
+          <td key={weekIndex + "day" + dayIndex}>{calendarDay.date()}</td>
         );
       }
 
+      let weekStart = new moment(calendarDate)
+        .subtract(firstDayOfMonth, "days")
+        .add(weekIndex * 7, "days")
+        .startOf("day");
+
+      let weekEnd = new moment(weekStart).add(6, "days").endOf("day");
+
+      let someArray = [];
+
+      let currentEvent = events[eventCounter];
+
+      while (currentEvent) {
+        if (
+          !(
+            new moment(currentEvent.endDate) < weekStart ||
+            new moment(currentEvent.startDate) > weekEnd
+          )
+        ) {
+          someArray.push(
+            <tr className="" key={eventCounter + "tdfjh"}>
+              <td className="">te</td>
+            </tr>
+          );
+          eventCounter++;
+          currentEvent = events[eventCounter];
+        } else break;
+      }
+
       calendarWeekRows.push(
-        <div className="calendar-week-row" key={"week" + weekIndex}>
-          {calendarDayOutlines}
-          <div className="events-container">
-            <div className="event-row">
-              <div className="event">te</div>
-            </div>
-          </div>
-        </div>
+        <table className="test" key={"week" + weekIndex}>
+          <thead>
+            <tr className="">{calendarDayOutlines}</tr>
+          </thead>
+          <tbody>{someArray}</tbody>
+        </table>
       );
+      eventCounter = 0;
     }
 
-    return <div className="calendar">{calendarWeekRows}</div>;
+    return <div className="test1">{calendarWeekRows}</div>;
   }
 }
 function mapStateToProps(state) {
