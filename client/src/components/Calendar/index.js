@@ -47,7 +47,38 @@ class Calendar extends Component {
     let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
     let calendarWeekRows = [];
-    let eventCounter = 0;
+
+    let testArray = [];
+    for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
+      testArray.push([[0, 0, 0, 0, 0, 0, 0]]);
+    }
+    for (let index in events) {
+      let currentEvent = events[index];
+
+      for (let weekIndex = weekStartMonth; weekIndex < 5; weekIndex++) {
+        let weekStart = new moment(calendarDate)
+          .subtract(firstDayOfMonth, "days")
+          .add(weekIndex * 7, "days")
+          .startOf("day");
+
+        let weekEnd = new moment(weekStart).add(6, "days").endOf("day");
+
+        if (
+          !(
+            new moment(currentEvent.endDate) < weekStart ||
+            new moment(currentEvent.startDate) > weekEnd
+          )
+        ) {
+          console.log(weekIndex);
+        }
+
+        if (new moment(currentEvent.endDate) > weekStart) {
+          console.log(weekStart.format("lll"));
+          console.log("here");
+          break;
+        }
+      }
+    }
 
     // Week for loop
     // To determine if 5 or 6 weeks are needed in the calendar
@@ -64,33 +95,7 @@ class Calendar extends Component {
         );
       }
 
-      let weekStart = new moment(calendarDate)
-        .subtract(firstDayOfMonth, "days")
-        .add(weekIndex * 7, "days")
-        .startOf("day");
-
-      let weekEnd = new moment(weekStart).add(6, "days").endOf("day");
-
       let someArray = [];
-
-      let currentEvent = events[eventCounter];
-
-      while (currentEvent) {
-        if (
-          !(
-            new moment(currentEvent.endDate) < weekStart ||
-            new moment(currentEvent.startDate) > weekEnd
-          )
-        ) {
-          someArray.push(
-            <tr className="" key={eventCounter + "tdfjh"}>
-              <td className="">te</td>
-            </tr>
-          );
-          eventCounter++;
-          currentEvent = events[eventCounter];
-        } else break;
-      }
 
       calendarWeekRows.push(
         <table className="test" key={"week" + weekIndex}>
@@ -100,7 +105,6 @@ class Calendar extends Component {
           <tbody>{someArray}</tbody>
         </table>
       );
-      eventCounter = 0;
     }
 
     return <div className="test1">{calendarWeekRows}</div>;
