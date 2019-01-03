@@ -4,6 +4,9 @@ import MetaTags from "react-meta-tags";
 import "./style.css";
 
 class ViewWebsiteBlog extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   createRelevantImageDiv = (image, index) => {
     return (
       <div className="simple-container my32" key={"image" + index}>

@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
+
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+import {
+  faTrash,
+  faPlus,
+  faImage,
+  faFont
+} from "@fortawesome/fontawesome-free-solid";
+
 import ContentEditable from "react-contenteditable";
+
+import { Link, withRouter } from "react-router-dom";
 
 import ViewWebsiteBlog from "../View";
 
@@ -58,16 +66,7 @@ class CreateWebsiteBlog extends Component {
     images[index][index2] = value;
     this.setState({ images });
   };
-  insertTextbox = () => {
-    let { contentArray, locationCounter } = this.state;
 
-    contentArray.push({
-      html: "<p>Start Writing!</p>",
-      location: locationCounter
-    });
-    locationCounter++;
-    this.setState({ contentArray, locationCounter });
-  };
   removeTextarea = index => {
     const { contentArray, locationCounter } = this.state;
     contentArray.splice(index, 1);
@@ -79,29 +78,87 @@ class CreateWebsiteBlog extends Component {
     images.splice(index, 1);
     this.setState({ images, deleteImageArray });
   };
-  insertImage = event => {
+  insertTextbox = location => {
+    let { contentArray, locationCounter, images } = this.state;
+
+    if (!isNaN(location)) {
+      let index = contentArray.length;
+
+      for (let i = 0; i < contentArray.length; i++) {
+        if (location == contentArray[i].location) {
+          index = i + 1;
+          break;
+        }
+        if (location < contentArray[i].location) {
+          index = i + 1;
+          break;
+        }
+      }
+
+      contentArray.splice(index, 0, {
+        html: "<p>Start Writing!</p>",
+        location: location + 1
+      });
+      for (let i = index + 1; i < contentArray.length; i++) {
+        contentArray[i].location++;
+      }
+    } else {
+      contentArray.push({
+        html: "<p>Start Writing!</p>",
+        location: locationCounter
+      });
+    }
+
+    locationCounter++;
+    this.setState({ contentArray, locationCounter, images });
+  };
+  insertImage = (event, location) => {
     let newImages = event.target.files;
 
     let { images, locationCounter } = this.state;
 
     // Save each image to state
-    for (let index = 0; index < newImages.length; index++) {
+    for (let index2 = 0; index2 < newImages.length; index2++) {
       let reader = new FileReader();
-      let image = newImages[index];
+      let image = newImages[index2];
 
       reader.onloadend = image => {
-        images.push({
-          size: "small",
-          image,
-          imagePreviewUrl: reader.result,
-          location: locationCounter,
-          alt: ""
-        });
-        locationCounter += 1;
+        if (!isNaN(location)) {
+          let index = images.length;
 
+          for (let i = 0; i < images.length; i++) {
+            if (location == images[i].location) {
+              index = i + 1;
+              break;
+            }
+            if (location < images[i].location) {
+              index = i + 1;
+              break;
+            }
+          }
+
+          images.splice(index, 0, {
+            size: "small",
+            image,
+            imagePreviewUrl: reader.result,
+            location: location + 1,
+            alt: ""
+          });
+          for (let i = index + 1; i < images.length; i++) {
+            images[i].location++;
+          }
+        } else {
+          images.push({
+            size: "small",
+            image,
+            imagePreviewUrl: reader.result,
+            location: locationCounter,
+            alt: ""
+          });
+          locationCounter += 1;
+        }
         this.setState({ images, locationCounter });
       };
-
       reader.readAsDataURL(image);
     }
   };
@@ -130,8 +187,14 @@ class CreateWebsiteBlog extends Component {
         deleteImageArray
       })
       .then(res => {
-        if (res.data.success) alert("Successfully saved Ghostit blog.");
-        else console.log(res.data);
+        const { success, ghostitBlog } = res.data;
+        if (success) {
+          if (!id) {
+            this.props.history.push("/manage/" + ghostitBlog._id);
+            this.setState({ id: ghostitBlog._id });
+            alert("Successfully saved Ghostit blog.");
+          } else alert("Successfully saved Ghostit blog.");
+        } else console.log(res.data);
       });
   };
   createRelevantImageDiv = (image, index) => {
@@ -166,15 +229,37 @@ class CreateWebsiteBlog extends Component {
             large
           </button>
         </div>
+        <div className="top-right-over-div">
+          <FontAwesomeIcon
+            icon={faTrash}
+            className="delete"
+            onClick={() => this.removeImage(index)}
+          />
+
+          <label htmlFor={"image-file-upload" + index}>
+            <FontAwesomeIcon
+              icon={faImage}
+              className="icon-regular-button my8"
+            />
+          </label>
+          <input
+            id={"image-file-upload" + index}
+            type="file"
+            onChange={event => {
+              this.insertImage(event, image.location);
+            }}
+          />
+          <FontAwesomeIcon
+            icon={faFont}
+            className="icon-regular-button"
+            onClick={() => this.insertTextbox(image.location)}
+          />
+        </div>
         <img
           src={image.imagePreviewUrl || image.url}
           className={"image br4 " + image.size}
         />
-        <FontAwesomeIcon
-          icon={faTrash}
-          className="delete top-right-over-div"
-          onClick={() => this.removeImage(index)}
-        />
+
         <input
           className="regular-input width100 border-box"
           value={image.alt ? image.alt : ""}
@@ -187,7 +272,11 @@ class CreateWebsiteBlog extends Component {
 
   editableTextbox = (index, content) => {
     return (
-      <div key={"jsk" + index} className="relative">
+      <div
+        key={"jsk" + index}
+        className="relative"
+        id="editable-text-container"
+      >
         <ContentEditable
           innerRef={this.contentEditable}
           html={content.html}
@@ -197,18 +286,35 @@ class CreateWebsiteBlog extends Component {
           }
           className="simple-container medium pa4"
         />
-        <FontAwesomeIcon
-          icon={faTrash}
-          className="delete top-right-over-div"
-          onClick={() => this.removeTextarea(index)}
-        />
+        <div className="top-right-over-div">
+          <FontAwesomeIcon
+            icon={faTrash}
+            className="delete"
+            onClick={() => this.removeTextarea(index)}
+          />
+          <label htmlFor={"text-file-upload" + index}>
+            <FontAwesomeIcon
+              icon={faImage}
+              className="icon-regular-button my8"
+            />
+          </label>
+          <input
+            id={"text-file-upload" + index}
+            type="file"
+            onChange={event => this.insertImage(event, content.location)}
+          />
+          <FontAwesomeIcon
+            icon={faFont}
+            className="icon-regular-button"
+            onClick={() => this.insertTextbox(content.location)}
+          />
+        </div>
       </div>
     );
   };
 
   render() {
     const { url, category, hyperlink, contentArray, images } = this.state;
-
     let blogDivs = [];
 
     let imageCounter = 0;
@@ -287,11 +393,11 @@ class CreateWebsiteBlog extends Component {
         </div>
 
         <div className="flex my16">
-          <label htmlFor="file-upload2" className="regular-button mr8">
+          <label htmlFor="file-upload3" className="regular-button mr8">
             Insert Image
           </label>
           <input
-            id="file-upload2"
+            id="file-upload3"
             type="file"
             onChange={event => this.insertImage(event)}
           />
@@ -332,4 +438,4 @@ function ghostitBlogImagesCompare(a, b) {
   return 0;
 }
 
-export default CreateWebsiteBlog;
+export default withRouter(CreateWebsiteBlog);

@@ -58,14 +58,14 @@ module.exports = {
           undefined,
           (error, result) => {
             if (!error && result) res.send({ success: true });
-            else {
-              unsuccessfulSave(blog, error);
-            }
+            else unsuccessfulSave(blog, error);
           }
         );
       } else {
         blog.save((error, result) => {
-          if (!error && result) res.send({ success: true });
+          console.log(result);
+          if (!error && result)
+            res.send({ success: true, ghostitBlog: result });
           else {
             unsuccessfulSave(blog, error);
           }

@@ -569,8 +569,6 @@
 
 .copy,
 .delete {
-  padding: 4px;
-
   color: var(--secondary-text-color);
 
   cursor: pointer;
@@ -766,7 +764,19 @@
 .top-right-over-div {
   position: absolute;
   top: 0;
-  right: -25px;
+  left: 100%;
+
+  display: none;
+  flex-direction: column;
+
+  padding-right: 16px;
+  padding-left: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background-color: var(--light-grey-theme-color);
+}
+.top-right-over-div:hover {
+  display: flex;
 }
 .absolute-bottom-container {
   position: absolute;

@@ -41,6 +41,8 @@ class Calendar extends Component {
     let events = this.props.calendarEvents;
     let calendarDate = new moment().date(1);
 
+    calendarDate.date(1);
+
     // Used to see which day the month starts on, does it start on a Monday or Sunday or Tuesday...
     let firstDayOfMonth = moment(calendarDate).weekday();
 
@@ -66,7 +68,7 @@ class Calendar extends Component {
         if (
           !(
             new moment(currentEvent.endDate) < weekStart ||
-            new moment(currentEvent.startDate) > weekEnd
+            weekEnd < new moment(currentEvent.startDate)
           )
         ) {
           console.log(weekIndex);
@@ -74,7 +76,7 @@ class Calendar extends Component {
 
         if (new moment(currentEvent.endDate) > weekStart) {
           console.log(weekStart.format("lll"));
-          console.log("here");
+          console.log(currentEvent);
           break;
         }
       }
