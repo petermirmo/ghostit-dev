@@ -16,7 +16,7 @@
   white-space: nowrap;
 
   border-style: solid;
-  border-color: red;
+  border-color: var(--seven-primary-color);
   border-radius: 4px;
 
   background-color: white;
@@ -36,6 +36,10 @@
   cursor: pointer;
 }
 
+.chat-calendar-btn:hover {
+  font-weight: bold;
+}
+
 .chat-calendar-header,
 .chat-calendar-list-header {
   display: flex;
@@ -43,6 +47,8 @@
   flex-direction: row;
   justify-content: center;
   padding: 0px 15px 0px 15px;
+  color: var(--five-primary-color);
+  font-weight: bold;
 }
 
 .chat-calendar-header-btns,
