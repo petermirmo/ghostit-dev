@@ -1,8 +1,24 @@
-.test1 {
-}
-.test {
+table {
   table-layout: fixed;
   width: 100%;
-
+}
+th {
+  text-align: left;
+}
+.calendar-month-container {
   border: 1px solid black;
+}
+.calendar-week-container {
+  border: 1px solid black;
+}
+.calendar-row-container {
+}
+.test {
+  background-color: red;
+}
+.test2 {
+  background-color: blue;
+}
+.test3 {
+  background-color: orange;
 }

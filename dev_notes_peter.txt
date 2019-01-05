@@ -2,6 +2,24 @@ drag and drop campaign functionality in navigation:
 - a pop up to select new date
 - automatically adds 1 day or 1 minute depending on the surrounding posts
 
+*What types of content should I create (Structure, images, long-form vs. short-form).*
+- Based on the top posts in a specific category and based on your competition.
+
+What topics I should be creating content around?
+- Keywords, topic clusters, low hanging fruit, competitive analysis.
+
+*When/where should I post*
+- Time of day based on the longest engagement. Forms to post to, newsletters you can get featured on, etc...
+
+*How often should I post*
+- frequency per month based on competition and top ranking people for the topics you want to rank for.
+
+*What is my competition doing*
+- Where is their traffic coming from.
+- What is their content like.
+- Gaps in their content (keyword opportunities).
+
+
 
 facebook_permission stuff
 
