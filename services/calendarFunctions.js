@@ -15,6 +15,9 @@ const newsletterFunctions = require("./newsletterFunctions");
 const moment = require("moment-timezone");
 
 const demoCalendarMaximumPosts = 10;
+// number of elements in chatHistory that we want to fetch when retrieving calendar objects in DB
+// (number must be negative to signify you want the last elements in the array)
+const chatHistoryMessagesToLoadAtFirst = -50;
 
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
@@ -62,167 +65,173 @@ module.exports = {
         userID = req.user.signedInAsUser.id;
       }
     }
-    Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
-      if (err || !foundCalendars) {
-        res.send({
-          success: false,
-          err,
-          message: `error occurred when trying to fetch calendars associated with user id ${userID}`
-        });
-      } else {
-        if (foundCalendars.length === 0) {
-          // this user doesnt have a calendar yet so we need to make them one
-          const newCalendar = new Calendar();
-          newCalendar.adminID = userID;
-          newCalendar.userIDs = [userID];
-          newCalendar.calendarName = "Calendar 1";
-          // need to set the user's defaultCalendarID
-          User.findOne({ _id: userID }, (err, foundUser) => {
-            if (err || !foundUser) {
-              res.send({
-                success: false,
-                err,
-                message: `error occurred when trying to fetch user with id ${userID} in an attempt to save its first calendar.`
-              });
-            } else {
-              foundUser.defaultCalendarID = newCalendar._id;
-              foundUser.save();
-              if (foundUser.role === "demo") {
-                newCalendar.postsLeft = demoCalendarMaximumPosts;
-              } else {
-                newCalendar.postsLeft = -1;
-              }
-              newCalendar.save();
-
-              Post.find(
-                { userID, calendarID: undefined },
-                (err, foundPosts) => {
-                  if (err || !foundPosts) {
-                    console.log(
-                      `Error while trying to fetch all old posts to link to new calendar.`
-                    );
-                  } else {
-                    for (let i = 0; i < foundPosts.length; i++) {
-                      const post = foundPosts[i];
-                      post.calendarID = newCalendar._id;
-                      post.save();
-                    }
-                  }
-                }
-              );
-              Campaign.find(
-                { userID, calendarID: undefined },
-                (err, foundCampaigns) => {
-                  if (err || !foundCampaigns) {
-                    console.log(
-                      `Error while trying to fetch all old campaigns to link to new calendar.`
-                    );
-                  } else {
-                    for (let i = 0; i < foundCampaigns.length; i++) {
-                      const campaign = foundCampaigns[i];
-                      campaign.calendarID = newCalendar._id;
-                      campaign.save();
-                    }
-                  }
-                }
-              );
-              Blog.find(
-                { userID, calendarID: undefined },
-                (err, foundBlogs) => {
-                  if (err || !foundBlogs) {
-                    console.log(
-                      `Error while trying to fetch all old blogs to link to new calendar.`
-                    );
-                  } else {
-                    for (let i = 0; i < foundBlogs.length; i++) {
-                      const blog = foundBlogs[i];
-                      blog.calendarID = newCalendar._id;
-                      blog.save();
-                    }
-                  }
-                }
-              );
-              Newsletter.find(
-                { userID, calendarID: undefined },
-                (err, foundNewsletters) => {
-                  if (err || !foundNewsletters) {
-                    console.log(
-                      `Error while trying to fetch all old newsletters to link to new calendar.`
-                    );
-                  } else {
-                    for (let i = 0; i < foundNewsletters.length; i++) {
-                      const newsletter = foundNewsletters[i];
-                      newsletter.calendarID = newCalendar._id;
-                      newsletter.save();
-                    }
-                  }
-                }
-              );
-
-              res.send({
-                success: true,
-                calendars: [newCalendar],
-                defaultCalendarID: newCalendar._id
-              });
-            }
+    Calendar.find(
+      { userIDs: userID },
+      { chatHistory: { $slice: chatHistoryMessagesToLoadAtFirst } },
+      (err, foundCalendars) => {
+        if (err || !foundCalendars) {
+          res.send({
+            success: false,
+            err,
+            message: `error occurred when trying to fetch calendars associated with user id ${userID}`
           });
         } else {
-          User.findOne({ _id: userID }, (err, foundUser) => {
-            if (err || !foundUser) {
-              res.send({
-                success: false,
-                err,
-                message: `error occurred when trying to fetch user with id ${userID} in an attempt to get its defaultCalendarID`
-              });
-            } else {
-              for (let i = 0; i < foundCalendars.length; i++) {
-                // make sure all calendars (that this user is the admin of) are appropriately locked/unlocked based on the user's role
-                if (
-                  foundCalendars[i].adminID.toString() ===
-                  foundUser._id.toString()
-                ) {
-                  if (foundUser.role === "demo") {
-                    if (foundCalendars[i].postsLeft === -1) {
-                      // user is demo, but their calendar is unlocked so we need to change this calendar to be locked
-                      foundCalendars[i].postsLeft = 0;
-                      foundCalendars[i].save();
+          if (foundCalendars.length === 0) {
+            // this user doesnt have a calendar yet so we need to make them one
+            const newCalendar = new Calendar();
+            newCalendar.adminID = userID;
+            newCalendar.userIDs = [userID];
+            newCalendar.calendarName = "Calendar 1";
+            // need to set the user's defaultCalendarID
+            User.findOne({ _id: userID }, (err, foundUser) => {
+              if (err || !foundUser) {
+                res.send({
+                  success: false,
+                  err,
+                  message: `error occurred when trying to fetch user with id ${userID} in an attempt to save its first calendar.`
+                });
+              } else {
+                foundUser.defaultCalendarID = newCalendar._id;
+                foundUser.save();
+                if (foundUser.role === "demo") {
+                  newCalendar.postsLeft = demoCalendarMaximumPosts;
+                } else {
+                  newCalendar.postsLeft = -1;
+                }
+                newCalendar.save();
+
+                Post.find(
+                  { userID, calendarID: undefined },
+                  (err, foundPosts) => {
+                    if (err || !foundPosts) {
+                      console.log(
+                        `Error while trying to fetch all old posts to link to new calendar.`
+                      );
+                    } else {
+                      for (let i = 0; i < foundPosts.length; i++) {
+                        const post = foundPosts[i];
+                        post.calendarID = newCalendar._id;
+                        post.save();
+                      }
                     }
-                  } else {
-                    if (foundCalendars[i].postsLeft !== -1) {
-                      // user is paid, but their calendar is locked so we need to change this calendar to be unlocked
-                      foundCalendars[i].postsLeft = -1;
-                      foundCalendars[i].save();
+                  }
+                );
+                Campaign.find(
+                  { userID, calendarID: undefined },
+                  (err, foundCampaigns) => {
+                    if (err || !foundCampaigns) {
+                      console.log(
+                        `Error while trying to fetch all old campaigns to link to new calendar.`
+                      );
+                    } else {
+                      for (let i = 0; i < foundCampaigns.length; i++) {
+                        const campaign = foundCampaigns[i];
+                        campaign.calendarID = newCalendar._id;
+                        campaign.save();
+                      }
+                    }
+                  }
+                );
+                Blog.find(
+                  { userID, calendarID: undefined },
+                  (err, foundBlogs) => {
+                    if (err || !foundBlogs) {
+                      console.log(
+                        `Error while trying to fetch all old blogs to link to new calendar.`
+                      );
+                    } else {
+                      for (let i = 0; i < foundBlogs.length; i++) {
+                        const blog = foundBlogs[i];
+                        blog.calendarID = newCalendar._id;
+                        blog.save();
+                      }
+                    }
+                  }
+                );
+                Newsletter.find(
+                  { userID, calendarID: undefined },
+                  (err, foundNewsletters) => {
+                    if (err || !foundNewsletters) {
+                      console.log(
+                        `Error while trying to fetch all old newsletters to link to new calendar.`
+                      );
+                    } else {
+                      for (let i = 0; i < foundNewsletters.length; i++) {
+                        const newsletter = foundNewsletters[i];
+                        newsletter.calendarID = newCalendar._id;
+                        newsletter.save();
+                      }
+                    }
+                  }
+                );
+
+                res.send({
+                  success: true,
+                  calendars: [newCalendar],
+                  defaultCalendarID: newCalendar._id
+                });
+              }
+            });
+          } else {
+            User.findOne({ _id: userID }, (err, foundUser) => {
+              if (err || !foundUser) {
+                res.send({
+                  success: false,
+                  err,
+                  message: `error occurred when trying to fetch user with id ${userID} in an attempt to get its defaultCalendarID`
+                });
+              } else {
+                for (let i = 0; i < foundCalendars.length; i++) {
+                  // make sure all calendars (that this user is the admin of) are appropriately locked/unlocked based on the user's role
+                  if (
+                    foundCalendars[i].adminID.toString() ===
+                    foundUser._id.toString()
+                  ) {
+                    if (foundUser.role === "demo") {
+                      if (foundCalendars[i].postsLeft === -1) {
+                        // user is demo, but their calendar is unlocked so we need to change this calendar to be locked
+                        foundCalendars[i].postsLeft = 0;
+                        foundCalendars[i].save();
+                      }
+                    } else {
+                      if (foundCalendars[i].postsLeft !== -1) {
+                        // user is paid, but their calendar is locked so we need to change this calendar to be unlocked
+                        foundCalendars[i].postsLeft = -1;
+                        foundCalendars[i].save();
+                      }
                     }
                   }
                 }
-              }
-              const defaultCalendarIndex = foundCalendars.findIndex(calObj => {
-                return (
-                  calObj._id.toString() ===
-                  foundUser.defaultCalendarID.toString()
+                const defaultCalendarIndex = foundCalendars.findIndex(
+                  calObj => {
+                    return (
+                      calObj._id.toString() ===
+                      foundUser.defaultCalendarID.toString()
+                    );
+                  }
                 );
-              });
-              if (defaultCalendarIndex !== -1) {
-                res.send({
-                  success: true,
-                  calendars: foundCalendars,
-                  defaultCalendarID: foundUser.defaultCalendarID
-                });
-              } else {
-                // user's defaultCalendarID no longer exists so we need to update it
-                foundUser.defaultCalendarID = foundCalendars[0]._id;
-                foundUser.save();
-                res.send({
-                  success: true,
-                  calendars: foundCalendars,
-                  defaultCalendarID: foundUser.defaultCalendarID
-                });
+                if (defaultCalendarIndex !== -1) {
+                  res.send({
+                    success: true,
+                    calendars: foundCalendars,
+                    defaultCalendarID: foundUser.defaultCalendarID
+                  });
+                } else {
+                  // user's defaultCalendarID no longer exists so we need to update it
+                  foundUser.defaultCalendarID = foundCalendars[0]._id;
+                  foundUser.save();
+                  res.send({
+                    success: true,
+                    calendars: foundCalendars,
+                    defaultCalendarID: foundUser.defaultCalendarID
+                  });
+                }
               }
-            }
-          });
+            });
+          }
         }
       }
-    });
+    );
   },
   getPosts: function(req, res) {
     // Get all posts for user
