@@ -10,6 +10,8 @@ const Recipe = require("../models/Recipe");
 
 const postFunctions = require("../services/postFunctions");
 
+const chatHistoryMessagesToFetchEachRequest = 10;
+
 searchAndRemoveSocketID = (connections, socketID) => {
   for (let index in connections) {
     for (let i = 0; i < connections[index].length; i++) {
@@ -204,6 +206,47 @@ module.exports = io => {
               }
             });
           }
+        }
+      );
+    });
+
+    socket.on("calendar_chat_request_more_messages", reqObj => {
+      const { calendarID, clientChatHistoryLength } = reqObj;
+
+      let userID = socket.request.user._id;
+      if (socket.request.user.signedInAsUser) {
+        if (socket.request.user.signedInAsUser.id) {
+          userID = socket.request.user.signedInAsUser.id;
+        }
+      }
+
+      const elementIndexToStartAt =
+        -1 * (clientChatHistoryLength + chatHistoryMessagesToFetchEachRequest);
+      const elementsToFetch = chatHistoryMessagesToFetchEachRequest;
+      /*
+        example of what $slice: [num1, num2] does:
+          {
+            attr1: 4,
+            array: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          }
+          $slice: [-5, 2]
+          {
+            attr1: 4,
+            array: [6, 7]
+          }
+          (start at the 5th last element in the array and return the next 2 elements)
+
+        the client tells us how many messages they have loaded already
+        so if they have 50 messages loaded already, and elementsToFetch is 10,
+        then they need the 60th to 51st last messages.
+        so we'd start at (-1 * (50 + 10)) and grab the next 10 elements
+      */
+
+      Calendar.findOne(
+        { _id: calendarID },
+        { chatHistory: { $slice: [elementIndexToStartAt, elementsToFetch] } },
+        (err, foundCalendar) => {
+          console.log(foundCalendar);
         }
       );
     });

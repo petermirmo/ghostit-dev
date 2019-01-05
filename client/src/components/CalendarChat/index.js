@@ -99,6 +99,22 @@ class CalendarChat extends Component {
     socket.emit("calendar_chat_connect", { calendarIDList });
   };
 
+  requestMoreChatMessages = () => {
+    const { calendars, activeChatIndex, socket } = this.state;
+
+    socket.emit("calendar_chat_request_more_messages", {
+      calendarID: calendars[activeChatIndex]._id,
+      clientChatHistoryLength: calendars[activeChatIndex].chatHistory.length
+    });
+  };
+
+  chatScrolled = e => {
+    if (e.target.scrollTop === 0) {
+      // div is scrolled to the top
+      this.requestMoreChatMessages();
+    }
+  };
+
   getChatHistoryDiv = () => {
     const { calendars, activeChatIndex } = this.state;
 
@@ -112,7 +128,11 @@ class CalendarChat extends Component {
     let chatHistory = calendars[activeChatIndex].chatHistory;
 
     return (
-      <div className="chat-calendar-history" id="chat-history-div">
+      <div
+        className="chat-calendar-history"
+        id="chat-history-div"
+        onScroll={this.chatScrolled}
+      >
         {chatHistory.map((chatObj, index) => {
           return (
             <div

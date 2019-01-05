@@ -17,7 +17,7 @@ const moment = require("moment-timezone");
 const demoCalendarMaximumPosts = 10;
 // number of elements in chatHistory that we want to fetch when retrieving calendar objects in DB
 // (number must be negative to signify you want the last elements in the array)
-const chatHistoryMessagesToLoadAtFirst = -50;
+const chatHistoryMessagesToLoadAtFirst = -20;
 
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
