@@ -22,7 +22,8 @@ class CalendarChat extends Component {
       activeChatIndex: undefined,
       calendars: props.calendars,
       inputText: "",
-      unread: [] // unread[i] === true if calendars[i] has unread messages
+      unread: [], // unread[i] === true if calendars[i] has unread messages
+      chatTopNotification: undefined
     };
   }
   componentDidMount() {
@@ -82,6 +83,40 @@ class CalendarChat extends Component {
       this.addMessageToChatHistory(savedMsgObj, index);
     });
 
+    socket.on("calendar_chat_send_more_messages", reqObj => {
+      const { calendarID, newMessages, error } = reqObj;
+      const { calendars, activeChatIndex } = this.state;
+
+      if (error) {
+        // do something to show error message at top of chatHistory div
+      } else {
+        if (newMessages.length <= 0) {
+          // do something to show that there are no more messages in this chat at top of chatHistory div
+        } else {
+          // add these new messages to calendars[activeChatIndex].chatHistory
+          if (
+            calendarID.toString() === calendars[activeChatIndex]._id.toString()
+          ) {
+            // make sure we're still on the right calendar's chat
+            const newChatHistory = [
+              ...newMessages,
+              ...calendars[activeChatIndex].chatHistory
+            ];
+            const newCalendar = {
+              ...calendars[activeChatIndex],
+              chatHistory: newChatHistory
+            };
+            const newCalendars = [
+              ...calendars.slice(0, activeChatIndex),
+              newCalendar,
+              ...calendars.slice(activeChatIndex + 1)
+            ];
+            this.setState({ calendars: newCalendars });
+          }
+        }
+      }
+    });
+
     this.setState({ socket }, this.joinSocketRooms);
   };
 
@@ -116,7 +151,7 @@ class CalendarChat extends Component {
   };
 
   getChatHistoryDiv = () => {
-    const { calendars, activeChatIndex } = this.state;
+    const { calendars, activeChatIndex, chatTopNotification } = this.state;
 
     if (
       !calendars ||
@@ -133,6 +168,16 @@ class CalendarChat extends Component {
         id="chat-history-div"
         onScroll={this.chatScrolled}
       >
+        {chatTopNotification && (
+          <div className="chat-calendar-history-notification">
+            {chatTopNotification}
+          </div>
+        )}
+        {!chatTopNotification && (
+          <div className="chat-calendar-history-notification">
+            Loading History
+          </div>
+        )}
         {chatHistory.map((chatObj, index) => {
           return (
             <div

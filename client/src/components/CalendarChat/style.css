@@ -103,3 +103,9 @@
   width: 15%;
   background-color: var(--five-primary-color);
 }
+
+.chat-calendar-history-notification {
+  text-align: center;
+  margin: 8px 0px 8px 0px;
+  font-size: 14px;
+}

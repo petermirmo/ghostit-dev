@@ -243,10 +243,17 @@ module.exports = io => {
       */
 
       Calendar.findOne(
-        { _id: calendarID },
+        { _id: calendarID, userIDs: userID },
         { chatHistory: { $slice: [elementIndexToStartAt, elementsToFetch] } },
         (err, foundCalendar) => {
-          console.log(foundCalendar);
+          if (err || !foundCalendar) {
+            socket.emit("calendar_chat_send_more_messages", { error: true });
+          } else {
+            socket.emit("calendar_chat_send_more_messages", {
+              calendarID: foundCalendar._id,
+              newMessages: foundCalendar.chatHistory
+            });
+          }
         }
       );
     });
