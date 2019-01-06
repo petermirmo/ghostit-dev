@@ -10,6 +10,8 @@ const Recipe = require("../models/Recipe");
 
 const postFunctions = require("../services/postFunctions");
 
+const chatHistoryMessagesToFetchEachRequest = 10;
+
 searchAndRemoveSocketID = (connections, socketID) => {
   for (let index in connections) {
     for (let i = 0; i < connections[index].length; i++) {
@@ -147,12 +149,110 @@ module.exports = io => {
               edited: false
             };
             foundCalendar.chatHistory.push(msgObj);
-            foundCalendar.save();
-            socket.emit("calendar_chat_message_received", msgObj);
-            const socketRoom = `${calendarID.toString()}-chat`;
-            socket
-              .to(socketRoom)
-              .emit("calendar_chat_message_broadcast", { calendarID, msgObj });
+            foundCalendar.save((err, savedCalendar) => {
+              if (savedCalendar && savedCalendar.chatHistory) {
+                const savedMsgObj =
+                  savedCalendar.chatHistory[
+                    savedCalendar.chatHistory.length - 1
+                  ];
+                socket.emit("calendar_chat_message_received", savedMsgObj);
+                const socketRoom = `${calendarID.toString()}-chat`;
+                socket.to(socketRoom).emit("calendar_chat_message_broadcast", {
+                  calendarID,
+                  savedMsgObj
+                });
+              }
+            });
+          }
+        }
+      );
+    });
+
+    socket.on("calendar_chat_opened", reqObj => {
+      const { calendarID, timestamp } = reqObj;
+
+      let userID = socket.request.user._id;
+      if (socket.request.user.signedInAsUser) {
+        if (socket.request.user.signedInAsUser.id) {
+          // the user didn't actually read the message so don't update anything
+          return;
+        }
+      }
+
+      Calendar.findOne(
+        { _id: calendarID, userIDs: userID },
+        (err, foundCalendar) => {
+          if (err || !foundCalendar) {
+            console.log(err);
+            console.log(
+              "error while looking up calendar in db in socket.on('calendar_chat_opened');"
+            );
+          } else {
+            const index = foundCalendar.chatLastOpened.findIndex(
+              obj => obj.userID.toString() === userID.toString()
+            );
+
+            if (index === -1) {
+              foundCalendar.chatLastOpened.push({ userID, timestamp });
+            } else {
+              foundCalendar.chatLastOpened[index].timestamp = timestamp;
+            }
+            foundCalendar.save((err, savedCalendar) => {
+              if (!err) {
+                socket.emit(
+                  "calendar_chat_opened_response",
+                  savedCalendar.chatLastOpened
+                );
+              }
+            });
+          }
+        }
+      );
+    });
+
+    socket.on("calendar_chat_request_more_messages", reqObj => {
+      const { calendarID, clientChatHistoryLength } = reqObj;
+
+      let userID = socket.request.user._id;
+      if (socket.request.user.signedInAsUser) {
+        if (socket.request.user.signedInAsUser.id) {
+          userID = socket.request.user.signedInAsUser.id;
+        }
+      }
+
+      const elementIndexToStartAt =
+        -1 * (clientChatHistoryLength + chatHistoryMessagesToFetchEachRequest);
+      const elementsToFetch = chatHistoryMessagesToFetchEachRequest;
+      /*
+        example of what $slice: [num1, num2] does:
+          {
+            attr1: 4,
+            array: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          }
+          $slice: [-5, 2]
+          {
+            attr1: 4,
+            array: [6, 7]
+          }
+          (start at the 5th last element in the array and return the next 2 elements)
+
+        the client tells us how many messages they have loaded already
+        so if they have 50 messages loaded already, and elementsToFetch is 10,
+        then they need the 60th to 51st last messages.
+        so we'd start at (-1 * (50 + 10)) and grab the next 10 elements
+      */
+
+      Calendar.findOne(
+        { _id: calendarID, userIDs: userID },
+        { chatHistory: { $slice: [elementIndexToStartAt, elementsToFetch] } },
+        (err, foundCalendar) => {
+          if (err || !foundCalendar) {
+            socket.emit("calendar_chat_send_more_messages", { error: true });
+          } else {
+            socket.emit("calendar_chat_send_more_messages", {
+              calendarID: foundCalendar._id,
+              newMessages: foundCalendar.chatHistory
+            });
           }
         }
       );

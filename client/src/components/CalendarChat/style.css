@@ -6,16 +6,17 @@
   right: 20px;
 
   min-width: 5vw;
-  max-width: 20vw;
+  max-width: 70vw;
+  max-height: 75vh;
 
   padding: 3px 12px;
 
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow: auto;
   white-space: nowrap;
 
   border-style: solid;
-  border-color: red;
+  border-color: var(--seven-primary-color);
   border-radius: 4px;
 
   background-color: white;
@@ -26,31 +27,85 @@
   text-align: center;
 }
 
-.chat-calendar-list-header {
-  text-align: right;
-  cursor: pointer;
+.chat-btn:hover {
+  font-weight: bold;
 }
 
 .chat-calendar-list {
+  max-height: 40vh;
+  overflow: auto;
 }
 
 .chat-calendar-btn {
   cursor: pointer;
 }
 
-.chat-calendar-header {
+.chat-calendar-btn:hover {
+  font-weight: bold;
+}
+
+.chat-calendar-header,
+.chat-calendar-list-header {
   display: flex;
   position: relative;
   flex-direction: row;
   justify-content: center;
+  padding: 0px 15px 0px 15px;
+  color: var(--five-primary-color);
+  font-weight: bold;
+}
+
+.chat-calendar-header-btns,
+.chat-calendar-list-back-btn {
+  position: absolute;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.chat-calendar-list-back-btn,
+.chat-calendar-header-back-btn,
+.chat-calendar-header-close-btn {
+  cursor: pointer;
 }
 
 .chat-calendar-header-back-btn {
-  cursor: pointer;
-  position: absolute;
-  right: 0px;
+  margin-right: 10px;
 }
 
 .chat-calendar-send-btn {
   background-color: red;
+}
+
+.chat-calendar-history {
+  white-space: initial;
+  max-height: 65vh;
+  min-width: 30vw;
+  overflow: auto;
+}
+
+.chat-calendar-history-message {
+  padding-left: 20px;
+  text-indent: -20px;
+}
+
+.chat-calendar-input {
+  width: 90%;
+  margin: auto;
+}
+
+.chat-calendar-text-input {
+  width: 80%;
+  margin-right: 8px;
+}
+
+.chat-calendar-send-btn {
+  width: 15%;
+  background-color: var(--five-primary-color);
+}
+
+.chat-calendar-history-notification {
+  text-align: center;
+  margin: 8px 0px 8px 0px;
+  font-size: 14px;
 }

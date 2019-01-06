@@ -131,14 +131,28 @@ to do next:
       either drag or just a toggle from right->left
     edit / delete own messages
       on edit, have a note that says when it was edited
-    timestamps on messages
-    system:
-      calendars sent to <CalendarChat/> through <ContentPage/>
-      <CalendarChat/> joins socket chat room for each of its calendars
-      when a different calendar is added, <CalendarChat/> notices in componentWillReceiveProps()
-        and joins that socket chat room
-      
-
+    each chat message should overflow wrap but the second/third/etc lines of a message should be indented
+    the window should have a max-height and when that height is reached, overflow should be scroll
+    the chat window should only display ~50 messages. if there are more, it should wait until user
+      scrolls all the way to the top before loading more.
+    names should have different font style than the messages (maybe names should be bold or colored)
+      name color should be different based on if the message belongs to the current user or not
+      (so it's easy for a user to see their own last message)
+    when there are unread messages, there should be a notification
+      maybe ignore if user.signedInAsUser so that the real user doesn't wrongfully get assumed to have read the chat
+      (how to keep track of this?)
+      (for each calendar that a user is part of, keep a timestamp of the last time that user opened that calendar's messages.
+        if that timestamp is less than the newest message in the chat, display a notification that there are new messages)
+        (how to store this in the db?)
+        (in the calendar object? chatLastOpened: { userID, timestamp })
+          every time the user opens the chat, use socketManager to update their chatLastOpened element in the db.
+    when the user opens an unread chat, display a line where they last read.
+    instead of checking for unread messages every render, check for unread messages whenever:
+      - a new message is added
+      - a new calendar is added
+      - componentDidMount
+      and then store that in state
+      modify state to read anytime socket.emit("calendar_chat_opened") is called
 
 
 
