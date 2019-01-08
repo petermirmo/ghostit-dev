@@ -111,7 +111,16 @@ class CalendarChat extends Component {
               newCalendar,
               ...calendars.slice(activeChatIndex + 1)
             ];
+
+            let old_height = document.getElementById("chat-history-div")
+              .scrollHeight;
+
             this.setState({ calendars: newCalendars });
+            window.setTimeout(() => {
+              let chatDiv = document.getElementById("chat-history-div");
+
+              chatDiv.scrollTop = chatDiv.scrollHeight - old_height;
+            }, 10);
           }
         }
       }

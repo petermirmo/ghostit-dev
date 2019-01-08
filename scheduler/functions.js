@@ -37,14 +37,14 @@ module.exports = {
             notification.save();
             notificationToPeter.save();
 
-            sendEmail(
+            /*sendEmail(
               user,
               "Ghostit Notification",
               notification.title,
               returnObject => {
                 return returnObject;
               }
-            );
+            );*/
           }
         });
       }
