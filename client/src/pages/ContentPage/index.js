@@ -977,7 +977,7 @@ class Content extends Component {
           categories={calendarEventCategories}
           updateActiveCategory={this.updateActiveCategory}
         />
-        {true && <CalendarChat calendars={calendars} />}
+        {false && <CalendarChat calendars={calendars} />}
         {this.props.calendarManagerModal && (
           <div
             className="modal"
@@ -1003,33 +1003,29 @@ class Content extends Component {
             </div>
           </div>
         )}
-        {this.props.contentModal &&
-          calendars[activeCalendarIndex] && (
-            <ContentModal
-              clickedCalendarDate={clickedDate}
-              timezone={timezone}
-              calendarID={calendars[activeCalendarIndex]._id}
-              notify={this.notify}
-              savePostCallback={post => {
-                this.getPosts();
-                this.triggerSocketPeers("calendar_post_saved", post);
-                this.props.openContentModal(false);
-              }}
-              saveBlogCallback={blog => {
-                this.getBlogs();
-                this.triggerSocketPeers("calendar_blog_saved", blog);
-                this.props.openContentModal(false);
-              }}
-              saveNewsletterCallback={newsletter => {
-                this.getNewsletters();
-                this.triggerSocketPeers(
-                  "calendar_newsletter_saved",
-                  newsletter
-                );
-                this.closeModals();
-              }}
-            />
-          )}
+        {this.props.contentModal && calendars[activeCalendarIndex] && (
+          <ContentModal
+            clickedCalendarDate={clickedDate}
+            timezone={timezone}
+            calendarID={calendars[activeCalendarIndex]._id}
+            notify={this.notify}
+            savePostCallback={post => {
+              this.getPosts();
+              this.triggerSocketPeers("calendar_post_saved", post);
+              this.props.openContentModal(false);
+            }}
+            saveBlogCallback={blog => {
+              this.getBlogs();
+              this.triggerSocketPeers("calendar_blog_saved", blog);
+              this.props.openContentModal(false);
+            }}
+            saveNewsletterCallback={newsletter => {
+              this.getNewsletters();
+              this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
+              this.closeModals();
+            }}
+          />
+        )}
         {this.state.postEdittingModal && (
           <PostEdittingModal
             savePostCallback={post => {
@@ -1069,40 +1065,38 @@ class Content extends Component {
             triggerSocketPeers={this.triggerSocketPeers}
           />
         )}
-        {this.props.campaignModal &&
-          calendars[activeCalendarIndex] && (
+        {this.props.campaignModal && calendars[activeCalendarIndex] && (
+          <div
+            className="modal"
+            onClick={() => this.props.openCampaignModal(false)}
+          >
             <div
-              className="modal"
-              onClick={() => this.props.openCampaignModal(false)}
+              className="large-modal common-transition"
+              onClick={e => e.stopPropagation()}
             >
-              <div
-                className="large-modal common-transition"
-                onClick={e => e.stopPropagation()}
-              >
-                <Campaign
-                  handleChange={this.handleChange}
-                  calendarID={calendars[activeCalendarIndex]._id}
-                  timezone={timezone}
-                  clickedCalendarDate={clickedDate}
-                  updateCampaigns={this.getCampaigns}
-                  campaign={clickedEvent}
-                  isRecipe={clickedEventIsRecipe}
-                  recipeEditing={recipeEditing}
-                  notify={this.notify}
-                  triggerSocketPeers={this.triggerSocketPeers}
-                />
-              </div>
+              <Campaign
+                handleChange={this.handleChange}
+                calendarID={calendars[activeCalendarIndex]._id}
+                timezone={timezone}
+                clickedCalendarDate={clickedDate}
+                updateCampaigns={this.getCampaigns}
+                campaign={clickedEvent}
+                isRecipe={clickedEventIsRecipe}
+                recipeEditing={recipeEditing}
+                notify={this.notify}
+                triggerSocketPeers={this.triggerSocketPeers}
+              />
             </div>
-          )}
-        {this.state.recipeModal &&
-          calendars[activeCalendarIndex] && (
-            <RecipeModal
-              close={this.closeModals}
-              handleChange={this.handleChange}
-              clickedCalendarDate={clickedDate}
-              calendarID={calendars[activeCalendarIndex]._id}
-            />
-          )}
+          </div>
+        )}
+        {this.state.recipeModal && calendars[activeCalendarIndex] && (
+          <RecipeModal
+            close={this.closeModals}
+            handleChange={this.handleChange}
+            clickedCalendarDate={clickedDate}
+            calendarID={calendars[activeCalendarIndex]._id}
+          />
+        )}
         {notification.show && (
           <Notification
             type={notification.type}
