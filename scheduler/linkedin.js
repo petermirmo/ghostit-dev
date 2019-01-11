@@ -75,7 +75,6 @@ module.exports = {
   postToLinkedInPage: post => {
     Account.findOne(
       {
-        userID: post.userID,
         socialID: post.accountID
       },
       async (err, account) => {
