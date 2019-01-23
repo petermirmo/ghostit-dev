@@ -227,6 +227,7 @@ class PostingOptions extends Component {
       if (this._ismounted && res.data && imgSrc[0]) {
         let linkImage = imgSrc[0];
 
+
         if (this._ismounted)
           this.setState({
             link: newLink,

@@ -73,6 +73,11 @@ module.exports = {
     let url = req.body.link;
 
     request(url, (err, result, body) => {
+      let domain;
+
+      if (result && result.connection && result.connection._host)
+        domain = result.connection._host;
+
       if (err) {
         console.log(err);
         res.send(false);
@@ -84,7 +89,6 @@ module.exports = {
         res.send(false);
         return;
       }
-
       let $ = cheerio.load(body);
       $("img").each((index, img) => {
         imgSrc.push(img.attribs.src);
@@ -129,6 +133,13 @@ module.exports = {
           linkDescription = meta.attribs.content;
         }
       });
+      for (let index in imgSrc) {
+        if (!imgSrc[index].startsWith("http")) {
+          if (imgSrc[index].startsWith("/"))
+            imgSrc[index] = "https://" + domain + imgSrc[index];
+          else imgSrc[index] = "https://" + domain + "/" + imgSrc[index];
+        }
+      }
       res.send({ imgSrc, linkTitle, linkDescription });
     });
   },
