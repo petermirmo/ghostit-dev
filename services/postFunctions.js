@@ -75,8 +75,9 @@ module.exports = {
     request(url, (err, result, body) => {
       let domain;
 
-      if (result && result.connection && result.connection._host)
-        domain = result.connection._host;
+      if (result)
+        if (result.connection)
+          if (result.connection._host) domain = result.connection._host;
 
       if (err) {
         console.log(err);
