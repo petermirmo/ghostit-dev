@@ -90,9 +90,10 @@ module.exports = app => {
   );
   // Logout user
   app.get("/api/logout", middleware, (req, res) => {
-    req.logout();
-    req.session.destroy();
-    res.send({ success: true });
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid");
+      res.send({ success: true });
+    });
   });
 
   // Middleware check
