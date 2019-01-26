@@ -135,10 +135,12 @@ module.exports = {
         }
       });
       for (let index in imgSrc) {
-        if (!imgSrc[index].startsWith("http")) {
-          if (imgSrc[index].startsWith("/"))
-            imgSrc[index] = "https://" + domain + imgSrc[index];
-          else imgSrc[index] = "https://" + domain + "/" + imgSrc[index];
+        if (imgSrc[index]) {
+          if (!imgSrc[index].startsWith("http")) {
+            if (imgSrc[index].startsWith("/"))
+              imgSrc[index] = "https://" + domain + imgSrc[index];
+            else imgSrc[index] = "https://" + domain + "/" + imgSrc[index];
+          }
         }
       }
       res.send({ imgSrc, linkTitle, linkDescription });
