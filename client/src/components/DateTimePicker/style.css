@@ -25,12 +25,12 @@
 }
 .date-picker-day:hover,
 .date-picker-day.active {
-  background-color: var(--five-primary-color) !important;
+  background-color: var(--five-primary-color);
   color: var(--white-theme-color);
 }
 
 .faded-date-picker-days {
-  background-color: var(--light-grey-theme-color) !important;
+  background-color: var(--light-grey-theme-color);
   color: var(--dark-grey-theme-color);
 }
 .date-picker-date {

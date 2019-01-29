@@ -114,7 +114,6 @@ class DatePicker extends Component {
 
         // Check if index is before or after current month
         if (pastDate) {
-          console.log("here");
           className += " faded-date-picker-days";
         }
         if (calendarDay.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
