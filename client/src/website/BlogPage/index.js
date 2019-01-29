@@ -128,7 +128,7 @@ class BlogPage extends Component {
         </MetaTags>
         <h1 className="tac pb32">Ghostit Blog</h1>
 
-        <div className="nowrap-container width100">
+        <div className="wrapping-container">
           {Object.keys(categories).map((categoryIndex, index) => {
             let category = categories[categoryIndex];
 
