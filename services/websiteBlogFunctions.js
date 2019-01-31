@@ -114,7 +114,7 @@ module.exports = {
               if (error) return generalFunctions.handleError(res, result.error);
               else {
                 newBlog.wordDoc = {
-                  url: result.url,
+                  url: result.secure_url,
                   publicID: result.public_id,
                   name: blogFileName
                 };
@@ -141,7 +141,10 @@ module.exports = {
             (error, result) => {
               if (error) return generalFunctions.handleError(res, error);
               else
-                newBlog.image = { url: result.url, publicID: result.public_id };
+                newBlog.image = {
+                  url: result.secure_url,
+                  publicID: result.public_id
+                };
             }
           );
         }

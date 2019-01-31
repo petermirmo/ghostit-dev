@@ -108,7 +108,7 @@ module.exports = {
             function(error, result) {
               if (error) return generalFunctions.handleError(res, error);
               newNewsletter.wordDoc = {
-                url: result.url,
+                url: result.secure_url,
                 publicID: result.public_id,
                 name: newsletterFileName
               };

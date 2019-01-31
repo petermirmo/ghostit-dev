@@ -275,7 +275,7 @@ module.exports = {
           result
         ) {
           post.images.push({
-            url: result.url,
+            url: result.secure_url,
             publicID: result.public_id
           });
         });

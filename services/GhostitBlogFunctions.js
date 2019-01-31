@@ -63,7 +63,6 @@ module.exports = {
         );
       } else {
         blog.save((error, result) => {
-          console.log(result);
           if (!error && result)
             res.send({ success: true, ghostitBlog: result });
           else {
@@ -97,7 +96,7 @@ module.exports = {
               else {
                 asyncCounter--;
                 newGhostitBlog.images.push({
-                  url: result.url,
+                  url: result.secure_url,
                   publicID: result.public_id,
                   size: image.size,
                   location: image.location,
