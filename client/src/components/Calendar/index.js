@@ -438,14 +438,14 @@ class Calendar extends Component {
 
     return (
       <div className="flex column vc width100">
-        <div className="calendar-header-container px8 pt8 width100 box-sizing">
+        <div className="calendar-header-container px16 pt8 width100 border-box">
           <div className="flex hc vc">
             <Filter
               updateActiveCategory={this.props.updateActiveCategory}
               categories={this.props.categories}
             />
           </div>
-          <div className="flex hc vc px32">
+          <div className="flex hc vc px32 flex1">
             <FontAwesomeIcon
               icon={faAngleLeft}
               size="3x"

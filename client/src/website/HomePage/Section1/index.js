@@ -37,7 +37,12 @@ class Section1 extends Component {
         className="section common-container-center"
         style={{ height: "100vh" }}
       >
-        <h1 className="big-h1 mx16 tac">Create. Customize. Convert.</h1>
+        <h1
+          className="big-h1 mx16 tac"
+          style={{ color: "var(--primary-text-color)" }}
+        >
+          Create. Customize. Convert.
+        </h1>
         <h3 className="mx16 tac unimportant-text">
           Organize your marketing process with an all-in-one solution for
           unified content promotion.

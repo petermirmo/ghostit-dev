@@ -4,8 +4,7 @@
   width: 100%;
 }
 .calendar-header-container {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  display: flex;
 }
 .calendar-day-titles-container {
   display: flex;
