@@ -1319,13 +1319,17 @@ input[type="file"] {
   flex: 1;
   font-size: inherit;
   color: inherit;
-
   white-space: nowrap;
 }
 .dropdown .item,
 .dropdown .item-colored {
   box-sizing: border-box;
   color: var(--primary-text-color);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  max-width: 300px;
+  overflow: hidden;
 }
 
 .dropdown .item-colored.active,

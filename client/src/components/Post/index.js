@@ -208,6 +208,9 @@ class PostingOptions extends Component {
     // Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
     if (match) {
       link = match[0];
+      this.setState({
+        link
+      });
       this.getDataFromURL(link);
     } else if (this._ismounted)
       this.setState({
@@ -227,10 +230,8 @@ class PostingOptions extends Component {
       if (this._ismounted && res.data && imgSrc[0]) {
         let linkImage = imgSrc[0];
 
-
         if (this._ismounted)
           this.setState({
-            link: newLink,
             linkImagesArray: imgSrc,
             linkImage,
             linkTitle,
@@ -382,6 +383,9 @@ class PostingOptions extends Component {
         </div>
       );
     }
+    let remainingCharacters = maxCharacters - content.length;
+    if (link && socialType === "twitter")
+      remainingCharacters += link.length - 23;
 
     return (
       <div className="full-fill-container">
@@ -410,9 +414,7 @@ class PostingOptions extends Component {
               />
             </div>
 
-            {maxCharacters && (
-              <div className="ml16">{maxCharacters - content.length}</div>
-            )}
+            {maxCharacters && <div className="ml16">{remainingCharacters}</div>}
 
             <div className="wrapping-container">
               {linkPreviewCanShow && link && (

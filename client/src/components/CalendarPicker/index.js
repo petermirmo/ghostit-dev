@@ -7,13 +7,13 @@ import "./style.css";
 
 class CalendarPicker extends Component {
   render() {
+    const { calendars, activeCalendarIndex, calendarManager } = this.props; // Variable
     const {
-      calendars,
-      activeCalendarIndex,
-      calendarManager,
-      style
-    } = this.props; // Variable
-    const { updateActiveCalendar, createNewCalendar } = this.props; // Functions
+      updateActiveCalendar,
+      createNewCalendar,
+      enableCalendarManager
+    } = this.props; // Functions
+
     let calendarDivs = [];
     for (let index = 0; index < calendars.length; index++) {
       calendarDivs.push(
@@ -43,7 +43,7 @@ class CalendarPicker extends Component {
         <div
           className="dropdown-bottom-button item-colored px16 py8"
           key={"calendar-manager-button"}
-          onClick={this.props.enableCalendarManager}
+          onClick={enableCalendarManager}
         >
           Manage Calendars
         </div>
@@ -60,7 +60,7 @@ class CalendarPicker extends Component {
             : "Change Calendars"}
           <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
-        <div className="dropdown center transparent" style={style}>
+        <div className="dropdown center transparent">
           <div className="absolute-child-center common-shadow br4">
             {calendarDivs}
           </div>
