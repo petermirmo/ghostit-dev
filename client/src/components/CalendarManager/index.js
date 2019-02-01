@@ -12,12 +12,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../redux/actions/";
 
-import { getArrayIndexWithHint } from "../../componentFunctions";
 import {
   getPostIcon,
   getPostColor,
   capitolizeFirstChar,
-  capitolizeWordsInString
+  capitolizeWordsInString,
+  getArrayIndexWithHint
 } from "../../componentFunctions";
 
 import Loader from "../Notifications/Loader";
@@ -675,7 +675,6 @@ class CalendarManager extends Component {
       unLinkAccountID,
       defaultCalendarID
     } = this.state;
-
     let userID = this.props.user._id;
     if (this.props.user.signedInAsUser) {
       userID = this.props.user.signedInAsUser.id;

@@ -101,10 +101,17 @@ class Content extends Component {
         console.log(res.data.message);
         console.log(calendars);
       } else {
+        calendars.sort((a, b) => {
+          if (a.calendarName > b.calendarName) return 1;
+          else return -1;
+        });
+
         let activeCalendarIndex = calendars.findIndex(
           calObj => calObj._id.toString() === defaultCalendarID.toString()
         );
+
         if (activeCalendarIndex === -1) activeCalendarIndex = 0;
+
         if (this._ismounted) {
           this.setState(
             {
@@ -569,6 +576,11 @@ class Content extends Component {
         console.log(res.data.message);
         console.log(calendars);
       } else {
+        calendars.sort((a, b) => {
+          if (a.calendarName > b.calendarName) return 1;
+          else return -1;
+        });
+
         if (calendars.length - 1 < this.state.activeCalendarIndex) {
           this.setState(
             { activeCalendarIndex: calendars.length - 1, calendars },
@@ -801,7 +813,6 @@ class Content extends Component {
   };
 
   closeModals = () => {
-    this.props.openCalendarManagerModal(false);
     this.setState({
       blogEdittingModal: false,
       postEdittingModal: false,
@@ -982,7 +993,7 @@ class Content extends Component {
           <div
             className="modal"
             onClick={() => {
-              this.closeModals();
+              this.props.openCalendarManagerModal(false);
               this.getCalendars();
             }}
           >
@@ -995,7 +1006,7 @@ class Content extends Component {
                 activeCalendarIndex={activeCalendarIndex}
                 defaultCalendarID={defaultCalendarID}
                 close={() => {
-                  this.closeModals();
+                  this.props.openCalendarManagerModal(false);
                   this.getCalendars();
                 }}
                 notify={this.notify}

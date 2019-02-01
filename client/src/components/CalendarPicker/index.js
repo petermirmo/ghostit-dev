@@ -15,6 +15,7 @@ class CalendarPicker extends Component {
     } = this.props; // Functions
 
     let calendarDivs = [];
+
     for (let index = 0; index < calendars.length; index++) {
       calendarDivs.push(
         <div
@@ -30,7 +31,7 @@ class CalendarPicker extends Component {
     if (createNewCalendar) {
       calendarDivs.push(
         <div
-          className="item-colored px16 py8"
+          className="item-colored px16 py8 tac"
           key={"create-new-calendar-button"}
           onClick={() => createNewCalendar(`Calendar ${calendars.length + 1}`)}
         >
@@ -41,7 +42,7 @@ class CalendarPicker extends Component {
     if (!calendarManager) {
       calendarDivs.push(
         <div
-          className="dropdown-bottom-button item-colored px16 py8"
+          className="item-colored px16 py8 tac"
           key={"calendar-manager-button"}
           onClick={enableCalendarManager}
         >
