@@ -40,10 +40,14 @@ class Calendar extends Component {
   }
   setTimezone = props => {
     if (props.calendars)
-      if (props.calendars[props.activeCalendarIndex])
+      if (props.calendars[props.activeCalendarIndex]) {
+        moment.tz.setDefault(
+          props.calendars[props.activeCalendarIndex].timezone
+        );
         this.setState({
           timezone: props.calendars[props.activeCalendarIndex].timezone
         });
+      }
   };
   createDayHeaders = () => {
     let dayHeadingsArray = [];
