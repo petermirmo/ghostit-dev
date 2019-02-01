@@ -1324,6 +1324,7 @@ input[type="file"] {
 }
 .dropdown .item,
 .dropdown .item-colored {
+  flex-shrink: 0;
   box-sizing: border-box;
   color: var(--primary-text-color);
   white-space: nowrap;
