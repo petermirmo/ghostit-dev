@@ -497,6 +497,7 @@ module.exports = {
           newCalendar.adminID = userID;
           newCalendar.userIDs = [userID];
           newCalendar.postsLeft = -1;
+          newCalendar.timezone = foundUser.timezone;
 
           newCalendar.save().then(() => {
             res.send({ success: true, newCalendar });

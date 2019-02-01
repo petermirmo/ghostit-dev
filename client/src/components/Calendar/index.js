@@ -28,17 +28,23 @@ import "./style.css";
 
 class Calendar extends Component {
   state = {
-    timezone: this.props.timezone,
+    timezone: "",
     queueActive: false
   };
+  constructor(props) {
+    super(props);
+  }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.timezone !== this.state.timezone)
-      this.setState({
-        calendarDate: nextProps.calendarDate,
-        timezone: nextProps.timezone
-      });
+    this.setTimezone(nextProps);
   }
+  setTimezone = props => {
+    if (props.calendars)
+      if (props.calendars[props.activeCalendarIndex])
+        this.setState({
+          timezone: props.calendars[props.activeCalendarIndex].timezone
+        });
+  };
   createDayHeaders = () => {
     let dayHeadingsArray = [];
     for (let index = 0; index < 7; index++) {

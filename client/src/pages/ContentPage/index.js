@@ -84,16 +84,6 @@ class Content extends Component {
 
     this.initSocket();
 
-    axios.get("/api/timezone").then(res => {
-      let { timezone, loggedIn } = res.data;
-
-      if (!timezone) timezone = moment.tz.guess();
-      moment.tz.setDefault(timezone);
-
-      if (this._ismounted)
-        this.setState({ timezone, calendarDate: new moment() });
-    });
-
     axios.get("/api/calendars").then(res => {
       const { success, calendars, defaultCalendarID } = res.data;
       if (!success || !calendars || calendars.length === 0) {

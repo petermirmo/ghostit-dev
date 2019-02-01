@@ -20,6 +20,10 @@ const calendarSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
+    timezone: {
+      type: String,
+      required: true
+    },
     userIDs: [
       {
         type: Schema.Types.ObjectId
