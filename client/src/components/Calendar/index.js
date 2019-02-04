@@ -28,27 +28,9 @@ import "./style.css";
 
 class Calendar extends Component {
   state = {
-    timezone: "",
     queueActive: false
   };
-  constructor(props) {
-    super(props);
-  }
 
-  componentWillReceiveProps(nextProps) {
-    this.setTimezone(nextProps);
-  }
-  setTimezone = props => {
-    if (props.calendars)
-      if (props.calendars[props.activeCalendarIndex]) {
-        moment.tz.setDefault(
-          props.calendars[props.activeCalendarIndex].timezone
-        );
-        this.setState({
-          timezone: props.calendars[props.activeCalendarIndex].timezone
-        });
-      }
-  };
   createDayHeaders = () => {
     let dayHeadingsArray = [];
     for (let index = 0; index < 7; index++) {

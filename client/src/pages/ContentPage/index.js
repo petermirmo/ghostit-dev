@@ -101,13 +101,15 @@ class Content extends Component {
         );
 
         if (activeCalendarIndex === -1) activeCalendarIndex = 0;
+        moment.tz.setDefault(calendars[activeCalendarIndex].timezone);
 
         if (this._ismounted) {
           this.setState(
             {
               calendars,
               activeCalendarIndex,
-              defaultCalendarID
+              defaultCalendarID,
+              timezone: calendars[activeCalendarIndex].timezone
             },
             () => {
               this.fillCalendar();
@@ -572,12 +574,22 @@ class Content extends Component {
         });
 
         if (calendars.length - 1 < this.state.activeCalendarIndex) {
+          moment.tz.setDefault(calendars[calendars.length - 1].timezone);
           this.setState(
-            { activeCalendarIndex: calendars.length - 1, calendars },
+            {
+              activeCalendarIndex: calendars.length - 1,
+              calendars,
+              timezone: calendars[calendars.length - 1].timezone
+            },
             this.fillCalendar
           );
         } else {
-          this.setState({ calendars }, this.fillCalendar);
+          this.setState(
+            {
+              calendars
+            },
+            this.fillCalendar
+          );
         }
       }
     });
@@ -838,10 +850,21 @@ class Content extends Component {
   };
 
   updateActiveCalendar = index => {
-    this.setState({ activeCalendarIndex: index }, () => {
-      this.fillCalendar();
-      this.updateSocketCalendar();
-    });
+    const { calendarDate, calendars } = this.state;
+    if (calendars)
+      if (calendars[index]) moment.tz.setDefault(calendars[index].timezone);
+
+    this.setState(
+      {
+        activeCalendarIndex: index,
+        calendarDate: new moment(calendarDate),
+        timezone: calendars[index].timezone
+      },
+      () => {
+        this.fillCalendar();
+        this.updateSocketCalendar();
+      }
+    );
   };
 
   triggerSocketPeers = (type, extra, campaignID) => {
