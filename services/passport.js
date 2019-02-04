@@ -203,7 +203,7 @@ module.exports = function(passport) {
             userID = req.user.signedInAsUser.id;
           }
         }
-        Account.find({ userID, socialID: profile.id }, (err, accounts) => {
+        Account.find({ socialID: profile.id }, (err, accounts) => {
           let createNewAccount = () => {
             let newAccount = new Account();
 
