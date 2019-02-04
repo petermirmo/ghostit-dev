@@ -109,7 +109,8 @@ class Content extends Component {
               calendars,
               activeCalendarIndex,
               defaultCalendarID,
-              timezone: calendars[activeCalendarIndex].timezone
+              timezone: calendars[activeCalendarIndex].timezone,
+              calendarDate: new moment()
             },
             () => {
               this.fillCalendar();
@@ -579,7 +580,8 @@ class Content extends Component {
             {
               activeCalendarIndex: calendars.length - 1,
               calendars,
-              timezone: calendars[calendars.length - 1].timezone
+              timezone: calendars[calendars.length - 1].timezone,
+              calendarDate: new moment()
             },
             this.fillCalendar
           );
