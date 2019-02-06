@@ -377,7 +377,9 @@ export function postChecks(
   content,
   maxCharacters
 ) {
-  if (content.length > maxCharacters) {
+  let remainingCharacters = content.length;
+  if (link && socialType === "twitter") remainingCharacters += link.length - 23;
+  if (remainingCharacters > maxCharacters) {
     alert("There are too many characters in this post!");
     return false;
   }
