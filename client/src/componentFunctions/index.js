@@ -141,7 +141,15 @@ export const trySavePost = (
   if (
     !skip_checks &&
     socialType !== "custom" &&
-    !postChecks(accountID, newDate, link, images, content, maxCharacters)
+    !postChecks(
+      accountID,
+      newDate,
+      link,
+      images,
+      content,
+      maxCharacters,
+      socialType
+    )
   ) {
     return setStateObj;
   }
@@ -375,10 +383,12 @@ export function postChecks(
   link,
   currentImages,
   content,
-  maxCharacters
+  maxCharacters,
+  socialType
 ) {
   let remainingCharacters = content.length;
   if (link && socialType === "twitter") remainingCharacters += link.length - 23;
+
   if (remainingCharacters > maxCharacters) {
     alert("There are too many characters in this post!");
     return false;
