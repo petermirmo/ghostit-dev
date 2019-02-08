@@ -65,8 +65,8 @@ class Routes extends Component {
         this.setState({ datebaseConnection: true });
       } else this.setState({ datebaseConnection: true });
     });
-
-    ReactGA.initialize("UA-121236003-1");
+    if (process.env.NODE_ENV !== "development")
+      ReactGA.initialize("UA-121236003-1");
   }
   componentDidMount() {
     this.getBlogs();
@@ -110,7 +110,11 @@ class Routes extends Component {
     const { user, getKeyListenerFunction } = this.props;
 
     let activePage = this.props.location.pathname;
-    if (!this.userIsInPlatform(activePage)) ReactGA.pageview(activePage);
+    if (
+      !this.userIsInPlatform(activePage) &&
+      process.env.NODE_ENV !== "development"
+    )
+      ReactGA.pageview(activePage);
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
