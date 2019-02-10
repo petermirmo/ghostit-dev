@@ -69,6 +69,7 @@ module.exports = {
       { userIDs: userID },
       { chatHistory: { $slice: chatHistoryMessagesToLoadAtFirst } },
       (err, foundCalendars) => {
+        console.log(foundCalendars);
         if (err || !foundCalendars) {
           res.send({
             success: false,
@@ -98,6 +99,8 @@ module.exports = {
                 } else {
                   newCalendar.postsLeft = -1;
                 }
+                newCalendar.timezone = foundUser.timezone;
+
                 newCalendar.save();
 
                 Post.find(
@@ -793,6 +796,7 @@ module.exports = {
                   newCalendar.adminID = userID;
                   newCalendar.userIDs = [userID];
                   newCalendar.calendarName = "First Calendar";
+                  newCalendar.timezone = req.user.timezone;
                   newCalendar.save();
                   res.send({
                     success: true,
@@ -919,6 +923,8 @@ module.exports = {
                                             "First Calendar";
                                           newCalendar.adminID = userID;
                                           newCalendar.userIDs = [userID];
+                                          newCalendar.timezone =
+                                            foundUser.timezone;
                                           newCalendar.save();
                                           res.send({
                                             success: true,
@@ -966,6 +972,8 @@ module.exports = {
                                                   "First Calendar";
                                                 newCalendar.adminID = userID;
                                                 newCalendar.userIDs = [userID];
+                                                newCalendar.timezone =
+                                                  foundUser.timezone;
                                                 newCalendar.save();
                                                 res.send({
                                                   success: true,
