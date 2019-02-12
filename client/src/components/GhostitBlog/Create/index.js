@@ -74,7 +74,8 @@ class CreateWebsiteBlog extends Component {
 
   removeIndex = index => {
     const { contentArray, deleteImageArray } = this.state;
-    if (contentArray[index].url) deleteImageArray.push(images[index].publicID);
+    if (contentArray[index].url)
+      deleteImageArray.push(contentArray[index].publicID);
     contentArray.splice(index, 1);
     this.setState({ contentArray, deleteImageArray });
   };
