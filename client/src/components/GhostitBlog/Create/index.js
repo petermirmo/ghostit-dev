@@ -258,6 +258,7 @@ class CreateWebsiteBlog extends Component {
 
     for (let index = 0; index < contentArray.length; index++) {
       const content = contentArray[index];
+      if (!content) continue;
       if (content.size) {
         blogDivs.push(this.createRelevantImageDiv(content, index));
       } else {
