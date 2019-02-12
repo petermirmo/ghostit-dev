@@ -187,7 +187,18 @@
 
      <loc>https://www.ghostit.co/blog/where-to-start-with-a-content-marketing-strategy</loc>
 
-     <lastmod>2018-01-29</lastmod>
+     <lastmod>2019-01-29</lastmod>
+
+     <changefreq>yearly</changefreq>
+
+     <priority>0.7</priority>
+
+  </url>
+  <url>
+
+     <loc>https://www.ghostit.co/blog/audience-Personas-how-to-create-content-for-them</loc>
+
+     <lastmod>2019-02-12</lastmod>
 
      <changefreq>yearly</changefreq>
 

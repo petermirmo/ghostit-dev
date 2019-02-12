@@ -126,7 +126,7 @@ module.exports = {
     GhostitBlog.find({}, (err, ghostitBlogs) => {
       if (!err && ghostitBlogs) res.send({ success: true, ghostitBlogs });
       else handleError(res, err);
-    });
+    }).sort({ createdAt: -1 });
   },
   getGhostitBlog: (req, res) => {
     GhostitBlog.findOne({ _id: req.params.blogID }, (err, ghostitBlog) => {
