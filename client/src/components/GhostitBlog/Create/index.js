@@ -176,7 +176,7 @@ class CreateWebsiteBlog extends Component {
           <FontAwesomeIcon
             icon={faTrash}
             className="delete"
-            onClick={() => this.removeImage(index)}
+            onClick={() => this.removeIndex(index)}
           />
 
           <label htmlFor={"image-file-upload" + index}>
@@ -233,7 +233,7 @@ class CreateWebsiteBlog extends Component {
           <FontAwesomeIcon
             icon={faTrash}
             className="delete"
-            onClick={() => this.removeTextarea(index)}
+            onClick={() => this.removeIndex(index)}
           />
           <label htmlFor={"text-file-upload" + index}>
             <FontAwesomeIcon
