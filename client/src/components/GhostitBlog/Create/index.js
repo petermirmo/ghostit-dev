@@ -37,13 +37,17 @@ class CreateWebsiteBlog extends Component {
           if (ghostitBlog.images)
             for (let i = 0; i < ghostitBlog.images.length; i++) {
               const image = ghostitBlog.images[i];
-              contentArray[image.location] = image;
+              contentArray.splice(image.location, 0, image);
             }
           if (ghostitBlog.contentArray)
             for (let i = 0; i < ghostitBlog.contentArray.length; i++) {
               const content = ghostitBlog.contentArray[i];
-              contentArray[content.location] = content;
+              contentArray.splice(content.location, 0, content);
             }
+
+          for (let index in contentArray) {
+            if (!contentArray[index]) contentArray.splice(index, 1);
+          }
 
           if (this._ismounted) {
             this.setState({
