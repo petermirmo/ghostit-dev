@@ -20,13 +20,11 @@ import "./style.css";
 class CreateWebsiteBlog extends Component {
   state = {
     url: "",
-    locationCounter: 0,
     id: undefined,
     category: 0,
     deleteImageArray: [],
     contentArray: [],
-    hyperlink: "",
-    images: []
+    hyperlink: ""
   };
   componentDidMount() {
     this._ismounted = true;
@@ -35,16 +33,24 @@ class CreateWebsiteBlog extends Component {
         const { ghostitBlog } = res.data;
 
         if (ghostitBlog) {
-          ghostitBlog.images.sort(ghostitBlogImagesCompare);
+          const contentArray = [];
+          if (ghostitBlog.images)
+            for (let i = 0; i < ghostitBlog.images.length; i++) {
+              const image = ghostitBlog.images[i];
+              contentArray[image.location] = image;
+            }
+          if (ghostitBlog.contentArray)
+            for (let i = 0; i < ghostitBlog.contentArray.length; i++) {
+              const content = ghostitBlog.contentArray[i];
+              contentArray[content.location] = content;
+            }
+
           if (this._ismounted) {
             this.setState({
               id: ghostitBlog._id,
               url: ghostitBlog.url,
-              images: ghostitBlog.images,
               category: ghostitBlog.category,
-              contentArray: ghostitBlog.contentArray,
-              locationCounter:
-                ghostitBlog.images.length + ghostitBlog.contentArray.length
+              contentArray
             });
           }
         }
@@ -61,116 +67,48 @@ class CreateWebsiteBlog extends Component {
     contentArray[index][index2] = value;
     this.setState({ contentArray });
   };
-  handleImageChange = (value, index, index2) => {
-    let { images } = this.state;
-    images[index][index2] = value;
-    this.setState({ images });
-  };
 
-  removeTextarea = index => {
-    const { contentArray, locationCounter } = this.state;
+  removeIndex = index => {
+    const { contentArray, deleteImageArray } = this.state;
+    if (contentArray[index].url) deleteImageArray.push(images[index].publicID);
     contentArray.splice(index, 1);
-    this.setState({ contentArray });
-  };
-  removeImage = index => {
-    let { images, deleteImageArray } = this.state;
-    if (images[index].url) deleteImageArray.push(images[index].publicID);
-    images.splice(index, 1);
-    this.setState({ images, deleteImageArray });
+    this.setState({ contentArray, deleteImageArray });
   };
   insertTextbox = location => {
-    let { contentArray, locationCounter, images } = this.state;
+    location += 1;
+    let { contentArray } = this.state;
 
-    if (!isNaN(location)) {
-      let index = contentArray.length;
+    contentArray.splice(location, 0, {
+      html: "<p>Start Writing!</p>"
+    });
 
-      for (let i = 0; i < contentArray.length; i++) {
-        if (location == contentArray[i].location) {
-          index = i + 1;
-          break;
-        }
-        if (location < contentArray[i].location) {
-          index = i + 1;
-          break;
-        }
-      }
-
-      contentArray.splice(index, 0, {
-        html: "<p>Start Writing!</p>",
-        location: location + 1
-      });
-      for (let i = index + 1; i < contentArray.length; i++) {
-        contentArray[i].location++;
-      }
-    } else {
-      contentArray.push({
-        html: "<p>Start Writing!</p>",
-        location: locationCounter
-      });
-    }
-
-    locationCounter++;
-    this.setState({ contentArray, locationCounter, images });
+    this.setState({ contentArray });
   };
   insertImage = (event, location) => {
     let newImages = event.target.files;
-
-    let { images, locationCounter } = this.state;
+    location += 1;
+    let { contentArray } = this.state;
 
     // Save each image to state
-    for (let index2 = 0; index2 < newImages.length; index2++) {
+    for (let index = 0; index < newImages.length; index++) {
       let reader = new FileReader();
-      let image = newImages[index2];
+      let image = newImages[index];
 
       reader.onloadend = image => {
-        if (!isNaN(location)) {
-          let index = images.length;
+        contentArray.splice(location + index, 0, {
+          size: "small",
+          image,
+          imagePreviewUrl: reader.result,
+          alt: ""
+        });
 
-          for (let i = 0; i < images.length; i++) {
-            if (location == images[i].location) {
-              index = i + 1;
-              break;
-            }
-            if (location < images[i].location) {
-              index = i + 1;
-              break;
-            }
-          }
-
-          images.splice(index, 0, {
-            size: "small",
-            image,
-            imagePreviewUrl: reader.result,
-            location: location + 1,
-            alt: ""
-          });
-          for (let i = index + 1; i < images.length; i++) {
-            images[i].location++;
-          }
-        } else {
-          images.push({
-            size: "small",
-            image,
-            imagePreviewUrl: reader.result,
-            location: locationCounter,
-            alt: ""
-          });
-          locationCounter += 1;
-        }
-        this.setState({ images, locationCounter });
+        this.setState({ contentArray });
       };
       reader.readAsDataURL(image);
     }
   };
   saveGhostitBlog = () => {
-    let {
-      contentArray,
-      images,
-      url,
-      id,
-      category,
-      deleteImageArray
-    } = this.state;
+    let { contentArray, url, id, category, deleteImageArray } = this.state;
 
     if (!url) {
       alert("Add url!");
@@ -180,7 +118,6 @@ class CreateWebsiteBlog extends Component {
     axios
       .post("/api/ghostit/blog", {
         contentArray,
-        images,
         url,
         id,
         category,
@@ -210,21 +147,23 @@ class CreateWebsiteBlog extends Component {
             backgroundColor: "var(--five-primary-color)"
           }}
         >
-          <button onClick={() => this.handleImageChange("tiny", index, "size")}>
+          <button
+            onClick={() => this.handleContentChange("tiny", index, "size")}
+          >
             tiny
           </button>
           <button
-            onClick={() => this.handleImageChange("small", index, "size")}
+            onClick={() => this.handleContentChange("small", index, "size")}
           >
             small
           </button>
           <button
-            onClick={() => this.handleImageChange("medium", index, "size")}
+            onClick={() => this.handleContentChange("medium", index, "size")}
           >
             medium
           </button>
           <button
-            onClick={() => this.handleImageChange("large", index, "size")}
+            onClick={() => this.handleContentChange("large", index, "size")}
           >
             large
           </button>
@@ -246,13 +185,13 @@ class CreateWebsiteBlog extends Component {
             id={"image-file-upload" + index}
             type="file"
             onChange={event => {
-              this.insertImage(event, image.location);
+              this.insertImage(event, index);
             }}
           />
           <FontAwesomeIcon
             icon={faFont}
             className="icon-regular-button"
-            onClick={() => this.insertTextbox(image.location)}
+            onClick={() => this.insertTextbox(index)}
           />
         </div>
         <img
@@ -264,13 +203,13 @@ class CreateWebsiteBlog extends Component {
           className="regular-input width100 border-box"
           value={image.alt ? image.alt : ""}
           placeholder="alt"
-          onChange={e => this.handleImageChange(e.target.value, index, "alt")}
+          onChange={e => this.handleContentChange(e.target.value, index, "alt")}
         />
       </div>
     );
   };
 
-  editableTextbox = (index, content) => {
+  editableTextbox = (content, index) => {
     return (
       <div
         key={"jsk" + index}
@@ -301,12 +240,12 @@ class CreateWebsiteBlog extends Component {
           <input
             id={"text-file-upload" + index}
             type="file"
-            onChange={event => this.insertImage(event, content.location)}
+            onChange={event => this.insertImage(event, index)}
           />
           <FontAwesomeIcon
             icon={faFont}
             className="icon-regular-button"
-            onClick={() => this.insertTextbox(content.location)}
+            onClick={() => this.insertTextbox(index)}
           />
         </div>
       </div>
@@ -314,28 +253,15 @@ class CreateWebsiteBlog extends Component {
   };
 
   render() {
-    const { url, category, hyperlink, contentArray, images } = this.state;
-    let blogDivs = [];
+    const { url, category, hyperlink, contentArray } = this.state;
+    const blogDivs = [];
 
-    let imageCounter = 0;
-    let contentCounter = 0;
-    for (let index = 0; index < contentArray.length + images.length; index++) {
-      let content = contentArray[contentCounter];
-      let image = images[imageCounter];
-      if (content && image) {
-        if (image.location > content.location) {
-          blogDivs.push(this.editableTextbox(contentCounter, content));
-          contentCounter += 1;
-        } else {
-          blogDivs.push(this.createRelevantImageDiv(image, imageCounter));
-          imageCounter += 1;
-        }
-      } else if (image) {
-        blogDivs.push(this.createRelevantImageDiv(image, imageCounter));
-        imageCounter += 1;
+    for (let index = 0; index < contentArray.length; index++) {
+      const content = contentArray[index];
+      if (content.size) {
+        blogDivs.push(this.createRelevantImageDiv(content, index));
       } else {
-        blogDivs.push(this.editableTextbox(contentCounter, content));
-        contentCounter += 1;
+        blogDivs.push(this.editableTextbox(content, index));
       }
     }
 
@@ -399,11 +325,11 @@ class CreateWebsiteBlog extends Component {
           <input
             id="file-upload3"
             type="file"
-            onChange={event => this.insertImage(event)}
+            onChange={event => this.insertImage(event, contentArray.length - 1)}
           />
           <button
             className="regular-button ml8"
-            onClick={() => this.insertTextbox()}
+            onClick={() => this.insertTextbox(contentArray.length - 1)}
           >
             Insert Textbox
           </button>
@@ -431,11 +357,6 @@ function EditButton(props) {
       {props.name || props.cmd}
     </button>
   );
-}
-function ghostitBlogImagesCompare(a, b) {
-  if (a.location < b.location) return -1;
-  if (a.location > b.location) return 1;
-  return 0;
 }
 
 export default withRouter(CreateWebsiteBlog);

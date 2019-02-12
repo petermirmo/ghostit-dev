@@ -23,6 +23,16 @@ module.exports = {
         );
       }
     }
+    const images = [];
+    const contentArray = [];
+    for (let index = 0; index < ghostitBlog.contentArray.length; index++) {
+      ghostitBlog.contentArray[index].location = index;
+      if (ghostitBlog.contentArray[index].size)
+        images.push(ghostitBlog.contentArray[index]);
+      else contentArray.push(ghostitBlog.contentArray[index]);
+    }
+    ghostitBlog.images = images;
+    ghostitBlog.contentArray = contentArray;
 
     let newGhostitBlog = {};
     if (!ghostitBlog.id) newGhostitBlog = new GhostitBlog(ghostitBlog);
