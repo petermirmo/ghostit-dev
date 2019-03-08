@@ -57,12 +57,19 @@ export const userIsInPlatform = activePage => {
   else return false;
 };
 
-export const signOutOfUsersAccount = () => {
-  axios.get("/api/signOutOfUserAccount").then(res => {
-    const { error } = res.data;
-    if (!error) window.location.reload();
-    else {
-      // TODO: handleerror
-    }
-  });
+export const useAppropriateFunctionForEscapeKey = getKeyListenerFunction => {
+  document.removeEventListener("keydown", getKeyListenerFunction[1], false);
+  document.addEventListener("keydown", getKeyListenerFunction[0], false);
+};
+
+export const shouldShowSignedInAsDiv = (user, activePage) => {
+  if (
+    user &&
+    (activePage === "/content" ||
+      activePage === "/subscribe" ||
+      activePage === "/accounts") &&
+    user.signedInAsUser
+  ) {
+    return true;
+  } else return false;
 };

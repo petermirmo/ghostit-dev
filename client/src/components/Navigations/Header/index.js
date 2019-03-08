@@ -25,14 +25,12 @@ import { bindActionCreators } from "redux";
 import {
   setUser,
   setaccounts,
-  setTutorial,
   openContentModal,
   openCampaignModal,
   openCalendarManagerModal
 } from "../../../redux/actions/";
 
 import ClientsSideBar from "../../SideBarClients/";
-import Tutorial from "../../Tutorial/";
 import "./style.css";
 
 class HeaderSideBar extends Component {
@@ -91,7 +89,7 @@ class HeaderSideBar extends Component {
     this.setState(state);
   };
   render() {
-    const { user, tutorial } = this.props;
+    const { user } = this.props;
     const { clientSideBar, headerSideBar } = this.state;
 
     if (!user) {
@@ -156,13 +154,6 @@ class HeaderSideBar extends Component {
               >
                 <FontAwesomeIcon icon={faCalendar} />
                 Calendar
-                {tutorial.on && tutorial.value === 3 && (
-                  <Tutorial
-                    title="Tutorial"
-                    message="Click 'Calendar' in the sidebar to go to our main screen, the calendar!"
-                    position="right"
-                  />
-                )}
               </div>
             </Link>
             {this.isActive("content") && (
@@ -224,13 +215,6 @@ class HeaderSideBar extends Component {
               >
                 <FontAwesomeIcon icon={faPlus} />
                 Social Profiles
-                {tutorial.on && tutorial.value === 0 && (
-                  <Tutorial
-                    title="Tutorial"
-                    message="Click 'Social Profiles' in the sidebar to connect your first social media profile!"
-                    position="right"
-                  />
-                )}
               </div>
             </Link>
             {isAdmin && (
@@ -280,8 +264,7 @@ class HeaderSideBar extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
-    tutorial: state.tutorial
+    user: state.user
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -289,7 +272,6 @@ function mapDispatchToProps(dispatch) {
     {
       setUser,
       setaccounts,
-      setTutorial,
       openContentModal,
       openCampaignModal,
       openCalendarManagerModal

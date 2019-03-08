@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
   setKeyListenerFunction,
-  setTutorial,
   openContentModal,
   openCampaignModal
 } from "../../../redux/actions/";
@@ -20,7 +19,6 @@ import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 import LoaderSimpleCircle from "../../Notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
 import ConfirmAlert from "../../Notifications/ConfirmAlert";
-import Tutorial from "../../Tutorial/";
 
 import { getPostColor, getPostIcon } from "../../../componentFunctions";
 
@@ -47,16 +45,6 @@ class RecipeModal extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
-    if (this.props.tutorial.on) {
-      let temp = { ...this.props.tutorial };
-      temp.value = 5;
-
-      let somethingChanged = false;
-      for (let index in temp) {
-        if (temp[index] != this.props.tutorial[index]) somethingChanged = true;
-      }
-      if (somethingChanged) this.props.setTutorial(temp);
-    }
 
     this.props.setKeyListenerFunction([
       event => {
@@ -287,7 +275,6 @@ class RecipeModal extends Component {
     );
   };
   singleTask = recipeIndex2 => {
-    const { tutorial } = this.props;
     return (
       <div
         className="recipe-container pa8 ma8 flex column button"
@@ -307,13 +294,6 @@ class RecipeModal extends Component {
             <br /> Task
           </div>
           <div className="hover-active-div br4 px32 py8">Create</div>
-          {tutorial.on && tutorial.value === 5 && (
-            <Tutorial
-              title="Tutorial"
-              message="Click on 'Single Task' to create your first post!"
-              position="bottom"
-            />
-          )}
         </div>
       </div>
     );
@@ -531,8 +511,7 @@ class RecipeModal extends Component {
 function mapStateToProps(state) {
   return {
     user: state.user,
-    getKeyListenerFunction: state.getKeyListenerFunction,
-    tutorial: state.tutorial
+    getKeyListenerFunction: state.getKeyListenerFunction
   };
 }
 
@@ -540,7 +519,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setKeyListenerFunction,
-      setTutorial,
       openContentModal,
       openCampaignModal
     },

@@ -7,7 +7,7 @@ import ReactGA from "react-ga";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { setUser, setaccounts, setTutorial } from "../../redux/actions/";
+import { setUser, setaccounts } from "../../redux/actions/";
 
 import { validateEmail } from "../../componentFunctions";
 
@@ -418,7 +418,6 @@ class Login extends Component {
 
 function mapStateToProps(state) {
   return {
-    tutorial: state.tutorial,
     user: state.user
   };
 }
@@ -426,8 +425,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setaccounts,
-      setTutorial
+      setaccounts
     },
     dispatch
   );

@@ -20,7 +20,6 @@ import { getPostIcon, getPostColor } from "../../componentFunctions";
 
 import ImagesDiv from "../ImagesDiv/";
 import Filter from "../Filter";
-import Tutorial from "../Tutorial/";
 import CalendarPicker from "../CalendarPicker/";
 import SocketUserList from "../SocketUserList/";
 
@@ -486,8 +485,7 @@ class Calendar extends Component {
       calendarEvents,
       onSelectDay,
       onSelectPost,
-      calendarDate,
-      tutorial
+      calendarDate
     } = this.props;
 
     if (queueActive) {
@@ -537,14 +535,6 @@ class Calendar extends Component {
             {dayHeadingsArray}
           </div>
           {calendarWeekArray}
-
-          {tutorial.on && tutorial.value === 4 && (
-            <Tutorial
-              title="Tutorial"
-              message="Click on any day in the calendar to create your first post!"
-              position="center"
-            />
-          )}
         </div>
       </div>
     );
@@ -568,9 +558,7 @@ function compareCampaignPostsReverse(a, b) {
 }
 
 function mapStateToProps(state) {
-  return {
-    tutorial: state.tutorial
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {

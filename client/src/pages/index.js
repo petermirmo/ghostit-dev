@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
 import { Route, withRouter, Switch } from "react-router-dom";
 import { SizeMe } from "react-sizeme";
@@ -10,20 +8,21 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import { setUser, setaccounts } from "../redux/actions/";
+import { setUser, setaccounts } from "../redux/actions";
 
 import LoaderWedge from "../components/Notifications/LoaderWedge";
 import Container from "../components/Container";
-import Header from "../components/Navigations/Header/";
+import Header from "../components/Navigations/Header";
+import SignedInAs from "../components/SignedInAs";
 
-import Subscribe from "./SubscribePage/";
-import Content from "./ContentPage/";
-import Accounts from "./AccountsPage/";
-import Manage from "./ManagePage/";
-import Profile from "./ProfilePage/";
-import MySubscription from "./MySubscriptionPage/";
-import Analytics from "./AnalyticsPage/";
-import Ads from "./AdsPage/";
+import Subscribe from "./SubscribePage";
+import Content from "./ContentPage";
+import Accounts from "./AccountsPage";
+import Manage from "./ManagePage";
+import Profile from "./ProfilePage";
+import MySubscription from "./MySubscriptionPage";
+import Analytics from "./AnalyticsPage";
+import Ads from "./AdsPage";
 import ViewWebsiteBlog from "../components/GhostitBlog/View";
 
 import WebsiteHeader from "../website/WebsiteHeader";
@@ -42,7 +41,8 @@ import {
   getBlogs,
   userIsInPlatform,
   getAccounts,
-  signOutOfUsersAccount
+  useAppropriateFunctionForEscapeKey,
+  shouldShowSignedInAsDiv
 } from "./util";
 
 class Routes extends Component {
@@ -51,14 +51,17 @@ class Routes extends Component {
     ghostitBlogs: [],
     headerWidth: 0
   };
+  constructor(props) {
+    super(props);
+
+    if (process.env.NODE_ENV !== "development")
+      ReactGA.initialize("UA-121236003-1");
+  }
 
   componentDidMount() {
     this.getUserDataAndCheckAuthorization();
 
     getBlogs(ghostitBlogs => this.setState({ ghostitBlogs, loading: false }));
-
-    if (process.env.NODE_ENV !== "development")
-      ReactGA.initialize("UA-121236003-1");
   }
   getUserDataAndCheckAuthorization = () => {
     const { setUser, setaccounts } = this.props; // Functions
@@ -83,22 +86,47 @@ class Routes extends Component {
   onSize = sizeChangeObj => {
     this.setState({ headerWidth: sizeChangeObj.width });
   };
+  websiteOrPlatformHeader = activePage => {
+    if (!userIsInPlatform(activePage)) return <WebsiteHeader />;
+    else return <Header onSize={this.onSize} />;
+  };
+  createBlogPages = ghostitBlogs => {
+    ghostitBlogs.map((obj, index) => {
+      return (
+        <Route
+          path={"/blog/" + obj.url + "/"}
+          key={index}
+          render={props => {
+            return (
+              <ViewWebsiteBlog
+                contentArray={obj.contentArray}
+                images={obj.images}
+              />
+            );
+          }}
+        />
+      );
+    });
+  };
   render() {
-    const { datebaseConnection, ghostitBlogs, headerWidth } = this.state; // Variables
+    let { headerWidth } = this.state; // Variables
+    const { datebaseConnection, ghostitBlogs } = this.state; // Variables
     const { user, getKeyListenerFunction, location } = this.props; // Variables
     const activePage = location.pathname;
 
+    const blogPages = this.createBlogPages(ghostitBlogs);
+    const header = this.websiteOrPlatformHeader(activePage);
+
     if (!userIsInPlatform(activePage) && process.env.NODE_ENV !== "development")
       ReactGA.pageview(activePage);
+    if (!userIsInPlatform(activePage)) headerWidth = 0;
 
-    document.removeEventListener("keydown", getKeyListenerFunction[1], false);
-    document.addEventListener("keydown", getKeyListenerFunction[0], false);
+    useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
     if (!datebaseConnection) return <LoaderWedge />;
 
     return (
-      <Container style={{ marginLeft: headerWidth }}>
-        {userIsInPlatform(activePage) && <Header onSize={this.onSize} />}
+      <Container style={{ marginLeft: headerWidth }} className="main-wrapper">
         <Helmet>
           <meta charSet="utf-8" />
           <title>All-In-One Marketing Solution</title>
@@ -107,21 +135,10 @@ class Routes extends Component {
             content="Organize your marketing process with an all-in-one solution for unified content promotion."
           />
         </Helmet>
-        {user &&
-          ((activePage === "/content" ||
-            activePage === "/subscribe" ||
-            activePage === "/accounts") &&
-            user.signedInAsUser && (
-              <div className="signed-in-as pa16">
-                Logged in as: {user.signedInAsUser.fullName}
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  onClick={() => signOutOfUsersAccount()}
-                  className="sign-out-of-clients-account"
-                />
-              </div>
-            ))}
-        {!userIsInPlatform(activePage) && <WebsiteHeader />}
+        {header}
+        {shouldShowSignedInAsDiv(user, activePage) && (
+          <SignedInAs user={user} />
+        )}
         <Switch>
           <Route path="/content/" component={Content} />
           <Route path="/subscribe/" component={Subscribe} />
@@ -147,25 +164,7 @@ class Routes extends Component {
           />
           <Route path="/terms-of-service/" component={TermsPage} />
           <Route path="/privacy-policy/" component={PrivacyPage} />
-          {ghostitBlogs.map((obj, index) => {
-            if (obj.images) obj.images.sort(ghostitBlogImagesCompare);
-
-            return (
-              <Route
-                path={"/blog/" + obj.url + "/"}
-                key={index}
-                render={props => {
-                  return (
-                    <ViewWebsiteBlog
-                      contentArray={obj.contentArray}
-                      images={obj.images}
-                    />
-                  );
-                }}
-              />
-            );
-          })}
-
+          {blogPages}
           <Route component={HomePage} />
         </Switch>
         {!userIsInPlatform(activePage) && <WebsiteFooter />}
@@ -174,17 +173,10 @@ class Routes extends Component {
   }
 }
 
-function ghostitBlogImagesCompare(a, b) {
-  if (a.location < b.location) return -1;
-  if (a.location > b.location) return 1;
-  return 0;
-}
-
 function mapStateToProps(state) {
   return {
     user: state.user,
     getKeyListenerFunction: state.getKeyListenerFunction,
-    tutorial: state.tutorial,
     accounts: state.accounts
   };
 }
