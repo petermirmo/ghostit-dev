@@ -1,14 +1,5 @@
 export const teamMembers = [
   {
-    name: "Kimia",
-    location: "Victoria",
-    description:
-      "Between cups of coffee Kimia can be found obsessing over rebuilding the Ghostit website. He is passionate about helping businesses of all sizes grow by telling their stories and using data to improve their products or services. Aside from helping companies succeed, Kimia also feels the need for speed. If it has wheels and goes fast, he’s in.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164068/kimia.jpg",
-    color: "var(--five-purple-color)"
-  },
-  {
     name: "Rahul",
     location: "Victoria",
     title: "",
