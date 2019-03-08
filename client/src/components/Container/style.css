@@ -1,0 +1,10 @@
+.main-container {
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+}
+
+flex: 1;
+flex-direction: column;
+
+max-height: 100.5vh;

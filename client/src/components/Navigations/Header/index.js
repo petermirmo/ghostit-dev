@@ -24,7 +24,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
   setUser,
-  updateAccounts,
+  setaccounts,
   setTutorial,
   openContentModal,
   openCampaignModal,
@@ -78,7 +78,7 @@ class HeaderSideBar extends Component {
 
       if (success) {
         this.props.setUser(null);
-        this.props.updateAccounts([]);
+        this.props.setaccounts([]);
       } else {
         window.location.reload();
       }
@@ -288,7 +288,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      updateAccounts,
+      setaccounts,
       setTutorial,
       openContentModal,
       openCampaignModal,

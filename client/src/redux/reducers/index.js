@@ -27,14 +27,6 @@ function getKeyListenerFunction(state = [() => {}], action) {
       return state;
   }
 }
-function tutorial(state = { value: 0, on: false }, action) {
-  switch (action.type) {
-    case "TUTORIAL":
-      return action.payload;
-    default:
-      return state;
-  }
-}
 function contentModal(state = false, action) {
   switch (action.type) {
     case "CONTENT_MODAL":
@@ -65,7 +57,6 @@ const rootReducer = combineReducers({
   account: accountReducer,
   accounts,
   getKeyListenerFunction,
-  tutorial,
   contentModal,
   campaignModal,
   calendarManagerModal

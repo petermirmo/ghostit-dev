@@ -12,7 +12,7 @@ import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { updateAccounts } from "../../redux/actions/";
+import { setaccounts } from "../../redux/actions/";
 
 import AddPageOrGroupModal from "./AddPagesOrGroupsModal/";
 import ConfirmAlert from "../../components/Notifications/ConfirmAlert/";
@@ -62,7 +62,7 @@ class AccountsPage extends Component {
       if (success) {
         // Set user's accounts to state
         this.setState({ accounts });
-        this.props.updateAccounts(accounts);
+        this.props.setaccounts(accounts);
       }
     });
   };
@@ -394,7 +394,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateAccounts }, dispatch);
+  return bindActionCreators({ setaccounts }, dispatch);
 }
 export default connect(
   mapStateToProps,

@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
 import { Route, withRouter, Switch } from "react-router-dom";
 import { SizeMe } from "react-sizeme";
 import ReactGA from "react-ga";
+import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import { setUser, updateAccounts, setTutorial } from "../redux/actions/";
+import { setUser, setaccounts } from "../redux/actions/";
 
 import LoaderWedge from "../components/Notifications/LoaderWedge";
-
+import Container from "../components/Container";
 import Header from "../components/Navigations/Header/";
 
 import Subscribe from "./SubscribePage/";
@@ -37,100 +37,76 @@ import LoginPage from "../website/LoginPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
 
+import {
+  getUser,
+  getBlogs,
+  userIsInPlatform,
+  getAccounts,
+  signOutOfUsersAccount
+} from "./util";
+
 class Routes extends Component {
   state = {
     datebaseConnection: false,
     ghostitBlogs: [],
     headerWidth: 0
   };
-  constructor(props) {
-    super(props);
-    axios.get("/api/user").then(res => {
-      let { success, user } = res.data;
 
-      if (user) {
-        // Get all connected accounts of the user
-        axios.get("/api/accounts").then(res => {
-          // Set user's accounts to state
-          let { accounts } = res.data;
+  componentDidMount() {
+    this.getUserDataAndCheckAuthorization();
 
-          if (!accounts) accounts = [];
-          props.setUser(user);
-          props.updateAccounts(accounts);
+    getBlogs(ghostitBlogs => this.setState({ ghostitBlogs, loading: false }));
 
-          this.setState({ datebaseConnection: true });
-        });
-      } else if (this.userIsInPlatform(this.props.location.pathname)) {
-        this.props.history.push("/sign-in");
-        this.setState({ datebaseConnection: true });
-      } else this.setState({ datebaseConnection: true });
-    });
     if (process.env.NODE_ENV !== "development")
       ReactGA.initialize("UA-121236003-1");
   }
-  componentDidMount() {
-    this.getBlogs();
-  }
-  getBlogs = () => {
-    axios.get("/api/ghostit/blogs").then(res => {
-      let { success, ghostitBlogs } = res.data;
-      if (success) this.setState({ ghostitBlogs, loading: false });
-      else this.getBlogs();
+  getUserDataAndCheckAuthorization = () => {
+    const { setUser, setaccounts } = this.props; // Functions
+    const { location, history } = this.props; // Variables
+
+    getUser(user => {
+      if (user) {
+        getAccounts(accounts => {
+          this.setState({ datebaseConnection: true });
+          setUser(user);
+          setaccounts(accounts);
+        });
+      } else if (userIsInPlatform(location.pathname)) {
+        history.push("/sign-in");
+        this.setState({ datebaseConnection: true });
+      } else {
+        this.setState({ datebaseConnection: true });
+      }
     });
   };
 
-  signOutOfUsersAccount = () => {
-    axios.get("/api/signOutOfUserAccount").then(res => {
-      let { success, loggedIn, user } = res.data;
-      if (success) window.location.reload();
-      else this.props.history.push("/sign-in");
-    });
-  };
-  userIsInPlatform = activePage => {
-    if (
-      activePage === "/content" ||
-      activePage === "/subscribe" ||
-      activePage === "/strategy" ||
-      activePage === "/analytics" ||
-      activePage === "/social-accounts" ||
-      activePage === "/writers-brief" ||
-      activePage.substring(0, 7) === "/manage" ||
-      activePage === "/profile" ||
-      activePage === "/subscription" ||
-      activePage === "/ads"
-    )
-      return true;
-    else return false;
-  };
   onSize = sizeChangeObj => {
     this.setState({ headerWidth: sizeChangeObj.width });
   };
   render() {
-    const { datebaseConnection, ghostitBlogs, headerWidth } = this.state;
-    const { user, getKeyListenerFunction } = this.props;
+    const { datebaseConnection, ghostitBlogs, headerWidth } = this.state; // Variables
+    const { user, getKeyListenerFunction, location } = this.props; // Variables
+    const activePage = location.pathname;
 
-    let activePage = this.props.location.pathname;
-    if (
-      !this.userIsInPlatform(activePage) &&
-      process.env.NODE_ENV !== "development"
-    )
+    if (!userIsInPlatform(activePage) && process.env.NODE_ENV !== "development")
       ReactGA.pageview(activePage);
 
     document.removeEventListener("keydown", getKeyListenerFunction[1], false);
     document.addEventListener("keydown", getKeyListenerFunction[0], false);
 
-    let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
 
     return (
-      <div
-        className="wrapper"
-        style={
-          this.userIsInPlatform(activePage) ? { marginLeft: headerWidth } : {}
-        }
-      >
-        {this.userIsInPlatform(activePage) && <Header onSize={this.onSize} />}
-
+      <Container style={{ marginLeft: headerWidth }}>
+        {userIsInPlatform(activePage) && <Header onSize={this.onSize} />}
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>All-In-One Marketing Solution</title>
+          <meta
+            name="description"
+            content="Organize your marketing process with an all-in-one solution for unified content promotion."
+          />
+        </Helmet>
         {user &&
           ((activePage === "/content" ||
             activePage === "/subscribe" ||
@@ -140,12 +116,12 @@ class Routes extends Component {
                 Logged in as: {user.signedInAsUser.fullName}
                 <FontAwesomeIcon
                   icon={faTimes}
-                  onClick={() => this.signOutOfUsersAccount()}
+                  onClick={() => signOutOfUsersAccount()}
                   className="sign-out-of-clients-account"
                 />
               </div>
             ))}
-        {!this.userIsInPlatform(activePage) && <WebsiteHeader />}
+        {!userIsInPlatform(activePage) && <WebsiteHeader />}
         <Switch>
           <Route path="/content/" component={Content} />
           <Route path="/subscribe/" component={Subscribe} />
@@ -192,8 +168,8 @@ class Routes extends Component {
 
           <Route component={HomePage} />
         </Switch>
-        {!this.userIsInPlatform(activePage) && <WebsiteFooter />}
-      </div>
+        {!userIsInPlatform(activePage) && <WebsiteFooter />}
+      </Container>
     );
   }
 }
@@ -216,8 +192,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      updateAccounts,
-      setTutorial
+      setaccounts
     },
     dispatch
   );

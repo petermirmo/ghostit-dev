@@ -4,7 +4,7 @@ export const setUser = user => {
     payload: user
   };
 };
-export const updateAccounts = value => {
+export const setaccounts = value => {
   return {
     type: "SOCIAL_ACCOUNTS",
     payload: value
@@ -13,12 +13,6 @@ export const updateAccounts = value => {
 export const setKeyListenerFunction = value => {
   return {
     type: "KEY_LISTENER",
-    payload: value
-  };
-};
-export const setTutorial = value => {
-  return {
-    type: "TUTORIAL",
     payload: value
   };
 };

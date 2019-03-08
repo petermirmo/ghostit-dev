@@ -350,15 +350,6 @@
   width: 100%;
 }
 
-.wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  transition: all 0.2s ease;
-  max-height: 100.5vh;
-}
 .modal {
   position: fixed;
   z-index: 10;

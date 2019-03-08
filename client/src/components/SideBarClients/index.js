@@ -5,7 +5,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser, updateAccounts } from "../../redux/actions/";
+import { setUser, setaccounts } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
 import "./style.css";
@@ -78,7 +78,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      updateAccounts
+      setaccounts
     },
     dispatch
   );
