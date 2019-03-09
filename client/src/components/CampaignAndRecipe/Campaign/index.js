@@ -18,8 +18,8 @@ import { trySavePost, getSocialCharacters } from "../../../componentFunctions";
 
 import Post from "../../Post";
 import CustomTask from "../../CustomTask";
-import Loader from "../../Notifications/Loader";
-import ConfirmAlert from "../../Notifications/ConfirmAlert";
+import Loader from "../../notifications/Loader";
+import ConfirmAlert from "../../notifications/ConfirmAlert";
 
 import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";

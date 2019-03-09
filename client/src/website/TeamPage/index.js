@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
+import Page from "../../components/containers/Page";
 
 import { teamMembers } from "./teamMembers";
 
@@ -7,12 +7,10 @@ import "./style.css";
 
 class TeamPage extends Component {
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
   }
   isElementInViewport = el => {
-    // IMPORTANT THIS FUNCTION HAS BEEN TAKEN FROM STACK OVERFLOW
-    // https://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport/7557433#7557433
-    var rect = el.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
 
     let top = false;
     let right = false;
@@ -60,17 +58,12 @@ class TeamPage extends Component {
   };
   render() {
     return (
-      <div className="website-page flex column vc">
-        <MetaTags>
-          <title>Ghostit | Team</title>
-          <meta name="description" content="Meet the Ghostit Team!" />
-          <meta property="og:title" content="Ghostit | Team" />
-          <meta property="og:description" content="Meet the Ghostit Team!" />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
+      <Page
+        className="website-page flex column vc"
+        title="Team"
+        description="Meet the Ghostit Team!"
+        keywords="ghostit, team"
+      >
         <h1 className="pb16 tac">Meet the Ghostit Team!</h1>
         <div className="wrapping-container pb32 mb32">
           {teamMembers.map((obj, index) => {
@@ -115,7 +108,7 @@ class TeamPage extends Component {
             );
           })}
         </div>
-      </div>
+      </Page>
     );
   }
 }

@@ -23,9 +23,9 @@ import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
 import Campaign from "../../components/CampaignAndRecipe/Campaign";
 import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
-import Notification from "../../components/Notifications/Notification";
-import Loader from "../../components/Notifications/Loader/";
-import ConfirmAlert from "../../components/Notifications/ConfirmAlert";
+import Notification from "../../components/notifications/Notification";
+import Loader from "../../components/notifications/Loader/";
+import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 import CalendarChat from "../../components/CalendarChat";
 
 class Content extends Component {
@@ -78,7 +78,7 @@ class Content extends Component {
   };
 
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
 
     this._ismounted = true;
 

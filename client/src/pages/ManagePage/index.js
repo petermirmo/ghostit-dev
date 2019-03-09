@@ -5,7 +5,7 @@ import MetaTags from "react-meta-tags";
 import { connect } from "react-redux";
 
 import UsersTable from "./UsersTable";
-import CreateGhostitBlog from "../../components/GhostitBlog/Create";
+import CreateGhostitBlog from "../../components/ghostitBlog/CreateGhostitBlog";
 import "./style.css";
 
 class ManagePage extends Component {
@@ -18,7 +18,7 @@ class ManagePage extends Component {
     notifications: []
   };
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
 
     this._ismounted = true;
     axios.get("/api/notifications").then(res => {

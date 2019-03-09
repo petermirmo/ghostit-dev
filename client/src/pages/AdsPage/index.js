@@ -20,7 +20,7 @@ class AdsPage extends Component {
     }
   };
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
   }
 
   headerClick = activeOption => {

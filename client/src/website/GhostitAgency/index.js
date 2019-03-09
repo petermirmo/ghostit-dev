@@ -1,31 +1,20 @@
 import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
+import Page from "../../components/containers/Page";
 
 import "./style.css";
 
 class GhostitAgency extends Component {
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
   }
   render() {
     return (
-      <div className="website-page">
-        <MetaTags>
-          <title>Ghostit | Agency</title>
-          <meta
-            name="description"
-            content="Increase the amount of qualified traffic to your site."
-          />
-          <meta property="og:title" content="Agency" />
-          <meta
-            property="og:description"
-            content="Increase the amount of qualified traffic to your site."
-          />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
+      <Page
+        className="website-page"
+        title="Agency"
+        description="Increase the amount of qualified traffic to your site."
+        keywords="content, ghostit, marketing, agency"
+      >
         <h1 className="tac">Content Services</h1>
         <h3 className="tac mx16 unimportant-text">
           Increase the amount of qualified traffic to your site.
@@ -71,7 +60,7 @@ class GhostitAgency extends Component {
             </p>
           </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }

@@ -1347,12 +1347,6 @@ input[type="file"] {
 .icon-regular-button:hover {
   color: var(--eight-primary-color);
 }
-.square-button {
-  background-color: var(--seven-primary-color);
-}
-.square-button:hover {
-  background-color: var(--eight-primary-color);
-}
 .regular-button {
   flex-shrink: 0;
   cursor: pointer;

@@ -6,7 +6,7 @@ import DateTimePicker from "../DateTimePicker";
 import ImagesDiv from "../ImagesDiv/";
 import Textarea from "react-textarea-autosize";
 
-import ConfirmAlert from "../Notifications/ConfirmAlert";
+import ConfirmAlert from "../notifications/ConfirmAlert";
 
 import { trySavePost } from "../../componentFunctions";
 

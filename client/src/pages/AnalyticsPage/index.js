@@ -22,7 +22,7 @@ class Analytics extends Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
     this.getAccountAnalytics();
     this._ismounted = true;
   }

@@ -10,9 +10,9 @@ import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import Post from "../../../components/Post";
 import CustomTask from "../../../components/CustomTask";
-import Notification from "../../../components/Notifications/Notification";
-import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
-import Loader from "../../../components/Notifications/Loader/";
+import Notification from "../../../components/notifications/Notification";
+import ConfirmAlert from "../../../components/notifications/ConfirmAlert";
+import Loader from "../../../components/notifications/Loader/";
 import "./style.css";
 
 class PostEdittingModal extends Component {

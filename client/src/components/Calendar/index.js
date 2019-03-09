@@ -14,7 +14,6 @@ import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {} from "../../redux/actions/";
 
 import { getPostIcon, getPostColor } from "../../componentFunctions";
 

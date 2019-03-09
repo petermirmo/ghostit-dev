@@ -13,8 +13,6 @@ import ContentEditable from "react-contenteditable";
 
 import { Link, withRouter } from "react-router-dom";
 
-import ViewWebsiteBlog from "../View";
-
 import "./style.css";
 
 class CreateWebsiteBlog extends Component {

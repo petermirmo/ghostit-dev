@@ -11,7 +11,7 @@ import {
 } from "../../../redux/actions/";
 
 import ContentModalHeader from "./ContentModalHeader";
-import Loader from "../../../components/Notifications/Loader/";
+import Loader from "../../../components/notifications/Loader/";
 import Post from "../../../components/Post";
 import CustomTask from "../../../components/CustomTask";
 import InstagramPosting from "./InstagramPosting";

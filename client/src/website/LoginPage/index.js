@@ -11,7 +11,7 @@ import { setUser, setaccounts } from "../../redux/actions/";
 
 import { validateEmail } from "../../componentFunctions";
 
-import Notification from "../../components/Notifications/Notification/";
+import Notification from "../../components/notifications/Notification/";
 import "./style.css";
 
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -31,7 +31,7 @@ class Login extends Component {
     };
   }
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
 
     if (this.props.user) this.props.history.push("/home");
   }

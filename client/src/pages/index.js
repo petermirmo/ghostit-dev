@@ -1,19 +1,14 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
-import { Route, withRouter, Switch } from "react-router-dom";
-import { SizeMe } from "react-sizeme";
-import ReactGA from "react-ga";
-import { Helmet } from "react-helmet";
+import { Route, Switch } from "react-router-dom";
 
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
 import { setUser, setaccounts } from "../redux/actions";
 
-import LoaderWedge from "../components/Notifications/LoaderWedge";
-import Container from "../components/Container";
-import Header from "../components/Navigations/Header";
-import SignedInAs from "../components/SignedInAs";
+import LoaderWedge from "../components/notifications/LoaderWedge";
+import CommonContainer from "../components/containers/CommonContainer";
 
 import Subscribe from "./SubscribePage";
 import Content from "./ContentPage";
@@ -23,10 +18,8 @@ import Profile from "./ProfilePage";
 import MySubscription from "./MySubscriptionPage";
 import Analytics from "./AnalyticsPage";
 import Ads from "./AdsPage";
-import ViewWebsiteBlog from "../components/GhostitBlog/View";
+import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
 
-import WebsiteHeader from "../website/WebsiteHeader";
-import WebsiteFooter from "../website/WebsiteFooter";
 import HomePage from "../website/HomePage";
 import PricingPage from "../website/PricingPage";
 import TeamPage from "../website/TeamPage";
@@ -39,24 +32,15 @@ import PrivacyPage from "../website/PrivacyPage";
 import {
   getUser,
   getBlogs,
-  userIsInPlatform,
   getAccounts,
-  useAppropriateFunctionForEscapeKey,
-  shouldShowSignedInAsDiv
+  useAppropriateFunctionForEscapeKey
 } from "./util";
 
 class Routes extends Component {
   state = {
-    datebaseConnection: false,
-    ghostitBlogs: [],
-    headerWidth: 0
+    datebaseConnection: true,
+    ghostitBlogs: []
   };
-  constructor(props) {
-    super(props);
-
-    if (process.env.NODE_ENV !== "development")
-      ReactGA.initialize("UA-121236003-1");
-  }
 
   componentDidMount() {
     this.getUserDataAndCheckAuthorization();
@@ -74,7 +58,7 @@ class Routes extends Component {
           setUser(user);
           setaccounts(accounts);
         });
-      } else if (userIsInPlatform(location.pathname)) {
+      } else if (isUserInPlatform(location.pathname)) {
         history.push("/sign-in");
         this.setState({ datebaseConnection: true });
       } else {
@@ -83,13 +67,6 @@ class Routes extends Component {
     });
   };
 
-  onSize = sizeChangeObj => {
-    this.setState({ headerWidth: sizeChangeObj.width });
-  };
-  websiteOrPlatformHeader = activePage => {
-    if (!userIsInPlatform(activePage)) return <WebsiteHeader />;
-    else return <Header onSize={this.onSize} />;
-  };
   createBlogPages = ghostitBlogs => {
     ghostitBlogs.map((obj, index) => {
       return (
@@ -109,36 +86,17 @@ class Routes extends Component {
     });
   };
   render() {
-    let { headerWidth } = this.state; // Variables
     const { datebaseConnection, ghostitBlogs } = this.state; // Variables
     const { user, getKeyListenerFunction, location } = this.props; // Variables
-    const activePage = location.pathname;
 
     const blogPages = this.createBlogPages(ghostitBlogs);
-    const header = this.websiteOrPlatformHeader(activePage);
-
-    if (!userIsInPlatform(activePage) && process.env.NODE_ENV !== "development")
-      ReactGA.pageview(activePage);
-    if (!userIsInPlatform(activePage)) headerWidth = 0;
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
     if (!datebaseConnection) return <LoaderWedge />;
 
     return (
-      <Container style={{ marginLeft: headerWidth }} className="main-wrapper">
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>All-In-One Marketing Solution</title>
-          <meta
-            name="description"
-            content="Organize your marketing process with an all-in-one solution for unified content promotion."
-          />
-        </Helmet>
-        {header}
-        {shouldShowSignedInAsDiv(user, activePage) && (
-          <SignedInAs user={user} />
-        )}
+      <CommonContainer className="main-wrapper">
         <Switch>
           <Route path="/content/" component={Content} />
           <Route path="/subscribe/" component={Subscribe} />
@@ -167,8 +125,7 @@ class Routes extends Component {
           {blogPages}
           <Route component={HomePage} />
         </Switch>
-        {!userIsInPlatform(activePage) && <WebsiteFooter />}
-      </Container>
+      </CommonContainer>
     );
   }
 }
@@ -189,9 +146,7 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Routes)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Routes);

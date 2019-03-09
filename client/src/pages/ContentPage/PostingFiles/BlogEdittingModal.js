@@ -8,10 +8,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import Notification from "../../../components/Notifications/Notification";
-import ConfirmAlert from "../../../components/Notifications/ConfirmAlert";
+import Notification from "../../../components/notifications/Notification";
+import ConfirmAlert from "../../../components/notifications/ConfirmAlert";
 import CreateBlog from "../../../components/CreateBlog/";
-import Loader from "../../../components/Notifications/Loader/";
+import Loader from "../../../components/notifications/Loader/";
 import "./style.css";
 
 class BlogEdittingModal extends Component {

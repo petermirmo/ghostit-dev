@@ -464,3 +464,18 @@ export function getPostIcon(socialType) {
   else if (socialType === "instagram") return false;
   else return false;
 }
+
+export const getSocialDisplayName = account => {
+  let name;
+  if (account.givenName)
+    name =
+      account.givenName.charAt(0).toUpperCase() + account.givenName.slice(1);
+  if (account.familyName)
+    name +=
+      " " +
+      account.familyName.charAt(0).toUpperCase() +
+      account.familyName.slice(1);
+  if (account.username !== "" && account.username) name = account.username;
+
+  return name;
+};

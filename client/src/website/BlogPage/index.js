@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import MetaTags from "react-meta-tags";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
@@ -8,8 +7,10 @@ import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import LoaderSimpleCircle from "../../components/Notifications/LoaderSimpleCircle";
-import ViewWebsiteBlog from "../../components/GhostitBlog/View";
+import LoaderSimpleCircle from "../../components/notifications/LoaderSimpleCircle";
+import ViewWebsiteBlog from "../../components/ghostitBlog/ViewGhostitBlog";
+
+import Page from "../../components/containers/Page";
 
 import "./style.css";
 
@@ -25,8 +26,6 @@ class BlogPage extends Component {
     ]
   };
   componentDidMount() {
-    window.scrollTo(0, 0);
-
     axios.get("/api/ghostit/blogs").then(res => {
       let { success, ghostitBlogs } = res.data;
       if (success) this.setState({ ghostitBlogs, loading: false });
@@ -109,23 +108,12 @@ class BlogPage extends Component {
       );
     }
     return (
-      <div className="website-page simple-container mx32">
-        <MetaTags>
-          <title>Ghostit | Blog</title>
-          <meta
-            name="description"
-            content="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
-          />
-          <meta property="og:title" content="Blog" />
-          <meta
-            property="og:description"
-            content="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
-          />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
+      <Page
+        className="website-page simple-container mx32"
+        title="Blog"
+        description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
+        keywords="ghostit, blog"
+      >
         <h1 className="tac pb32">Ghostit Blog</h1>
 
         <div className="wrapping-container">
@@ -147,7 +135,7 @@ class BlogPage extends Component {
           })}
         </div>
         <div className="wrapping-container">{ghostitBlogDivs}</div>
-      </div>
+      </Page>
     );
   }
 }

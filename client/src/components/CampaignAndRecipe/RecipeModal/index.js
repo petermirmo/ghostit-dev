@@ -16,9 +16,9 @@ import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 
-import LoaderSimpleCircle from "../../Notifications/LoaderSimpleCircle";
+import LoaderSimpleCircle from "../../notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
-import ConfirmAlert from "../../Notifications/ConfirmAlert";
+import ConfirmAlert from "../../notifications/ConfirmAlert";
 
 import { getPostColor, getPostIcon } from "../../../componentFunctions";
 

@@ -19,7 +19,7 @@ import ImagesDiv from "../ImagesDiv/";
 import { linkPreviewOptions } from "../../componentFunctions";
 import { trySavePost } from "../../componentFunctions";
 
-import ConfirmAlert from "../Notifications/ConfirmAlert";
+import ConfirmAlert from "../notifications/ConfirmAlert";
 
 import "./style.css";
 

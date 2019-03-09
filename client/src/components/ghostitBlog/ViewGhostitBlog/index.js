@@ -5,7 +5,7 @@ import "./style.css";
 
 class ViewWebsiteBlog extends Component {
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
   }
   createRelevantImageDiv = (image, index) => {
     return (

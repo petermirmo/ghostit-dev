@@ -5,6 +5,8 @@ import MetaTags from "react-meta-tags";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
+import Page from "../../components/containers/Page";
+
 import Section1 from "./Section1";
 import Section2 from "./Section2";
 import Section3 from "./Section3";
@@ -21,7 +23,7 @@ class HomePage extends Component {
     displayGhostAndMessage: false
   };
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
 
     this._ismounted = true;
 
@@ -35,24 +37,11 @@ class HomePage extends Component {
   render() {
     const { displayGhostAndMessage } = this.state;
     return (
-      <div>
-        <MetaTags>
-          <title>All-In-One Marketing Solution</title>
-          <meta
-            name="description"
-            content="Organize your marketing process with an all-in-one solution for unified content promotion."
-          />
-          <meta property="og:title" content="All-In-One Marketing Solution" />
-          <meta
-            property="og:description"
-            content="Organize your marketing process with an all-in-one solution for unified content promotion."
-          />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
-
+      <Page
+        title="All-In-One Marketing Solution"
+        description="Organize your marketing process with an all-in-one solution for unified content promotion."
+        keywords="content, ghostit, marketing"
+      >
         <Section1 />
 
         <Section2 />
@@ -87,7 +76,7 @@ class HomePage extends Component {
             }
           />
         </div>
-      </div>
+      </Page>
     );
   }
 }

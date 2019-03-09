@@ -40,36 +40,7 @@ export const getBlogs = callback => {
   });
 };
 
-export const userIsInPlatform = activePage => {
-  if (
-    activePage === "/content" ||
-    activePage === "/subscribe" ||
-    activePage === "/strategy" ||
-    activePage === "/analytics" ||
-    activePage === "/social-accounts" ||
-    activePage === "/writers-brief" ||
-    activePage.substring(0, 7) === "/manage" ||
-    activePage === "/profile" ||
-    activePage === "/subscription" ||
-    activePage === "/ads"
-  )
-    return true;
-  else return false;
-};
-
 export const useAppropriateFunctionForEscapeKey = getKeyListenerFunction => {
   document.removeEventListener("keydown", getKeyListenerFunction[1], false);
   document.addEventListener("keydown", getKeyListenerFunction[0], false);
-};
-
-export const shouldShowSignedInAsDiv = (user, activePage) => {
-  if (
-    user &&
-    (activePage === "/content" ||
-      activePage === "/subscribe" ||
-      activePage === "/accounts") &&
-    user.signedInAsUser
-  ) {
-    return true;
-  } else return false;
 };

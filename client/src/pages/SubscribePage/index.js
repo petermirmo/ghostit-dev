@@ -20,7 +20,7 @@ class SubscribePage extends Component {
     };
   }
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
   }
   render() {
     const { annualBilling, plan } = this.state;

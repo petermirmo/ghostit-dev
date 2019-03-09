@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser, changePage } from "../../redux/actions/";
 
-import Notification from "../../components/Notifications/Notification/";
-import Loader from "../../components/Notifications/Loader/";
+import Notification from "../../components/notifications/Notification/";
+import Loader from "../../components/notifications/Loader/";
 
 //pk_test_C6VKqentibktzCQjTRZ9vOuY
 //pk_live_fbteh655nQqpE4WEFr6fs5Pm

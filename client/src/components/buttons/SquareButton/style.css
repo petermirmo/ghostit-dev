@@ -1,0 +1,9 @@
+.square-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--seven-primary-color);
+}
+.square-button:hover {
+  background-color: var(--eight-primary-color);
+}

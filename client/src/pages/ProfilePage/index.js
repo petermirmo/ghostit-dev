@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser } from "../../redux/actions/";
 
-import Loader from "../../components/Notifications/Loader/";
+import Loader from "../../components/notifications/Loader/";
 import "./style.css";
 
 class Profile extends Component {
@@ -29,7 +29,7 @@ class Profile extends Component {
     }
   }
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
   }
 
   handleChange = (index, value) => {

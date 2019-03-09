@@ -1,31 +1,20 @@
 import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
+import Page from "../../components/containers/Page";
 
 import "./style.css";
 
 class PricingPage extends Component {
   componentDidMount() {
-    window.scrollTo(0, 0);
+    
   }
   render() {
     return (
-      <div className="website-page flex column vc">
-        <MetaTags>
-          <title>Ghostit | Pricing</title>
-          <meta
-            name="description"
-            content="Have questions? Give us a call: 250-415-3093"
-          />
-          <meta property="og:title" content="Ghostit | Pricing" />
-          <meta
-            property="og:description"
-            content="Have questions? Give us a call: 250-415-3093"
-          />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
+      <Page
+        className="website-page flex column vc"
+        title="Pricing"
+        description="Have questions? Give us a call: 250-415-3093"
+        keywords="ghostit, pricing"
+      >
         <h1 className="tac">Ghostit Pricing</h1>
         <h3 className="tac mx16 unimportant-text">
           Have questions? Give us a call: 250-415-3093
@@ -84,7 +73,7 @@ class PricingPage extends Component {
             <p className="unimportant-text pt8">Task manager</p>
           </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }

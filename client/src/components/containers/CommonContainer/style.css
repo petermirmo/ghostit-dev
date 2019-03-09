@@ -8,3 +8,7 @@
 .main-wrapper {
   flex-direction: column;
 }
+
+.container1 {
+  min-height: 100vh;
+}
