@@ -4,6 +4,9 @@ import Page from "../../components/containers/Page";
 
 import HomeMainSVG from "../../svgs/HomeMainSVG";
 import HomeAISVG from "../../svgs/HomeAISVG";
+import HomeInstructionsSVG from "../../svgs/HomeInstructionsSVG";
+import HomeScheduleSVG from "../../svgs/HomeScheduleSVG";
+import HomeWorkflowSVG from "../../svgs/HomeWorkflowSVG";
 
 import PictureTextDescription from "../../components/PictureTextDescription";
 
@@ -23,6 +26,7 @@ class HomePage extends Component {
         description="Organize your marketing process with an all-in-one solution for unified content promotion."
         keywords="content, ghostit, marketing"
       >
+        <HomeMainSVG />
         <PictureTextDescription
           svg={<HomeAISVG />}
           title="Machine Learning"
@@ -31,20 +35,20 @@ class HomePage extends Component {
           direction="left"
         />
         <PictureTextDescription
-          svg={<HomeAISVG />}
+          svg={<HomeWorkflowSVG />}
           title="Custom Workflows"
           description="Map your marketing campaign from scratch or use pre-built templates."
           size="large"
         />
         <PictureTextDescription
-          svg={<HomeAISVG />}
+          svg={<HomeInstructionsSVG />}
           title="Post Instructions"
           description="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
           size="large"
           direction="left"
         />
         <PictureTextDescription
-          svg={<HomeAISVG />}
+          svg={<HomeScheduleSVG />}
           title="Social Scheduling"
           description="Sync all your social sharing accounts and post directly from our platform."
           size="large"

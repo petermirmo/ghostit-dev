@@ -1,103 +1,113 @@
-.svg-container {
-  max-height: 100vh;
-  background-color: red;
-  min-width: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-}
 .test {
-  position: absolute;
-  bottom: 0;
-  padding-bottom: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  max-height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+
+  overflow: hidden;
 }
-.cls-1 {
+.test2 {
+  position: absolute;
+  top: 0;
+  height: 90%;
+  width: 100%;
+  z-index: -1;
+}
+.test3 {
+  width: 100%;
+}
+.home-main-1 {
   isolation: isolate;
 }
-.cls-2 {
+.home-main-2 {
   fill: url(#radial-gradient);
 }
-.cls-21,
-.cls-25,
-.cls-3 {
+.home-main-21,
+.home-main-25,
+.home-main-3 {
   fill: #fff;
 }
-.cls-3,
-.cls-6 {
+.home-main-3,
+.home-main-6 {
   opacity: 0.15;
 }
-.cls-4,
-.cls-5,
-.cls-6,
-.cls-7 {
+.home-main-4,
+.home-main-5,
+.home-main-6,
+.home-main-7 {
   fill: #58595b;
 }
-.cls-5 {
+.home-main-5 {
   mix-blend-mode: overlay;
 }
-.cls-6,
-.cls-7 {
+.home-main-6,
+.home-main-7 {
   mix-blend-mode: darken;
 }
-.cls-7 {
+.home-main-7 {
   opacity: 0.1;
 }
-.cls-8 {
+.home-main-8 {
   fill: #e1f5ff;
 }
-.cls-9 {
+.home-main-9 {
   fill: #24b7ff;
 }
-.cls-10 {
+.home-main-10 {
   fill: #4dc4ff;
 }
-.cls-11 {
+.home-main-11 {
   fill: #81d5ff;
 }
-.cls-12 {
+.home-main-12 {
   fill: #b3e5ff;
 }
-.cls-13 {
+.home-main-13 {
   fill: url(#radial-gradient-2);
 }
-.cls-14 {
+.home-main-14 {
   fill: #0d57a4;
 }
-.cls-15 {
+.home-main-15 {
   fill: url(#radial-gradient-3);
 }
-.cls-16 {
+.home-main-16 {
   fill: #7700b3;
 }
-.cls-17 {
+.home-main-17 {
   fill: #d580ff;
 }
-.cls-18 {
+.home-main-18 {
   fill: #e6b3ff;
 }
-.cls-19 {
+.home-main-19 {
   fill: url(#radial-gradient-4);
 }
-.cls-20 {
+.home-main-20 {
   fill: url(#radial-gradient-5);
 }
-.cls-22 {
+.home-main-22 {
   fill: url(#radial-gradient-6);
 }
-.cls-23 {
+.home-main-23 {
   fill: url(#radial-gradient-7);
 }
-.cls-24 {
+.home-main-24 {
   fill: url(#radial-gradient-8);
 }
-.cls-25 {
+.home-main-25 {
   opacity: 0.95;
 }
-.cls-26 {
+.home-main-26 {
   opacity: 0.9;
 }
-.cls-27 {
+.home-main-27 {
   fill: #a6a8ab;
 }
-.cls-28 {
+.home-main-28 {
   fill: #929497;
 }

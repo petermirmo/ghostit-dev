@@ -1,0 +1,74 @@
+.home-schedule-1 {
+  isolation: isolate;
+}
+.home-schedule-2 {
+  fill: url(#radial-gradient);
+}
+.home-schedule-13,
+.home-schedule-15,
+.home-schedule-22,
+.home-schedule-3 {
+  fill: #58595b;
+}
+.home-schedule-3 {
+  opacity: 0.1;
+}
+.home-schedule-13,
+.home-schedule-3 {
+  mix-blend-mode: darken;
+}
+.home-schedule-4 {
+  fill: url(#radial-gradient-2);
+}
+.home-schedule-5 {
+  fill: #4dc4ff;
+}
+.home-schedule-6 {
+  fill: #81d5ff;
+}
+.home-schedule-7 {
+  fill: #b3e5ff;
+}
+.home-schedule-8 {
+  fill: url(#radial-gradient-3);
+}
+.home-schedule-9 {
+  fill: #d580ff;
+}
+.home-schedule-10 {
+  fill: #7700b3;
+}
+.home-schedule-11 {
+  fill: #e6b3ff;
+}
+.home-schedule-12,
+.home-schedule-14 {
+  fill: #fff;
+}
+.home-schedule-13 {
+  opacity: 0.15;
+}
+.home-schedule-14 {
+  opacity: 0.95;
+}
+.home-schedule-16 {
+  opacity: 0.9;
+}
+.home-schedule-17 {
+  fill: #a6a8ab;
+}
+.home-schedule-18 {
+  fill: url(#radial-gradient-4);
+}
+.home-schedule-19 {
+  fill: url(#radial-gradient-5);
+}
+.home-schedule-20 {
+  fill: #0d57a4;
+}
+.home-schedule-21 {
+  fill: #0af;
+}
+.home-schedule-22 {
+  mix-blend-mode: overlay;
+}

@@ -1,0 +1,63 @@
+.home-workflow-1 {
+  isolation: isolate;
+}
+.home-workflow-2 {
+  fill: url(#radial-gradient);
+}
+.home-workflow-15,
+.home-workflow-3,
+.home-workflow-4,
+.home-workflow-5 {
+  fill: #58595b;
+}
+.home-workflow-3 {
+  opacity: 0.75;
+  mix-blend-mode: overlay;
+}
+.home-workflow-4 {
+  opacity: 0.15;
+}
+.home-workflow-4,
+.home-workflow-5 {
+  mix-blend-mode: darken;
+}
+.home-workflow-5 {
+  opacity: 0.1;
+}
+.home-workflow-6 {
+  fill: url(#radial-gradient-2);
+}
+.home-workflow-7 {
+  fill: #d580ff;
+}
+.home-workflow-8 {
+  fill: #e6b3ff;
+}
+.home-workflow-9 {
+  fill: #7700b3;
+}
+.home-workflow-10 {
+  fill: url(#radial-gradient-3);
+}
+.home-workflow-11 {
+  fill: #b3e5ff;
+}
+.home-workflow-12 {
+  fill: #81d5ff;
+}
+.home-workflow-13 {
+  fill: url(#radial-gradient-4);
+}
+.home-workflow-14,
+.home-workflow-17 {
+  fill: #fff;
+}
+.home-workflow-14 {
+  opacity: 0.95;
+}
+.home-workflow-16 {
+  opacity: 0.9;
+}
+.home-workflow-18 {
+  fill: #a6a8ab;
+}
