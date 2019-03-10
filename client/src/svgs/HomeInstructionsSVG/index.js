@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
-import GIContainer from "../../components/containers/GIContainer";
-import "./style.css";
+import GIContainer from '../../components/containers/GIContainer'
+import './style.css'
 
 class HomeInstructions extends Component {
   render() {
@@ -52,14 +52,7 @@ class HomeInstructions extends Component {
               />
             </g>
             <g id="Linework">
-              <rect
-                className="home-instructions-4"
-                x="146.3"
-                y="112.11"
-                width="221.15"
-                height="118.93"
-                rx="6.04"
-              />
+              <rect className="home-instructions-4" x="146.3" y="112.11" width="221.15" height="118.93" rx="6.04" />
               <path
                 className="home-instructions-5"
                 d="M275.51,168.41H157.25a2.7,2.7,0,0,1-2.69-2.69V124.06a2.7,2.7,0,0,1,2.69-2.69H275.51a2.7,2.7,0,0,1,2.69,2.69v41.66A2.7,2.7,0,0,1,275.51,168.41Zm-118.26-46a1.69,1.69,0,0,0-1.69,1.69v41.66a1.69,1.69,0,0,0,1.69,1.69H275.51a1.69,1.69,0,0,0,1.69-1.69V124.06a1.69,1.69,0,0,0-1.69-1.69Z"
@@ -72,13 +65,7 @@ class HomeInstructions extends Component {
                 className="home-instructions-5"
                 d="M175,162.16h-.42v-1H175a1.74,1.74,0,0,0,.45-.06l.26,1A2.83,2.83,0,0,1,175,162.16Zm-1.42,0h-1v-1h1Zm-2,0h-1v-1h1Zm-2,0h-1v-1h1Zm-2,0h-1v-1h1Zm-2,0h-1v-1h1Zm-2.05,0a2.64,2.64,0,0,1-1.15-.4l.54-.85a1.69,1.69,0,0,0,.72.26Zm13.25-.66-.66-.75a1.6,1.6,0,0,0,.44-.62l.93.38A2.69,2.69,0,0,1,176.78,161.48Zm-15.25-.61a2.53,2.53,0,0,1-.38-1.16l1-.09a1.75,1.75,0,0,0,.24.73Zm16.16-1.54h-1v-1h1Zm-15.56-.66h-1v-1h1Zm15.56-1.34h-1v-1h1Zm-15.56-.66h-1v-1h1Zm15.56-1.34h-1v-1h1Zm-15.56-.66h-1v-1h1Zm15.56-1.34h-1v-1h1Zm-15.56-.66h-1v-1h1Zm15.56-1.34h-1v-1h1Zm-15.56-.66h-1v-1h1Zm15.56-1.34h-1v-1h1Zm-15.56-.66h-1v-.38a2.72,2.72,0,0,1,.11-.75l1,.28a1.84,1.84,0,0,0-.07.47Zm14.4-1.1a1.72,1.72,0,0,0-.47-.6l.62-.78a2.71,2.71,0,0,1,.76.95Zm-13.95-.42-.74-.68a2.68,2.68,0,0,1,1-.69l.37.93A1.75,1.75,0,0,0,162.58,147.15Zm12.79-.51a1.5,1.5,0,0,0-.37,0h-1v-1h1a2.88,2.88,0,0,1,.59.06Zm-2.37,0h-1v-1h1Zm-2,0h-1v-1h1Zm-2,0h-1v-1h1Zm-2,0h-1v-1h1Zm-2,0h-1v-1h1Z"
               />
-              <rect
-                className="home-instructions-5"
-                x="285.86"
-                y="112.11"
-                width="1"
-                height="103.13"
-              />
+              <rect className="home-instructions-5" x="285.86" y="112.11" width="1" height="103.13" />
               <path
                 className="home-instructions-5"
                 d="M352.62,204.83H296.79a2.69,2.69,0,0,1-2.69-2.69V152.53a2.69,2.69,0,0,1,2.69-2.69h55.83a2.68,2.68,0,0,1,2.69,2.69v49.61A2.68,2.68,0,0,1,352.62,204.83Zm-55.83-54a1.69,1.69,0,0,0-1.69,1.69v49.61a1.69,1.69,0,0,0,1.69,1.69h55.83a1.68,1.68,0,0,0,1.69-1.69V152.53a1.69,1.69,0,0,0-1.69-1.69Z"
@@ -87,109 +74,21 @@ class HomeInstructions extends Component {
                 className="home-instructions-5"
                 d="M354.62,136.54H296.79a2.7,2.7,0,0,1-2.69-2.69v-9a2.7,2.7,0,0,1,2.69-2.69h57.83a2.7,2.7,0,0,1,2.69,2.69v9A2.7,2.7,0,0,1,354.62,136.54ZM296.79,123.2a1.69,1.69,0,0,0-1.69,1.69v9a1.69,1.69,0,0,0,1.69,1.69h57.83a1.69,1.69,0,0,0,1.69-1.69v-9a1.69,1.69,0,0,0-1.69-1.69Z"
               />
-              <circle
-                className="home-instructions-5"
-                cx="294.6"
-                cy="177.34"
-                r="4.58"
-              />
-              <rect
-                className="home-instructions-5"
-                x="155.06"
-                y="176.01"
-                width="14.51"
-                height="14.51"
-                rx="1.06"
-              />
-              <rect
-                className="home-instructions-6"
-                x="173.11"
-                y="176.01"
-                width="33.43"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-6"
-                x="173.11"
-                y="186.28"
-                width="19.86"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-5"
-                x="155.06"
-                y="195.49"
-                width="14.51"
-                height="14.51"
-                rx="1.06"
-              />
-              <rect
-                className="home-instructions-6"
-                x="173.11"
-                y="195.49"
-                width="33.43"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-6"
-                x="173.11"
-                y="205.76"
-                width="19.86"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-6"
-                x="160.48"
-                y="127.99"
-                width="63.83"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-6"
-                x="299.18"
-                y="155.04"
-                width="30.26"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-6"
-                x="308.34"
-                y="164.97"
-                width="35.22"
-                height="4.25"
-              />
-              <circle
-                className="home-instructions-5"
-                cx="304.08"
-                cy="167.09"
-                r="2.12"
-              />
-              <rect
-                className="home-instructions-6"
-                x="308.34"
-                y="174.22"
-                width="35.22"
-                height="4.25"
-              />
-              <circle
-                className="home-instructions-5"
-                cx="304.08"
-                cy="176.34"
-                r="2.12"
-              />
-              <rect
-                className="home-instructions-6"
-                x="308.34"
-                y="183.46"
-                width="35.22"
-                height="4.25"
-              />
-              <circle
-                className="home-instructions-5"
-                cx="304.08"
-                cy="185.59"
-                r="2.12"
-              />
+              <circle className="home-instructions-5" cx="294.6" cy="177.34" r="4.58" />
+              <rect className="home-instructions-5" x="155.06" y="176.01" width="14.51" height="14.51" rx="1.06" />
+              <rect className="home-instructions-6" x="173.11" y="176.01" width="33.43" height="4.25" />
+              <rect className="home-instructions-6" x="173.11" y="186.28" width="19.86" height="4.25" />
+              <rect className="home-instructions-5" x="155.06" y="195.49" width="14.51" height="14.51" rx="1.06" />
+              <rect className="home-instructions-6" x="173.11" y="195.49" width="33.43" height="4.25" />
+              <rect className="home-instructions-6" x="173.11" y="205.76" width="19.86" height="4.25" />
+              <rect className="home-instructions-6" x="160.48" y="127.99" width="63.83" height="4.25" />
+              <rect className="home-instructions-6" x="299.18" y="155.04" width="30.26" height="4.25" />
+              <rect className="home-instructions-6" x="308.34" y="164.97" width="35.22" height="4.25" />
+              <circle className="home-instructions-5" cx="304.08" cy="167.09" r="2.12" />
+              <rect className="home-instructions-6" x="308.34" y="174.22" width="35.22" height="4.25" />
+              <circle className="home-instructions-5" cx="304.08" cy="176.34" r="2.12" />
+              <rect className="home-instructions-6" x="308.34" y="183.46" width="35.22" height="4.25" />
+              <circle className="home-instructions-5" cx="304.08" cy="185.59" r="2.12" />
               <rect
                 className="home-instructions-3"
                 x="118.18"
@@ -199,69 +98,26 @@ class HomeInstructions extends Component {
                 rx="6.04"
                 transform="translate(302.43 162.93) rotate(-180)"
               />
-              <rect
-                className="home-instructions-7"
-                x="116.04"
-                y="40.78"
-                width="66.07"
-                height="77.37"
-                rx="6.04"
-              />
+              <rect className="home-instructions-7" x="116.04" y="40.78" width="66.07" height="77.37" rx="6.04" />
               <path
                 className="home-instructions-8"
                 d="M134.11,70.86h-8.87a1.56,1.56,0,0,1-1.56-1.56V60.42a1.56,1.56,0,0,1,1.56-1.56h8.87a1.56,1.56,0,0,1,1.57,1.56V69.3A1.56,1.56,0,0,1,134.11,70.86Zm-8.87-11a.56.56,0,0,0-.56.56V69.3a.56.56,0,0,0,.56.56h8.87a.57.57,0,0,0,.57-.56V60.42a.57.57,0,0,0-.57-.56Z"
               />
-              <rect
-                className="home-instructions-9"
-                x="140.64"
-                y="59.36"
-                width="33.43"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-9"
-                x="140.64"
-                y="66.11"
-                width="24.78"
-                height="4.25"
-              />
+              <rect className="home-instructions-9" x="140.64" y="59.36" width="33.43" height="4.25" />
+              <rect className="home-instructions-9" x="140.64" y="66.11" width="24.78" height="4.25" />
 
               <path
                 className="home-instructions-8"
                 d="M134.11,88.86h-8.87a1.56,1.56,0,0,1-1.56-1.56V78.42a1.56,1.56,0,0,1,1.56-1.56h8.87a1.56,1.56,0,0,1,1.57,1.56V87.3A1.56,1.56,0,0,1,134.11,88.86Zm-8.87-11a.56.56,0,0,0-.56.56V87.3a.56.56,0,0,0,.56.56h8.87a.57.57,0,0,0,.57-.56V78.42a.57.57,0,0,0-.57-.56Z"
               />
-              <rect
-                className="home-instructions-9"
-                x="140.64"
-                y="77.36"
-                width="33.43"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-9"
-                x="140.64"
-                y="84.11"
-                width="19.86"
-                height="4.25"
-              />
+              <rect className="home-instructions-9" x="140.64" y="77.36" width="33.43" height="4.25" />
+              <rect className="home-instructions-9" x="140.64" y="84.11" width="19.86" height="4.25" />
               <path
                 className="home-instructions-8"
                 d="M134.11,106.86h-8.87a1.56,1.56,0,0,1-1.56-1.56V96.42a1.56,1.56,0,0,1,1.56-1.56h8.87a1.56,1.56,0,0,1,1.57,1.56v8.88A1.56,1.56,0,0,1,134.11,106.86Zm-8.87-11a.56.56,0,0,0-.56.56v8.88a.56.56,0,0,0,.56.56h8.87a.57.57,0,0,0,.57-.56V96.42a.57.57,0,0,0-.57-.56Z"
               />
-              <rect
-                className="home-instructions-9"
-                x="140.64"
-                y="95.36"
-                width="33.43"
-                height="4.25"
-              />
-              <rect
-                className="home-instructions-9"
-                x="140.64"
-                y="102.11"
-                width="27.66"
-                height="4.25"
-              />
+              <rect className="home-instructions-9" x="140.64" y="95.36" width="33.43" height="4.25" />
+              <rect className="home-instructions-9" x="140.64" y="102.11" width="27.66" height="4.25" />
               <path
                 className="home-instructions-10"
                 d="M125.17,52.85a.4.4,0,0,1-.12-.29V47a.4.4,0,0,1,.12-.29.36.36,0,0,1,.28-.12.41.41,0,0,1,.3.12.4.4,0,0,1,.12.29v5.56a.4.4,0,0,1-.12.29.44.44,0,0,1-.3.11A.39.39,0,0,1,125.17,52.85Z"
@@ -340,18 +196,8 @@ class HomeInstructions extends Component {
                 className="home-instructions-13"
                 d="M124.49,245.69a254.92,254.92,0,0,0,19.26-49.4c7.48-27.39,6.14-40.88,5-47.72-1.38-8.46-3.09-18-11.16-26.23-10.3-10.45-23.56-11.09-25.67-11.16-1.78-.06-18.56-.36-29,12-7.14,8.42-8.78,15.87-9.35,30.27-.63,16.17,4,19.1,2.93,34.19-.47,6.4-1,19.73-9.48,32.65a55.21,55.21,0,0,1-13.68,14.23c1.94,2.13,4.94,4.66,8.93,5.21,9.45,1.32,15-9.76,21.95-7.81,6.4,1.8,5.6,12.38,11.17,13.4,6.69,1.22,11.67-13.37,19-12.66C118.73,233.09,122,238.83,124.49,245.69Z"
               />
-              <circle
-                className="home-instructions-12"
-                cx="128.01"
-                cy="142.72"
-                r="4.9"
-              />
-              <circle
-                className="home-instructions-12"
-                cx="101.66"
-                cy="144.72"
-                r="4.9"
-              />
+              <circle className="home-instructions-12" cx="128.01" cy="142.72" r="4.9" />
+              <circle className="home-instructions-12" cx="101.66" cy="144.72" r="4.9" />
               <path
                 className="home-instructions-12"
                 d="M109.29,157c.45.34,3.52.51,5.79.51s5.16,0,5.64-.45c.55,4.29-2.58,7.75-5.54,7.76C111.74,164.83,108.72,161.47,109.29,157Z"
@@ -405,19 +251,13 @@ class HomeInstructions extends Component {
                 />
               </g>
 
-              <ellipse
-                className="home-instructions-18"
-                cx="90.08"
-                cy="256.71"
-                rx="34"
-                ry="4.9"
-              />
+              <ellipse className="home-instructions-18" cx="90.08" cy="256.71" rx="34" ry="4.9" />
             </g>
           </g>
         </g>
       </svg>
-    );
+    )
   }
 }
 
-export default HomeInstructions;
+export default HomeInstructions
