@@ -69,7 +69,6 @@ class Page extends Component {
     const { style, title, description, image } = this.checkPropsVariables(
       activePage
     );
-    //        {!isUserInPlatform(activePage) && <WebsiteFooter />}
 
     return (
       <div className={`page-container ${className}`} style={style}>
@@ -79,10 +78,12 @@ class Page extends Component {
           <meta name="description" content={description} />
           <meta property="image" content={image} />
         </Helmet>
+        {this.websiteOrSoftwareHeader(activePage)}
         {shouldShowSignedInAsDiv(user, activePage) && (
           <SignedInAs user={user} />
         )}
         {children}
+        {!isUserInPlatform(activePage) && <WebsiteFooter />}
       </div>
     );
   }

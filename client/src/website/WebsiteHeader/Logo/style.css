@@ -7,6 +7,7 @@
 .logo-outer-shape {
   shape-rendering: geometricPrecision;
   fill: none;
+  fill: var(--white-theme-color);
 }
 
 .logo-ghost-body {
@@ -24,7 +25,7 @@
 }
 .logo-ghost-bottom-shadow {
   shape-rendering: geometricPrecision;
-  fill: var(--five-primary-color);
+  fill: var(--three-primary-color);
 }
 
 .logo-text {

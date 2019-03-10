@@ -52,7 +52,7 @@ class BlogPage extends Component {
 
     if (loading)
       return (
-        <div className="website-page">
+        <div>
           <LoaderSimpleCircle />
         </div>
       );
@@ -109,7 +109,7 @@ class BlogPage extends Component {
     }
     return (
       <Page
-        className="website-page simple-container mx32"
+        className="simple-container mx32"
         title="Blog"
         description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
         keywords="ghostit, blog"

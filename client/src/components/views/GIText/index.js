@@ -5,8 +5,8 @@ import "./style.css";
 
 class GIText extends Component {
   render() {
-    const { text, type } = this.props;
-    return getHtmlElement(type, text);
+    const { text, type, style, className } = this.props;
+    return getHtmlElement(type, text, style, className);
   }
 }
 

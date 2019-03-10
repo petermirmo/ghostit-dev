@@ -3,13 +3,11 @@ import React, { Component } from "react";
 import Page from "../../components/containers/Page";
 
 class TermsPage extends Component {
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
   render() {
     return (
       <Page
-        className="website-page mx32"
+        className="mx32"
         title="Terms"
         description="Ghostit terms and conditions"
         keywords="ghostit, terms"

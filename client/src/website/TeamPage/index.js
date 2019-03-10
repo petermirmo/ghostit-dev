@@ -6,9 +6,6 @@ import { teamMembers } from "./teamMembers";
 import "./style.css";
 
 class TeamPage extends Component {
-  componentDidMount() {
-    
-  }
   isElementInViewport = el => {
     const rect = el.getBoundingClientRect();
 
@@ -59,7 +56,7 @@ class TeamPage extends Component {
   render() {
     return (
       <Page
-        className="website-page flex column vc"
+        className="flex column vc"
         title="Team"
         description="Meet the Ghostit Team!"
         keywords="ghostit, team"
