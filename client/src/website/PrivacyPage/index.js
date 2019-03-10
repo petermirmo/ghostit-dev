@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import Page from "../../components/containers/Page";
 
 class PrivacyPage extends Component {
-  componentDidMount() {
-    
-  }
   render() {
     return (
       <Page
-        className="website-page mx32"
+        className="mx32"
         title="Pricing"
         description="Ghostit privacy policy."
         keywords="ghostit, privacy"

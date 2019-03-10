@@ -217,7 +217,7 @@ class Login extends Component {
 
     return (
       <Page
-        className="website-page login-background simple-container"
+        className="login-background simple-container"
         title={login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"}
         description={
           login === "login"

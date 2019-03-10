@@ -70,7 +70,7 @@ class ViewWebsiteBlog extends Component {
 
     metaDescription = temp2.textContent || temp2.innerText || "";
     return (
-      <div className="website-page common-container-center pb32">
+      <div className="common-container-center pb32">
         <MetaTags>
           <title>
             {metaTitle ? "Ghosit | " + metaTitle : "Ghostit | Blog Post."}

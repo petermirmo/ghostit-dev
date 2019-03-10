@@ -4,6 +4,10 @@
 
   transition: all 0.2s ease;
 }
+.full-screen {
+  max-height: 100vh;
+  min-height: 100vh;
+}
 
 .x-wrap {
   flex-shrink: 0;

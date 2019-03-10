@@ -4,13 +4,9 @@ import Page from "../../components/containers/Page";
 import "./style.css";
 
 class GhostitAgency extends Component {
-  componentDidMount() {
-    
-  }
   render() {
     return (
       <Page
-        className="website-page"
         title="Agency"
         description="Increase the amount of qualified traffic to your site."
         keywords="content, ghostit, marketing, agency"

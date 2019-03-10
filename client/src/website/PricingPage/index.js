@@ -4,13 +4,10 @@ import Page from "../../components/containers/Page";
 import "./style.css";
 
 class PricingPage extends Component {
-  componentDidMount() {
-    
-  }
   render() {
     return (
       <Page
-        className="website-page flex column vc"
+        className="flex column vc"
         title="Pricing"
         description="Have questions? Give us a call: 250-415-3093"
         keywords="ghostit, pricing"
