@@ -61,11 +61,11 @@
        gradientUnits="userSpaceOnUse">
       <stop
          offset="0"
-         stop-color="#4dc4ff"
+         stopColor="#4dc4ff"
          id="stop815" />
       <stop
          offset="1"
-         stop-color="#0c89db"
+         stopColor="#0c89db"
          id="stop817" />
     </radialGradient>
     <radialGradient
@@ -76,11 +76,11 @@
        gradientUnits="userSpaceOnUse">
       <stop
          offset="0"
-         stop-color="#e1f5ff"
+         stopColor="#e1f5ff"
          id="stop820" />
       <stop
          offset="1"
-         stop-color="#b3e5ff"
+         stopColor="#b3e5ff"
          id="stop822" />
     </radialGradient>
     <radialGradient
@@ -91,11 +91,11 @@
        gradientUnits="userSpaceOnUse">
       <stop
          offset="0"
-         stop-color="#f7e5ff"
+         stopColor="#f7e5ff"
          id="stop825" />
       <stop
          offset="1"
-         stop-color="#e6b3ff"
+         stopColor="#e6b3ff"
          id="stop827" />
     </radialGradient>
     <radialGradient
