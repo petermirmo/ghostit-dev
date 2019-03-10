@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 
 import Page from "../../components/containers/Page";
+import GIContainer from "../../components/containers/GIContainer";
+import GIText from "../../components/views/GIText";
+import Section5 from "./Section5";
 
 import HomeMainSVG from "../../svgs/HomeMainSVG";
 import HomeAISVG from "../../svgs/HomeAISVG";
@@ -27,6 +30,18 @@ class HomePage extends Component {
         keywords="content, ghostit, marketing"
       >
         <HomeMainSVG />
+        <GIContainer className="y-wrap floating-box">
+          <GIText
+            text="Improve Your Traffic and Conversions"
+            type="h1"
+            className="tac"
+          />
+          <GIText
+            text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
+            type="h4"
+            className="tac"
+          />
+        </GIContainer>
         <PictureTextDescription
           svg={<HomeAISVG />}
           title="Machine Learning"
@@ -53,6 +68,7 @@ class HomePage extends Component {
           description="Sync all your social sharing accounts and post directly from our platform."
           size="large"
         />
+        <Section5 />
       </Page>
     );
   }

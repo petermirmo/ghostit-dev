@@ -84,11 +84,9 @@
   --twenty-four-font-size: 24px;
   --thirty-font-size: 30px;
   --thirty-two-font-size: 32px;
+  --forty-eight-font-size: 48px;
+  --sixty-four-font-size: 64px;
   --forty-font-size: 40px;
-
-  --h6-font-size: 20px;
-
-  --large-line-height: 30px;
 
   --silly-font: "Varela Round";
   --regular-font: "Open Sans";
@@ -739,6 +737,12 @@
 .tac {
   text-align: center;
 }
+.tar {
+  text-align: right;
+}
+.tal {
+  text-align: left;
+}
 .border-box {
   box-sizing: border-box;
 }
@@ -1144,29 +1148,37 @@ h1 {
   margin: 0;
   padding: 0;
   font-family: var(--silly-font);
+  font-weight: 100;
 }
 h2 {
   color: var(--primary-text-color);
   margin: 0;
+  font-weight: 100;
+
+  font-size: var(--thirty-two-font-size);
 }
 h3 {
   color: var(--blue-text-color);
   margin: 0;
   padding: 0;
   font-size: var(--thirty-two-font-size);
+  font-weight: 100;
 }
 h4 {
-  color: var(--primary-text-color);
+  color: var(--secondary-text-color);
   margin: 0;
   text-align: left;
+  font-weight: 100;
 }
 h5 {
-  color: var(--primary-text-color);
+  color: var(--secondary-text-color);
   margin: 0;
+  font-weight: 100;
 }
 h6 {
-  color: var(--primary-text-color);
+  color: var(--secondary-text-color);
   margin: 0;
+  font-weight: 100;
 }
 
 p {
@@ -1257,7 +1269,7 @@ input[type="file"] {
 .moving-border:after {
   display: block;
   content: "";
-  border-bottom: solid 6px var(--divider-theme-color);
+  border-bottom: solid 6px var(--white-theme-color);
   transform: scaleX(0);
   transition: transform 0.2s ease-in-out;
   transform-origin: 100% 50%;
@@ -1272,7 +1284,7 @@ input[type="file"] {
 }
 
 .moving-border.active:after {
-  border-bottom: solid 6px var(--divider-theme-color);
+  border-bottom: solid 6px var(--white-theme-color);
 }
 .moving-border.white.active.after {
   border-bottom: solid 6px var(--white-theme-color);
@@ -1478,13 +1490,13 @@ input[type="file"] {
 
 .transparent-button-important {
   pointer-events: auto;
-  color: var(--primary-text-color);
+  color: var(--white-theme-color);
   font-family: var(--silly-font);
   font-size: var(--eighteen-font-size);
 }
 
 .transparent-button-important.active {
-  color: var(--blue-text-color);
+  color: var(--white-theme-color);
 }
 .bold-hover:hover {
   font-weight: bold;

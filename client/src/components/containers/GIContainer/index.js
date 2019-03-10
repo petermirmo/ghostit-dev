@@ -4,18 +4,13 @@ import "./style.css";
 
 class Container extends Component {
   render() {
-    const { children, className, containerType, testMode, style } = this.props; // Variables
-    let className2 = className;
+    const { children, containerType, testMode, style } = this.props; // Variables
+    let { className } = this.props;
 
-    if (containerType === 1) className2 += " container1";
-    else if (containerType === 2) className2 += " container2";
-    else if (containerType === 3) className2 += " container3";
-    else if (containerType === 4) className2 += " container4";
-
-    if (testMode) className2 += " test-mode";
+    if (testMode) className += " test-mode";
 
     return (
-      <div className={className2} style={style}>
+      <div className={`main-container ${className}`} style={style}>
         {children}
       </div>
     );

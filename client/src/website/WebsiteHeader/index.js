@@ -31,7 +31,7 @@ class WebsiteHeader extends Component {
   render() {
     const { showHeader } = this.state;
     const { user } = this.props;
-    let className = "transparent-button-important moving-border mr16";
+    let className = "transparent-button-important moving-border white mr16";
 
     if (!showHeader) {
       return (
