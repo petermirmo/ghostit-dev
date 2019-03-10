@@ -4,6 +4,8 @@ import ReactGA from "react-ga";
 import { SizeMe } from "react-sizeme";
 import { withRouter } from "react-router-dom";
 
+import { connect } from "react-redux";
+
 import Header from "../..//Navigations/Header";
 import SignedInAs from "../..//SignedInAs";
 
@@ -20,6 +22,7 @@ class Page extends Component {
   };
   constructor(props) {
     super(props);
+    const activePage = props.location.pathname;
 
     if (process.env.NODE_ENV !== "development")
       ReactGA.initialize("UA-121236003-1");
@@ -40,8 +43,8 @@ class Page extends Component {
     else return <Header onSize={this.onSize} />;
   };
   checkPropsVariables = activePage => {
-    const { style } = this.props; // Variables
-    let { title, description, image } = this.props; // Variables
+    const { testMode } = this.props; // Variables
+    let { title, description, image, style } = this.props; // Variables
     let { headerWidth } = this.state; // Variables
 
     if (!style) style = {};
@@ -60,13 +63,13 @@ class Page extends Component {
     return { style, title, description, image };
   };
   render() {
-    const { children, className, testMode } = this.props; // Variables
-    let { title, description, image } = this.props; // Variables
+    const { children, className, user } = this.props; // Variables
     const activePage = location.pathname;
 
     const { style, title, description, image } = this.checkPropsVariables(
       activePage
     );
+    //        {!isUserInPlatform(activePage) && <WebsiteFooter />}
 
     return (
       <div className={`page-container ${className}`} style={style}>
@@ -76,15 +79,18 @@ class Page extends Component {
           <meta name="description" content={description} />
           <meta property="image" content={image} />
         </Helmet>
-        {this.websiteOrSoftwareHeader(activePage)}
         {shouldShowSignedInAsDiv(user, activePage) && (
           <SignedInAs user={user} />
         )}
         {children}
-        {!isUserInPlatform(activePage) && <WebsiteFooter />}
       </div>
     );
   }
 }
 
-export default withRouter(Page);
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+export default withRouter(connect(mapStateToProps)(Page));

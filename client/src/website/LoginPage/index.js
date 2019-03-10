@@ -11,6 +11,7 @@ import { setUser, setaccounts } from "../../redux/actions/";
 
 import { validateEmail } from "../../componentFunctions";
 
+import Page from "../../components/containers/Page";
 import Notification from "../../components/notifications/Notification/";
 import "./style.css";
 
@@ -31,8 +32,6 @@ class Login extends Component {
     };
   }
   componentDidMount() {
-    
-
     if (this.props.user) this.props.history.push("/home");
   }
   componentWillReceiveProps(nextProps) {
@@ -217,38 +216,16 @@ class Login extends Component {
     } = this.state;
 
     return (
-      <div className="website-page login-background simple-container">
-        <MetaTags>
-          <title>
-            {login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"}
-          </title>
-          <meta
-            name="description"
-            content={
-              login === "login"
-                ? "Ghostit sign in :)"
-                : "What are you waiting for!? Sign up today!"
-            }
-          />
-          <meta
-            property="og:title"
-            content={
-              login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"
-            }
-          />
-          <meta
-            property="og:description"
-            content={
-              login === "login"
-                ? "Ghostit sign in :)"
-                : "What are you waiting for!? Sign up today!"
-            }
-          />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
+      <Page
+        className="website-page login-background simple-container"
+        title={login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"}
+        description={
+          login === "login"
+            ? "Ghostit sign in :)"
+            : "What are you waiting for!? Sign up today!"
+        }
+        keywords="content, ghostit, marketing"
+      >
         <h1 className="pb16 tac">
           {login === "login" ? "Sign in to Ghostit!" : "Sign up for Ghostit!"}
         </h1>
@@ -411,7 +388,7 @@ class Login extends Component {
             callback={this.notify}
           />
         )}
-      </div>
+      </Page>
     );
   }
 }

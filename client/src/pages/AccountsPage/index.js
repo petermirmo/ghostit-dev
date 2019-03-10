@@ -16,7 +16,7 @@ import { setaccounts } from "../../redux/actions";
 
 import AddPageOrGroupModal from "./AddPagesOrGroupsModal";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
-import CommonContainer from "../../components/containers/CommonContainer";
+import GIContainer from "../../components/containers/GIContainer";
 import Page from "../../components/containers/Page";
 import SquareButton from "../../components/buttons/SquareButton";
 
@@ -81,23 +81,23 @@ class AccountsPage extends Component {
     const { socialType } = account;
 
     return (
-      <CommonContainer className="connected-social-div flex" key={index}>
-        <CommonContainer className="flex vc hc">
+      <GIContainer className="connected-social-div flex" key={index}>
+        <GIContainer className="flex vc hc">
           <FontAwesomeIcon
             icon={getPostIcon(socialType)}
             size="2x"
             color={getPostColor(socialType)}
           />
-        </CommonContainer>
-        <CommonContainer className="connected-social pl8">
+        </GIContainer>
+        <GIContainer className="connected-social pl8">
           {getSocialDisplayName(account)}
           <br />
-          <CommonContainer className="connected-social-account">
+          <GIContainer className="connected-social-account">
             {account.accountType.charAt(0).toUpperCase() +
               account.accountType.slice(1)}
-          </CommonContainer>
-        </CommonContainer>
-        <CommonContainer className="flex vc hc">
+          </GIContainer>
+        </GIContainer>
+        <GIContainer className="flex vc hc">
           <FontAwesomeIcon
             icon={faTrash}
             onClick={event =>
@@ -105,8 +105,8 @@ class AccountsPage extends Component {
             }
             className="button delete"
           />
-        </CommonContainer>
-      </CommonContainer>
+        </GIContainer>
+      </GIContainer>
     );
   };
 
@@ -151,7 +151,7 @@ class AccountsPage extends Component {
         <MetaTags>
           <title>Ghostit | Social Accounts</title>
         </MetaTags>
-        <CommonContainer className="mx16" containerType={1}>
+        <GIContainer className="mx16" containerType={1}>
           <SomeButton
             className="social-header-button flex hc button mb16 pa8 button mb16 pa8 facebook"
             onClick={() => {
@@ -175,9 +175,9 @@ class AccountsPage extends Component {
             Group
           </SomeButton>
           {connectedFacebookAccountDivs}
-        </CommonContainer>
+        </GIContainer>
 
-        <CommonContainer className="mx16" containerType={1}>
+        <GIContainer className="mx16" containerType={1}>
           <SomeButton
             className="social-header-button flex hc button mb16 pa8 twitter"
             onClick={() => {
@@ -188,8 +188,8 @@ class AccountsPage extends Component {
           </SomeButton>
 
           {connectedTwitterAccountDivs}
-        </CommonContainer>
-        <CommonContainer className="mx16" containerType={1}>
+        </GIContainer>
+        <GIContainer className="mx16" containerType={1}>
           <SomeButton
             className="social-header-button flex hc button mb16 pa8 linkedin"
             onClick={() => {
@@ -206,14 +206,14 @@ class AccountsPage extends Component {
             Page
           </SomeButton>
           {connectedLinkedinAccountDivs}
-        </CommonContainer>
-        <CommonContainer className="mx16" containerType={1}>
+        </GIContainer>
+        <GIContainer className="mx16" containerType={1}>
           <SomeButton className="social-header-button flex hc button mb16 pa8 instagram">
             Connect Instagram <br />
             (Coming Soon)
           </SomeButton>
           {connectedInstagramAccountDivs}
-        </CommonContainer>
+        </GIContainer>
         {addPageOrGroupModal && (
           <AddPageOrGroupModal
             getUserAccounts={() =>

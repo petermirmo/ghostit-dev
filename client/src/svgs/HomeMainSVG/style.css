@@ -1,0 +1,103 @@
+.svg-container {
+  max-height: 100vh;
+  background-color: red;
+  min-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.test {
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 50px;
+}
+.cls-1 {
+  isolation: isolate;
+}
+.cls-2 {
+  fill: url(#radial-gradient);
+}
+.cls-21,
+.cls-25,
+.cls-3 {
+  fill: #fff;
+}
+.cls-3,
+.cls-6 {
+  opacity: 0.15;
+}
+.cls-4,
+.cls-5,
+.cls-6,
+.cls-7 {
+  fill: #58595b;
+}
+.cls-5 {
+  mix-blend-mode: overlay;
+}
+.cls-6,
+.cls-7 {
+  mix-blend-mode: darken;
+}
+.cls-7 {
+  opacity: 0.1;
+}
+.cls-8 {
+  fill: #e1f5ff;
+}
+.cls-9 {
+  fill: #24b7ff;
+}
+.cls-10 {
+  fill: #4dc4ff;
+}
+.cls-11 {
+  fill: #81d5ff;
+}
+.cls-12 {
+  fill: #b3e5ff;
+}
+.cls-13 {
+  fill: url(#radial-gradient-2);
+}
+.cls-14 {
+  fill: #0d57a4;
+}
+.cls-15 {
+  fill: url(#radial-gradient-3);
+}
+.cls-16 {
+  fill: #7700b3;
+}
+.cls-17 {
+  fill: #d580ff;
+}
+.cls-18 {
+  fill: #e6b3ff;
+}
+.cls-19 {
+  fill: url(#radial-gradient-4);
+}
+.cls-20 {
+  fill: url(#radial-gradient-5);
+}
+.cls-22 {
+  fill: url(#radial-gradient-6);
+}
+.cls-23 {
+  fill: url(#radial-gradient-7);
+}
+.cls-24 {
+  fill: url(#radial-gradient-8);
+}
+.cls-25 {
+  opacity: 0.95;
+}
+.cls-26 {
+  opacity: 0.9;
+}
+.cls-27 {
+  fill: #a6a8ab;
+}
+.cls-28 {
+  fill: #929497;
+}

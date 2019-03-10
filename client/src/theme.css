@@ -82,6 +82,7 @@
   --twenty-font-size: 20px;
   --twenty-two-font-size: 22px;
   --twenty-four-font-size: 24px;
+  --thirty-font-size: 30px;
   --thirty-two-font-size: 32px;
   --forty-font-size: 40px;
 
@@ -1149,10 +1150,10 @@ h2 {
   margin: 0;
 }
 h3 {
-  color: var(--primary-text-color);
+  color: var(--blue-text-color);
   margin: 0;
   padding: 0;
-  font-size: var(--twenty-font-size);
+  font-size: var(--thirty-two-font-size);
 }
 h4 {
   color: var(--primary-text-color);

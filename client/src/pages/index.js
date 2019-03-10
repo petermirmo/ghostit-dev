@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 
@@ -8,7 +8,7 @@ import { bindActionCreators } from "redux";
 import { setUser, setaccounts } from "../redux/actions";
 
 import LoaderWedge from "../components/notifications/LoaderWedge";
-import CommonContainer from "../components/containers/CommonContainer";
+import GIContainer from "../components/containers/GIContainer";
 
 import Subscribe from "./SubscribePage";
 import Content from "./ContentPage";
@@ -87,7 +87,7 @@ class Routes extends Component {
   };
   render() {
     const { datebaseConnection, ghostitBlogs } = this.state; // Variables
-    const { user, getKeyListenerFunction, location } = this.props; // Variables
+    const { getKeyListenerFunction, location } = this.props; // Variables
 
     const blogPages = this.createBlogPages(ghostitBlogs);
 
@@ -96,7 +96,7 @@ class Routes extends Component {
     if (!datebaseConnection) return <LoaderWedge />;
 
     return (
-      <CommonContainer className="main-wrapper">
+      <GIContainer className="main-wrapper">
         <Switch>
           <Route path="/content/" component={Content} />
           <Route path="/subscribe/" component={Subscribe} />
@@ -125,7 +125,7 @@ class Routes extends Component {
           {blogPages}
           <Route component={HomePage} />
         </Switch>
-      </CommonContainer>
+      </GIContainer>
     );
   }
 }
@@ -146,7 +146,9 @@ function mapDispatchToProps(dispatch) {
     dispatch
   );
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Routes);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Routes)
+);
