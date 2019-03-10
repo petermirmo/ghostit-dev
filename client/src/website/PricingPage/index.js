@@ -7,7 +7,7 @@ class PricingPage extends Component {
   render() {
     return (
       <Page
-        className="flex column vc"
+        className="flex column vc website-page"
         title="Pricing"
         description="Have questions? Give us a call: 250-415-3093"
         keywords="ghostit, pricing"

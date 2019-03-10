@@ -6,7 +6,7 @@ import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
-import { getPostColor } from "../../componentFunctions";
+import { getPostColor } from "../../../componentFunctions";
 
 import "./style.css";
 

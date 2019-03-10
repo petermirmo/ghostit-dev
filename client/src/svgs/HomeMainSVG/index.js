@@ -48,6 +48,7 @@ class HomeMainSVG extends Component {
             version="1.1"
             id="svg1173"
             className="fit-parent"
+            style={{ width: "60%", minWidth: "250px", height: "auto" }}
           >
             <defs id="defs835">
               <radialGradient

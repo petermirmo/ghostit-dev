@@ -56,7 +56,7 @@ class TeamPage extends Component {
   render() {
     return (
       <Page
-        className="flex column vc"
+        className="flex column vc website-page"
         title="Team"
         description="Meet the Ghostit Team!"
         keywords="ghostit, team"

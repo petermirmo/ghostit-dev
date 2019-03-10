@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import Page from '../../components/containers/Page'
+import Page from "../../components/containers/Page";
 
-import AgencyBlog from '../../svgs/AgencyBlog'
-import AgencyUnderstanding from '../../svgs/AgencyUnderstanding'
-import AgencyStrategy from '../../svgs/AgencyStrategy'
-import AgencyCreation from '../../svgs/AgencyCreation'
-import HomeAISVG from '../../svgs/HomeAISVG'
+import AgencyBlog from "../../svgs/AgencyBlog";
+import AgencyUnderstanding from "../../svgs/AgencyUnderstanding";
+import AgencyStrategy from "../../svgs/AgencyStrategy";
+import AgencyCreation from "../../svgs/AgencyCreation";
+import HomeAISVG from "../../svgs/HomeAISVG";
 
-import GIText from '../../components/views/GIText'
-import PictureTextDescription from '../../components/PictureTextDescription'
+import GIText from "../../components/views/GIText";
+import PictureTextDescription from "../../components/PictureTextDescription";
 
-import './style.css'
+import "./style.css";
 
 class GhostitAgency extends Component {
   render() {
@@ -20,6 +20,7 @@ class GhostitAgency extends Component {
         title="Agency"
         description="Increase the amount of qualified traffic to your site."
         keywords="content, ghostit, marketing, agency"
+        className="website-page"
       >
         <PictureTextDescription
           svg={<HomeAISVG />}
@@ -50,11 +51,11 @@ class GhostitAgency extends Component {
           direction="left"
         />
       </Page>
-    )
+    );
   }
 }
 
-export default GhostitAgency
+export default GhostitAgency;
 
 {
   /* <h1 className="tac">Content Services</h1>

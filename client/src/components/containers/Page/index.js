@@ -9,8 +9,8 @@ import { connect } from "react-redux";
 import Header from "../..//Navigations/Header";
 import SignedInAs from "../..//SignedInAs";
 
-import WebsiteHeader from "../../../website/WebsiteHeader";
-import WebsiteFooter from "../../../website/WebsiteFooter";
+import WebsiteHeader from "../../navigations/WebsiteHeader";
+import WebsiteFooter from "../../navigations/WebsiteFooter";
 
 import { isUserInPlatform, shouldShowSignedInAsDiv } from "./util";
 

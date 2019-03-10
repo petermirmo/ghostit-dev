@@ -7,7 +7,7 @@ class TermsPage extends Component {
   render() {
     return (
       <Page
-        className="mx32"
+        className="mx32 website-page"
         title="Terms"
         description="Ghostit terms and conditions"
         keywords="ghostit, terms"

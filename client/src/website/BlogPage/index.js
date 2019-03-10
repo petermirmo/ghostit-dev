@@ -109,7 +109,7 @@ class BlogPage extends Component {
     }
     return (
       <Page
-        className="simple-container mx32"
+        className="simple-container mx32 website-page"
         title="Blog"
         description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
         keywords="ghostit, blog"
