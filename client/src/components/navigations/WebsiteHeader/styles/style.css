@@ -1,8 +1,5 @@
 #website-header {
   position: fixed;
-  top: 0;
-  width: 100%;
-
   display: flex;
 
   align-items: center;
@@ -11,9 +8,10 @@
   padding-right: 32px;
   flex-wrap: wrap;
   z-index: 1;
-
+  width: calc(100vw - 16px);
+  max-width: 100%;
   justify-content: flex-end;
-  background-color: transparent;
+  transition: all 0.2s ease;
 
   box-sizing: border-box;
   pointer-events: none;

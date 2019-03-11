@@ -10,6 +10,7 @@ import HomeAISVG from "../../svgs/HomeAISVG";
 
 import GIText from "../../components/views/GIText";
 import PictureTextDescription from "../../components/PictureTextDescription";
+import NavigationLayout from "../../components/NavigationLayout";
 
 import "./style.css";
 
@@ -32,6 +33,16 @@ class GhostitAgency extends Component {
           size="large"
           direction="left"
         />
+        <NavigationLayout
+          data={[
+            <AgencyBlog />,
+            <AgencyBlog />,
+            <AgencyBlog />,
+            <AgencyBlog />,
+            <AgencyBlog />
+          ]}
+        />
+
         <PictureTextDescription
           svg={<AgencyStrategy />}
           title="Content Marketing Strategy"

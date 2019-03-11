@@ -30,8 +30,11 @@ class WebsiteHeader extends Component {
   };
   render() {
     const { showHeader } = this.state;
-    const { user } = this.props;
-    let className = "transparent-button-important moving-border white mr16";
+    const { user, blendWithHomePage } = this.props;
+
+    let className = "transparent-button-important moving-border mr16";
+
+    if (blendWithHomePage) className += " home white";
 
     if (!showHeader) {
       return (
@@ -45,7 +48,14 @@ class WebsiteHeader extends Component {
     }
 
     return (
-      <div id="website-header">
+      <div
+        id="website-header"
+        style={{
+          backgroundColor: blendWithHomePage
+            ? "transparent"
+            : "var(--white-theme-color)"
+        }}
+      >
         {mobileAndTabletcheck() && (
           <FontAwesomeIcon
             icon={faTimes}

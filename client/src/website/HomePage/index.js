@@ -17,17 +17,31 @@ import "./style.css";
 
 class HomePage extends Component {
   state = {
-    purpleBackground: true
+    purpleBackground: true,
+    blendHeaderWithHomePage: true
   };
+  componentDidMount() {
+    window.onscroll = e => {
+      if (
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop
+      )
+        this.setState({ blendHeaderWithHomePage: false });
+      else this.setState({ blendHeaderWithHomePage: true });
+    };
+  }
   changeState = newText => {
     this.setState({ buttonText: newText });
   };
   render() {
+    const { blendHeaderWithHomePage } = this.state;
     return (
       <Page
         title="All-In-One Marketing Solution"
         description="Organize your marketing process with an all-in-one solution for unified content promotion."
         keywords="content, ghostit, marketing"
+        blendWithHomePage={blendHeaderWithHomePage}
       >
         <HomeMainSVG />
         <GIContainer className="y-wrap floating-box">

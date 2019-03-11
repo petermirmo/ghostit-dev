@@ -38,8 +38,9 @@ class Page extends Component {
     this.setState({ headerWidth: sizeChangeObj.width });
   };
 
-  websiteOrSoftwareHeader = activePage => {
-    if (!isUserInPlatform(activePage)) return <WebsiteHeader />;
+  websiteOrSoftwareHeader = (activePage, blendWithHomePage) => {
+    if (!isUserInPlatform(activePage))
+      return <WebsiteHeader blendWithHomePage={blendWithHomePage} />;
     else return <Header onSize={this.onSize} />;
   };
   checkPropsVariables = activePage => {
@@ -63,7 +64,7 @@ class Page extends Component {
     return { style, title, description, image };
   };
   render() {
-    const { children, className, user } = this.props; // Variables
+    const { children, className, user, blendWithHomePage } = this.props; // Variables
     const activePage = location.pathname;
 
     const { style, title, description, image } = this.checkPropsVariables(
@@ -78,7 +79,7 @@ class Page extends Component {
           <meta name="description" content={description} />
           <meta property="image" content={image} />
         </Helmet>
-        {this.websiteOrSoftwareHeader(activePage)}
+        {this.websiteOrSoftwareHeader(activePage, blendWithHomePage)}
         {shouldShowSignedInAsDiv(user, activePage) && (
           <SignedInAs user={user} />
         )}

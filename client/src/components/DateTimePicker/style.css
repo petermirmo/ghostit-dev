@@ -1,5 +1,5 @@
 .display-date {
-  border-bottom: 1px solid var(--secondary-text-color);
+  border-bottom: 1px solid var(--secondary-font-color);
   text-align: center;
   white-space: nowrap;
 }
@@ -45,7 +45,7 @@
   justify-content: space-between;
   align-items: center;
 
-  border: 1px solid var(--secondary-text-color);
+  border: 1px solid var(--secondary-font-color);
 }
 
 .date-picker-message {

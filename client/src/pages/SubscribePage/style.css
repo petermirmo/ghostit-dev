@@ -34,7 +34,7 @@
   color: var(--dark-grey-theme-color);
 }
 .checkout-plan {
-  color: var(--primary-text-color);
+  color: var(--primary-font-color);
 }
 .checkout-plan-label,
 .checkout-plan {
@@ -64,7 +64,7 @@
 
 .checkout-payment-monthly-label,
 .checkout-payment-total-due-label {
-  color: var(--primary-text-color);
+  color: var(--primary-font-color);
 }
 .checkout-payment-monthly-label {
 }
