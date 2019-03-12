@@ -1,0 +1,6 @@
+.white {
+  color: var(--white-theme-color);
+}
+.clickable {
+  cursor: pointer;
+}

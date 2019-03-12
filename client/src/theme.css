@@ -1110,6 +1110,7 @@ body {
 a {
   color: var(--blue-font-color);
   font-weight: bold;
+  text-decoration: none;
 }
 button {
   color: var(--white-theme-color);
@@ -1187,6 +1188,7 @@ p {
   text-align: left;
   font-size: var(--sixteen-font-size);
   font-family: var(--silly-font);
+  font-weight: 100;
 }
 
 input[type="file"] {

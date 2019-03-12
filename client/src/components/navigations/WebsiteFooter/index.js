@@ -6,6 +6,12 @@ import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
+
+import GIContainer from "../../containers/GIContainer";
+import GIText from "../../views/GIText";
+import GIButton from "../../views/GIButton";
+import EmailForm from "../../forms/EmailForm";
+
 import { getPostColor } from "../../../componentFunctions";
 
 import "./style.css";
@@ -17,81 +23,98 @@ class WebsiteFooter extends Component {
   };
   render() {
     return (
-      <div className="simple-container">
-        <div className="wrapping-container-no-center px32">
+      <GIContainer
+        className="y-wrap x-fill"
+        style={{ backgroundColor: "var(--seven-primary-color)" }}
+      >
+        <GIContainer className="x-wrap px32">
           <div className="container-box tiny my16">
-            <h4 className="unimportant-text mb8">Resources</h4>
+            <GIText
+              className="white mb16"
+              type="h4"
+              text="Resources"
+              type="h4"
+            />
             <Link to="/home">
-              <button
-                className={"transparent-button mt8" + this.isActive("home")}
-              >
-                Home
-              </button>
+              <GIText
+                className={"white clickable my4" + this.isActive("home")}
+                text="Home"
+                type="h4"
+              />
             </Link>
             <Link to="/pricing">
-              <button
-                className={"transparent-button mt8" + this.isActive("pricing")}
-              >
-                Pricing
-              </button>
+              <GIText
+                className={"white clickable my4" + this.isActive("pricing")}
+                text="Pricing"
+                type="h4"
+              />
             </Link>
             <Link to="/agency">
-              <button
-                className={"transparent-button mt8" + this.isActive("agency")}
-              >
-                Agency Process
-              </button>
+              <GIText
+                className={"white clickable my4" + this.isActive("agency")}
+                text="Ghostit Agency"
+                type="h4"
+              />
             </Link>
 
             <Link to="/blog">
-              <button
-                className={"transparent-button mt8" + this.isActive("blog")}
-              >
-                Ghostit Blog
-              </button>
+              <GIText
+                className={"white clickable my4" + this.isActive("blog")}
+                text="Ghostit Blog"
+                type="h4"
+              />
             </Link>
             <Link to="/team">
-              <button
-                className={"transparent-button mt8" + this.isActive("team")}
-              >
-                Ghostit Team
-              </button>
+              <GIText
+                className={"white clickable my4" + this.isActive("team")}
+                text="Ghostit Team"
+                type="h4"
+              />
             </Link>
           </div>
           <div className="container-box tiny my16">
-            <h4 className="unimportant-text mb8">Terms & Privacy</h4>
+            <GIText
+              className="white mb16"
+              type="h4"
+              text="Terms & Privacy"
+              type="h4"
+            />
+
             <Link to="/terms-of-service">
-              <button
+              <GIText
                 className={
-                  "transparent-button mt8" + this.isActive("terms-of-service")
+                  "white clickable my4" + this.isActive("terms-of-service")
                 }
-              >
-                Terms & Conditions
-              </button>
+                text="Terms & Conditions"
+                type="h4"
+              />
             </Link>
             <Link to="/privacy-policy">
-              <button
+              <GIText
                 className={
-                  "transparent-button mt8" + this.isActive("privacy-policy")
+                  "white clickable my4" + this.isActive("privacy-policy")
                 }
-              >
-                Privacy Policy
-              </button>
+                text="Privacy Policy"
+                type="h4"
+              />
             </Link>
           </div>
           <div className="container-box tiny my16">
-            <h4 className="unimportant-text mb8">Contact Us</h4>
-            <p className="unimportant-text mt8">250-415-3093</p>
-            <p className="unimportant-text mt8">hello@ghostit.co</p>
+            <GIText className="white mb16" type="h4" text="Contact Us" />
+            <GIText className="white my4" type="h4" text="250-415-3093" />
+            <GIText className="white my4" type="h4" text="hello@ghostit.co" />
           </div>
-        </div>
-        <div className="wrapping-container px32">
+          <div className="container-box tiny my16">
+            <EmailForm />
+          </div>
+        </GIContainer>
+        <GIContainer className="x-wrap full-center px32">
           <a href="https://www.facebook.com/ghostitcontent/" target="_blank">
             <FontAwesomeIcon
               icon={faFacebook}
               size="2x"
-              style={{ color: "#4267b2" }}
-              className="button mb16"
+              style={{ color: "white" }}
+              className="clickable mb16"
             />
           </a>
 
@@ -99,8 +122,8 @@ class WebsiteFooter extends Component {
             <FontAwesomeIcon
               icon={faTwitter}
               size="2x"
-              style={{ color: "#1da1f2" }}
-              className="button ml16 mb16"
+              style={{ color: "white" }}
+              className="clickable ml16 mb16"
             />
           </a>
           <a
@@ -110,20 +133,20 @@ class WebsiteFooter extends Component {
             <FontAwesomeIcon
               icon={faLinkedin}
               size="2x"
-              style={{ color: "#0077b5" }}
-              className="button ml16 mb16"
+              style={{ color: "white" }}
+              className="clickable ml16 mb16"
             />
           </a>
           <a href="https://www.instagram.com/ghostitcontent/" target="_blank">
             <FontAwesomeIcon
               icon={faInstagram}
               size="2x"
-              style={{ color: "#cd486b" }}
-              className="button ml16 mb16"
+              style={{ color: "white" }}
+              className="clickable ml16 mb16"
             />
           </a>
-        </div>
-      </div>
+        </GIContainer>
+      </GIContainer>
     );
   }
 }

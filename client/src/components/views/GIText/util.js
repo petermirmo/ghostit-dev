@@ -1,6 +1,7 @@
 import React from "react";
 
-export const getHtmlElement = (type, text, style, className) => {
+export const getHtmlElement = props => {
+  const { text, type, style, className, htmlFor, children } = props;
   if (type === "h1") {
     return (
       <h1 style={style} className={className}>
@@ -43,11 +44,11 @@ export const getHtmlElement = (type, text, style, className) => {
         {text}
       </p>
     );
-  } else {
+  } else if (type === "label") {
     return (
-      <div style={style} className={className}>
-        {text}
-      </div>
+      <label style={style} className={className}>
+        {children}
+      </label>
     );
   }
 };

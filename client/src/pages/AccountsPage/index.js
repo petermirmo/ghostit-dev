@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import MetaTags from "react-meta-tags";
+
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
@@ -18,7 +18,6 @@ import AddPageOrGroupModal from "./AddPagesOrGroupsModal";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 import GIContainer from "../../components/containers/GIContainer";
 import Page from "../../components/containers/Page";
-import SquareButton from "../../components/buttons/SquareButton";
 
 import {
   disconnectAccount,
@@ -48,9 +47,7 @@ class AccountsPage extends Component {
     accountToDelete: undefined,
     deleteAccount: false
   };
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
   openModal = (socialType, accountType) => {
     this.setState({
       socialType,

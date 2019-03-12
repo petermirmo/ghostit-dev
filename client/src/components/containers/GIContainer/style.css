@@ -25,6 +25,10 @@
   box-sizing: border-box;
 }
 
+.x-fill {
+  width: 100%;
+}
+
 .fit-parent {
   width: 100%;
   height: 100%;

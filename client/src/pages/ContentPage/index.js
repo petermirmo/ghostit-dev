@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import MetaTags from "react-meta-tags";
+
 
 import axios from "axios";
 import moment from "moment-timezone";
