@@ -296,7 +296,7 @@ class DatePicker extends Component {
               <FontAwesomeIcon
                 icon={faAngleLeft}
                 size="3x"
-                color="var(--five-primary-color)"
+                color="var(--five-blue-color)"
                 className="pl16"
                 onClick={this.subtractMonth}
               />
@@ -308,7 +308,7 @@ class DatePicker extends Component {
                 onClick={this.addMonth}
                 icon={faAngleRight}
                 size="3x"
-                color="var(--five-primary-color)"
+                color="var(--five-blue-color)"
               />
             </div>
             {message && message !== "" && (

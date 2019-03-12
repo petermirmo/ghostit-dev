@@ -19,13 +19,13 @@
 }
 .line-chart-data-point {
   r: 1;
-  stroke: var(--five-primary-color);
-  fill: var(--five-primary-color);
+  stroke: var(--five-blue-color);
+  fill: var(--five-blue-color);
   shape-rendering: geometricPrecision;
   transition: 1.5s ease;
 }
 .line-chart-connecting-line {
-  stroke: var(--five-primary-color);
+  stroke: var(--five-blue-color);
   stroke-width: 4px;
   shape-rendering: geometricPrecision;
   transition: 1.5s ease;

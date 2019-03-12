@@ -302,7 +302,7 @@ class Calendar extends Component {
       post.name
     )
       content = post.name;
-    let color = "var(--five-primary-color)";
+    let color = "var(--five-blue-color)";
     if (post.color) color = post.color;
     if (post.color) color = post.color;
 

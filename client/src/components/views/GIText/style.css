@@ -4,3 +4,50 @@
 .clickable {
   cursor: pointer;
 }
+
+h1 {
+  color: var(--blue-font-color);
+  margin: 0;
+  padding: 0;
+  font-family: var(--silly-font);
+  font-weight: 100;
+}
+h2 {
+  color: var(--primary-font-color);
+  margin: 0;
+  font-weight: 100;
+
+  font-size: var(--thirty-two-font-size);
+}
+h3 {
+  color: var(--blue-font-color);
+  margin: 0;
+  padding: 0;
+  font-size: var(--thirty-two-font-size);
+  font-weight: 100;
+}
+h4 {
+  color: var(--secondary-font-color);
+  margin: 0;
+  text-align: left;
+  font-weight: 100;
+}
+h5 {
+  color: var(--secondary-font-color);
+  margin: 0;
+  font-weight: 100;
+}
+h6 {
+  color: var(--secondary-font-color);
+  margin: 0;
+  font-weight: 100;
+}
+
+p {
+  margin: 0;
+  color: var(--secondary-font-color);
+  text-align: left;
+  font-size: var(--sixteen-font-size);
+  font-family: var(--silly-font);
+  font-weight: 100;
+}

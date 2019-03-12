@@ -1,0 +1,39 @@
+.merge-with-button {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.purple-border.merge-with-button:focus + .merge-with-input {
+  border-color: var(--two-purple-color);
+}
+.purple-border:focus {
+  border-color: var(--two-purple-color);
+}
+
+textarea,
+input {
+  outline: none;
+  resize: vertical;
+
+  font-size: var(--sixteen-font-size);
+  font-family: var(--regular-font);
+  border: 1px solid var(--divider-theme-color);
+  color: var(--primary-font-color);
+  background-color: var(--white-theme-color);
+  border-radius: 4px;
+
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+textarea:focus,
+input:focus {
+  border-color: var(--three-blue-color);
+}
+
+input[type="file"] {
+  display: none;
+}

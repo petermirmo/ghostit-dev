@@ -147,7 +147,7 @@ class CreateWebsiteBlog extends Component {
         <div
           className="hover-options-container"
           style={{
-            backgroundColor: "var(--five-primary-color)"
+            backgroundColor: "var(--five-blue-color)"
           }}
         >
           <button

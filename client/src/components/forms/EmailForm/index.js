@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 
 import GIText from "../../views/GIText";
+import GIInput from "../../views/GIInput";
+import GIButton from "../../views/GIButton";
+import GIContainer from "../../containers/GIContainer";
 import "./style.css";
 
 // This is a MailChimp form and adds directly to a list for our mailchimp!
@@ -8,6 +11,7 @@ import "./style.css";
 
 class EmailForm extends Component {
   state = { emailValue: "", fNameValue: "", lNameValue: "" };
+
   render() {
     const { emailValue, fNameValue, lNameValue } = this.state;
 
@@ -15,17 +19,12 @@ class EmailForm extends Component {
       <form
         action="https://ghostit.us14.list-manage.com/subscribe/post?u=6295bbe9fa9b4ee614df357c4&amp;id=97b7dd0676"
         method="post"
-        id="mc-embedded-subscribe-form"
         name="mc-embedded-subscribe-form"
-        class="validate"
         target="_blank"
-        novalidate
+        noValidate
       >
-        <input type="hidden" name="u" value="eb05e4f830c2a04be30171b01" />
-        <input type="hidden" name="id" value="8281a64779" />
-        <GIText type="label">
-          Email
-          <input
+        <GIContainer>
+          <GIInput
             type="email"
             name="EMAIL"
             value={emailValue}
@@ -34,9 +33,16 @@ class EmailForm extends Component {
             }}
             autoCapitalize="off"
             autoCorrect="off"
+            placeholder="Email address"
+            className="merge-with-button purple-border"
           />
-        </GIText>
-        <input type="submit" value="Subscribe" name="subscribe" />
+          <GIButton
+            type="submit"
+            text="Subscribe"
+            name="subscribe"
+            className="purple merge-with-input"
+          />
+        </GIContainer>
 
         <div
           style={{ position: "absolute", left: "-5000px" }}
@@ -45,16 +51,16 @@ class EmailForm extends Component {
           <input
             type="text"
             name="b_6295bbe9fa9b4ee614df357c4_97b7dd0676"
-            tabindex="-1"
+            tabIndex="-1"
             value=""
+            readOnly={true}
           />
-        </div>
-        <div class="clear">
           <input
             type="submit"
             value="Subscribe"
             name="subscribe"
             id="mc-embedded-subscribe"
+            readOnly={true}
           />
         </div>
       </form>

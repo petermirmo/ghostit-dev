@@ -22,7 +22,7 @@
   color: var(--white-theme-color);
 }
 .notification.info {
-  background-color: var(--four-primary-color);
+  background-color: var(--four-blue-color);
   color: var(--white-theme-color);
 }
 .notification.danger {

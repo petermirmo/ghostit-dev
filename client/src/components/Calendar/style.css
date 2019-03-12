@@ -27,7 +27,7 @@
   background-color: var(--light-grey-theme-color) !important;
 }
 .present-calendar-day {
-  border-bottom: 4px solid var(--five-primary-color);
+  border-bottom: 4px solid var(--five-blue-color);
 }
 .calendar-day {
   min-height: 16vh;
@@ -59,7 +59,7 @@
 }
 .calendar-day-plus {
   background-color: transparent;
-  color: var(--five-primary-color);
+  color: var(--five-blue-color);
   float: right;
 }
 
@@ -82,7 +82,7 @@
 
   box-sizing: border-box;
 
-  background-color: var(--five-primary-color);
+  background-color: var(--five-blue-color);
 }
 .calendar-post {
   padding: 2px 8px 2px 8px;
@@ -120,7 +120,7 @@
 
 .calendar-invite-accept,
 .calendar-invite-reject {
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
   margin-left: 4px;
   margin-bottom: 3px;
   border-radius: 4px;
@@ -128,6 +128,6 @@
 
 .calendar-invite-accept:hover,
 .calendar-invite-reject:hover {
-  background-color: var(--eight-primary-color);
+  background-color: var(--eight-blue-color);
   cursor: pointer;
 }

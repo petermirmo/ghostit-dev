@@ -5,6 +5,6 @@
 }
 .message-container:hover .message,
 .message-container:hover {
-  background-color: var(--five-primary-color);
+  background-color: var(--five-blue-color);
   color: var(--white-theme-color);
 }

@@ -35,7 +35,7 @@
   border-top-right-radius: 4px;
 }
 .posting-textarea:focus + .post-images-and-linkPreview {
-  border-color: var(--five-primary-color);
+  border-color: var(--five-blue-color);
 }
 .post-images-and-linkPreview {
   flex-shrink: 0;

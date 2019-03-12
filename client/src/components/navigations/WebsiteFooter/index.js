@@ -25,7 +25,7 @@ class WebsiteFooter extends Component {
     return (
       <GIContainer
         className="y-wrap x-fill"
-        style={{ backgroundColor: "var(--seven-primary-color)" }}
+        style={{ backgroundColor: "var(--seven-blue-color)" }}
       >
         <GIContainer className="x-wrap px32">
           <div className="container-box tiny my16">
@@ -105,6 +105,11 @@ class WebsiteFooter extends Component {
             <GIText className="white my4" type="h4" text="hello@ghostit.co" />
           </div>
           <div className="container-box tiny my16">
+            <GIText
+              className="white mb16"
+              type="h4"
+              text="Subscribe To Our Newsletter"
+            />
             <EmailForm />
           </div>
         </GIContainer>

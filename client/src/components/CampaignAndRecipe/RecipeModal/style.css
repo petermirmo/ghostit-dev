@@ -21,7 +21,7 @@
 .recipe-navigation-option:hover,
 .recipe-navigation-option.active {
   color: var(--black-theme-color);
-  border-color: var(--seven-primary-color);
+  border-color: var(--seven-blue-color);
 }
 
 .recipes-container-container {
@@ -58,7 +58,7 @@
   box-sizing: border-box;
 }
 .recipe-container:hover .hover-active-div {
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
   color: var(--white-theme-color);
 }
 .recipe-name {
@@ -89,7 +89,7 @@
   text-overflow: ellipsis;
 }
 .recipe-uses .blue {
-  color: var(--nine-primary-color) !important;
+  color: var(--nine-blue-color) !important;
 }
 .recipe-uses .italic {
   font-style: italic;
@@ -98,7 +98,7 @@
   font-weight: bold;
   text-align: center;
 
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
   color: var(--white-theme-color);
 
   box-sizing: border-box;
@@ -195,7 +195,7 @@
 
   border-radius: 2px;
 
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
 
   color: var(--white-theme-color);
 
@@ -211,7 +211,7 @@
 .recipe-edit-button {
   margin-right: 10px;
   cursor: pointer;
-  color: var(--seven-primary-color);
+  color: var(--seven-blue-color);
   opacity: 0.6;
 }
 .recipe-delete-button {
@@ -236,7 +236,7 @@
 }
 
 .file-icon-new {
-  color: var(--seven-primary-color);
+  color: var(--seven-blue-color);
 }
 .new-campaign-text {
   text-align: center;

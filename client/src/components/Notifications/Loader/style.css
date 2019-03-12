@@ -97,7 +97,7 @@
   width: 120px;
   height: 60px;
   border-radius: 120px 120px 0 0;
-  background: var(--five-primary-color);
+  background: var(--five-blue-color);
   -webkit-animation: lds-pacman-1 0.8s linear infinite;
   animation: lds-pacman-1 0.8s linear infinite;
   -webkit-transform-origin: 60px 60px;

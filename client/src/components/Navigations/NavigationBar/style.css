@@ -2,14 +2,14 @@
 }
 
 .nagivation-option {
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
 
   font-size: var(--eighteen-font-size);
 }
 
 .nagivation-option:hover:not(.active) {
-  background-color: var(--nine-primary-color);
+  background-color: var(--nine-blue-color);
 }
 .nagivation-option.active {
-  background-color: var(--nine-primary-color);
+  background-color: var(--nine-blue-color);
 }

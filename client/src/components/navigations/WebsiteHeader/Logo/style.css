@@ -25,7 +25,7 @@
 }
 .logo-ghost-bottom-shadow {
   shape-rendering: geometricPrecision;
-  fill: var(--three-primary-color);
+  fill: var(--three-blue-color);
 }
 
 .logo-text {

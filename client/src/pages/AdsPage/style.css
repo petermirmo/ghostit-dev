@@ -1,11 +1,11 @@
 .ads-navigation {
-  background-color: var(--one-half-primary-color);
+  background-color: var(--one-half-blue-color);
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
 }
 .ads-tab {
-  background-color: var(--three-primary-color);
+  background-color: var(--three-blue-color);
   color: var(--white-theme-color);
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -13,6 +13,6 @@
   font-size: var(--twenty-font-size);
 }
 .ads-tab.active {
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
   color: var(--white-theme-color);
 }

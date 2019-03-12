@@ -3,7 +3,7 @@
   width: 100%;
   box-sizing: border-box;
 
-  background-color: var(--three-primary-color);
+  background-color: var(--three-blue-color);
 }
 .profile-container {
   align-items: flex-start;

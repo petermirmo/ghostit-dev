@@ -13,10 +13,10 @@
 
   align-items: center;
 
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
 }
 .navbar {
-  background-color: var(--five-primary-color);
+  background-color: var(--five-blue-color);
   overflow: auto;
 }
 

@@ -58,7 +58,7 @@
   cursor: pointer;
 }
 .payment-length-option.active {
-  background-color: var(--five-primary-color);
+  background-color: var(--five-blue-color);
   color: var(--white-theme-color);
 }
 
@@ -91,9 +91,9 @@
 
 .sign-up {
   font-size: var(--eighteen-font-size);
-  background-color: var(--seven-primary-color);
+  background-color: var(--seven-blue-color);
   width: 100%;
 }
 .sign-up:hover {
-  background-color: var(--eight-primary-color);
+  background-color: var(--eight-blue-color);
 }

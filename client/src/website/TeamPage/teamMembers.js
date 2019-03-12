@@ -7,7 +7,7 @@ export const teamMembers = [
       "If we told you Rahul was Batman, you probably wouldn’t believe us. Regardless of what you think, that is what we call him, although we spell it ‘Bhatman’. In his 9+ years of launching and growing small to medium-sized businesses, he has developed a taste for seeing numbers rise and makes it a priority to ensure growth in all of our clients’ businesses. Have you ever had anyone bring devil sticks to a meeting? Rahul wouldn’t either but he’d show you his moves if you asked nicely.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164208/rahul.jpg",
-    color: "var(--five-primary-color)"
+    color: "var(--five-blue-color)"
   },
   {
     name: "Mishar",
@@ -27,7 +27,7 @@ export const teamMembers = [
       "Stephanie is an island girl, born and raised. Originally from Nanaimo, she finally settled down and decided to call Victoria, BC home. Stephanie is passionate about travel and all things creative and can often be found photographing beaches and beer along the coast thanks to her trusty RAV4, May.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164234/stephanie.jpg",
-    color: "var(--seven-primary-color)"
+    color: "var(--seven-blue-color)"
   },
   {
     name: "Erika",
@@ -47,7 +47,7 @@ export const teamMembers = [
       "When he’s not busy obsessing over creating ‘90s R&B playlists (yes plural, there are many) on Spotify, Patrick really likes writing. So much so that this wide-eyed whippersnapper from Salt Spring Island moved to Toronto to get a master’s degree in journalism and parlayed it into working as a sports writer (Google your boy). Now he’s back on the west coast… with a vengeance.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164140/patrick.jpg",
-    color: "var(--five-primary-color)"
+    color: "var(--five-blue-color)"
   },
 
   {
@@ -58,7 +58,7 @@ export const teamMembers = [
       "Tori likes short walks to the fridge and believes the Oxford comma is seriously underrated. On weekends you may find her going for hikes somewhere green, slaying at Scrabble games or writing run-on sentences in posts for her travel blog.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164253/tori.png",
-    color: "var(--seven-primary-color)"
+    color: "var(--seven-blue-color)"
   },
   {
     name: "Patrick",
