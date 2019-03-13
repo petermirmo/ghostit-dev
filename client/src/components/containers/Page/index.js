@@ -11,6 +11,7 @@ import SignedInAs from "../..//SignedInAs";
 
 import WebsiteHeader from "../../navigations/WebsiteHeader";
 import WebsiteFooter from "../../navigations/WebsiteFooter";
+import GIContainer from "../GIContainer";
 
 import { isUserInPlatform, shouldShowSignedInAsDiv } from "./util";
 
@@ -72,7 +73,7 @@ class Page extends Component {
     );
 
     return (
-      <div className={`page-container ${className}`} style={style}>
+      <div className="page-container" style={style}>
         <Helmet>
           <meta charSet="utf-8" />
           <title>{`${title} | Ghostit`}</title>
@@ -83,7 +84,7 @@ class Page extends Component {
         {shouldShowSignedInAsDiv(user, activePage) && (
           <SignedInAs user={user} />
         )}
-        {children}
+        <GIContainer className={className}>{children}</GIContainer>
         {!isUserInPlatform(activePage) && <WebsiteFooter />}
       </div>
     );

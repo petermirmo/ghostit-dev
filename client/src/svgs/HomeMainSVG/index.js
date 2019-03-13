@@ -28,7 +28,7 @@ class HomeMainSVG extends Component {
             opacity="0.15"
           />
         </svg>
-        <GIContainer className="y-wrap full-center fit-parent">
+        <GIContainer className="column full-center fit-parent">
           <GIText
             text="Create. Customize. Convert."
             type="h2"

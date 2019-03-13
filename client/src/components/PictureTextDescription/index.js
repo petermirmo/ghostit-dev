@@ -24,11 +24,11 @@ class PictureTextDescription extends Component {
     return (
       <GIContainer className={className}>
         <GIContainer
-          className="y-wrap full-center fit-parent"
+          className="column full-center fit-parent"
           style={{ width: "40%" }}
         >
           <GIContainer
-            className="y-wrap"
+            className="column"
             style={{ paddingLeft: paddingLeft, width: "60%" }}
           >
             <GIText text={title} type="h3" className={textDirectionClassName} />

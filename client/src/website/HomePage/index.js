@@ -17,23 +17,29 @@ import "./style.css";
 
 class HomePage extends Component {
   state = {
-    purpleBackground: true,
     blendHeaderWithHomePage: true
   };
   componentDidMount() {
+    this._ismounted = true;
+
+    // This is for header to blend with background when at top of home page
     window.onscroll = e => {
       if (
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop
       )
-        this.setState({ blendHeaderWithHomePage: false });
-      else this.setState({ blendHeaderWithHomePage: true });
+        this.changeState("blendHeaderWithHomePage", false);
+      else this.changeState("blendHeaderWithHomePage", true);
     };
   }
-  changeState = newText => {
-    this.setState({ buttonText: newText });
+  componentWillUnmount() {
+    this._ismounted = false;
+  }
+  changeState = (index, value) => {
+    if (this._ismounted) this.setState({ [index]: value });
   };
+
   render() {
     const { blendHeaderWithHomePage } = this.state;
     return (
@@ -42,9 +48,10 @@ class HomePage extends Component {
         description="Organize your marketing process with an all-in-one solution for unified content promotion."
         keywords="content, ghostit, marketing"
         blendWithHomePage={blendHeaderWithHomePage}
+        className="column"
       >
         <HomeMainSVG />
-        <GIContainer className="y-wrap floating-box">
+        <GIContainer className="column floating-box">
           <GIText
             text="Improve Your Traffic and Conversions"
             type="h1"

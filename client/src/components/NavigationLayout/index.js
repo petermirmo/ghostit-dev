@@ -6,28 +6,27 @@ class NavigationLayout extends Component {
   state = {
     active: 0
   };
-  mySuperCoolFunction = index => {
+  setActive = index => {
     this.setState({ active: index });
   };
+
   render() {
-    const { data } = this.props;
+    const { data, className } = this.props;
     const { active } = this.state;
 
     return (
-      <GIContainer className="x-wrap">
-        {data.map((value, index) => {
-          let className = "";
-          if (active === index) className = "test-mode";
-
-          return (
-            <GIContainer
-              key={index}
-              onMouseClick={() => this.mySuperCoolFunction(index)}
-              className={className}
-            >
-              {value}
-            </GIContainer>
-          );
+      <GIContainer className={`x-wrap ${className}`}>
+        {data.map((reactElement, index) => {
+          let className = reactElement.props.className;
+          if (index === active) className += " active";
+          return React.cloneElement(reactElement, {
+            key: index,
+            className,
+            onClick: () => {
+              reactElement.props.onClick();
+              this.setActive(index);
+            }
+          });
         })}
       </GIContainer>
     );

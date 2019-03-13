@@ -9,7 +9,7 @@ class Container extends Component {
       containerType,
       testMode,
       style,
-      onMouseClick
+      onClick
     } = this.props; // Variables
     let { className } = this.props;
 
@@ -19,7 +19,7 @@ class Container extends Component {
       <div
         className={`main-container ${className}`}
         style={style}
-        onClick={onMouseClick}
+        onClick={onClick}
       >
         {children}
       </div>

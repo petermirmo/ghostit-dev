@@ -24,7 +24,7 @@ class WebsiteFooter extends Component {
   render() {
     return (
       <GIContainer
-        className="y-wrap x-fill"
+        className="column x-fill"
         style={{ backgroundColor: "var(--seven-blue-color)" }}
       >
         <GIContainer className="x-wrap px32">

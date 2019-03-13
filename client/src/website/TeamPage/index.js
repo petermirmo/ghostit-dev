@@ -3,56 +3,10 @@ import Page from "../../components/containers/Page";
 
 import { teamMembers } from "./teamMembers";
 
+import { isElementInViewport, correctOverflow } from "./util";
 import "./style.css";
 
 class TeamPage extends Component {
-  isElementInViewport = el => {
-    const rect = el.getBoundingClientRect();
-
-    let top = false;
-    let right = false;
-    let bottom = false;
-    let left = false;
-
-    if (rect.top <= 0) top = rect.top;
-    if (rect.left <= 0) left = rect.left;
-
-    if (
-      rect.right >= (window.innerWidth || document.documentElement.clientWidth)
-    )
-      right = rect.right - document.documentElement.clientWidth;
-    if (
-      rect.bottom >=
-      (window.innerHeight || document.documentElement.clientHeight)
-    )
-      bottom = rect.bottom - document.documentElement.clientHeight;
-
-    return [top, right, bottom, left];
-  };
-  correctOverflow = element => {
-    if (element) {
-      let overflowArray = this.isElementInViewport(element);
-      if (overflowArray) {
-        if (overflowArray[0]) {
-          // overflows top
-          element.style.top = "calc(50% + " + (overflowArray[0] + 48) + "px)";
-        } else if (overflowArray[2]) {
-          // overflows bottom
-          element.style.top = "calc(50% - " + (overflowArray[2] + 48) + "px)";
-        }
-
-        if (overflowArray[1]) {
-          // overflows right
-          element.style.right = "calc(100% + 8px)";
-          element.style.left = "auto";
-        } else if (overflowArray[3]) {
-          // overflows left
-          element.style.left = "100% + 8px";
-          element.style.right = "auto";
-        }
-      }
-    }
-  };
   render() {
     return (
       <Page
@@ -70,7 +24,7 @@ class TeamPage extends Component {
                 className="simple-column-box pa16 br8 common-transition"
                 key={index + "team"}
                 onMouseEnter={event => {
-                  this.correctOverflow(document.getElementById(id));
+                  correctOverflow(document.getElementById(id));
                   event.target.style.backgroundColor = obj.color;
                 }}
                 onMouseOut={event => {
