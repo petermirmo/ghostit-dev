@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PayDiv from "./PayDiv";
 
-
 import { connect } from "react-redux";
+
+import Page from "../../components/containers/Page";
 
 import "./style.css";
 
@@ -19,9 +20,7 @@ class SubscribePage extends Component {
       }
     };
   }
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
   render() {
     const { annualBilling, plan } = this.state;
 
@@ -34,10 +33,7 @@ class SubscribePage extends Component {
     }
 
     return (
-      <div>
-        <MetaTags>
-          <title>Ghostit | Subscribe</title>
-        </MetaTags>
+      <Page title="Subscribe">
         <div className="plans-page-container">
           <div className="checkout-container">
             <div className="checkout-title">Checkout</div>
@@ -89,7 +85,7 @@ class SubscribePage extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }

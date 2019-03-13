@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import axios from "axios";
 
-
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
@@ -11,6 +10,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import LineChart from "../../components/LineChart/";
+import Page from "../../components/containers/Page";
 
 import "./style.css";
 
@@ -22,7 +22,6 @@ class Analytics extends Component {
   }
 
   componentDidMount() {
-    
     this.getAccountAnalytics();
     this._ismounted = true;
   }
@@ -83,10 +82,7 @@ class Analytics extends Component {
     }
 
     return (
-      <div className="flex">
-        <MetaTags>
-          <title>Ghostit | Analytics</title>
-        </MetaTags>
+      <Page title="Analytics">
         <div className="flex column line-chart-navigation-container">
           {dataLinesInformation.map((object, index) => (
             <div
@@ -115,7 +111,7 @@ class Analytics extends Component {
             }}
           />
         </div>
-      </div>
+      </Page>
     );
   }
 }

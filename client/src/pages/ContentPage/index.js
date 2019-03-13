@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
-
 import axios from "axios";
 import moment from "moment-timezone";
 
@@ -27,6 +26,7 @@ import Notification from "../../components/notifications/Notification";
 import Loader from "../../components/notifications/Loader/";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 import CalendarChat from "../../components/CalendarChat";
+import Page from "../../components/containers/Page";
 
 class Content extends Component {
   state = {
@@ -78,8 +78,6 @@ class Content extends Component {
   };
 
   componentDidMount() {
-    
-
     this._ismounted = true;
 
     this.initSocket();
@@ -975,10 +973,7 @@ class Content extends Component {
       }
     }
     return (
-      <div className="content-page">
-        <MetaTags>
-          <title>Ghostit | Content</title>
-        </MetaTags>
+      <Page title="Calendar" className="content-page">
         {loading && <Loader />}
         <Calendar
           calendars={calendars}
@@ -1137,7 +1132,7 @@ class Content extends Component {
             }
           />
         )}
-      </div>
+      </Page>
     );
   }
 }

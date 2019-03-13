@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
 import { connect } from "react-redux";
 
 import UsersTable from "./UsersTable";
 import CreateGhostitBlog from "../../components/ghostitBlog/CreateGhostitBlog";
+import Page from "../../components/containers/Page";
+
 import "./style.css";
 
 class ManagePage extends Component {
@@ -18,8 +19,6 @@ class ManagePage extends Component {
     notifications: []
   };
   componentDidMount() {
-    
-
     this._ismounted = true;
     axios.get("/api/notifications").then(res => {
       console.log(res.data);
@@ -47,10 +46,7 @@ class ManagePage extends Component {
     const { categories, notifications, ghostitBlog } = this.state;
 
     return (
-      <div className="flex column vc">
-        <MetaTags>
-          <title>Ghostit | Manage</title>
-        </MetaTags>
+      <Page className="column" title="Manage">
         <div className="manage-navigation flex vc py8 px16 mb16 common-shadow">
           {Object.keys(categories).map((categoryIndex, index) => {
             let category = categories[categoryIndex];
@@ -92,7 +88,7 @@ class ManagePage extends Component {
               );
             })}
         </div>
-      </div>
+      </Page>
     );
   }
 }

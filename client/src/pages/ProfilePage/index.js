@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser } from "../../redux/actions/";
 
+import Page from "../../components/containers/Page";
 import Loader from "../../components/notifications/Loader/";
 import "./style.css";
 
@@ -28,9 +28,7 @@ class Profile extends Component {
       window.location.reload();
     }
   }
-  componentDidMount() {
-    
-  }
+  componentDidMount() {}
 
   handleChange = (index, value) => {
     this.setState({ [index]: value });
@@ -80,10 +78,7 @@ class Profile extends Component {
       saving
     } = this.state;
     return (
-      <div>
-        <MetaTags>
-          <title>Ghostit | Profile</title>
-        </MetaTags>
+      <Page title="Profile">
         <div className="profile-background flex vc hc">
           <div className="profile-container flex column br8 pa32">
             <p className="label mx8 mb4">Company Name</p>
@@ -145,7 +140,7 @@ class Profile extends Component {
           </div>
         </div>
         {saving && <Loader />}
-      </div>
+      </Page>
     );
   }
 }

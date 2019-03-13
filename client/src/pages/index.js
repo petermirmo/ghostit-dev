@@ -17,7 +17,6 @@ import Manage from "./ManagePage";
 import Profile from "./ProfilePage";
 import MySubscription from "./MySubscriptionPage";
 import Analytics from "./AnalyticsPage";
-import Ads from "./AdsPage";
 import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
 
 import HomePage from "../website/HomePage";
@@ -106,7 +105,6 @@ class Routes extends Component {
           <Route path="/manage" component={Manage} />
           <Route path="/profile/" component={Profile} />
           <Route path="/subscription/" component={MySubscription} />
-          <Route path="/ads/" component={Ads} />
 
           <Route path="/home/" component={HomePage} />
           <Route path="/pricing/" component={PricingPage} />

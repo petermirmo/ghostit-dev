@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
-
 import { connect } from "react-redux";
+
+import Page from "../../components/containers/Page";
 
 import "./style.css";
 
@@ -16,8 +17,6 @@ class MySubscription extends Component {
     this.getInvoices();
   }
   componentDidMount() {
-    
-
     this._ismounted = true;
   }
   componentWillUnmount() {
@@ -67,12 +66,9 @@ class MySubscription extends Component {
     let invoiceRowDivs;
     if (invoices) invoiceRowDivs = this.createInvoiceRows(invoices);
     return (
-      <div>
-        <MetaTags>
-          <title>Ghostit | Subscription</title>
-        </MetaTags>
+      <Page title="Subscriptions">
         <div className="invoice-container">{invoiceRowDivs}</div>
-      </div>
+      </Page>
     );
   }
 }

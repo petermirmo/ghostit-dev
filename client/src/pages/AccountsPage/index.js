@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
@@ -78,7 +77,11 @@ class AccountsPage extends Component {
     const { socialType } = account;
 
     return (
-      <GIContainer className="connected-social-div flex" key={index}>
+      <Page
+        className="connected-social-div flex"
+        key={index}
+        title="Social Accounts"
+      >
         <GIContainer className="flex vc hc">
           <FontAwesomeIcon
             icon={getPostIcon(socialType)}
@@ -103,7 +106,7 @@ class AccountsPage extends Component {
             className="button delete"
           />
         </GIContainer>
-      </GIContainer>
+      </Page>
     );
   };
 
