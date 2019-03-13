@@ -266,10 +266,6 @@
   border-bottom: 1px solid var(--five-blue-color);
   color: var(--five-blue-color);
 }
-.very-important-text.purple {
-  border-color: var(--seven-purple-color);
-  color: var(--seven-purple-color);
-}
 
 .big-h1 {
   font-size: var(--forty-font-size);
@@ -1422,10 +1418,8 @@ div {
 }
 
 .transparent-button-important {
-  pointer-events: auto;
   color: var(--primary-font-color);
   font-family: var(--silly-font);
-  font-size: var(--eighteen-font-size);
 }
 .transparent-button-important.home {
   color: var(--white-theme-color);

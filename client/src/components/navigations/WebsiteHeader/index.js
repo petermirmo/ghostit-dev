@@ -32,9 +32,13 @@ class WebsiteHeader extends Component {
     const { showHeader } = this.state;
     const { user, blendWithHomePage } = this.props;
 
-    let className = "transparent-button-important moving-border mr16";
+    let className = "transparent-button-important moving-border mr16 pt8";
+    let trialButtonClassName = "regular-button";
 
-    if (blendWithHomePage) className += " home white";
+    if (blendWithHomePage) {
+      className += " home white";
+      trialButtonClassName += " purple";
+    }
 
     if (!showHeader) {
       return (
@@ -163,7 +167,7 @@ class WebsiteHeader extends Component {
         )}
         {!user && (
           <Link to="/sign-up">
-            <button className={className + this.isActive("sign-up")}>
+            <button className={trialButtonClassName + this.isActive("sign-up")}>
               Start Your Free Trial
             </button>
           </Link>

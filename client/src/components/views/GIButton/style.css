@@ -9,12 +9,12 @@
 }
 
 .purple {
-  color: var(--seven-purple-color);
-  background-color: var(--one-half-purple-color);
+  color: var(--seven-purple-color) !important;
+  background-color: var(--one-half-purple-color) !important;
 }
 .purple:hover {
-  color: var(--seven-purple-color);
-  background-color: var(--one-half-purple-color);
+  color: var(--five-purple-color) !important;
+  background-color: var(--one-half-purple-color) !important;
 }
 .merge-with-input {
   border-top-right-radius: 4px;
@@ -53,4 +53,6 @@ button {
 
   border: none;
   background-color: transparent;
+  pointer-events: auto;
+  box-sizing: border-box;
 }

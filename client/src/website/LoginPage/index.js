@@ -12,7 +12,9 @@ import { setUser, setaccounts } from "../../redux/actions/";
 import { validateEmail } from "../../componentFunctions";
 
 import Page from "../../components/containers/Page";
+import GIContainer from "../../components/containers/GIContainer";
 import Notification from "../../components/notifications/Notification/";
+
 import "./style.css";
 
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -218,7 +220,7 @@ class Login extends Component {
     return (
       <Page
         className="login-background simple-container website-page"
-        title={login === "login" ? "Ghostit | Sign In" : "Ghostit | Sign Up"}
+        title={login === "login" ? "Sign In" : "Sign Up"}
         description={
           login === "login"
             ? "Ghostit sign in :)"
@@ -262,12 +264,12 @@ class Login extends Component {
               >
                 Sign In
               </button>
-              <p className="unimportant-text button tac">
+              <h4 className="unimportant-text button tac">
                 New to Ghostit?
                 <Link to="/sign-up">
                   <button className="very-important-text ml4">Sign Up</button>
                 </Link>
-              </p>
+              </h4>
             </div>
           )}
           {login === "register" && (
@@ -339,12 +341,12 @@ class Login extends Component {
               >
                 Register
               </button>
-              <p className="unimportant-text button tac">
+              <h4 className="unimportant-text button tac">
                 Have an account?
                 <Link to="/sign-in">
                   <button className="very-important-text ml4">Sign In</button>
                 </Link>
-              </p>
+              </h4>
             </div>
           )}
           {login === "forgotPassword" && (
@@ -373,12 +375,19 @@ class Login extends Component {
           )}
         </div>
         {login !== "forgotPassword" && (
-          <button
-            className="very-important-text purple mt16 margin-hc"
-            onClick={event => this.handleChange("login", "forgotPassword")}
-          >
-            Forgot password?
-          </button>
+          <GIContainer className="full-center mt16">
+            <GIContainer
+              style={{ backgroundColor: "var(--white-theme-color)" }}
+              className="pa8 br4"
+            >
+              <button
+                className="very-important-text"
+                onClick={event => this.handleChange("login", "forgotPassword")}
+              >
+                Forgot password?
+              </button>
+            </GIContainer>
+          </GIContainer>
         )}
         {notification.on && (
           <Notification
