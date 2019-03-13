@@ -60,15 +60,6 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164253/tori.png",
     color: "var(--seven-primary-color)"
   },
-  {
-    name: "Alex",
-    location: "Vancouver",
-    description:
-      "Alex sees in technology the power of creating meaningful and lasting impact. Curious by nature, he’s always reading about the latest trends in tech. With a background in design, he advocates user centered design principles in pretty much everything he does. Want to know what the latest edition of Wired magazine is about? Alex is your man.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1552443011/27.jpg",
-    color: "var(--five-primary-color)"
-  },
 
   {
     name: "Patrick",
@@ -79,6 +70,15 @@ export const teamMembers = [
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164163/patrickHolland.jpg",
     color: "var(--five-purple-color)"
+  },
+  {
+    name: "Alex",
+    location: "Vancouver",
+    description:
+      "Alex sees in technology the power of creating meaningful and lasting impact. Curious by nature, he’s always reading about the latest trends in tech. With a background in design, he advocates user centered design principles in pretty much everything he does. Want to know what the latest edition of Wired magazine is about? Alex is your man.",
+    image:
+      "https://res.cloudinary.com/ghostit-co/image/upload/v1552443011/27.jpg",
+    color: "var(--five-primary-color)"
   },
   {
     name: "Peter",
