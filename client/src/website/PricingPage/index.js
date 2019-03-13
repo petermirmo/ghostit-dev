@@ -52,7 +52,10 @@ class PricingPage extends Component {
           </div>
 
           <div className="container-box small common-shadow pa32 ma32 br4">
-            <div className="common-container colorful-bottom-border purple hc vc pa16 mb16">
+            <div
+              className="common-container colorful-bottom-border hc vc pa16 mb16"
+              style={{ borderColor: "var(--five-purple-color)" }}
+            >
               <h2 className="important-text">Enterprise</h2>
               <h4 className="unimportant-text tac">Contact us for pricing </h4>
             </div>

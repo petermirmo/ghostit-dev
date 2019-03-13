@@ -11,11 +11,13 @@ h1 {
   padding: 0;
   font-family: var(--silly-font);
   font-weight: 100;
+  font-size: var(--thirty-two-font-size);
 }
 h2 {
   color: var(--primary-font-color);
   margin: 0;
   font-weight: 100;
+  font-family: var(--silly-font);
 
   font-size: var(--thirty-two-font-size);
 }
@@ -23,24 +25,28 @@ h3 {
   color: var(--blue-font-color);
   margin: 0;
   padding: 0;
-  font-size: var(--thirty-two-font-size);
+  font-size: var(--twenty-font-size);
   font-weight: 100;
+  font-family: var(--silly-font);
 }
 h4 {
   color: var(--secondary-font-color);
   margin: 0;
   text-align: left;
   font-weight: 100;
+  font-family: var(--silly-font);
 }
 h5 {
   color: var(--secondary-font-color);
   margin: 0;
   font-weight: 100;
+  font-family: var(--silly-font);
 }
 h6 {
   color: var(--secondary-font-color);
   margin: 0;
   font-weight: 100;
+  font-family: var(--silly-font);
 }
 
 p {

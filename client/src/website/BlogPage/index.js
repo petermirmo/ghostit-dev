@@ -59,6 +59,7 @@ class BlogPage extends Component {
         <GIText className="tac pb32" text="Ghostit Blog" type="h1" />
 
         <NavigationLayout
+          className="x-wrap"
           data={categories.map((category, index) => (
             <button
               className="transparent-button mx8 hover-blue"

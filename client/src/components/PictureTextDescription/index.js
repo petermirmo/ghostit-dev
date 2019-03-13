@@ -31,7 +31,7 @@ class PictureTextDescription extends Component {
             className="column"
             style={{ paddingLeft: paddingLeft, width: "60%" }}
           >
-            <GIText text={title} type="h3" className={textDirectionClassName} />
+            <GIText text={title} type="h1" className={textDirectionClassName} />
             <GIText
               text={description}
               type="p"

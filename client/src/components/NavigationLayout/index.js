@@ -15,7 +15,7 @@ class NavigationLayout extends Component {
     const { active } = this.state;
 
     return (
-      <GIContainer className={`x-wrap ${className}`}>
+      <GIContainer className={className}>
         {data.map((reactElement, index) => {
           let className = reactElement.props.className;
           if (index === active) className += " active";
