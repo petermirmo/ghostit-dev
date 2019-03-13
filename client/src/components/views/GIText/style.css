@@ -53,7 +53,7 @@ p {
   margin: 0;
   color: var(--secondary-font-color);
   text-align: left;
-  font-size: var(--sixteen-font-size);
+  font-size: var(--fourteen-font-size);
   font-family: var(--silly-font);
   font-weight: 100;
 }

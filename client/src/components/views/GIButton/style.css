@@ -23,6 +23,25 @@
   border-left: none;
 }
 
+.regular-button {
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 8px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-radius: 4px;
+  background-color: var(--seven-blue-color);
+  color: var(--white-theme-color);
+  transition: all 0.2s ease;
+}
+
+.regular-button.large {
+  font-size: var(--eighteen-font-size);
+}
+.regular-button:hover {
+  background-color: var(--five-blue-color);
+}
+
 button {
   color: var(--white-theme-color);
   font-family: var(--regular-font);

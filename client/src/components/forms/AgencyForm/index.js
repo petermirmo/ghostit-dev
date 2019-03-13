@@ -1,105 +1,78 @@
 import React, { Component } from "react";
 
 import GIText from "../../views/GIText";
-import "./style.css";
+import GIButton from "../../views/GIButton";
+import GIContainer from "../../containers/GIContainer";
+
+import { hiddenFormPortion } from "./util";
 
 // This is a MailChimp form and adds directly to a list for our mailchimp!
 // The absolute div is to protect sign ups from bots
 
 class MyForm extends Component {
-  state = { emailValue: "", fNameValue: "", lNameValue: "" };
+  state = { email: "", fName: "", cName: "", phoneNumber: "" };
   render() {
-    const { emailValue, fNameValue, lNameValue } = this.state;
+    const { email, fName, cName, phoneNumber } = this.state;
 
     return (
       <form
-        action="https://ghostit.us14.list-manage.com/subscribe/post?u=6295bbe9fa9b4ee614df357c4&amp;id=97b7dd0676"
+        action="https://ghostit.us14.list-manage.com/subscribe/post?u=6295bbe9fa9b4ee614df357c4&amp;id=af1c511e3c"
         method="POST"
         noValidate
+        style={{ flex: 1 }}
       >
-        <input type="hidden" name="u" value="eb05e4f830c2a04be30171b01" />
-        <input type="hidden" name="id" value="8281a64779" />
-        <GIText htmlFor="MERGE0" type="label">
-          Email
-          <input
-            type="email"
-            name="EMAIL"
-            id="MERGE0"
-            value={emailValue}
-            onChange={e => {
-              this.setState({ emailValue: e.target.value });
-            }}
-            autoCapitalize="off"
-            autoCorrect="off"
-          />
-        </GIText>
-        <GIText htmlFor="MERGE1" type="label">
-          First name
-          <input
-            type="text"
-            name="FNAME"
-            id="MERGE1"
-            value={fNameValue}
-            onChange={e => {
-              this.setState({ fNameValue: e.target.value });
-            }}
-          />
-        </GIText>
-        <GIText htmlFor="MERGE2" type="label">
-          Last name
-          <input
-            type="text"
-            name="LNAME"
-            id="MERGE2"
-            value={lNameValue}
-            onChange={e => {
-              this.setState({ lNameValue: e.target.value });
-            }}
-          />
-        </GIText>
+        <GIText type="h4" text="Full Name" className="mb8" />
         <input
-          type="submit"
-          value="Subscribe"
-          name="subscribe"
-          id="mc-embedded-subscribe"
+          type="text"
+          name="FNAME"
+          value={fName}
+          onChange={e => {
+            this.setState({ fName: e.target.value });
+          }}
+          placeholder="Bruce Wayne"
         />
 
-        <div
-          style={{ position: "absolute", left: "-5000px" }}
-          aria-hidden="true"
-          aria-label="Please leave the following three fields empty"
-        >
-          <label htmlFor="b_name">Name: </label>
-          <input
-            type="text"
-            name="b_name"
-            tabIndex="-1"
-            value=""
-            placeholder="Freddie"
-            id="b_name"
-            readOnly={true}
+        <GIText type="h4" text="Email Address" className="mt16 mb8" />
+        <input
+          type="email"
+          name="EMAIL"
+          value={email}
+          onChange={e => {
+            this.setState({ email: e.target.value });
+          }}
+          autoCapitalize="off"
+          autoCorrect="off"
+          placeholder="bruce@wayneenterprices.com"
+        />
+        <GIText type="h4" text="Company Name" className="mt16 mb8" />
+        <input
+          type="text"
+          name="CNAME"
+          value={cName}
+          onChange={e => {
+            this.setState({ cName: e.target.value });
+          }}
+          placeholder="Wayne Tech"
+        />
+        <GIText type="h4" text="Phone Number" className="mt16 mb8" />
+        <input
+          type="text"
+          name="PHONE"
+          value={phoneNumber}
+          onChange={e => {
+            this.setState({ phoneNumber: e.target.value });
+          }}
+          placeholder="+1 (555) 555-5555"
+        />
+        <GIContainer className="justifyEnd mt32">
+          <GIButton
+            type="submit"
+            text="Book a Call"
+            name="subscribe"
+            className="regular-button"
           />
-
-          <label htmlFor="b_email">Email: </label>
-          <input
-            type="email"
-            name="b_email"
-            tabIndex="-1"
-            value=""
-            placeholder="youremail@gmail.com"
-            id="b_email"
-            readOnly={true}
-          />
-
-          <label htmlFor="b_comment">Comment: </label>
-          <textarea
-            name="b_comment"
-            tabIndex="-1"
-            placeholder="Please comment"
-            id="b_comment"
-            readOnly={true}
-          />
-        </div>
+        </GIContainer>
+        {hiddenFormPortion}
       </form>
     );
   }

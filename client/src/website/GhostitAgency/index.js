@@ -3,69 +3,31 @@ import React, { Component } from "react";
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 
-import AgencyBlog from "../../svgs/AgencyBlog";
-import AgencyBlogActive from "../../svgs/AgencyBlogActive";
-import AgencySocial from "../../svgs/AgencySocial";
-import AgencySocialActive from "../../svgs/AgencySocialActive";
-import AgencyEbook from "../../svgs/AgencyEbook";
-import AgencyEbookActive from "../../svgs/AgencyEbookActive";
-import AgencyNewsletter from "../../svgs/AgencyNewsletter";
-import AgencyNewsletterActive from "../../svgs/AgencyNewsletterActive";
-import AgencyWeb from "../../svgs/AgencyWeb";
-import AgencyWebActive from "../../svgs/AgencyWebActive";
-
-import HomeAISVG from "../../svgs/HomeAISVG";
+import AgencyCall from "../../svgs/AgencyCall";
 
 import GIText from "../../components/views/GIText";
 import PictureTextDescription from "../../components/PictureTextDescription";
 import NavigationLayout from "../../components/NavigationLayout";
 
+import AgencyForm from "../../components/forms/AgencyForm";
+
+import { categories } from "./util.js";
+
 import "./style.css";
 
 class GhostitAgency extends Component {
   state = {
-    categories: [
-      {
-        notActive: <AgencyBlog />,
-        active: <AgencyBlogActive />,
-        title1: "Optimized",
-        title2: "Blog Posts"
-      },
-      {
-        notActive: <AgencySocial />,
-        active: <AgencySocialActive />,
-        title1: "Social Media",
-        title2: "Posts"
-      },
-      {
-        notActive: <AgencyEbook />,
-        active: <AgencyEbookActive />,
-        title1: "Lead Generation",
-        title2: "E-books"
-      },
-      {
-        notActive: <AgencyNewsletter />,
-        active: <AgencyNewsletterActive />,
-        title1: "Email",
-        title2: "Newsletters"
-      },
-      {
-        notActive: <AgencyWeb />,
-        active: <AgencyWebActive />,
-        title1: "Web",
-        title2: "Content"
-      }
-    ],
-    activeAgencyDescription: 0
+    categories,
+    activeAgencyComponent: 0
   };
   render() {
-    const { categories, activeAgencyDescription } = this.state;
+    const { categories, activeAgencyComponent } = this.state;
     return (
       <Page
         title="Agency"
         description="Increase the amount of qualified traffic to your site."
         keywords="content, ghostit, marketing, agency"
-        className="website-page"
+        className="website-page mx64"
       >
         <GIText type="h1" text="Content Services" className="tac" />
         <GIText
@@ -74,16 +36,13 @@ class GhostitAgency extends Component {
           className="tac mb32"
         />
         <NavigationLayout
-          className="mx64"
           data={categories.map((category, index) => {
             let active = false;
-            if (index === activeAgencyDescription) active = true;
+            if (index === activeAgencyComponent) active = true;
 
             return (
               <GIContainer
-                onClick={() =>
-                  this.setState({ activeAgencyDescription: index })
-                }
+                onClick={() => this.setState({ activeAgencyComponent: index })}
                 className="column mx16 same-size-flex-items"
               >
                 <GIContainer className="column fill-flex">
@@ -96,6 +55,37 @@ class GhostitAgency extends Component {
             );
           })}
         />
+        <GIContainer
+          className="py32 px64 mb32 mt16 br4"
+          style={{ backgroundColor: "var(--seven-blue-color)" }}
+        >
+          <GIText
+            text={categories[activeAgencyComponent].description}
+            type="p"
+            className="white"
+          />
+        </GIContainer>
+
+        <GIContainer className="column mx64 mb64">
+          <GIText
+            text="Our content services are focused on one thing. Increasing the amount of qualified traffic to your site. "
+            type="h3"
+            className="tac mb32"
+          />
+          <GIText
+            text="Book a call to go over the details of your content marketing requirements."
+            type="h1"
+            className="tac"
+          />
+          <GIContainer className="x-wrap">
+            <GIContainer className="same-size-flex-items">
+              <AgencyForm />
+            </GIContainer>
+            <GIContainer className="same-size-flex-items">
+              <AgencyCall />
+            </GIContainer>
+          </GIContainer>
+        </GIContainer>
       </Page>
     );
   }

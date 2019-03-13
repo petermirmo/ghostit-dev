@@ -33,6 +33,13 @@
   align-items: center;
 }
 
+.alignEnd {
+  align-items: flex-end;
+}
+.justifyEnd {
+  justify-content: flex-end;
+}
+
 .floating-box {
   margin-top: 32px;
   margin-right: 20%;

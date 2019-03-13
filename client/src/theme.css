@@ -839,6 +839,30 @@
   transition: all 0.2s ease;
 }
 
+.pa64 {
+  padding: 64px;
+}
+.px64 {
+  padding-right: 64px;
+  padding-left: 64px;
+}
+.py64 {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+.pt64 {
+  padding-top: 64px;
+}
+.pr64 {
+  padding-right: 64px;
+}
+.pb64 {
+  padding-bottom: 64px;
+}
+.pl64 {
+  padding-left: 64px;
+}
+
 .pa32 {
   padding: 32px;
 }
@@ -1285,26 +1309,10 @@ div {
 .icon-regular-button:hover {
   color: var(--eight-blue-color);
 }
-.regular-button {
-  flex-shrink: 0;
-  cursor: pointer;
-  padding: 8px;
-  padding-right: 16px;
-  padding-left: 16px;
-  border-radius: 4px;
-  background-color: var(--five-blue-color);
-  color: var(--white-theme-color);
-}
 .regular-container-with-border {
   border: 0.5px solid var(--divider-theme-color);
   width: 100%;
   overflow: hidden;
-}
-.regular-button.large {
-  font-size: var(--eighteen-font-size);
-}
-.regular-button:hover {
-  background-color: var(--seven-blue-color);
 }
 .border.small {
   border: 0.5px solid var(--divider-theme-color);
