@@ -1,22 +1,26 @@
 import React, { Component } from "react";
+
 import Page from "../../components/containers/Page";
+import GIContainer from "../../components/containers/GIContainer";
+import GIText from "../../components/views/GIText";
 
 import { teamMembers } from "./teamMembers";
 
 import { isElementInViewport, correctOverflow } from "./util";
+
 import "./style.css";
 
 class TeamPage extends Component {
   render() {
     return (
       <Page
-        className="flex column vc website-page"
+        className="website-page justify-center"
         title="Team"
         description="Meet the Ghostit Team!"
         keywords="ghostit, team"
       >
-        <h1 className="pb16 tac">Meet the Ghostit Team!</h1>
-        <div className="wrapping-container pb32 mb32">
+        <GIText className="pb16 tac" text="Meet the Ghostit Team!" type="h1" />
+        <GIContainer className="x-wrap justify-center pb32 mb32">
           {teamMembers.map((obj, index) => {
             let id = index + "team-member";
             return (
@@ -38,27 +42,33 @@ class TeamPage extends Component {
                     className="team-member-image"
                   />
                 </div>
-                <h4
-                  className="team-member-name silly-font py8 tac"
+                <GIText
+                  className="team-member-name py8 tac"
                   style={{ color: obj.color }}
-                >
-                  {obj.name}
-                </h4>
+                  text={obj.name}
+                  type="h6"
+                />
                 <div
                   className="team-member-dropdown-container br8 pa32"
                   style={{ backgroundColor: obj.color }}
                   id={id}
                 >
-                  <h4 className="team-member-name silly-font py8">
-                    {obj.name}
-                  </h4>
-                  <h4 className="team-member-title">{obj.title}</h4>
-                  <p className="team-member-description">{obj.description}</p>
+                  <GIText
+                    className="team-member-name py8"
+                    text={obj.name}
+                    type="h6"
+                  />
+
+                  <GIText
+                    className="team-member-description"
+                    text={obj.description}
+                    type="p"
+                  />
                 </div>
               </div>
             );
           })}
-        </div>
+        </GIContainer>
       </Page>
     );
   }

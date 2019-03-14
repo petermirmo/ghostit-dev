@@ -59,7 +59,7 @@ class HomePage extends Component {
           />
           <GIText
             text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
-            type="h4"
+            type="h6"
             className="tac"
           />
         </GIContainer>

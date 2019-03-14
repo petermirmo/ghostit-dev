@@ -129,7 +129,7 @@ class LoginPage extends Component {
             />
             <Link to="/sign-up">
               <GIContainer className="full-center">
-                <GIText text="New to Ghostit?" type="h4" />
+                <GIText text="New to Ghostit?" type="h6" />
 
                 <GIButton className="underline-button ml4" text="Sign Up" />
               </GIContainer>

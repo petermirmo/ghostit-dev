@@ -37,7 +37,7 @@ class HomeMainSVG extends Component {
           />
           <GIText
             text="Organize your marketing process with an all-in-one solution for unified content promotion."
-            type="h4"
+            type="h6"
             style={{ color: "var(--white-theme-color)" }}
             className="mb32 tac"
           />

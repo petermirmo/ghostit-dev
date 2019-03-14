@@ -193,12 +193,14 @@ class RegisterPage extends Component {
             >
               Register
             </button>
-            <h4 className="unimportant-text button tac">
-              Have an account?
-              <Link to="/sign-in">
-                <button className="very-important-text ml4">Sign In</button>
-              </Link>
-            </h4>
+
+            <Link to="/sign-in">
+              <GIContainer className="full-center">
+                <GIText text="Have an account?" type="h6" />
+
+                <GIButton className="underline-button ml4" text="Sign In" />
+              </GIContainer>
+            </Link>
           </form>
         </div>
 

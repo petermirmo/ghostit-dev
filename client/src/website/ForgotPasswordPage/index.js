@@ -57,18 +57,18 @@ class ForgotPasswordPage extends Component {
               required
             />
             <button
-              className="regular-button"
+              className="regular-button mb8"
               onClick={() => sendResetEmail(email, this.handleChange)}
             >
               Send Password Reset
             </button>
 
-            <h4 className="unimportant-text button tac">
-              Back to
-              <Link to="/sign-in">
-                <button className="very-important-text ml4">Sign In</button>
-              </Link>
-            </h4>
+            <Link to="/sign-in">
+              <GIContainer className="full-center">
+                <GIText text="Back to" type="h6" />
+                <GIButton className="underline-button ml4" text="Sign In" />
+              </GIContainer>
+            </Link>
           </form>
         </GIContainer>
 
