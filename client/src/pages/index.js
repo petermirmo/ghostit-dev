@@ -25,6 +25,8 @@ import TeamPage from "../website/TeamPage";
 import BlogPage from "../website/BlogPage";
 import GhostitAgency from "../website/GhostitAgency";
 import LoginPage from "../website/LoginPage";
+import RegisterPage from "../website/RegisterPage";
+import ForgotPasswordPage from "../website/ForgotPasswordPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
 
@@ -112,12 +114,9 @@ class Routes extends Component {
           <Route path="/blog/" component={BlogPage} exact />
           <Route path="/agency/" component={GhostitAgency} />
           <Route path="/sign-in/" component={LoginPage} />
-          <Route
-            path="/sign-up/"
-            render={props => {
-              return <LoginPage signUp={true} />;
-            }}
-          />
+          <Route path="/sign-up/" component={RegisterPage} />
+          <Route path="/forgot-password/" component={ForgotPasswordPage} />
+
           <Route path="/terms-of-service/" component={TermsPage} />
           <Route path="/privacy-policy/" component={PrivacyPage} />
           {blogPages}

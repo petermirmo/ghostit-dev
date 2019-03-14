@@ -5,8 +5,17 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import "./style.css";
 
 class Notification extends Component {
+  componentDidMount() {
+    const { callback } = this.props;
+    let { notification } = this.props;
+
+    setTimeout(() => {
+      notification.on = false;
+      callback(notifcation);
+    }, 5000);
+  }
   render() {
-    const { title, message, type } = this.props;
+    const { title, message, type } = this.prop.notification;
 
     return (
       <div className={"notification " + type}>
