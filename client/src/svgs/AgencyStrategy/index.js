@@ -8,7 +8,7 @@ class AgencyStrategy extends Component {
         width="218.2778"
         height="228.9453"
         viewBox="0 0 218.2778 228.9453"
-        className="fit-parent"
+        className="fill-parent"
       >
         <rect
           x="47.874"

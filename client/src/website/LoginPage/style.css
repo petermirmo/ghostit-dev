@@ -1,7 +1,0 @@
-.login-background {
-  background-color: var(--white-theme-color);
-  background: linear-gradient(
-    var(--white-theme-color) 70%,
-    var(--five-blue-color) 30%
-  );
-}

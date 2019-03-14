@@ -35,25 +35,28 @@ h4 {
   text-align: left;
   font-weight: 100;
   font-family: var(--silly-font);
+  font-size: var(--twenty-font-size);
 }
 h5 {
   color: var(--secondary-font-color);
   margin: 0;
   font-weight: 100;
   font-family: var(--silly-font);
+  font-size: var(--sixteen-font-size);
 }
 h6 {
   color: var(--secondary-font-color);
   margin: 0;
   font-weight: 100;
   font-family: var(--silly-font);
+  font-size: var(--sixteen-font-size);
 }
 
 p {
   margin: 0;
   color: var(--secondary-font-color);
   text-align: left;
-  font-size: var(--fourteen-font-size);
+  font-size: var(--sixteen-font-size);
   font-family: var(--silly-font);
   font-weight: 100;
 }

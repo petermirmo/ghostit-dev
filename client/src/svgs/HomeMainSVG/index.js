@@ -28,7 +28,7 @@ class HomeMainSVG extends Component {
             opacity="0.15"
           />
         </svg>
-        <GIContainer className="column full-center fit-parent">
+        <GIContainer className="column full-center fill-parent">
           <GIText
             text="Create. Customize. Convert."
             type="h2"
@@ -47,7 +47,7 @@ class HomeMainSVG extends Component {
             viewBox="0 0 1172.6504 580.44441"
             version="1.1"
             id="svg1173"
-            className="fit-parent"
+            className="fill-parent"
             style={{ width: "60%", minWidth: "250px", height: "auto" }}
           >
             <defs id="defs835">

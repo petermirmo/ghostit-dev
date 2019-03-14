@@ -9,7 +9,7 @@ class HomeInstructions extends Component {
         width="419.547"
         height="292.3003"
         viewBox="0 0 419.547 292.3003"
-        className="fit-parent"
+        className="fill-parent"
       >
         <defs>
           <radialGradient

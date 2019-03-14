@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
-import axios from "axios";
-import ReactGA from "react-ga";
-
 import { connect } from "react-redux";
 
 import Page from "../../components/containers/Page";
@@ -14,9 +11,9 @@ import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 import GIInput from "../../components/views/GIInput";
 
-import "./style.css";
+import { sendResetEmail } from "./util";
 
-class Login extends Component {
+class ForgotPasswordPage extends Component {
   state = {
     email: "",
     notification: {
@@ -39,14 +36,17 @@ class Login extends Component {
 
     return (
       <Page
-        className="login-background simple-container website-page"
-        title="Forgot Password"
+        className="login-background website-page align-center"
         keywords="content, ghostit, marketing"
+        title="Forgot Password"
       >
         <GIText className="pb16 tac" text="Forgot Password" type="h1" />
 
-        <div className="basic-box common-shadow pa32 br16 margin-hc">
-          <form className="common-container">
+        <GIContainer className="basic-box common-shadow pa32 br16 margin-hc">
+          <form
+            className="common-container"
+            onSubmit={event => event.preventDefault()}
+          >
             <input
               className="regular-input mb8"
               value={email}
@@ -58,7 +58,7 @@ class Login extends Component {
             />
             <button
               className="regular-button"
-              onClick={() => sendResetEmail(email, callback(this.handleChange))}
+              onClick={() => sendResetEmail(email, this.handleChange)}
             >
               Send Password Reset
             </button>
@@ -70,7 +70,7 @@ class Login extends Component {
               </Link>
             </h4>
           </form>
-        </div>
+        </GIContainer>
 
         {notification.on && (
           <Notification
@@ -88,4 +88,4 @@ function mapStateToProps(state) {
     user: state.user
   };
 }
-export default withRouter(connect(mapStateToProps)(Login));
+export default withRouter(connect(mapStateToProps)(ForgotPasswordPage));

@@ -13,3 +13,11 @@
   padding-top: 15vh;
   min-height: 100vh;
 }
+
+.login-background {
+  background-color: var(--white-theme-color);
+  background: linear-gradient(
+    var(--white-theme-color) 50%,
+    var(--five-blue-color) 50%
+  );
+}

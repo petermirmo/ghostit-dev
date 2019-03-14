@@ -9,7 +9,7 @@ class AgencySocialActive extends Component {
         width="195.3153"
         height="195.3153"
         viewBox="0 0 195.3153 195.3153"
-        className="fit-parent"
+        className="fill-parent"
       >
         <defs>
           <radialGradient

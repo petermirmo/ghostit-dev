@@ -8,7 +8,7 @@ class AgencyEbook extends Component {
         width="198.3154"
         height="198.3154"
         viewBox="0 0 198.3154 198.3154"
-        className="fit-parent"
+        className="fill-parent"
       >
         <path
           d="M42.5255,59.35,99.228,65.243v85.0723l-56.9063-5.9032a2,2,0,0,1-1.8981-1.9974V61.3477A2,2,0,0,1,42.5255,59.35Z"

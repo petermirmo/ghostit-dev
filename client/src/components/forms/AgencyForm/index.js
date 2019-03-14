@@ -64,10 +64,10 @@ class MyForm extends Component {
           }}
           placeholder="+1 (555) 555-5555"
         />
-        <GIContainer className="justifyEnd mt32">
+        <GIContainer className="justify-end mt32">
           <GIButton
             type="submit"
-            text="Book a Call"
+            text="Book Call"
             name="subscribe"
             className="regular-button"
           />

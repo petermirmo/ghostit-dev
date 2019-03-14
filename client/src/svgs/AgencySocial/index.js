@@ -8,7 +8,7 @@ class AgencySocial extends Component {
         width="198.3154"
         height="198.3154"
         viewBox="0 0 198.3154 198.3154"
-        className="fit-parent"
+        className="fill-parent"
       >
         <rect
           x="34.9031"

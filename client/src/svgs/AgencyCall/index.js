@@ -9,7 +9,7 @@ class AgencyCall extends Component {
         width="327.796"
         height="355.924"
         viewBox="0 0 327.796 355.924"
-        className="fit-parent"
+        className="fill-parent"
       >
         <defs>
           <radialGradient

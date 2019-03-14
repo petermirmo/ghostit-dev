@@ -2,14 +2,14 @@ import React, { Component } from "react";
 
 import "./style.css";
 
-class SquareButton extends Component {
+class GIButton extends Component {
   render() {
     const { text, onClick, className, style, name, type } = this.props;
     return (
       <button
         onClick={onClick}
         style={style}
-        className={`square-button ${className}`}
+        className={className}
         type={type}
         name={name}
       >
@@ -19,4 +19,4 @@ class SquareButton extends Component {
   }
 }
 
-export default SquareButton;
+export default GIButton;

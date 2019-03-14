@@ -8,7 +8,7 @@ class AgencyUnderstanding extends Component {
         width="180.2598"
         height="223.4131"
         viewBox="0 0 180.2598 223.4131"
-        className="fit-parent"
+        className="fill-parent"
       >
         <rect
           x="0.5002"

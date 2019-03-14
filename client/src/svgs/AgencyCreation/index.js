@@ -8,7 +8,7 @@ class AgencyCreation extends Component {
         width="216.7983"
         height="226.2969"
         viewBox="0 0 216.7983 226.2969"
-        className="fit-parent"
+        className="fill-parent"
       >
         <rect
           x="0.4999"

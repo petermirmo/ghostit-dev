@@ -9,7 +9,7 @@ class HomeAISVG extends Component {
         width="466.7114"
         height="309.2882"
         viewBox="0 0 466.7114 309.2882"
-        className="fit-parent"
+        className="fill-parent"
       >
         <defs>
           <radialGradient

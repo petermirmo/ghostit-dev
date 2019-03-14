@@ -4,7 +4,6 @@ import GIText from "../../views/GIText";
 import GIInput from "../../views/GIInput";
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
-import "./style.css";
 
 // This is a MailChimp form and adds directly to a list for our mailchimp!
 // The absolute div is to protect sign ups from bots

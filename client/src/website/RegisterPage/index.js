@@ -19,11 +19,9 @@ import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 import GIInput from "../../components/views/GIInput";
 
-import "./style.css";
-
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-class Login extends Component {
+class RegisterPage extends Component {
   state = {
     fullName: "",
     email: "",
@@ -203,15 +201,14 @@ class Login extends Component {
             </h4>
           </form>
         </div>
+
         <GIContainer className="full-center mt16">
-          <GIContainer
-            style={{ backgroundColor: "var(--white-theme-color)" }}
-            className="pa8 br4"
-          >
-            <Link to="/forgot-password">
-              <button className="very-important-text">Forgot password?</button>
-            </Link>
-          </GIContainer>
+          <Link to="/forgot-password">
+            <GIButton
+              className="underline-button white"
+              text="Forgot password?"
+            />
+          </Link>
         </GIContainer>
         {notification.on && (
           <Notification
@@ -242,5 +239,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Login)
+  )(RegisterPage)
 );

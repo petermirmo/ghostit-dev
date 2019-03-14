@@ -24,19 +24,25 @@
 .x-fill {
   width: 100%;
 }
-.fit-parent {
+.fill-parent {
   width: 100%;
+  height: 100%;
 }
 
 .full-center {
   justify-content: center;
   align-items: center;
 }
-
-.alignEnd {
+.justify-center {
+  justify-content: center;
+}
+.align-center {
+  align-items: center;
+}
+.align-end {
   align-items: flex-end;
 }
-.justifyEnd {
+.justify-end {
   justify-content: flex-end;
 }
 
@@ -49,19 +55,12 @@
   min-width: 200px;
 }
 
-.fill-parent {
-  flex: 1;
-  width: 100%;
-  height: 100%;
-}
-
 .fill-flex {
   flex: 1;
 }
 
 .same-size-flex-items {
-  flex: 1 1 0;
-  width: 0;
+  width: 50%;
 }
 
 .test-mode {

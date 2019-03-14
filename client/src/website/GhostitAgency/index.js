@@ -13,8 +13,6 @@ import AgencyForm from "../../components/forms/AgencyForm";
 
 import { categories } from "./util.js";
 
-import "./style.css";
-
 class GhostitAgency extends Component {
   state = {
     categories,
@@ -77,11 +75,11 @@ class GhostitAgency extends Component {
             type="h1"
             className="tac"
           />
-          <GIContainer className="x-wrap">
-            <GIContainer className="same-size-flex-items">
+          <GIContainer className="x-wrap px32">
+            <GIContainer className="fill-flex">
               <AgencyForm />
             </GIContainer>
-            <GIContainer className="same-size-flex-items">
+            <GIContainer className="pl32">
               <AgencyCall />
             </GIContainer>
           </GIContainer>

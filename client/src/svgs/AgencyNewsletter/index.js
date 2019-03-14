@@ -8,7 +8,7 @@ class AgencyNewsletter extends Component {
         width="198.3154"
         height="198.3154"
         viewBox="0 0 198.3154 198.3154"
-        className="fit-parent"
+        className="fill-parent"
       >
         <polyline
           points="44.157 86.135 99.171 38.131 154.171 86.135"

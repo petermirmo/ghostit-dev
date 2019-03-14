@@ -8,6 +8,7 @@ class Notification extends Component {
   componentDidMount() {
     const { callback } = this.props;
     let { notification } = this.props;
+    if (!notification) notification = {};
 
     setTimeout(() => {
       notification.on = false;
@@ -15,7 +16,13 @@ class Notification extends Component {
     }, 5000);
   }
   render() {
-    const { title, message, type } = this.prop.notification;
+    const { notification } = this.props;
+    let { title, message, type } = this.props;
+    if (notification) {
+      title = notification.title;
+      message = notification.message;
+      type = notification.type;
+    }
 
     return (
       <div className={"notification " + type}>
