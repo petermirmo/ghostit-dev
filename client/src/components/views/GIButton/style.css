@@ -37,6 +37,19 @@
   color: var(--white-theme-color);
 }
 
+.transparent-button-important {
+  color: var(--primary-font-color);
+  font-family: var(--silly-font);
+}
+.transparent-button-important.home {
+  color: var(--white-theme-color);
+}
+.transparent-button-important.active {
+  color: var(--blue-font-color);
+}
+.transparent-button-important.home.active {
+  color: var(--white-theme-color);
+}
 button.purple {
   color: var(--seven-purple-color);
   background-color: var(--one-half-purple-color);

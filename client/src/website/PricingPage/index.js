@@ -1,25 +1,27 @@
 import React, { Component } from "react";
 
+import GIContainer from "../../components/containers/GIContainer";
+
 import Page from "../../components/containers/Page";
 
 class PricingPage extends Component {
   render() {
     return (
       <Page
-        className="flex column vc website-page"
+        className="column align-center website-page"
         title="Pricing"
         description="Have questions? Give us a call: 250-415-3093"
         keywords="ghostit, pricing"
       >
         <h1 className="tac">Ghostit Pricing</h1>
-        <h4 className="tac mx16 ">
+        <h4 className="tac mx16">
           Have questions? Give us a call: 250-415-3093
         </h4>
 
-        <div className="wrapping-container">
-          <div className="container-box small common-shadow pa32 ma32 br4">
-            <div className="common-container colorful-bottom-border hc vc pa16 mb16">
-              <h2 className="important-text mb4">Professional</h2>
+        <GIContainer className="x-wrap mt16">
+          <div className="container-box small common-shadow pa32 mb32 mx16 br4">
+            <div className="common-container colorful-bottom-border hc vc mb16">
+              <h2 className="tac mb4">Professional</h2>
               <h6 className="tac">$40 / month</h6>
             </div>
             <p className="pt8">
@@ -31,9 +33,9 @@ class PricingPage extends Component {
             <p className="pt8">Real-time multi-user</p>
           </div>
 
-          <div className="container-box small common-shadow pa32 ma32 br4">
-            <div className="common-container colorful-bottom-border orange hc vc pa16 mb16">
-              <h2 className="important-text mb4">
+          <div className="container-box small common-shadow pa32 mb32 mx16 br4">
+            <div className="common-container colorful-bottom-border orange hc vc mb16">
+              <h2 className="tac mb4">
                 Agency
                 <br />
               </h2>
@@ -44,15 +46,15 @@ class PricingPage extends Component {
             <p className="pt8">Email newsletters</p>
             <p className="pt8">Social media posts</p>
             <p className="pt8">Keyword research</p>
-            <p className="pt8">Competitive analysis</p>{" "}
+            <p className="pt8">Competitive analysis</p>
           </div>
 
-          <div className="container-box small common-shadow pa32 ma32 br4">
+          <div className="container-box small common-shadow pa32 mb32 mx16 br4">
             <div
-              className="common-container colorful-bottom-border hc vc pa16 mb16"
+              className="common-container colorful-bottom-border hc vc mb16"
               style={{ borderColor: "var(--five-purple-color)" }}
             >
-              <h2 className="important-text mb4">Enterprise</h2>
+              <h2 className="tac mb4">Enterprise</h2>
               <h6 className="tac">Contact us for pricing </h6>
             </div>
             <p className="pt8">Custom reporting</p>
@@ -66,7 +68,7 @@ class PricingPage extends Component {
             <p className="pt8">Social scheduling</p>
             <p className="pt8">Task manager</p>
           </div>
-        </div>
+        </GIContainer>
       </Page>
     );
   }

@@ -20,7 +20,3 @@
   align-items: center;
   background-color: var(--white-theme-color);
 }
-
-.transparent-button-important {
-  padding: 8px !important;
-}

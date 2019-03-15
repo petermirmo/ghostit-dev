@@ -10,6 +10,15 @@
   overflow: hidden;
 }
 
+.tac {
+  text-align: center;
+}
+.tar {
+  text-align: right;
+}
+.tal {
+  text-align: left;
+}
 h1 {
   color: var(--blue-font-color);
   margin: 0;

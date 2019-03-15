@@ -77,7 +77,6 @@
   --twenty-font-size: 20px;
   --twenty-two-font-size: 22px;
   --twenty-four-font-size: 24px;
-  --thirty-font-size: 30px;
   --thirty-two-font-size: 32px;
   --forty-font-size: 40px;
 
@@ -216,15 +215,6 @@
 }
 .colorful-bottom-border.orange {
   border-color: var(--five-orange-color);
-}
-.important-text {
-  font-size: var(--twenty-four-font-size);
-  font-weight: bold;
-  text-align: center;
-}
-.very-important-text {
-  border-bottom: 1px solid var(--five-blue-color);
-  color: var(--five-blue-color);
 }
 
 .fixed {
@@ -655,15 +645,6 @@
 .flex .end {
   justify-content: flex-end;
 }
-.tac {
-  text-align: center;
-}
-.tar {
-  text-align: right;
-}
-.tal {
-  text-align: left;
-}
 .border-box {
   box-sizing: border-box;
 }
@@ -673,23 +654,6 @@
 }
 .relative {
   position: relative;
-}
-.top-right-over-div {
-  position: absolute;
-  top: 0;
-  left: 100%;
-
-  display: none;
-  flex-direction: column;
-
-  padding-right: 16px;
-  padding-left: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  background-color: var(--light-grey-theme-color);
-}
-.top-right-over-div:hover {
-  display: flex;
 }
 .absolute-bottom-container {
   position: absolute;
@@ -759,7 +723,6 @@
 .common-transition {
   transition: all 0.2s ease;
 }
-
 .pa64 {
   padding: 64px;
 }
@@ -1342,19 +1305,6 @@ div {
   font-size: var(--eighteen-font-size);
 }
 
-.transparent-button-important {
-  color: var(--primary-font-color);
-  font-family: var(--silly-font);
-}
-.transparent-button-important.home {
-  color: var(--white-theme-color);
-}
-.transparent-button-important.active {
-  color: var(--blue-font-color);
-}
-.transparent-button-important.home.active {
-  color: var(--white-theme-color);
-}
 .bold-hover:hover {
   font-weight: bold;
 }

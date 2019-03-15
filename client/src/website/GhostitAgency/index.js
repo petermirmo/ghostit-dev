@@ -27,7 +27,7 @@ class GhostitAgency extends Component {
         title="Agency"
         description="Increase the amount of qualified traffic to your site."
         keywords="content, ghostit, marketing, agency"
-        className="website-page mx64"
+        className="website-page align-center"
       >
         <GIText type="h1" text="Content Services" className="tac" />
         <GIText
@@ -65,7 +65,7 @@ class GhostitAgency extends Component {
           })}
         />
         <GIContainer
-          className="py32 px64 mb32 mt16 br4"
+          className="py32 px64 mt16 mx64 mb32 br4"
           style={{ backgroundColor: "var(--seven-blue-color)" }}
         >
           <GIText
@@ -87,7 +87,7 @@ class GhostitAgency extends Component {
             type="h1"
             className="tac"
           />
-          <GIContainer className="x-wrap px32">
+          <GIContainer className="x-wrap px32 mt32">
             <GIContainer className="fill-flex">
               <AgencyForm />
             </GIContainer>

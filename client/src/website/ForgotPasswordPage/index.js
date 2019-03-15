@@ -42,7 +42,7 @@ class ForgotPasswordPage extends Component {
       >
         <GIText className="pb16 tac" text="Forgot Password" type="h1" />
 
-        <GIContainer className="basic-box common-shadow pa32 br16 margin-hc">
+        <GIContainer className="basic-box common-shadow pa32 br16">
           <form
             className="common-container"
             onSubmit={event => event.preventDefault()}

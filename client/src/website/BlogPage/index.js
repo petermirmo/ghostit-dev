@@ -14,6 +14,7 @@ import GIContainer from "../../components/containers/GIContainer";
 import NavigationLayout from "../../components/navigations/NavigationLayout";
 
 import GIText from "../../components/views/GIText";
+import GIButton from "../../components/views/GIButton";
 
 import { isAdmin, getTextFromHtmlTag, getGhostitBlogs } from "./util";
 
@@ -52,7 +53,7 @@ class BlogPage extends Component {
 
     return (
       <Page
-        className="simple-container mx32 website-page"
+        className="simple-container website-page"
         title="Blog"
         description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
         keywords="ghostit, blog"
@@ -60,17 +61,15 @@ class BlogPage extends Component {
         <GIText className="tac pb32" text="Ghostit Blog" type="h1" />
 
         <NavigationLayout
-          className="x-wrap"
+          className="x-wrap full-center"
           data={categories.map((category, index) => (
-            <button
+            <GIButton
               className="transparent-button mx8 hover-blue"
               key={index}
               onClick={() => this.setState({ activeBlogCategory: index })}
-            >
-              {category}
-            </button>
+              text={category}
+            />
           ))}
-          className="full-center"
         />
         <GIContainer className="column fill-parent">
           {loading && (
