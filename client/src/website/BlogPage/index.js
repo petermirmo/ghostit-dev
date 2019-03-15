@@ -11,7 +11,7 @@ import ViewWebsiteBlog from "../../components/ghostitBlog/ViewGhostitBlog";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
-import NavigationLayout from "../../components/NavigationLayout";
+import NavigationLayout from "../../components/navigations/NavigationLayout";
 import GIText from "../../components/views/GIText";
 
 import { isAdmin, getTextFromHtmlTag, getGhostitBlogs } from "./util";

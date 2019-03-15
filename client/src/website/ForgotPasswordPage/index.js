@@ -47,7 +47,7 @@ class ForgotPasswordPage extends Component {
             className="common-container"
             onSubmit={event => event.preventDefault()}
           >
-            <input
+            <GIInput
               className="regular-input mb8"
               value={email}
               onChange={event => this.handleChange("email", event.target.value)}
@@ -56,12 +56,11 @@ class ForgotPasswordPage extends Component {
               placeholder="Email"
               required
             />
-            <button
+            <GIButton
               className="regular-button mb8"
               onClick={() => sendResetEmail(email, this.handleChange)}
-            >
-              Send Password Reset
-            </button>
+              text="Send Password Reset"
+            />
 
             <Link to="/sign-in">
               <GIContainer className="full-center">

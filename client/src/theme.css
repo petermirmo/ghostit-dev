@@ -259,9 +259,6 @@
   font-weight: bold;
   text-align: center;
 }
-.unimportant-text {
-  color: var(--secondary-font-color);
-}
 .very-important-text {
   border-bottom: 1px solid var(--five-blue-color);
   color: var(--five-blue-color);

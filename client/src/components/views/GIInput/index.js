@@ -11,6 +11,7 @@ class GIInput extends Component {
       name,
       onChange,
       placeholder,
+      required,
       tabIndex,
       type,
       value
@@ -23,6 +24,7 @@ class GIInput extends Component {
         name={name}
         onChange={onChange}
         placeholder={placeholder}
+        required={required}
         tabIndex={tabIndex}
         type={type}
         value={value}

@@ -1,0 +1,17 @@
+.test {
+  stroke-width: 0.5;
+  stroke: var(--seven-blue-color);
+}
+.branch-point {
+  fill: var(--seven-blue-color);
+  r: 2;
+}
+.branch-point.large {
+  r: 3;
+}
+
+.test6 {
+  height: 100px;
+  width: 100px;
+  background-color: yellow;
+}

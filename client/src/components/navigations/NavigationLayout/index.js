@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import GIContainer from "../containers/GIContainer";
+import GIContainer from "../../containers/GIContainer";
 
 class NavigationLayout extends Component {
   state = {

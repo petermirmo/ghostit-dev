@@ -7,7 +7,9 @@ import AgencyCall from "../../svgs/AgencyCall";
 
 import GIText from "../../components/views/GIText";
 import PictureTextDescription from "../../components/PictureTextDescription";
-import NavigationLayout from "../../components/NavigationLayout";
+import SvgBranches from "../../components/SvgBranches";
+
+import NavigationLayout from "../../components/navigations/NavigationLayout";
 
 import AgencyForm from "../../components/forms/AgencyForm";
 
@@ -70,6 +72,7 @@ class GhostitAgency extends Component {
             type="h3"
             className="tac mb32"
           />
+          <SvgBranches branches={3} />
           <GIText
             text="Book a call to go over the details of your content marketing requirements."
             type="h1"

@@ -13,8 +13,6 @@ import HomeWorkflowSVG from "../../svgs/HomeWorkflowSVG";
 
 import PictureTextDescription from "../../components/PictureTextDescription";
 
-import "./style.css";
-
 class HomePage extends Component {
   state = {
     blendHeaderWithHomePage: true
