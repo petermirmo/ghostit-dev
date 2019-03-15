@@ -1,9 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-@import url(https://fonts.googleapis.com/css?family=Poppins);
-@import url(https://fonts.googleapis.com/css?family=Varela);
-@import url(https://fonts.googleapis.com/css?family=Lato);
-@import url(https://fonts.googleapis.com/css?family=Butterfly+Kids);
 @import url(https://fonts.googleapis.com/css?family=Varela+Round);
 
 :root {
@@ -84,8 +79,6 @@
   --twenty-four-font-size: 24px;
   --thirty-font-size: 30px;
   --thirty-two-font-size: 32px;
-  --forty-eight-font-size: 48px;
-  --sixty-four-font-size: 64px;
   --forty-font-size: 40px;
 
   --silly-font: "Varela Round";
@@ -157,36 +150,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 500px;
-}
-.background-container {
-  flex: 1;
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-.container-box {
-  flex: 1;
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.container-box.tiny {
-  min-width: 200px;
-}
-.container-box.small {
-  min-width: 300px;
-  max-width: 400px;
-}
-
-.container-box.medium {
-  min-width: 400px;
   max-width: 500px;
 }
 .common-container {
@@ -264,35 +227,6 @@
   color: var(--five-blue-color);
 }
 
-.big-h1 {
-  font-size: var(--forty-font-size);
-}
-.h1-like {
-  font-size: var(--twenty-four-font-size);
-  font-family: var(--silly-font);
-  color: var(--blue-font-color);
-}
-
-.h2-like {
-  font-size: var(--twenty-font-size);
-  color: var(--blue-font-color);
-}
-.h3-like {
-  font-size: var(--twenty-font-size);
-}
-.mx20vw {
-  margin-right: 20vw;
-  margin-left: 20vw;
-}
-.simple-button {
-  border: 2px solid var(--divider-theme-color);
-  color: var(--secondary-font-color);
-  cursor: pointer;
-  text-align: center;
-}
-.simple-button:hover {
-  color: var(--primary-font-color);
-}
 .fixed {
   position: fixed;
 }
@@ -308,9 +242,6 @@
 
 .bold {
   font-weight: 700;
-}
-.silly-font {
-  font-family: var(--silly-font);
 }
 .light-scrollbar::-webkit-scrollbar {
   width: 12px;
@@ -541,9 +472,6 @@
 
 .hover-blue:hover {
   color: var(--blue-font-color);
-}
-.no-underline {
-  text-decoration: none;
 }
 
 .copy,

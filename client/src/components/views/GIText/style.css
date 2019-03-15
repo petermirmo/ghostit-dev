@@ -4,6 +4,11 @@
 .clickable {
   cursor: pointer;
 }
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 
 h1 {
   color: var(--blue-font-color);

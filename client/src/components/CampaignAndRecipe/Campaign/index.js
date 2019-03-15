@@ -1081,9 +1081,9 @@ class Campaign extends Component {
         />
         {!firstPostChosen && (
           <div className="column-fill-container">
-            <p className="tac my16 h3-like">
+            <h4 className="tac my16">
               How do you want to start off your campaign?
-            </p>
+            </h4>
             <PostTypePicker
               newPost={socialType => {
                 this.setState(

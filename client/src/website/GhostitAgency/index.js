@@ -36,6 +36,7 @@ class GhostitAgency extends Component {
           className="tac mb32"
         />
         <NavigationLayout
+          className="x-wrap full-center"
           data={categories.map((category, index) => {
             let active = false;
             if (index === activeAgencyComponent) active = true;
@@ -43,14 +44,22 @@ class GhostitAgency extends Component {
             return (
               <GIContainer
                 onClick={() => this.setState({ activeAgencyComponent: index })}
-                className="column mx16 same-size-flex-items"
+                className="column mx16 container-box tinier"
               >
-                <GIContainer className="column fill-flex">
+                <GIContainer>
                   {active && category.active}
                   {!active && category.notActive}
                 </GIContainer>
-                <GIText type="h3" text={category.title1} className="tac" />
-                <GIText type="h3" text={category.title2} className="tac" />
+                <GIText
+                  type="h3"
+                  text={category.title1}
+                  className="tac ellipsis"
+                />
+                <GIText
+                  type="h3"
+                  text={category.title2}
+                  className="tac ellipsis"
+                />
               </GIContainer>
             );
           })}
@@ -72,7 +81,7 @@ class GhostitAgency extends Component {
             type="h3"
             className="tac mb32"
           />
-          <SvgBranches branches={3} />
+          <SvgBranches numberOfBranches={3} />
           <GIText
             text="Book a call to go over the details of your content marketing requirements."
             type="h1"

@@ -12,6 +12,7 @@ import ViewWebsiteBlog from "../../components/ghostitBlog/ViewGhostitBlog";
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 import NavigationLayout from "../../components/navigations/NavigationLayout";
+
 import GIText from "../../components/views/GIText";
 
 import { isAdmin, getTextFromHtmlTag, getGhostitBlogs } from "./util";
@@ -78,20 +79,20 @@ class BlogPage extends Component {
             </GIContainer>
           )}
           {!loading && (
-            <GIContainer className="x-wrap fill-parent">
+            <GIContainer className="x-wrap fill-parent justify-center">
               {ghostitBlogs.map((ghostitBlog, index) => {
                 if (
                   activeBlogCategory === ghostitBlog.category ||
                   !activeBlogCategory
                 )
                   return (
-                    <div className="background-container" key={index}>
+                    <GIContainer key={index}>
                       <Link
                         to={"blog/" + ghostitBlog.url}
-                        className="container-box small ma32 common-shadow br4 button no-underline"
+                        className="container-box small ma32 common-shadow br4 button"
                       >
                         <div
-                          className="preview-blog-cover width100"
+                          className="image-cover width100"
                           style={
                             ghostitBlog.images[0]
                               ? {
@@ -103,7 +104,7 @@ class BlogPage extends Component {
                         />
                         {ghostitBlog.contentArray[0] && (
                           <div className="common-container py8 px16">
-                            <h3 className="silly-font tac">
+                            <h3 className="tac">
                               {getTextFromHtmlTag(
                                 ghostitBlog.contentArray[0].html
                               )}
@@ -119,7 +120,7 @@ class BlogPage extends Component {
                           />
                         </Link>
                       )}
-                    </div>
+                    </GIContainer>
                   );
               })}
             </GIContainer>

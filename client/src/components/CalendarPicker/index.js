@@ -52,7 +52,7 @@ class CalendarPicker extends Component {
     }
 
     return (
-      <div className="calendars-container flex relative button silly-font">
+      <div className="calendars-container flex relative button">
         <div className="dropdown-title py8">
           {calendars && calendars.length >= 0
             ? activeCalendarIndex >= 0
