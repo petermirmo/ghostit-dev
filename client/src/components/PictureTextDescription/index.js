@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import GIContainer from "../containers/GIContainer";
 import GIText from "../views/GIText";
 
+import { mobileAndTabletcheck } from "../../componentFunctions";
+
 import "./style.css";
 
 class PictureTextDescription extends Component {
@@ -10,24 +12,23 @@ class PictureTextDescription extends Component {
     const { title, description, svg, size, direction } = this.props;
 
     let className = "x-wrap full-center mt16";
-    let paddingLeft = "0%";
 
     let textDirectionClassName = "tar";
 
     if (size === "large") className += " half-screen";
     if (direction === "left") {
       className += " reverse";
-      paddingLeft = "0%";
       textDirectionClassName = "tal";
     }
+    if (mobileAndTabletcheck()) textDirectionClassName = "tac";
 
     return (
       <GIContainer className={className}>
         <GIContainer
-          className="column full-center fill-parent"
+          className="column full-center container-box tiny"
           style={{ width: "40%" }}
         >
-          <GIContainer className="column" style={{ paddingLeft, width: "60%" }}>
+          <GIContainer className="column" style={{ width: "60%" }}>
             <GIText text={title} type="h1" className={textDirectionClassName} />
             <GIText
               className={textDirectionClassName}
@@ -36,10 +37,7 @@ class PictureTextDescription extends Component {
             />
           </GIContainer>
         </GIContainer>
-        <GIContainer
-          className="full-center fill-parent"
-          style={{ width: "60%" }}
-        >
+        <GIContainer className="full-center" style={{ width: "60%" }}>
           <img src={`src/svgs/${svg}.svg`} className="fill-parent" />
         </GIContainer>
       </GIContainer>

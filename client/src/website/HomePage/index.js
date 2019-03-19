@@ -7,9 +7,11 @@ import Section5 from "./Section5";
 
 import PictureTextDescription from "../../components/PictureTextDescription";
 
+import { mobileAndTabletcheck } from "../../componentFunctions";
+
 class HomePage extends Component {
   state = {
-    blendHeaderWithHomePage: true
+    blendHeaderWithHomePage: !mobileAndTabletcheck()
   };
   componentDidMount() {
     this._ismounted = true;
@@ -22,7 +24,10 @@ class HomePage extends Component {
         document.body.scrollTop
       )
         this.changeState("blendHeaderWithHomePage", false);
-      else this.changeState("blendHeaderWithHomePage", true);
+      else {
+        if (!mobileAndTabletcheck())
+          this.changeState("blendHeaderWithHomePage", true);
+      }
     };
   }
   componentWillUnmount() {
@@ -42,7 +47,7 @@ class HomePage extends Component {
         blendWithHomePage={blendHeaderWithHomePage}
         className="column"
       >
-        <GIContainer className="column full-center fill-parent">
+        <GIContainer className="column full-screen full-center">
           <img
             src="src/svgs/home-main-background.svg"
             style={{
@@ -57,7 +62,7 @@ class HomePage extends Component {
             text="Create. Customize. Convert."
             type="h2"
             style={{ color: "var(--white-theme-color)" }}
-            className="mt64 mb8 tac"
+            className="mt32 mb8 tac"
           />
           <GIText
             text="Organize your marketing process with an all-in-one solution for unified content promotion."

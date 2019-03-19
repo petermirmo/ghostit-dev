@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 class Section5 extends Component {
   render() {
     return (
-      <div className="common-container py64 my64">
+      <div className="common-container py64">
         <h1 className="tac mx16">Here's what our customers are saying</h1>
         <div className="wrapping-container-full-center">
           <div className="team-member-image-container round mx32">
