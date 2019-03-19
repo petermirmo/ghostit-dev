@@ -5,12 +5,6 @@ import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
 import Section5 from "./Section5";
 
-import HomeMainSVG from "../../svgs/HomeMainSVG";
-import HomeAISVG from "../../svgs/HomeAISVG";
-import HomeInstructionsSVG from "../../svgs/HomeInstructionsSVG";
-import HomeScheduleSVG from "../../svgs/HomeScheduleSVG";
-import HomeWorkflowSVG from "../../svgs/HomeWorkflowSVG";
-
 import PictureTextDescription from "../../components/PictureTextDescription";
 
 class HomePage extends Component {
@@ -48,7 +42,35 @@ class HomePage extends Component {
         blendWithHomePage={blendHeaderWithHomePage}
         className="column"
       >
-        <HomeMainSVG />
+        <GIContainer className="column full-center fill-parent">
+          <img
+            src="src/svgs/home-main-background.svg"
+            style={{
+              position: "absolute",
+              top: "0",
+              height: "98%",
+              width: "100%",
+              zIndex: "-1"
+            }}
+          />
+          <GIText
+            text="Create. Customize. Convert."
+            type="h2"
+            style={{ color: "var(--white-theme-color)" }}
+            className="mt64 mb8 tac"
+          />
+          <GIText
+            text="Organize your marketing process with an all-in-one solution for unified content promotion."
+            type="h6"
+            style={{ color: "var(--white-theme-color)" }}
+            className="mb32 tac"
+          />
+          <img
+            src="src/svgs/home-main.svg"
+            className="fill-parent"
+            style={{ width: "60%", minWidth: "250px", height: "auto" }}
+          />
+        </GIContainer>
         <GIContainer className="column floating-box">
           <GIText
             text="Improve Your Traffic and Conversions"
@@ -62,27 +84,27 @@ class HomePage extends Component {
           />
         </GIContainer>
         <PictureTextDescription
-          svg={<HomeAISVG />}
+          svg="home-ai"
           title="Machine Learning"
           description="Use the power of artificial intelligence to target the right marketing channels."
           size="large"
           direction="left"
         />
         <PictureTextDescription
-          svg={<HomeWorkflowSVG />}
+          svg="home-workflow"
           title="Custom Workflows"
           description="Map your marketing campaign from scratch or use pre-built templates."
           size="large"
         />
         <PictureTextDescription
-          svg={<HomeInstructionsSVG />}
+          svg="home-instructions"
           title="Post Instructions"
           description="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
           size="large"
           direction="left"
         />
         <PictureTextDescription
-          svg={<HomeScheduleSVG />}
+          svg="home-schedule"
           title="Social Scheduling"
           description="Sync all your social sharing accounts and post directly from our platform."
           size="large"

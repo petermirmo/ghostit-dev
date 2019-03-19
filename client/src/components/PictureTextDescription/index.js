@@ -40,7 +40,7 @@ class PictureTextDescription extends Component {
           className="full-center fill-parent"
           style={{ width: "60%" }}
         >
-          {svg}
+          <img src={`src/svgs/${svg}.svg`} className="fill-parent" />
         </GIContainer>
       </GIContainer>
     );

@@ -23,7 +23,7 @@ import HomePage from "../website/HomePage";
 import PricingPage from "../website/PricingPage";
 import TeamPage from "../website/TeamPage";
 import BlogPage from "../website/BlogPage";
-import GhostitAgency from "../website/GhostitAgency";
+import GhostitAgencyPage from "../website/GhostitAgencyPage";
 import LoginPage from "../website/LoginPage";
 import RegisterPage from "../website/RegisterPage";
 import ForgotPasswordPage from "../website/ForgotPasswordPage";
@@ -112,7 +112,7 @@ class Routes extends Component {
           <Route path="/pricing/" component={PricingPage} />
           <Route path="/team/" component={TeamPage} />
           <Route path="/blog/" component={BlogPage} exact />
-          <Route path="/agency/" component={GhostitAgency} />
+          <Route path="/agency/" component={GhostitAgencyPage} />
           <Route path="/sign-in/" component={LoginPage} />
           <Route path="/sign-up/" component={RegisterPage} />
           <Route path="/forgot-password/" component={ForgotPasswordPage} />
