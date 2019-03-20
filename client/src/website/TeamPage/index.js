@@ -8,6 +8,8 @@ import { teamMembers } from "./teamMembers";
 
 import { isElementInViewport, correctOverflow } from "./util";
 
+import { mobileAndTabletcheck } from "../../componentFunctions";
+
 import "./style.css";
 
 class TeamPage extends Component {
@@ -48,23 +50,25 @@ class TeamPage extends Component {
                   text={obj.name}
                   type="h6"
                 />
-                <div
-                  className="team-member-dropdown-container br8 pa32"
-                  style={{ backgroundColor: obj.color }}
-                  id={id}
-                >
-                  <GIText
-                    className="team-member-name py8"
-                    text={obj.name}
-                    type="h6"
-                  />
+                {!mobileAndTabletcheck() && (
+                  <div
+                    className="team-member-dropdown-container br8 pa32"
+                    style={{ backgroundColor: obj.color }}
+                    id={id}
+                  >
+                    <GIText
+                      className="team-member-name py8"
+                      text={obj.name}
+                      type="h6"
+                    />
 
-                  <GIText
-                    className="team-member-description"
-                    text={obj.description}
-                    type="p"
-                  />
-                </div>
+                    <GIText
+                      className="team-member-description"
+                      text={obj.description}
+                      type="p"
+                    />
+                  </div>
+                )}
               </div>
             );
           })}
