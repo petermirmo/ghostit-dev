@@ -92,27 +92,23 @@ class HomePage extends Component {
           svg="home-ai"
           title="Machine Learning"
           description="Use the power of artificial intelligence to target the right marketing channels."
-          size="large"
           direction="left"
         />
         <PictureTextDescription
           svg="home-workflow"
           title="Custom Workflows"
           description="Map your marketing campaign from scratch or use pre-built templates."
-          size="large"
         />
         <PictureTextDescription
           svg="home-instructions"
           title="Post Instructions"
           description="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
-          size="large"
           direction="left"
         />
         <PictureTextDescription
           svg="home-schedule"
           title="Social Scheduling"
           description="Sync all your social sharing accounts and post directly from our platform."
-          size="large"
         />
         <Section5 />
       </Page>

@@ -9,13 +9,12 @@ import "./style.css";
 
 class PictureTextDescription extends Component {
   render() {
-    const { title, description, svg, size, direction } = this.props;
+    const { title, description, svg, direction } = this.props;
 
     let className = "x-wrap full-center mt16";
 
     let textDirectionClassName = "tar";
 
-    if (size === "large") className += " half-screen";
     if (direction === "left") {
       className += " reverse";
       textDirectionClassName = "tal";
@@ -24,11 +23,8 @@ class PictureTextDescription extends Component {
 
     return (
       <GIContainer className={className}>
-        <GIContainer
-          className="column full-center container-box tiny"
-          style={{ width: "40%" }}
-        >
-          <GIContainer className="column" style={{ width: "60%" }}>
+        <GIContainer className="column full-center" style={{ flex: 1 }}>
+          <GIContainer className="column container-box small">
             <GIText text={title} type="h1" className={textDirectionClassName} />
             <GIText
               className={textDirectionClassName}
@@ -37,7 +33,10 @@ class PictureTextDescription extends Component {
             />
           </GIContainer>
         </GIContainer>
-        <GIContainer className="full-center y-fill" style={{ width: "60%" }}>
+        <GIContainer
+          className="full-center y-fill container-box large"
+          style={{ flex: 0.8 }}
+        >
           <img src={`src/svgs/${svg}.svg`} className="fill-parent" />
         </GIContainer>
       </GIContainer>

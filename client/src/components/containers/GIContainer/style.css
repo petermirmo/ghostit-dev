@@ -35,6 +35,13 @@
   justify-content: center;
   align-items: center;
 }
+
+.align-start {
+  align-items: flex-start;
+}
+.justify-start {
+  justify-content: flex-start;
+}
 .justify-center {
   justify-content: center;
 }
@@ -73,6 +80,10 @@
   min-width: 400px;
   max-width: 500px;
 }
+.container-box.large {
+  min-width: 200px;
+  width: 50vw;
+}
 
 .floating-box {
   margin-top: 32px;
@@ -89,6 +100,10 @@
 
 .fill-flex {
   flex: 1;
+}
+.test {
+  max-height: 100%;
+  max-width: 100%;
 }
 .test-mode {
   background-color: red;
