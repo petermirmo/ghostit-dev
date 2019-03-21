@@ -157,7 +157,7 @@ class HeaderSideBar extends Component {
               </div>
             </Link>
             {this.isActive("content") && (
-              <div className="container-box ml32">
+              <div className="container-box column ml32">
                 <button
                   className="bold-hover"
                   onClick={() => {

@@ -26,7 +26,7 @@ class WebsiteFooter extends Component {
         style={{ backgroundColor: "var(--seven-blue-color)" }}
       >
         <GIContainer className="x-wrap px32">
-          <div className="container-box tiny my16">
+          <div className="container-box column tiny my16">
             <GIText className="white mb16" type="h6" text="Resources" />
             <Link to="/home">
               <GIText
@@ -65,7 +65,7 @@ class WebsiteFooter extends Component {
               />
             </Link>
           </div>
-          <div className="container-box tiny my16">
+          <div className="container-box column tiny my16">
             <GIText
               className="white mb16"
               type="h6"
@@ -92,12 +92,12 @@ class WebsiteFooter extends Component {
               />
             </Link>
           </div>
-          <div className="container-box tiny my16">
+          <div className="container-box column tiny my16">
             <GIText className="white mb16" type="h6" text="Contact Us" />
             <GIText className="white my4" type="h6" text="250-415-3093" />
             <GIText className="white my4" type="h6" text="hello@ghostit.co" />
           </div>
-          <div className="container-box tiny my16">
+          <div className="container-box column tiny my16">
             <GIText
               className="white mb16"
               type="h6"

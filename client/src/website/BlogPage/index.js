@@ -88,7 +88,7 @@ class BlogPage extends Component {
                     <GIContainer key={index}>
                       <Link
                         to={"blog/" + ghostitBlog.url}
-                        className="container-box small ma32 common-shadow br4 button"
+                        className="container-box column small ma32 common-shadow br4 button"
                       >
                         <div
                           className="image-cover width100"

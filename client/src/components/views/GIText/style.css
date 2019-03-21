@@ -19,6 +19,9 @@
 .tal {
   text-align: left;
 }
+.taj {
+  text-align: justify;
+}
 h1 {
   color: var(--blue-font-color);
   margin: 0;

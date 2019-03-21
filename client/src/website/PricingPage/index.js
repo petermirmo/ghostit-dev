@@ -13,13 +13,13 @@ class PricingPage extends Component {
         description="Have questions? Give us a call: 250-415-3093"
         keywords="ghostit, pricing"
       >
-        <h1 className="tac">Ghostit Pricing</h1>
-        <h4 className="tac mx16">
+        <h1 className="tac mb8">Ghostit Pricing</h1>
+        <h4 className="tac mx16 mb16">
           Have questions? Give us a call: 250-415-3093
         </h4>
 
         <GIContainer className="x-wrap mt16">
-          <div className="container-box small common-shadow pa32 mb32 mx16 br4">
+          <div className="container-box column small common-shadow pa32 mb32 mx16 br4">
             <div className="common-container colorful-bottom-border hc vc mb16">
               <h2 className="tac mb4">Professional</h2>
               <h6 className="tac">$40 / month</h6>
@@ -33,7 +33,7 @@ class PricingPage extends Component {
             <p className="pt8">Real-time multi-user</p>
           </div>
 
-          <div className="container-box small common-shadow pa32 mb32 mx16 br4">
+          <div className="container-box column small common-shadow pa32 mb32 mx16 br4">
             <div className="common-container colorful-bottom-border orange hc vc mb16">
               <h2 className="tac mb4">
                 Agency
@@ -49,7 +49,7 @@ class PricingPage extends Component {
             <p className="pt8">Competitive analysis</p>
           </div>
 
-          <div className="container-box small common-shadow pa32 mb32 mx16 br4">
+          <div className="container-box column small common-shadow pa32 mb32 mx16 br4">
             <div
               className="common-container colorful-bottom-border hc vc mb16"
               style={{ borderColor: "var(--five-purple-color)" }}

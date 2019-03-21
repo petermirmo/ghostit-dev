@@ -15,7 +15,7 @@ class Section5 extends Component {
             />
           </div>
 
-          <div className="container-box tiny py32 mx32">
+          <div className="container-box column tiny py32 mx32 fill-flex">
             <p>
               "Repeatedly running digital campaigns for multiple clients can get
               both cumbersome and at times confusing. Ghostit's platform lets me

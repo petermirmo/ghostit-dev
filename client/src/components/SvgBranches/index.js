@@ -1,25 +1,26 @@
 import React, { Component } from "react";
+import { SizeMe } from "react-sizeme";
 
 import GIContainer from "../containers/GIContainer";
 import "./style.css";
 
-const SVG_PADDING = 10;
-
-class SvgBranch extends Component {
-  getSvgBranches = numberOfBranches => {
-    const increment = 80 / numberOfBranches;
+class SvgBranches extends Component {
+  getSvgBranches = (numberOfBranches, svgPadding, svgX, svgY) => {
+    const increment = (svgY - 2 * svgPadding) / numberOfBranches;
     const svgBranches = [];
 
     for (let i = 0; i < numberOfBranches; i++) {
-      let y = (i + 0.5) * increment + SVG_PADDING;
-      if (i === 0) y = increment / 2 + SVG_PADDING;
+      let y = (i + 0.5) * increment + svgPadding;
+      if (i === 0) y = increment / 2 + svgPadding;
       svgBranches.push(
         <g key={i}>
           <path
             className="branch"
-            d={`M ${SVG_PADDING},${y} L ${100 - SVG_PADDING},${y}`}
+            d={`M ${svgPadding},${y} L ${svgX - svgPadding},${y}`}
           />
-          <circle cx={100 - SVG_PADDING} cy={y} className="branch-point" />
+          <circle cx={svgPadding} cy={y} className="branch-point" />
+
+          <circle cx={svgX - svgPadding} cy={y} className="branch-point" />
         </g>
       );
     }
@@ -27,31 +28,40 @@ class SvgBranch extends Component {
   };
   render() {
     const { numberOfBranches } = this.props;
-
     return (
-      <svg viewBox="0 0 100 100">
-        <circle
-          cx={SVG_PADDING}
-          cy={SVG_PADDING}
-          className="branch-point large"
-        />
+      <SizeMe monitorHeight>
+        {({ size }) => {
+          const svgX = size.width;
+          const svgY = size.height;
+          console.log(size);
+          const svgPadding = 0.2 * svgX;
+          return (
+            <svg viewBox={`0 0 ${svgX} ${svgY}`} className="fill-parent">
+              <circle
+                cx={svgPadding}
+                cy={svgPadding}
+                className="branch-point large"
+              />
 
-        <path
-          d={`M ${SVG_PADDING},${SVG_PADDING} L ${SVG_PADDING}, ${100 -
-            SVG_PADDING}`}
-          className="branch"
-        />
+              <path
+                d={`M ${svgPadding},${svgPadding} L ${svgPadding}, ${svgY -
+                  svgPadding}`}
+                className="branch"
+              />
 
-        {this.getSvgBranches(numberOfBranches)}
+              {this.getSvgBranches(numberOfBranches, svgPadding, svgX, svgY)}
 
-        <circle
-          cx={SVG_PADDING}
-          cy={`${100 - SVG_PADDING}`}
-          className="branch-point large"
-        />
-      </svg>
+              <circle
+                cx={svgPadding}
+                cy={`${svgY - svgPadding}`}
+                className="branch-point large"
+              />
+            </svg>
+          );
+        }}
+      </SizeMe>
     );
   }
 }
 
-export default SvgBranch;
+export default SvgBranches;

@@ -5,8 +5,6 @@ import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
 import Section5 from "./Section5";
 
-import PictureTextDescription from "../../components/PictureTextDescription";
-
 import { mobileAndTabletcheck } from "../../componentFunctions";
 
 class HomePage extends Component {
@@ -39,6 +37,7 @@ class HomePage extends Component {
 
   render() {
     const { blendHeaderWithHomePage } = this.state;
+
     return (
       <Page
         title="All-In-One Marketing Solution"
@@ -76,40 +75,125 @@ class HomePage extends Component {
             style={{ width: "60%", minWidth: "250px", height: "auto" }}
           />
         </GIContainer>
-        <GIContainer className="column floating-box">
-          <GIText
-            text="Improve Your Traffic and Conversions"
-            type="h1"
-            className="tac"
-          />
-          <GIText
-            text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
-            type="h6"
-            className="tac"
-          />
+        <GIContainer className="x-fill full-center my64">
+          <GIContainer className="container-box extra-large column">
+            <GIText
+              text="Improve Your Traffic and Conversions"
+              type="h1"
+              className="tac mb8"
+            />
+            <GIText
+              text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
+              type="h6"
+              className="tac"
+            />
+          </GIContainer>
         </GIContainer>
-        <PictureTextDescription
-          svg="home-ai"
-          title="Machine Learning"
-          description="Use the power of artificial intelligence to target the right marketing channels."
-          direction="left"
-        />
-        <PictureTextDescription
-          svg="home-workflow"
-          title="Custom Workflows"
-          description="Map your marketing campaign from scratch or use pre-built templates."
-        />
-        <PictureTextDescription
-          svg="home-instructions"
-          title="Post Instructions"
-          description="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
-          direction="left"
-        />
-        <PictureTextDescription
-          svg="home-schedule"
-          title="Social Scheduling"
-          description="Sync all your social sharing accounts and post directly from our platform."
-        />
+
+        <GIContainer className="x-wrap full-center mt16 reverse">
+          <GIContainer
+            className="column full-center container-box large"
+            style={{ flex: 1 }}
+          >
+            <GIContainer className="column container-box small mb8 mx16">
+              <GIText
+                text="Machine Learning"
+                type="h1"
+                className={`${mobileAndTabletcheck() ? "tac" : "tal"} mb8`}
+              />
+              <GIText
+                className={`${mobileAndTabletcheck() ? "tac" : "tal"}`}
+                text="Use the power of artificial intelligence to target the right marketing channels."
+                type="h6"
+              />
+            </GIContainer>
+          </GIContainer>
+          <GIContainer
+            className="full-center container-box small mx16"
+            style={{ flex: 0.8 }}
+          >
+            <img src="src/svgs/home-ai.svg" className="fill-parent" />
+          </GIContainer>
+        </GIContainer>
+
+        <GIContainer className="x-wrap full-center mt16">
+          <GIContainer
+            className="column full-center container-box large"
+            style={{ flex: 1 }}
+          >
+            <GIContainer className="column container-box small mb8 mx16">
+              <GIText
+                text="Custom Workflows"
+                type="h1"
+                className={`${mobileAndTabletcheck() ? "tac" : "tar"} mb8`}
+              />
+              <GIText
+                className={`${mobileAndTabletcheck() ? "tac" : "tar"}`}
+                text="Map your marketing campaign from scratch or use pre-built templates."
+                type="h6"
+              />
+            </GIContainer>
+          </GIContainer>
+          <GIContainer
+            className="full-center container-box small mx16"
+            style={{ flex: 0.8 }}
+          >
+            <img src="src/svgs/home-workflow.svg" className="fill-parent" />
+          </GIContainer>
+        </GIContainer>
+
+        <GIContainer className="x-wrap full-center mt16 reverse">
+          <GIContainer
+            className="column full-center container-box large"
+            style={{ flex: 1 }}
+          >
+            <GIContainer className="column container-box small mb8 mx16">
+              <GIText
+                text="Post Instructions"
+                type="h1"
+                className={`${mobileAndTabletcheck() ? "tac" : "tal"} mb8`}
+              />
+              <GIText
+                className={`${mobileAndTabletcheck() ? "tac" : "tal"}`}
+                text="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
+                type="h6"
+              />
+            </GIContainer>
+          </GIContainer>
+          <GIContainer
+            className="full-center container-box small mx16"
+            style={{ flex: 0.8 }}
+          >
+            <img src="src/svgs/home-instructions.svg" className="fill-parent" />
+          </GIContainer>
+        </GIContainer>
+
+        <GIContainer className="x-wrap full-center mt16">
+          <GIContainer
+            className="column full-center container-box large"
+            style={{ flex: 1 }}
+          >
+            <GIContainer className="column container-box small mb8 mx16">
+              <GIText
+                text="Social Scheduling"
+                type="h1"
+                className={`${mobileAndTabletcheck() ? "tac" : "tar"} mb8`}
+              />
+              <GIText
+                className={`${mobileAndTabletcheck() ? "tac" : "tar"}`}
+                text="Sync all your social sharing accounts and post directly from our platform."
+                type="h6"
+              />
+            </GIContainer>
+          </GIContainer>
+          <GIContainer
+            className="full-center container-box small mx16"
+            style={{ flex: 0.8 }}
+          >
+            <img src="src/svgs/home-schedule.svg" className="fill-parent" />
+          </GIContainer>
+        </GIContainer>
+
         <Section5 />
       </Page>
     );

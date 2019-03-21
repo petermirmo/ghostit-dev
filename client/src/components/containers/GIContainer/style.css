@@ -56,11 +56,9 @@
 }
 
 .container-box {
-  flex: 1;
   position: relative;
 
   display: flex;
-  flex-direction: column;
 
   box-sizing: border-box;
   overflow: hidden;
@@ -70,29 +68,26 @@
   max-width: 150px;
 }
 .container-box.tiny {
-  min-width: 200px;
+  min-width: 250px;
 }
 .container-box.small {
-  min-width: 200px;
+  min-width: 250px;
   width: 25vw;
 }
 .container-box.medium {
-  min-width: 400px;
-  max-width: 500px;
+  min-width: 250px;
+  width: 35vw;
+  flex-basis: auto;
 }
 .container-box.large {
-  min-width: 200px;
+  min-width: 250px;
   width: 50vw;
 }
-
-.floating-box {
-  margin-top: 32px;
-  margin-right: 20%;
-  margin-bottom: 32px;
-  margin-left: 20%;
-
-  min-width: 200px;
+.container-box.extra-large {
+  min-width: 250px;
+  width: 75vw;
 }
+
 .same-size-flex-items {
   flex: 1 1 0;
   width: 0;
@@ -101,11 +96,17 @@
 .fill-flex {
   flex: 1;
 }
-.test {
-  max-height: 100%;
-  max-width: 100%;
+.reverse {
+  flex-direction: row-reverse;
 }
+
 .test-mode {
   background-color: red;
-  flex: 1;
+}
+
+.test2 {
+  background-color: blue;
+}
+.test3 {
+  background-color: green;
 }
