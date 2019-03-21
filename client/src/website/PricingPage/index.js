@@ -18,7 +18,7 @@ class PricingPage extends Component {
           Have questions? Give us a call: 250-415-3093
         </h4>
 
-        <GIContainer className="x-wrap mt16">
+        <GIContainer className="x-wrap justify-center mt16">
           <div className="container-box column small common-shadow pa32 mb32 mx16 br4">
             <div className="common-container colorful-bottom-border hc vc mb16">
               <h2 className="tac mb4">Professional</h2>
