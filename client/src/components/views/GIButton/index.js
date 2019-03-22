@@ -4,7 +4,15 @@ import "./style.css";
 
 class GIButton extends Component {
   render() {
-    const { text, onClick, className, style, name, type } = this.props;
+    const {
+      text,
+      onClick,
+      className,
+      style,
+      name,
+      type,
+      children
+    } = this.props;
     return (
       <button
         onClick={onClick}
@@ -14,6 +22,7 @@ class GIButton extends Component {
         name={name}
       >
         {text}
+        {children}
       </button>
     );
   }

@@ -10,14 +10,23 @@ import Loader from "../../components/notifications/Loader/";
 import "./style.css";
 
 class Profile extends Component {
+  state = {
+    fullName: "",
+    email: "",
+    website: "",
+    password: "",
+    newPassword: "",
+    saving: false
+  };
   constructor(props) {
     super(props);
     const { user } = props;
-    const { fullName, email, website } = user;
 
     if (props.user) {
+      const { fullName, email, website } = user;
+
       this.state = {
-        fullName: fullName,
+        fullName,
         email,
         website,
         password: "",
@@ -25,7 +34,7 @@ class Profile extends Component {
         saving: false
       };
     } else {
-      window.location.reload();
+      //window.location.reload();
     }
   }
   componentDidMount() {}

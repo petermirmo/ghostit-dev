@@ -30,6 +30,9 @@ class LoginPage extends Component {
       type: "danger"
     }
   };
+  componentDidMount() {
+    if (this.props.user) this.props.history.push("/home");
+  }
 
   handleChange = (index, value) => {
     this.setState({ [index]: value });
@@ -54,7 +57,7 @@ class LoginPage extends Component {
         .then(res => {
           const { error, user } = res.data;
 
-          if (success) {
+          if (!error) {
             ReactGA.event({
               category: "User",
               action: "Login"
@@ -84,8 +87,6 @@ class LoginPage extends Component {
   };
 
   render() {
-    //  if (this.props.user) this.props.history.push("/home");
-
     const { email, password, notification } = this.state;
 
     return (

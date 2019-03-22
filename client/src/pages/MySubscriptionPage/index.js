@@ -5,19 +5,21 @@ import moment from "moment-timezone";
 import { connect } from "react-redux";
 
 import Page from "../../components/containers/Page";
+import GIContainer from "../../components/containers/GIContainer";
+import GIText from "../../components/views/GIText";
+
+import LoaderSimpleCircle from "../../components/notifications/LoaderSimpleCircle";
 
 import "./style.css";
 
 class MySubscription extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      invoices: undefined
-    };
-    this.getInvoices();
-  }
+  state = {
+    invoices: undefined,
+    databaseConnection: false
+  };
   componentDidMount() {
     this._ismounted = true;
+    this.getInvoices();
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -25,8 +27,8 @@ class MySubscription extends Component {
   getInvoices = () => {
     axios.get("/api/user/invoices").then(res => {
       const { success, message, invoices } = res.data;
-      if (!success) alert(message);
-      else this.setState({ invoices });
+      if (success) this.setState({ invoices, databaseConnection: true });
+      else this.setState({ databaseConnection: true });
     });
   };
   createInvoiceRows = invoices => {
@@ -36,7 +38,10 @@ class MySubscription extends Component {
       let invoice = invoices[index];
 
       invoiceRowDivs.push(
-        <div className="invoice-container-row" key={index + "row"}>
+        <GIContainer
+          className="invoice-container-row x-fill py16 px32"
+          key={index}
+        >
           <div className="item">
             {new moment(invoice.date * 1000).format("LL")}
           </div>
@@ -54,7 +59,7 @@ class MySubscription extends Component {
           >
             Download Invoice
           </a>
-        </div>
+        </GIContainer>
       );
     }
 
@@ -62,12 +67,22 @@ class MySubscription extends Component {
   };
 
   render() {
-    const { invoices } = this.state;
-    let invoiceRowDivs;
+    const { invoices, databaseConnection } = this.state;
+    let invoiceRowDivs = [];
     if (invoices) invoiceRowDivs = this.createInvoiceRows(invoices);
     return (
       <Page title="Subscriptions">
-        <div className="invoice-container">{invoiceRowDivs}</div>
+        <GIContainer className="invoice-container x-fill full-center column mt64">
+          {invoiceRowDivs.length !== 0 && invoiceRowDivs}
+          {invoiceRowDivs.length === 0 && databaseConnection && (
+            <GIText
+              className="tac x-fill pa16"
+              text="You do not pay Ghostit through our online services therefore we cannot display your invoices here!"
+              type="h2"
+            />
+          )}
+          {!databaseConnection && <LoaderSimpleCircle />}
+        </GIContainer>
       </Page>
     );
   }

@@ -1,8 +1,4 @@
 .invoice-container {
-  display: grid;
-  grid-template-columns: auto;
-
-  margin-top: 60px;
 }
 
 .invoice-container-row {
@@ -12,8 +8,6 @@
 
   align-items: center;
   justify-content: space-between;
-
-  padding: 20px 50px 20px 50px;
 
   box-sizing: border-box;
 

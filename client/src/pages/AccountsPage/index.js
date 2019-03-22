@@ -17,6 +17,7 @@ import AddPageOrGroupModal from "./AddPagesOrGroupsModal";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 import GIContainer from "../../components/containers/GIContainer";
 import Page from "../../components/containers/Page";
+import GIButton from "../../components/views/GIButton";
 
 import {
   disconnectAccount,
@@ -77,19 +78,15 @@ class AccountsPage extends Component {
     const { socialType } = account;
 
     return (
-      <Page
-        className="connected-social-div flex"
-        key={index}
-        title="Social Accounts"
-      >
-        <GIContainer className="flex vc hc">
+      <GIContainer className="connected-social-div" key={index}>
+        <GIContainer className="full-center">
           <FontAwesomeIcon
             icon={getPostIcon(socialType)}
             size="2x"
             color={getPostColor(socialType)}
           />
         </GIContainer>
-        <GIContainer className="connected-social pl8">
+        <GIContainer className="connected-social column pl8">
           {getSocialDisplayName(account)}
           <br />
           <GIContainer className="connected-social-account">
@@ -97,7 +94,7 @@ class AccountsPage extends Component {
               account.accountType.slice(1)}
           </GIContainer>
         </GIContainer>
-        <GIContainer className="flex vc hc">
+        <GIContainer className="full-center">
           <FontAwesomeIcon
             icon={faTrash}
             onClick={event =>
@@ -106,7 +103,7 @@ class AccountsPage extends Component {
             className="button delete"
           />
         </GIContainer>
-      </Page>
+      </GIContainer>
     );
   };
 
@@ -147,71 +144,67 @@ class AccountsPage extends Component {
     });
 
     return (
-      <Page className="py16 px32">
-        <MetaTags>
-          <title>Ghostit | Social Accounts</title>
-        </MetaTags>
-        <GIContainer className="mx16" containerType={1}>
-          <SomeButton
-            className="social-header-button flex hc button mb16 pa8 button mb16 pa8 facebook"
+      <Page className="py16 px32" title="Social Accounts">
+        <GIContainer className="column align-center fill-flex mx16">
+          <GIButton
+            className="social-header-button tac pa8 mb16"
             onClick={() => {
               window.location = "/api/facebook";
             }}
-          >
-            Connect Facebook
-          </SomeButton>
+            text="Connect Facebook"
+            style={{ backgroundColor: getPostColor("facebook") }}
+          />
 
-          <SomeButton
-            className="social-media-connect button mb16 facebook"
+          <GIButton
+            className="social-media-connect mb16 pa4"
             onClick={() => this.openModal("facebook", "page")}
             text="Connect Facebook Page"
-          >
-            Page
-          </SomeButton>
-          <SomeButton
-            className="social-media-connect button mb16 facebook"
+            style={{ backgroundColor: getPostColor("facebook") }}
+          />
+          <GIButton
+            className="social-media-connect mb16 pa4"
             onClick={() => this.openModal("facebook", "group")}
-          >
-            Group
-          </SomeButton>
+            text="Connect Facebook Group"
+            style={{ backgroundColor: getPostColor("facebook") }}
+          />
           {connectedFacebookAccountDivs}
         </GIContainer>
 
-        <GIContainer className="mx16" containerType={1}>
-          <SomeButton
-            className="social-header-button flex hc button mb16 pa8 twitter"
+        <GIContainer className="column align-center fill-flex mx16">
+          <GIButton
+            className="social-header-button tac pa8 mb16"
             onClick={() => {
               window.location = "/api/twitter";
             }}
-          >
-            Connect Twitter
-          </SomeButton>
+            text="Connect Twitter"
+            style={{ backgroundColor: getPostColor("twitter") }}
+          />
 
           {connectedTwitterAccountDivs}
         </GIContainer>
-        <GIContainer className="mx16" containerType={1}>
-          <SomeButton
-            className="social-header-button flex hc button mb16 pa8 linkedin"
+        <GIContainer className="column align-center fill-flex mx16">
+          <GIButton
+            className="social-header-button tac pa8 mb16"
             onClick={() => {
               window.location = "/api/linkedin";
             }}
-          >
-            Connect Linkedin
-          </SomeButton>
+            text="Connect Linkedin"
+            style={{ backgroundColor: getPostColor("linkedin") }}
+          />
 
-          <SomeButton
-            className="social-media-connect button mb16 linkedin"
+          <GIButton
+            className="social-media-connect mb16 pa4"
             onClick={() => this.openModal("linkedin", "page")}
-          >
-            Page
-          </SomeButton>
+            text="Connect LinkedIn Page"
+            style={{ backgroundColor: getPostColor("linkedin") }}
+          />
           {connectedLinkedinAccountDivs}
         </GIContainer>
-        <GIContainer className="mx16" containerType={1}>
-          <SomeButton className="social-header-button flex hc button mb16 pa8 instagram">
+        <GIContainer className="column align-center fill-flex mx16">
+          <GIButton className="social-header-button flex hc button mb16 pa8 instagram">
             Connect Instagram <br />
             (Coming Soon)
-          </SomeButton>
+          </GIButton>
           {connectedInstagramAccountDivs}
         </GIContainer>
         {addPageOrGroupModal && (

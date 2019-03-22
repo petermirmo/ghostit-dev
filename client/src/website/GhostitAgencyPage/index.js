@@ -186,7 +186,7 @@ class GhostitAgency extends Component {
             className="tac"
           />
         </GIContainer>
-        <GIContainer className="x-wrap px32 x-fill">
+        <GIContainer className="x-wrap px32 x-fill container-box extra-large">
           <GIContainer className="fill-flex my32">
             <AgencyForm />
           </GIContainer>

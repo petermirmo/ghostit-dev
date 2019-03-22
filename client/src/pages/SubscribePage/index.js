@@ -4,6 +4,7 @@ import PayDiv from "./PayDiv";
 import { connect } from "react-redux";
 
 import Page from "../../components/containers/Page";
+import GIContainer from "../../components/containers/GIContainer";
 
 import "./style.css";
 
@@ -20,7 +21,6 @@ class SubscribePage extends Component {
       }
     };
   }
-  componentDidMount() {}
   render() {
     const { annualBilling, plan } = this.state;
 
@@ -34,7 +34,7 @@ class SubscribePage extends Component {
 
     return (
       <Page title="Subscribe">
-        <div className="plans-page-container">
+        <GIContainer className="column full-center full-screen x-fill">
           <div className="checkout-container">
             <div className="checkout-title">Checkout</div>
 
@@ -84,7 +84,7 @@ class SubscribePage extends Component {
               <PayDiv annualBilling={annualBilling} />
             </div>
           </div>
-        </div>
+        </GIContainer>
       </Page>
     );
   }

@@ -39,7 +39,7 @@ import {
 
 class Routes extends Component {
   state = {
-    datebaseConnection: true,
+    datebaseConnection: false,
     ghostitBlogs: []
   };
 
@@ -54,9 +54,10 @@ class Routes extends Component {
 
     getUser(user => {
       if (user) {
+        setUser(user);
+
         getAccounts(accounts => {
           this.setState({ datebaseConnection: true });
-          setUser(user);
           setaccounts(accounts);
         });
       } else if (isUserInPlatform(location.pathname)) {
