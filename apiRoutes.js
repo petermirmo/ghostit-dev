@@ -13,8 +13,6 @@ const accountFunctions = require("./services/accountFunctions");
 const userFunctions = require("./services/userFunctions");
 const postFunctions = require("./services/postFunctions");
 const campaignFunctions = require("./services/campaignFunctions");
-const blogFunctions = require("./services/websiteBlogFunctions");
-const newsletterFunctions = require("./services/newsletterFunctions");
 const strategyFunctions = require("./services/strategyFunctions");
 const adminFunctions = require("./services/adminFunctions");
 const planFunctions = require("./services/planFunctions");
@@ -238,26 +236,6 @@ module.exports = app => {
     campaignFunctions.deleteRecipe(req, res)
   );
 
-  // Create or update a blog placeholder
-  app.post("/api/blog", fileParser, middleware, async (req, res) =>
-    blogFunctions.saveBlog(req, res)
-  );
-
-  // Delete blog
-  app.delete("/api/blog/delete/:blogID", middleware, (req, res) =>
-    blogFunctions.deleteBlog(req, res)
-  );
-
-  // Create or update a newsletter placeholder
-  app.post("/api/newsletter", fileParser, middleware, async (req, res) =>
-    newsletterFunctions.saveNewsletter(req, res)
-  );
-
-  // Delete newsletter
-  app.delete("/api/newsletter/delete/:newsletterID", middleware, (req, res) =>
-    newsletterFunctions.deleteNewsletter(req, res)
-  );
-
   // Delete file in cloudinary using pulbic id
   app.delete("/api/delete/file/:publicID", middleware, (req, res) =>
     postFunctions.deleteFile(req, res)
@@ -377,14 +355,6 @@ module.exports = app => {
 
   app.post("/api/calendar/posts/:calendarID", middleware, (req, res) =>
     calendarFunctions.getPosts(req, res)
-  );
-
-  app.get("/api/calendar/blogs/:calendarID", middleware, (req, res) =>
-    calendarFunctions.getBlogs(req, res)
-  );
-
-  app.get("/api/calendar/newsletters/:calendarID", middleware, (req, res) =>
-    calendarFunctions.getNewsletters(req, res)
   );
 
   app.get("/api/calendar/campaigns/:calendarID", middleware, (req, res) =>

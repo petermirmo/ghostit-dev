@@ -406,7 +406,7 @@ class PostingOptions extends Component {
             />
             <div className="post-images-and-linkPreview">
               <ImagesDiv
-                postImages={images}
+                currentImages={images}
                 handleChange={images => this.handleChange(images, "images")}
                 imageLimit={4}
                 canEdit={canEditPost}

@@ -388,7 +388,7 @@ class Calendar extends Component {
         <div className="queue-post-attribute important">{content}</div>
         <div className="queue-post-attribute">
           <ImagesDiv
-            postImages={post.images ? post.images : []}
+            currentImages={post.images ? post.images : []}
             hideUploadButton={true}
           />
         </div>

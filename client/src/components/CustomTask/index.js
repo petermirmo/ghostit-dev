@@ -165,7 +165,7 @@ class CustomTask extends Component {
             />
             <div className="wrapping-container-no-center mt8">
               <ImagesDiv
-                postImages={images}
+                currentImages={images}
                 handleChange={images => this.handleChange(images, "images")}
                 imageLimit={4}
                 canEdit={canEditPost}

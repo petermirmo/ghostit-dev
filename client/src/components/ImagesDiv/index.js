@@ -6,12 +6,12 @@ import "./style.css";
 
 class ImagesDiv extends Component {
   showImages(event) {
-    let images = event.target.files;
-    const { postImages } = this.props;
-    let temp = postImages;
+    let newImages = event.target.files;
+    const { currentImages } = this.props;
+    let temp = currentImages;
 
     // Check to make sure there are not more than the imageLimit
-    if (images.length + postImages.length > this.props.imageLimit) {
+    if (newImages.length + currentImages.length > this.props.imageLimit) {
       alert(
         "You have selected more than " +
           this.props.imageLimit +
@@ -21,16 +21,16 @@ class ImagesDiv extends Component {
     }
 
     // Check to make sure each image is under 5MB
-    for (let index = 0; index < images.length; index++) {
-      if (images[index].size > 5000000) {
+    for (let index = 0; index < newImages.length; index++) {
+      if (newImages[index].size > 5000000) {
         alert("File size on one or more photos is over 5MB( Please try again");
         return;
       }
     }
     // Save each image to state
-    for (let index = 0; index < images.length; index++) {
+    for (let index = 0; index < newImages.length; index++) {
       let reader = new FileReader();
-      let image = images[index];
+      let image = newImages[index];
       reader.onloadend = image => {
         temp.push({
           image: image,
@@ -44,26 +44,31 @@ class ImagesDiv extends Component {
     }
   }
   removePhoto = index => {
-    const { postImages } = this.props;
+    const { currentImages, imagesToDelete } = this.props; // Variables
+    const { handleChange } = this.props; // Functions
+
+    const parentStateChangeObject = {};
 
     // Only add if it is in cloudinary already.If url is null it is not in the database yet
-    if (postImages[index].url !== undefined) {
-      this.props.pushToImageDeleteArray(postImages[index]);
+    if (currentImages[index].url !== undefined) {
+      imagesToDelete.push(currentImages[index]);
+      parentStateChangeObject.imagesToDelete = imagesToDelete;
     }
     // Remove image from current images
-    postImages.splice(index, 1);
+    currentImages.splice(index, 1);
 
-    // Update state
-    this.props.handleChange(postImages);
+    // Update parent state
+    parentStateChangeObject.currentImages = currentImages;
+    handleChange(parentStateChangeObject);
   };
 
   render() {
-    const { canEdit, postImages, hideUploadButton } = this.props;
+    const { canEdit, currentImages, hideUploadButton } = this.props;
 
     // Image upload button
     let fileUploadDiv;
 
-    if (postImages.length < this.props.imageLimit && canEdit) {
+    if (currentImages.length < this.props.imageLimit && canEdit) {
       fileUploadDiv = (
         <div>
           <label htmlFor="file-upload" className="custom-file-upload">
@@ -82,10 +87,10 @@ class ImagesDiv extends Component {
 
     // Show preview images
     let imagesDiv = [];
-    for (let index in postImages) {
-      let imageURL = postImages[index].imagePreviewUrl;
-      if (!postImages[index].imagePreviewUrl) {
-        imageURL = postImages[index].url;
+    for (let index in currentImages) {
+      let imageURL = currentImages[index].imagePreviewUrl;
+      if (!currentImages[index].imagePreviewUrl) {
+        imageURL = currentImages[index].url;
       }
       imagesDiv.push(
         <div key={index} className="relative ml8 image-container">

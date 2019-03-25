@@ -34,7 +34,7 @@ class HeaderSideBar extends Component {
     headerSideBar: true,
     clientSideBar: false,
     images: [],
-    pushToImageDeleteArray: []
+    imagesToDelete: []
   };
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
@@ -65,12 +65,7 @@ class HeaderSideBar extends Component {
   };
   render() {
     const { user } = this.props;
-    const {
-      clientSideBar,
-      headerSideBar,
-      images,
-      pushToImageDeleteArray
-    } = this.state;
+    const { clientSideBar, headerSideBar, images, imagesToDelete } = this.state;
 
     if (!user) {
       return <div style={{ display: "none" }} className="mr8" />;
@@ -102,12 +97,17 @@ class HeaderSideBar extends Component {
         <div className="navbar pt64" style={{ zIndex: "-1" }}>
           {headerSideBar && !clientSideBar && (
             <GIContainer className="x-fill column">
-              <ImagesDiv
-                postImages={images}
-                handleChange={images => this.handleChange(images, "images")}
-                imageLimit={4}
-                pushToImageDeleteArray={this.pushToImageDeleteArray}
-              />
+              <GIContainer className="full-center">
+                <ImagesDiv
+                  canEdit={true}
+                  currentImages={images}
+                  handleChange={parentStateChangeObject =>
+                    this.setState(parentStateChangeObject)
+                  }
+                  imageLimit={4}
+                  imagesToDelete={imagesToDelete}
+                />
+              </GIContainer>
               {(user.role === "demo" || isAdmin) && (
                 <Link to="/subscribe">
                   <div

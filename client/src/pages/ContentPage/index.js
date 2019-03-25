@@ -16,8 +16,6 @@ import io from "socket.io-client";
 
 import ContentModal from "./PostingFiles/ContentModal";
 import PostEdittingModal from "./PostingFiles/PostEdittingModal";
-import BlogEdittingModal from "./PostingFiles/BlogEdittingModal";
-import NewsletterEdittingModal from "./PostingFiles/NewsletterEdittingModal";
 import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
 import Campaign from "../../components/CampaignAndRecipe/Campaign";
@@ -53,9 +51,7 @@ class Content extends Component {
     clickedDate: new moment(),
     calendarDate: new moment(),
 
-    blogEdittingModal: false,
     postEdittingModal: false,
-    newsletterEdittingModal: false,
     recipeModal: false,
 
     calendarEventCategories: {
@@ -597,8 +593,6 @@ class Content extends Component {
 
   fillCalendar = () => {
     this.getPosts();
-    this.getBlogs();
-    this.getNewsletters();
     this.getCampaigns();
   };
 
@@ -691,66 +685,6 @@ class Content extends Component {
       });
   };
 
-  getBlogs = () => {
-    const { calendars, activeCalendarIndex } = this.state;
-    if (!calendars || !calendars[activeCalendarIndex]) {
-      console.log(calendars);
-      console.log(activeCalendarIndex);
-      console.log("calendar error");
-      return;
-    }
-    const calendarID = calendars[activeCalendarIndex]._id;
-
-    axios.get("/api/calendar/blogs/" + calendarID).then(res => {
-      let { success, err, message, blogs, loggedIn } = res.data;
-      if (!success) {
-        console.log(message);
-        console.log(err);
-      } else {
-        if (loggedIn === false) this.props.history.push("/sign-in");
-
-        for (let index in blogs) {
-          blogs[index].startDate = blogs[index].postingDate;
-          blogs[index].endDate = blogs[index].postingDate;
-        }
-
-        if (this._ismounted) {
-          this.setState({ websitePosts: blogs });
-        }
-      }
-    });
-  };
-
-  getNewsletters = () => {
-    const { calendars, activeCalendarIndex } = this.state;
-    if (!calendars || !calendars[activeCalendarIndex]) {
-      console.log(calendars);
-      console.log(activeCalendarIndex);
-      console.log("calendar error");
-      return;
-    }
-    const calendarID = calendars[activeCalendarIndex]._id;
-
-    axios.get("/api/calendar/newsletters/" + calendarID).then(res => {
-      let { success, err, message, newsletters, loggedIn } = res.data;
-      if (!success) {
-        console.log(message);
-        console.log(err);
-      } else {
-        if (loggedIn === false) this.props.history.push("/sign-in");
-
-        for (let index in newsletters) {
-          newsletters[index].startDate = newsletters[index].postingDate;
-          newsletters[index].endDate = newsletters[index].postingDate;
-        }
-
-        if (this._ismounted) {
-          this.setState({ newsletterPosts: newsletters });
-        }
-      }
-    });
-  };
-
   getCampaigns = () => {
     const { calendars, activeCalendarIndex } = this.state;
     if (!calendars || !calendars[activeCalendarIndex]) {
@@ -791,11 +725,7 @@ class Content extends Component {
   };
   editPost = post => {
     // Open editting modal
-    if (post.socialType === "blog") {
-      this.setState({ blogEdittingModal: true, clickedEvent: post });
-    } else if (post.socialType === "newsletter") {
-      this.setState({ newsletterEdittingModal: true, clickedEvent: post });
-    } else if (
+    if (
       post.socialType === "facebook" ||
       post.socialType === "twitter" ||
       post.socialType === "linkedin" ||
@@ -816,9 +746,7 @@ class Content extends Component {
 
   closeModals = () => {
     this.setState({
-      blogEdittingModal: false,
       postEdittingModal: false,
-      newsletterEdittingModal: false,
       recipeModal: false,
       recipeEditorModal: false,
       clickedEvent: undefined
@@ -1035,16 +963,6 @@ class Content extends Component {
               this.triggerSocketPeers("calendar_post_saved", post);
               this.props.openContentModal(false);
             }}
-            saveBlogCallback={blog => {
-              this.getBlogs();
-              this.triggerSocketPeers("calendar_blog_saved", blog);
-              this.props.openContentModal(false);
-            }}
-            saveNewsletterCallback={newsletter => {
-              this.getNewsletters();
-              this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
-              this.closeModals();
-            }}
           />
         )}
         {this.state.postEdittingModal && (
@@ -1062,30 +980,7 @@ class Content extends Component {
             calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
-        {this.state.blogEdittingModal && (
-          <BlogEdittingModal
-            saveBlogCallback={blog => {
-              this.getBlogs();
-              this.triggerSocketPeers("calendar_blog_saved", blog);
-            }}
-            updateCalendarBlogs={this.getBlogs}
-            clickedEvent={clickedEvent}
-            close={this.closeModals}
-            triggerSocketPeers={this.triggerSocketPeers}
-          />
-        )}
-        {this.state.newsletterEdittingModal && (
-          <NewsletterEdittingModal
-            saveNewsletterCallback={newsletter => {
-              this.getNewsletters();
-              this.triggerSocketPeers("calendar_newsletter_saved", newsletter);
-            }}
-            updateCalendarNewsletters={this.getNewsletters}
-            clickedEvent={clickedEvent}
-            close={this.closeModals}
-            triggerSocketPeers={this.triggerSocketPeers}
-          />
-        )}
+
         {this.props.campaignModal && calendars[activeCalendarIndex] && (
           <div
             className="modal"
