@@ -21,7 +21,8 @@ import {
   openCalendarManagerModal
 } from "../../../redux/actions/";
 
-import ClientsSideBar from "../../SideBarClients/";
+import SideBarClients from "../../SideBarClients/";
+import ImagesDiv from "../../ImagesDiv/";
 
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
@@ -31,7 +32,9 @@ import "./style.css";
 class HeaderSideBar extends Component {
   state = {
     headerSideBar: true,
-    clientSideBar: false
+    clientSideBar: false,
+    images: [],
+    pushToImageDeleteArray: []
   };
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
@@ -62,7 +65,12 @@ class HeaderSideBar extends Component {
   };
   render() {
     const { user } = this.props;
-    const { clientSideBar, headerSideBar } = this.state;
+    const {
+      clientSideBar,
+      headerSideBar,
+      images,
+      pushToImageDeleteArray
+    } = this.state;
 
     if (!user) {
       return <div style={{ display: "none" }} className="mr8" />;
@@ -94,6 +102,12 @@ class HeaderSideBar extends Component {
         <div className="navbar pt64" style={{ zIndex: "-1" }}>
           {headerSideBar && !clientSideBar && (
             <GIContainer className="x-fill column">
+              <ImagesDiv
+                postImages={images}
+                handleChange={images => this.handleChange(images, "images")}
+                imageLimit={4}
+                pushToImageDeleteArray={this.pushToImageDeleteArray}
+              />
               {(user.role === "demo" || isAdmin) && (
                 <Link to="/subscribe">
                   <div
@@ -188,7 +202,7 @@ class HeaderSideBar extends Component {
             </GIContainer>
           )}
         </div>
-        {clientSideBar && <ClientsSideBar />}
+        {clientSideBar && <SideBarClients />}
       </div>
     );
   }

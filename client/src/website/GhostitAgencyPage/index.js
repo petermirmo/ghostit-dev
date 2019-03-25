@@ -51,7 +51,7 @@ class GhostitAgency extends Component {
                   }
                   className="column mx16 container-box column tinier"
                 >
-                  <GIContainer>
+                  <GIContainer className="clickable">
                     {active && category.active}
                     {!active && category.notActive}
                   </GIContainer>

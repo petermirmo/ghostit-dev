@@ -37,6 +37,8 @@ import {
   useAppropriateFunctionForEscapeKey
 } from "./util";
 
+import { isUserInPlatform } from "../components/containers/Page/util";
+
 class Routes extends Component {
   state = {
     datebaseConnection: false,
@@ -55,7 +57,6 @@ class Routes extends Component {
     getUser(user => {
       if (user) {
         setUser(user);
-
         getAccounts(accounts => {
           this.setState({ datebaseConnection: true });
           setaccounts(accounts);

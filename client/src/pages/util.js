@@ -1,29 +1,25 @@
 import axios from "axios";
 
 export const getUser = callback => {
-  axios
-    .get("/api/user")
-    .then(res => {
-      const { error, user } = res.data;
+  axios.get("/api/user").then(res => {
+    const { error, user } = res.data;
 
-      if (!error) {
-        callback(user);
-      } else {
-        // TODO: handleerror
-      }
-    })
-    .catch(error => {
-      //window.location.reload();
-    });
+    if (!error) {
+      callback(user);
+    } else {
+      callback();
+      // TODO: handleerror
+    }
+  });
 };
 export const getAccounts = callback => {
   axios.get("/api/accounts").then(res => {
     // Set user's accounts to state
     let { accounts } = res.data;
-
     if (!accounts) {
       // TODO: handle error
       accounts = [];
+      callback(accounts);
     }
 
     callback(accounts);
