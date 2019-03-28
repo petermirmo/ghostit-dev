@@ -55,9 +55,9 @@ class LoginPage extends Component {
       axios
         .post("/api/login", { email: email.toLowerCase(), password })
         .then(res => {
-          const { error, user } = res.data;
+          const { success, user } = res.data;
 
-          if (!error) {
+          if (success) {
             ReactGA.event({
               category: "User",
               action: "Login"

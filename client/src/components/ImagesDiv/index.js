@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faImages from "@fortawesome/fontawesome-free-solid/faImages";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+
+import GIContainer from "../containers/GIContainer";
 import "./style.css";
 
 class ImagesDiv extends Component {
   showImages(event) {
     let newImages = event.target.files;
-    const { currentImages } = this.props;
+    const { currentImages } = this.props; // Variables
+    const { handleChange } = this.props; // Functions
     let temp = currentImages;
 
     // Check to make sure there are not more than the imageLimit
@@ -33,11 +36,11 @@ class ImagesDiv extends Component {
       let image = newImages[index];
       reader.onloadend = image => {
         temp.push({
-          image: image,
+          image,
           imagePreviewUrl: reader.result
         });
 
-        this.props.handleChange(temp);
+        handleChange({ images: temp, somethingChanged: true });
       };
 
       reader.readAsDataURL(image);
@@ -59,63 +62,57 @@ class ImagesDiv extends Component {
 
     // Update parent state
     parentStateChangeObject.currentImages = currentImages;
+    parentStateChangeObject.somethingChanged = true;
     handleChange(parentStateChangeObject);
   };
 
   render() {
-    const { canEdit, currentImages, hideUploadButton } = this.props;
+    const { canEdit, currentImages, hideUploadButton, id } = this.props;
 
-    // Image upload button
-    let fileUploadDiv;
-
-    if (currentImages.length < this.props.imageLimit && canEdit) {
-      fileUploadDiv = (
-        <div>
-          <label htmlFor="file-upload" className="custom-file-upload">
-            <FontAwesomeIcon icon={faImages} className="image-upload-icon" />
-          </label>
-
-          <input
-            id="file-upload"
-            type="file"
-            onChange={event => this.showImages(event)}
-            multiple
-          />
-        </div>
-      );
-    }
-
-    // Show preview images
-    let imagesDiv = [];
-    for (let index in currentImages) {
-      let imageURL = currentImages[index].imagePreviewUrl;
-      if (!currentImages[index].imagePreviewUrl) {
-        imageURL = currentImages[index].url;
-      }
-      imagesDiv.push(
-        <div key={index} className="relative ml8 image-container">
-          <img
-            key={index}
-            src={imageURL}
-            alt="error"
-            className="flex image tiny"
-          />
-          {canEdit && (
-            <FontAwesomeIcon
-              icon={faTimes}
-              className="icon-x-hover"
-              onClick={event => this.removePhoto(index)}
-              size="3x"
-            />
-          )}
-        </div>
-      );
-    }
     return (
-      <div className="images-container">
-        {!hideUploadButton && fileUploadDiv}
-        {imagesDiv}
-      </div>
+      <GIContainer className="images-container">
+        {!hideUploadButton &&
+          currentImages.length < this.props.imageLimit &&
+          canEdit && (
+            <div>
+              <label
+                htmlFor={id}
+                className="custom-file-upload pa16 br8 clickable"
+              >
+                <FontAwesomeIcon
+                  icon={faImages}
+                  className="image-upload-icon px4"
+                />
+              </label>
+
+              <input
+                id={id}
+                type="file"
+                onChange={event => this.showImages(event)}
+                multiple
+              />
+            </div>
+          )}
+
+        {currentImages.map((image, index) => (
+          <div key={index} className="relative ml8 image-container">
+            <img
+              key={index}
+              src={image.imagePreviewUrl ? image.imagePreviewUrl : image.url}
+              alt="error"
+              className="flex image tiny"
+            />
+            {canEdit && (
+              <FontAwesomeIcon
+                icon={faTimes}
+                className="icon-x-hover"
+                onClick={event => this.removePhoto(index)}
+                size="3x"
+              />
+            )}
+          </div>
+        ))}
+      </GIContainer>
     );
   }
 }

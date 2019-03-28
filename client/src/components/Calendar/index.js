@@ -390,6 +390,7 @@ class Calendar extends Component {
           <ImagesDiv
             currentImages={post.images ? post.images : []}
             hideUploadButton={true}
+            id="xyz"
           />
         </div>
       </div>

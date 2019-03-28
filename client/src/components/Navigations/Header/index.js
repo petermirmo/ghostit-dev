@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import {
-  faUsers,
-  faBars,
   faThLarge,
   faAngleRight,
-  faAngleLeft
+  faAngleLeft,
+  faChartLine,
+  faHistory,
+  faStar,
+  faPlus,
+  faCogs,
+  faCalendar,
+  faUser,
+  faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, withRouter } from "react-router-dom";
 import sizeMe from "react-sizeme";
@@ -26,6 +32,8 @@ import ImagesDiv from "../../ImagesDiv/";
 
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
+
+import { test } from "./util";
 
 import "./style.css";
 
@@ -102,10 +110,13 @@ class HeaderSideBar extends Component {
                   canEdit={true}
                   currentImages={images}
                   handleChange={parentStateChangeObject =>
-                    this.setState(parentStateChangeObject)
+                    test(parentStateChangeObject, parentStateChangeObject =>
+                      this.setState(parentStateChangeObject)
+                    )
                   }
                   imageLimit={4}
                   imagesToDelete={imagesToDelete}
+                  id="hjq"
                 />
               </GIContainer>
               {(user.role === "demo" || isAdmin) && (
@@ -115,8 +126,8 @@ class HeaderSideBar extends Component {
                       "header-button px16 py8 " + this.isActive("subscribe")
                     }
                   >
-                    <FontAwesomeIcon icon={faThLarge} className="mr8" />
-                    Upgrade to Plan
+                    <FontAwesomeIcon icon={faStar} className="mr8" />
+                    Upgrade to Paid Plan
                   </div>
                 </Link>
               )}
@@ -128,7 +139,7 @@ class HeaderSideBar extends Component {
                       : "header-button px16 py8 "
                   }
                 >
-                  <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                  <FontAwesomeIcon icon={faCalendar} className="mr8" />
                   Calendar
                 </div>
               </Link>
@@ -140,7 +151,7 @@ class HeaderSideBar extends Component {
                       "header-button px16 py8 " + this.isActive("analytics")
                     }
                   >
-                    <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                    <FontAwesomeIcon icon={faChartLine} className="mr8" />
                     Analytics
                   </div>
                 </Link>
@@ -152,7 +163,7 @@ class HeaderSideBar extends Component {
                     "header-button px16 py8 " + this.isActive("social-accounts")
                   }
                 >
-                  <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                  <FontAwesomeIcon icon={faPlus} className="mr8" />
                   Social Profiles
                 </div>
               </Link>
@@ -163,7 +174,7 @@ class HeaderSideBar extends Component {
                       "header-button px16 py8 " + this.isActive("manage")
                     }
                   >
-                    <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                    <FontAwesomeIcon icon={faCogs} className="mr8" />
                     Manage
                   </div>
                 </Link>
@@ -174,7 +185,7 @@ class HeaderSideBar extends Component {
                     "header-button px16 py8 " + this.isActive("profile")
                   }
                 >
-                  <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                  <FontAwesomeIcon icon={faUser} className="mr8" />
                   Profile
                 </div>
               </Link>
@@ -185,7 +196,7 @@ class HeaderSideBar extends Component {
                       "header-button px16 py8 " + this.isActive("subscription")
                     }
                   >
-                    <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                    <FontAwesomeIcon icon={faHistory} className="mr8" />
                     Billing History
                   </div>
                 </Link>
@@ -195,7 +206,7 @@ class HeaderSideBar extends Component {
                   className="header-button px16 py8 "
                   onClick={() => this.logout()}
                 >
-                  <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                  <FontAwesomeIcon icon={faSignOutAlt} className="mr8" />
                   Logout
                 </div>
               </Link>

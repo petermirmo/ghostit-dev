@@ -43,7 +43,7 @@ class CustomTask extends Component {
       stateVariable.sendEmailReminder = props.post.emailReminder ? true : false;
     }
 
-    stateVariable.deleteImagesArray = [];
+    stateVariable.imagesToDelete = [];
     stateVariable.somethingChanged = false;
 
     stateVariable.date =
@@ -103,9 +103,9 @@ class CustomTask extends Component {
   };
 
   pushToImageDeleteArray = image => {
-    let temp = this.state.deleteImagesArray;
+    let temp = this.state.imagesToDelete;
     temp.push(image);
-    if (this._ismounted) this.setState({ deleteImagesArray: temp });
+    if (this._ismounted) this.setState({ imagesToDelete: temp });
   };
 
   modifyCampaignDate = response => {
@@ -128,7 +128,7 @@ class CustomTask extends Component {
       socialType,
       accountID,
       accountType,
-      deleteImagesArray,
+      imagesToDelete,
       somethingChanged,
       promptModifyCampaignDates,
       campaignID,
@@ -165,11 +165,14 @@ class CustomTask extends Component {
             />
             <div className="wrapping-container-no-center mt8">
               <ImagesDiv
-                currentImages={images}
-                handleChange={images => this.handleChange(images, "images")}
-                imageLimit={4}
                 canEdit={canEditPost}
-                pushToImageDeleteArray={this.pushToImageDeleteArray}
+                currentImages={images}
+                handleChange={parentStateChangeObject =>
+                  this.setState(parentStateChangeObject)
+                }
+                imageLimit={4}
+                imagesToDelete={imagesToDelete}
+                id="hsh"
               />
 
               <div className="checkbox-and-writing-container my8 ml8">

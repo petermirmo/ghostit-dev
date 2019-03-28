@@ -118,7 +118,7 @@ class PostingOptions extends Component {
       stateVariable.name = props.post.name ? props.post.name : "";
     }
 
-    stateVariable.deleteImagesArray = [];
+    stateVariable.imagesToDelete = [];
     stateVariable.linkImagesArray = [];
     stateVariable.somethingChanged = false;
 
@@ -190,11 +190,6 @@ class PostingOptions extends Component {
     }
   };
 
-  pushToImageDeleteArray = image => {
-    let temp = this.state.deleteImagesArray;
-    temp.push(image);
-    if (this._ismounted) this.setState({ deleteImagesArray: temp });
-  };
   findLink(textAreaString) {
     // Url regular expression
     let urlRegularExpression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
@@ -321,7 +316,7 @@ class PostingOptions extends Component {
       socialType,
       accountID,
       accountType,
-      deleteImagesArray,
+      imagesToDelete,
       somethingChanged,
       promptModifyCampaignDates,
       showInstructions,
@@ -406,11 +401,14 @@ class PostingOptions extends Component {
             />
             <div className="post-images-and-linkPreview">
               <ImagesDiv
-                currentImages={images}
-                handleChange={images => this.handleChange(images, "images")}
-                imageLimit={4}
                 canEdit={canEditPost}
-                pushToImageDeleteArray={this.pushToImageDeleteArray}
+                currentImages={images}
+                handleChange={parentStateChangeObject =>
+                  this.setState(parentStateChangeObject)
+                }
+                imageLimit={4}
+                imagesToDelete={imagesToDelete}
+                id="pdm"
               />
             </div>
 

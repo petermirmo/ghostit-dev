@@ -118,7 +118,7 @@ export const trySavePost = (
     socialType,
     accountID,
     accountType,
-    deleteImagesArray,
+    imagesToDelete,
     campaignID,
     name,
     date,
@@ -176,7 +176,7 @@ export const trySavePost = (
       socialType,
       undefined,
       postFinishedSavingCallback,
-      deleteImagesArray,
+      imagesToDelete,
       campaignID,
       instructions,
       name,
@@ -195,7 +195,7 @@ export const trySavePost = (
       socialType,
       accountType,
       postFinishedSavingCallback,
-      deleteImagesArray,
+      imagesToDelete,
       campaignID,
       instructions,
       name,
@@ -296,7 +296,7 @@ export async function savePost(
   socialType,
   accountType,
   callback,
-  deleteImagesArray,
+  imagesToDelete,
   campaignID,
   instructions,
   name,
@@ -305,9 +305,9 @@ export async function savePost(
   linkTitle,
   linkDescription
 ) {
-  if (deleteImagesArray) {
-    if (deleteImagesArray.length !== 0) {
-      await axios.post("/api/post/delete/images/" + _id, deleteImagesArray);
+  if (imagesToDelete) {
+    if (imagesToDelete.length !== 0) {
+      await axios.post("/api/post/delete/images/" + _id, imagesToDelete);
     }
   }
 
