@@ -20,6 +20,7 @@ class ViewWebsiteBlog extends Component {
   };
   render() {
     const { contentArray, images } = this.props;
+
     let divs = [];
 
     let imageCounter = 0;
@@ -58,19 +59,21 @@ class ViewWebsiteBlog extends Component {
     }
     let metaTitle = "";
     let temp = document.createElement("div");
-    temp.innerHTML =
-      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[0].html + "";
+    if (contentArray[0])
+      temp.innerHTML =
+        "<div   dangerouslySetInnerHTML={{__html: " + contentArray[0].html + "";
 
     metaTitle = temp.textContent || temp.innerText || "";
 
     let metaDescription = "";
     let temp2 = document.createElement("div");
-    temp2.innerHTML =
-      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[1].html + "";
+    if (contentArray[1])
+      temp2.innerHTML =
+        "<div   dangerouslySetInnerHTML={{__html: " + contentArray[1].html + "";
 
     metaDescription = temp2.textContent || temp2.innerText || "";
     return (
-      <div className="website-page common-container-center pb32">
+      <div className="website-page pb32">
         <MetaTags>
           <title>
             {metaTitle ? "Ghosit | " + metaTitle : "Ghostit | Blog Post."}
@@ -84,7 +87,7 @@ class ViewWebsiteBlog extends Component {
             }
           />
         </MetaTags>
-        <div className="common-container-center">{divs}</div>
+        <div className="flex column vc">{divs}</div>
       </div>
     );
   }
