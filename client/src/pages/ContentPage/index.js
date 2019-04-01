@@ -904,27 +904,27 @@ class Content extends Component {
       <Page title="Calendar" className="content-page">
         {loading && <Loader />}
         <Calendar
-          calendars={calendars}
-          calendarInvites={calendarInvites}
-          inviteResponse={this.inviteResponse}
           activeCalendarIndex={activeCalendarIndex}
-          updateActiveCalendar={this.updateActiveCalendar}
+          calendars={calendars}
+          calendarDate={calendarDate}
+          calendarEvents={calendarEvents}
+          calendarInvites={calendarInvites}
+          categories={calendarEventCategories}
           enableCalendarManager={() =>
             this.props.openCalendarManagerModal(true)
           }
-          userList={userList}
-          calendarEvents={calendarEvents}
+          inviteResponse={this.inviteResponse}
           onDateChange={date => {
             this.handleChange(date, "calendarDate");
             this.getPosts();
           }}
-          calendarDate={calendarDate}
+          onSelectCampaign={this.openCampaign}
           onSelectDay={this.openModal}
           onSelectPost={this.editPost}
-          onSelectCampaign={this.openCampaign}
           timezone={timezone}
-          categories={calendarEventCategories}
+          updateActiveCalendar={this.updateActiveCalendar}
           updateActiveCategory={this.updateActiveCategory}
+          userList={userList}
         />
         {false && <CalendarChat calendars={calendars} />}
         {this.props.calendarManagerModal && (

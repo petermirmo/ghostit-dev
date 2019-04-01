@@ -12,6 +12,7 @@ export const shouldShowSignedInAsDiv = (user, activePage) => {
 
 export const isUserInPlatform = activePage => {
   if (
+    activePage === "/dashboard" ||
     activePage === "/content" ||
     activePage === "/subscribe" ||
     activePage === "/strategy" ||

@@ -22,6 +22,14 @@
 .taj {
   text-align: justify;
 }
+.bold {
+  font-weight: bold;
+}
+
+.seven-blue {
+  color: var(--seven-blue-color);
+}
+
 h1 {
   color: var(--blue-font-color);
   margin: 0;
@@ -73,6 +81,6 @@ p {
   margin: 0;
   color: var(--secondary-font-color);
   text-align: left;
-  font-size: var(--sixteen-font-size);
+  font-size: var(--fourteen-font-size);
   font-weight: 100;
 }

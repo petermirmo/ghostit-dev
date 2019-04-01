@@ -30,8 +30,18 @@
 .regular-button.large {
   font-size: var(--eighteen-font-size);
 }
+
+.regular-button.small {
+  font-size: var(--fourteen-font-size);
+}
 .regular-button:hover {
   background-color: var(--five-blue-color);
+}
+.regular-button.light {
+  background-color: var(--five-blue-color);
+}
+.regular-button.light:hover {
+  background-color: var(--seven-blue-color);
 }
 
 .underline-button {

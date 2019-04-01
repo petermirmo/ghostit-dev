@@ -131,6 +131,18 @@ class HeaderSideBar extends Component {
                   </div>
                 </Link>
               )}
+              <Link to="/dashboard">
+                <div
+                  className={
+                    this.isActive("dashboard")
+                      ? "header-button px16 py8 " + this.isActive("dashboard")
+                      : "header-button px16 py8 "
+                  }
+                >
+                  <FontAwesomeIcon icon={faThLarge} className="mr8" />
+                  Dashboard
+                </div>
+              </Link>
               <Link to="/content">
                 <div
                   className={

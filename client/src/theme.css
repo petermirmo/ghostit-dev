@@ -230,9 +230,6 @@
   right: 0;
 }
 
-.bold {
-  font-weight: 700;
-}
 .light-scrollbar::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -1192,11 +1189,6 @@ div {
 }
 .icon-regular-button:hover {
   color: var(--eight-blue-color);
-}
-.regular-container-with-border {
-  border: 0.5px solid var(--divider-theme-color);
-  width: 100%;
-  overflow: hidden;
 }
 .border.small {
   border: 0.5px solid var(--divider-theme-color);

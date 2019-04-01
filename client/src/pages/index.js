@@ -10,13 +10,14 @@ import { setUser, setaccounts } from "../redux/actions";
 import LoaderWedge from "../components/notifications/LoaderWedge";
 import GIContainer from "../components/containers/GIContainer";
 
-import Subscribe from "./SubscribePage";
-import Content from "./ContentPage";
-import Accounts from "./AccountsPage";
-import Manage from "./ManagePage";
-import Profile from "./ProfilePage";
-import MySubscription from "./MySubscriptionPage";
-import Analytics from "./AnalyticsPage";
+import DashboardPage from "./DashboardPage";
+import ContentPage from "./ContentPage";
+import AccountsPage from "./AccountsPage";
+import ManagePage from "./ManagePage";
+import ProfilePage from "./ProfilePage";
+import MySubscriptionPage from "./MySubscriptionPage";
+import AnalyticsPage from "./AnalyticsPage";
+import SubscribePage from "./SubscribePage";
 import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
 
 import HomePage from "../website/HomePage";
@@ -101,14 +102,15 @@ class Routes extends Component {
     return (
       <GIContainer className="main-wrapper">
         <Switch>
-          <Route path="/content/" component={Content} />
-          <Route path="/subscribe/" component={Subscribe} />
-          <Route path="/analytics/" component={Analytics} />
-          <Route path="/social-accounts/" component={Accounts} />
-          <Route path="/manage/:id" component={Manage} />
-          <Route path="/manage" component={Manage} />
-          <Route path="/profile/" component={Profile} />
-          <Route path="/subscription/" component={MySubscription} />
+          <Route path="/dashboard/" component={DashboardPage} />
+          <Route path="/content/" component={ContentPage} />
+          <Route path="/subscribe/" component={SubscribePage} />
+          <Route path="/analytics/" component={AnalyticsPage} />
+          <Route path="/social-accounts/" component={AccountsPage} />
+          <Route path="/manage/:id" component={ManagePage} />
+          <Route path="/manage" component={ManagePage} />
+          <Route path="/profile/" component={ProfilePage} />
+          <Route path="/subscription/" component={MySubscriptionPage} />
 
           <Route path="/home/" component={HomePage} />
           <Route path="/pricing/" component={PricingPage} />
