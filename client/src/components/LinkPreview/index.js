@@ -24,9 +24,11 @@ class LinkPreview extends Component {
     this.setState({ activeImageIndex });
   };
   shortenLinkDescriptionIfNeeded = linkDescription => {
-    if (linkDescription.length > 100)
-      return linkDescription.substring(0, 100) + "...";
-    else return linkDescription;
+    if (linkDescription) {
+      if (linkDescription.length > 100)
+        return linkDescription.substring(0, 100) + "...";
+      else return linkDescription;
+    } else return linkDescription;
   };
   render() {
     const { activeImageIndex } = this.state;
