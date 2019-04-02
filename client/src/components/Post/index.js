@@ -418,7 +418,7 @@ class PostingOptions extends Component {
 
             <div className="wrapping-container">
               {linkPreviewCanShow && link && (
-                <div className="container-box medium mx16 mt16">
+                <div className="container-box small mx16 mt16">
                   <LinkPreview
                     linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
                     linkImagesArray={linkImagesArray}

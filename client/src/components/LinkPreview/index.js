@@ -23,6 +23,11 @@ class LinkPreview extends Component {
     this.props.handleChange(linkImagesArray[activeImageIndex]);
     this.setState({ activeImageIndex });
   };
+  shortenLinkDescriptionIfNeeded = linkDescription => {
+    if (linkDescription.length > 100)
+      return linkDescription.substring(0, 100) + "...";
+    else return linkDescription;
+  };
   render() {
     const { activeImageIndex } = this.state;
     const {
@@ -32,6 +37,10 @@ class LinkPreview extends Component {
       linkDescription,
       linkImagesArray
     } = this.props;
+
+    const smartLinkDescription = this.shortenLinkDescriptionIfNeeded(
+      linkDescription
+    );
 
     return (
       <div className={className}>
@@ -67,7 +76,7 @@ class LinkPreview extends Component {
         </div>
         <div className="simple-container py4">
           <h4>{linkTitle}</h4>
-          <p>{linkDescription}</p>
+          <p>{smartLinkDescription}</p>
         </div>
       </div>
     );
