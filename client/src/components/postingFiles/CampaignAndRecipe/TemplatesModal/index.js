@@ -22,9 +22,11 @@ import ConfirmAlert from "../../../notifications/ConfirmAlert";
 
 import { getPostColor, getPostIcon } from "../../../../componentFunctions";
 
+import { getRecipes } from "./util";
+
 import "./style.css";
 
-class RecipeModal extends Component {
+class templatesModal extends Component {
   state = {
     usersRecipes: [],
     allRecipes: [],
@@ -50,38 +52,20 @@ class RecipeModal extends Component {
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.handleChange(false, "recipeModal"); // escape button pushed
+          this.props.handleChange(false, "templatesModal"); // escape button pushed
         }
       },
       this.props.getKeyListenerFunction[0]
     ]);
 
-    this.getRecipes();
+    getRecipes(stateObject => this.setState(stateObject));
   }
   componentWillUnmount() {
     this._ismounted = false;
   }
 
-  getRecipes = () => {
-    axios.get("/api/recipes").then(res => {
-      let { usersRecipes, allRecipes } = res.data;
-
-      if (!usersRecipes) usersRecipes = [];
-      if (!allRecipes) allRecipes = [];
-
-      if (this._ismounted) {
-        this.setState({
-          usersRecipes,
-          allRecipes,
-          activeRecipes: usersRecipes,
-          loading: false,
-          userID: usersRecipes.length > 0 ? usersRecipes[0].userID : undefined
-        });
-      }
-    });
-  };
-
   createRecipeList = activeRecipes => {
+    console.log(activeRecipes);
     const {
       previewRecipeLocation,
       activePost,
@@ -91,10 +75,10 @@ class RecipeModal extends Component {
     } = this.state;
     let recipeArray = [];
 
-    let recipeIndex = -3;
+    let recipeIndex = 0;
     for (
       let recipeRow = 0;
-      recipeRow <= Math.floor((activeRecipes.length + 3) / 3);
+      recipeRow <= Math.floor(activeRecipes.length / 3);
       recipeRow++
     ) {
       let rowArray = [];
@@ -102,22 +86,6 @@ class RecipeModal extends Component {
       for (let recipeColumn = 0; recipeColumn < 3; recipeColumn++) {
         let recipeIndex2 = recipeIndex;
         let recipe = activeRecipes[recipeIndex2];
-        if (recipeRow === 0 && recipeColumn === 0) {
-          rowArray.push(this.customCampaignDiv(recipeIndex2));
-          recipeIndex++;
-          continue;
-          newRecipeDiv;
-        }
-        if (recipeRow === 0 && recipeColumn === 1) {
-          rowArray.push(this.newRecipeDiv(recipeIndex2));
-          recipeIndex++;
-          continue;
-        }
-        if (recipeRow === 0 && recipeColumn === 2) {
-          rowArray.push(this.singleTask(recipeIndex2));
-          recipeIndex++;
-          continue;
-        }
 
         // Preview when a recipe is clicked
         if (previewRecipeLocation === recipeIndex2) {
@@ -212,91 +180,13 @@ class RecipeModal extends Component {
       const { activeRecipes, previewRecipeLocation } = this.state;
       const recipe = activeRecipes[previewRecipeLocation];
       axios.delete("/api/recipe/" + recipe._id, { recipe }).then(res => {
-        this.getRecipes();
+        getRecipes(stateObject => this.setState(stateObject));
         this.setState({
           promptDeleteRecipe: false,
           previewRecipeLocation: undefined
         });
       });
     } else this.setState({ promptDeleteRecipe: false });
-  };
-
-  customCampaignDiv = recipeIndex2 => {
-    return (
-      <div
-        className="recipe-container pa8 ma8 flex column button"
-        key={recipeIndex2 + "recipe"}
-      >
-        <div
-          className="custom-option"
-          onClick={() => {
-            this.props.handleChange(undefined, "clickedEvent");
-            this.props.handleChange(false, "clickedEventIsRecipe");
-            this.props.handleChange(false, "recipeEditing");
-            this.props.openCampaignModal(true);
-            this.props.handleChange(false, "recipeModal");
-          }}
-        >
-          <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
-          <div className="new-campaign-text">
-            New <br />
-            Campaign
-          </div>
-          <div className="hover-active-div br4 px32 py8">Create</div>
-        </div>
-      </div>
-    );
-  };
-
-  newRecipeDiv = recipeIndex2 => {
-    return (
-      <div
-        className="recipe-container pa8 ma8 flex column button"
-        key={recipeIndex2 + "recipe"}
-      >
-        <div
-          className="custom-option"
-          onClick={() => {
-            this.props.handleChange(undefined, "clickedEvent");
-            this.props.handleChange(false, "clickedEventIsRecipe");
-            this.props.handleChange(true, "recipeEditing");
-            this.props.openCampaignModal(true);
-            this.props.handleChange(false, "recipeModal");
-          }}
-        >
-          <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
-          <div className="new-campaign-text">
-            New <br />
-            Template
-          </div>
-          <div className="hover-active-div br4 px32 py8">Create</div>
-        </div>
-      </div>
-    );
-  };
-  singleTask = recipeIndex2 => {
-    return (
-      <div
-        className="recipe-container pa8 ma8 flex column button"
-        key={recipeIndex2 + "recipe"}
-      >
-        <div
-          className="custom-option"
-          onClick={() => {
-            this.props.handleChange(undefined, "clickedEvent");
-            this.props.openContentModal(true);
-            this.props.handleChange(false, "recipeModal");
-          }}
-        >
-          <FontAwesomeIcon size="2x" icon={faFile} className="file-icon-new" />
-          <div className="new-campaign-text">
-            Single
-            <br /> Task
-          </div>
-          <div className="hover-active-div br4 px32 py8">Create</div>
-        </div>
-      </div>
-    );
   };
 
   previewRecipeDiv = (
@@ -375,7 +265,7 @@ class RecipeModal extends Component {
                       this.props.handleChange(recipe, "clickedEvent");
                       this.props.handleChange(true, "clickedEventIsRecipe");
                       this.props.handleChange(true, "recipeEditing");
-                      this.props.handleChange(false, "recipeModal");
+                      this.props.handleChange(false, "templatesModal");
                       this.props.openCampaignModal(true);
                     }}
                   />
@@ -413,7 +303,7 @@ class RecipeModal extends Component {
                   this.props.handleChange(recipe, "clickedEvent");
                   this.props.handleChange(true, "clickedEventIsRecipe");
                   this.props.handleChange(false, "recipeEditing");
-                  this.props.handleChange(false, "recipeModal");
+                  this.props.handleChange(false, "templatesModal");
                   this.props.openCampaignModal(true);
                 }}
                 dateLowerBound={new moment()}
@@ -446,7 +336,7 @@ class RecipeModal extends Component {
     return (
       <div
         className="modal"
-        onClick={() => this.props.handleChange(false, "recipeModal")}
+        onClick={() => this.props.handleChange(false, "templatesModal")}
       >
         <div
           className="large-modal common-transition"
@@ -456,7 +346,7 @@ class RecipeModal extends Component {
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => this.props.close(false, "recipeModal")}
+            onClick={() => this.props.close(false, "templatesModal")}
           />
 
           <div className="recipe-navigation-container">
@@ -528,4 +418,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RecipeModal);
+)(templatesModal);

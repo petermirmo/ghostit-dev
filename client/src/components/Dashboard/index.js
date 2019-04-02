@@ -5,7 +5,7 @@ import GIContainer from "../containers/GIContainer";
 import GIText from "../views/GIText";
 import GIButton from "../views/GIButton";
 
-import RecipeModal from "../postingFiles/CampaignAndRecipe/RecipeModal";
+import TemplatesModal from "../postingFiles/CampaignAndRecipe/TemplatesModal";
 
 class Dashboard extends Component {
   state = {
@@ -95,7 +95,7 @@ class Dashboard extends Component {
         </GIContainer>
 
         {templatesModal && calendarToSaveTo && (
-          <RecipeModal
+          <TemplatesModal
             close={() => this.setState({ templatesModal: false })}
             handleChange={() => {}}
             clickedCalendarDate={clickedDate}

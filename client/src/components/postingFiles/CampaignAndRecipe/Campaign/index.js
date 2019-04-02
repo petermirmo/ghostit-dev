@@ -1074,7 +1074,7 @@ class Campaign extends Component {
           tryChangingDates={this.tryChangingCampaignDates}
           backToRecipes={() => {
             this.props.handleChange(false, "campaignModal");
-            this.props.handleChange(true, "recipeModal");
+            this.props.handleChange(true, "templatesModal");
           }}
           userList={userList}
           close={() => this.attemptToCloseModal()}
@@ -1175,7 +1175,7 @@ class Campaign extends Component {
               <div
                 onClick={() => {
                   this.props.openCampaignModal(false);
-                  this.props.handleChange(true, "recipeModal");
+                  this.props.handleChange(true, "templatesModal");
                 }}
                 className="round-button button pa8 ma8 round"
               >

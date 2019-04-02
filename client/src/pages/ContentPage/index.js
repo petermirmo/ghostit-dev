@@ -19,7 +19,7 @@ import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
 import Campaign from "../../components/postingFiles/CampaignAndRecipe/Campaign";
-import RecipeModal from "../../components/postingFiles/CampaignAndRecipe/RecipeModal";
+import TemplatesModal from "../../components/postingFiles/CampaignAndRecipe/TemplatesModal";
 import Notification from "../../components/notifications/Notification";
 import Loader from "../../components/notifications/Loader/";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
@@ -54,7 +54,7 @@ class Content extends Component {
     calendarDate: new moment(),
 
     postEdittingModal: false,
-    recipeModal: false,
+    templatesModal: false,
 
     calendarEventCategories: {
       All: true,
@@ -677,7 +677,7 @@ class Content extends Component {
   openModal = date => {
     // Date for post is set to date clicked on calendar
     // Time for post is set to current time
-    this.setState({ clickedDate: date, recipeModal: true });
+    this.setState({ clickedDate: date, templatesModal: true });
   };
   handleChange = (value, index) => {
     this.setState({ [index]: value });
@@ -706,7 +706,7 @@ class Content extends Component {
   closeModals = () => {
     this.setState({
       postEdittingModal: false,
-      recipeModal: false,
+      templatesModal: false,
       recipeEditorModal: false,
       clickedEvent: undefined
     });
@@ -964,8 +964,8 @@ class Content extends Component {
             </div>
           </div>
         )}
-        {this.state.recipeModal && calendars[activeCalendarIndex] && (
-          <RecipeModal
+        {this.state.templatesModal && calendars[activeCalendarIndex] && (
+          <TemplatesModal
             close={this.closeModals}
             handleChange={this.handleChange}
             clickedCalendarDate={clickedDate}
