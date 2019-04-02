@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import { getPostColor } from "../../../../componentFunctions";
+import { getPostColor } from "../../../../../componentFunctions";
+
 class PostTypePicker extends Component {
   render() {
     return (

@@ -14,17 +14,19 @@ import {
 
 import io from "socket.io-client";
 
-import ContentModal from "./PostingFiles/ContentModal";
-import PostEdittingModal from "./PostingFiles/PostEdittingModal";
+import ContentModal from "../../components/PostingFiles/ContentModal";
+import PostEdittingModal from "../../components/PostingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
-import Campaign from "../../components/CampaignAndRecipe/Campaign";
-import RecipeModal from "../../components/CampaignAndRecipe/RecipeModal";
+import Campaign from "../../components/PostingFiles/CampaignAndRecipe/Campaign";
+import RecipeModal from "../../components/PostingFiles/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/notifications/Notification";
 import Loader from "../../components/notifications/Loader/";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 import CalendarChat from "../../components/CalendarChat";
 import Page from "../../components/containers/Page";
+
+import { getCalendars, getCalendarInvites } from "../util";
 
 class Content extends Component {
   state = {
@@ -78,57 +80,14 @@ class Content extends Component {
 
     this.initSocket();
 
-    axios.get("/api/calendars").then(res => {
-      const { success, calendars, defaultCalendarID } = res.data;
-      if (!success || !calendars || calendars.length === 0) {
-        console.log(res.data.err);
-        console.log(res.data.message);
-        console.log(calendars);
-      } else {
-        calendars.sort((a, b) => {
-          if (a.calendarName > b.calendarName) return 1;
-          else return -1;
-        });
-
-        let activeCalendarIndex = calendars.findIndex(
-          calObj => calObj._id.toString() === defaultCalendarID.toString()
-        );
-
-        if (activeCalendarIndex === -1) activeCalendarIndex = 0;
-        moment.tz.setDefault(calendars[activeCalendarIndex].timezone);
-
-        if (this._ismounted) {
-          this.setState(
-            {
-              calendars,
-              activeCalendarIndex,
-              defaultCalendarID,
-              timezone: calendars[activeCalendarIndex].timezone,
-              calendarDate: new moment()
-            },
-            () => {
-              this.fillCalendar();
-              this.updateSocketCalendar();
-            }
-          );
-        }
-      }
+    getCalendars(stateObject => {
+      if (this._ismounted) this.setState(stateObject);
+      this.fillCalendar();
+      this.updateSocketCalendar();
     });
 
-    axios.get("/api/calendars/invites").then(res => {
-      const { success, err, message, calendars } = res.data;
-      if (!success) {
-        console.log(err);
-        console.log(message);
-        console.log("failed to retrieve calendar invites.");
-      } else {
-        if (!calendars || calendars.length === 0) {
-          return;
-        } else {
-          // calendars is an array of all calendars that have this user's email in its emailsInvited array
-          this.setState({ calendarInvites: calendars });
-        }
-      }
+    getCalendarInvites(stateObject => {
+      if (this._ismounted) this.setState(stateObject);
     });
 
     window.addEventListener("beforeunload", this.notifySocketUsersOnPageClose);

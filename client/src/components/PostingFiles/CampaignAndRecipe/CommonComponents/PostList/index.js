@@ -6,7 +6,7 @@ import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import faArrowDown from "@fortawesome/fontawesome-free-solid/faArrowDown";
 import faCopy from "@fortawesome/fontawesome-free-solid/faCopy";
 
-import { getPostColor } from "../../../../componentFunctions";
+import { getPostColor } from "../../../../../componentFunctions";
 
 import PostTypePicker from "../PostTypePicker";
 

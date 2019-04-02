@@ -8,8 +8,8 @@ import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
 import faAngleUp from "@fortawesome/fontawesome-free-solid/faAngleUp";
 import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
 
-import DateTimePicker from "../../../DateTimePicker";
-import SocketUserList from "../../../SocketUserList";
+import DateTimePicker from "../../../../DateTimePicker";
+import SocketUserList from "../../../../SocketUserList";
 
 import "./style.css";
 

@@ -12,14 +12,17 @@ import { bindActionCreators } from "redux";
 import {
   setKeyListenerFunction,
   openCampaignModal
-} from "../../../redux/actions/";
+} from "../../../../redux/actions/";
 
-import { trySavePost, getSocialCharacters } from "../../../componentFunctions";
+import {
+  trySavePost,
+  getSocialCharacters
+} from "../../../../componentFunctions";
 
 import Post from "../../Post";
 import CustomTask from "../../CustomTask";
-import Loader from "../../notifications/Loader";
-import ConfirmAlert from "../../notifications/ConfirmAlert";
+import Loader from "../../../notifications/Loader";
+import ConfirmAlert from "../../../notifications/ConfirmAlert";
 
 import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";

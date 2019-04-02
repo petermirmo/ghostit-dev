@@ -11,11 +11,11 @@ import {
 } from "../../../redux/actions/";
 
 import ContentModalHeader from "./ContentModalHeader";
-import Loader from "../../../components/notifications/Loader/";
-import Post from "../../../components/Post";
-import CustomTask from "../../../components/CustomTask";
-import InstagramPosting from "./InstagramPosting";
-import "./style.css";
+import Loader from "../../notifications/Loader/";
+import Post from "../Post";
+import CustomTask from "../CustomTask";
+
+import "../style.css";
 
 class ContentModal extends Component {
   state = {

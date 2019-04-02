@@ -6,7 +6,14 @@ import GIText from "../views/GIText";
 import GIButton from "../views/GIButton";
 
 class Dashboard extends Component {
+  state = {
+    campaignModal: false,
+    contentModal: false,
+    templatesModal: false
+  };
   render() {
+    const { contentModal, campaignModal, templatesModal } = this.state;
+    const { calendarToSaveTo, clickedDate } = this.props;
     return (
       <GIContainer className="x-fill column">
         <GIText className="mb32 mx8" type="h1" text="Dashboard" />
@@ -27,8 +34,9 @@ class Dashboard extends Component {
                 type="p"
               />
               <GIButton
-                text="Create post"
                 className="regular-button light small x-85"
+                onClick={() => this.setState({ contentModal: true })}
+                text="Create post"
               />
             </GIContainer>
           </GIContainer>
@@ -51,21 +59,22 @@ class Dashboard extends Component {
                 type="p"
               />
               <GIButton
-                text="Create campaign"
                 className="regular-button light small x-85"
+                onClick={() => this.setState({ campaignModal: true })}
+                text="Create campaign"
               />
             </GIContainer>
           </GIContainer>
           <GIContainer className="container-box column twentyvw justify-between py16 px32 mb32 mx8 br8 common-border">
             <GIText
+              className="seven-blue mb16"
               text="Browse templates"
               type="h3"
-              className="seven-blue mb16"
             />
             <GIContainer className="full-center x-fill y-50">
               <img
-                src="src/svgs/dashboard-templates.svg"
                 className="fill-parent"
+                src="src/svgs/dashboard-templates.svg"
               />
             </GIContainer>
             <GIContainer className="x-fill full-center column">
@@ -75,12 +84,53 @@ class Dashboard extends Component {
                 type="p"
               />
               <GIButton
-                text="Browse templates"
                 className="regular-button light small x-85"
+                text="Browse templates"
               />
             </GIContainer>
           </GIContainer>
         </GIContainer>
+
+        {contentModal && calendarToSaveTo && (
+          <ContentModal
+            calendarID={calendarToSaveTo._id}
+            clickedCalendarDate={clickedDate}
+            notify={this.notify}
+            savePostCallback={post => {
+              this.getPosts();
+              this.triggerSocketPeers("calendar_post_saved", post);
+              this.props.openContentModal(false);
+            }}
+          />
+        )}
+        {campaignModal && calendarToSaveTo && (
+          <div
+            className="modal"
+            onClick={() => this.props.openCampaignModal(false)}
+          >
+            <div
+              className="large-modal common-transition"
+              onClick={e => e.stopPropagation()}
+            >
+              <Campaign
+                calendarID={calendarToSaveTo._id}
+                clickedCalendarDate={clickedDate}
+                handleChange={this.handleChange}
+                notify={this.notify}
+                triggerSocketPeers={this.triggerSocketPeers}
+                updateCampaigns={() => {}}
+              />
+            </div>
+          </div>
+        )}
+        {templatesModal && calendarToSaveTo && (
+          <RecipeModal
+            close={() => this.setState({ templatesModal: false })}
+            handleChange={() => {}}
+            clickedCalendarDate={clickedDate}
+            calendarID={calendarToSaveTo._id}
+          />
+        )}
       </GIContainer>
     );
   }

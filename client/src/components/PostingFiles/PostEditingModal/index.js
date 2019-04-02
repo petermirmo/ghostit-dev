@@ -8,12 +8,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import Post from "../../../components/Post";
-import CustomTask from "../../../components/CustomTask";
-import Notification from "../../../components/notifications/Notification";
-import ConfirmAlert from "../../../components/notifications/ConfirmAlert";
-import Loader from "../../../components/notifications/Loader/";
-import "./style.css";
+import Post from "../Post";
+import CustomTask from "../CustomTask";
+import Notification from "../../notifications/Notification";
+import ConfirmAlert from "../../notifications/ConfirmAlert";
+import Loader from "../../notifications/Loader/";
+import "../style.css";
 
 class PostEdittingModal extends Component {
   state = {

@@ -12,14 +12,14 @@ import { bindActionCreators } from "redux";
 
 import { Link } from "react-router-dom";
 
-import DateTimePicker from "../DateTimePicker";
-import SelectAccountDiv from "../SelectAccountDiv/";
-import LinkPreview from "../LinkPreview";
-import ImagesDiv from "../ImagesDiv/";
-import { linkPreviewOptions } from "../../componentFunctions";
-import { trySavePost } from "../../componentFunctions";
+import DateTimePicker from "../../DateTimePicker";
+import SelectAccountDiv from "../../SelectAccountDiv/";
+import LinkPreview from "../../LinkPreview";
+import ImagesDiv from "../../ImagesDiv/";
+import { linkPreviewOptions } from "../../../componentFunctions";
+import { trySavePost } from "../../../componentFunctions";
 
-import ConfirmAlert from "../notifications/ConfirmAlert";
+import ConfirmAlert from "../../notifications/ConfirmAlert";
 
 import "./style.css";
 

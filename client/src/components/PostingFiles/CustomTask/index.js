@@ -1,14 +1,13 @@
-import React, { Component } from "react";
-import moment from "moment-timezone";
 import axios from "axios";
-
-import DateTimePicker from "../DateTimePicker";
-import ImagesDiv from "../ImagesDiv/";
+import moment from "moment-timezone";
+import React, { Component } from "react";
 import Textarea from "react-textarea-autosize";
 
-import ConfirmAlert from "../notifications/ConfirmAlert";
+import ConfirmAlert from "../../notifications/ConfirmAlert";
+import DateTimePicker from "../../DateTimePicker";
+import ImagesDiv from "../../ImagesDiv/";
 
-import { trySavePost } from "../../componentFunctions";
+import { trySavePost } from "../../../componentFunctions";
 
 class CustomTask extends Component {
   constructor(props) {

@@ -8,7 +8,7 @@ import {
   setKeyListenerFunction,
   openContentModal,
   openCampaignModal
-} from "../../../redux/actions/";
+} from "../../../../redux/actions/";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -16,11 +16,11 @@ import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 
-import LoaderSimpleCircle from "../../notifications/LoaderSimpleCircle";
-import DateTimePicker from "../../DateTimePicker";
-import ConfirmAlert from "../../notifications/ConfirmAlert";
+import LoaderSimpleCircle from "../../../notifications/LoaderSimpleCircle";
+import DateTimePicker from "../../../DateTimePicker";
+import ConfirmAlert from "../../../notifications/ConfirmAlert";
 
-import { getPostColor, getPostIcon } from "../../../componentFunctions";
+import { getPostColor, getPostIcon } from "../../../../componentFunctions";
 
 import "./style.css";
 
