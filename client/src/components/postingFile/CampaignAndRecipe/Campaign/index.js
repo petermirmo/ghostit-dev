@@ -16,7 +16,10 @@ import {
 
 import {
   trySavePost,
-  getSocialCharacters
+  getSocialCharacters,
+  fillPosts,
+  newPost,
+  createAppropriateDate
 } from "../../../../componentFunctions";
 
 import Post from "../../Post";
@@ -27,12 +30,6 @@ import ConfirmAlert from "../../../notifications/ConfirmAlert";
 import PostTypePicker from "../CommonComponents/PostTypePicker";
 import PostList from "../CommonComponents/PostList";
 import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
-
-import {
-  fillPosts,
-  newPost,
-  createAppropriateDate
-} from "../../../componentFunctions";
 
 import "./style.css";
 

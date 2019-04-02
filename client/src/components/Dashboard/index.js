@@ -91,38 +91,6 @@ class Dashboard extends Component {
           </GIContainer>
         </GIContainer>
 
-        {contentModal && calendarToSaveTo && (
-          <ContentModal
-            calendarID={calendarToSaveTo._id}
-            clickedCalendarDate={clickedDate}
-            notify={this.notify}
-            savePostCallback={post => {
-              this.getPosts();
-              this.triggerSocketPeers("calendar_post_saved", post);
-              this.props.openContentModal(false);
-            }}
-          />
-        )}
-        {campaignModal && calendarToSaveTo && (
-          <div
-            className="modal"
-            onClick={() => this.props.openCampaignModal(false)}
-          >
-            <div
-              className="large-modal common-transition"
-              onClick={e => e.stopPropagation()}
-            >
-              <Campaign
-                calendarID={calendarToSaveTo._id}
-                clickedCalendarDate={clickedDate}
-                handleChange={this.handleChange}
-                notify={this.notify}
-                triggerSocketPeers={this.triggerSocketPeers}
-                updateCampaigns={() => {}}
-              />
-            </div>
-          </div>
-        )}
         {templatesModal && calendarToSaveTo && (
           <RecipeModal
             close={() => this.setState({ templatesModal: false })}
@@ -135,5 +103,37 @@ class Dashboard extends Component {
     );
   }
 }
+/*{contentModal && calendarToSaveTo && (
+  <ContentModal
+    calendarID={calendarToSaveTo._id}
+    clickedCalendarDate={clickedDate}
+    notify={this.notify}
+    savePostCallback={post => {
+      this.getPosts();
+      this.triggerSocketPeers("calendar_post_saved", post);
+      this.props.openContentModal(false);
+    }}
+  />
+)}
+{campaignModal && calendarToSaveTo && (
+  <div
+    className="modal"
+    onClick={() => this.props.openCampaignModal(false)}
+  >
+    <div
+      className="large-modal common-transition"
+      onClick={e => e.stopPropagation()}
+    >
+      <Campaign
+        calendarID={calendarToSaveTo._id}
+        clickedCalendarDate={clickedDate}
+        handleChange={this.handleChange}
+        notify={this.notify}
+        triggerSocketPeers={this.triggerSocketPeers}
+        updateCampaigns={() => {}}
+      />
+    </div>
+  </div>
+)}*/
 
 export default Dashboard;
