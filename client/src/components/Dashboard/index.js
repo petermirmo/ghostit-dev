@@ -96,28 +96,30 @@ class Dashboard extends Component {
 
         {templatesModal && calendarToSaveTo && (
           <TemplatesModal
-            close={() => this.setState({ templatesModal: false })}
-            handleChange={() => {}}
-            clickedCalendarDate={clickedDate}
             calendarID={calendarToSaveTo._id}
+            clickedCalendarDate={clickedDate}
+            close={() => this.setState({ templatesModal: false })}
+            handleChange={something => {
+              console.log(something);
+            }}
+          />
+        )}
+        {contentModal && calendarToSaveTo && (
+          <ContentModal
+            calendarID={calendarToSaveTo._id}
+            clickedCalendarDate={clickedDate}
+            notify={this.notify}
+            savePostCallback={post => {
+              this.triggerSocketPeers("calendar_post_saved", post);
+              this.setState({ contentModal: false });
+            }}
           />
         )}
       </GIContainer>
     );
   }
 }
-/*{contentModal && calendarToSaveTo && (
-  <ContentModal
-    calendarID={calendarToSaveTo._id}
-    clickedCalendarDate={clickedDate}
-    notify={this.notify}
-    savePostCallback={post => {
-      this.getPosts();
-      this.triggerSocketPeers("calendar_post_saved", post);
-      this.props.openContentModal(false);
-    }}
-  />
-)}
+/*
 {campaignModal && calendarToSaveTo && (
   <div
     className="modal"

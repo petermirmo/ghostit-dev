@@ -5,10 +5,7 @@ import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setKeyListenerFunction,
-  openContentModal
-} from "../../../redux/actions/";
+import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import ContentModalHeader from "./ContentModalHeader";
 import Loader from "../../notifications/Loader/";
@@ -36,7 +33,7 @@ class ContentModal extends Component {
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.openContentModal(false); // escape button pushed
+          this.props.close(); // escape button pushed
         }
       },
       this.props.getKeyListenerFunction[0]
@@ -90,9 +87,6 @@ class ContentModal extends Component {
   };
 
   render() {
-    if (this.state.saving) {
-      return <Loader />;
-    }
     const { activeTab, listOfPostChanges } = this.state;
     const {
       close,
@@ -102,6 +96,11 @@ class ContentModal extends Component {
       saveBlogCallback,
       saveNewsletterCallback
     } = this.props;
+
+    if (this.state.saving) {
+      return <Loader />;
+    }
+
     let modalBody;
 
     if (activeTab.name === "custom") {
@@ -170,13 +169,13 @@ class ContentModal extends Component {
     }
 
     return (
-      <div className="modal" onClick={() => this.props.openContentModal(false)}>
+      <div className="modal" onClick={() => close()}>
         <div className="post-modal" onClick={e => e.stopPropagation()}>
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => this.props.openContentModal(false)}
+            onClick={() => close()}
           />
 
           <ContentModalHeader
@@ -200,8 +199,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setKeyListenerFunction,
-      openContentModal
+      setKeyListenerFunction
     },
     dispatch
   );

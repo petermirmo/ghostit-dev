@@ -4,11 +4,7 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setKeyListenerFunction,
-  openContentModal,
-  openCampaignModal
-} from "../../../../redux/actions/";
+import { setKeyListenerFunction } from "../../../../redux/actions/";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -58,14 +54,15 @@ class templatesModal extends Component {
       this.props.getKeyListenerFunction[0]
     ]);
 
-    getRecipes(stateObject => this.setState(stateObject));
+    getRecipes(stateObject => {
+      if (this._ismounted) this.setState(stateObject);
+    });
   }
   componentWillUnmount() {
     this._ismounted = false;
   }
 
   createRecipeList = activeRecipes => {
-    console.log(activeRecipes);
     const {
       previewRecipeLocation,
       activePost,
@@ -180,7 +177,9 @@ class templatesModal extends Component {
       const { activeRecipes, previewRecipeLocation } = this.state;
       const recipe = activeRecipes[previewRecipeLocation];
       axios.delete("/api/recipe/" + recipe._id, { recipe }).then(res => {
-        getRecipes(stateObject => this.setState(stateObject));
+        getRecipes(stateObject => {
+          if (this._ismounted) this.setState(stateObject);
+        });
         this.setState({
           promptDeleteRecipe: false,
           previewRecipeLocation: undefined
@@ -408,9 +407,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setKeyListenerFunction,
-      openContentModal,
-      openCampaignModal
+      setKeyListenerFunction
     },
     dispatch
   );

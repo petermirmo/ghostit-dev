@@ -27,6 +27,7 @@ import CalendarChat from "../../components/CalendarChat";
 import Page from "../../components/containers/Page";
 
 import { getCalendars, getCalendarInvites } from "../util";
+import { triggerSocketPeers } from "./util";
 
 class Content extends Component {
   state = {
@@ -53,6 +54,9 @@ class Content extends Component {
     clickedDate: new moment(),
     calendarDate: new moment(),
 
+    calendarManagerModal: false,
+    campaignModal: false,
+    contentModal: true,
     postEdittingModal: false,
     templatesModal: false,
 
@@ -184,97 +188,6 @@ class Content extends Component {
           ]
         };
       });
-    });
-
-    socket.on("calendar_blog_saved", blog => {
-      const { calendars, activeCalendarIndex, websitePosts } = this.state;
-      if (!calendars || activeCalendarIndex === undefined) return;
-      const calendarID = calendars[activeCalendarIndex]._id;
-      if (blog.calendarID.toString() !== calendarID.toString()) return;
-      blog.startDate = blog.postingDate;
-      blog.endDate = blog.postingDate;
-      const index = websitePosts.findIndex(
-        blogObj => blogObj._id.toString() === blog._id.toString()
-      );
-      if (index !== -1) {
-        this.setState(prevState => {
-          return {
-            websitePosts: [
-              ...prevState.websitePosts.slice(0, index),
-              blog,
-              ...prevState.websitePosts.slice(index + 1)
-            ]
-          };
-        });
-      } else {
-        this.setState(prevState => {
-          return { websitePosts: [...prevState.websitePosts, blog] };
-        });
-      }
-    });
-
-    socket.on("calendar_blog_deleted", blogID => {
-      const { websitePosts } = this.state;
-      const index = websitePosts.findIndex(
-        blog => blog._id.toString() === blogID.toString()
-      );
-      if (index !== -1) {
-        this.setState(prevState => {
-          return {
-            websitePosts: [
-              ...websitePosts.slice(0, index),
-              ...websitePosts.slice(index + 1)
-            ]
-          };
-        });
-      }
-    });
-
-    socket.on("calendar_newsletter_saved", newsletter => {
-      const { calendars, activeCalendarIndex, newsletterPosts } = this.state;
-      if (!calendars || activeCalendarIndex === undefined) return;
-      const calendarID = calendars[activeCalendarIndex]._id;
-      if (newsletter.calendarID.toString() !== calendarID.toString()) return;
-      newsletter.startDate = newsletter.postingDate;
-      newsletter.endDate = newsletter.postingDate;
-      const index = newsletterPosts.findIndex(
-        newsletterObj =>
-          newsletterObj._id.toString() === newsletter._id.toString()
-      );
-      if (index !== -1) {
-        this.setState(prevState => {
-          return {
-            newsletterPosts: [
-              ...prevState.newsletterPosts.slice(0, index),
-              newsletter,
-              ...prevState.newsletterPosts.slice(index + 1)
-            ]
-          };
-        });
-      } else {
-        this.setState(prevState => {
-          return {
-            newsletterPosts: [...prevState.newsletterPosts, newsletter]
-          };
-        });
-      }
-    });
-
-    socket.on("calendar_newsletter_deleted", newsletterID => {
-      const { newsletterPosts } = this.state;
-      const index = newsletterPosts.findIndex(
-        newsletter => newsletter._id.toString() === newsletterID.toString()
-      );
-      if (index !== -1) {
-        this.setState(prevState => {
-          return {
-            newsletterPosts: [
-              ...newsletterPosts.slice(0, index),
-              ...newsletterPosts.slice(index + 1)
-            ]
-          };
-        });
-      }
     });
 
     socket.on("calendar_campaign_saved", campaign => {
@@ -695,11 +608,11 @@ class Content extends Component {
   };
 
   openCampaign = campaign => {
-    this.props.openCampaignModal(true);
     this.setState({
       clickedEvent: campaign,
       clickedEventIsRecipe: false,
-      recipeEditing: false
+      recipeEditing: false,
+      campaignModal: true
     });
   };
 
@@ -754,57 +667,47 @@ class Content extends Component {
     );
   };
 
-  triggerSocketPeers = (type, extra, campaignID) => {
-    const { calendars, activeCalendarIndex, socket } = this.state;
-    if (
-      calendars &&
-      activeCalendarIndex !== undefined &&
-      calendars[activeCalendarIndex]
-    ) {
-      socket.emit("trigger_socket_peers", {
-        calendarID: calendars[activeCalendarIndex]._id,
-        campaignID,
-        type,
-        extra
-      });
-    }
-  };
-
   render() {
     const {
+      activeCalendarIndex,
+      calendarDate,
+      calendarInvites,
+      calendarManagerModal,
+      calendars,
+      campaignModal,
+      campaigns,
+      clickedDate,
       calendarEventCategories,
-      facebookPosts,
-      twitterPosts,
-      linkedinPosts,
-      instagramPosts,
-      websitePosts,
-      newsletterPosts,
-      customPosts,
-      timezone,
       clickedEvent,
       clickedEventIsRecipe,
-      recipeEditing,
-      clickedDate,
-      campaigns,
-      notification,
-      calendars,
-      calendarInvites,
-      activeCalendarIndex,
+      contentModal,
+      customPosts,
       defaultCalendarID,
-      calendarDate,
+      facebookPosts,
+      instagramPosts,
+      linkedinPosts,
       loading,
-      userList
+      newsletterPosts,
+      notification,
+      postEdittingModal,
+      recipeEditing,
+      socket,
+      templatesModal,
+      timezone,
+      twitterPosts,
+      userList,
+      websitePosts
     } = this.state;
     const {
       All,
-      Facebook,
-      Twitter,
-      Linkedin,
-      Instagram,
       Blog,
-      Newsletter,
       Campaigns,
-      Custom
+      Custom,
+      Facebook,
+      Instagram,
+      Linkedin,
+      Newsletter,
+      Twitter
     } = calendarEventCategories;
     let calendarEvents = [];
 
@@ -870,7 +773,7 @@ class Content extends Component {
           calendarInvites={calendarInvites}
           categories={calendarEventCategories}
           enableCalendarManager={() =>
-            this.props.openCalendarManagerModal(true)
+            this.setState({ calendarManagerModal: true })
           }
           inviteResponse={this.inviteResponse}
           onDateChange={date => {
@@ -886,11 +789,11 @@ class Content extends Component {
           userList={userList}
         />
         {false && <CalendarChat calendars={calendars} />}
-        {this.props.calendarManagerModal && (
+        {calendarManagerModal && (
           <div
             className="modal"
             onClick={() => {
-              this.props.openCalendarManagerModal(false);
+              this.setState({ calendarManagerModal: false });
               this.getCalendars();
             }}
           >
@@ -903,7 +806,7 @@ class Content extends Component {
                 activeCalendarIndex={activeCalendarIndex}
                 defaultCalendarID={defaultCalendarID}
                 close={() => {
-                  this.props.openCalendarManagerModal(false);
+                  this.setState({ calendarManagerModal: false });
                   this.getCalendars();
                 }}
                 notify={this.notify}
@@ -911,39 +814,60 @@ class Content extends Component {
             </div>
           </div>
         )}
-        {this.props.contentModal && calendars[activeCalendarIndex] && (
+        {contentModal && calendars[activeCalendarIndex] && (
           <ContentModal
-            clickedCalendarDate={clickedDate}
-            timezone={timezone}
             calendarID={calendars[activeCalendarIndex]._id}
+            clickedCalendarDate={clickedDate}
+            close={() => this.setState({ contentModal: false })}
             notify={this.notify}
             savePostCallback={post => {
               this.getPosts();
-              this.triggerSocketPeers("calendar_post_saved", post);
-              this.props.openContentModal(false);
+              triggerSocketPeers(
+                "calendar_post_saved",
+                post,
+                calendars,
+                activeCalendarIndex,
+                socket
+              );
+              this.setState({ contentModal: false });
             }}
+            timezone={timezone}
           />
         )}
-        {this.state.postEdittingModal && (
+        {postEdittingModal && (
           <PostEdittingModal
             savePostCallback={post => {
               this.getPosts();
-              this.triggerSocketPeers("calendar_post_saved", post);
+              triggerSocketPeers(
+                "calendar_post_saved",
+                post,
+                calendars,
+                activeCalendarIndex,
+                socket
+              );
             }}
             updateCalendarPosts={this.getPosts}
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
             notify={this.notify}
-            triggerSocketPeers={this.triggerSocketPeers}
+            triggerSocketPeers={(type, post) =>
+              triggerSocketPeers(
+                type,
+                post,
+                calendars,
+                activeCalendarIndex,
+                socket
+              )
+            }
             calendarID={calendars[activeCalendarIndex]._id}
           />
         )}
 
-        {this.props.campaignModal && calendars[activeCalendarIndex] && (
+        {campaignModal && calendars[activeCalendarIndex] && (
           <div
             className="modal"
-            onClick={() => this.props.openCampaignModal(false)}
+            onClick={() => this.setState({ campaignModal: false })}
           >
             <div
               className="large-modal common-transition"
@@ -959,12 +883,21 @@ class Content extends Component {
                 isRecipe={clickedEventIsRecipe}
                 recipeEditing={recipeEditing}
                 notify={this.notify}
-                triggerSocketPeers={this.triggerSocketPeers}
+                triggerSocketPeers={(type, extra, campaignID) =>
+                  triggerSocketPeers(
+                    type,
+                    extra,
+                    calendars,
+                    activeCalendarIndex,
+                    socket,
+                    campaignID
+                  )
+                }
               />
             </div>
           </div>
         )}
-        {this.state.templatesModal && calendars[activeCalendarIndex] && (
+        {templatesModal && calendars[activeCalendarIndex] && (
           <TemplatesModal
             close={this.closeModals}
             handleChange={this.handleChange}
@@ -993,20 +926,7 @@ class Content extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
-    contentModal: state.contentModal,
-    campaignModal: state.campaignModal,
-    calendarManagerModal: state.calendarManagerModal
+    user: state.user
   };
 }
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    { openContentModal, openCampaignModal, openCalendarManagerModal },
-    dispatch
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Content);
+export default connect(mapStateToProps)(Content);

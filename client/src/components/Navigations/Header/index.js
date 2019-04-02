@@ -19,13 +19,7 @@ import sizeMe from "react-sizeme";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setUser,
-  setaccounts,
-  openContentModal,
-  openCampaignModal,
-  openCalendarManagerModal
-} from "../../../redux/actions/";
+import { setUser, setaccounts } from "../../../redux/actions/";
 
 import SideBarClients from "../../SideBarClients/";
 import ImagesDiv from "../../ImagesDiv/";
@@ -240,10 +234,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setaccounts,
-      openContentModal,
-      openCampaignModal,
-      openCalendarManagerModal
+      setaccounts
     },
     dispatch
   );
