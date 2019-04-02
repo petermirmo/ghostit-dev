@@ -20,7 +20,7 @@ const writersBriefFunctions = require("./services/writersBriefFunctions");
 const SendMailFunctions = require("./MailFiles/SendMailFunctions");
 const analyticsFunctions = require("./services/analyticsFunctions");
 const calendarFunctions = require("./services/calendarFunctions");
-const ghostitBlogFunctions = require("./services/GhostitBlogFunctions");
+const ghostitBlogFunctions = require("./services/ghostitBlogFunctions");
 
 module.exports = app => {
   var middleware = function(req, res, next) {

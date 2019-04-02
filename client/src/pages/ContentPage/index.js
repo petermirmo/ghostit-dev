@@ -14,12 +14,12 @@ import {
 
 import io from "socket.io-client";
 
-import ContentModal from "../../components/PostingFiles/ContentModal";
-import PostEdittingModal from "../../components/PostingFiles/PostEditingModal";
+import ContentModal from "../../components/postingFiles/ContentModal";
+import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
-import Campaign from "../../components/PostingFiles/CampaignAndRecipe/Campaign";
-import RecipeModal from "../../components/PostingFiles/CampaignAndRecipe/RecipeModal";
+import Campaign from "../../components/postingFiles/CampaignAndRecipe/Campaign";
+import RecipeModal from "../../components/postingFiles/CampaignAndRecipe/RecipeModal";
 import Notification from "../../components/notifications/Notification";
 import Loader from "../../components/notifications/Loader/";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";

@@ -5,6 +5,8 @@ import GIContainer from "../containers/GIContainer";
 import GIText from "../views/GIText";
 import GIButton from "../views/GIButton";
 
+import RecipeModal from "../postingFiles/CampaignAndRecipe/RecipeModal";
+
 class Dashboard extends Component {
   state = {
     campaignModal: false,
@@ -85,6 +87,7 @@ class Dashboard extends Component {
               />
               <GIButton
                 className="regular-button light small x-85"
+                onClick={() => this.setState({ templatesModal: true })}
                 text="Browse templates"
               />
             </GIContainer>
