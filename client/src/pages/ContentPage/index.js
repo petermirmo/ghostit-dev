@@ -12,22 +12,22 @@ import {
   openCalendarManagerModal
 } from "../../redux/actions/";
 
-import io from "socket.io-client";
-
 import ContentModal from "../../components/postingFiles/ContentModal";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar/";
 import CalendarManager from "../../components/CalendarManager/";
 import Campaign from "../../components/postingFiles/CampaignAndRecipe/Campaign";
 import TemplatesModal from "../../components/postingFiles/CampaignAndRecipe/TemplatesModal";
-import Notification from "../../components/notifications/Notification";
 import Loader from "../../components/notifications/Loader/";
-import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 import CalendarChat from "../../components/CalendarChat";
 import Page from "../../components/containers/Page";
 
-import { getCalendars, getCalendarInvites } from "../util";
-import { triggerSocketPeers } from "./util";
+import {
+  getCalendars,
+  getCalendarInvites,
+  triggerSocketPeers,
+  initSocket
+} from "../util";
 
 class Content extends Component {
   state = {
@@ -47,16 +47,14 @@ class Content extends Component {
     facebookPosts: [],
     twitterPosts: [],
     linkedinPosts: [],
-    websitePosts: [],
     customPosts: [],
-    newsletterPosts: [],
 
     clickedDate: new moment(),
     calendarDate: new moment(),
 
     calendarManagerModal: false,
     campaignModal: false,
-    contentModal: true,
+    contentModal: false,
     postEdittingModal: false,
     templatesModal: false,
 
@@ -65,16 +63,8 @@ class Content extends Component {
       Facebook: false,
       Twitter: false,
       Linkedin: false,
-      Blog: false,
       Campaigns: false,
       Custom: false
-    },
-    notification: {
-      show: false,
-      type: undefined,
-      title: undefined,
-      message: undefined,
-      timer: undefined
     },
     timezone: ""
   };
@@ -82,12 +72,32 @@ class Content extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    this.initSocket();
+    const {
+      calendars,
+      activeCalendarIndex,
+      campaigns,
+      facebookPosts,
+      twitterPosts,
+      linkedinPosts,
+      customPosts
+    } = this.state;
 
     getCalendars(stateObject => {
       if (this._ismounted) this.setState(stateObject);
       this.fillCalendar();
       this.updateSocketCalendar();
+      initSocket(
+        stateObject => {
+          if (this._ismounted) this.setState(stateObject);
+        },
+        calendars,
+        activeCalendarIndex,
+        campaigns,
+        facebookPosts,
+        twitterPosts,
+        linkedinPosts,
+        customPosts
+      );
     });
 
     getCalendarInvites(stateObject => {
@@ -110,273 +120,6 @@ class Content extends Component {
   notifySocketUsersOnPageClose = () => {
     const { socket } = this.state;
     if (socket) socket.emit("unmounting_socket_component");
-  };
-
-  initSocket = () => {
-    let socket;
-
-    if (process.env.NODE_ENV === "development")
-      socket = io("http://localhost:5000");
-    else socket = io();
-
-    socket.on("calendar_post_saved", post => {
-      const { calendars, activeCalendarIndex } = this.state;
-
-      post.startDate = post.postingDate;
-      post.endDate = post.postingDate;
-
-      if (
-        calendars[activeCalendarIndex]._id.toString() !==
-        post.calendarID.toString()
-      ) {
-        return;
-      } else {
-        let targetListName;
-        if (post.socialType === "facebook") targetListName = "facebookPosts";
-        else if (post.socialType === "twitter") targetListName = "twitterPosts";
-        else if (post.socialType === "linkedin")
-          targetListName = "linkedinPosts";
-        else if (post.socialType === "custom") targetListName = "customPosts";
-        else console.log(`unhandled post socialType: ${post.socialType}`);
-        if (targetListName) {
-          const index = this.state[targetListName].findIndex(
-            postObj => postObj._id.toString() === post._id.toString()
-          );
-          if (index === -1) {
-            // new post so just add it to the list
-            this.setState(prevState => {
-              return {
-                [targetListName]: [...prevState[targetListName], post]
-              };
-            });
-          } else {
-            // post exists so we just need to update it
-            this.setState(prevState => {
-              return {
-                [targetListName]: [
-                  ...prevState[targetListName].slice(0, index),
-                  post,
-                  ...prevState[targetListName].slice(index + 1)
-                ]
-              };
-            });
-          }
-        }
-      }
-    });
-
-    socket.on("calendar_post_deleted", reqObj => {
-      const { postID, socialType } = reqObj;
-      if (!postID || !socialType) return;
-
-      let targetListName;
-      if (socialType === "facebook") targetListName = "facebookPosts";
-      else if (socialType === "twitter") targetListName = "twitterPosts";
-      else if (socialType === "linkedin") targetListName = "linkedinPosts";
-      else if (socialType === "custom") targetListName = "customPosts";
-      else console.log(`unhandled post socialType: ${socialType}`);
-
-      const index = this.state[targetListName].findIndex(
-        post => post._id.toString() === postID.toString()
-      );
-      if (index === -1) return;
-      this.setState(prevState => {
-        return {
-          [targetListName]: [
-            ...prevState[targetListName].slice(0, index),
-            ...prevState[targetListName].slice(index + 1)
-          ]
-        };
-      });
-    });
-
-    socket.on("calendar_campaign_saved", campaign => {
-      const { campaigns, calendars, activeCalendarIndex } = this.state;
-      if (
-        campaign.calendarID.toString() !==
-        calendars[activeCalendarIndex]._id.toString()
-      )
-        return;
-      const index = campaigns.findIndex(
-        camp => camp._id.toString() === campaign._id.toString()
-      );
-      if (index !== -1) {
-        this.setState(prevState => {
-          return {
-            campaigns: [
-              ...prevState.campaigns.slice(0, index),
-              campaign,
-              ...prevState.campaigns.slice(index + 1)
-            ]
-          };
-        });
-      } else {
-        this.setState(prevState => {
-          return {
-            campaigns: [...prevState.campaigns, campaign]
-          };
-        });
-      }
-    });
-
-    socket.on("calendar_campaign_deleted", campaignID => {
-      const { campaigns } = this.state;
-      const index = campaigns.findIndex(
-        campaign => campaign._id.toString() === campaignID.toString()
-      );
-      if (index !== -1) {
-        this.setState(prevState => {
-          return {
-            campaigns: [
-              ...prevState.campaigns.slice(0, index),
-              ...prevState.campaigns.slice(index + 1)
-            ]
-          };
-        });
-      }
-    });
-
-    socket.on("campaign_post_saved", reqObj => {
-      const { calendarID, campaignID } = reqObj;
-      const post = reqObj.extra;
-      const { campaigns, calendars, activeCalendarIndex } = this.state;
-
-      if (
-        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
-      )
-        return;
-
-      const index = campaigns.findIndex(
-        campaign => campaign._id.toString() === campaignID.toString()
-      );
-      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
-
-      const campaign = campaigns[index];
-      const postIndex = campaign.posts.findIndex(
-        postObj => postObj._id.toString() === post._id.toString()
-      );
-
-      if (postIndex === -1) {
-        // post doesn't exist in the campaign yet so just need to add it
-        this.setState(prevState => {
-          return {
-            campaigns: [
-              ...prevState.campaigns.slice(0, index),
-              {
-                ...prevState.campaigns[index],
-                posts: [...prevState.campaigns[index].posts, post]
-              },
-              ...prevState.campaigns.slice(index + 1)
-            ]
-          };
-        });
-      } else {
-        // post exists already so need to update it
-        this.setState(prevState => {
-          return {
-            campaigns: [
-              ...prevState.campaigns.slice(0, index),
-              {
-                ...prevState.campaigns[index],
-                posts: [
-                  ...prevState.campaigns[index].posts.slice(0, postIndex),
-                  post,
-                  ...prevState.campaigns[index].posts.slice(postIndex + 1)
-                ]
-              },
-              ...prevState.campaigns.slice(index + 1)
-            ]
-          };
-        });
-      }
-    });
-
-    socket.on("campaign_post_deleted", reqObj => {
-      const { calendarID, campaignID } = reqObj;
-      const postID = reqObj.extra;
-
-      const { campaigns, calendars, activeCalendarIndex } = this.state;
-
-      if (
-        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
-      )
-        return;
-
-      const index = campaigns.findIndex(
-        campaign => campaign._id.toString() === campaignID.toString()
-      );
-      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
-
-      const campaign = campaigns[index];
-      const postIndex = campaign.posts.findIndex(
-        postObj => postObj._id.toString() === postID.toString()
-      );
-
-      if (postIndex === -1) {
-        // post doesn't exist in the campaign yet so don't need to delete it
-        return;
-      } else {
-        // post exists so just need to remove it
-        this.setState(prevState => {
-          return {
-            campaigns: [
-              ...prevState.campaigns.slice(0, index),
-              {
-                ...prevState.campaigns[index],
-                posts: [
-                  ...prevState.campaigns[index].posts.slice(0, postIndex),
-                  ...prevState.campaigns[index].posts.slice(postIndex + 1)
-                ]
-              },
-              ...prevState.campaigns.slice(index + 1)
-            ]
-          };
-        });
-      }
-    });
-
-    socket.on("campaign_modified", reqObj => {
-      const { calendarID, campaignID } = reqObj;
-      const campaign = reqObj.extra;
-
-      const { campaigns, calendars, activeCalendarIndex } = this.state;
-
-      if (
-        calendarID.toString() !== calendars[activeCalendarIndex]._id.toString()
-      )
-        return;
-
-      const index = campaigns.findIndex(
-        campaign => campaign._id.toString() === campaignID.toString()
-      );
-      if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
-
-      this.setState(prevState => {
-        return {
-          campaigns: [
-            ...prevState.campaigns.slice(0, index),
-            {
-              ...prevState.campaigns[index],
-              ...campaign,
-              posts: prevState.campaigns[index].posts
-            },
-            ...prevState.campaigns.slice(index + 1)
-          ]
-        };
-      });
-    });
-
-    socket.on("socket_user_list", reqObj => {
-      const { roomID, userList } = reqObj;
-      const { calendars, activeCalendarIndex } = this.state;
-
-      if (roomID.toString() !== calendars[activeCalendarIndex]._id.toString())
-        return;
-
-      this.setState({ userList });
-    });
-
-    this.setState({ socket });
   };
 
   updateSocketCalendar = () => {
@@ -466,37 +209,6 @@ class Content extends Component {
   fillCalendar = () => {
     this.getPosts();
     this.getCampaigns();
-  };
-
-  notify = (type, title, message, length = 5000) => {
-    // maybe this function's length should be dynamically determined based on
-    // the length of the message
-    // (long message = longer length so there is more time to read it)
-    const { notification } = this.state;
-
-    const timer = setTimeout(() => {
-      this.setState({
-        notification: {
-          show: false
-        }
-      });
-    }, length);
-
-    if (notification.show) {
-      // notification is currently active so we need to clear the previous timeout
-      // so this new notification doesn't get disabled when the previous one times out
-      clearTimeout(notification.timer);
-    }
-
-    this.setState({
-      notification: {
-        show: true,
-        type,
-        title,
-        message,
-        timer
-      }
-    });
   };
 
   getPosts = () => {
@@ -639,7 +351,6 @@ class Content extends Component {
           Facebook: false,
           Twitter: false,
           Linkedin: false,
-          Blog: false,
           Campaigns: false,
           Custom: false
         }
@@ -687,8 +398,6 @@ class Content extends Component {
       instagramPosts,
       linkedinPosts,
       loading,
-      newsletterPosts,
-      notification,
       postEdittingModal,
       recipeEditing,
       socket,
@@ -700,15 +409,14 @@ class Content extends Component {
     } = this.state;
     const {
       All,
-      Blog,
       Campaigns,
       Custom,
       Facebook,
       Instagram,
       Linkedin,
-      Newsletter,
       Twitter
     } = calendarEventCategories;
+
     let calendarEvents = [];
 
     if (Custom || All)
@@ -722,11 +430,7 @@ class Content extends Component {
     if (Instagram || All)
       if (instagramPosts)
         calendarEvents = calendarEvents.concat(instagramPosts);
-    if (Blog || All)
-      if (websitePosts) calendarEvents = calendarEvents.concat(websitePosts);
-    if (Newsletter || All)
-      if (newsletterPosts)
-        calendarEvents = calendarEvents.concat(newsletterPosts);
+
     if (Campaigns || All)
       if (campaigns) calendarEvents = calendarEvents.concat(campaigns);
     if (!Campaigns && !All) {
@@ -748,12 +452,6 @@ class Content extends Component {
               break;
             case "instagram":
               if (Instagram) campaign.posts.push(post);
-              break;
-            case "blog":
-              if (Blog) campaign.posts.push(post);
-              break;
-            case "newsletter":
-              if (Newsletter) campaign.posts.push(post);
               break;
           }
         }
@@ -809,7 +507,6 @@ class Content extends Component {
                   this.setState({ calendarManagerModal: false });
                   this.getCalendars();
                 }}
-                notify={this.notify}
               />
             </div>
           </div>
@@ -819,7 +516,6 @@ class Content extends Component {
             calendarID={calendars[activeCalendarIndex]._id}
             clickedCalendarDate={clickedDate}
             close={() => this.setState({ contentModal: false })}
-            notify={this.notify}
             savePostCallback={post => {
               this.getPosts();
               triggerSocketPeers(
@@ -850,7 +546,6 @@ class Content extends Component {
             clickedEvent={clickedEvent}
             timezone={timezone}
             close={this.closeModals}
-            notify={this.notify}
             triggerSocketPeers={(type, post) =>
               triggerSocketPeers(
                 type,
@@ -882,7 +577,6 @@ class Content extends Component {
                 campaign={clickedEvent}
                 isRecipe={clickedEventIsRecipe}
                 recipeEditing={recipeEditing}
-                notify={this.notify}
                 triggerSocketPeers={(type, extra, campaignID) =>
                   triggerSocketPeers(
                     type,
@@ -903,20 +597,6 @@ class Content extends Component {
             handleChange={this.handleChange}
             clickedCalendarDate={clickedDate}
             calendarID={calendars[activeCalendarIndex]._id}
-          />
-        )}
-        {notification.show && (
-          <Notification
-            type={notification.type}
-            title={notification.title}
-            message={notification.message}
-            callback={() =>
-              this.setState({
-                notification: {
-                  show: false
-                }
-              })
-            }
           />
         )}
       </Page>

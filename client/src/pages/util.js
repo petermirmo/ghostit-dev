@@ -1,4 +1,5 @@
 import axios from "axios";
+import io from "socket.io-client";
 import moment from "moment-timezone";
 
 export const getUser = callback => {
@@ -89,4 +90,287 @@ export const getCalendarInvites = callback => {
       }
     }
   });
+};
+
+export const triggerSocketPeers = (
+  type,
+  extra,
+  calendars,
+  activeCalendarIndex,
+  socket,
+  campaignID
+) => {
+  if (
+    calendars &&
+    activeCalendarIndex !== undefined &&
+    calendars[activeCalendarIndex]
+  ) {
+    socket.emit("trigger_socket_peers", {
+      calendarID: calendars[activeCalendarIndex]._id,
+      campaignID,
+      type,
+      extra
+    });
+  }
+};
+
+export const initSocket = (
+  callback,
+  calendars,
+  activeCalendarIndex,
+  campaigns = [],
+  facebookPosts = [],
+  twitterPosts = [],
+  linkedinPosts = [],
+  customPosts = []
+) => {
+  let socket;
+
+  if (process.env.NODE_ENV === "development")
+    socket = io("http://localhost:5000");
+  else socket = io();
+
+  socket.on("calendar_post_saved", post => {
+    post.startDate = post.postingDate;
+    post.endDate = post.postingDate;
+
+    if (
+      calendars[activeCalendarIndex]._id.toString() !==
+      post.calendarID.toString()
+    ) {
+      return;
+    } else {
+      let targetListName;
+      if (post.socialType === "facebook") targetListName = facebookPosts;
+      else if (post.socialType === "twitter") targetListName = twitterPosts;
+      else if (post.socialType === "linkedin") targetListName = linkedinPosts;
+      else if (post.socialType === "custom") targetListName = customPosts;
+      else console.log(`unhandled post socialType: ${post.socialType}`);
+
+      if (targetListName) {
+        const index = targetListName.findIndex(
+          postObj => postObj._id.toString() === post._id.toString()
+        );
+        if (index === -1) {
+          // new post so just add it to the list
+          callback(prevState => {
+            return {
+              [targetListName]: [...prevState[targetListName], post]
+            };
+          });
+        } else {
+          // post exists so we just need to update it
+          callback(prevState => {
+            return {
+              [targetListName]: [
+                ...prevState[targetListName].slice(0, index),
+                post,
+                ...prevState[targetListName].slice(index + 1)
+              ]
+            };
+          });
+        }
+      }
+    }
+  });
+
+  socket.on("calendar_post_deleted", reqObj => {
+    const { postID, socialType } = reqObj;
+    if (!postID || !socialType) return;
+
+    let targetListName;
+    if (socialType === "facebook") targetListName = facebookPosts;
+    else if (socialType === "twitter") targetListName = twitterPosts;
+    else if (socialType === "linkedin") targetListName = linkedinPosts;
+    else if (socialType === "custom") targetListName = customPosts;
+    else console.log(`unhandled post socialType: ${socialType}`);
+
+    const index = targetListName.findIndex(
+      post => post._id.toString() === postID.toString()
+    );
+    if (index === -1) return;
+    callback(prevState => {
+      return {
+        [targetListName]: [
+          ...prevState[targetListName].slice(0, index),
+          ...prevState[targetListName].slice(index + 1)
+        ]
+      };
+    });
+  });
+
+  socket.on("calendar_campaign_saved", campaign => {
+    if (
+      campaign.calendarID.toString() !==
+      calendars[activeCalendarIndex]._id.toString()
+    )
+      return;
+    const index = campaigns.findIndex(
+      camp => camp._id.toString() === campaign._id.toString()
+    );
+    if (index !== -1) {
+      callback(prevState => {
+        return {
+          campaigns: [
+            ...prevState.campaigns.slice(0, index),
+            campaign,
+            ...prevState.campaigns.slice(index + 1)
+          ]
+        };
+      });
+    } else {
+      callback(prevState => {
+        return {
+          campaigns: [...prevState.campaigns, campaign]
+        };
+      });
+    }
+  });
+
+  socket.on("calendar_campaign_deleted", campaignID => {
+    const index = campaigns.findIndex(
+      campaign => campaign._id.toString() === campaignID.toString()
+    );
+    if (index !== -1) {
+      callback(prevState => {
+        return {
+          campaigns: [
+            ...prevState.campaigns.slice(0, index),
+            ...prevState.campaigns.slice(index + 1)
+          ]
+        };
+      });
+    }
+  });
+
+  socket.on("campaign_post_saved", reqObj => {
+    const { calendarID, campaignID } = reqObj;
+    const post = reqObj.extra;
+
+    if (calendarID.toString() !== calendars[activeCalendarIndex]._id.toString())
+      return;
+
+    const index = campaigns.findIndex(
+      campaign => campaign._id.toString() === campaignID.toString()
+    );
+    if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+    const campaign = campaigns[index];
+    const postIndex = campaign.posts.findIndex(
+      postObj => postObj._id.toString() === post._id.toString()
+    );
+
+    if (postIndex === -1) {
+      // post doesn't exist in the campaign yet so just need to add it
+      callback(prevState => {
+        return {
+          campaigns: [
+            ...prevState.campaigns.slice(0, index),
+            {
+              ...prevState.campaigns[index],
+              posts: [...prevState.campaigns[index].posts, post]
+            },
+            ...prevState.campaigns.slice(index + 1)
+          ]
+        };
+      });
+    } else {
+      // post exists already so need to update it
+      callback(prevState => {
+        return {
+          campaigns: [
+            ...prevState.campaigns.slice(0, index),
+            {
+              ...prevState.campaigns[index],
+              posts: [
+                ...prevState.campaigns[index].posts.slice(0, postIndex),
+                post,
+                ...prevState.campaigns[index].posts.slice(postIndex + 1)
+              ]
+            },
+            ...prevState.campaigns.slice(index + 1)
+          ]
+        };
+      });
+    }
+  });
+
+  socket.on("campaign_post_deleted", reqObj => {
+    const { calendarID, campaignID } = reqObj;
+    const postID = reqObj.extra;
+
+    if (calendarID.toString() !== calendars[activeCalendarIndex]._id.toString())
+      return;
+
+    const index = campaigns.findIndex(
+      campaign => campaign._id.toString() === campaignID.toString()
+    );
+    if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+    const campaign = campaigns[index];
+    const postIndex = campaign.posts.findIndex(
+      postObj => postObj._id.toString() === postID.toString()
+    );
+
+    if (postIndex === -1) {
+      // post doesn't exist in the campaign yet so don't need to delete it
+      return;
+    } else {
+      // post exists so just need to remove it
+      callback(prevState => {
+        return {
+          campaigns: [
+            ...prevState.campaigns.slice(0, index),
+            {
+              ...prevState.campaigns[index],
+              posts: [
+                ...prevState.campaigns[index].posts.slice(0, postIndex),
+                ...prevState.campaigns[index].posts.slice(postIndex + 1)
+              ]
+            },
+            ...prevState.campaigns.slice(index + 1)
+          ]
+        };
+      });
+    }
+  });
+
+  socket.on("campaign_modified", reqObj => {
+    const { calendarID, campaignID } = reqObj;
+    const campaign = reqObj.extra;
+
+    if (calendarID.toString() !== calendars[activeCalendarIndex]._id.toString())
+      return;
+
+    const index = campaigns.findIndex(
+      campaign => campaign._id.toString() === campaignID.toString()
+    );
+    if (index === -1) return; // campaign doesnt exist yet for this user so can't add a post to it
+
+    callback(prevState => {
+      return {
+        campaigns: [
+          ...prevState.campaigns.slice(0, index),
+          {
+            ...prevState.campaigns[index],
+            ...campaign,
+            posts: prevState.campaigns[index].posts
+          },
+          ...prevState.campaigns.slice(index + 1)
+        ]
+      };
+    });
+  });
+
+  socket.on("socket_user_list", reqObj => {
+    const { roomID, userList } = reqObj;
+    console.log(calendars);
+
+    if (roomID.toString() !== calendars[activeCalendarIndex]._id.toString())
+      return;
+
+    callback({ userList });
+  });
+
+  callback({ socket });
 };

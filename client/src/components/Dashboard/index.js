@@ -5,17 +5,9 @@ import GIContainer from "../containers/GIContainer";
 import GIText from "../views/GIText";
 import GIButton from "../views/GIButton";
 
-import TemplatesModal from "../postingFiles/CampaignAndRecipe/TemplatesModal";
-
 class Dashboard extends Component {
-  state = {
-    campaignModal: false,
-    contentModal: false,
-    templatesModal: false
-  };
   render() {
-    const { contentModal, campaignModal, templatesModal } = this.state;
-    const { calendarToSaveTo, clickedDate } = this.props;
+    const { handleChange } = this.props; // Functions
     return (
       <GIContainer className="x-fill column">
         <GIText className="mb32 mx8" type="h1" text="Dashboard" />
@@ -37,7 +29,7 @@ class Dashboard extends Component {
               />
               <GIButton
                 className="regular-button light small x-85"
-                onClick={() => this.setState({ contentModal: true })}
+                onClick={() => handleChange({ contentModal: true })}
                 text="Create post"
               />
             </GIContainer>
@@ -62,7 +54,7 @@ class Dashboard extends Component {
               />
               <GIButton
                 className="regular-button light small x-85"
-                onClick={() => this.setState({ campaignModal: true })}
+                onClick={() => handleChange({ campaignModal: true })}
                 text="Create campaign"
               />
             </GIContainer>
@@ -87,58 +79,14 @@ class Dashboard extends Component {
               />
               <GIButton
                 className="regular-button light small x-85"
-                onClick={() => this.setState({ templatesModal: true })}
+                onClick={() => handleChange({ templatesModal: true })}
                 text="Browse templates"
               />
             </GIContainer>
           </GIContainer>
         </GIContainer>
-
-        {templatesModal && calendarToSaveTo && (
-          <TemplatesModal
-            calendarID={calendarToSaveTo._id}
-            clickedCalendarDate={clickedDate}
-            close={() => this.setState({ templatesModal: false })}
-            handleChange={something => {
-              console.log(something);
-            }}
-          />
-        )}
-        {contentModal && calendarToSaveTo && (
-          <ContentModal
-            calendarID={calendarToSaveTo._id}
-            clickedCalendarDate={clickedDate}
-            notify={this.notify}
-            savePostCallback={post => {
-              this.triggerSocketPeers("calendar_post_saved", post);
-              this.setState({ contentModal: false });
-            }}
-          />
-        )}
       </GIContainer>
     );
   }
 }
-/*
-{campaignModal && calendarToSaveTo && (
-  <div
-    className="modal"
-    onClick={() => this.props.openCampaignModal(false)}
-  >
-    <div
-      className="large-modal common-transition"
-      onClick={e => e.stopPropagation()}
-    >
-      <Campaign
-        calendarID={calendarToSaveTo._id}
-        clickedCalendarDate={clickedDate}
-        handleChange={this.handleChange}
-        notify={this.notify}
-        triggerSocketPeers={this.triggerSocketPeers}
-        updateCampaigns={() => {}}
-      />
-    </div>
-  </div>
-)}*/
-
 export default Dashboard;

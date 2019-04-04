@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import reducers from "./redux/reducers/";
+import { GIProvider } from "./context";
 
 import Routes from "./pages";
 
@@ -20,10 +21,12 @@ function logger({ getState }) {
 const store = createStore(reducers, applyMiddleware(logger));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <Routes />
-    </Router>
-  </Provider>,
+  <GIProvider>
+    <Provider store={store}>
+      <Router>
+        <Routes />
+      </Router>
+    </Provider>
+  </GIProvider>,
   document.getElementById("root")
 );

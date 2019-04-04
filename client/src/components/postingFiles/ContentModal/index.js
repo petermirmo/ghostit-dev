@@ -29,14 +29,20 @@ class ContentModal extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    this.props.setKeyListenerFunction([
+    const {
+      close,
+      setKeyListenerFunction,
+      getKeyListenerFunction
+    } = this.props; // Functions
+
+    setKeyListenerFunction([
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.close(); // escape button pushed
+          close(); // escape button pushed
         }
       },
-      this.props.getKeyListenerFunction[0]
+      getKeyListenerFunction[0]
     ]);
   }
   componentWillUnmount() {
@@ -88,14 +94,8 @@ class ContentModal extends Component {
 
   render() {
     const { activeTab, listOfPostChanges } = this.state;
-    const {
-      close,
-      clickedCalendarDate,
-      accounts,
-      savePostCallback,
-      saveBlogCallback,
-      saveNewsletterCallback
-    } = this.props;
+    const { accounts, calendarID, clickedCalendarDate } = this.props; // Variables
+    const { close, savePostCallback, notify } = this.props; // Functions
 
     if (this.state.saving) {
       return <Loader />;
@@ -115,13 +115,10 @@ class ContentModal extends Component {
             }}
             postFinishedSavingCallback={(post, success, message) => {
               if (this._ismounted) this.setState({ saving: false });
-              if (success) {
-                savePostCallback(post);
-              } else {
-                this.props.notify("danger", "Save Failed", message, 7500);
-              }
+              if (success) savePostCallback(post);
+              else notify("danger", "Save Failed", message, 7500);
             }}
-            calendarID={this.props.calendarID}
+            calendarID={calendarID}
             setSaving={this.setSaving}
             socialType={activeTab.name}
             canEditPost={true}
@@ -131,7 +128,6 @@ class ContentModal extends Component {
                 : undefined
             }
             backupChanges={this.backupPostChanges}
-            notify={this.props.notify}
           />
         </div>
       );
@@ -149,10 +145,10 @@ class ContentModal extends Component {
             if (success) {
               savePostCallback(post);
             } else {
-              this.props.notify("danger", "Save Failed", message, 7500);
+              notify("danger", "Save Failed", message, 7500);
             }
           }}
-          calendarID={this.props.calendarID}
+          calendarID={calendarID}
           setSaving={this.setSaving}
           socialType={activeTab.name}
           canEditPost={true}
@@ -163,7 +159,6 @@ class ContentModal extends Component {
               : undefined
           }
           backupChanges={this.backupPostChanges}
-          notify={this.props.notify}
         />
       );
     }

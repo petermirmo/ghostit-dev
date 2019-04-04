@@ -13,11 +13,12 @@ import { validateEmail } from "../../componentFunctions";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
-import Notification from "../../components/notifications/Notification/";
 
 import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 import GIInput from "../../components/views/GIInput";
+
+import Consumer from "../../context";
 
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -28,13 +29,7 @@ class RegisterPage extends Component {
     website: "",
     timezone: timezone ? timezone : "America/Vancouver",
     password: "",
-    passwordConfirm: "",
-    notification: {
-      on: false,
-      title: "Something went wrong!",
-      message: "",
-      type: "danger"
-    }
+    passwordConfirm: ""
   };
 
   componentDidMount() {
@@ -53,7 +48,7 @@ class RegisterPage extends Component {
     this.props.setaccounts(accounts);
     this.props.history.push("/subscribe");
   };
-  register = event => {
+  register = (event, context) => {
     event.preventDefault();
 
     const {
@@ -88,7 +83,7 @@ class RegisterPage extends Component {
 
           if (success && user) this.activateDemoUserLogin(user, []);
           else {
-            this.notify({
+            context.notify({
               message,
               type: "danger",
               title: "Error"
@@ -107,118 +102,114 @@ class RegisterPage extends Component {
   };
 
   render() {
-    const {
-      fullName,
-      email,
-      website,
-      password,
-      notification,
-      passwordConfirm
-    } = this.state;
-    const { login } = this.state;
+    const { fullName, email, website, password, passwordConfirm } = this.state;
 
     return (
-      <Page
-        className="login-background simple-container website-page"
-        title="Sign Up"
-        description="What are you waiting for!? Sign up today!"
-        keywords="content, ghostit, marketing"
-      >
-        <GIText className="pb16 tac" text="Sign up for Ghostit!" type="h1" />
-
-        <div className="basic-box common-shadow pa32 br16 margin-hc">
-          <form className="common-container">
-            <input
-              className="regular-input mb8"
-              value={fullName}
-              onChange={event =>
-                this.handleChange("fullName", event.target.value)
-              }
-              type="text"
-              name="fullName"
-              placeholder="Company Name"
-              required
+      <Consumer>
+        {context => (
+          <Page
+            className="login-background simple-container website-page"
+            title="Sign Up"
+            description="What are you waiting for!? Sign up today!"
+            keywords="content, ghostit, marketing"
+          >
+            <GIText
+              className="pb16 tac"
+              text="Sign up for Ghostit!"
+              type="h1"
             />
 
-            <input
-              className="regular-input mb8"
-              value={email}
-              onChange={event => this.handleChange("email", event.target.value)}
-              type="text"
-              name="email"
-              placeholder="Email"
-              required
-            />
+            <div className="basic-box common-shadow pa32 br16 margin-hc">
+              <form className="common-container">
+                <input
+                  className="regular-input mb8"
+                  value={fullName}
+                  onChange={event =>
+                    this.handleChange("fullName", event.target.value)
+                  }
+                  type="text"
+                  name="fullName"
+                  placeholder="Company Name"
+                  required
+                />
 
-            <input
-              className="regular-input mb8"
-              value={website}
-              onChange={event =>
-                this.handleChange("website", event.target.value)
-              }
-              type="text"
-              name="website"
-              placeholder="Website"
-              required
-            />
+                <input
+                  className="regular-input mb8"
+                  value={email}
+                  onChange={event =>
+                    this.handleChange("email", event.target.value)
+                  }
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  required
+                />
 
-            <input
-              className="regular-input mb8"
-              value={password}
-              onChange={event =>
-                this.handleChange("password", event.target.value)
-              }
-              name="password"
-              placeholder="Password"
-              type="password"
-              required
-            />
+                <input
+                  className="regular-input mb8"
+                  value={website}
+                  onChange={event =>
+                    this.handleChange("website", event.target.value)
+                  }
+                  type="text"
+                  name="website"
+                  placeholder="Website"
+                  required
+                />
 
-            <input
-              className="regular-input mb8"
-              value={passwordConfirm}
-              onChange={event =>
-                this.handleChange("passwordConfirm", event.target.value)
-              }
-              name="passwordConfirm"
-              placeholder="Confirm Password"
-              type="password"
-              required
-            />
+                <input
+                  className="regular-input mb8"
+                  value={password}
+                  onChange={event =>
+                    this.handleChange("password", event.target.value)
+                  }
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  required
+                />
 
-            <button
-              className="regular-button mb8"
-              onClick={this.register}
-              type="submit"
-            >
-              Register
-            </button>
+                <input
+                  className="regular-input mb8"
+                  value={passwordConfirm}
+                  onChange={event =>
+                    this.handleChange("passwordConfirm", event.target.value)
+                  }
+                  name="passwordConfirm"
+                  placeholder="Confirm Password"
+                  type="password"
+                  required
+                />
 
-            <Link to="/sign-in">
-              <GIContainer className="full-center">
-                <GIText text="Have an account?" type="h6" />
+                <button
+                  className="regular-button mb8"
+                  onClick={event => this.register(event, context)}
+                  type="submit"
+                >
+                  Register
+                </button>
 
-                <GIButton className="underline-button ml4" text="Sign In" />
-              </GIContainer>
-            </Link>
-          </form>
-        </div>
+                <Link to="/sign-in">
+                  <GIContainer className="full-center">
+                    <GIText text="Have an account?" type="h6" />
 
-        <GIContainer className="full-center mt16">
-          <Link to="/forgot-password">
-            <GIButton
-              className="underline-button white"
-              text="Forgot password?"
-            />
-          </Link>
-        </GIContainer>
-        {notification.on && (
-          <Notification
-            notification={notification}
-            callback={notification => this.setState({ notification })}
-          />
+                    <GIButton className="underline-button ml4" text="Sign In" />
+                  </GIContainer>
+                </Link>
+              </form>
+            </div>
+
+            <GIContainer className="full-center mt16">
+              <Link to="/forgot-password">
+                <GIButton
+                  className="underline-button white"
+                  text="Forgot password?"
+                />
+              </Link>
+            </GIContainer>
+          </Page>
         )}
-      </Page>
+      </Consumer>
     );
   }
 }

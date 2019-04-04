@@ -13,22 +13,16 @@ import { validateEmail } from "../../componentFunctions";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
-import Notification from "../../components/notifications/Notification/";
 
 import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 import GIInput from "../../components/views/GIInput";
+import Consumer from "../../context";
 
 class LoginPage extends Component {
   state = {
     email: "",
-    password: "",
-    notification: {
-      on: false,
-      title: "Something went wrong!",
-      message: "",
-      type: "danger"
-    }
+    password: ""
   };
   componentDidMount() {
     if (this.props.user) this.props.history.push("/home");
@@ -47,7 +41,7 @@ class LoginPage extends Component {
     this.props.setaccounts(accounts);
     this.props.history.push("/subscribe");
   };
-  login = event => {
+  login = (event, context) => {
     event.preventDefault();
     const { email, password } = this.state;
 
@@ -76,7 +70,7 @@ class LoginPage extends Component {
               }
             });
           } else {
-            this.notify({
+            context.notify({
               message,
               type: "danger",
               title: "Something went wrong!"
@@ -87,72 +81,72 @@ class LoginPage extends Component {
   };
 
   render() {
-    const { email, password, notification } = this.state;
+    const { email, password } = this.state;
 
     return (
-      <Page
-        title="Sign In"
-        description="Ghostit sign in :)"
-        keywords="content, ghostit, marketing"
-        className="login-background website-page align-center"
-      >
-        <GIText className="pb16 tac" text="Sign in to Ghostit!" type="h1" />
-
-        <GIContainer className="basic-box common-shadow pa32 br16">
-          <form
-            className="common-container"
-            onSubmit={event => event.preventDefault()}
+      <Consumer>
+        {context => (
+          <Page
+            title="Sign In"
+            description="Ghostit sign in :)"
+            keywords="content, ghostit, marketing"
+            className="login-background website-page align-center"
           >
-            <GIInput
-              className="regular-input mb8"
-              value={email}
-              onChange={event => this.handleChange("email", event.target.value)}
-              type="text"
-              name="email"
-              placeholder="Email"
-              required
-            />
-            <GIInput
-              className="regular-input mb8"
-              value={password}
-              onChange={event =>
-                this.handleChange("password", event.target.value)
-              }
-              name="password"
-              type="password"
-              placeholder="Password"
-              required
-            />
-            <GIButton
-              className="regular-button mb8"
-              onClick={this.login}
-              text="Sign In"
-            />
-            <Link to="/sign-up">
-              <GIContainer className="full-center">
-                <GIText text="New to Ghostit?" type="h6" />
+            <GIText className="pb16 tac" text="Sign in to Ghostit!" type="h1" />
 
-                <GIButton className="underline-button ml4" text="Sign Up" />
-              </GIContainer>
-            </Link>
-          </form>
-        </GIContainer>
+            <GIContainer className="basic-box common-shadow pa32 br16">
+              <form
+                className="common-container"
+                onSubmit={event => event.preventDefault()}
+              >
+                <GIInput
+                  className="regular-input mb8"
+                  value={email}
+                  onChange={event =>
+                    this.handleChange("email", event.target.value)
+                  }
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  required
+                />
+                <GIInput
+                  className="regular-input mb8"
+                  value={password}
+                  onChange={event =>
+                    this.handleChange("password", event.target.value)
+                  }
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  required
+                />
+                <GIButton
+                  className="regular-button mb8"
+                  onClick={event => this.login(event, context)}
+                  text="Sign In"
+                />
+                <Link to="/sign-up">
+                  <GIContainer className="full-center">
+                    <GIText text="New to Ghostit?" type="h6" />
 
-        <GIContainer className="full-center mt16">
-          <Link to="/forgot-password">
-            <GIButton
-              className="underline-button white"
-              text="Forgot password?"
-            />
-          </Link>
-        </GIContainer>
-        {notification.on && (
-          <Notification
-            notification={notification}
-            callback={notification => this.setState({ notification })}
-          />
+                    <GIButton className="underline-button ml4" text="Sign Up" />
+                  </GIContainer>
+                </Link>
+              </form>
+            </GIContainer>
+
+            <GIContainer className="full-center mt16">
+              <Link to="/forgot-password">
+                <GIButton
+                  className="underline-button white"
+                  text="Forgot password?"
+                />
+              </Link>
+            </GIContainer>
+          </Page>
         )}
-      </Page>
+      </Consumer>
     );
   }
 }

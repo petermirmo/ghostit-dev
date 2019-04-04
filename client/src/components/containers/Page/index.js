@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createContext } from "react";
 import { Helmet } from "react-helmet";
 import ReactGA from "react-ga";
 import { SizeMe } from "react-sizeme";

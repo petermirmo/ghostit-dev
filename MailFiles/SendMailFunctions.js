@@ -9,11 +9,10 @@ module.exports = {
       .toString(36)
       .substring(7);
 
-    User.findOne({ email: email }, function(err, user) {
+    User.findOne({ email }, (err, user) => {
       if (err) {
         console.log(err);
         res.send({ success: false, errorMessage: err });
-        return;
       } else if (user) {
         user.tempPassword = user.generateHash(temporaryPassword);
         user.save();
@@ -33,7 +32,6 @@ module.exports = {
           success: false,
           errorMessage: "User not found with this email address!"
         });
-        return;
       }
     });
   }

@@ -5,23 +5,18 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser, changePage } from "../../redux/actions/";
 
-import Notification from "../../components/notifications/Notification/";
 import Loader from "../../components/notifications/Loader/";
+import Consumer from "../../context";
 
 //pk_test_C6VKqentibktzCQjTRZ9vOuY
 //pk_live_fbteh655nQqpE4WEFr6fs5Pm
 class ChargeCardForm extends Component {
   state = {
     saving: false,
-    notification: {
-      on: false,
-      title: "",
-      message: "",
-      type: "danger"
-    },
     onboardingModal: false
   };
   componentDidMount() {
+    this._ismounted = true;
     var stripe = window.Stripe("pk_live_fbteh655nQqpE4WEFr6fs5Pm");
 
     // Create an instance of Elements.
@@ -58,45 +53,30 @@ class ChargeCardForm extends Component {
       } else {
         displayError.textContent = "";
       }
+      this.setState({ card, stripe });
     });
 
-    // Create a token or display an error when the form is submitted.
-    var form = document.getElementById("payment-form");
-    form.addEventListener("submit", event => {
-      event.preventDefault();
-
-      stripe.createToken(card).then(result => {
-        if (result.error) {
-          // Inform the customer that there was an error.
-          var errorElement = document.getElementById("card-errors");
-          errorElement.textContent = result.error.message;
-        } else {
-          // Send the token to your server.
-          this.stripeTokenHandler(result.token);
-        }
-      });
-    });
+    this.setState({ card, stripe });
   }
+  submitPayment = (event, context) => {
+    const { card, stripe } = this.state;
+    // Create a token or display an error when the form is submitted.
 
-  notify = (message, type, title) => {
-    let { notification } = this.state;
-    notification.on = !notification.on;
-    if (message) notification.message = message;
-    if (type) notification.type = type;
-    if (title) notification.title = title;
+    event.preventDefault();
 
-    this.setState({ notification: notification });
-
-    if (notification.on) {
-      setTimeout(() => {
-        let { notification } = this.state;
-        notification.on = false;
-        this.setState({ notification: notification });
-      }, 5000);
-    }
+    stripe.createToken(card).then(result => {
+      if (result.error) {
+        // Inform the customer that there was an error.
+        var errorElement = document.getElementById("card-errors");
+        errorElement.textContent = result.error.message;
+      } else {
+        // Send the token to your server.
+        this.stripeTokenHandler(result.token, context);
+      }
+    });
   };
 
-  stripeTokenHandler = stripeToken => {
+  stripeTokenHandler = (stripeToken, context) => {
     this.setState({ saving: true });
     if (stripeToken) {
       axios
@@ -118,46 +98,61 @@ class ChargeCardForm extends Component {
               ) {
                 this.props.setUser(user);
                 this.props.changePage("content");
+                context.notify({
+                  title: "Payment successful!",
+                  type: "success",
+                  message: ""
+                });
+              } else {
+                context.notify({
+                  title: "Payment successful!",
+                  type: "success",
+                  message: ""
+                });
               }
             }
           } else {
-            this.notify(message, "danger", "Something went wrong!");
+            context.notify({
+              message,
+              type: "danger",
+              message: "Something went wrong!"
+            });
           }
         });
     } else {
-      this.notify("Invalid credit card data", "danger");
+      context.notify({ message: "Invalid credit card data", type: "danger" });
     }
   };
 
   render() {
-    const { notification, saving } = this.state;
+    const { saving } = this.state;
     const { user } = this.props;
 
     return (
-      <div className="pay-container">
-        {saving && <Loader />}
-        {notification.on && (
-          <Notification
-            title={notification.title}
-            message={notification.message}
-            type={notification.type}
-            callback={this.notify}
-          />
-        )}
-        <form action="/api/planPro" method="post" id="payment-form">
-          <div className="form-row">
-            <div id="card-element" />
+      <Consumer>
+        {context => (
+          <div className="pay-container">
+            {saving && <Loader />}
 
-            <div id="card-errors" role="alert" />
+            <form
+              onSubmit={event => this.submitPayment(event, context)}
+              method="post"
+            >
+              <div className="form-row">
+                <div id="card-element" />
+
+                <div id="card-errors" role="alert" />
+              </div>
+
+              {!saving && (user.role === "demo" || user.role === "admin") && (
+                <button className="sign-up common-transition mt16 pa8 round">
+                  Submit Payment
+                </button>
+              )}
+            </form>
           </div>
-
-          {!saving && (user.role === "demo" || user.role === "admin") && (
-            <button className="sign-up common-transition mt16 pa8 round">
-              Submit Payment
-            </button>
-          )}
-        </form>
-      </div>
+        )}
+      </Consumer>
     );
   }
 }

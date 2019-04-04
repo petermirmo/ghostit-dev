@@ -2,18 +2,26 @@ import axios from "axios";
 
 export const sendResetEmail = (email, callback) => {
   if (!email) {
-    // TODO: handleerror
+    callback({
+      message: "Enter an email address!",
+      type: "danger",
+      title: "Something went wrong!"
+    });
   } else {
     axios.post("/api/email/reset", { email: email.toLowerCase() }).then(res => {
-      let { error } = res.data;
-      if (error) {
-        // TODO: handleerror
-      } else {
-        callback("notification", {
-          message: " ",
+      const { success, errorMessage } = res.data;
+      console.log(res);
+      if (success) {
+        callback({
+          message: "",
           type: "success",
-          title: "Email Sent!",
-          on: true
+          title: "Email Sent!"
+        });
+      } else {
+        callback({
+          message: errorMessage,
+          type: "danger",
+          title: "Something went wrong!"
         });
       }
     });
