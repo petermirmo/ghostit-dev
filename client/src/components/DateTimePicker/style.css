@@ -1,14 +1,14 @@
 .display-date {
-  border-bottom: 1px solid var(--secondary-text-color);
+  border-bottom: 1px solid var(--secondary-font-color);
   text-align: center;
   white-space: nowrap;
 }
 .display-date:hover {
-  border-color: var(--five-primary-color);
+  border-color: var(--five-blue-color);
 }
 
 .date-picker-dropdown-header {
-  border-bottom: 1px solid var(--five-primary-color);
+  border-bottom: 1px solid var(--five-blue-color);
   color: var(--dark-grey-theme-color);
   flex: 1;
   text-align: center;
@@ -25,7 +25,7 @@
 }
 .date-picker-day:hover,
 .date-picker-day.active {
-  background-color: var(--five-primary-color);
+  background-color: var(--five-blue-color);
   color: var(--white-theme-color);
 }
 
@@ -45,7 +45,7 @@
   justify-content: space-between;
   align-items: center;
 
-  border: 1px solid var(--secondary-text-color);
+  border: 1px solid var(--secondary-font-color);
 }
 
 .date-picker-message {

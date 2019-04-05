@@ -1,0 +1,99 @@
+.plans-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+
+  min-height: 100vh;
+}
+
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  width: 50%;
+  height: 70vh;
+
+  padding: 40px;
+
+  background-color: var(--light-grey-theme-color);
+}
+.checkout-title {
+  color: #34495e;
+  font-size: var(--twenty-four-font-size);
+}
+.checkout-row-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.checkout-plan-label {
+  color: var(--dark-grey-theme-color);
+}
+.checkout-plan {
+  color: var(--primary-font-color);
+}
+.checkout-plan-label,
+.checkout-plan {
+  padding: 20px 0 20px 20px;
+  font-size: var(--twenty-font-size);
+}
+
+.payment-length-container {
+  display: flex;
+
+  box-shadow: 0 0 2px 0 black;
+}
+.payment-length-option {
+  flex: 1;
+
+  padding: 10px 0 10px 0;
+
+  text-align: center;
+  background-color: var(--light-grey-theme-color);
+
+  cursor: pointer;
+}
+.payment-length-option.active {
+  background-color: var(--five-blue-color);
+  color: var(--white-theme-color);
+}
+
+.checkout-payment-monthly-label,
+.checkout-payment-total-due-label {
+  color: var(--primary-font-color);
+}
+.checkout-payment-monthly-label {
+}
+.checkout-payment-monthly,
+.checkout-payment-total-due {
+  text-align: right;
+  flex: 1;
+}
+
+.checkout-payment-total-due-label {
+  font-size: var(--twenty-font-size);
+}
+.checkout-payment-total-due {
+  font-size: var(--twenty-four-font-size);
+}
+
+.pay-div-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sign-up {
+  font-size: var(--eighteen-font-size);
+  background-color: var(--seven-blue-color);
+  width: 100%;
+}
+.sign-up:hover {
+  background-color: var(--eight-blue-color);
+}

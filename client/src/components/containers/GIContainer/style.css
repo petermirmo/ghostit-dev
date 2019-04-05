@@ -1,0 +1,133 @@
+.main-container {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+
+  transition: all 0.2s ease;
+}
+.full-screen {
+  max-height: 100vh;
+  min-height: 100vh;
+}
+
+.x-wrap {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  flex-direction: column;
+}
+
+.x-fill {
+  width: 100%;
+}
+.x-85 {
+  width: 85%;
+}
+
+.y-fill {
+  height: 100%;
+}
+.y-50 {
+  height: 50%;
+}
+.fill-parent {
+  width: 100%;
+  height: 100%;
+}
+
+.full-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.align-center {
+  align-items: center;
+}
+.align-end {
+  align-items: flex-end;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-between {
+  justify-content: space-between;
+}
+
+.container-box {
+  position: relative;
+
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.container-box.tinier {
+  min-width: 150px;
+  max-width: 150px;
+}
+.container-box.tiny {
+  min-width: 250px;
+}
+.container-box.twentyvw {
+  min-width: 250px;
+  width: 20vw;
+}
+.container-box.small {
+  min-width: 250px;
+  width: 25vw;
+}
+.container-box.medium {
+  min-width: 250px;
+  width: 35vw;
+  flex-basis: auto;
+}
+.container-box.large {
+  min-width: 250px;
+  width: 50vw;
+}
+.container-box.extra-large {
+  min-width: 250px;
+  width: 75vw;
+}
+
+.same-size-flex-items {
+  flex: 1 1 0;
+  width: 0;
+}
+
+.fill-flex {
+  flex: 1;
+}
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.absolute-50-over-container {
+  position: absolute;
+  left: 100%;
+}
+
+.absolute-50-over-container-2 {
+  position: absolute;
+  right: 50%;
+
+  width: 100%;
+  height: 100%;
+}
+
+.common-border {
+  border: 1px solid var(--divider-theme-color);
+}
+
+.test-mode {
+  background-color: red;
+}

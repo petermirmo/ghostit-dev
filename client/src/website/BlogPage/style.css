@@ -1,5 +1,5 @@
-.preview-blog-cover {
+.image-cover {
   min-height: 200px;
   background-size: cover;
-  background-color: var(--five-primary-color);
+  background-color: var(--five-blue-color);
 }

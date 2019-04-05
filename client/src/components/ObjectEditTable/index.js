@@ -76,7 +76,7 @@ class ObjectEditTable extends Component {
               icon={faEdit}
               size="2x"
               className="button py4"
-              style={{ color: "var(--seven-primary-color" }}
+              style={{ color: "var(--seven-blue-color" }}
               onClick={this.props.editObject}
             />
           )}
@@ -88,7 +88,7 @@ class ObjectEditTable extends Component {
                 size="2x"
                 onClick={() => this.props.saveObject(this.state.updatedObject)}
                 className="button py4 mr8"
-                style={{ color: "var(--seven-primary-color" }}
+                style={{ color: "var(--seven-blue-color" }}
               />
               <FontAwesomeIcon
                 icon={faTimes}

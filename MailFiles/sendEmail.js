@@ -20,6 +20,7 @@ module.exports = {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
+        console.log(error);
         callback({
           success: false,
           errorMessage:

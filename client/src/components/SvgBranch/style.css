@@ -1,0 +1,11 @@
+.branch {
+  stroke-width: 2;
+  stroke: var(--seven-blue-color);
+}
+.branch-point {
+  fill: var(--seven-blue-color);
+  r: 10;
+}
+.branch-point.large {
+  r: 15;
+}

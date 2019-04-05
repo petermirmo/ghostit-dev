@@ -6,7 +6,13 @@ import "./style.css";
 
 class Notification extends Component {
   render() {
-    const { title, message, type } = this.props;
+    const { notification } = this.props;
+    let { title, message, type } = this.props;
+    if (notification) {
+      title = notification.title;
+      message = notification.message;
+      type = notification.type;
+    }
 
     return (
       <div className={"notification " + type}>

@@ -1,26 +1,17 @@
 import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
+
+import Page from "../../components/containers/Page";
 
 class TermsPage extends Component {
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
+  componentDidMount() {}
   render() {
     return (
-      <div className="website-page mx32">
-        <MetaTags>
-          <title>Ghostit | Terms</title>
-          <meta name="description" content="Ghostit terms and conditions." />
-          <meta property="og:title" content="Ghostit | Terms" />
-          <meta
-            property="og:description"
-            content="Ghostit terms and conditions"
-          />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
+      <Page
+        className="mx32 website-page"
+        title="Terms"
+        description="Ghostit terms and conditions"
+        keywords="ghostit, terms"
+      >
         <h1 className="my16 tac">Terms & Conditions</h1>
         <p className="my8">
           These Terms and Conditions (“Terms”, “Terms and Conditions”) govern
@@ -319,7 +310,7 @@ class TermsPage extends Component {
         <p className="my8">
           If you have any questions about these Terms, please contact us.
         </p>
-      </div>
+      </Page>
     );
   }
 }

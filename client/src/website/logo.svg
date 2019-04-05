@@ -5,8 +5,8 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
+   
+   
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
@@ -31,13 +31,13 @@
        id="fff"
        osb:paint="solid">
       <stop
-         style="stop-color:#ce0000;stop-opacity:0;"
+         style="stopColor:#ce0000;stop-opacity:0;"
          offset="0"
          id="stop1406" />
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#fff"
+       xlinkHref="#fff"
        id="linearGradient1410"
        x1="146.45474"
        y1="123.13188"

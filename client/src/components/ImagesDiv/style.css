@@ -8,27 +8,20 @@
   float: left;
   color: var(--black-theme-color);
 
-  padding: 20px;
-
-  border-radius: 10px;
   border: 2px dashed var(--black-theme-color);
   opacity: 0.2;
-
-  cursor: pointer;
 }
 .custom-file-upload:hover {
-  border: 2px dashed var(--five-primary-color);
-  color: var(--five-primary-color);
+  border: 2px dashed var(--five-blue-color);
+  color: var(--five-blue-color);
 
   opacity: 1;
 }
 .custom-file-upload:hover .image-upload-icon {
-  background-color: var(--five-primary-color);
+  background-color: var(--five-blue-color);
 }
 .image-upload-icon {
   background-color: transparent !important;
-
-  padding: 4px;
 }
 
 .image-container:hover .icon-x-hover {

@@ -20,9 +20,9 @@ import {
   getArrayIndexWithHint
 } from "../../componentFunctions";
 
-import Loader from "../Notifications/Loader";
+import Loader from "../notifications/Loader";
 import CalendarPicker from "../CalendarPicker";
-import ConfirmAlert from "../Notifications/ConfirmAlert";
+import ConfirmAlert from "../notifications/ConfirmAlert";
 
 import "./style.css";
 

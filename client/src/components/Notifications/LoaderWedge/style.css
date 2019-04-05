@@ -23,7 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--one-half-primary-color);
+  background-color: var(--one-half-blue-color);
 
   height: 100vh;
 }
@@ -47,7 +47,7 @@
   transform-origin: 100px 100px;
 }
 .lds-wedges > div div:nth-child(1) > div {
-  background: var(--one-primary-color);
+  background: var(--one-blue-color);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
@@ -56,7 +56,7 @@
   animation-duration: 1.5s;
 }
 .lds-wedges > div div:nth-child(2) > div {
-  background: var(--three-primary-color);
+  background: var(--three-blue-color);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
@@ -65,7 +65,7 @@
   animation-duration: 2s;
 }
 .lds-wedges > div div:nth-child(3) > div {
-  background: var(--five-primary-color);
+  background: var(--five-blue-color);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }
@@ -74,7 +74,7 @@
   animation-duration: 3s;
 }
 .lds-wedges > div div:nth-child(4) > div {
-  background: var(--seven-primary-color);
+  background: var(--seven-blue-color);
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
 }

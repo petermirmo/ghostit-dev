@@ -1,0 +1,35 @@
+.accounts-wrapper {
+}
+.account-column {
+}
+.social-header-button {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: var(--eighteen-font-size);
+  color: var(--white-theme-color);
+  text-align: center;
+}
+
+.social-media-connect {
+  position: relative;
+  width: 80%;
+  text-align: center;
+  color: var(--white-theme-color);
+}
+
+.connected-social-div {
+  width: 80%;
+}
+.connected-social-media-icon {
+  color: var(--primary-font-color);
+}
+.connected-social {
+  flex: 1;
+  color: var(--primary-font-color);
+
+  height: 100%;
+}
+.connected-social-account {
+  color: var(--secondary-font-color);
+}

@@ -1,214 +1,140 @@
 import React, { Component } from "react";
-import axios from "axios";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import moment from "moment-timezone";
-import { Route, withRouter, Switch } from "react-router-dom";
-import { SizeMe } from "react-sizeme";
-import ReactGA from "react-ga";
+import { Route, Switch, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import { setUser, updateAccounts, setTutorial } from "../redux/actions/";
+import { setUser, setaccounts } from "../redux/actions";
 
-import LoaderWedge from "../components/Notifications/LoaderWedge";
+import LoaderWedge from "../components/notifications/LoaderWedge";
+import GIContainer from "../components/containers/GIContainer";
 
-import Header from "../components/Navigations/Header/";
+import DashboardPage from "./Dashboard";
+import CalendarPage from "./Calendar";
+import AccountsPage from "./Accounts";
+import ManagePage from "./Manage";
+import ProfilePage from "./Profile";
+import MySubscriptionPage from "./MySubscription";
+import AnalyticsPage from "./Analytics";
+import SubscribePage from "./Subscribe";
+import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
 
-import Subscribe from "./SubscribePage/";
-import Content from "./ContentPage/";
-import Accounts from "./AccountsPage/";
-import Manage from "./ManagePage/";
-import Profile from "./ProfilePage/";
-import MySubscription from "./MySubscriptionPage/";
-import Analytics from "./AnalyticsPage/";
-import Ads from "./AdsPage/";
-import ViewWebsiteBlog from "../components/GhostitBlog/View";
-
-import WebsiteHeader from "../website/WebsiteHeader";
-import WebsiteFooter from "../website/WebsiteFooter";
 import HomePage from "../website/HomePage";
 import PricingPage from "../website/PricingPage";
 import TeamPage from "../website/TeamPage";
 import BlogPage from "../website/BlogPage";
-import GhostitAgency from "../website/GhostitAgency";
+import GhostitAgencyPage from "../website/GhostitAgencyPage";
 import LoginPage from "../website/LoginPage";
+import RegisterPage from "../website/RegisterPage";
+import ForgotPasswordPage from "../website/ForgotPasswordPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
+
+import {
+  getUser,
+  getBlogs,
+  getAccounts,
+  useAppropriateFunctionForEscapeKey
+} from "./util";
+
+import { isUserInPlatform } from "../components/containers/Page/util";
 
 class Routes extends Component {
   state = {
     datebaseConnection: false,
-    ghostitBlogs: [],
-    headerWidth: 0
+    ghostitBlogs: []
   };
-  constructor(props) {
-    super(props);
-    axios.get("/api/user").then(res => {
-      let { success, user } = res.data;
 
-      if (user) {
-        // Get all connected accounts of the user
-        axios.get("/api/accounts").then(res => {
-          // Set user's accounts to state
-          let { accounts } = res.data;
-
-          if (!accounts) accounts = [];
-          props.setUser(user);
-          props.updateAccounts(accounts);
-
-          this.setState({ datebaseConnection: true });
-        });
-      } else if (this.userIsInPlatform(this.props.location.pathname)) {
-        this.props.history.push("/sign-in");
-        this.setState({ datebaseConnection: true });
-      } else this.setState({ datebaseConnection: true });
-    });
-    if (process.env.NODE_ENV !== "development")
-      ReactGA.initialize("UA-121236003-1");
-  }
   componentDidMount() {
-    this.getBlogs();
+    this.getUserDataAndCheckAuthorization();
+
+    getBlogs(ghostitBlogs => this.setState({ ghostitBlogs, loading: false }));
   }
-  getBlogs = () => {
-    axios.get("/api/ghostit/blogs").then(res => {
-      let { success, ghostitBlogs } = res.data;
-      if (success) this.setState({ ghostitBlogs, loading: false });
-      else this.getBlogs();
+  getUserDataAndCheckAuthorization = () => {
+    const { setUser, setaccounts } = this.props; // Functions
+    const { location, history } = this.props; // Variables
+
+    getUser(user => {
+      if (user) {
+        setUser(user);
+        getAccounts(accounts => {
+          this.setState({ datebaseConnection: true });
+          setaccounts(accounts);
+        });
+      } else if (isUserInPlatform(location.pathname)) {
+        history.push("/sign-in");
+        this.setState({ datebaseConnection: true });
+      } else {
+        this.setState({ datebaseConnection: true });
+      }
     });
   };
 
-  signOutOfUsersAccount = () => {
-    axios.get("/api/signOutOfUserAccount").then(res => {
-      let { success, loggedIn, user } = res.data;
-      if (success) window.location.reload();
-      else this.props.history.push("/sign-in");
+  createBlogPages = ghostitBlogs => {
+    return ghostitBlogs.map((ghostitBlog, index) => {
+      return (
+        <Route
+          path={"/blog/" + ghostitBlog.url + "/"}
+          key={index}
+          render={props => {
+            return (
+              <ViewWebsiteBlog
+                contentArray={ghostitBlog.contentArray}
+                images={ghostitBlog.images}
+              />
+            );
+          }}
+        />
+      );
     });
-  };
-  userIsInPlatform = activePage => {
-    if (
-      activePage === "/content" ||
-      activePage === "/subscribe" ||
-      activePage === "/strategy" ||
-      activePage === "/analytics" ||
-      activePage === "/social-accounts" ||
-      activePage === "/writers-brief" ||
-      activePage.substring(0, 7) === "/manage" ||
-      activePage === "/profile" ||
-      activePage === "/subscription" ||
-      activePage === "/ads"
-    )
-      return true;
-    else return false;
-  };
-  onSize = sizeChangeObj => {
-    this.setState({ headerWidth: sizeChangeObj.width });
   };
   render() {
-    const { datebaseConnection, ghostitBlogs, headerWidth } = this.state;
-    const { user, getKeyListenerFunction } = this.props;
+    const { datebaseConnection, ghostitBlogs } = this.state; // Variables
+    const { getKeyListenerFunction, location } = this.props; // Variables
 
-    let activePage = this.props.location.pathname;
-    if (
-      !this.userIsInPlatform(activePage) &&
-      process.env.NODE_ENV !== "development"
-    )
-      ReactGA.pageview(activePage);
+    const blogPages = this.createBlogPages(ghostitBlogs);
 
-    document.removeEventListener("keydown", getKeyListenerFunction[1], false);
-    document.addEventListener("keydown", getKeyListenerFunction[0], false);
+    useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
-    let accessClientButton;
     if (!datebaseConnection) return <LoaderWedge />;
 
     return (
-      <div
-        className="wrapper"
-        style={
-          this.userIsInPlatform(activePage) ? { marginLeft: headerWidth } : {}
-        }
-      >
-        {this.userIsInPlatform(activePage) && <Header onSize={this.onSize} />}
-
-        {user &&
-          ((activePage === "/content" ||
-            activePage === "/subscribe" ||
-            activePage === "/accounts") &&
-            user.signedInAsUser && (
-              <div className="signed-in-as pa16">
-                Logged in as: {user.signedInAsUser.fullName}
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  onClick={() => this.signOutOfUsersAccount()}
-                  className="sign-out-of-clients-account"
-                />
-              </div>
-            ))}
-        {!this.userIsInPlatform(activePage) && <WebsiteHeader />}
+      <GIContainer className="main-wrapper">
         <Switch>
-          <Route path="/content/" component={Content} />
-          <Route path="/subscribe/" component={Subscribe} />
-          <Route path="/analytics/" component={Analytics} />
-          <Route path="/social-accounts/" component={Accounts} />
-          <Route path="/manage/:id" component={Manage} />
-          <Route path="/manage" component={Manage} />
-          <Route path="/profile/" component={Profile} />
-          <Route path="/subscription/" component={MySubscription} />
-          <Route path="/ads/" component={Ads} />
+          <Route path="/dashboard/" component={DashboardPage} />
+          <Route path="/calendar/" component={CalendarPage} />
+          <Route path="/subscribe/" component={SubscribePage} />
+          <Route path="/analytics/" component={AnalyticsPage} />
+          <Route path="/social-accounts/" component={AccountsPage} />
+          <Route path="/manage/:id" component={ManagePage} />
+          <Route path="/manage" component={ManagePage} />
+          <Route path="/profile/" component={ProfilePage} />
+          <Route path="/subscription/" component={MySubscriptionPage} />
 
           <Route path="/home/" component={HomePage} />
           <Route path="/pricing/" component={PricingPage} />
           <Route path="/team/" component={TeamPage} />
           <Route path="/blog/" component={BlogPage} exact />
-          <Route path="/agency/" component={GhostitAgency} />
+          <Route path="/agency/" component={GhostitAgencyPage} />
           <Route path="/sign-in/" component={LoginPage} />
-          <Route
-            path="/sign-up/"
-            render={props => {
-              return <LoginPage signUp={true} />;
-            }}
-          />
+          <Route path="/sign-up/" component={RegisterPage} />
+          <Route path="/forgot-password/" component={ForgotPasswordPage} />
+
           <Route path="/terms-of-service/" component={TermsPage} />
           <Route path="/privacy-policy/" component={PrivacyPage} />
-          {ghostitBlogs.map((obj, index) => {
-            if (obj.images) obj.images.sort(ghostitBlogImagesCompare);
-
-            return (
-              <Route
-                path={"/blog/" + obj.url + "/"}
-                key={index}
-                render={props => {
-                  return (
-                    <ViewWebsiteBlog
-                      contentArray={obj.contentArray}
-                      images={obj.images}
-                    />
-                  );
-                }}
-              />
-            );
-          })}
-
+          {blogPages}
           <Route component={HomePage} />
         </Switch>
-        {!this.userIsInPlatform(activePage) && <WebsiteFooter />}
-      </div>
+      </GIContainer>
     );
   }
-}
-
-function ghostitBlogImagesCompare(a, b) {
-  if (a.location < b.location) return -1;
-  if (a.location > b.location) return 1;
-  return 0;
 }
 
 function mapStateToProps(state) {
   return {
     user: state.user,
     getKeyListenerFunction: state.getKeyListenerFunction,
-    tutorial: state.tutorial,
     accounts: state.accounts
   };
 }
@@ -216,8 +142,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      updateAccounts,
-      setTutorial
+      setaccounts
     },
     dispatch
   );

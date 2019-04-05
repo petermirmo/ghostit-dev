@@ -1,23 +1,15 @@
 import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
+import Page from "../../components/containers/Page";
 
 class PrivacyPage extends Component {
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
   render() {
     return (
-      <div className="website-page mx32">
-        <MetaTags>
-          <title>Ghostit | Privacy</title>
-          <meta name="description" content="Ghostit privacy policy." />
-          <meta property="og:title" content="Ghostit | Privacy" />
-          <meta property="og:description" content="Ghostit privacy policy." />
-          <meta
-            property="og:image"
-            content="https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png"
-          />
-        </MetaTags>
+      <Page
+        className="mx32 website-page"
+        title="Pricing"
+        description="Ghostit privacy policy."
+        keywords="ghostit, privacy"
+      >
         <h1 className="my16 tac">Privacy Policy</h1>
         <p className="my8">
           Ghostit (“us”, “we”, or “our”) operates the http://ghostit.co/ website
@@ -236,7 +228,7 @@ class PrivacyPage extends Component {
           If you have any questions about this Privacy Policy, please contact
           us.
         </p>
-      </div>
+      </Page>
     );
   }
 }
