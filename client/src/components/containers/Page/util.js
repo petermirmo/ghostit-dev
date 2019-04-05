@@ -1,7 +1,7 @@
 export const shouldShowSignedInAsDiv = (user, activePage) => {
   if (
     user &&
-    (activePage === "/content" ||
+    (activePage === "/calendar" ||
       activePage === "/subscribe" ||
       activePage === "/accounts") &&
     user.signedInAsUser
@@ -13,7 +13,7 @@ export const shouldShowSignedInAsDiv = (user, activePage) => {
 export const isUserInPlatform = activePage => {
   if (
     activePage === "/dashboard" ||
-    activePage === "/content" ||
+    activePage === "/calendar" ||
     activePage === "/subscribe" ||
     activePage === "/strategy" ||
     activePage === "/analytics" ||

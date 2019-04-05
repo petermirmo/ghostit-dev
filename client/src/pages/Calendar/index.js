@@ -26,7 +26,8 @@ import {
   getCalendars,
   getCalendarInvites,
   triggerSocketPeers,
-  initSocket
+  initSocket,
+  getCampaigns
 } from "../util";
 
 class Content extends Component {
@@ -65,8 +66,7 @@ class Content extends Component {
       Linkedin: false,
       Campaigns: false,
       Custom: false
-    },
-    timezone: ""
+    }
   };
 
   componentDidMount() {
@@ -87,19 +87,15 @@ class Content extends Component {
       } = this.state;
 
       initSocket(
-        stateObject => {
-          if (this._ismounted)
-            this.setState(stateObject, () => {
-              this.updateSocketCalendar();
-            });
-        },
+        stateObject => this.handleChange(stateObject),
         calendars,
         activeCalendarIndex,
         campaigns,
         facebookPosts,
         twitterPosts,
         linkedinPosts,
-        customPosts
+        customPosts,
+        this.updateSocketCalendar
       );
     });
 
@@ -193,7 +189,6 @@ class Content extends Component {
             {
               activeCalendarIndex: calendars.length - 1,
               calendars,
-              timezone: calendars[calendars.length - 1].timezone,
               calendarDate: new moment()
             },
             this.fillCalendar
@@ -211,8 +206,9 @@ class Content extends Component {
   };
 
   fillCalendar = () => {
+    const { calendars, activeCalendarIndex } = this.state;
     this.getPosts();
-    this.getCampaigns();
+    getCampaigns(calendars, activeCalendarIndex, this.handleChange);
   };
 
   getPosts = () => {
@@ -273,43 +269,13 @@ class Content extends Component {
       });
   };
 
-  getCampaigns = () => {
-    const { calendars, activeCalendarIndex } = this.state;
-    if (!calendars || !calendars[activeCalendarIndex]) {
-      console.log(calendars);
-      console.log(activeCalendarIndex);
-      console.log("calendar error");
-      return;
-    }
-    const calendarID = calendars[activeCalendarIndex]._id;
-
-    axios.get("/api/calendar/campaigns/" + calendarID).then(res => {
-      let { success, err, message, campaigns, loggedIn } = res.data;
-      if (!success) {
-        console.log(message);
-        console.log(err);
-      } else {
-        if (loggedIn === false) this.props.history.push("/sign-in");
-
-        for (let index in campaigns) {
-          campaigns[index].campaign.posts = campaigns[index].posts;
-          campaigns[index] = campaigns[index].campaign;
-        }
-
-        if (this._ismounted) {
-          this.setState({ campaigns });
-        }
-      }
-    });
-  };
-
   openModal = date => {
     // Date for post is set to date clicked on calendar
     // Time for post is set to current time
     this.setState({ clickedDate: date, templatesModal: true });
   };
-  handleChange = (value, index) => {
-    this.setState({ [index]: value });
+  handleChange = stateObject => {
+    if (this._ismounted) this.setState(stateObject);
   };
   editPost = post => {
     // Open editting modal
@@ -372,8 +338,7 @@ class Content extends Component {
     this.setState(
       {
         activeCalendarIndex: index,
-        calendarDate: new moment(calendarDate),
-        timezone: calendars[index].timezone
+        calendarDate: new moment(calendarDate)
       },
       () => {
         this.fillCalendar();
@@ -406,7 +371,6 @@ class Content extends Component {
       recipeEditing,
       socket,
       templatesModal,
-      timezone,
       twitterPosts,
       userList,
       websitePosts
@@ -479,13 +443,12 @@ class Content extends Component {
           }
           inviteResponse={this.inviteResponse}
           onDateChange={date => {
-            this.handleChange(date, "calendarDate");
+            this.handleChange({ calendarDate: date });
             this.getPosts();
           }}
           onSelectCampaign={this.openCampaign}
           onSelectDay={this.openModal}
           onSelectPost={this.editPost}
-          timezone={timezone}
           updateActiveCalendar={this.updateActiveCalendar}
           updateActiveCategory={this.updateActiveCategory}
           userList={userList}
@@ -519,7 +482,7 @@ class Content extends Component {
           <ContentModal
             calendarID={calendars[activeCalendarIndex]._id}
             clickedCalendarDate={clickedDate}
-            close={() => this.setState({ contentModal: false })}
+            handleParentChange={this.handleChange}
             savePostCallback={post => {
               this.getPosts();
               triggerSocketPeers(
@@ -531,7 +494,6 @@ class Content extends Component {
               );
               this.setState({ contentModal: false });
             }}
-            timezone={timezone}
           />
         )}
         {postEdittingModal && (
@@ -548,7 +510,6 @@ class Content extends Component {
             }}
             updateCalendarPosts={this.getPosts}
             clickedEvent={clickedEvent}
-            timezone={timezone}
             close={this.closeModals}
             triggerSocketPeers={(type, post) =>
               triggerSocketPeers(
@@ -573,12 +534,10 @@ class Content extends Component {
               onClick={e => e.stopPropagation()}
             >
               <Campaign
-                handleChange={this.handleChange}
                 calendarID={calendars[activeCalendarIndex]._id}
-                timezone={timezone}
-                clickedCalendarDate={clickedDate}
-                updateCampaigns={this.getCampaigns}
                 campaign={clickedEvent}
+                clickedCalendarDate={clickedDate}
+                handleParentChange={this.handleChange}
                 isRecipe={clickedEventIsRecipe}
                 recipeEditing={recipeEditing}
                 triggerSocketPeers={(type, extra, campaignID) =>
@@ -591,14 +550,20 @@ class Content extends Component {
                     campaignID
                   )
                 }
+                updateCampaigns={() =>
+                  getCampaigns(
+                    calendars,
+                    activeCalendarIndex,
+                    this.handleChange
+                  )
+                }
               />
             </div>
           </div>
         )}
         {templatesModal && calendars[activeCalendarIndex] && (
           <TemplatesModal
-            close={this.closeModals}
-            handleChange={this.handleChange}
+            handleParentChange={this.handleChange}
             clickedCalendarDate={clickedDate}
             calendarID={calendars[activeCalendarIndex]._id}
           />

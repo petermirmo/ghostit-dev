@@ -2,6 +2,30 @@ import axios from "axios";
 import io from "socket.io-client";
 import moment from "moment-timezone";
 
+export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
+  if (!calendars || !calendars[activeCalendarIndex]) {
+    console.log(calendars);
+    console.log(activeCalendarIndex);
+    console.log("calendar error");
+    return;
+  }
+  const calendarID = calendars[activeCalendarIndex]._id;
+
+  axios.get("/api/calendar/campaigns/" + calendarID).then(res => {
+    let { success, err, message, campaigns, loggedIn } = res.data;
+    if (!success) {
+      console.log(message);
+      console.log(err);
+    } else {
+      for (let index in campaigns) {
+        campaigns[index].campaign.posts = campaigns[index].posts;
+        campaigns[index] = campaigns[index].campaign;
+      }
+
+      callback({ campaigns });
+    }
+  });
+};
 export const getUser = callback => {
   axios.get("/api/user").then(res => {
     const { error, user } = res.data;
@@ -122,7 +146,8 @@ export const initSocket = (
   facebookPosts = [],
   twitterPosts = [],
   linkedinPosts = [],
-  customPosts = []
+  customPosts = [],
+  updateSocketCalendar
 ) => {
   let socket;
 
@@ -372,4 +397,5 @@ export const initSocket = (
   });
 
   callback({ socket });
+  updateSocketCalendar();
 };

@@ -43,12 +43,13 @@ class templatesModal extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
+    const { hangleParentChange } = this.props;
 
     this.props.setKeyListenerFunction([
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.handleChange(false, "templatesModal"); // escape button pushed
+          hangleParentChange({ templatesModal: false }); // escape button pushed
         }
       },
       this.props.getKeyListenerFunction[0]
@@ -261,11 +262,13 @@ class templatesModal extends Component {
                     className="recipe-edit-button"
                     size="2x"
                     onClick={() => {
-                      this.props.handleChange(recipe, "clickedEvent");
-                      this.props.handleChange(true, "clickedEventIsRecipe");
-                      this.props.handleChange(true, "recipeEditing");
-                      this.props.handleChange(false, "templatesModal");
-                      this.props.openCampaignModal(true);
+                      hangleParentChange({
+                        clickedEvent: recipe,
+                        clickedEventIsRecipe: true,
+                        recipeEditing: true,
+                        templatesModal: false,
+                        campaignModal: true
+                      });
                     }}
                   />
                   <FontAwesomeIcon
@@ -299,11 +302,14 @@ class templatesModal extends Component {
                   recipe.chosenStartDate = date;
                   recipe.recipeID = recipe._id;
                   recipe.calendarID = this.props.calendarID;
-                  this.props.handleChange(recipe, "clickedEvent");
-                  this.props.handleChange(true, "clickedEventIsRecipe");
-                  this.props.handleChange(false, "recipeEditing");
-                  this.props.handleChange(false, "templatesModal");
-                  this.props.openCampaignModal(true);
+
+                  hangleParentChange({
+                    clickedEvent: recipe,
+                    clickedEventIsRecipe: true,
+                    recipeEditing: false,
+                    templatesModal: false,
+                    campaignModal: true
+                  });
                 }}
                 dateLowerBound={new moment()}
                 disableTime={true}
@@ -329,13 +335,14 @@ class templatesModal extends Component {
       startDate,
       promptDeleteRecipe
     } = this.state;
+    const { hangleParentChange } = this.props;
 
     let recipeArray = this.createRecipeList(activeRecipes);
 
     return (
       <div
         className="modal"
-        onClick={() => this.props.handleChange(false, "templatesModal")}
+        onClick={() => hangleParentChange({ templatesModal: false })}
       >
         <div
           className="large-modal common-transition"

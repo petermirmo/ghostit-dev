@@ -66,7 +66,7 @@ class LoginPage extends Component {
               else {
                 this.props.setUser(user);
                 this.props.setaccounts(accounts);
-                this.props.history.push("/content");
+                this.props.history.push("/calendar");
               }
             });
           } else {

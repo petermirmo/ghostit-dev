@@ -10,14 +10,14 @@ import { setUser, setaccounts } from "../redux/actions";
 import LoaderWedge from "../components/notifications/LoaderWedge";
 import GIContainer from "../components/containers/GIContainer";
 
-import DashboardPage from "./DashboardPage";
-import ContentPage from "./ContentPage";
-import AccountsPage from "./AccountsPage";
-import ManagePage from "./ManagePage";
-import ProfilePage from "./ProfilePage";
-import MySubscriptionPage from "./MySubscriptionPage";
-import AnalyticsPage from "./AnalyticsPage";
-import SubscribePage from "./SubscribePage";
+import DashboardPage from "./Dashboard";
+import CalendarPage from "./Calendar";
+import AccountsPage from "./Accounts";
+import ManagePage from "./Manage";
+import ProfilePage from "./Profile";
+import MySubscriptionPage from "./MySubscription";
+import AnalyticsPage from "./Analytics";
+import SubscribePage from "./Subscribe";
 import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
 
 import HomePage from "../website/HomePage";
@@ -103,7 +103,7 @@ class Routes extends Component {
       <GIContainer className="main-wrapper">
         <Switch>
           <Route path="/dashboard/" component={DashboardPage} />
-          <Route path="/content/" component={ContentPage} />
+          <Route path="/calendar/" component={CalendarPage} />
           <Route path="/subscribe/" component={SubscribePage} />
           <Route path="/analytics/" component={AnalyticsPage} />
           <Route path="/social-accounts/" component={AccountsPage} />

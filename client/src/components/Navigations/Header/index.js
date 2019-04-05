@@ -137,11 +137,11 @@ class HeaderSideBar extends Component {
                   Dashboard
                 </div>
               </Link>
-              <Link to="/content">
+              <Link to="/calendar">
                 <div
                   className={
-                    this.isActive("content")
-                      ? "header-button px16 py8 " + this.isActive("content")
+                    this.isActive("calendar")
+                      ? "header-button px16 py8 " + this.isActive("calendar")
                       : "header-button px16 py8 "
                   }
                 >

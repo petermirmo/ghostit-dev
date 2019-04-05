@@ -425,18 +425,18 @@ class Campaign extends Component {
   };
 
   attemptToCloseModal = () => {
-    const { handleChange } = this.props; // Functions
+    const { handleParentChange } = this.props; // Functions
     // function called when the user tries to close the modal
     // we check to see if there are any unsaved changes on the current post and the recipe
     if (!this.closeChecks()) {
       return;
     }
-    handleChange(false, "campaignModal");
+    handleParentChange({ campaignModal: false });
   };
 
   deleteCampaign = (response, context) => {
     let { socket, campaign } = this.state;
-    const { updateCampaigns, handleChange } = this.props;
+    const { updateCampaigns, handleParentChange } = this.props;
 
     if (response) {
       socket.emit("delete", campaign);
@@ -455,7 +455,7 @@ class Campaign extends Component {
             message: "Campaign and all of its posts were successfully deleted."
           });
 
-          handleChange(false, "campgaignModal");
+          handleParentChange({ campgaignModal: false });
           updateCampaigns();
         } else {
           context.notify({
@@ -464,7 +464,7 @@ class Campaign extends Component {
             message:
               "At least one of the campaign posts failed to delete. Please try again."
           });
-          handleChange(false, "campgaignModal");
+          handleParentChange({ campgaignModal: false });
           updateCampaigns();
         }
       });
@@ -1082,7 +1082,7 @@ class Campaign extends Component {
       userList
     } = this.state;
     const { clickedCalendarDate } = this.props; // Variables
-    const { handleChange } = this.props; // Functions
+    const { handleParentChange } = this.props; // Functions
     const { startDate, endDate, name, color } = campaign;
 
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
@@ -1096,8 +1096,10 @@ class Campaign extends Component {
               handleChange={this.handleCampaignChange}
               tryChangingDates={this.tryChangingCampaignDates}
               backToRecipes={() => {
-                handleChange(false, "campaignModal");
-                handleChange(true, "templatesModal");
+                handleParentChange({
+                  campaignModal: false,
+                  templatesModal: true
+                });
               }}
               userList={userList}
               close={() => this.attemptToCloseModal()}
@@ -1197,8 +1199,10 @@ class Campaign extends Component {
                 <div className="campaign-footer-option left">
                   <div
                     onClick={() => {
-                      handleChange(false, "campgaignModal");
-                      handleChange(true, "templatesModal");
+                      handleParentChange({
+                        campgaignModal: false,
+                        templatesModal: true
+                      });
                     }}
                     className="round-button button pa8 ma8 round"
                   >
@@ -1335,7 +1339,7 @@ class Campaign extends Component {
               </div>
               {campaignDeletedPrompt && (
                 <ConfirmAlert
-                  close={() => handleChange(false, "campgaignModal")}
+                  close={() => handleParentChange({ campgaignModal: false })}
                   title="Campaign Deleted"
                   message="Another calendar user just deleted this campaign. To save the campaign, you'll need to click Restore and then save each post separately."
                   firstButton="Restore"
@@ -1344,7 +1348,7 @@ class Campaign extends Component {
                     if (response) {
                       this.setState({ campaignDeletedPrompt: false });
                       this.restoreCampaign();
-                    } else handleChange(false, "campgaignModal");
+                    } else handleParentChange({ campgaignModal: false });
                   }}
                 />
               )}

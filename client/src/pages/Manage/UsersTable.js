@@ -38,7 +38,7 @@ class UsersTable extends Component {
 
       if (!res) {
         // If res sends back false the user is not an admin and is likely a hacker
-        window.location.replace("/content");
+        window.location.replace("/calendar");
       } else {
         let users = res.data;
 

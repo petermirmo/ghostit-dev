@@ -154,7 +154,7 @@ class WebsiteHeader extends Component {
         </Link>
 
         {user && (
-          <Link to="/content">
+          <Link to="/calendar">
             <button className={className}>Go to Software</button>
           </Link>
         )}
