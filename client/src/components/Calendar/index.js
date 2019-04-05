@@ -397,7 +397,20 @@ class Calendar extends Component {
     );
   };
   calendarHeader = (calendarDate, queueActive) => {
-    const { calendarInvites } = this.props;
+    const {
+      activeCalendarIndex,
+      calendarInvites,
+      calendars,
+      categories,
+      userList
+    } = this.props; // Variables
+    const {
+      inviteResponse,
+      enableCalendarManager,
+      updateActiveCalendar,
+      updateActiveCategory
+    } = this.props; // Functions
+
     let calendarInviteDivs = [];
     if (calendarInvites && calendarInvites.length > 0) {
       calendarInviteDivs = calendarInvites.map((calendar, index) => {
@@ -408,7 +421,7 @@ class Calendar extends Component {
               className="calendar-invite-accept"
               onClick={e => {
                 e.preventDefault();
-                this.props.inviteResponse(index, true);
+                inviteResponse(index, true);
               }}
             >
               Accept
@@ -417,7 +430,7 @@ class Calendar extends Component {
               className="calendar-invite-reject"
               onClick={e => {
                 e.preventDefault();
-                this.props.inviteResponse(index, false);
+                inviteResponse(index, false);
               }}
             >
               Reject
@@ -432,8 +445,8 @@ class Calendar extends Component {
         <div className="calendar-header-container px16 pt8 width100 border-box">
           <div className="flex hc vc">
             <Filter
-              updateActiveCategory={this.props.updateActiveCategory}
-              categories={this.props.categories}
+              updateActiveCategory={updateActiveCategory}
+              categories={categories}
             />
           </div>
           <div className="flex hc vc px32 flex1">
@@ -463,14 +476,14 @@ class Calendar extends Component {
         {calendarInviteDivs}
         <div className="flex hc width100 relative">
           <CalendarPicker
-            calendars={this.props.calendars}
-            activeCalendarIndex={this.props.activeCalendarIndex}
-            updateActiveCalendar={this.props.updateActiveCalendar}
-            enableCalendarManager={this.props.enableCalendarManager}
+            calendars={calendars}
+            activeCalendarIndex={activeCalendarIndex}
+            updateActiveCalendar={updateActiveCalendar}
+            enableCalendarManager={enableCalendarManager}
           />
           <div className="absolute right">
             <SocketUserList
-              userList={this.props.userList}
+              userList={userList}
               style={{ right: 0, left: "auto" }}
             />
           </div>

@@ -3,8 +3,6 @@ const cloudinary = require("cloudinary");
 const User = require("../models/User");
 const Calendar = require("../models/Calendar");
 const Post = require("../models/Post");
-const Blog = require("../models/Blog");
-const Newsletter = require("../models/Newsletter");
 const Campaign = require("../models/Campaign");
 const Recipe = require("../models/Recipe");
 

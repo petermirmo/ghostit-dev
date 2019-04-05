@@ -72,23 +72,26 @@ class Content extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    const {
-      calendars,
-      activeCalendarIndex,
-      campaigns,
-      facebookPosts,
-      twitterPosts,
-      linkedinPosts,
-      customPosts
-    } = this.state;
-
     getCalendars(stateObject => {
       if (this._ismounted) this.setState(stateObject);
       this.fillCalendar();
-      this.updateSocketCalendar();
+
+      const {
+        calendars,
+        activeCalendarIndex,
+        campaigns,
+        facebookPosts,
+        twitterPosts,
+        linkedinPosts,
+        customPosts
+      } = this.state;
+
       initSocket(
         stateObject => {
-          if (this._ismounted) this.setState(stateObject);
+          if (this._ismounted)
+            this.setState(stateObject, () => {
+              this.updateSocketCalendar();
+            });
         },
         calendars,
         activeCalendarIndex,
@@ -125,6 +128,7 @@ class Content extends Component {
   updateSocketCalendar = () => {
     const { calendars, activeCalendarIndex, socket } = this.state;
     if (!calendars || activeCalendarIndex === undefined || !socket) return;
+
     socket.emit("calendar_connect", {
       calendarID: calendars[activeCalendarIndex]._id,
       email: this.props.user.email,

@@ -364,7 +364,6 @@ export const initSocket = (
 
   socket.on("socket_user_list", reqObj => {
     const { roomID, userList } = reqObj;
-    console.log(calendars);
 
     if (roomID.toString() !== calendars[activeCalendarIndex]._id.toString())
       return;

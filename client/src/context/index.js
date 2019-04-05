@@ -1,7 +1,8 @@
 import React, { Component, createContext } from "react";
 import Notification from "../components/notifications/Notification/";
 
-const { Provider, Consumer } = createContext();
+const NotificationContext = createContext();
+const { Provider, Consumer } = NotificationContext;
 
 class GIProvider extends Component {
   state = {
@@ -14,16 +15,10 @@ class GIProvider extends Component {
   };
 
   notify = newNotification => {
-    let { notification } = this.state;
+    newNotification.on = true;
+    this.setState({ notification: newNotification });
 
-    for (let index in newNotification) {
-      notification[index] = newNotification[index];
-    }
-
-    notification.on = true;
-    this.setState({ notification });
-
-    if (notification.on) {
+    if (newNotification.on) {
       setTimeout(() => {
         let { notification } = this.state;
         notification.on = false;
@@ -52,6 +47,6 @@ class GIProvider extends Component {
   }
 }
 
-export { GIProvider };
+export { GIProvider, NotificationContext };
 
 export default Consumer;
