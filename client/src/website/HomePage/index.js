@@ -48,7 +48,7 @@ class HomePage extends Component {
       >
         <GIContainer className="column full-screen full-center">
           <img
-            src="src/svgs/home-main-background.svg"
+            src="/src/svgs/home-main-background.svg"
             style={{
               position: "absolute",
               top: "0",
@@ -70,7 +70,7 @@ class HomePage extends Component {
             className="mb32 tac"
           />
           <img
-            src="src/svgs/home-main.svg"
+            src="/src/svgs/home-main.svg"
             className="fill-parent"
             style={{ width: "60%", minWidth: "250px", height: "auto" }}
           />
@@ -112,7 +112,7 @@ class HomePage extends Component {
             className="full-center container-box small mx16"
             style={{ flex: 0.8 }}
           >
-            <img src="src/svgs/home-ai.svg" className="fill-parent" />
+            <img src="/src/svgs/home-ai.svg" className="fill-parent" />
           </GIContainer>
         </GIContainer>
 
@@ -138,7 +138,7 @@ class HomePage extends Component {
             className="full-center container-box small mx16"
             style={{ flex: 0.8 }}
           >
-            <img src="src/svgs/home-workflow.svg" className="fill-parent" />
+            <img src="/src/svgs/home-workflow.svg" className="fill-parent" />
           </GIContainer>
         </GIContainer>
 
@@ -164,7 +164,10 @@ class HomePage extends Component {
             className="full-center container-box small mx16"
             style={{ flex: 0.8 }}
           >
-            <img src="src/svgs/home-instructions.svg" className="fill-parent" />
+            <img
+              src="/src/svgs/home-instructions.svg"
+              className="fill-parent"
+            />
           </GIContainer>
         </GIContainer>
 
@@ -190,7 +193,7 @@ class HomePage extends Component {
             className="full-center container-box small mx16"
             style={{ flex: 0.8 }}
           >
-            <img src="src/svgs/home-schedule.svg" className="fill-parent" />
+            <img src="/src/svgs/home-schedule.svg" className="fill-parent" />
           </GIContainer>
         </GIContainer>
 

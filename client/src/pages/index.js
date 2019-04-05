@@ -72,16 +72,16 @@ class Routes extends Component {
   };
 
   createBlogPages = ghostitBlogs => {
-    ghostitBlogs.map((obj, index) => {
+    return ghostitBlogs.map((ghostitBlog, index) => {
       return (
         <Route
-          path={"/blog/" + obj.url + "/"}
+          path={"/blog/" + ghostitBlog.url + "/"}
           key={index}
           render={props => {
             return (
               <ViewWebsiteBlog
-                contentArray={obj.contentArray}
-                images={obj.images}
+                contentArray={ghostitBlog.contentArray}
+                images={ghostitBlog.images}
               />
             );
           }}

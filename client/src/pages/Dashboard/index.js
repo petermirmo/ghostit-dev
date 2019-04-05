@@ -101,7 +101,7 @@ class DashboardPage extends Component {
             {campaignModal && calendars[activeCalendarIndex] && (
               <div
                 className="modal"
-                onClick={() => this.props.openCampaignModal(false)}
+                onClick={() => this.handleChange({ campaignModal: false })}
               >
                 <div
                   className="large-modal common-transition"
@@ -114,12 +114,7 @@ class DashboardPage extends Component {
                     handleParentChange={this.handleChange}
                     isRecipe={clickedEventIsRecipe}
                     recipeEditing={recipeEditing}
-                    triggerSocketPeers={this.triggerSocketPeers}
-                    updateCampaigns={getCampaigns(
-                      calendars,
-                      activeCalendarIndex,
-                      this.handleChange
-                    )}
+                    triggerSocketPeers={triggerSocketPeers}
                   />
                 </div>
               </div>

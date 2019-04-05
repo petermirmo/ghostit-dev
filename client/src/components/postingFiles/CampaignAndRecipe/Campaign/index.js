@@ -9,10 +9,7 @@ import io from "socket.io-client";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {
-  setKeyListenerFunction,
-  openCampaignModal
-} from "../../../../redux/actions/";
+import { setKeyListenerFunction } from "../../../../redux/actions/";
 
 import {
   trySavePost,
@@ -63,15 +60,14 @@ class Campaign extends Component {
   }
 
   componentWillUnmount() {
-    const { context } = this;
+    const { context, socket } = this;
     window.removeEventListener(
       "beforeunload",
       this.saveChangesOnClose(context)
     );
     this.saveChangesOnClose(context);
     this._ismounted = false;
-    if (this.state.socket)
-      this.state.socket.emit("unmounting_socket_component");
+    if (socket) this.state.socket.emit("unmounting_socket_component");
   }
   saveChangesOnClose = context => {
     let { campaign, somethingChanged, socket, recipeEditing } = this.state;
@@ -114,7 +110,8 @@ class Campaign extends Component {
           });
         }
         socket.emit("close", campaign);
-        updateCampaigns();
+
+        if (updateCampaigns) updateCampaigns();
       });
     }
   };
@@ -945,9 +942,7 @@ class Campaign extends Component {
     }
   };
 
-  createRecipe = () => {
-    let { campaign, posts } = this.state;
-
+  createRecipe = (context, campaign, posts) => {
     if (campaign.name === "") {
       context.notify({
         type: "danger",
@@ -1258,7 +1253,9 @@ class Campaign extends Component {
                       <div
                         className="round-button button pa8 ma8"
                         title="Save a template based on this campaign."
-                        onClick={this.createRecipe}
+                        onClick={() =>
+                          this.createRecipe(context, campaign, posts)
+                        }
                       >
                         Save as Template
                       </div>
@@ -1315,7 +1312,9 @@ class Campaign extends Component {
                       <div
                         className="round-button button pa8 ma8"
                         title="Save a template based on this campaign."
-                        onClick={this.createRecipe}
+                        onClick={() =>
+                          this.createRecipe(context, campaign, posts)
+                        }
                       >
                         Save as Template
                       </div>
@@ -1330,7 +1329,9 @@ class Campaign extends Component {
                       title={
                         "Click to save template. Unlike campaigns, templates are not saved automatically."
                       }
-                      onClick={this.createRecipe}
+                      onClick={() =>
+                        this.createRecipe(context, campaign, posts)
+                      }
                     >
                       Save Template
                     </div>
@@ -1459,8 +1460,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setKeyListenerFunction,
-      openCampaignModal
+      setKeyListenerFunction
     },
     dispatch
   );

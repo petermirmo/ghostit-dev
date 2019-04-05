@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import Page from "../../containers/Page";
 
 import "./style.css";
 
 class ViewWebsiteBlog extends Component {
-  componentDidMount() {}
   createRelevantImageDiv = (image, index) => {
     return (
       <div className="simple-container my32" key={"image" + index}>
@@ -17,6 +17,7 @@ class ViewWebsiteBlog extends Component {
   };
   render() {
     const { contentArray, images } = this.props;
+    console.log(images);
     let divs = [];
 
     let imageCounter = 0;
@@ -55,34 +56,32 @@ class ViewWebsiteBlog extends Component {
     }
     let metaTitle = "";
     let temp = document.createElement("div");
-    temp.innerHTML =
-      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[0].html + "";
+    if (contentArray[0])
+      temp.innerHTML =
+        "<div   dangerouslySetInnerHTML={{__html: " + contentArray[0].html + "";
 
     metaTitle = temp.textContent || temp.innerText || "";
 
     let metaDescription = "";
     let temp2 = document.createElement("div");
-    temp2.innerHTML =
-      "<div   dangerouslySetInnerHTML={{__html: " + contentArray[1].html + "";
+    if (contentArray[1])
+      temp2.innerHTML =
+        "<div   dangerouslySetInnerHTML={{__html: " + contentArray[1].html + "";
 
     metaDescription = temp2.textContent || temp2.innerText || "";
     return (
-      <div className="common-container-center pb32">
-        <MetaTags>
-          <title>
-            {metaTitle ? "Ghosit | " + metaTitle : "Ghostit | Blog Post."}
-          </title>
-          <meta
-            name="description"
-            content={
-              metaDescription
-                ? metaDescription
-                : "What are you waiting for? Get reading!."
-            }
-          />
-        </MetaTags>
+      <Page
+        className="website-page align-center"
+        title={metaTitle ? metaTitle : "Blog Post"}
+        description={
+          metaDescription
+            ? metaDescription
+            : "What are you waiting for? Get reading!"
+        }
+        keywords="ghostit, blog"
+      >
         <div className="common-container-center">{divs}</div>
-      </div>
+      </Page>
     );
   }
 }

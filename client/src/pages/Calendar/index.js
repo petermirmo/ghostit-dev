@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
   openContentModal,
-  openCampaignModal,
   openCalendarManagerModal
 } from "../../redux/actions/";
 
@@ -113,7 +112,7 @@ class Content extends Component {
       "beforeunload",
       this.notifySocketUsersOnPageClose
     );
-    socket.emit("unmounting_socket_component");
+    if (socket) socket.emit("unmounting_socket_component");
   }
 
   notifySocketUsersOnPageClose = () => {

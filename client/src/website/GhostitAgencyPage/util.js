@@ -37,7 +37,7 @@ export const categories = [
     ),
     active: (
       <img
-        src="src/svgs/agency-newsletter-active.svg"
+      src="/src/svgs/agency-newsletter-active.svg"
         className="fill-parent"
       />
     ),
