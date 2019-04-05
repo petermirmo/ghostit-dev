@@ -22,7 +22,7 @@ import { getRecipes } from "./util";
 
 import "./style.css";
 
-class templatesModal extends Component {
+class TemplatesModal extends Component {
   state = {
     usersRecipes: [],
     allRecipes: [],
@@ -43,13 +43,13 @@ class templatesModal extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
-    const { hangleParentChange } = this.props;
+    const { handleParentChange } = this.props;
 
     this.props.setKeyListenerFunction([
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          hangleParentChange({ templatesModal: false }); // escape button pushed
+          handleParentChange({ templatesModal: false }); // escape button pushed
         }
       },
       this.props.getKeyListenerFunction[0]
@@ -196,6 +196,7 @@ class templatesModal extends Component {
     activePost,
     chooseRecipeDate
   ) => {
+    const { handleParentChange } = this.props;
     let postDay;
     let lastPostDay;
     let signedInUserID = this.props.user.signedInAsUser
@@ -262,7 +263,7 @@ class templatesModal extends Component {
                     className="recipe-edit-button"
                     size="2x"
                     onClick={() => {
-                      hangleParentChange({
+                      handleParentChange({
                         clickedEvent: recipe,
                         clickedEventIsRecipe: true,
                         recipeEditing: true,
@@ -303,7 +304,7 @@ class templatesModal extends Component {
                   recipe.recipeID = recipe._id;
                   recipe.calendarID = this.props.calendarID;
 
-                  hangleParentChange({
+                  handleParentChange({
                     clickedEvent: recipe,
                     clickedEventIsRecipe: true,
                     recipeEditing: false,
@@ -335,14 +336,14 @@ class templatesModal extends Component {
       startDate,
       promptDeleteRecipe
     } = this.state;
-    const { hangleParentChange } = this.props;
+    const { handleParentChange } = this.props;
 
     let recipeArray = this.createRecipeList(activeRecipes);
 
     return (
       <div
         className="modal"
-        onClick={() => hangleParentChange({ templatesModal: false })}
+        onClick={() => handleParentChange({ templatesModal: false })}
       >
         <div
           className="large-modal common-transition"
@@ -352,7 +353,7 @@ class templatesModal extends Component {
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => this.props.close(false, "templatesModal")}
+            onClick={() => handleParentChange({ templatesModal: false })}
           />
 
           <div className="recipe-navigation-container">
@@ -422,4 +423,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(templatesModal);
+)(TemplatesModal);

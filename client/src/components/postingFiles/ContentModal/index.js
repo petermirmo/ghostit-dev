@@ -30,7 +30,7 @@ class ContentModal extends Component {
     this._ismounted = true;
 
     const {
-      close,
+      handleParentChange,
       setKeyListenerFunction,
       getKeyListenerFunction
     } = this.props; // Functions
@@ -39,7 +39,7 @@ class ContentModal extends Component {
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          close(); // escape button pushed
+          handleParentChange({ contentModal: false }); // escape button pushed
         }
       },
       getKeyListenerFunction[0]
@@ -95,7 +95,7 @@ class ContentModal extends Component {
   render() {
     const { activeTab, listOfPostChanges } = this.state;
     const { accounts, calendarID, clickedCalendarDate } = this.props; // Variables
-    const { close, savePostCallback, notify } = this.props; // Functions
+    const { handleParentChange, savePostCallback, notify } = this.props; // Functions
 
     if (this.state.saving) {
       return <Loader />;
@@ -164,13 +164,16 @@ class ContentModal extends Component {
     }
 
     return (
-      <div className="modal" onClick={() => close()}>
+      <div
+        className="modal"
+        onClick={() => handleParentChange({ contentModal: false })}
+      >
         <div className="post-modal" onClick={e => e.stopPropagation()}>
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
             className="close"
-            onClick={() => close()}
+            onClick={() => handleParentChange({ contentModal: false })}
           />
 
           <ContentModalHeader

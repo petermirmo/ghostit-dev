@@ -397,5 +397,5 @@ export const initSocket = (
   });
 
   callback({ socket });
-  updateSocketCalendar();
+  if (updateSocketCalendar) updateSocketCalendar();
 };
