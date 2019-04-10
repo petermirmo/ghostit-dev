@@ -442,7 +442,7 @@ class Calendar extends Component {
 
     return (
       <div className="flex column vc width100">
-        <div className="calendar-header-container px16 pt8 width100 border-box">
+        <div className="calendar-header-container px32 pt8 width100 border-box">
           <div className="flex hc vc">
             <Filter
               updateActiveCategory={updateActiveCategory}

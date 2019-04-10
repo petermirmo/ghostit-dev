@@ -12,6 +12,7 @@ import {
   faCogs,
   faCalendar,
   faUser,
+  faUsers,
   faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, withRouter } from "react-router-dom";
@@ -88,7 +89,12 @@ class HeaderSideBar extends Component {
         >
           <GIButton
             className="absolute-50-over-container-2 round regular-button-colors full-center"
-            onClick={() => this.setState({ headerSideBar: !headerSideBar })}
+            onClick={() =>
+              this.setState({
+                headerSideBar: !headerSideBar,
+                clientSideBar: false
+              })
+            }
           >
             <FontAwesomeIcon
               size="3x"
@@ -114,6 +120,15 @@ class HeaderSideBar extends Component {
                     id="hjq"
                   />
                 </GIContainer>
+              )}
+              {(isManager || isAdmin) && (
+                <div
+                  className="header-button px16 py8 "
+                  onClick={() => this.setState({ clientSideBar: true })}
+                >
+                  <FontAwesomeIcon icon={faUsers} className="mr8" />
+                  Sign Into Client Account
+                </div>
               )}
               {(user.role === "demo" || isAdmin) && (
                 <Link to="/subscribe">
