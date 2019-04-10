@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import Page from "../../components/containers/Page";
+import Modal from "../../components/containers/Modal";
 
 import Dashboard from "../../components/Dashboard";
 
@@ -101,14 +102,8 @@ class DashboardPage extends Component {
               />
             )}
             {campaignModal && calendars[activeCalendarIndex] && (
-              <div
-                className="modal"
-                onClick={() => this.handleChange({ campaignModal: false })}
-              >
-                <div
-                  className="large-modal common-transition"
-                  onClick={e => e.stopPropagation()}
-                >
+              <Modal
+                body={
                   <Campaign
                     calendarID={calendars[activeCalendarIndex]._id}
                     campaign={clickedEvent}
@@ -118,8 +113,10 @@ class DashboardPage extends Component {
                     recipeEditing={recipeEditing}
                     triggerSocketPeers={triggerSocketPeers}
                   />
-                </div>
-              </div>
+                }
+                className="large-modal"
+                close={() => this.handleChange({ campaignModal: false })}
+              />
             )}
           </Page>
         )}

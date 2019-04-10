@@ -429,7 +429,7 @@ export function linkPreviewOptions(socialType) {
     return [false, false];
   } else if (socialType === "newsletter") {
     return [false, false];
-  }
+  } else return [false, false];
 }
 export function getPostColor(socialType) {
   if (socialType === "facebook") {

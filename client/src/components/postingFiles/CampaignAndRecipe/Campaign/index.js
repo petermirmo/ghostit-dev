@@ -70,7 +70,8 @@ class Campaign extends Component {
   }
   saveChangesOnClose = context => {
     let { campaign, somethingChanged, socket, recipeEditing } = this.state;
-    const { updateCampaigns } = this.props; // Functions
+    const { updateCampaigns, handleParentChange } = this.props; // Functions
+    handleParentChange({ clickedEvent: undefined });
 
     if (socket) socket.emit("unmounting_socket_component");
 
