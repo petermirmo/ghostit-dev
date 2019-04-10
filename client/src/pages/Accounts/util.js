@@ -45,16 +45,12 @@ export const getLinkedinPages = callback => {
   });
 };
 
-export const disconnectAccount = (confirmDelete, accountToDelete) => {
+export const disconnectAccount = (confirmDelete, accountToDelete, callback) => {
   if (confirmDelete) {
     axios.delete("/api/account/" + accountToDelete._id).then(res => {
-      // Set user's facebook pages to state
-      if (res.data) {
-        this.getUserAccounts();
-      }
-      this.setState({ accountToDelete: undefined, deleteAccount: false });
+      callback({ accountToDelete: undefined, deleteAccount: false });
     });
   } else {
-    this.setState({ accountToDelete: undefined, deleteAccount: false });
+    callback({ accountToDelete: undefined, deleteAccount: false });
   }
 };

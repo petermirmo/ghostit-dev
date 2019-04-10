@@ -120,6 +120,8 @@ class AccountsPage extends Component {
       accountType
     } = this.state;
 
+    const { setaccounts } = this.props; // Functions
+
     const connectedFacebookAccountDivs = [];
     const connectedTwitterAccountDivs = [];
     const connectedLinkedinAccountDivs = [];
@@ -230,7 +232,12 @@ class AccountsPage extends Component {
             title="Delete Account"
             message="Are you sure you want to delete this social account from our software?"
             callback={confirmDelete =>
-              this.disconnectAccount(confirmDelete, accountToDelete)
+              disconnectAccount(confirmDelete, accountToDelete, () =>
+                getUserAccounts(accounts => {
+                  this.setState({ accounts });
+                  this.props.setaccounts(accounts);
+                })
+              )
             }
           />
         )}
