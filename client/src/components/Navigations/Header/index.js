@@ -99,20 +99,22 @@ class HeaderSideBar extends Component {
         <div className="navbar pt64" style={{ zIndex: "-1" }}>
           {headerSideBar && !clientSideBar && (
             <GIContainer className="x-fill column">
-              <GIContainer className="full-center">
-                <ImagesDiv
-                  canEdit={true}
-                  currentImages={images}
-                  handleChange={parentStateChangeObject =>
-                    test(parentStateChangeObject, parentStateChangeObject =>
-                      this.setState(parentStateChangeObject)
-                    )
-                  }
-                  imageLimit={4}
-                  imagesToDelete={imagesToDelete}
-                  id="hjq"
-                />
-              </GIContainer>
+              {false && (
+                <GIContainer className="full-center">
+                  <ImagesDiv
+                    canEdit={true}
+                    currentImages={images}
+                    handleChange={parentStateChangeObject =>
+                      test(parentStateChangeObject, parentStateChangeObject =>
+                        this.setState(parentStateChangeObject)
+                      )
+                    }
+                    imageLimit={4}
+                    imagesToDelete={imagesToDelete}
+                    id="hjq"
+                  />
+                </GIContainer>
+              )}
               {(user.role === "demo" || isAdmin) && (
                 <Link to="/subscribe">
                   <div
