@@ -240,7 +240,7 @@ class AccountsPage extends Component {
             message="Are you sure you want to delete this social account from our software?"
             callback={confirmDelete =>
               disconnectAccount(confirmDelete, accountToDelete, stateObject => {
-                this.handleChange(handleChange);
+                this.handleChange(stateObject);
                 getUserAccounts(accounts => {
                   this.setState({ accounts });
                   this.props.setaccounts(accounts);
