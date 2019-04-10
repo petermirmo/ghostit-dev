@@ -47,7 +47,15 @@ class AccountsPage extends Component {
     accountToDelete: undefined,
     deleteAccount: false
   };
-  componentDidMount() {}
+  componentDidMount() {
+    this._ismounted = true;
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
+  }
+  handleChange = stateObject => {
+    if (this._ismounted) this.setState(stateObject);
+  };
   openModal = (socialType, accountType) => {
     this.setState({
       socialType,
@@ -75,7 +83,6 @@ class AccountsPage extends Component {
   };
 
   pushNewConnectedAccountDiv = (account, index) => {
-    console.log(account);
     const { socialType } = account;
 
     return (
@@ -232,12 +239,13 @@ class AccountsPage extends Component {
             title="Delete Account"
             message="Are you sure you want to delete this social account from our software?"
             callback={confirmDelete =>
-              disconnectAccount(confirmDelete, accountToDelete, () =>
+              disconnectAccount(confirmDelete, accountToDelete, stateObject => {
+                this.handleChange(handleChange);
                 getUserAccounts(accounts => {
                   this.setState({ accounts });
                   this.props.setaccounts(accounts);
-                })
-              )
+                });
+              })
             }
           />
         )}
