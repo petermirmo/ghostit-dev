@@ -75,6 +75,7 @@ class AccountsPage extends Component {
   };
 
   pushNewConnectedAccountDiv = (account, index) => {
+    console.log(account);
     const { socialType } = account;
 
     return (
@@ -110,6 +111,7 @@ class AccountsPage extends Component {
   render() {
     const {
       accounts,
+      accountToDelete,
       addPageOrGroupModal,
       deleteAccount,
       errorMessage,
