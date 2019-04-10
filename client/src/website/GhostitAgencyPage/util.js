@@ -37,7 +37,7 @@ export const categories = [
     ),
     active: (
       <img
-      src="/src/svgs/agency-newsletter-active.svg"
+        src="/src/svgs/agency-newsletter-active.svg"
         className="fill-parent"
       />
     ),
@@ -54,6 +54,6 @@ export const categories = [
     title1: "Web",
     title2: "Content",
     description:
-      "\"Not another one.\" That's not something your customers should be saying about your email newsletters. Your email campaigns should be part and parcel of a strong marketing strategy. When done right, you'll notice an increase in leads, website tra!c and customer engagement. Who doesn't want customers who care about your business?"
+      "Your website is the most powerful marketing vehicle you can leverage. Even if you’re equipped with a beautiful design and stunning photographs, content is still the most effective conversion tool in your arsenal. Not only can we help search engine optimize your website with in-depth keyword research and competitor analysis to generate organic traffic from Google, we also create content that your target audience will engage with. This helps build brand trust and credibility, which is invaluable especially for businesses in competitive verticals. From your homepage to the contact page and everything in-between, we want your website to be a comprehensive content experience that turns visitors into loyal customers. Enhance your conversion rates and brand voice through quality website content."
   }
 ];
