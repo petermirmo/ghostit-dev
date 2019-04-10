@@ -12,6 +12,7 @@
   width: 100%;
 
   box-sizing: border-box;
+  background-color: var(--white-theme-color);
 }
 .instructions-container {
   position: relative;

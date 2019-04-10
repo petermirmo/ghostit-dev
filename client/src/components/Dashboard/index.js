@@ -7,12 +7,12 @@ import GIButton from "../views/GIButton";
 
 class Dashboard extends Component {
   render() {
-    const { handleChange } = this.props; // Functions
+    const { className } = this.props; // Variables
+    const { handleParentChange } = this.props; // Functions
     return (
-      <GIContainer className="x-fill column">
-        <GIText className="mb32 mx8" type="h1" text="Dashboard" />
-        <GIContainer className="x-wrap x-fill">
-          <GIContainer className="container-box column twentyvw justify-between py16 px32 mb32 mx8 br8 common-border">
+      <GIContainer className="x-fill y-fill column ov-auto">
+        <GIContainer className={`x-wrap x-fill ${className}`}>
+          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
             <GIText
               text="Create a post"
               type="h3"
@@ -29,12 +29,12 @@ class Dashboard extends Component {
               />
               <GIButton
                 className="regular-button light small x-85"
-                onClick={() => handleChange({ contentModal: true })}
+                onClick={() => handleParentChange({ contentModal: true })}
                 text="Create post"
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="container-box column twentyvw justify-between py16 px32 mb32 mx8 br8 common-border">
+          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
             <GIText
               text="Create a campaign"
               type="h3"
@@ -42,7 +42,7 @@ class Dashboard extends Component {
             />
             <GIContainer className="full-center x-fill y-50">
               <img
-              src="/src/svgs/dashboard-campaign.svg"
+                src="/src/svgs/dashboard-campaign.svg"
                 className="fill-parent"
               />
             </GIContainer>
@@ -54,12 +54,12 @@ class Dashboard extends Component {
               />
               <GIButton
                 className="regular-button light small x-85"
-                onClick={() => handleChange({ campaignModal: true })}
+                onClick={() => handleParentChange({ campaignModal: true })}
                 text="Create campaign"
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="container-box column twentyvw justify-between py16 px32 mb32 mx8 br8 common-border">
+          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
             <GIText
               className="seven-blue mb16"
               text="Browse templates"
@@ -68,7 +68,7 @@ class Dashboard extends Component {
             <GIContainer className="full-center x-fill y-50">
               <img
                 className="fill-parent"
-              src="/src/svgs/dashboard-templates.svg"
+                src="/src/svgs/dashboard-templates.svg"
               />
             </GIContainer>
             <GIContainer className="x-fill full-center column">
@@ -79,7 +79,7 @@ class Dashboard extends Component {
               />
               <GIButton
                 className="regular-button light small x-85"
-                onClick={() => handleChange({ templatesModal: true })}
+                onClick={() => handleParentChange({ templatesModal: true })}
                 text="Browse templates"
               />
             </GIContainer>

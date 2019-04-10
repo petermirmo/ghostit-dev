@@ -9,17 +9,22 @@ import { bindActionCreators } from "redux";
 import {
   openContentModal,
   openCalendarManagerModal
-} from "../../redux/actions/";
+} from "../../redux/actions";
 
 import ContentModal from "../../components/postingFiles/ContentModal";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
-import Calendar from "../../components/Calendar/";
-import CalendarManager from "../../components/CalendarManager/";
+import Calendar from "../../components/Calendar";
+import CalendarManager from "../../components/CalendarManager";
 import Campaign from "../../components/postingFiles/CampaignAndRecipe/Campaign";
-import TemplatesModal from "../../components/postingFiles/CampaignAndRecipe/TemplatesModal";
-import Loader from "../../components/notifications/Loader/";
+import Dashboard from "../../components/Dashboard";
+import TemplatesModal from "../../components/postingFiles/TemplatesModal";
+import Loader from "../../components/notifications/Loader";
 import CalendarChat from "../../components/CalendarChat";
 import Page from "../../components/containers/Page";
+import Modal from "../../components/containers/Modal";
+
+import GIText from "../../components/views/GIText";
+import GIContainer from "../../components/containers/GIContainer";
 
 import {
   getCalendars,
@@ -55,6 +60,7 @@ class Content extends Component {
     calendarManagerModal: false,
     campaignModal: false,
     contentModal: false,
+    dashboardModal: false,
     postEdittingModal: false,
     templatesModal: false,
 
@@ -268,11 +274,6 @@ class Content extends Component {
       });
   };
 
-  openModal = date => {
-    // Date for post is set to date clicked on calendar
-    // Time for post is set to current time
-    this.setState({ clickedDate: date, templatesModal: true });
-  };
   handleChange = stateObject => {
     if (this._ismounted) this.setState(stateObject);
   };
@@ -361,6 +362,7 @@ class Content extends Component {
       clickedEventIsRecipe,
       contentModal,
       customPosts,
+      dashboardModal,
       defaultCalendarID,
       facebookPosts,
       instagramPosts,
@@ -446,7 +448,9 @@ class Content extends Component {
             this.getPosts();
           }}
           onSelectCampaign={this.openCampaign}
-          onSelectDay={this.openModal}
+          onSelectDay={date =>
+            this.handleChange({ clickedDate: date, dashboardModal: true })
+          }
           onSelectPost={this.editPost}
           updateActiveCalendar={this.updateActiveCalendar}
           updateActiveCategory={this.updateActiveCategory}
@@ -454,17 +458,8 @@ class Content extends Component {
         />
         {false && <CalendarChat calendars={calendars} />}
         {calendarManagerModal && (
-          <div
-            className="modal"
-            onClick={() => {
-              this.setState({ calendarManagerModal: false });
-              this.getCalendars();
-            }}
-          >
-            <div
-              className="large-modal common-transition"
-              onClick={e => e.stopPropagation()}
-            >
+          <Modal
+            body={
               <CalendarManager
                 calendars={calendars}
                 activeCalendarIndex={activeCalendarIndex}
@@ -474,8 +469,12 @@ class Content extends Component {
                   this.getCalendars();
                 }}
               />
-            </div>
-          </div>
+            }
+            close={() => {
+              this.setState({ calendarManagerModal: false });
+              this.getCalendars();
+            }}
+          />
         )}
         {contentModal && calendars[activeCalendarIndex] && (
           <ContentModal
@@ -524,14 +523,8 @@ class Content extends Component {
         )}
 
         {campaignModal && calendars[activeCalendarIndex] && (
-          <div
-            className="modal"
-            onClick={() => this.setState({ campaignModal: false })}
-          >
-            <div
-              className="large-modal common-transition"
-              onClick={e => e.stopPropagation()}
-            >
+          <Modal
+            body={
               <Campaign
                 calendarID={calendars[activeCalendarIndex]._id}
                 campaign={clickedEvent}
@@ -557,14 +550,38 @@ class Content extends Component {
                   )
                 }
               />
-            </div>
-          </div>
+            }
+            className="large-modal"
+            close={() => this.setState({ campaignModal: false })}
+          />
         )}
         {templatesModal && calendars[activeCalendarIndex] && (
           <TemplatesModal
             handleParentChange={this.handleChange}
             clickedCalendarDate={clickedDate}
             calendarID={calendars[activeCalendarIndex]._id}
+          />
+        )}
+        {dashboardModal && calendars[activeCalendarIndex] && (
+          <Modal
+            body={
+              <GIContainer className="x-fill py16">
+                <Dashboard
+                  className="justify-center"
+                  handleParentChange={stateObject => {
+                    stateObject.dashboardModal = false;
+                    this.handleChange(stateObject);
+                  }}
+                />
+              </GIContainer>
+            }
+            className="large-modal"
+            close={() => this.setState({ dashboardModal: false })}
+            header={
+              <GIContainer className="border-bottom full-center x-fill py8">
+                <GIText text="Schedule Task" type="h3" />
+              </GIContainer>
+            }
           />
         )}
       </Page>

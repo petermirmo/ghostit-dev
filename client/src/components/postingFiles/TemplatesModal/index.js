@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setKeyListenerFunction } from "../../../../redux/actions/";
+import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
@@ -12,11 +12,11 @@ import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 
-import LoaderSimpleCircle from "../../../notifications/LoaderSimpleCircle";
-import DateTimePicker from "../../../DateTimePicker";
-import ConfirmAlert from "../../../notifications/ConfirmAlert";
+import LoaderSimpleCircle from "../../notifications/LoaderSimpleCircle";
+import DateTimePicker from "../../DateTimePicker";
+import ConfirmAlert from "../../notifications/ConfirmAlert";
 
-import { getPostColor, getPostIcon } from "../../../../componentFunctions";
+import { getPostColor, getPostIcon } from "../../../componentFunctions";
 
 import { getRecipes } from "./util";
 
@@ -355,39 +355,40 @@ class TemplatesModal extends Component {
             className="close"
             onClick={() => handleParentChange({ templatesModal: false })}
           />
-
-          <div className="recipe-navigation-container">
-            <div
-              className={
-                activeRecipes === this.state.usersRecipes
-                  ? "recipe-navigation-option pa4 button mx8 active"
-                  : "recipe-navigation-option pa4 button mx8"
-              }
-              onClick={() => {
-                this.setState({
-                  activeRecipes: this.state.usersRecipes,
-                  previewRecipeLocation: undefined,
-                  activePost: undefined
-                });
-              }}
-            >
-              Your Templates
-            </div>
-            <div
-              className={
-                activeRecipes === this.state.allRecipes
-                  ? "recipe-navigation-option pa4 button mx8 active"
-                  : "recipe-navigation-option pa4 button mx8"
-              }
-              onClick={() => {
-                this.setState({
-                  activeRecipes: this.state.allRecipes,
-                  previewRecipeLocation: undefined,
-                  activePost: undefined
-                });
-              }}
-            >
-              All Templates
+          <div className="modal-header">
+            <div className="recipe-navigation-container">
+              <div
+                className={
+                  activeRecipes === this.state.usersRecipes
+                    ? "recipe-navigation-option pa4 button mx8 active"
+                    : "recipe-navigation-option pa4 button mx8"
+                }
+                onClick={() => {
+                  this.setState({
+                    activeRecipes: this.state.usersRecipes,
+                    previewRecipeLocation: undefined,
+                    activePost: undefined
+                  });
+                }}
+              >
+                Your Templates
+              </div>
+              <div
+                className={
+                  activeRecipes === this.state.allRecipes
+                    ? "recipe-navigation-option pa4 button mx8 active"
+                    : "recipe-navigation-option pa4 button mx8"
+                }
+                onClick={() => {
+                  this.setState({
+                    activeRecipes: this.state.allRecipes,
+                    previewRecipeLocation: undefined,
+                    activePost: undefined
+                  });
+                }}
+              >
+                All Templates
+              </div>
             </div>
           </div>
           <div className="recipes-container-container">{recipeArray}</div>

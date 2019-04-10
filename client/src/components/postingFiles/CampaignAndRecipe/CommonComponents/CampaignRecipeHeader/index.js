@@ -3,7 +3,6 @@ import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
 import faAngleUp from "@fortawesome/fontawesome-free-solid/faAngleUp";
 import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
@@ -67,19 +66,6 @@ class CampaignRecipeHeader extends Component {
 
     return (
       <div className="simple-column-box border-bottom pb32">
-        <div
-          className="close-container"
-          title={
-            "Campaigns are automatically saved when window is closed.\nTemplates are not."
-          }
-        >
-          <FontAwesomeIcon
-            className="close-special"
-            icon={faTimes}
-            size="2x"
-            onClick={() => this.props.close()}
-          />
-        </div>
         {showMore && (
           <input
             onChange={event => handleChange(event.target.value, "name")}

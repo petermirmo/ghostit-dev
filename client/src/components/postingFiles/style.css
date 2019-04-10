@@ -21,6 +21,9 @@
   -webkit-animation: animateOpacity 0.2s;
   animation: animateOpacity 0.2s;
 }
+.post-modal-body {
+  width: 80%;
+}
 .post-modal-header {
   display: flex;
 
@@ -53,10 +56,6 @@
   border-right: 4px solid var(--two-blue-color);
   background-color: var(--three-blue-color);
 }
-.post-modal-body {
-  width: 80%;
-}
-
 .connect-accounts-button {
   display: flex;
   display: -webkit-flex;

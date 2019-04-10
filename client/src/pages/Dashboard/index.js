@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import Page from "../../components/containers/Page";
 
-import Dashboard from "../../components/dashboard";
+import Dashboard from "../../components/Dashboard";
 
-import TemplatesModal from "../../components/postingFiles/CampaignAndRecipe/TemplatesModal";
+import TemplatesModal from "../../components/postingFiles/TemplatesModal";
 import Campaign from "../../components/postingFiles/CampaignAndRecipe/Campaign";
 import ContentModal from "../../components/postingFiles/ContentModal";
+
+import GIText from "../../components/views/GIText";
+import GIContainer from "../../components/containers/GIContainer";
 
 import {
   getCalendars,
@@ -70,11 +73,10 @@ class DashboardPage extends Component {
       <Consumer>
         {context => (
           <Page className="column align-center py64 px64">
-            <Dashboard
-              handleChange={stateObject => {
-                if (this._ismounted) this.setState(stateObject);
-              }}
-            />
+            <GIContainer className="x-fill">
+              <GIText className="mb32 mx8" type="h1" text="Dashboard" />
+            </GIContainer>
+            <Dashboard handleParentChange={this.handleChange} />
 
             {templatesModal && calendars[activeCalendarIndex] && (
               <TemplatesModal

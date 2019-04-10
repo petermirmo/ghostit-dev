@@ -139,7 +139,7 @@ class CustomTask extends Component {
     const { postFinishedSavingCallback, canEditPost } = this.props;
 
     return (
-      <div className="full-height-container">
+      <div className="container-box white flex column x-fill y-fill ov-auto">
         <div className="post-instruction-container">
           <div
             className="posting-container light-scrollbar pa16"

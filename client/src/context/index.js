@@ -1,5 +1,6 @@
 import React, { Component, createContext } from "react";
 import Notification from "../components/notifications/Notification/";
+import Loader from "../components/notifications/Loader";
 
 const NotificationContext = createContext();
 const { Provider, Consumer } = NotificationContext;
@@ -11,8 +12,15 @@ class GIProvider extends Component {
       title: "Something went wrong!",
       message: "",
       type: "danger"
-    }
+    },
+    saving: false
   };
+  componentDidMount() {
+    this._ismounted = true;
+  }
+  componentWillUnmount() {
+    this._ismounted = false;
+  }
 
   notify = newNotification => {
     newNotification.on = true;
@@ -26,13 +34,17 @@ class GIProvider extends Component {
       }, 5000);
     }
   };
+  handleChange = stateObject => {
+    if (this._ismounted) this.setState(stateObject);
+  };
   render() {
-    const { notification } = this.state;
+    const { notification, saving } = this.state;
     return (
       <Provider
         value={{
-          test: "here",
-          notify: this.notify
+          handleChange: this.handleChange,
+          notify: this.notify,
+          saving
         }}
       >
         {notification.on && (
@@ -42,6 +54,7 @@ class GIProvider extends Component {
           />
         )}
         {this.props.children}
+        {saving && <Loader />}
       </Provider>
     );
   }

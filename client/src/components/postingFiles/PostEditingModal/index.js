@@ -128,35 +128,37 @@ class PostEdittingModal extends Component {
                   onClick={() => close()}
                 />
               </div>
-              {clickedEvent.socialType === "custom" && (
-                <CustomTask
-                  setSaving={this.setSaving}
-                  post={clickedEvent}
-                  canEditPost={canEditPost}
-                  postFinishedSavingCallback={post => {
-                    savePostCallback(post);
-                    close();
-                  }}
-                  calendarID={this.props.calendarID}
-                  notify={context.notify}
-                />
-              )}
-              {clickedEvent.socialType !== "custom" && (
-                <Post
-                  setSaving={this.setSaving}
-                  post={clickedEvent}
-                  canEditPost={canEditPost}
-                  postFinishedSavingCallback={post => {
-                    savePostCallback(post);
-                    close();
-                  }}
-                  accounts={accounts}
-                  timezone={timezone}
-                  maxCharacters={maxCharacters}
-                  calendarID={this.props.calendarID}
-                  notify={context.notify}
-                />
-              )}
+              <div className="modal-body">
+                {clickedEvent.socialType === "custom" && (
+                  <CustomTask
+                    setSaving={this.setSaving}
+                    post={clickedEvent}
+                    canEditPost={canEditPost}
+                    postFinishedSavingCallback={post => {
+                      savePostCallback(post);
+                      close();
+                    }}
+                    calendarID={this.props.calendarID}
+                    notify={context.notify}
+                  />
+                )}
+                {clickedEvent.socialType !== "custom" && (
+                  <Post
+                    setSaving={this.setSaving}
+                    post={clickedEvent}
+                    canEditPost={canEditPost}
+                    postFinishedSavingCallback={post => {
+                      savePostCallback(post);
+                      close();
+                    }}
+                    accounts={accounts}
+                    timezone={timezone}
+                    maxCharacters={maxCharacters}
+                    calendarID={this.props.calendarID}
+                    notify={context.notify}
+                  />
+                )}
+              </div>
               {this.state.confirmDelete && (
                 <ConfirmAlert
                   close={() => this.setState({ confirmDelete: false })}

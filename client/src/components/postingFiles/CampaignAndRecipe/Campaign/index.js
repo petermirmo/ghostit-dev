@@ -21,7 +21,6 @@ import {
 
 import Post from "../../Post";
 import CustomTask from "../../CustomTask";
-import Loader from "../../../notifications/Loader";
 import ConfirmAlert from "../../../notifications/ConfirmAlert";
 
 import PostTypePicker from "../CommonComponents/PostTypePicker";
@@ -193,7 +192,6 @@ class Campaign extends Component {
       activePostIndex,
       userList: [], // list of users connected to the same campaign socket (how many users are currently modifying this campaign)
 
-      saving: !props.recipeEditing,
       somethingChanged,
       confirmDelete: false,
       promptDeletePost: false,
@@ -249,8 +247,9 @@ class Campaign extends Component {
           title: "Campaign Created",
           message: "New campaign created."
         });
+        context.handleChange({ saving: false });
 
-        this.setState({ campaign, saving: false });
+        this.setState({ campaign });
       });
     } else if (this.props.campaign && this.props.campaign._id) {
       socket.emit("campaign_connect", {
@@ -259,8 +258,8 @@ class Campaign extends Component {
         name: this.props.user.fullName
       });
       socketConnected = true;
-      this.setState({ saving: false });
-    } else this.setState({ saving: false });
+      context.handleChange({ saving: false });
+    } else context.handleChange({ saving: false });
 
     if (socketConnected) {
       socket.on("campaign_post_saved", post => {
@@ -452,7 +451,7 @@ class Campaign extends Component {
             message: "Campaign and all of its posts were successfully deleted."
           });
 
-          handleParentChange({ campgaignModal: false });
+          handleParentChange({ campaignModal: false });
           updateCampaigns();
         } else {
           context.notify({
@@ -461,7 +460,7 @@ class Campaign extends Component {
             message:
               "At least one of the campaign posts failed to delete. Please try again."
           });
-          handleParentChange({ campgaignModal: false });
+          handleParentChange({ campaignModal: false });
           updateCampaigns();
         }
       });
@@ -766,12 +765,12 @@ class Campaign extends Component {
           };
           let post_props = {
             setSaving: () => {
-              this.setState({ saving: true });
+              context.handleChange({ saving: true });
             },
             postFinishedSavingCallback: savedPost => {
               this.updatePost(savedPost, index);
               this.triggerCampaignPeers("campaign_post_saved", savedPost);
-              this.setState({ saving: false });
+              context.handleChange({ saving: false });
             }
           };
           trySavePost(post_state, post_props, true, true);
@@ -866,22 +865,23 @@ class Campaign extends Component {
           post={post_obj}
           postFinishedSavingCallback={(savedPost, success, message) => {
             if (success) {
-              this.setState({ saving: true });
+              context.handleChange({ saving: true });
               socket.emit("new_post", { campaign, post: savedPost });
               this.updatePost(savedPost);
               socket.on("post_added", emitObject => {
                 socket.off("post_added");
                 campaign.posts = emitObject.campaignPosts;
-                this.setState({ campaign, saving: false });
+                context.handleChange({ saving: false });
+                this.setState({ campaign });
                 this.triggerCampaignPeers("campaign_post_saved", savedPost);
               });
             } else {
-              this.setState({ saving: false });
+              context.handleChange({ saving: false });
               context.notify({ type: "danger", title: "Save Failed", message });
             }
           }}
           setSaving={() => {
-            this.setState({ saving: true });
+            context.handleChange({ saving: true });
           }}
           calendarID={this.props.calendarID}
           socialType={post_obj.socialType}
@@ -905,7 +905,7 @@ class Campaign extends Component {
           post={post_obj}
           postFinishedSavingCallback={(savedPost, success, message) => {
             if (success) {
-              this.setState({ saving: true });
+              context.handleChange({ saving: false });
               socket.emit("new_post", { campaign, post: savedPost });
               this.updatePost(savedPost);
               socket.on("post_added", emitObject => {
@@ -916,11 +916,11 @@ class Campaign extends Component {
               });
             } else {
               context.notify({ type: "danger", title: "Save Failed", message });
-              this.setState({ saving: false });
+              context.handleChange({ saving: false });
             }
           }}
           setSaving={() => {
-            this.setState({ saving: true });
+            context.handleChange({ saving: true });
           }}
           calendarID={this.props.calendarID}
           socialType={post_obj.socialType}
@@ -960,12 +960,12 @@ class Campaign extends Component {
       return;
     }
 
-    this.setState({ saving: true });
+    context.handleChange({ saving: true });
 
     axios.post("/api/recipe", { campaign, posts }).then(res => {
       const { success } = res.data;
 
-      this.setState({ saving: false });
+      context.handleChange({ saving: false });
 
       if (!success) {
         console.log(
@@ -1085,7 +1085,7 @@ class Campaign extends Component {
     return (
       <Consumer>
         {context => (
-          <div className="full-height-container br4">
+          <div className="container-box white flex column y-fill fill-flex br4">
             <CampaignRecipeHeader
               campaign={campaign}
               handleChange={this.handleCampaignChange}
@@ -1195,8 +1195,8 @@ class Campaign extends Component {
                   <div
                     onClick={() => {
                       handleParentChange({
-                        campgaignModal: false,
-                        templatesModal: true
+                        campaignModal: false,
+                        dashboardModal: true
                       });
                     }}
                     className="round-button button pa8 ma8 round"
@@ -1218,7 +1218,6 @@ class Campaign extends Component {
                           "Save campaign now.\nCampaigns are saved automatically when making any changes or navigating away from the campaign window."
                         }
                         onClick={() => {
-                          //this.setState({ saving: true });
                           socket.emit("campaign_editted", campaign);
                           socket.on("campaign_saved", emitObject => {
                             socket.off("campaign_saved");
@@ -1242,7 +1241,7 @@ class Campaign extends Component {
                                 message: "Campaign was saved!"
                               });
                             }
-                            this.setState({ saving: false });
+                            context.handleChange({ saving: false });
                           });
                         }}
                       >
@@ -1284,7 +1283,7 @@ class Campaign extends Component {
                           "Save campaign now.\nCampaigns are saved automatically when navigating away from the campaign window."
                         }
                         onClick={() => {
-                          //this.setState({ saving: true });
+                          //context.handleChange({ saving: true });
                           socket.emit("campaign_editted", campaign);
                           socket.on("campaign_saved", emitObject => {
                             socket.off("campaign_saved");
@@ -1301,7 +1300,7 @@ class Campaign extends Component {
                                 message: "Campaign was saved!"
                               });
                             }
-                            this.setState({ saving: false });
+                            context.handleChange({ saving: false });
                           });
                         }}
                       >
@@ -1340,7 +1339,7 @@ class Campaign extends Component {
               </div>
               {campaignDeletedPrompt && (
                 <ConfirmAlert
-                  close={() => handleParentChange({ campgaignModal: false })}
+                  close={() => handleParentChange({ campaignModal: false })}
                   title="Campaign Deleted"
                   message="Another calendar user just deleted this campaign. To save the campaign, you'll need to click Restore and then save each post separately."
                   firstButton="Restore"
@@ -1349,7 +1348,7 @@ class Campaign extends Component {
                     if (response) {
                       this.setState({ campaignDeletedPrompt: false });
                       this.restoreCampaign();
-                    } else handleParentChange({ campgaignModal: false });
+                    } else handleParentChange({ campaignModal: false });
                   }}
                 />
               )}
@@ -1440,7 +1439,6 @@ class Campaign extends Component {
                 type="change-post"
               />
             )}
-            {saving && <Loader />}
           </div>
         )}
       </Consumer>

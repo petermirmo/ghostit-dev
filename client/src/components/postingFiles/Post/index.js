@@ -383,7 +383,7 @@ class PostingOptions extends Component {
       remainingCharacters += link.length - 23;
 
     return (
-      <div className="full-fill-container">
+      <div className="container-box white flex column x-fill y-fill ov-auto">
         <div className="post-instruction-container">
           <div
             className="posting-container common-transition light-scrollbar pa16"
