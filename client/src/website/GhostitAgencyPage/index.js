@@ -114,7 +114,7 @@ class GhostitAgency extends Component {
               </GIContainer>
               <GIContainer className="container-box tinier mx16">
                 <img
-                  src="/src/svgs/agency-understanding.svg"
+                  src={require("../../svgs/agency-understanding.svg")}
                   className="fill-parent"
                 />
               </GIContainer>
@@ -143,7 +143,7 @@ class GhostitAgency extends Component {
               </GIContainer>
               <GIContainer className="container-box tinier mx16">
                 <img
-                  src="/src/svgs/agency-strategy.svg"
+                  src={require("../../svgs/agency-strategy.svg")}
                   className="fill-parent"
                 />
               </GIContainer>
@@ -171,7 +171,7 @@ class GhostitAgency extends Component {
               </GIContainer>
               <GIContainer className="container-box tinier mx16">
                 <img
-                  src="/src/svgs/agency-creation.svg"
+                  src={require("../../svgs/agency-creation.svg")}
                   className="fill-parent"
                 />
               </GIContainer>
@@ -191,7 +191,10 @@ class GhostitAgency extends Component {
             <AgencyForm />
           </GIContainer>
           <GIContainer className="pl32 my32">
-            <img src="/src/svgs/agency-call.svg" className="fill-parent" />
+            <img
+              src={require("../../svgs/agency-call.svg")}
+              className="fill-parent"
+            />
           </GIContainer>
         </GIContainer>
       </Page>
