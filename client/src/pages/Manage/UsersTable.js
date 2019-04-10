@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 
 import SearchColumn from "../../components/SearchColumn/";
 import ObjectEditTable from "../../components/ObjectEditTable/";
-import NavigationBar from "../../components/Navigations/NavigationBar/";
+import NavigationBar from "../../components/navigations/NavigationBar/";
 import { nonEditableUserFields, cantShowUserFields } from "../../constants";
 
 class UsersTable extends Component {

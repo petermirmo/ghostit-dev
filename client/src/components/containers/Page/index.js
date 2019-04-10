@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 
-import Header from "../..//Navigations/Header";
+import Header from "../../navigations/Header";
 import SignedInAs from "../..//SignedInAs";
 
 import WebsiteHeader from "../../navigations/WebsiteHeader";
