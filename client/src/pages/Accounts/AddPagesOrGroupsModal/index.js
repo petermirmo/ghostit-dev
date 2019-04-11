@@ -18,6 +18,8 @@ class AddPagesOrGroupsModal extends Component {
   };
   addAccounts = () => {
     const { pagesToAdd } = this.state;
+    const { getUserAccounts, close } = this.props; // Functions
+
     if (pagesToAdd.length === 0 || !pagesToAdd) {
       alert("You have not selected any pages to add!");
     } else {
@@ -32,14 +34,14 @@ class AddPagesOrGroupsModal extends Component {
 
           // Check to see if accounts were successfully saved
           if (res.data) {
-            this.props.getUserAccounts();
+            getUserAccounts();
           } else {
             alert("Account already added");
           }
         });
       }
-      this.props.close();
-      this.props.getUserAccounts();
+      close();
+      getUserAccounts();
     }
   };
 

@@ -38,7 +38,6 @@ import "./style.css";
 
 class AccountsPage extends Component {
   state = {
-    accounts: this.props.accounts,
     pageOrGroupArray: [],
     accountType: "",
     socialType: "",
@@ -117,7 +116,6 @@ class AccountsPage extends Component {
 
   render() {
     const {
-      accounts,
       accountToDelete,
       addPageOrGroupModal,
       deleteAccount,
@@ -127,7 +125,7 @@ class AccountsPage extends Component {
       accountType
     } = this.state;
 
-    const { setaccounts } = this.props; // Functions
+    const { setaccounts, accounts } = this.props; // Functions
 
     const connectedFacebookAccountDivs = [];
     const connectedTwitterAccountDivs = [];
@@ -221,10 +219,7 @@ class AccountsPage extends Component {
         {addPageOrGroupModal && (
           <AddPageOrGroupModal
             getUserAccounts={() =>
-              getUserAccounts(accounts => {
-                this.setState({ accounts });
-                this.props.setaccounts(accounts);
-              })
+              getUserAccounts(accounts => this.props.setaccounts(accounts))
             }
             pageOrGroupArray={pageOrGroupArray}
             accountType={accountType}
@@ -241,10 +236,7 @@ class AccountsPage extends Component {
             callback={confirmDelete =>
               disconnectAccount(confirmDelete, accountToDelete, stateObject => {
                 this.handleChange(stateObject);
-                getUserAccounts(accounts => {
-                  this.setState({ accounts });
-                  this.props.setaccounts(accounts);
-                });
+                getUserAccounts(accounts => this.props.setaccounts(accounts));
               })
             }
           />
