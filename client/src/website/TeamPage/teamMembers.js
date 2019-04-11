@@ -78,7 +78,7 @@ export const teamMembers = [
       "Alex sees in technology the power of creating meaningful and lasting impact. Curious by nature, he’s always reading about the latest trends in tech. With a background in design, he advocates user centered design principles in pretty much everything he does. Want to know what the latest edition of Wired magazine is about? Alex is your man.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1552443011/27.jpg",
-    color: "var(--five-primary-color)"
+    color: "var(--five-blue-color)"
   },
   {
     name: "Peter",
