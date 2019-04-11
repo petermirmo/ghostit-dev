@@ -24,6 +24,8 @@ import Loader from "../notifications/Loader";
 import CalendarPicker from "../CalendarPicker";
 import ConfirmAlert from "../notifications/ConfirmAlert";
 
+import Consumer from "../../context";
+
 import "./style.css";
 
 class CalendarManager extends Component {
@@ -131,7 +133,7 @@ class CalendarManager extends Component {
     this.setState({ [key]: value });
   };
 
-  inviteUser = index => {
+  inviteUser = (index, context) => {
     const { inviteEmail, calendars } = this.state;
     const calendar = calendars[index];
 
@@ -152,15 +154,15 @@ class CalendarManager extends Component {
         if (!success || err) {
           console.log(err);
           console.log(message);
-          this.props.notify("danger", "Invite Failed", message);
+          context.notify({ type: "danger", title: "Invite Failed", message });
         } else {
-          this.props.notify(
-            "success",
-            "Invite Successful",
-            `${inviteEmail} has been invited to join calendar ${
+          context.notify({
+            type: "success",
+            title: "Invite Successful",
+            message: `${inviteEmail} has been invited to join calendar ${
               calendar.calendarName
             }.`
-          );
+          });
           this.setState(prevState => {
             return {
               inviteEmail: "",
@@ -175,7 +177,7 @@ class CalendarManager extends Component {
       });
   };
 
-  createNewCalendar = name => {
+  createNewCalendar = (name, context) => {
     axios.post("/api/calendars/new", { name }).then(res => {
       const { success, newCalendar, message } = res.data;
       if (success) {
@@ -185,12 +187,12 @@ class CalendarManager extends Component {
           };
         });
       } else {
-        this.props.notify("danger", "", message);
+        context.notify({ type: "danger", title: "", message });
       }
     });
   };
 
-  promoteUser = (userIndex, calendarIndex) => {
+  promoteUser = (userIndex, calendarIndex, context) => {
     const { calendars } = this.state;
     const calendar = calendars[calendarIndex];
     const userID = calendar.users[userIndex]._id;
@@ -201,7 +203,11 @@ class CalendarManager extends Component {
         const { success, err, message } = res.data;
         if (!success) {
           console.log(err);
-          this.props.notify("danger", "Promote User Failed", message);
+          context.notify({
+            type: "danger",
+            title: "Promote User Failed",
+            message
+          });
         } else {
           this.setState(
             prevState => {
@@ -215,12 +221,12 @@ class CalendarManager extends Component {
             },
             () => this.getCalendarUsers(calendarIndex)
           );
-          this.props.notify("success", "User Promoted", message);
+          context.notify({ type: "success", title: "User Promoted", message });
         }
       });
   };
 
-  removeUserFromCalendar = (userIndex, calendarIndex) => {
+  removeUserFromCalendar = (userIndex, calendarIndex, context) => {
     const { calendars } = this.state;
     const calendar = calendars[calendarIndex];
     const calendarID = calendar._id;
@@ -235,15 +241,18 @@ class CalendarManager extends Component {
         const { success, err, message } = res.data;
         if (!success) {
           console.log(err);
-          this.props.notify("danger", "Remove User Failed", message);
+          context.notify({
+            type: "danger",
+            title: "Remove User Failed",
+            message
+          });
         } else {
           this.getCalendarUsers(calendarIndex);
-          this.props.notify(
-            "success",
-            "User Removed",
-            `User successfully removed from calendar.`,
-            3500
-          );
+          context.notify({
+            type: "success",
+            title: "User Removed",
+            message: `User successfully removed from calendar.`
+          });
         }
       });
   };
@@ -298,9 +307,13 @@ class CalendarManager extends Component {
         const { success, err, message, newCalendar } = res.data;
         if (!success) {
           console.log(err);
-          this.props.notify("danger", "Failed to Leave Calendar", message);
+          context.notify({
+            type: "danger",
+            title: "Failed to Leave Calendar",
+            message
+          });
         } else {
-          this.props.notify("success", "Calendar Left", message);
+          context.notify({ type: "success", title: "Calendar Left", message });
           if (newCalendar) {
             // deleted last calendar so the backend created a new one for the user
             this.setState(
@@ -351,13 +364,17 @@ class CalendarManager extends Component {
         const { success, err, message, newCalendar } = res.data;
         if (!success) {
           console.log(err);
-          this.props.notify("danger", "Delete Calendar Failed", message);
+          context.notify({
+            type: "danger",
+            title: "Delete Calendar Failed",
+            message
+          });
         } else {
-          this.props.notify(
-            "success",
-            "Calendar Deleted",
-            message ? message : `Calendar successfully deleted.`
-          );
+          context.notify({
+            type: "success",
+            title: "Calendar Deleted",
+            message: message ? message : "Calendar successfully deleted."
+          });
           if (newCalendar) {
             // deleted last calendar so the backend created a new one for the user
             this.setState(
@@ -398,9 +415,13 @@ class CalendarManager extends Component {
         if (!success) {
           console.log(err);
           console.log(message);
-          this.props.notify("danger", "Set Default Calendar Failed", message);
+          context.notify({
+            type: "danger",
+            title: "Set Default Calendar Failed",
+            message
+          });
         } else {
-          this.props.notify("success", "Success", message);
+          context.notify({ type: "success", title: "Success", message });
           this.setState({ defaultCalendarID: calendars[calendarIndex]._id });
         }
       });
@@ -419,7 +440,7 @@ class CalendarManager extends Component {
     });
   };
 
-  unlinkSocialAccount = accountID => {
+  unlinkSocialAccount = (accountID, context) => {
     const { calendars, activeCalendarIndex } = this.state;
     const calendarID = calendars[activeCalendarIndex]._id;
     axios
@@ -428,24 +449,28 @@ class CalendarManager extends Component {
         const { success, err, message } = res.data;
         if (!success) {
           console.log(err);
-          this.props.notify("danger", "Failed to Remove Account", message);
+          context.notify({
+            type: "danger",
+            title: "Failed to Remove Account",
+            message
+          });
         } else {
           const calendar = calendars[activeCalendarIndex];
           const accountIndex = calendar.accounts.findIndex(
             actObj => actObj._id.toString() === accountID.toString()
           );
           if (accountIndex === -1) {
-            this.props.notify(
-              "info",
-              "Something May Have Gone Wrong",
-              "Reload page to make sure account was removed properly."
-            );
+            context.notify({
+              type: "info",
+              title: "Something May Have Gone Wrong",
+              message: "Reload page to make sure account was removed properly."
+            });
           } else {
-            this.props.notify(
-              "success",
-              "Successfully Removed Account",
+            context.notify({
+              type: "success",
+              title: "Successfully Removed Account",
               message
-            );
+            });
             this.setState(prevState => {
               return {
                 calendars: [
@@ -470,7 +495,7 @@ class CalendarManager extends Component {
       });
   };
 
-  presentActiveCalendar = (isDefaultCalendar, isAdmin, calendar) => {
+  presentActiveCalendar = (isDefaultCalendar, isAdmin, calendar, context) => {
     const {
       calendars,
       activeCalendarIndex,
@@ -619,7 +644,7 @@ class CalendarManager extends Component {
                 className="regular-button mr16"
                 onClick={e => {
                   e.preventDefault();
-                  this.inviteUser(activeCalendarIndex);
+                  this.inviteUser(activeCalendarIndex, context);
                 }}
               >
                 Invite
@@ -686,144 +711,150 @@ class CalendarManager extends Component {
     const isAdmin = calendars[activeCalendarIndex].adminID == userID;
 
     return (
-      <div className="simple-container flex1">
-        <div className="close-container" title="Close Calendar Manager">
-          <FontAwesomeIcon
-            className="close-special"
-            icon={faTimes}
-            size="2x"
-            onClick={() => this.props.close()}
-          />
-        </div>
-        <div className="flex hc vc">
-          <CalendarPicker
-            calendars={calendars}
-            activeCalendarIndex={activeCalendarIndex}
-            calendarManager={true}
-            createNewCalendar={this.createNewCalendar}
-            updateActiveCalendar={this.updateActiveCalendar}
-          />
-          {isAdmin && (
-            <div title="Delete Calendar. Only calendars with one user can be deleted.">
-              <FontAwesomeIcon
-                className="color-red button pa4 ml8"
-                icon={faTrash}
-                onClick={this.deleteCalendarClicked}
+      <Consumer>
+        {context => (
+          <div className="simple-container flex1">
+            <div className="flex hc vc">
+              <CalendarPicker
+                calendars={calendars}
+                activeCalendarIndex={activeCalendarIndex}
+                calendarManager={true}
+                createNewCalendar={name =>
+                  this.createNewCalendar(name, context)
+                }
+                updateActiveCalendar={this.updateActiveCalendar}
               />
+              {isAdmin && (
+                <div title="Delete Calendar. Only calendars with one user can be deleted.">
+                  <FontAwesomeIcon
+                    className="color-red button pa4 ml8"
+                    icon={faTrash}
+                    onClick={this.deleteCalendarClicked}
+                  />
+                </div>
+              )}
+              {!isAdmin && (
+                <div title="Leave Calendar">
+                  <FontAwesomeIcon
+                    className="close-special button pa4 ml8"
+                    icon={faSignOutAlt}
+                    flip="horizontal"
+                    onClick={this.leaveCalendarClicked}
+                  />
+                </div>
+              )}
             </div>
-          )}
-          {!isAdmin && (
-            <div title="Leave Calendar">
-              <FontAwesomeIcon
-                className="close-special button pa4 ml8"
-                icon={faSignOutAlt}
-                flip="horizontal"
-                onClick={this.leaveCalendarClicked}
+            {this.presentActiveCalendar(
+              isDefaultCalendar,
+              isAdmin,
+              calendar,
+              context
+            )}
+            {leaveCalendarPrompt && (
+              <ConfirmAlert
+                close={() => this.setState({ leaveCalendarPrompt: false })}
+                title="Leave Calendar"
+                message="Are you sure you want to leave this calendar? Any accounts you linked or posts you scheduled WILL NOT be deleted."
+                callback={response => {
+                  this.setState({ leaveCalendarPrompt: false });
+                  if (response) this.leaveCalendar(activeCalendarIndex);
+                }}
+                firstButton="Leave"
+                type="delete-calendar"
               />
-            </div>
-          )}
-        </div>
-        {this.presentActiveCalendar(isDefaultCalendar, isAdmin, calendar)}
-        {leaveCalendarPrompt && (
-          <ConfirmAlert
-            close={() => this.setState({ leaveCalendarPrompt: false })}
-            title="Leave Calendar"
-            message="Are you sure you want to leave this calendar? Any accounts you linked or posts you scheduled WILL NOT be deleted."
-            callback={response => {
-              this.setState({ leaveCalendarPrompt: false });
-              if (response) this.leaveCalendar(activeCalendarIndex);
-            }}
-            firstButton="Leave"
-            type="delete-calendar"
-          />
+            )}
+            {deleteCalendarPrompt && (
+              <ConfirmAlert
+                close={() => this.setState({ deleteCalendarPrompt: false })}
+                title="Delete Calendar"
+                message="Are you sure you want to delete this Calendar? All posts within the calendar will be deleted as well."
+                extraConfirmationMessage={`Type "DELETE" in the text box and click Delete.`}
+                extraConfirmationKey={"DELETE"}
+                callback={response => {
+                  this.setState({ deleteCalendarPrompt: false });
+                  if (response) this.deleteCalendar(activeCalendarIndex);
+                }}
+                type="delete-calendar"
+              />
+            )}
+            {unlinkAccountPrompt && (
+              <ConfirmAlert
+                close={() =>
+                  this.setState({
+                    unlinkAccountPrompt: false,
+                    unLinkAccountID: undefined
+                  })
+                }
+                title="Unlink Account"
+                message="Are you sure you want to remove this account from the calendar. Note: this does not delete any already scheduled posts."
+                callback={response => {
+                  this.setState({
+                    unlinkAccountPrompt: false,
+                    unLinkAccountID: undefined
+                  });
+                  if (response)
+                    this.unlinkSocialAccount(unLinkAccountID, context);
+                }}
+                type="delete-calendar"
+                firstButton="Unlink"
+              />
+            )}
+            {removeUserPrompt && (
+              <ConfirmAlert
+                close={() =>
+                  this.setState({
+                    removeUserPrompt: false,
+                    removeUserObj: undefined
+                  })
+                }
+                title="Remove User"
+                message="Are you sure you want to remove this user from the calendar?"
+                firstButton="Remove"
+                callback={response => {
+                  this.setState({
+                    removeUserPrompt: false,
+                    removeUserObj: undefined
+                  });
+                  if (response)
+                    this.removeUserFromCalendar(
+                      removeUserObj.userIndex,
+                      removeUserObj.calendarIndex,
+                      context
+                    );
+                }}
+                type="delete-calendar"
+              />
+            )}
+            {promoteUserPrompt && (
+              <ConfirmAlert
+                close={() =>
+                  this.setState({
+                    promoteUserPrompt: false,
+                    promoteUserObj: undefined
+                  })
+                }
+                title="Promote User"
+                message="Are you sure you want to promote this user to be the new calendar admin? (You will be demoted to a regular user)"
+                firstButton="Promote"
+                callback={response => {
+                  this.setState({
+                    promoteUserPrompt: false,
+                    promoteUserObj: undefined
+                  });
+                  if (response)
+                    this.promoteUser(
+                      promoteUserObj.userIndex,
+                      promoteUserObj.calendarIndex,
+                      context
+                    );
+                }}
+                type="delete-calendar"
+              />
+            )}
+            {saving && <Loader />}
+          </div>
         )}
-        {deleteCalendarPrompt && (
-          <ConfirmAlert
-            close={() => this.setState({ deleteCalendarPrompt: false })}
-            title="Delete Calendar"
-            message="Are you sure you want to delete this Calendar? All posts within the calendar will be deleted as well."
-            extraConfirmationMessage={`Type "DELETE" in the text box and click Delete.`}
-            extraConfirmationKey={"DELETE"}
-            callback={response => {
-              this.setState({ deleteCalendarPrompt: false });
-              if (response) this.deleteCalendar(activeCalendarIndex);
-            }}
-            type="delete-calendar"
-          />
-        )}
-        {unlinkAccountPrompt && (
-          <ConfirmAlert
-            close={() =>
-              this.setState({
-                unlinkAccountPrompt: false,
-                unLinkAccountID: undefined
-              })
-            }
-            title="Unlink Account"
-            message="Are you sure you want to remove this account from the calendar. Note: this does not delete any already scheduled posts."
-            callback={response => {
-              this.setState({
-                unlinkAccountPrompt: false,
-                unLinkAccountID: undefined
-              });
-              if (response) this.unlinkSocialAccount(unLinkAccountID);
-            }}
-            type="delete-calendar"
-            firstButton="Unlink"
-          />
-        )}
-        {removeUserPrompt && (
-          <ConfirmAlert
-            close={() =>
-              this.setState({
-                removeUserPrompt: false,
-                removeUserObj: undefined
-              })
-            }
-            title="Remove User"
-            message="Are you sure you want to remove this user from the calendar?"
-            firstButton="Remove"
-            callback={response => {
-              this.setState({
-                removeUserPrompt: false,
-                removeUserObj: undefined
-              });
-              if (response)
-                this.removeUserFromCalendar(
-                  removeUserObj.userIndex,
-                  removeUserObj.calendarIndex
-                );
-            }}
-            type="delete-calendar"
-          />
-        )}
-        {promoteUserPrompt && (
-          <ConfirmAlert
-            close={() =>
-              this.setState({
-                promoteUserPrompt: false,
-                promoteUserObj: undefined
-              })
-            }
-            title="Promote User"
-            message="Are you sure you want to promote this user to be the new calendar admin? (You will be demoted to a regular user)"
-            firstButton="Promote"
-            callback={response => {
-              this.setState({
-                promoteUserPrompt: false,
-                promoteUserObj: undefined
-              });
-              if (response)
-                this.promoteUser(
-                  promoteUserObj.userIndex,
-                  promoteUserObj.calendarIndex
-                );
-            }}
-            type="delete-calendar"
-          />
-        )}{" "}
-        {saving && <Loader />}
-      </div>
+      </Consumer>
     );
   }
 }

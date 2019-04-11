@@ -149,6 +149,7 @@ class ContentModal extends Component {
             }
           }}
           calendarID={calendarID}
+          notify={notify}
           setSaving={this.setSaving}
           socialType={activeTab.name}
           canEditPost={true}
