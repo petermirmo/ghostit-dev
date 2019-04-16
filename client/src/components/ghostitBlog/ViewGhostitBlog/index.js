@@ -9,7 +9,7 @@ class ViewWebsiteBlog extends Component {
       <div className="simple-container my32" key={"image" + index}>
         <img
           key={"xuwm " + index}
-          src={image.imagePreviewUrl || image.url}
+          src={image.previewUrl || image.url}
           className={"image br4 " + image.size}
         />
       </div>

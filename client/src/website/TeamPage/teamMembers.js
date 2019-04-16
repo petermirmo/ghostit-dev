@@ -27,7 +27,7 @@ export const teamMembers = [
       "Stephanie is an island girl, born and raised. Originally from Nanaimo, she finally settled down and decided to call Victoria, BC home. Stephanie is passionate about travel and all things creative and can often be found photographing beaches and beer along the coast thanks to her trusty RAV4, May.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164234/stephanie.jpg",
-    color: "var(--seven-blue-color)"
+    color: "var(--five-purple-color)"
   },
   {
     name: "Erika",
@@ -37,7 +37,7 @@ export const teamMembers = [
       "Although most of her life is spent chasing after her preschool-aged daughter, Erika enjoys the time she gets to either be out living it up with great friends or at home with her nose buried in a book. When she gets a chance to sit at her computer, Erika loves researching and writing about just about everything. But it's fashion, beauty and lifestyle topics that are truly her expertise. You may actually see a novel out with her name on it someday! She sees herself as somewhat of a budding “domestic goddess” and believes all problems can be solved with a good cup of tea and large amounts of chocolate.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544163966/erika.jpg",
-    color: "var(--seven-purple-color)"
+    color: "var(--five-blue-color)"
   },
   {
     name: "Patrick",
@@ -47,7 +47,7 @@ export const teamMembers = [
       "When he’s not busy obsessing over creating ‘90s R&B playlists (yes plural, there are many) on Spotify, Patrick really likes writing. So much so that this wide-eyed whippersnapper from Salt Spring Island moved to Toronto to get a master’s degree in journalism and parlayed it into working as a sports writer (Google your boy). Now he’s back on the west coast… with a vengeance.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164140/patrick.jpg",
-    color: "var(--five-blue-color)"
+    color: "var(--five-orange-color)"
   },
 
   {
@@ -58,7 +58,7 @@ export const teamMembers = [
       "Tori likes short walks to the fridge and believes the Oxford comma is seriously underrated. On weekends you may find her going for hikes somewhere green, slaying at Scrabble games or writing run-on sentences in posts for her travel blog.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164253/tori.png",
-    color: "var(--seven-blue-color)"
+    color: "var(--five-purple-color)"
   },
 
   {
@@ -69,7 +69,7 @@ export const teamMembers = [
       "The field of computer science waited patiently for Patrick while he spent 7 years after high school playing junior then professional hockey. Always a computer nerd and always looking to solve problems, programming was a perfect fit. Loves to get things working and then quickly asking Peter to make it look pretty.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164163/patrickHolland.jpg",
-    color: "var(--five-purple-color)"
+    color: "var(--five-blue-color)"
   },
   {
     name: "Alex",
@@ -78,7 +78,7 @@ export const teamMembers = [
       "Alex sees in technology the power of creating meaningful and lasting impact. Curious by nature, he’s always reading about the latest trends in tech. With a background in design, he advocates user centered design principles in pretty much everything he does. Want to know what the latest edition of Wired magazine is about? Alex is your man.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1552443011/27.jpg",
-    color: "var(--five-blue-color)"
+    color: "var(--five-orange-color)"
   },
   {
     name: "Peter",
@@ -88,6 +88,6 @@ export const teamMembers = [
       "Some call me a wizard.. I call myself the css wizard. Although I love programming I do have a social life, meet my bestfriends keyboard and mouse.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",
-    color: "var(--five-orange-color)"
+    color: "var(--five-purple-color)"
   }
 ];

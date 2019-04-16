@@ -21,15 +21,15 @@ module.exports = {
         if (account) {
           // Use facebook profile access token to get account groups
           FB.setAccessToken(account.accessToken);
-          if (post.images.length !== 0) {
+          if (post.files.length !== 0) {
             let facebookPostWithImage = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
               facebookPostWithImage.caption = post.content;
             }
-            for (let i = 0; i < post.images.length; i++) {
-              if (!post.images[i].url) continue;
-              facebookPostWithImage.url = post.images[i].url;
+            for (let i = 0; i < post.files.length; i++) {
+              if (!post.files[i].url) continue;
+              facebookPostWithImage.url = post.files[i].url;
               FB.api("me/photos", "post", facebookPostWithImage, function(res) {
                 if (!res || res.error) {
                   savePostError(post._id, res.error);
@@ -72,14 +72,14 @@ module.exports = {
           // Use facebook profile access token to get account groups
           FB.setAccessToken(account.accessToken);
 
-          if (post.images.length !== 0) {
+          if (post.files.length !== 0) {
             var facebookPostWithImage = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
               facebookPostWithImage.message = post.content;
             }
-            for (var i = 0; i < post.images.length; i++) {
-              facebookPostWithImage.link = post.images[i].url;
+            for (var i = 0; i < post.files.length; i++) {
+              facebookPostWithImage.link = post.files[i].url;
               FB.api(
                 "/" + account.socialID + "/feed",
                 "post",

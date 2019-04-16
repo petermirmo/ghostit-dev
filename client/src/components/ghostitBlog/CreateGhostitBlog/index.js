@@ -101,7 +101,7 @@ class CreateWebsiteBlog extends Component {
         contentArray.splice(location + index, 0, {
           size: "small",
           image,
-          imagePreviewUrl: reader.result,
+          previewUrl: reader.result,
           alt: ""
         });
 
@@ -198,7 +198,7 @@ class CreateWebsiteBlog extends Component {
           />
         </div>
         <img
-          src={image.imagePreviewUrl || image.url}
+          src={image.previewUrl || image.url}
           className={"image br4 " + image.size}
         />
 

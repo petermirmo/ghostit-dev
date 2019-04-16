@@ -23,7 +23,7 @@ import { bindActionCreators } from "redux";
 import { setUser, setaccounts } from "../../../redux/actions/";
 
 import SideBarClients from "../../SideBarClients/";
-import ImagesDiv from "../../ImagesDiv/";
+import FileUpload from "../../views/FileUpload/";
 
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
@@ -37,7 +37,7 @@ class HeaderSideBar extends Component {
     headerSideBar: true,
     clientSideBar: false,
     images: [],
-    imagesToDelete: []
+    filesToDelete: []
   };
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
@@ -68,7 +68,7 @@ class HeaderSideBar extends Component {
   };
   render() {
     const { user } = this.props;
-    const { clientSideBar, headerSideBar, images, imagesToDelete } = this.state;
+    const { clientSideBar, headerSideBar, images, filesToDelete } = this.state;
 
     if (!user) {
       return <div style={{ display: "none" }} className="mr8" />;
@@ -107,16 +107,16 @@ class HeaderSideBar extends Component {
             <GIContainer className="x-fill column">
               {false && (
                 <GIContainer className="full-center">
-                  <ImagesDiv
+                  <FileUpload
                     canEdit={true}
-                    currentImages={images}
-                    handleChange={parentStateChangeObject =>
+                    currentFiles={images}
+                    handleParentChange={parentStateChangeObject =>
                       test(parentStateChangeObject, parentStateChangeObject =>
                         this.setState(parentStateChangeObject)
                       )
                     }
-                    imageLimit={4}
-                    imagesToDelete={imagesToDelete}
+                    fileLimit={4}
+                    filesToDelete={filesToDelete}
                     id="hjq"
                   />
                 </GIContainer>

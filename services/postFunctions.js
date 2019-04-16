@@ -9,12 +9,56 @@ const Email = require("../models/Email");
 const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 
+const whatFileTypeIsUrl = url => {
+  if (isUrlImage(url)) return "image";
+  else if (isUrlVideo(url)) return "video";
+  else return "raw";
+};
+
+const isUrlImage = url => {
+  return url.match(/image/);
+};
+const isUrlVideo = url => {
+  return url.match(/video/);
+};
+
+const uploadFiles = (files, callback) => {
+  const uploadedFiles = [];
+  let asyncCounter = 0;
+
+  for (let index in files) {
+    asyncCounter++;
+    cloudinary.v2.uploader.upload(
+      files[index].file,
+      { resource_type: files[index].type },
+      (error, result) => {
+        asyncCounter--;
+        if (!error) {
+          uploadedFiles.push({
+            url: result.secure_url,
+            publicID: result.public_id
+          });
+
+          if (asyncCounter === 0) {
+            callback(uploadedFiles);
+          }
+        } else {
+          console.log(error);
+          if (asyncCounter === 0) {
+            callback(uploadedFiles);
+          }
+        }
+      }
+    );
+  }
+};
+
 const deletePostStandalone = (req, callback) => {
   // function called indirectly when deleting a post normally
   // called directly (with skipUserCheck = true) when deleting an entire calendar
   // we skip the user checks in that case bcz the user would have already been cleared to delete the calendar
   const { postID, skipUserCheck } = req;
-  Post.findOne({ _id: postID }, async function(err, post) {
+  Post.findOne({ _id: postID }, async (err, post) => {
     if (post && !err) {
       if (!skipUserCheck) {
         // need to make sure the user has the right to delete this post
@@ -46,13 +90,15 @@ const deletePostStandalone = (req, callback) => {
         );
         if (invalidUser) return;
       }
-      if (post.images) {
-        for (let i = 0; i < post.images.length; i++) {
-          await cloudinary.uploader.destroy(post.images[i].publicID, function(
-            result
-          ) {
-            // TO DO: handle error here
-          });
+      if (post.files) {
+        for (let i = 0; i < post.files.length; i++) {
+          await cloudinary.uploader.destroy(
+            post.files[i].publicID,
+            result => {
+              // TO DO: handle error here
+            },
+            { resource_type: whatFileTypeIsUrl(post.files[i].url) }
+          );
         }
       }
       post.remove().then(result => {
@@ -251,62 +297,58 @@ module.exports = {
       }
     });
   },
-  getPost: function(req, res) {
-    Post.findOne({ _id: req.params.postID }, function(err, post) {
+  getPost: (req, res) => {
+    Post.findOne({ _id: req.params.postID }, (err, post) => {
       if (err) res.send({ success: false, err });
       else res.send({ success: true, post });
     });
   },
-  uploadPostImages: function(req, res) {
-    let postID = req.body.postID;
-    let { images } = req.body;
+  uploadPostFiles: (req, res) => {
+    const postID = req.body.postID;
+    const { files } = req.body;
 
-    Post.findOne({ _id: postID }, async function(err, post) {
+    Post.findOne({ _id: postID }, (err, post) => {
       if (err) {
         console.log(err);
         res.send(false);
         return;
       }
-      // There are multiple files
-      for (let index in images) {
-        // Must be await so results are not duplicated
-        await cloudinary.v2.uploader.upload(images[index], function(
-          error,
-          result
-        ) {
-          post.images.push({
-            url: result.secure_url,
-            publicID: result.public_id
-          });
-        });
-      }
-      post
-        .save()
-        .then(result => res.send({ success: true, savedPost: result }));
+
+      uploadFiles(files, uploadedFiles => {
+        for (let index in uploadedFiles) {
+          post.files.push(uploadedFiles[index]);
+        }
+        post
+          .save()
+          .then(result => res.send({ success: true, savedPost: result }));
+      });
     });
   },
-  deletePostImages: async function(req, res) {
-    let deleteImagesArray = req.body;
-    // Delete images from cloudinary
-    for (let i = 0; i < deleteImagesArray.length; i++) {
-      await cloudinary.uploader.destroy(deleteImagesArray[i].publicID, function(
-        result
-      ) {
-        // TO DO: handle error here
-      });
+  deletePostFiles: async (req, res) => {
+    let deleteFilesArray = req.body;
+    // Delete files from cloudinary
+    for (let i = 0; i < deleteFilesArray.length; i++) {
+      await cloudinary.uploader.destroy(
+        deleteFilesArray[i].publicID,
+        result => {
+          console.log(result);
+          // TO DO: handle error here
+        },
+        { resource_type: whatFileTypeIsUrl(deleteFilesArray[i].url) }
+      );
     }
-    Post.findOne({ _id: req.params.postID }, function(err, post) {
-      for (let i = 0; i < post.images.length; i++) {
-        for (let j = 0; j < deleteImagesArray.length; j++) {
-          if (post.images[i].publicID === deleteImagesArray[j].publicID) {
-            post.images.splice(i, 1);
+    Post.findOne({ _id: req.params.postID }, (err, post) => {
+      for (let i = 0; i < post.files.length; i++) {
+        for (let j = 0; j < deleteFilesArray.length; j++) {
+          if (post.files[i].publicID === deleteFilesArray[j].publicID) {
+            post.files.splice(i, 1);
           }
         }
       }
       post.save().then(result => res.send(true));
     });
   },
-  deletePost: function(req, res) {
+  deletePost: (req, res) => {
     deletePostStandalone(
       { postID: req.params.postID, user: req.user },
       result => res.send(result)

@@ -215,13 +215,13 @@ module.exports = app => {
   app.delete("/api/post/delete/:postID", middleware, (req, res) =>
     postFunctions.deletePost(req, res)
   );
-  // Save post images
-  app.post("/api/post/images", fileParser, middleware, async (req, res) =>
-    postFunctions.uploadPostImages(req, res)
+  // Save post files
+  app.post("/api/post/files", fileParser, middleware, async (req, res) =>
+    postFunctions.uploadPostFiles(req, res)
   );
-  // Delete post images
-  app.post("/api/post/delete/images/:postID", middleware, (req, res) =>
-    postFunctions.deletePostImages(req, res)
+  // Delete post files
+  app.post("/api/post/delete/files/:postID", middleware, (req, res) =>
+    postFunctions.deletePostFiles(req, res)
   );
 
   // Save campaign as recipe

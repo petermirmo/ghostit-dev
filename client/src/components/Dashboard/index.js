@@ -16,7 +16,7 @@ class Dashboard extends Component {
             <GIText
               text="Create a post"
               type="h3"
-              className="seven-blue mb16"
+              className="seven-blue mb16 tac"
             />
             <GIContainer className="full-center x-fill y-50">
               <img
@@ -41,7 +41,7 @@ class Dashboard extends Component {
             <GIText
               text="Create a campaign"
               type="h3"
-              className="seven-blue mb16"
+              className="seven-blue mb16 tac"
             />
             <GIContainer className="full-center x-fill y-50">
               <img
@@ -64,7 +64,7 @@ class Dashboard extends Component {
           </GIContainer>
           <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
             <GIText
-              className="seven-blue mb16"
+              className="seven-blue mb16 tac"
               text="Browse templates"
               type="h3"
             />
