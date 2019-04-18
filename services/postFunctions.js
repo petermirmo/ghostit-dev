@@ -9,18 +9,7 @@ const Email = require("../models/Email");
 const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 
-const whatFileTypeIsUrl = url => {
-  if (isUrlImage(url)) return "image";
-  else if (isUrlVideo(url)) return "video";
-  else return "raw";
-};
-
-const isUrlImage = url => {
-  return url.match(/image/);
-};
-const isUrlVideo = url => {
-  return url.match(/video/);
-};
+const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
 
 const uploadFiles = (files, callback) => {
   const uploadedFiles = [];
@@ -331,7 +320,6 @@ module.exports = {
       await cloudinary.uploader.destroy(
         deleteFilesArray[i].publicID,
         result => {
-          console.log(result);
           // TO DO: handle error here
         },
         { resource_type: whatFileTypeIsUrl(deleteFilesArray[i].url) }
