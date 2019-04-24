@@ -7,12 +7,12 @@ const cloudinary = require("cloudinary");
 const FB = require("fb");
 
 module.exports = {
-  postToProfileOrPage: function(post) {
+  postToProfileOrPage: post => {
     Account.findOne(
       {
         socialID: post.accountID
       },
-      async function(err, account) {
+      async (err, account) => {
         if (err) {
           console.log(err);
           savePostError(post._id, err);
@@ -25,18 +25,37 @@ module.exports = {
             let facebookPostWithImage = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
-              facebookPostWithImage.caption = post.content;
+              facebookPostWithImage.message = post.content;
             }
+
+            let asyncCounter = 0;
+            const facebookPhotoArray = [];
             for (let i = 0; i < post.images.length; i++) {
               if (!post.images[i].url) continue;
               facebookPostWithImage.url = post.images[i].url;
-              FB.api("me/photos", "post", facebookPostWithImage, function(res) {
-                if (!res || res.error) {
-                  savePostError(post._id, res.error);
-                } else {
-                  savePostSuccessfully(post._id, res.post_id);
+
+              asyncCounter++;
+              FB.api(
+                "me/photos",
+                "post",
+                { url: post.images[i].url, published: false },
+                res => {
+                  asyncCounter--;
+
+                  facebookPhotoArray.push({ media_fbid: res.id });
+
+                  if (asyncCounter === 0) {
+                    facebookPostWithImage.attached_media = facebookPhotoArray;
+                    FB.api("me/feed", "post", facebookPostWithImage, res => {
+                      if (!res || res.error) {
+                        savePostError(post._id, res.error);
+                      } else {
+                        savePostSuccessfully(post._id, res.id);
+                      }
+                    });
+                  }
                 }
-              });
+              );
             }
           } else {
             let facebookPostNoImage = {};
