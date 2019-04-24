@@ -2,11 +2,14 @@ const Post = require("../models/Post");
 const Account = require("../models/Account");
 const { savePostError, savePostSuccessfully } = require("./functions");
 const keys = require("../config/keys");
+
 const request = require("request");
 const fs = require("fs");
+const FormData = require("form-data");
 
 const cloudinary = require("cloudinary");
 const FB = require("fb");
+const axios = require("axios");
 
 const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
 
@@ -39,9 +42,26 @@ module.exports = {
 
               let videoData2 = fs.createReadStream("test.mp4");
 
-              let form = document.createElement("form");
+              /*let form = document.createElement("form");
               form.setAttribute("method", "post");
-              form.setAttribute("enctype", "multipart/form-data");
+              form.setAttribute("enctype", "multipart/form-data"); */
+
+              // request(facebookPostWithFile.url).pipe(fs.createWriteStream("video.mp4")
+
+              // request(facebookPostWithFile.url)
+
+              // fs.createReadStream()
+
+              /*  let test = await axios
+                  .get(facebookPostWithFile.url)
+                  .then(response => response.data);*/
+              let videoData = fs.createReadStream(
+                request(facebookPostWithFile.url).pipe(
+                  fs.createWriteStream("test.mp4")
+                ).path
+              );
+              console.log(videoData);
+              console.log(videoData2);
 
               if (isUrlVideo(facebookPostWithFile.url)) {
                 FB.api(
@@ -50,7 +70,7 @@ module.exports = {
                   {
                     title: "Video title",
                     description: "Timeline message...",
-                    source: encodeURI(facebookPostWithFile.url)
+                    source: videoData2
                   },
                   res => {
                     if (!res || res.error) {

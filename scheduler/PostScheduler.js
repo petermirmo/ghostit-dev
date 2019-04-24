@@ -48,10 +48,8 @@ module.exports = {
               );
             }
           } else if (post.socialType === "linkedin") {
-            if (post.accountType === "profile") {
-              linkedin.postToLinkedInProfile(post);
-            } else if (post.accountType === "page") {
-              linkedin.postToLinkedInPage(post);
+            if (post.accountType === "profile" || post.accountType === "page") {
+              linkedin.postToLinkedIn(post);
             } else {
               generalFunctions.handleError(
                 res,
