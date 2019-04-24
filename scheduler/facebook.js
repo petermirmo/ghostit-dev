@@ -70,7 +70,7 @@ module.exports = {
                   {
                     title: "Video title",
                     description: "Timeline message...",
-                    source: videoData2
+                    source: videoData
                   },
                   res => {
                     if (!res || res.error) {
