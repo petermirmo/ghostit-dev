@@ -71,7 +71,6 @@ class WebsiteHeader extends Component {
         <div id="logo-container">
           <Link to="/home">
             <Logo
-              className="button"
               onClick={
                 mobileAndTabletcheck()
                   ? () => {

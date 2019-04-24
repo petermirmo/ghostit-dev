@@ -42,7 +42,7 @@ class MyForm extends Component {
           }}
           autoCapitalize="off"
           autoCorrect="off"
-          placeholder="bruce@wayneenterprices.com"
+          placeholder="bruce@wayneenterprises.com"
         />
         <GIText type="h4" text="Company Name" className="mt16 mb8" />
         <input

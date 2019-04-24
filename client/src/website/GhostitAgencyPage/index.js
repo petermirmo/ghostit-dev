@@ -70,20 +70,20 @@ class GhostitAgency extends Component {
             })}
           />
         )}
-        {!mobileAndTabletcheck() && (
-          <GIContainer
-            className="py32 px64 mt16 mx64 mb32 br4"
-            style={{ backgroundColor: "var(--seven-blue-color)" }}
-          >
-            <GIText
-              text={categories[activeAgencyComponent].description}
-              type="p"
-              className="white"
-            />
-          </GIContainer>
-        )}
 
         <GIContainer className="column full-center container-box extra-large">
+          {!mobileAndTabletcheck() && (
+            <GIContainer
+              className="py32 px64 mt16 mb32 br4"
+              style={{ backgroundColor: "var(--seven-blue-color)" }}
+            >
+              <GIText
+                text={categories[activeAgencyComponent].description}
+                type="p"
+                className="white"
+              />
+            </GIContainer>
+          )}
           {!mobileAndTabletcheck() && (
             <GIText
               text="Our content services are focused on one thing. Increasing the amount of qualified traffic to your site."

@@ -10,7 +10,7 @@ class Logo extends Component {
       <svg
         viewBox="0 0 2077 700"
         preserveAspectRatio="xMidYMid meet"
-        className="logo-background"
+        className={`logo-background ${className}`}
         onClick={onClick}
         style={style}
       >

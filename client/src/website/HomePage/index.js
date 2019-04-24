@@ -5,6 +5,8 @@ import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
 import Section5 from "./Section5";
 
+import Logo from "../../components/navigations/WebsiteHeader/Logo";
+
 import { mobileAndTabletcheck } from "../../componentFunctions";
 
 class HomePage extends Component {
@@ -46,7 +48,18 @@ class HomePage extends Component {
         blendWithHomePage={blendHeaderWithHomePage}
         className="column"
       >
-        <GIContainer className="column full-screen full-center">
+        <GIContainer
+          className={
+            mobileAndTabletcheck()
+              ? "column full-screen align-center"
+              : "column full-screen full-center"
+          }
+        >
+          {mobileAndTabletcheck() && (
+            <div className="x-fill pt8 pl8">
+              <Logo onClick={() => {}} />
+            </div>
+          )}
           <img
             src={require("../../svgs/home-main-background.svg")}
             style={{
