@@ -78,6 +78,7 @@ class Page extends Component {
           <meta charSet="utf-8" />
           <title>{`${title} | Ghostit`}</title>
           <meta name="description" content={description} />
+          <meta property="image" content={image} />
           <meta property="og:image" content={image} />
         </Helmet>
         {this.websiteOrSoftwareHeader(activePage, blendWithHomePage)}
