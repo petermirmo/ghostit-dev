@@ -71,7 +71,6 @@ class Page extends Component {
     const { style, title, description, image } = this.checkPropsVariables(
       activePage
     );
-    console.log(image);
 
     return (
       <div className="page-container" style={style}>
