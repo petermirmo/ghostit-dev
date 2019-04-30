@@ -111,9 +111,8 @@ module.exports = {
                   foundFacebookPage.id + "?fields=instagram_business_account",
                   "get",
                   response => {
-                    console.log(response);
-                    if (response.id) {
-                      let instagramObject = response.id;
+                    if (response.instagram_business_account) {
+                      let instagramObject = response.instagram_business_account;
 
                       asyncCounter++;
 

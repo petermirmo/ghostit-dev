@@ -127,8 +127,7 @@ module.exports = app => {
         "manage_pages",
         "business_management",
         "read_insights",
-        "ads_management",
-        "ads_read"
+        "instagram_basic"
       ]
     })
   );
