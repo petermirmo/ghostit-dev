@@ -3,7 +3,8 @@ export const shouldShowSignedInAsDiv = (user, activePage) => {
     user &&
     (activePage === "/calendar" ||
       activePage === "/subscribe" ||
-      activePage === "/accounts") &&
+      activePage === "/accounts" ||
+      activePage === "/dashboard") &&
     user.signedInAsUser
   ) {
     return true;
