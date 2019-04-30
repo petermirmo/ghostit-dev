@@ -17,8 +17,6 @@ const uploadLinkedinFiles = (files, account, callback) => {
     const file = files[i];
     asyncCounter++;
 
-    console.log(file.url);
-
     //  "Content-Type": "multipart/form-data"
     // file.url
 
@@ -73,7 +71,7 @@ const uploadLinkedinPost = (linkedinPost, account, post) => {
     .then(linkedinPostResult => {
       if (linkedinPostResult.data.message)
         savePostError(post._id, linkedinPostResult.data.message);
-      else savePostSuccessfully(linkedinPost._id, linkedinPostResult.data.id);
+      else savePostSuccessfully(post._id, linkedinPostResult.data.id);
     })
     .catch(linkedinPostError => {
       let errorCatch = linkedinPostError.response;
@@ -96,7 +94,7 @@ module.exports = {
         if (account) {
           let linkedinPost = {};
 
-          if ((account.accountType = "page"))
+          if (account.accountType === "page")
             linkedinPost.owner = "urn:li:organization:" + account.socialID;
           else linkedinPost.owner = "urn:li:person:" + account.socialID;
 
@@ -131,7 +129,7 @@ module.exports = {
             linkedinPost.content = content;
           }
 
-          if (post.files) {
+          /*if (post.files) {
             uploadLinkedinFiles(post.files, account, urnList => {
               for (let index in urnList) contentEntities.push(urnList[index]);
               content.contentEntities = contentEntities;
@@ -139,9 +137,9 @@ module.exports = {
 
               uploadLinkedinPost(linkedinPost, account, post);
             });
-          } else {
-            uploadLinkedinPost(linkedinPost, account, post);
-          }
+          } else {*/
+          uploadLinkedinPost(linkedinPost, account, post);
+          //}
         } else {
           savePostError(post._id, "Cannot find your account!");
         }

@@ -33,14 +33,14 @@ module.exports = {
             let facebookPostWithFile = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
-              facebookPostWithImage.message = post.content;
+              facebookPostWithFile.message = post.content;
             }
 
             let asyncCounter = 0;
             const facebookPhotoArray = [];
-            for (let i = 0; i < post.images.length; i++) {
-              if (!post.images[i].url) continue;
-              facebookPostWithImage.url = post.images[i].url;
+            for (let i = 0; i < post.files.length; i++) {
+              if (!post.files[i].url) continue;
+              facebookPostWithFile.url = post.files[i].url;
 
               asyncCounter++;
 
@@ -79,19 +79,14 @@ module.exports = {
                     } else {
                       facebookPhotoArray.push({ media_fbid: res.id });
                       if (asyncCounter === 0) {
-                        facebookPostWithImage.attached_media = facebookPhotoArray;
-                        FB.api(
-                          "me/feed",
-                          "post",
-                          facebookPostWithImage,
-                          res => {
-                            if (!res || res.error) {
-                              savePostError(post._id, res.error);
-                            } else {
-                              savePostSuccessfully(post._id, res.id);
-                            }
+                        facebookPostWithFile.attached_media = facebookPhotoArray;
+                        FB.api("me/feed", "post", facebookPostWithFile, res => {
+                          if (!res || res.error) {
+                            savePostError(post._id, res.error);
+                          } else {
+                            savePostSuccessfully(post._id, res.id);
                           }
-                        );
+                        });
                       }
                     }
                   }
@@ -100,15 +95,15 @@ module.exports = {
                 FB.api(
                   "me/photos",
                   "post",
-                  { url: post.images[i].url, published: false },
+                  { url: post.files[i].url, published: false },
                   res => {
                     asyncCounter--;
 
                     facebookPhotoArray.push({ media_fbid: res.id });
 
                     if (asyncCounter === 0) {
-                      facebookPostWithImage.attached_media = facebookPhotoArray;
-                      FB.api("me/feed", "post", facebookPostWithImage, res => {
+                      facebookPostWithFile.attached_media = facebookPhotoArray;
+                      FB.api("me/feed", "post", facebookPostWithFile, res => {
                         if (!res || res.error) {
                           savePostError(post._id, res.error);
                         } else {
