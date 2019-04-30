@@ -23,25 +23,23 @@ import { bindActionCreators } from "redux";
 import { setUser, setaccounts } from "../../../redux/actions/";
 
 import SideBarClients from "../../SideBarClients/";
-import ImagesDiv from "../../ImagesDiv/";
+import FileUpload from "../../views/FileUpload/";
 
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
 
-import { test } from "./util";
+import { saveUser } from "../../../pages/Profile/util";
 
 import "./style.css";
 
 class HeaderSideBar extends Component {
   state = {
     headerSideBar: true,
-    clientSideBar: false,
-    images: [],
-    imagesToDelete: []
+    clientSideBar: false
   };
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
-      let { success, loggedIn, user } = res.data;
+      const { success, loggedIn, user } = res.data;
       if (success) {
         this.props.setUser(user);
         window.location.reload();
@@ -53,7 +51,7 @@ class HeaderSideBar extends Component {
 
   logout = () => {
     axios.get("/api/logout").then(res => {
-      let { success, loggedIn } = res.data;
+      const { success, loggedIn } = res.data;
 
       if (success) {
         this.props.setUser(null);
@@ -68,7 +66,7 @@ class HeaderSideBar extends Component {
   };
   render() {
     const { user } = this.props;
-    const { clientSideBar, headerSideBar, images, imagesToDelete } = this.state;
+    const { clientSideBar, headerSideBar } = this.state;
 
     if (!user) {
       return <div style={{ display: "none" }} className="mr8" />;
@@ -105,25 +103,27 @@ class HeaderSideBar extends Component {
         <div className="navbar pt64" style={{ zIndex: "-1" }}>
           {headerSideBar && !clientSideBar && (
             <GIContainer className="x-fill column">
-              {false && (
-                <GIContainer className="full-center">
-                  <ImagesDiv
-                    canEdit={true}
-                    currentImages={images}
-                    handleChange={parentStateChangeObject =>
-                      test(parentStateChangeObject, parentStateChangeObject =>
-                        this.setState(parentStateChangeObject)
-                      )
-                    }
-                    imageLimit={4}
-                    imagesToDelete={imagesToDelete}
-                    id="hjq"
-                  />
-                </GIContainer>
-              )}
+              <GIContainer className="full-center">
+                <FileUpload
+                  canEdit={false}
+                  className="profile-image-container small round"
+                  currentFiles={user.image ? [user.image] : []}
+                  handleParentChange={parentStateChangeObject =>
+                    saveUser(parentStateChangeObject, parentStateChangeObject =>
+                      this.setState(parentStateChangeObject)
+                    )
+                  }
+                  fileLimit={1}
+                  id="hjq"
+                  imageClassName="profile-image medium round"
+                  imageContainerClassName="profile-image-container medium round"
+                  imageOnly={true}
+                />
+              </GIContainer>
+
               {(isManager || isAdmin) && (
                 <div
-                  className="header-button px16 py8 "
+                  className="header-button px16 py8"
                   onClick={() => this.setState({ clientSideBar: true })}
                 >
                   <FontAwesomeIcon icon={faUsers} className="mr8" />

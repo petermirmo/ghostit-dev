@@ -114,11 +114,11 @@ export const trySavePost = (
     linkImage,
     linkTitle,
     linkDescription,
-    images,
+    files,
     socialType,
     accountID,
     accountType,
-    imagesToDelete,
+    filesToDelete,
     campaignID,
     name,
     date,
@@ -145,7 +145,7 @@ export const trySavePost = (
       accountID,
       newDate,
       link,
-      images,
+      files,
       content,
       maxCharacters,
       socialType
@@ -171,12 +171,12 @@ export const trySavePost = (
       newDate,
       undefined,
       undefined,
-      images,
+      files,
       undefined,
       socialType,
       undefined,
       postFinishedSavingCallback,
-      imagesToDelete,
+      filesToDelete,
       campaignID,
       instructions,
       name,
@@ -190,12 +190,12 @@ export const trySavePost = (
       newDate,
       link,
       linkImage,
-      images,
+      files,
       accountID,
       socialType,
       accountType,
       postFinishedSavingCallback,
-      imagesToDelete,
+      filesToDelete,
       campaignID,
       instructions,
       name,
@@ -291,12 +291,12 @@ export async function savePost(
   dateToPostInUtcTime,
   link,
   linkImage,
-  postImages,
+  postFiles,
   accountID,
   socialType,
   accountType,
   callback,
-  imagesToDelete,
+  filesToDelete,
   campaignID,
   instructions,
   name,
@@ -305,17 +305,17 @@ export async function savePost(
   linkTitle,
   linkDescription
 ) {
-  if (imagesToDelete) {
-    if (imagesToDelete.length !== 0) {
-      await axios.post("/api/post/delete/images/" + _id, imagesToDelete);
+  if (filesToDelete) {
+    if (filesToDelete.length !== 0) {
+      await axios.post("/api/post/delete/files/" + _id, filesToDelete);
     }
   }
 
-  // Get current images
-  let imagesToSave = [];
+  // Get current files
+  let filesToSave = [];
 
-  for (let i = 0; i < postImages.length; i++) {
-    if (!postImages[i].url) imagesToSave.push(postImages[i].image);
+  for (let i = 0; i < postFiles.length; i++) {
+    if (!postFiles[i].url) filesToSave.push(postFiles[i]);
   }
 
   // Everything seems okay, save post to database!
@@ -341,27 +341,16 @@ export async function savePost(
       // Now we need to save images for post, Images are saved after post
       // Becuse they are handled so differently in the database
       // Text and images do not go well together
-      let { post, success, loggedIn, message } = res.data;
+      const { post, success, loggedIn, message } = res.data;
 
       if (success) {
-        if (post._id && imagesToSave.length !== 0) {
+        if (post._id && filesToSave.length !== 0) {
           // Make sure post actually saved
           // Now we add images
 
-          // Images must be uploaded via forms
-          let test = [];
-
-          // Attach all images to formData
-          for (let i = 0; i < imagesToSave.length; i++) {
-            if (imagesToSave[i].currentTarget)
-              test.push(imagesToSave[i].currentTarget.result);
-            else if (imagesToSave[i].target)
-              test.push(imagesToSave[i].target.result);
-          }
-
-          // Make post request for images
+          // Make post request for files
           axios
-            .post("/api/post/images", { postID: post._id, images: test })
+            .post("/api/post/files", { postID: post._id, files: filesToSave })
             .then(response => {
               if (response.data.success) {
                 callback(response.data.savedPost, true);
@@ -381,7 +370,7 @@ export function postChecks(
   postingToAccountId,
   dateToPostInUtcTime,
   link,
-  currentImages,
+  currentFiles,
   content,
   maxCharacters,
   socialType
@@ -408,7 +397,7 @@ export function postChecks(
   }
 
   // Check to make sure we have atleast a link, content, or an image
-  if (content === "" && link === "" && currentImages === []) {
+  if (content === "" && link === "" && currentFiles === []) {
     alert(
       "You are trying to create an empty post. We will not let you shoot yourself in the foot."
     );

@@ -134,6 +134,16 @@ class ContentModal extends Component {
     } else {
       modalBody = (
         <Post
+          backupChanges={this.backupPostChanges}
+          calendarID={calendarID}
+          canEditPost={true}
+          listOfChanges={
+            Object.keys(listOfPostChanges).length > 0
+              ? listOfPostChanges
+              : undefined
+          }
+          maxCharacters={activeTab.maxCharacters}
+          notify={notify}
           post={{
             postingDate:
               clickedCalendarDate < new moment()
@@ -148,18 +158,8 @@ class ContentModal extends Component {
               notify("danger", "Save Failed", message, 7500);
             }
           }}
-          calendarID={calendarID}
-          notify={notify}
           setSaving={this.setSaving}
           socialType={activeTab.name}
-          canEditPost={true}
-          maxCharacters={activeTab.maxCharacters}
-          listOfChanges={
-            Object.keys(listOfPostChanges).length > 0
-              ? listOfPostChanges
-              : undefined
-          }
-          backupChanges={this.backupPostChanges}
         />
       );
     }

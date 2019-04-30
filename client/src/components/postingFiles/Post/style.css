@@ -34,11 +34,14 @@
   border-bottom: none;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
-.posting-textarea:focus + .post-images-and-linkPreview {
-  border-color: var(--five-blue-color);
+.posting-textarea:focus + .post-images-and-videos {
+  border-color: var(--three-blue-color);
 }
-.post-images-and-linkPreview {
+.post-images-and-videos {
   flex-shrink: 0;
   display: flex;
 
@@ -48,8 +51,6 @@
   flex-wrap: wrap;
 
   width: stretch;
-
-  padding: 8px;
 
   border-left: 1px solid var(--divider-theme-color);
   border-right: 1px solid var(--divider-theme-color);

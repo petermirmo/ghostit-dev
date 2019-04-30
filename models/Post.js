@@ -4,35 +4,35 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema(
   {
-    userID: {
-      type: Schema.Types.ObjectId,
-      required: true
-    },
-    calendarID: Schema.Types.ObjectId,
     accountID: String,
+    accountType: String,
+    analyticsID: String,
+    calendarID: Schema.Types.ObjectId,
+    campaignID: Schema.Types.ObjectId,
+    color: String,
     content: String,
+    emailReminder: Schema.Types.ObjectId,
+    errorMessage: String,
+    files: [
+      {
+        publicID: String,
+        url: String
+      }
+    ],
     instructions: String,
     link: String,
     linkImage: String,
-    linkTitle: String,
     linkDescription: String,
-    postingDate: Date,
-    accountType: String,
-    socialType: String,
-    status: String,
-    errorMessage: String,
-    socialMediaID: String,
-    color: String,
-    campaignID: Schema.Types.ObjectId,
+    linkTitle: String,
     name: String,
-    emailReminder: Schema.Types.ObjectId,
-    images: [
-      {
-        url: String,
-        publicID: String
-      }
-    ],
-    analyticsID: String
+    postingDate: Date,
+    status: String,
+    socialMediaID: String,
+    socialType: String,
+    userID: {
+      type: Schema.Types.ObjectId,
+      required: true
+    }
   },
   {
     timestamps: true

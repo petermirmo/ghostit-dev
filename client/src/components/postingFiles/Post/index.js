@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import DateTimePicker from "../../DateTimePicker";
 import SelectAccountDiv from "../../SelectAccountDiv/";
 import LinkPreview from "../../LinkPreview";
-import ImagesDiv from "../../ImagesDiv/";
+import FileUpload from "../../views/FileUpload";
 import { linkPreviewOptions } from "../../../componentFunctions";
 import { trySavePost } from "../../../componentFunctions";
 
@@ -82,17 +82,22 @@ class PostingOptions extends Component {
     let stateVariable = {
       _id: undefined,
       accountID: "",
+      accountType: "",
+      calendarID: props.calendarID,
+      content: "",
+      files: [],
+      filesToDelete: [],
+      instructions: "",
       link: "",
       linkImage: "",
-      images: [],
-      accountType: "",
-      socialType: props.socialType,
-      content: "",
-      instructions: "",
+      linkImagesArray: [],
       name: "",
       promptModifyCampaignDates: false,
-      calendarID: props.calendarID
+      socialType: props.socialType,
+      somethingChanged: false,
+      videos: []
     };
+
     if (props.post) {
       const returnObj = this.getDefaultAccount(props);
       stateVariable._id = props.post._id ? props.post._id : undefined;
@@ -103,7 +108,8 @@ class PostingOptions extends Component {
       stateVariable.linkImage = props.post.linkImage
         ? props.post.linkImage
         : "";
-      stateVariable.images = props.post.images ? props.post.images : [];
+      stateVariable.files = props.post.files ? props.post.files : [];
+      stateVariable.videos = props.post.videos ? props.post.videos : [];
       stateVariable.accountType = props.post.accountType
         ? props.post.accountType
         : returnObj.type;
@@ -119,10 +125,6 @@ class PostingOptions extends Component {
         : undefined;
       stateVariable.name = props.post.name ? props.post.name : "";
     }
-
-    stateVariable.imagesToDelete = [];
-    stateVariable.linkImagesArray = [];
-    stateVariable.somethingChanged = false;
 
     stateVariable.date =
       props.post && props.post.postingDate
@@ -313,29 +315,30 @@ class PostingOptions extends Component {
   };
 
   render() {
-    let {
-      _id,
+    const {
+      accountID,
+      accountType,
+      date,
+      calendarAccounts,
+      calendarID,
+      campaignID,
       content,
+      files,
+      filesToDelete,
       instructions,
       link,
       linkImage,
       linkTitle,
       linkDescription,
       linkImagesArray,
-      images,
-      socialType,
-      accountID,
-      accountType,
-      imagesToDelete,
-      somethingChanged,
-      promptModifyCampaignDates,
-      showInstructions,
-      campaignID,
       name,
-      date,
-      calendarAccounts,
-      calendarID,
-      promptLinkAccountToCalendar
+      promptModifyCampaignDates,
+      promptLinkAccountToCalendar,
+      showInstructions,
+      socialType,
+      somethingChanged,
+      videos,
+      _id
     } = this.state;
 
     const {
@@ -343,10 +346,8 @@ class PostingOptions extends Component {
       setSaving,
       accounts,
       canEditPost,
-      maxCharacters,
-      accountsHomePage
+      maxCharacters
     } = this.props;
-    if (accountsHomePage) calendarAccounts = accountsHomePage;
 
     const returnOfLinkPreviewOptions = linkPreviewOptions(socialType);
 
@@ -403,24 +404,27 @@ class PostingOptions extends Component {
               >
                 <Textarea
                   className="posting-textarea pa8 light-scrollbar"
-                  placeholder="Success doesn't write itself!"
                   onChange={event => {
                     this.findLink(event.target.value);
                     this.handleChange(event.target.value, "content");
                   }}
-                  value={content}
+                  placeholder="Success doesn't write itself!"
                   readOnly={!canEditPost}
+                  value={content}
                 />
-                <div className="post-images-and-linkPreview">
-                  <ImagesDiv
+                <div className="post-images-and-videos pa8">
+                  <FileUpload
                     canEdit={canEditPost}
-                    currentImages={images}
-                    handleChange={parentStateChangeObject =>
+                    className="br8 pa16"
+                    currentFiles={files}
+                    handleParentChange={parentStateChangeObject =>
                       this.setState(parentStateChangeObject)
                     }
-                    imageLimit={4}
-                    imagesToDelete={imagesToDelete}
+                    fileLimit={4}
+                    filesToDelete={filesToDelete}
                     id="pdm"
+                    imageClassName="flex image tiny"
+                    imageOnly={true}
                   />
                 </div>
 

@@ -67,7 +67,6 @@ module.exports = {
       { userIDs: userID },
       { chatHistory: { $slice: chatHistoryMessagesToLoadAtFirst } },
       (err, foundCalendars) => {
-        console.log(foundCalendars);
         if (err || !foundCalendars) {
           res.send({
             success: false,
@@ -129,38 +128,6 @@ module.exports = {
                         const campaign = foundCampaigns[i];
                         campaign.calendarID = newCalendar._id;
                         campaign.save();
-                      }
-                    }
-                  }
-                );
-                Blog.find(
-                  { userID, calendarID: undefined },
-                  (err, foundBlogs) => {
-                    if (err || !foundBlogs) {
-                      console.log(
-                        `Error while trying to fetch all old blogs to link to new calendar.`
-                      );
-                    } else {
-                      for (let i = 0; i < foundBlogs.length; i++) {
-                        const blog = foundBlogs[i];
-                        blog.calendarID = newCalendar._id;
-                        blog.save();
-                      }
-                    }
-                  }
-                );
-                Newsletter.find(
-                  { userID, calendarID: undefined },
-                  (err, foundNewsletters) => {
-                    if (err || !foundNewsletters) {
-                      console.log(
-                        `Error while trying to fetch all old newsletters to link to new calendar.`
-                      );
-                    } else {
-                      for (let i = 0; i < foundNewsletters.length; i++) {
-                        const newsletter = foundNewsletters[i];
-                        newsletter.calendarID = newCalendar._id;
-                        newsletter.save();
                       }
                     }
                   }
@@ -347,78 +314,6 @@ module.exports = {
               req.params.calendarID
             } does not have user id ${userID} as one of its authorized users.`
           });
-        } else {
-          Blog.find(
-            { calendarID: req.params.calendarID },
-            (err, foundBlogs) => {
-              if (err || !foundBlogs) {
-                res.send({
-                  success: false,
-                  err,
-                  message: `Calendar with id ${
-                    req.params.calendarID
-                  } found and user with id ${userID} is subscribed to it. However, an error occurred when fetching all blogs associated with the calendar.`
-                });
-              } else {
-                // foundBlogs is all blogs associated with the calendar
-                res.send({
-                  success: true,
-                  blogs: foundBlogs
-                });
-              }
-            }
-          );
-        }
-      }
-    });
-  },
-  getNewsletters: function(req, res) {
-    // Get all newsletters for user
-    let userID = req.user._id;
-    if (req.user.signedInAsUser) {
-      if (req.user.signedInAsUser.id) {
-        userID = req.user.signedInAsUser.id;
-      }
-    }
-
-    Calendar.findOne({ _id: req.params.calendarID }, (err, foundCalendar) => {
-      if (err || !foundCalendar) {
-        res.send({
-          success: false,
-          err,
-          message: `Error occurred when attempting to fetch calendar with id ${
-            req.params.calendarID
-          }`
-        });
-      } else {
-        if (!mongoIdArrayIncludes(foundCalendar.userIDs, userID)) {
-          res.send({
-            success: false,
-            message: `Calendar with id ${
-              req.params.calendarID
-            } does not have user id ${userID} as one of its authorized users.`
-          });
-        } else {
-          Newsletter.find(
-            { calendarID: req.params.calendarID },
-            (err, foundNewsletters) => {
-              if (err || !foundNewsletters) {
-                res.send({
-                  success: false,
-                  err,
-                  message: `Calendar with id ${
-                    req.params.calendarID
-                  } found and user with id ${userID} is subscribed to it. However, an error occurred when fetching all newsletters associated with the calendar.`
-                });
-              } else {
-                // foundNewsletters is all newsletters associated with the calendar
-                res.send({
-                  success: true,
-                  newsletters: foundNewsletters
-                });
-              }
-            }
-          );
         }
       }
     });
@@ -498,7 +393,8 @@ module.exports = {
           newCalendar.adminID = userID;
           newCalendar.userIDs = [userID];
           newCalendar.postsLeft = -1;
-          newCalendar.timezone = foundUser.timezone;
+          if (foundUser.timezone) newCalendar.timezone = foundUser.timezone;
+          else newCalendar.timezone = "America/Vancouver";
 
           newCalendar.save().then(() => {
             res.send({ success: true, newCalendar });
@@ -882,7 +778,7 @@ module.exports = {
                               message: `Error while fetching all calendar campaigns to be deleted.`
                             });
                           } else {
-                            // foundPosts, foundCampaigns, foundBlogs, and foundNewsletters now all need to be deleted
+                            // foundPosts, foundCampaigns, now all need to be deleted
                             let deletedCount = {
                               totalDeleted: 0,
                               totalFailed: 0,
@@ -891,10 +787,7 @@ module.exports = {
                               blogFailed: 0,
                               newsletterFailed: 0,
                               totalTarget:
-                                foundPosts.length +
-                                foundCampaigns.length +
-                                foundBlogs.length +
-                                foundNewsletters.length
+                                foundPosts.length + foundCampaigns.length
                             };
                             if (deletedCount.totalTarget === 0) {
                               // nothing to delete in the calendar so just delete it
@@ -998,42 +891,6 @@ module.exports = {
                                     deleteCallback(
                                       result,
                                       "campaign",
-                                      deletedCount
-                                    );
-                                  }
-                                );
-                              }
-                              for (let i = 0; i < foundBlogs.length; i++) {
-                                blogFunctions.deleteBlogStandalone(
-                                  {
-                                    blogID: foundBlogs[i]._id,
-                                    user: req.user,
-                                    skipUserCheck: true
-                                  },
-                                  result => {
-                                    deleteCallback(
-                                      result,
-                                      "blog",
-                                      deletedCount
-                                    );
-                                  }
-                                );
-                              }
-                              for (
-                                let i = 0;
-                                i < foundNewsletters.length;
-                                i++
-                              ) {
-                                newsletterFunctions.deleteNewsletterStandalone(
-                                  {
-                                    newsletterID: foundNewsletters[i]._id,
-                                    user: req.user,
-                                    skipUserCheck: true
-                                  },
-                                  result => {
-                                    deleteCallback(
-                                      result,
-                                      "newsletter",
                                       deletedCount
                                     );
                                   }

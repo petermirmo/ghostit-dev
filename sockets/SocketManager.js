@@ -611,10 +611,10 @@ module.exports = io => {
                 newCampaign = savedCampaign;
                 Post.findOne({ _id: post._id }, async (err, foundPost) => {
                   if (foundPost) {
-                    if (foundPost.images) {
-                      for (let i = 0; i < foundPost.images.length; i++) {
+                    if (foundpost.files) {
+                      for (let i = 0; i < foundpost.files.length; i++) {
                         await cloudinary.uploader.destroy(
-                          foundPost.images[i].publicID,
+                          foundpost.files[i].publicID,
                           function(result) {
                             // TO DO: handle error here
                           }

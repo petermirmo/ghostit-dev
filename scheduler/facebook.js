@@ -3,8 +3,15 @@ const Account = require("../models/Account");
 const { savePostError, savePostSuccessfully } = require("./functions");
 const keys = require("../config/keys");
 
+const request = require("request");
+const fs = require("fs");
+const FormData = require("form-data");
+
 const cloudinary = require("cloudinary");
 const FB = require("fb");
+const axios = require("axios");
+
+const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
 
 module.exports = {
   postToProfileOrPage: post => {
@@ -21,8 +28,9 @@ module.exports = {
         if (account) {
           // Use facebook profile access token to get account groups
           FB.setAccessToken(account.accessToken);
-          if (post.images.length !== 0) {
-            let facebookPostWithImage = {};
+
+          if (post.files.length !== 0) {
+            let facebookPostWithFile = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
               facebookPostWithImage.message = post.content;
@@ -35,38 +43,93 @@ module.exports = {
               facebookPostWithImage.url = post.images[i].url;
 
               asyncCounter++;
-              FB.api(
-                "me/photos",
-                "post",
-                { url: post.images[i].url, published: false },
-                res => {
-                  asyncCounter--;
 
-                  facebookPhotoArray.push({ media_fbid: res.id });
+              if (isUrlVideo(facebookPostWithFile.url)) {
+                /*let form = document.createElement("form");
+              form.setAttribute("method", "post");
+              form.setAttribute("enctype", "multipart/form-data"); */
 
-                  if (asyncCounter === 0) {
-                    facebookPostWithImage.attached_media = facebookPhotoArray;
-                    FB.api("me/feed", "post", facebookPostWithImage, res => {
-                      if (!res || res.error) {
-                        savePostError(post._id, res.error);
-                      } else {
-                        savePostSuccessfully(post._id, res.id);
+                // request(facebookPostWithFile.url).pipe(fs.createWriteStream("video.mp4")
+
+                // request(facebookPostWithFile.url)
+
+                // fs.createReadStream()
+
+                /*  let test = await axios
+                  .get(facebookPostWithFile.url)
+                  .then(response => response.data);*/
+                let videoData = fs.createReadStream(
+                  request(facebookPostWithFile.url).pipe(
+                    fs.createWriteStream("test.mp4")
+                  ).path
+                );
+
+                FB.api(
+                  "/me/videos",
+                  "post",
+                  {
+                    title: "Video title",
+                    description: "Timeline message...",
+                    source: videoData
+                  },
+                  res => {
+                    asyncCounter--;
+                    if (!res || res.error) {
+                      savePostError(post._id, res.error);
+                    } else {
+                      facebookPhotoArray.push({ media_fbid: res.id });
+                      if (asyncCounter === 0) {
+                        facebookPostWithImage.attached_media = facebookPhotoArray;
+                        FB.api(
+                          "me/feed",
+                          "post",
+                          facebookPostWithImage,
+                          res => {
+                            if (!res || res.error) {
+                              savePostError(post._id, res.error);
+                            } else {
+                              savePostSuccessfully(post._id, res.id);
+                            }
+                          }
+                        );
                       }
-                    });
+                    }
                   }
-                }
-              );
+                );
+              } else {
+                FB.api(
+                  "me/photos",
+                  "post",
+                  { url: post.images[i].url, published: false },
+                  res => {
+                    asyncCounter--;
+
+                    facebookPhotoArray.push({ media_fbid: res.id });
+
+                    if (asyncCounter === 0) {
+                      facebookPostWithImage.attached_media = facebookPhotoArray;
+                      FB.api("me/feed", "post", facebookPostWithImage, res => {
+                        if (!res || res.error) {
+                          savePostError(post._id, res.error);
+                        } else {
+                          savePostSuccessfully(post._id, res.id);
+                        }
+                      });
+                    }
+                  }
+                );
+              }
             }
           } else {
-            let facebookPostNoImage = {};
+            let facebookPostNoFile = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
-              facebookPostNoImage.message = post.content;
+              facebookPostNoFile.message = post.content;
             }
             if (post.link !== "") {
-              facebookPostNoImage.link = post.link;
+              facebookPostNoFile.link = post.link;
             }
-            FB.api("me/feed", "post", facebookPostNoImage, function(res) {
+            FB.api("me/feed", "post", facebookPostNoFile, res => {
               if (!res || res.error) {
                 savePostError(post._id, res.error);
               } else {
@@ -80,30 +143,30 @@ module.exports = {
       }
     );
   },
-  postToGroup: function(post) {
+  postToGroup: post => {
     Account.findOne(
       {
         socialID: post.accountID
       },
-      async function(err, account) {
+      async (err, account) => {
         if (err) return console.log(err);
         if (account) {
           // Use facebook profile access token to get account groups
           FB.setAccessToken(account.accessToken);
 
-          if (post.images.length !== 0) {
-            var facebookPostWithImage = {};
+          if (post.files.length !== 0) {
+            let facebookPostWithFile = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
-              facebookPostWithImage.message = post.content;
+              facebookPostWithFile.message = post.content;
             }
-            for (var i = 0; i < post.images.length; i++) {
-              facebookPostWithImage.link = post.images[i].url;
+            for (let i = 0; i < post.files.length; i++) {
+              facebookPostWithFile.link = post.files[i].url;
               FB.api(
                 "/" + account.socialID + "/feed",
                 "post",
-                facebookPostWithImage,
-                function(res) {
+                facebookPostWithFile,
+                res => {
                   if (!res || res.error) {
                     savePostError(post._id, res.error);
                   } else {
@@ -113,19 +176,19 @@ module.exports = {
               );
             }
           } else {
-            var facebookPostNoImage = {};
+            let facebookPostNoFile = {};
             // Set non-null information to facebook post
             if (post.content !== "") {
-              facebookPostNoImage.message = post.content;
+              facebookPostNoFile.message = post.content;
             }
             if (post.link !== "") {
-              facebookPostNoImage.link = post.link;
+              facebookPostNoFile.link = post.link;
             }
             FB.api(
               "/" + account.socialID + "/feed",
               "post",
-              facebookPostNoImage,
-              function(res) {
+              facebookPostNoFile,
+              res => {
                 if (!res || res.error) {
                   savePostError(post._id, res.error);
                 } else {
@@ -140,11 +203,11 @@ module.exports = {
       }
     );
   },
-  renewAuthToken: function(accounts) {
+  renewAuthToken: accounts => {
     let account = accounts[0];
     getFbCode(account, accounts, 0, accessTokenCallback);
   },
-  renewPageToken: function(accounts) {
+  renewPageToken: accounts => {
     let account = accounts[0];
     getFbCode(account, accounts, 0, pageTokenCallback);
   }
@@ -158,7 +221,7 @@ function getFbCode(account, accounts, counter, callback) {
       redirect_uri: keys.fbCallbackUrl,
       access_token: account.accessToken
     },
-    function(codeResult) {
+    codeResult => {
       if (!codeResult.code) {
         console.log(codeResult);
         return;

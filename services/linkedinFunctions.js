@@ -134,18 +134,18 @@ module.exports = {
           })
         )
         .then(linkedinTokenResponse => {
-          let accessToken = linkedinTokenResponse.data.access_token;
+          const accessToken = linkedinTokenResponse.data.access_token;
 
           axios
             .get("https://api.linkedin.com/v2/me", {
               headers: { Authorization: "Bearer " + accessToken }
             })
             .then(linkedinProfileResponse => {
-              let linkedinProfile = linkedinProfileResponse.data;
+              const linkedinProfile = linkedinProfileResponse.data;
               Account.find(
                 { socialID: linkedinProfile.id },
                 (err, accounts) => {
-                  let createNewAccount = () => {
+                  const createNewAccount = () => {
                     let newAccount = new Account();
 
                     newAccount.userID = userID;
@@ -170,9 +170,9 @@ module.exports = {
 
                     for (let index in accounts) {
                       let account = accounts[index];
-                      if (String(account.userID) == userID)
+                      if (String(account.userID) == userID) {
                         accountFoundUser = true;
-
+                      }
                       account.accessToken = accessToken;
                       account.accessToken = accessToken;
                       account.givenName = linkedinProfile.localizedFirstName;
@@ -182,6 +182,7 @@ module.exports = {
                       account.save((err, result) => {
                         asyncCounter--;
                         if (asyncCounter === 0) {
+                          console.log(accountFoundUser);
                           if (!accountFoundUser) createNewAccount();
                           else res.redirect("/social-accounts");
                         }

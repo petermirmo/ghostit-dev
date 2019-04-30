@@ -17,7 +17,7 @@ import { bindActionCreators } from "redux";
 
 import { getPostIcon, getPostColor } from "../../componentFunctions";
 
-import ImagesDiv from "../ImagesDiv/";
+import FileUpload from "../views/FileUpload/";
 import Filter from "../Filter";
 import CalendarPicker from "../CalendarPicker/";
 import SocketUserList from "../SocketUserList/";
@@ -387,10 +387,11 @@ class Calendar extends Component {
         </div>
         <div className="queue-post-attribute important">{content}</div>
         <div className="queue-post-attribute">
-          <ImagesDiv
-            currentImages={post.images ? post.images : []}
+          <FileUpload
+            currentFiles={post.files ? post.files : []}
             hideUploadButton={true}
             id="xyz"
+            imageClassName="flex image tiny"
           />
         </div>
       </div>

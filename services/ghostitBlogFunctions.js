@@ -100,7 +100,7 @@ module.exports = {
           continue;
         } else
           cloudinary.v2.uploader.upload(
-            image.imagePreviewUrl,
+            image.file,
             (error, result) => {
               if (error) return handleError(res, error);
               else {

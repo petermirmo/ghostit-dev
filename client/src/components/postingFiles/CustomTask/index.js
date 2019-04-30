@@ -5,7 +5,7 @@ import Textarea from "react-textarea-autosize";
 
 import ConfirmAlert from "../../notifications/ConfirmAlert";
 import DateTimePicker from "../../DateTimePicker";
-import ImagesDiv from "../../ImagesDiv/";
+import FileUpload from "../../views/FileUpload/";
 
 import { trySavePost } from "../../../componentFunctions";
 
@@ -28,7 +28,7 @@ class CustomTask extends Component {
     };
     if (props.post) {
       stateVariable._id = props.post._id ? props.post._id : undefined;
-      stateVariable.images = props.post.images ? props.post.images : [];
+      stateVariable.images = props.post.files ? props.post.files : [];
       stateVariable.socialType = props.post.socialType
         ? props.post.socialType
         : props.socialType;
@@ -42,7 +42,7 @@ class CustomTask extends Component {
       stateVariable.sendEmailReminder = props.post.emailReminder ? true : false;
     }
 
-    stateVariable.imagesToDelete = [];
+    stateVariable.filesToDelete = [];
     stateVariable.somethingChanged = false;
 
     stateVariable.date =
@@ -102,9 +102,9 @@ class CustomTask extends Component {
   };
 
   pushToImageDeleteArray = image => {
-    let temp = this.state.imagesToDelete;
+    let temp = this.state.filesToDelete;
     temp.push(image);
-    if (this._ismounted) this.setState({ imagesToDelete: temp });
+    if (this._ismounted) this.setState({ filesToDelete: temp });
   };
 
   modifyCampaignDate = response => {
@@ -127,7 +127,7 @@ class CustomTask extends Component {
       socialType,
       accountID,
       accountType,
-      imagesToDelete,
+      filesToDelete,
       somethingChanged,
       promptModifyCampaignDates,
       campaignID,
@@ -163,15 +163,18 @@ class CustomTask extends Component {
               readOnly={!canEditPost}
             />
             <div className="wrapping-container-no-center mt8">
-              <ImagesDiv
+              <FileUpload
                 canEdit={canEditPost}
-                currentImages={images}
-                handleChange={parentStateChangeObject =>
+                className="br8 pa16"
+                currentFiles={images}
+                handleParentChange={parentStateChangeObject =>
                   this.setState(parentStateChangeObject)
                 }
-                imageLimit={4}
-                imagesToDelete={imagesToDelete}
+                fileLimit={4}
+                filesToDelete={filesToDelete}
                 id="hsh"
+                imageClassName="flex image tiny"
+                imageOnly={true}
               />
 
               <div className="checkbox-and-writing-container my8 ml8">

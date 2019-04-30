@@ -6,7 +6,7 @@ let linkedin = require("./linkedin");
 const generalFunctions = require("../services/generalFunctions");
 
 module.exports = {
-  main: function() {
+  main: () => {
     Post.find({ status: "pending" }).then(result => {
       let postArray = result;
       let currentDate = new Date();
@@ -48,10 +48,8 @@ module.exports = {
               );
             }
           } else if (post.socialType === "linkedin") {
-            if (post.accountType === "profile") {
-              linkedin.postToLinkedInProfile(post);
-            } else if (post.accountType === "page") {
-              linkedin.postToLinkedInPage(post);
+            if (post.accountType === "profile" || post.accountType === "page") {
+              linkedin.postToLinkedIn(post);
             } else {
               generalFunctions.handleError(
                 res,

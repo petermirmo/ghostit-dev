@@ -23,7 +23,7 @@ module.exports = {
         });
 
         // Check if this post has images in it
-        if (post.images.length !== 0) {
+        if (post.files.length !== 0) {
           uploadImage("", 0, client, post);
         } else {
           // If no pictures then just post normally
@@ -36,9 +36,9 @@ module.exports = {
 function uploadImage(mediaListID, i, client, post) {
   // If this post has images we have a recursive function to add each photo
   // and store the media_id in the mediaListID string
-  if (post.images[i]) {
+  if (post.files[i]) {
     // Download image from url
-    request.get(post.images[i].url, (err, res, body) => {
+    request.get(post.files[i].url, (err, res, body) => {
       // Upload image to Twitter
       client.post("media/upload", { media: body }, (error, media, response) => {
         if (error || media.media_id === undefined) {
