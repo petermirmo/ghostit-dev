@@ -76,7 +76,7 @@ module.exports = {
       }
     );
   },
-  getInstagramPages: function(req, res) {
+  getInstagramPages: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -95,6 +95,7 @@ module.exports = {
           FB.setAccessToken(account.accessToken);
           FB.api("me/accounts", "get", results => {
             let facebookPages = results.data;
+
             if (facebookPages) {
               let pages = [];
               let asyncCounter = 0;
@@ -110,8 +111,9 @@ module.exports = {
                   foundFacebookPage.id + "?fields=instagram_business_account",
                   "get",
                   response => {
-                    if (response.instagram_business_account) {
-                      let instagramObject = response.instagram_business_account;
+                    console.log(response);
+                    if (response.id) {
+                      let instagramObject = response.id;
 
                       asyncCounter++;
 

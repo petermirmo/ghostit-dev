@@ -78,6 +78,12 @@ class AccountsPage extends Component {
           this.setState({ pageOrGroupArray, errorMessage })
         );
       }
+    } else if (socialType === "instagram") {
+      if (accountType === "page") {
+        getInstagramPages((pageOrGroupArray, errorMessage) =>
+          this.setState({ pageOrGroupArray, errorMessage })
+        );
+      }
     }
   };
 
@@ -210,7 +216,10 @@ class AccountsPage extends Component {
           {connectedLinkedinAccountDivs}
         </GIContainer>
         <GIContainer className="column align-center fill-flex mx16">
-          <GIButton className="social-header-button flex hc button mb16 pa8 instagram">
+          <GIButton
+            className="social-header-button flex hc button mb16 pa8 instagram"
+            onClick={() => this.openModal("instagram", "page")}
+          >
             Connect Instagram <br />
             (Coming Soon)
           </GIButton>

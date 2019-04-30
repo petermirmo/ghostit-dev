@@ -183,7 +183,7 @@ class GhostitAgency extends Component {
           <GIText
             text="Book a call to go over the details of your content marketing requirements."
             type="h1"
-            className="tac"
+            className="tac px32"
           />
         </GIContainer>
         <GIContainer className="x-wrap px32 x-fill container-box extra-large">
