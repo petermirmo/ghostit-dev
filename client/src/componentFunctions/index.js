@@ -348,26 +348,9 @@ export async function savePost(
           // Make sure post actually saved
           // Now we add images
 
-          // Images must be uploaded via forms
-          const temp = [];
-
-          // Attach all files to formData
-          for (let i = 0; i < filesToSave.length; i++) {
-            if (filesToSave[i].file.currentTarget)
-              temp.push({
-                file: filesToSave[i].file.currentTarget.result,
-                type: filesToSave[i].type
-              });
-            else if (filesToSave[i].file.target)
-              temp.push({
-                file: filesToSave[i].file.target.result,
-                type: filesToSave[i].type
-              });
-          }
-
           // Make post request for files
           axios
-            .post("/api/post/files", { postID: post._id, files: temp })
+            .post("/api/post/files", { postID: post._id, files: filesToSave })
             .then(response => {
               if (response.data.success) {
                 callback(response.data.savedPost, true);

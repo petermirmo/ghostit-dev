@@ -391,6 +391,7 @@ class Calendar extends Component {
             currentFiles={post.files ? post.files : []}
             hideUploadButton={true}
             id="xyz"
+            imageClassName="flex image tiny"
           />
         </div>
       </div>

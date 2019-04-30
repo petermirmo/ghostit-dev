@@ -5,22 +5,26 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    role: String,
+    country: String,
+    dateCreated: Date,
     defaultCalendarID: Schema.Types.ObjectId,
     email: String,
-    password: String,
-    tempPassword: String,
     fullName: String,
-    country: String,
-    timezone: String,
-    website: String,
-    signedInAsUser: { id: String, fullName: String },
-    writer: { id: String, name: String },
+    image: {
+      publicID: String,
+      url: String
+    },
+    password: String,
     plan: { id: String, name: String },
+    role: String,
+    signedInAsUser: { id: String, fullName: String },
     stripeCustomerID: String,
     stripeSubscriptionID: String,
     tempID: String,
-    dateCreated: Date
+    tempPassword: String,
+    timezone: String,
+    website: String,
+    writer: { id: String, name: String }
   },
   {
     timestamps: true

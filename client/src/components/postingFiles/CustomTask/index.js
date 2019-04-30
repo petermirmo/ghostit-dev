@@ -165,6 +165,7 @@ class CustomTask extends Component {
             <div className="wrapping-container-no-center mt8">
               <FileUpload
                 canEdit={canEditPost}
+                className="br8 pa16"
                 currentFiles={images}
                 handleParentChange={parentStateChangeObject =>
                   this.setState(parentStateChangeObject)
@@ -172,6 +173,8 @@ class CustomTask extends Component {
                 fileLimit={4}
                 filesToDelete={filesToDelete}
                 id="hsh"
+                imageClassName="flex image tiny"
+                imageOnly={true}
               />
 
               <div className="checkbox-and-writing-container my8 ml8">

@@ -7,11 +7,11 @@ class Section5 extends Component {
       <div className="common-container py64">
         <h1 className="tac mx16">Here's what our customers are saying</h1>
         <div className="wrapping-container-full-center">
-          <div className="team-member-image-container round mx32">
+          <div className="profile-image-container medium round mx32">
             <img
               src="https://res.cloudinary.com/ghostit-co/image/upload/v1544851312/IMG_9627_2.jpg"
               alt="'image'"
-              className="team-member-image"
+              className="profile-image medium"
             />
           </div>
 

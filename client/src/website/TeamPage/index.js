@@ -37,11 +37,11 @@ class TeamPage extends Component {
                   event.target.style.backgroundColor = "transparent";
                 }}
               >
-                <div className="team-member-image-container round">
+                <div className="profile-image-container medium round no-pointer-events">
                   <img
                     src={obj.image}
-                    alt="'image'"
-                    className="team-member-image"
+                    alt="image"
+                    className="profile-image medium"
                   />
                 </div>
                 <GIText

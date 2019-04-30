@@ -13,13 +13,17 @@ class FileUpload extends Component {
   render() {
     const { handleParentChange } = this.props; // Functions
     const {
+      className = "br8",
       canEdit = true,
       currentFiles = [],
       fileIcon = faUpload,
       fileLimit = 4,
       filesToDelete = [],
       hideUploadButton = false,
-      id = String(Math.random())
+      id = String(Math.random()),
+      imageClassName,
+      imageContainerClassName,
+      imageOnly
     } = this.props; // Variables
 
     return (
@@ -28,7 +32,7 @@ class FileUpload extends Component {
           <GIContainer>
             <label
               htmlFor={id}
-              className="custom-file-upload pa16 br8 clickable"
+              className={`custom-file-upload pa16 clickable full-center flex ${className}`}
             >
               <FontAwesomeIcon icon={fileIcon} className="px4" />
             </label>
@@ -37,7 +41,13 @@ class FileUpload extends Component {
               id={id}
               type="file"
               onChange={event =>
-                showFiles(event, currentFiles, fileLimit, handleParentChange)
+                showFiles(
+                  event,
+                  currentFiles,
+                  fileLimit,
+                  handleParentChange,
+                  imageOnly
+                )
               }
               multiple
             />
@@ -46,19 +56,22 @@ class FileUpload extends Component {
 
         {currentFiles.map((file, index) => {
           return (
-            <GIContainer key={index} className="relative ml8 uploaded-file">
+            <GIContainer
+              key={index}
+              className={`relative ml8 uploaded-file ${imageContainerClassName}`}
+            >
               {isImage(file) && (
                 <img
                   alt="error"
-                  className="flex image tiny"
-                  src={file.previewUrl ? file.previewUrl : file.url}
+                  className={imageClassName}
+                  src={file.file ? file.file : file.url}
                 />
               )}
               {isVideo(file) && (
                 <video
                   alt="error"
-                  className="flex image tiny"
-                  src={file.previewUrl ? file.previewUrl : file.url}
+                  className={imageClassName}
+                  src={file.file ? file.file : file.url}
                 />
               )}
               {canEdit && (

@@ -9,38 +9,12 @@ const Email = require("../models/Email");
 const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 
-const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
-
-const uploadFiles = (files, callback) => {
-  const uploadedFiles = [];
-  let asyncCounter = 0;
-
-  for (let index in files) {
-    asyncCounter++;
-    cloudinary.v2.uploader.upload(
-      files[index].file,
-      { resource_type: files[index].type },
-      (error, result) => {
-        asyncCounter--;
-        if (!error) {
-          uploadedFiles.push({
-            url: result.secure_url,
-            publicID: result.public_id
-          });
-
-          if (asyncCounter === 0) {
-            callback(uploadedFiles);
-          }
-        } else {
-          console.log(error);
-          if (asyncCounter === 0) {
-            callback(uploadedFiles);
-          }
-        }
-      }
-    );
-  }
-};
+const {
+  isUrlImage,
+  isUrlVideo,
+  uploadFiles,
+  whatFileTypeIsUrl
+} = require("../util");
 
 const deletePostStandalone = (req, callback) => {
   // function called indirectly when deleting a post normally
@@ -181,7 +155,7 @@ module.exports = {
       res.send({ imgSrc, linkTitle, linkDescription });
     });
   },
-  savePost: function(req, res) {
+  savePost: (req, res) => {
     let post = req.body;
 
     Calendar.findOne({ _id: post.calendarID }, (err, foundCalendar) => {
@@ -192,7 +166,7 @@ module.exports = {
           message: "Error while looking up calendar in the database."
         });
       } else {
-        Post.findOne({ _id: post._id }, function(err, foundPost) {
+        Post.findOne({ _id: post._id }, (err, foundPost) => {
           let newPost = new Post();
 
           if (err) {

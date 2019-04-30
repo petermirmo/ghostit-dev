@@ -415,13 +415,16 @@ class PostingOptions extends Component {
                 <div className="post-images-and-videos pa8">
                   <FileUpload
                     canEdit={canEditPost}
+                    className="br8 pa16"
                     currentFiles={files}
                     handleParentChange={parentStateChangeObject =>
                       this.setState(parentStateChangeObject)
                     }
-                    id="pdm"
                     fileLimit={4}
                     filesToDelete={filesToDelete}
+                    id="pdm"
+                    imageClassName="flex image tiny"
+                    imageOnly={true}
                   />
                 </div>
 

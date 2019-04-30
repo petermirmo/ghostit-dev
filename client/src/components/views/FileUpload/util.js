@@ -24,7 +24,8 @@ export const showFiles = (
   event,
   currentFiles,
   fileLimit,
-  handleParentChange
+  handleParentChange,
+  imageOnly
 ) => {
   let newFiles = event.target.files;
 
@@ -39,10 +40,14 @@ export const showFiles = (
   // Check to make sure each file is under 5MB
   for (let index = 0; index < newFiles.length; index++) {
     let fileToCheck = newFiles[index];
+    if (!isImage(fileToCheck) && imageOnly) {
+      return alert("This file is not an image.");
+    }
     if (isFileOverSize(fileToCheck)) {
-      return alert(
+      return true;
+      /*alert(
         "Please contact peterm@ghostit.co for technical support. We do not currently support this file format, but we may do a software update if you contact us."
-      );
+      );*/
     }
   }
 
@@ -56,8 +61,7 @@ const setFilesToParentState = (newFiles, currentFiles, handleParentChange) => {
     let file = newFiles[index];
     reader.onloadend = file => {
       currentFiles.push({
-        file,
-        previewUrl: reader.result,
+        file: reader.result,
         type: getFileType(file)
       });
 
@@ -90,18 +94,18 @@ const isFileOverSize = fileToCheck => {
 export const isImage = fileToCheck => {
   const fileExtension = getFileExtension(fileToCheck);
   return fileExtension.match(
-    /(\.|\/)(jpe?g|ico|png|svg|woff|ttf|wav|mp3)($|;)/
+    /(\.|\/)(jpe?g|ico|png|svg|woff|ttf|wav|mp3)($|;)/i
   );
 };
 
 export const isVideo = fileToCheck => {
   const fileExtension = getFileExtension(fileToCheck);
-  return fileExtension.match(/(\.|\/)(avi|flv|wmv|mov|mp4)($|;)/);
+  return fileExtension.match(/(\.|\/)(avi|flv|wmv|mov|mp4)($|;)/i);
 };
 
 export const isGif = fileToCheck => {
   const fileExtension = getFileExtension(fileToCheck);
-  return fileExtension.match(/(\.|\/)(gif)($|;)/);
+  return fileExtension.match(/(\.|\/)(gif)($|;)/i);
 };
 const getFileType = file => {
   if (isImage(file)) return "image";
@@ -115,7 +119,7 @@ const getFileType = file => {
 };
 const getFileExtension = file => {
   if (file.name) return file.name;
-  else if (file.previewUrl) return file.previewUrl;
+  else if (file.file) return file.file;
   else if (file.url) return file.url;
   else if (file.currentTarget) return file.currentTarget.result;
   else {
