@@ -100,7 +100,7 @@ class HeaderSideBar extends Component {
             />
           </GIButton>
         </GIContainer>
-        <div className="navbar pt64" style={{ zIndex: "-1" }}>
+        <div className="navbar pt16" style={{ zIndex: "-1" }}>
           {headerSideBar && !clientSideBar && (
             <GIContainer className="x-fill column">
               <GIContainer className="full-center">

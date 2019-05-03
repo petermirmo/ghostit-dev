@@ -275,7 +275,7 @@ class DatePicker extends Component {
 
     return (
       <div
-        className={"button relative flex1 " + className}
+        className={"button relative fill-flex " + className}
         ref={this.setWrapperRef}
       >
         <div
@@ -301,7 +301,7 @@ class DatePicker extends Component {
                 onClick={this.subtractMonth}
               />
 
-              <h2 className="flex1 tac">{displayDate.format("MMMM")}</h2>
+              <h2 className="fill-flex tac">{displayDate.format("MMMM")}</h2>
 
               <FontAwesomeIcon
                 className="pr16"

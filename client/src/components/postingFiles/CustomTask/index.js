@@ -148,13 +148,13 @@ class CustomTask extends Component {
             <input
               onChange={event => this.handleChange(event.target.value, "name")}
               value={name}
-              className="title-input mb8 br4 pa8"
+              className="title-input mb8 pa8"
               placeholder="Title"
               readOnly={!canEditPost}
             />
             <Textarea
               style={{ minHeight: "30vh" }}
-              className="instruction-textarea pa8 br4"
+              className="instruction-textarea pa8"
               placeholder="Describe this task!"
               onChange={event =>
                 this.handleChange(event.target.value, "instructions")
@@ -165,7 +165,7 @@ class CustomTask extends Component {
             <div className="wrapping-container-no-center mt8">
               <FileUpload
                 canEdit={canEditPost}
-                className="br8 pa16"
+                className="pa16"
                 currentFiles={images}
                 handleParentChange={parentStateChangeObject =>
                   this.setState(parentStateChangeObject)

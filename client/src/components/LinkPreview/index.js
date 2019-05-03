@@ -3,24 +3,31 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faLongArrowAltLeft from "@fortawesome/fontawesome-free-solid/faLongArrowAltLeft";
 import faLongArrowAltRight from "@fortawesome/fontawesome-free-solid/faLongArrowAltRight";
 
+import GIContainer from "../containers/GIContainer";
+
+import FileUpload from "../views/FileUpload";
 import "./style.css";
 
 class LinkPreview extends Component {
   state = { activeImageIndex: 0 };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.link != this.props.link)
       this.setState({ activeImageIndex: 0 });
   }
   changeImage = increment => {
     let { activeImageIndex } = this.state;
-    const { linkImagesArray } = this.props;
+    const { linkCustomFiles = [], linkImagesArray = [] } = this.props; // Variables
+    const { handleChange } = this.props; // Functions
     activeImageIndex += increment;
 
-    if (activeImageIndex >= linkImagesArray.length) activeImageIndex = 0;
-    else if (activeImageIndex <= 0)
-      activeImageIndex = linkImagesArray.length - 1;
+    if (activeImageIndex >= linkImagesArray.length + linkCustomFiles.length)
+      activeImageIndex = 0;
+    else if (activeImageIndex < 0) {
+      activeImageIndex = linkImagesArray.length + linkCustomFiles.length - 1;
+    }
 
-    this.props.handleChange(linkImagesArray[activeImageIndex]);
+    handleChange(linkImagesArray[activeImageIndex]);
     this.setState({ activeImageIndex });
   };
   shortenLinkDescriptionIfNeeded = linkDescription => {
@@ -33,48 +40,77 @@ class LinkPreview extends Component {
   render() {
     const { activeImageIndex } = this.state;
     const {
-      linkPreviewCanEdit,
+      canAddFilesToLink,
+      canEdit,
       className,
-      linkTitle,
+      linkCustomFiles = [],
       linkDescription,
-      linkImagesArray
-    } = this.props;
+      linkImagesArray = [],
+      linkPreviewCanEdit,
+      linkTitle
+    } = this.props; // Variables
+    const { setCustomImages } = this.props; // Functions
+
+    const linkImagesToDisplay = linkCustomFiles.concat(linkImagesArray);
 
     const smartLinkDescription = this.shortenLinkDescriptionIfNeeded(
       linkDescription
     );
-
     return (
       <div className={className}>
         <div
           id="link-preview-container"
           className="common-shadow"
           style={
-            linkImagesArray[activeImageIndex]
+            linkImagesToDisplay[activeImageIndex]
               ? {
                   backgroundImage:
-                    "url(" + linkImagesArray[activeImageIndex] + ")"
+                    "url(" + linkImagesToDisplay[activeImageIndex] + ")"
                 }
               : {}
           }
         >
-          {linkPreviewCanEdit && (
-            <div className="absolute-bottom-container">
-              <FontAwesomeIcon
-                icon={faLongArrowAltLeft}
-                size="2x"
-                className="icon-regular-button"
-                onClick={() => this.changeImage(-1)}
-              />
-              <div className="flex1" />
-              <FontAwesomeIcon
-                icon={faLongArrowAltRight}
-                size="2x"
-                className="icon-regular-button"
-                onClick={() => this.changeImage(1)}
-              />
-            </div>
-          )}
+          <GIContainer className="absolute x-fill y-fill column">
+            {canAddFilesToLink && (
+              <GIContainer className="full-center fill-flex file-upload-on-file">
+                <FileUpload
+                  canEdit={canEdit}
+                  className=""
+                  currentFiles={[]}
+                  handleParentChange={filesObject => {
+                    if (filesObject.files)
+                      if (filesObject.files[0]) {
+                        linkImagesArray.unshift(filesObject.files[0].file);
+
+                        setCustomImages(linkImagesArray);
+                      }
+                  }}
+                  fileLimit={1}
+                  filesToDelete={[]}
+                  id="fdhs"
+                  imageClassName="flex image tiny"
+                  imageOnly={true}
+                />
+              </GIContainer>
+            )}
+            {linkPreviewCanEdit && (
+              <GIContainer className="px16 bg-grey">
+                <FontAwesomeIcon
+                  icon={faLongArrowAltLeft}
+                  size="2x"
+                  className="icon-regular-button"
+                  onClick={() => this.changeImage(-1)}
+                />
+                <div className="fill-flex" />
+                <FontAwesomeIcon
+                  icon={faLongArrowAltRight}
+                  size="2x"
+                  className="icon-regular-button"
+                  onClick={() => this.changeImage(1)}
+                />
+              </GIContainer>
+            )}
+          </GIContainer>
         </div>
         <div className="simple-container py4">
           <h4>{linkTitle}</h4>

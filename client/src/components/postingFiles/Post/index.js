@@ -16,7 +16,7 @@ import DateTimePicker from "../../DateTimePicker";
 import SelectAccountDiv from "../../SelectAccountDiv/";
 import LinkPreview from "../../LinkPreview";
 import FileUpload from "../../views/FileUpload";
-import { linkPreviewOptions } from "../../../componentFunctions";
+import { postAttributeOptions } from "../../../componentFunctions";
 import { trySavePost } from "../../../componentFunctions";
 
 import ConfirmAlert from "../../notifications/ConfirmAlert";
@@ -89,6 +89,7 @@ class PostingOptions extends Component {
       filesToDelete: [],
       instructions: "",
       link: "",
+      linkCustomFiles: [],
       linkImage: "",
       linkImagesArray: [],
       name: "",
@@ -105,6 +106,9 @@ class PostingOptions extends Component {
         ? props.post.accountID
         : returnObj.id;
       stateVariable.link = props.post.link ? props.post.link : "";
+      stateVariable.linkCustomFiles = props.post.linkCustomFiles
+        ? props.post.linkCustomFiles
+        : [];
       stateVariable.linkImage = props.post.linkImage
         ? props.post.linkImage
         : "";
@@ -327,6 +331,7 @@ class PostingOptions extends Component {
       filesToDelete,
       instructions,
       link,
+      linkCustomFiles,
       linkImage,
       linkTitle,
       linkDescription,
@@ -349,10 +354,13 @@ class PostingOptions extends Component {
       maxCharacters
     } = this.props;
 
-    const returnOfLinkPreviewOptions = linkPreviewOptions(socialType);
-
-    const linkPreviewCanShow = returnOfLinkPreviewOptions[0];
-    const linkPreviewCanEdit = returnOfLinkPreviewOptions[1];
+    const {
+      canAddFilesToLink,
+      canUploadPhoto,
+      canUploadVideo,
+      linkPreviewCanEdit,
+      linkPreviewCanShow
+    } = postAttributeOptions(socialType);
 
     // Loop through all accounts
     let inactivePageAccountsArray = [];
@@ -413,19 +421,21 @@ class PostingOptions extends Component {
                   value={content}
                 />
                 <div className="post-images-and-videos pa8">
-                  <FileUpload
-                    canEdit={canEditPost}
-                    className="br8 pa16"
-                    currentFiles={files}
-                    handleParentChange={parentStateChangeObject =>
-                      this.setState(parentStateChangeObject)
-                    }
-                    fileLimit={4}
-                    filesToDelete={filesToDelete}
-                    id="pdm"
-                    imageClassName="flex image tiny"
-                    imageOnly={true}
-                  />
+                  {(canUploadPhoto || canUploadVideo) && (
+                    <FileUpload
+                      canEdit={canEditPost}
+                      className="pa16"
+                      currentFiles={files}
+                      handleParentChange={parentStateChangeObject =>
+                        this.setState(parentStateChangeObject)
+                      }
+                      fileLimit={4}
+                      filesToDelete={filesToDelete}
+                      id="pdm"
+                      imageClassName="flex image tiny"
+                      imageOnly={true}
+                    />
+                  )}
                 </div>
 
                 {maxCharacters && (
@@ -436,19 +446,26 @@ class PostingOptions extends Component {
                   {linkPreviewCanShow && link && (
                     <div className="container-box column medium mx16 mt16">
                       <LinkPreview
-                        linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
-                        linkImagesArray={linkImagesArray}
-                        linkTitle={linkTitle}
-                        linkDescription={linkDescription}
-                        link={link}
+                        canAddFilesToLink={canAddFilesToLink && canEditPost}
+                        canEdit={canEditPost}
                         handleChange={image =>
                           this.handleChange(image, "linkImage")
                         }
+                        link={link}
+                        linkCustomFiles={linkCustomFiles}
+                        linkDescription={linkDescription}
+                        linkImagesArray={linkImagesArray}
+                        linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
+                        linkTitle={linkTitle}
+                        setCustomImages={linkImagesArray => {
+                          this.handleChange(linkImagesArray[0], "linkImage");
+                          this.handleChange(linkImagesArray, "linkImagesArray");
+                        }}
                       />
                     </div>
                   )}
                   {!this.props.recipeEditing && (
-                    <div className="flex1 mt16 mx16">
+                    <div className="fill-flex mt16 mx16">
                       <SelectAccountDiv
                         activePageAccountsArray={activePageAccountsArray}
                         inactivePageAccountsArray={inactivePageAccountsArray}
@@ -497,14 +514,14 @@ class PostingOptions extends Component {
                       this.handleChange(event.target.value, "name")
                     }
                     value={name}
-                    className="pa8 mb8 br4"
+                    className="pa8 mb8"
                     placeholder="Title"
                     readOnly={!canEditPost}
                   />
                 )}
                 {showInstructions && (
                   <Textarea
-                    className="instruction-textarea br4 pa8 light-scrollbar"
+                    className="instruction-textarea pa8 light-scrollbar"
                     placeholder="Include any comments or instructions here."
                     onChange={event => {
                       this.handleChange(event.target.value, "instructions");

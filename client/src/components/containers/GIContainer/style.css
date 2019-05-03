@@ -165,6 +165,10 @@
 .light-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: hsla(0, 0%, 0%, 0.4);
 }
+
+.bg-grey {
+  background-color: var(--light-grey-theme-color);
+}
 .test-mode {
   background-color: red;
 }

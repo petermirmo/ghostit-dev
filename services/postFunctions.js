@@ -16,6 +16,18 @@ const {
   whatFileTypeIsUrl
 } = require("../util");
 
+const canCopyAttributeDirectly = index => {
+  if (index === "linkCustomFiles") {
+    return false;
+  } else {
+    return true;
+  }
+};
+const isBinaryImage = string => {
+  if (string.length > 500) return true;
+  else return false;
+};
+
 const deletePostStandalone = (req, callback) => {
   // function called indirectly when deleting a post normally
   // called directly (with skipUserCheck = true) when deleting an entire calendar
@@ -156,7 +168,7 @@ module.exports = {
     });
   },
   savePost: (req, res) => {
-    let post = req.body;
+    const post = req.body;
 
     Calendar.findOne({ _id: post.calendarID }, (err, foundCalendar) => {
       if (err || !foundCalendar) {
@@ -185,17 +197,15 @@ module.exports = {
           }
           // Set color of post
           let backgroundColorOfPost;
-          if (post.socialType === "facebook") {
-            backgroundColorOfPost = "#4267b2";
-          } else if (post.socialType === "twitter") {
+          if (post.socialType === "facebook") backgroundColorOfPost = "#4267b2";
+          else if (post.socialType === "twitter")
             backgroundColorOfPost = "#1da1f2";
-          } else if (post.socialType === "linkedin") {
+          else if (post.socialType === "linkedin")
             backgroundColorOfPost = "#0077b5";
-          } else if (post.socialType === "instagram") {
+          else if (post.socialType === "instagram")
             backgroundColorOfPost = "#cd486b";
-          } else if (post.socialType === "custom") {
+          else if (post.socialType === "custom")
             backgroundColorOfPost = "var(--seven-purple-color)";
-          }
 
           let emailReminder;
           if (post.sendEmailReminder && !newPost.emailReminder) {
@@ -211,50 +221,31 @@ module.exports = {
           }
 
           for (let index in post) {
-            newPost[index] = post[index];
+            if (canCopyAttributeDirectly(index)) newPost[index] = post[index];
           }
-          if (!foundPost) {
-            // post doesn't exist in DB yet so we need to make sure the calendar is eligible to have posts saved
-            if (foundCalendar.postsLeft !== -1) {
-              // calendar is not unlocked so we need to check how many posts are currently scheduled on it
-              Post.find(
-                { calendarID: foundCalendar._id, status: "pending" },
-                (err, foundPosts) => {
-                  if (err || !foundPosts) {
-                    res.send({
-                      success: false,
-                      err,
-                      message:
-                        "Error while checking how many more posts this demo calendar can schedule."
-                    });
-                  } else {
-                    if (foundCalendar.postsLeft <= foundPosts.length) {
-                      res.send({
-                        success: false,
-                        message:
-                          "Demo calendar has already reached its maximum number of posts. Upgrade your account to unlock your calendar's post limit."
-                      });
-                    } else {
-                      newPost
-                        .save()
-                        .then(result =>
-                          res.send({ success: true, post: result })
-                        );
-                    }
-                  }
-                }
-              );
-            } else {
-              // calendar is unlocked so we can just save the post
-              newPost
-                .save()
-                .then(result => res.send({ success: true, post: result }));
-            }
-          } else {
-            // post already exists in DB so we can just save it
-            newPost
+          finalSavePost = readyToSavePost => {
+            readyToSavePost
               .save()
               .then(result => res.send({ success: true, post: result }));
+          };
+
+          if (post.linkCustomFiles) {
+            if (post.linkCustomFiles.length > 0) {
+              let uploadedLinkCustomFiles = [];
+              for (let index in post.linkCustomFiles) {
+                if (isBinaryImage(post.linkCustomFiles[index])) {
+                  uploadedLinkCustomFiles.push(post.linkCustomFiles[index]);
+                }
+              }
+              uploadFiles(uploadedLinkCustomFiles, uploadedFiles => {
+                newPost.linkCustomFiles = uploadedFiles;
+                finalSavePost(newPost);
+              });
+            } else {
+              finalSavePost(newPost);
+            }
+          } else {
+            finalSavePost(newPost);
           }
         });
       }

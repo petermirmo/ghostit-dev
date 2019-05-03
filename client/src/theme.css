@@ -69,6 +69,8 @@
   --campaign-color3: #00e0ff;
   --campaign-color4: #e8ffe8;
 
+  --grey-shade-color: rgba(0, 0, 0, 0.8);
+
   --thirteen-font-size: 13px;
   --fourteen-font-size: 14px;
 
@@ -82,6 +84,13 @@
 
   --silly-font: "Varela Round";
   --regular-font: "Open Sans";
+}
+.file-upload-on-file {
+  opacity: 0;
+  background-color: var(--grey-shade-color);
+}
+.file-upload-on-file:hover {
+  opacity: 1;
 }
 .no-pointer-events {
   pointer-events: none;
@@ -523,7 +532,7 @@
 .width50 {
   width: 50%;
 }
-.flex1 {
+.fill-flex {
   flex: 1;
 }
 .flex {
@@ -565,15 +574,6 @@
 }
 .relative {
   position: relative;
-}
-.absolute-bottom-container {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-
-  display: flex;
-  background: rgba(0, 0, 0, 0.1);
 }
 .absolute {
   position: absolute;

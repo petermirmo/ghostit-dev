@@ -18,9 +18,15 @@ const uploadFiles = (files, callback) => {
 
   for (let index in files) {
     asyncCounter++;
+
+    let type = "image";
+    let file = files[index];
+    if (files[index].file) file = files[index].file;
+    if (files[index].type) type = files[index].type;
+
     cloudinary.v2.uploader.upload(
-      files[index].file,
-      { resource_type: files[index].type },
+      file,
+      { resource_type: type },
       (error, result) => {
         asyncCounter--;
         if (!error) {

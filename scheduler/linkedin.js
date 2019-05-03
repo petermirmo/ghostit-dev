@@ -111,11 +111,15 @@ module.exports = {
           let content = {};
 
           if (post.link) {
+            let linkImage = post.linkImage;
+            if (post.linkCustomFiles)
+              if (post.linkCustomFiles[0])
+                linkImage = post.linkCustomFiles[0].url;
             contentEntities.push({
               entityLocation: post.link,
               thumbnails: [
                 {
-                  resolvedUrl: post.linkImage
+                  resolvedUrl: linkImage
                 }
               ]
             });

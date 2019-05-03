@@ -4,7 +4,7 @@ import axios from "axios";
 
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
-import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
 
 export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
   // function called when a user clicks on an existing recipe to edit
@@ -107,32 +107,33 @@ export const trySavePost = (
     return trySavePostInRecipe(post_state, post_props, skip_dates);
   }
   const {
-    _id,
-    content,
-    instructions,
-    link,
-    linkImage,
-    linkTitle,
-    linkDescription,
-    files,
-    socialType,
     accountID,
     accountType,
-    filesToDelete,
+    calendarID,
     campaignID,
-    name,
+    content,
     date,
+    files,
+    filesToDelete,
+    instructions,
+    link,
+    linkCustomFiles,
+    linkDescription,
+    linkImage,
+    linkTitle,
+    name,
     sendEmailReminder,
-    calendarID
+    socialType,
+    _id
   } = post_state;
   const {
-    recipeEditing,
-    campaignStartDate,
     campaignEndDate,
-    postFinishedSavingCallback,
-    setSaving,
+    campaignStartDate,
     maxCharacters,
-    notify
+    notify,
+    postFinishedSavingCallback,
+    recipeEditing,
+    setSaving
   } = post_props;
 
   const setStateObj = {};
@@ -202,7 +203,8 @@ export const trySavePost = (
       calendarID,
       undefined,
       linkTitle,
-      linkDescription
+      linkDescription,
+      linkCustomFiles
     );
   }
   setStateObj.somethingChanged = false;
@@ -303,7 +305,8 @@ export async function savePost(
   calendarID,
   sendEmailReminder,
   linkTitle,
-  linkDescription
+  linkDescription,
+  linkCustomFiles
 ) {
   if (filesToDelete) {
     if (filesToDelete.length !== 0) {
@@ -335,7 +338,8 @@ export async function savePost(
       calendarID,
       sendEmailReminder,
       linkTitle,
-      linkDescription
+      linkDescription,
+      linkCustomFiles
     })
     .then(res => {
       // Now we need to save images for post, Images are saved after post
@@ -405,20 +409,64 @@ export function postChecks(
   }
   return true;
 }
-export function linkPreviewOptions(socialType) {
+
+export function postAttributeOptions(socialType) {
   if (socialType === "facebook") {
-    return [true, false];
-  } else if (socialType === "twitter") {
-    return [false, false];
-  } else if (socialType === "linkedin") {
-    return [true, true];
-  } else if (socialType === "instagram") {
-    return [false, false];
-  } else if (socialType === "blog") {
-    return [false, false];
-  } else if (socialType === "newsletter") {
-    return [false, false];
-  } else return [false, false];
+    return {
+      canAddFilesToLink: false,
+      canUploadPhoto: true,
+      canUploadVideo: false,
+      linkPreviewCanEdit: false,
+      linkPreviewCanShow: true
+    };
+  } else if (socialType === "twitter")
+    return {
+      canAddFilesToLink: false,
+      canUploadPhoto: true,
+      canUploadVideo: false,
+      linkPreviewCanEdit: false,
+      linkPreviewCanShow: false
+    };
+  else if (socialType === "linkedin")
+    return {
+      canAddFilesToLink: true,
+      canUploadPhoto: false,
+      canUploadVideo: false,
+      linkPreviewCanEdit: true,
+      linkPreviewCanShow: true
+    };
+  else if (socialType === "instagram")
+    return {
+      canAddFilesToLink: false,
+      canUploadPhoto: true,
+      canUploadVideo: false,
+      linkPreviewCanEdit: false,
+      linkPreviewCanShow: false
+    };
+  else if (socialType === "blog")
+    return {
+      canAddFilesToLink: false,
+      canUploadPhoto: true,
+      canUploadVideo: false,
+      linkPreviewCanEdit: false,
+      linkPreviewCanShow: false
+    };
+  else if (socialType === "newsletter")
+    return {
+      canAddFilesToLink: false,
+      canUploadPhoto: true,
+      canUploadVideo: false,
+      linkPreviewCanEdit: false,
+      linkPreviewCanShow: false
+    };
+  else
+    return {
+      canAddFilesToLink: false,
+      canUploadPhoto: true,
+      canUploadVideo: false,
+      linkPreviewCanEdit: false,
+      linkPreviewCanShow: false
+    };
 }
 export function getPostColor(socialType) {
   if (socialType === "facebook") {
@@ -450,7 +498,7 @@ export function getPostIcon(socialType) {
   if (socialType === "facebook") return faFacebook;
   else if (socialType === "twitter") return faTwitter;
   else if (socialType === "linkedin") return faLinkedin;
-  else if (socialType === "instagram") return false;
+  else if (socialType === "instagram") return faInstagram;
   else return false;
 }
 

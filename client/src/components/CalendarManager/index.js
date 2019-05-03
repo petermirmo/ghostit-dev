@@ -516,14 +516,14 @@ class CalendarManager extends Component {
         return (
           <div className="list-item" key={`user${index}`}>
             <div className="list-info">
-              <div className="flex column flex1">
-                <div className="flex1">
+              <div className="flex column fill-flex">
+                <div className="fill-flex">
                   {capitolizeWordsInString(userObj.fullName)}
                   {userObj._id.toString() === userID.toString()
                     ? " (Admin)"
                     : ""}
                 </div>
-                <div className="flex1">{userObj.email}</div>
+                <div className="fill-flex">{userObj.email}</div>
               </div>
               {isAdmin && userObj._id.toString() !== userID.toString() && (
                 <div className="flex hc vc">
@@ -568,9 +568,9 @@ class CalendarManager extends Component {
                 size="3x"
                 color={getPostColor(account.socialType)}
               />
-              <div className="flex column flex1 ml8">
-                <div className="flex1">{capitolizeWordsInString(title)}</div>
-                <div className="flex1">
+              <div className="flex column fill-flex ml8">
+                <div className="fill-flex">{capitolizeWordsInString(title)}</div>
+                <div className="fill-flex">
                   {capitolizeFirstChar(account.accountType)}
                 </div>
               </div>
@@ -599,7 +599,7 @@ class CalendarManager extends Component {
     }
 
     return (
-      <div className="flex column flex1 vc">
+      <div className="flex column fill-flex vc">
         <div className="grid-two-columns py8 border-bottom width100">
           <div className="flex vc hc mx16">
             <div className="label">Rename Calendar: </div>
@@ -652,8 +652,8 @@ class CalendarManager extends Component {
             )}
           </div>
         </div>
-        <div className="flex flex1 width100">
-          <div className="list-container flex1 pa16 light-scrollbar border-right">
+        <div className="flex fill-flex width100">
+          <div className="list-container fill-flex pa16 light-scrollbar border-right">
             <div className="flex row">
               <h4 className="mx16">Social Accounts Linked To Calendar</h4>
               <div
@@ -665,7 +665,7 @@ class CalendarManager extends Component {
             </div>
             {accountDivs}
           </div>
-          <div className="list-container flex1 pa16 light-scrollbar">
+          <div className="list-container fill-flex pa16 light-scrollbar">
             <h4 className="mx16">Calendar Users</h4>
             {userDivs}
           </div>
@@ -713,7 +713,7 @@ class CalendarManager extends Component {
     return (
       <Consumer>
         {context => (
-          <div className="simple-container flex1">
+          <div className="simple-container fill-flex">
             <div className="flex hc vc">
               <CalendarPicker
                 calendars={calendars}

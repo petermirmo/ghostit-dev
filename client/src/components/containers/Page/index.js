@@ -77,6 +77,7 @@ class Page extends Component {
         <Helmet>
           <meta charSet="utf-8" />
           <title>{`${title} | Ghostit`}</title>
+          <meta name="title" content={`${title} | Ghostit`} />
           <meta name="description" content={description} />
           <meta property="image" content={image} />
           <meta property="og:image" content={image} />

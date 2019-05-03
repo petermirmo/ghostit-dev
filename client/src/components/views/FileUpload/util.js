@@ -24,7 +24,7 @@ export const showFiles = (
   event,
   currentFiles,
   fileLimit,
-  handleParentChange,
+  callback,
   imageOnly
 ) => {
   let newFiles = event.target.files;
@@ -51,10 +51,10 @@ export const showFiles = (
     }
   }
 
-  setFilesToParentState(newFiles, currentFiles, handleParentChange);
+  setFilesToParentState(newFiles, currentFiles, callback);
 };
 
-const setFilesToParentState = (newFiles, currentFiles, handleParentChange) => {
+export const setFilesToParentState = (newFiles, currentFiles, callback) => {
   // Save each file to state
   for (let index = 0; index < newFiles.length; index++) {
     let reader = new FileReader();
@@ -65,7 +65,7 @@ const setFilesToParentState = (newFiles, currentFiles, handleParentChange) => {
         type: getFileType(file)
       });
 
-      handleParentChange({ files: currentFiles, somethingChanged: true });
+      callback({ files: currentFiles, somethingChanged: true });
     };
     reader.readAsDataURL(file);
   }

@@ -20,7 +20,6 @@ input {
   border: 1px solid var(--divider-theme-color);
   color: var(--primary-font-color);
   background-color: var(--white-theme-color);
-  border-radius: 4px;
 
   padding-top: 4px;
   padding-right: 8px;

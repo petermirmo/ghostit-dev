@@ -22,6 +22,7 @@ const postSchema = new Schema(
     instructions: String,
     link: String,
     linkImage: String,
+    linkCustomFiles: [{ publicID: String, url: String }],
     linkDescription: String,
     linkTitle: String,
     name: String,
