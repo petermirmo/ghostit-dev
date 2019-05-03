@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM, { hydrate, render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -20,13 +20,28 @@ function logger({ getState }) {
 }
 const store = createStore(reducers, applyMiddleware(logger));
 
-ReactDOM.render(
-  <GIProvider>
-    <Provider store={store}>
-      <Router>
-        <Routes />
-      </Router>
-    </Provider>
-  </GIProvider>,
-  document.getElementById("root")
-);
+const rootElement = document.getElementById("root");
+
+if (rootElement.hasChildNodes()) {
+  hydrate(
+    <GIProvider>
+      <Provider store={store}>
+        <Router>
+          <Routes />
+        </Router>
+      </Provider>
+    </GIProvider>,
+    rootElement
+  );
+} else {
+  render(
+    <GIProvider>
+      <Provider store={store}>
+        <Router>
+          <Routes />
+        </Router>
+      </Provider>
+    </GIProvider>,
+    rootElement
+  );
+}
