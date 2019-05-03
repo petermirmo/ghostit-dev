@@ -56,6 +56,9 @@ class LinkPreview extends Component {
     const smartLinkDescription = this.shortenLinkDescriptionIfNeeded(
       linkDescription
     );
+    let urlImageToDisplay = linkImagesToDisplay[activeImageIndex];
+    if (urlImageToDisplay.url) urlImageToDisplay = urlImageToDisplay.url;
+
     return (
       <div className={className}>
         <div
@@ -64,8 +67,7 @@ class LinkPreview extends Component {
           style={
             linkImagesToDisplay[activeImageIndex]
               ? {
-                  backgroundImage:
-                    "url(" + linkImagesToDisplay[activeImageIndex] + ")"
+                  backgroundImage: "url(" + urlImageToDisplay + ")"
                 }
               : {}
           }

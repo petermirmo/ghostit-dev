@@ -229,16 +229,14 @@ module.exports = {
               .then(result => res.send({ success: true, post: result }));
           };
 
-          if (post.linkCustomFiles) {
-            if (post.linkCustomFiles.length > 0) {
+          if (post.linkImage) {
+            if (isBinaryImage(post.linkImage)) {
               let uploadedLinkCustomFiles = [];
-              for (let index in post.linkCustomFiles) {
-                if (isBinaryImage(post.linkCustomFiles[index])) {
-                  uploadedLinkCustomFiles.push(post.linkCustomFiles[index]);
-                }
-              }
-              uploadFiles(uploadedLinkCustomFiles, uploadedFiles => {
-                newPost.linkCustomFiles = uploadedFiles;
+
+              uploadFiles([post.linkImage], uploadedFiles => {
+                newPost.linkCustomFiles.unshift(uploadedFiles[0]);
+                newPost.linkImage = uploadedFiles[0].url;
+
                 finalSavePost(newPost);
               });
             } else {
