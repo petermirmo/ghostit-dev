@@ -72,7 +72,7 @@ class HomePage extends Component {
           />
           <GIText
             text="Create. Customize. Convert."
-            type="h2"
+            type="h1"
             style={{ color: "var(--white-theme-color)" }}
             className="mt32 mb8 tac"
           />
