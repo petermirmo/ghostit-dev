@@ -46,6 +46,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "passport.socketio": "^3.7.0",
+    "prerender-node": "^3.2.4",
     "react-router": "^4.3.1",
     "request": "^2.88.0",
     "socket.io": "^2.1.1",

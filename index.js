@@ -19,6 +19,9 @@ var allowCrossDomain = (req, res, next) => {
 };
 app.use(allowCrossDomain);
 
+// For SEO
+app.use(require("prerender-node"));
+
 // Socket imports
 const path = require("path");
 const server = require("http").createServer(app);
