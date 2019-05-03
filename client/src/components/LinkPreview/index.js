@@ -57,7 +57,8 @@ class LinkPreview extends Component {
       linkDescription
     );
     let urlImageToDisplay = linkImagesToDisplay[activeImageIndex];
-    if (urlImageToDisplay.url) urlImageToDisplay = urlImageToDisplay.url;
+    if (urlImageToDisplay)
+      if (urlImageToDisplay.url) urlImageToDisplay = urlImageToDisplay.url;
 
     return (
       <div className={className}>
