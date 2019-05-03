@@ -44,8 +44,11 @@ module.exports = {
             if (newPassword)
               user.password = user.generateHash(req.body.newPassword);
 
-            if (user.image)
-              if (user.image.publicID) deleteFiles([user.image], () => {});
+            if (user.image) {
+              if (user.image.publicID) {
+                deleteFiles([user.image], () => {});
+              }
+            }
 
             if (image)
               if (image.file) uploadFiles([image], saveUpdatedUser);
