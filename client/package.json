@@ -49,7 +49,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --hot --port 3000",
-    "build": "react-scripts build",
+    "build": "webpack --mode production",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

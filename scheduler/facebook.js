@@ -46,22 +46,22 @@ module.exports = {
 
               asyncCounter++;
 
-              if (isUrlVideo(facebookPostWithFile.url)) {
+              if (isUrlVideo(post.files[i].url)) {
                 /*let form = document.createElement("form");
               form.setAttribute("method", "post");
               form.setAttribute("enctype", "multipart/form-data"); */
 
-                // request(facebookPostWithFile.url).pipe(fs.createWriteStream("video.mp4")
+                // request(post.files[i].url).pipe(fs.createWriteStream("video.mp4")
 
-                // request(facebookPostWithFile.url)
+                // request(post.files[i].url)
 
                 // fs.createReadStream()
 
                 /*  let test = await axios
-                  .get(facebookPostWithFile.url)
+                  .get(post.files[i].url)
                   .then(response => response.data);*/
                 let videoData = fs.createReadStream(
-                  request(facebookPostWithFile.url).pipe(
+                  request(post.files[i].url).pipe(
                     fs.createWriteStream("test.mp4")
                   ).path
                 );
