@@ -101,22 +101,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
-    fs.readFile(
-      path.resolve(__dirname, "client", "build", "index.html"),
-      "utf8",
-      (err, data) => {
-        if (err) {
-          return console.log(err);
-        }
-        const { metaDescription, metaImage, metaTitle } = getMetaInformation();
-
-        data = data.replace(/\$OG_TITLE/g, metaTitle);
-        data = data.replace(/\$OG_DESCRIPTION/g, metaDescription);
-        result = data.replace(/\$OG_IMAGE/g, metaImage);
-
-        res.send(result);
-      }
-    );
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
