@@ -41,11 +41,10 @@ const TokenScheduler = require("./scheduler/TokenScheduler");
 const EmailScheduler = require("./scheduler/EmailScheduler");
 const schedule = require("node-schedule");
 
-schedule.scheduleJob("* * * * * *", () => {
-  PostScheduler.main();
-});
-
 if (process.env.NODE_ENV === "production") {
+  schedule.scheduleJob("* * * * *", () => {
+    PostScheduler.main();
+  });
   schedule.scheduleJob("0 0 * * 0", () => {
     console.log("starting");
     TokenScheduler.main();

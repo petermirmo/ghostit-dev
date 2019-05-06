@@ -105,7 +105,6 @@ module.exports = {
 
                     if (asyncCounter === 0) {
                       facebookPostWithFile.attached_media = facebookPhotoArray;
-                      console.log(facebookPostWithFile);
 
                       FB.api("me/feed", "post", facebookPostWithFile, res => {
                         if (!res || res.error) {
@@ -128,7 +127,7 @@ module.exports = {
             if (post.link !== "") {
               facebookPostNoFile.link = post.link;
             }
-            console.log(facebookPostNoFile);
+
             FB.api("me/feed", "post", facebookPostNoFile, res => {
               if (!res || res.error) {
                 savePostError(post._id, res.error);
