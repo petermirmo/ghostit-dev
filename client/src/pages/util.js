@@ -55,7 +55,7 @@ export const getAccounts = callback => {
 export const getBlogs = callback => {
   axios.get("/api/ghostit/blogs").then(res => {
     const { error, ghostitBlogs } = res.data;
-    console.log(ghostitBlogs);
+
     if (!error) callback(ghostitBlogs);
     else {
       // TODO: handle error

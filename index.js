@@ -10,6 +10,10 @@ const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo")(session); // Store sessions in mongo securely
 const User = require("./models/User");
 const secure = require("express-force-https"); // force https so http does not work
+const path = require("path");
+const fs = require("fs");
+
+const { getMetaInformation } = require("./functions/meta");
 
 var allowCrossDomain = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -20,7 +24,6 @@ var allowCrossDomain = (req, res, next) => {
 app.use(allowCrossDomain);
 
 // Socket imports
-const path = require("path");
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const SocketManager = require("./sockets/SocketManager");
@@ -98,7 +101,22 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    fs.readFile(
+      path.resolve(__dirname, "client", "build", "index.html"),
+      "utf8",
+      (err, data) => {
+        if (err) {
+          return console.log(err);
+        }
+        const { metaDescription, metaImage, metaTitle } = getMetaInformation();
+
+        data = data.replace(/\$OG_TITLE/g, metaTitle);
+        data = data.replace(/\$OG_DESCRIPTION/g, metaDescription);
+        result = data.replace(/\$OG_IMAGE/g, metaImage);
+
+        res.send(result);
+      }
+    );
   });
 }
 

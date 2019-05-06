@@ -15,7 +15,7 @@ export const getTextFromHtmlTag = tagString => {
 export const getGhostitBlogs = callback => {
   axios.get("/api/ghostit/blogs").then(res => {
     const { success, ghostitBlogs } = res.data;
-    console.log(ghostitBlogs);
+
     if (success) callback(ghostitBlogs);
     else {
       return;

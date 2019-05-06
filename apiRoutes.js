@@ -23,7 +23,7 @@ const calendarFunctions = require("./services/calendarFunctions");
 const ghostitBlogFunctions = require("./services/ghostitBlogFunctions");
 
 module.exports = app => {
-  var middleware = function(req, res, next) {
+  const middleware = (req, res, next) => {
     if (!req.user) {
       res.send({ success: false, loggedIn: false });
       return;
@@ -31,7 +31,7 @@ module.exports = app => {
     next();
   };
 
-  app.get("/api/test", (req, res, next) => facebookFunctions.test(req, res));
+  app.get("/api/test", (req, res) => facebookFunctions.test(req, res));
   // Login user
   app.post("/api/login", (req, res, next) => {
     passport.authenticate("local-login", (err, user, message) => {
