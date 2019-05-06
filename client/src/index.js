@@ -10,8 +10,6 @@ import Routes from "./pages";
 
 import "./theme.css";
 
-require("../public/favicon.ico");
-
 function logger({ getState }) {
   return next => action => {
     const returnValue = next(action);

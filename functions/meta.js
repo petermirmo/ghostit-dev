@@ -8,6 +8,6 @@ const getMetaInformation = someString => {
   };
 };
 
-module.export = {
+module.exports = {
   getMetaInformation
 };

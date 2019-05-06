@@ -33,9 +33,9 @@
     "react-dom": "^16.8.6",
     "react-ga": "^2.5.7",
     "react-helmet": "^5.2.0",
+    "react-scripts": "^1.1.5",
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^1.1.5",
     "react-sizeme": "^2.5.2",
     "react-textarea-autosize": "^6.1.0",
     "redux": "^3.7.2",
@@ -49,8 +49,11 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --hot --port 3000",
-    "build": "webpack --mode production",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "extract-text-webpack-plugin": "^4.0.0-beta.0"
   }
 }

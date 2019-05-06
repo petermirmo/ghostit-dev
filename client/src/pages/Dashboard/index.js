@@ -18,7 +18,7 @@ import {
   triggerSocketPeers,
   initSocket
 } from "../util";
-import Consumer, { NotificationContext } from "../../context";
+import Consumer from "../../context";
 
 class DashboardPage extends Component {
   state = {
@@ -91,6 +91,7 @@ class DashboardPage extends Component {
                 calendarID={calendars[activeCalendarIndex]._id}
                 clickedCalendarDate={calendarDate}
                 handleParentChange={this.handleChange}
+                notify={context.notify}
                 savePostCallback={post => {
                   triggerSocketPeers("calendar_post_saved", post);
                   this.handleChange({ contentModal: false });

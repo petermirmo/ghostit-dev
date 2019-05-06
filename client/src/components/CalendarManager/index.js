@@ -297,7 +297,7 @@ class CalendarManager extends Component {
     this.setState({ leaveCalendarPrompt: true });
   };
 
-  leaveCalendar = index => {
+  leaveCalendar = (index, context) => {
     const { calendars } = this.state;
     this.setState({ saving: true });
     axios
@@ -354,7 +354,7 @@ class CalendarManager extends Component {
     }
   };
 
-  deleteCalendar = index => {
+  deleteCalendar = (index, context) => {
     const { calendars } = this.state;
     this.setState({ saving: true });
     axios
@@ -404,7 +404,7 @@ class CalendarManager extends Component {
       });
   };
 
-  setDefaultCalendar = calendarIndex => {
+  setDefaultCalendar = (calendarIndex, context) => {
     const { calendars } = this.state;
     axios
       .post("/api/calendar/setDefault", {
@@ -569,7 +569,9 @@ class CalendarManager extends Component {
                 color={getPostColor(account.socialType)}
               />
               <div className="flex column fill-flex ml8">
-                <div className="fill-flex">{capitolizeWordsInString(title)}</div>
+                <div className="fill-flex">
+                  {capitolizeWordsInString(title)}
+                </div>
                 <div className="fill-flex">
                   {capitolizeFirstChar(account.accountType)}
                 </div>
@@ -675,7 +677,7 @@ class CalendarManager extends Component {
             className="regular-button my8"
             onClick={e => {
               e.preventDefault();
-              this.setDefaultCalendar(activeCalendarIndex);
+              this.setDefaultCalendar(activeCalendarIndex, context);
             }}
           >
             Set As Default Calendar
@@ -757,7 +759,8 @@ class CalendarManager extends Component {
                 message="Are you sure you want to leave this calendar? Any accounts you linked or posts you scheduled WILL NOT be deleted."
                 callback={response => {
                   this.setState({ leaveCalendarPrompt: false });
-                  if (response) this.leaveCalendar(activeCalendarIndex);
+                  if (response)
+                    this.leaveCalendar(activeCalendarIndex, context);
                 }}
                 firstButton="Leave"
                 type="delete-calendar"
@@ -772,7 +775,8 @@ class CalendarManager extends Component {
                 extraConfirmationKey={"DELETE"}
                 callback={response => {
                   this.setState({ deleteCalendarPrompt: false });
-                  if (response) this.deleteCalendar(activeCalendarIndex);
+                  if (response)
+                    this.deleteCalendar(activeCalendarIndex, context);
                 }}
                 type="delete-calendar"
               />

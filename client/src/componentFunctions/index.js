@@ -5,6 +5,7 @@ import axios from "axios";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
+import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
 
 export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
   // function called when a user clicks on an existing recipe to edit
@@ -316,10 +317,10 @@ export async function savePost(
 
   // Get current files
   let filesToSave = [];
-
-  for (let i = 0; i < postFiles.length; i++) {
-    if (!postFiles[i].url) filesToSave.push(postFiles[i]);
-  }
+  if (postFiles)
+    for (let i = 0; i < postFiles.length; i++) {
+      if (!postFiles[i].url) filesToSave.push(postFiles[i]);
+    }
 
   // Everything seems okay, save post to database!
   axios

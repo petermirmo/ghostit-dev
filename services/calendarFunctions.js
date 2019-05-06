@@ -96,7 +96,11 @@ module.exports = {
                 } else {
                   newCalendar.postsLeft = -1;
                 }
-                newCalendar.timezone = foundUser.timezone;
+                if (req.user) {
+                  if (foundUser.timezone)
+                    newCalendar.timezone = foundUser.timezone;
+                  else newCalendar.timezone = "America/Vancouver";
+                } else newCalendar.timezone = "America/Vancouver";
 
                 newCalendar.save();
 
@@ -393,8 +397,10 @@ module.exports = {
           newCalendar.adminID = userID;
           newCalendar.userIDs = [userID];
           newCalendar.postsLeft = -1;
-          if (foundUser.timezone) newCalendar.timezone = foundUser.timezone;
-          else newCalendar.timezone = "America/Vancouver";
+          if (foundUser) {
+            if (foundUser.timezone) newCalendar.timezone = foundUser.timezone;
+            else newCalendar.timezone = "America/Vancouver";
+          } else newCalendar.timezone = "America/Vancouver";
 
           newCalendar.save().then(() => {
             res.send({ success: true, newCalendar });
@@ -691,6 +697,12 @@ module.exports = {
                   newCalendar.userIDs = [userID];
                   newCalendar.calendarName = "First Calendar";
                   newCalendar.timezone = req.user.timezone;
+                  if (req.user) {
+                    if (req.user.timezone)
+                      newCalendar.timezone = req.user.timezone;
+                    else newCalendar.timezone = "America/Vancouver";
+                  } else newCalendar.timezone = "America/Vancouver";
+
                   newCalendar.save();
                   res.send({
                     success: true,
@@ -797,7 +809,13 @@ module.exports = {
                                 newCalendar.calendarName = "First Calendar";
                                 newCalendar.adminID = userID;
                                 newCalendar.userIDs = [userID];
-                                newCalendar.timezone = foundUser.timezone;
+                                if (req.user) {
+                                  if (foundUser.timezone)
+                                    newCalendar.timezone = foundUser.timezone;
+                                  else
+                                    newCalendar.timezone = "America/Vancouver";
+                                } else
+                                  newCalendar.timezone = "America/Vancouver";
                                 newCalendar.save();
                                 res.send({
                                   success: true,
@@ -845,7 +863,16 @@ module.exports = {
                                         "First Calendar";
                                       newCalendar.adminID = userID;
                                       newCalendar.userIDs = [userID];
-                                      newCalendar.timezone = foundUser.timezone;
+                                      if (req.user) {
+                                        if (foundUser.timezone)
+                                          newCalendar.timezone =
+                                            foundUser.timezone;
+                                        else
+                                          newCalendar.timezone =
+                                            "America/Vancouver";
+                                      } else
+                                        newCalendar.timezone =
+                                          "America/Vancouver";
                                       newCalendar.save();
                                       res.send({
                                         success: true,

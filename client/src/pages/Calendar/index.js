@@ -26,6 +26,8 @@ import Modal from "../../components/containers/Modal";
 import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
 
+import Consumer from "../../context";
+
 import {
   getCalendars,
   getCalendarInvites,
@@ -430,161 +432,166 @@ class Content extends Component {
       }
     }
     return (
-      <Page title="Calendar" className="content-page">
-        {loading && <Loader />}
-        <Calendar
-          activeCalendarIndex={activeCalendarIndex}
-          calendars={calendars}
-          calendarDate={calendarDate}
-          calendarEvents={calendarEvents}
-          calendarInvites={calendarInvites}
-          categories={calendarEventCategories}
-          enableCalendarManager={() =>
-            this.setState({ calendarManagerModal: true })
-          }
-          inviteResponse={this.inviteResponse}
-          onDateChange={date => {
-            this.handleChange({ calendarDate: date });
-            this.getPosts();
-          }}
-          onSelectCampaign={this.openCampaign}
-          onSelectDay={date =>
-            this.handleChange({ clickedDate: date, dashboardModal: true })
-          }
-          onSelectPost={this.editPost}
-          updateActiveCalendar={this.updateActiveCalendar}
-          updateActiveCategory={this.updateActiveCategory}
-          userList={userList}
-        />
-        {false && <CalendarChat calendars={calendars} />}
-        {calendarManagerModal && (
-          <Modal
-            body={
-              <CalendarManager
-                calendars={calendars}
-                activeCalendarIndex={activeCalendarIndex}
-                defaultCalendarID={defaultCalendarID}
+      <Consumer>
+        {context => (
+          <Page title="Calendar" className="content-page">
+            {loading && <Loader />}
+            <Calendar
+              activeCalendarIndex={activeCalendarIndex}
+              calendars={calendars}
+              calendarDate={calendarDate}
+              calendarEvents={calendarEvents}
+              calendarInvites={calendarInvites}
+              categories={calendarEventCategories}
+              enableCalendarManager={() =>
+                this.setState({ calendarManagerModal: true })
+              }
+              inviteResponse={this.inviteResponse}
+              onDateChange={date => {
+                this.handleChange({ calendarDate: date });
+                this.getPosts();
+              }}
+              onSelectCampaign={this.openCampaign}
+              onSelectDay={date =>
+                this.handleChange({ clickedDate: date, dashboardModal: true })
+              }
+              onSelectPost={this.editPost}
+              updateActiveCalendar={this.updateActiveCalendar}
+              updateActiveCategory={this.updateActiveCategory}
+              userList={userList}
+            />
+            {false && <CalendarChat calendars={calendars} />}
+            {calendarManagerModal && (
+              <Modal
+                body={
+                  <CalendarManager
+                    calendars={calendars}
+                    activeCalendarIndex={activeCalendarIndex}
+                    defaultCalendarID={defaultCalendarID}
+                    close={() => {
+                      this.setState({ calendarManagerModal: false });
+                      this.getCalendars();
+                    }}
+                  />
+                }
                 close={() => {
                   this.setState({ calendarManagerModal: false });
                   this.getCalendars();
                 }}
               />
-            }
-            close={() => {
-              this.setState({ calendarManagerModal: false });
-              this.getCalendars();
-            }}
-          />
-        )}
-        {contentModal && calendars[activeCalendarIndex] && (
-          <ContentModal
-            calendarID={calendars[activeCalendarIndex]._id}
-            clickedCalendarDate={clickedDate}
-            handleParentChange={this.handleChange}
-            savePostCallback={post => {
-              this.getPosts();
-              triggerSocketPeers(
-                "calendar_post_saved",
-                post,
-                calendars,
-                activeCalendarIndex,
-                socket
-              );
-              this.setState({ contentModal: false });
-            }}
-          />
-        )}
-        {postEdittingModal && (
-          <PostEdittingModal
-            savePostCallback={post => {
-              this.getPosts();
-              triggerSocketPeers(
-                "calendar_post_saved",
-                post,
-                calendars,
-                activeCalendarIndex,
-                socket
-              );
-            }}
-            updateCalendarPosts={this.getPosts}
-            clickedEvent={clickedEvent}
-            close={this.closeModals}
-            triggerSocketPeers={(type, post) =>
-              triggerSocketPeers(
-                type,
-                post,
-                calendars,
-                activeCalendarIndex,
-                socket
-              )
-            }
-            calendarID={calendars[activeCalendarIndex]._id}
-          />
-        )}
-
-        {campaignModal && calendars[activeCalendarIndex] && (
-          <Modal
-            body={
-              <Campaign
+            )}
+            {contentModal && calendars[activeCalendarIndex] && (
+              <ContentModal
                 calendarID={calendars[activeCalendarIndex]._id}
-                campaign={clickedEvent}
                 clickedCalendarDate={clickedDate}
                 handleParentChange={this.handleChange}
-                isRecipe={clickedEventIsRecipe}
-                recipeEditing={recipeEditing}
-                triggerSocketPeers={(type, extra, campaignID) =>
+                notify={context.notify}
+                savePostCallback={post => {
+                  this.getPosts();
+                  triggerSocketPeers(
+                    "calendar_post_saved",
+                    post,
+                    calendars,
+                    activeCalendarIndex,
+                    socket
+                  );
+                  this.setState({ contentModal: false });
+                }}
+              />
+            )}
+            {postEdittingModal && (
+              <PostEdittingModal
+                savePostCallback={post => {
+                  this.getPosts();
+                  triggerSocketPeers(
+                    "calendar_post_saved",
+                    post,
+                    calendars,
+                    activeCalendarIndex,
+                    socket
+                  );
+                }}
+                updateCalendarPosts={this.getPosts}
+                clickedEvent={clickedEvent}
+                close={this.closeModals}
+                triggerSocketPeers={(type, post) =>
                   triggerSocketPeers(
                     type,
-                    extra,
+                    post,
                     calendars,
                     activeCalendarIndex,
-                    socket,
-                    campaignID
+                    socket
                   )
                 }
-                updateCampaigns={() =>
-                  getCampaigns(
-                    calendars,
-                    activeCalendarIndex,
-                    this.handleChange
-                  )
+                calendarID={calendars[activeCalendarIndex]._id}
+              />
+            )}
+
+            {campaignModal && calendars[activeCalendarIndex] && (
+              <Modal
+                body={
+                  <Campaign
+                    calendarID={calendars[activeCalendarIndex]._id}
+                    campaign={clickedEvent}
+                    clickedCalendarDate={clickedDate}
+                    handleParentChange={this.handleChange}
+                    isRecipe={clickedEventIsRecipe}
+                    recipeEditing={recipeEditing}
+                    triggerSocketPeers={(type, extra, campaignID) =>
+                      triggerSocketPeers(
+                        type,
+                        extra,
+                        calendars,
+                        activeCalendarIndex,
+                        socket,
+                        campaignID
+                      )
+                    }
+                    updateCampaigns={() =>
+                      getCampaigns(
+                        calendars,
+                        activeCalendarIndex,
+                        this.handleChange
+                      )
+                    }
+                  />
+                }
+                className="large-modal"
+                close={() => this.setState({ campaignModal: false })}
+              />
+            )}
+            {templatesModal && calendars[activeCalendarIndex] && (
+              <TemplatesModal
+                handleParentChange={this.handleChange}
+                clickedCalendarDate={clickedDate}
+                calendarID={calendars[activeCalendarIndex]._id}
+              />
+            )}
+            {dashboardModal && calendars[activeCalendarIndex] && (
+              <Modal
+                body={
+                  <GIContainer className="x-fill py16">
+                    <Dashboard
+                      className="justify-center"
+                      handleParentChange={stateObject => {
+                        stateObject.dashboardModal = false;
+                        this.handleChange(stateObject);
+                      }}
+                    />
+                  </GIContainer>
+                }
+                className="large-modal"
+                close={() => this.setState({ dashboardModal: false })}
+                header={
+                  <GIContainer className="border-bottom full-center x-fill py8">
+                    <GIText text="Schedule Task" type="h3" />
+                  </GIContainer>
                 }
               />
-            }
-            className="large-modal"
-            close={() => this.setState({ campaignModal: false })}
-          />
+            )}
+          </Page>
         )}
-        {templatesModal && calendars[activeCalendarIndex] && (
-          <TemplatesModal
-            handleParentChange={this.handleChange}
-            clickedCalendarDate={clickedDate}
-            calendarID={calendars[activeCalendarIndex]._id}
-          />
-        )}
-        {dashboardModal && calendars[activeCalendarIndex] && (
-          <Modal
-            body={
-              <GIContainer className="x-fill py16">
-                <Dashboard
-                  className="justify-center"
-                  handleParentChange={stateObject => {
-                    stateObject.dashboardModal = false;
-                    this.handleChange(stateObject);
-                  }}
-                />
-              </GIContainer>
-            }
-            className="large-modal"
-            close={() => this.setState({ dashboardModal: false })}
-            header={
-              <GIContainer className="border-bottom full-center x-fill py8">
-                <GIText text="Schedule Task" type="h3" />
-              </GIContainer>
-            }
-          />
-        )}
-      </Page>
+      </Consumer>
     );
   }
 }

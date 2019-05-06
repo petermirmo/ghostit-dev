@@ -9,6 +9,7 @@ class Filter extends Component {
   render() {
     const { categories } = this.props; // Variable
     const { updateActiveCategory } = this.props; // Functions
+
     let categoryDivs = [];
     for (let index in categories) {
       if (!index) break;
@@ -19,12 +20,7 @@ class Filter extends Component {
           onClick={() => updateActiveCategory(index)}
           id={index}
         >
-          <div
-            className="checkbox-box  flex vc hc br4"
-            onClick={() =>
-              this.handleChange(!sendEmailReminder, "sendEmailReminder")
-            }
-          >
+          <div className="checkbox-box  flex vc hc br4">
             <div
               className="checkbox-check"
               style={{ display: categories[index] ? undefined : "none" }}
