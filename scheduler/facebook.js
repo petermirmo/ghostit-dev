@@ -39,8 +39,10 @@ module.exports = {
             let asyncCounter = 0;
             const facebookPhotoArray = [];
             for (let i = 0; i < post.files.length; i++) {
-              if (!post.files[i].url) continue;
-              facebookPostWithFile.url = post.files[i].url;
+              if (!post.files[i].url) {
+                asyncCounter--;
+                continue;
+              }
 
               asyncCounter++;
 
@@ -103,6 +105,8 @@ module.exports = {
 
                     if (asyncCounter === 0) {
                       facebookPostWithFile.attached_media = facebookPhotoArray;
+                      console.log(facebookPostWithFile);
+
                       FB.api("me/feed", "post", facebookPostWithFile, res => {
                         if (!res || res.error) {
                           savePostError(post._id, res.error);
@@ -124,6 +128,7 @@ module.exports = {
             if (post.link !== "") {
               facebookPostNoFile.link = post.link;
             }
+            console.log(facebookPostNoFile);
             FB.api("me/feed", "post", facebookPostNoFile, res => {
               if (!res || res.error) {
                 savePostError(post._id, res.error);

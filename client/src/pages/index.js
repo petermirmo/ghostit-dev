@@ -90,7 +90,7 @@ class Routes extends Component {
     });
   };
   render() {
-    const { datebaseConnection, ghostitBlogs } = this.state; // Variables
+    const { datebaseConnection, ghostitBlogs = [] } = this.state; // Variables
     const { getKeyListenerFunction, location } = this.props; // Variables
 
     const blogPages = this.createBlogPages(ghostitBlogs);

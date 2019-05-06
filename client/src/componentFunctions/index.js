@@ -386,7 +386,9 @@ export function postChecks(
     alert("There are too many characters in this post!");
     return false;
   }
-  let currentUtcDate = moment().utcOffset(0);
+  let currentUtcDate = moment()
+    .utcOffset(0)
+    .subtract("2", "minutes");
   // Make sure that the date is not in the past
   if (currentUtcDate > dateToPostInUtcTime) {
     alert(
