@@ -7,14 +7,23 @@ module.exports = (env, argv) => {
 
   if (argv.mode == "development")
     plugins = [
-      new HtmlWebpackPlugin({ template: "./public/index.html" }),
+      new HtmlWebpackPlugin({
+        template: "./public/index.html",
+        favicon: "./public/favicon.ico"
+      }),
       new webpack.DefinePlugin({
         "process.env": {
           NODE_ENV: '"development"'
         }
       })
     ];
-  else plugins = [new HtmlWebpackPlugin({ template: "./public/index.html" })];
+  else
+    plugins = [
+      new HtmlWebpackPlugin({
+        template: "./public/index.html",
+        favicon: "./public/favicon.ico"
+      })
+    ];
 
   return {
     entry: ["babel-polyfill", "./src/index.js"],
