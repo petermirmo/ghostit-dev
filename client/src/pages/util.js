@@ -12,7 +12,7 @@ export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
   const calendarID = calendars[activeCalendarIndex]._id;
 
   axios.get("/api/calendar/campaigns/" + calendarID).then(res => {
-    let { success, err, message, campaigns, loggedIn } = res.data;
+    let { success, err, message, campaigns } = res.data;
     if (!success) {
       console.log(message);
       console.log(err);

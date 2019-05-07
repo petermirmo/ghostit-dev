@@ -9,14 +9,11 @@ import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../../views/GIText";
-import GIButton from "../../views/GIButton";
 import EmailForm from "../../forms/EmailForm";
-
-import { getPostColor } from "../../../componentFunctions";
 
 class WebsiteFooter extends Component {
   isActive = activePage => {
-    if ("/" + activePage == this.props.location.pathname) return " active";
+    if ("/" + activePage === this.props.location.pathname) return " active";
     else return "";
   };
   render() {
@@ -107,7 +104,11 @@ class WebsiteFooter extends Component {
           </div>
         </GIContainer>
         <GIContainer className="x-wrap full-center px32">
-          <a href="https://www.facebook.com/ghostitcontent/" target="_blank">
+          <a
+            href="https://www.facebook.com/ghostitcontent/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <FontAwesomeIcon
               icon={faFacebook}
               size="2x"
@@ -116,7 +117,11 @@ class WebsiteFooter extends Component {
             />
           </a>
 
-          <a href="https://twitter.com/ghostitcontent" target="_blank">
+          <a
+            href="https://twitter.com/ghostitcontent"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <FontAwesomeIcon
               icon={faTwitter}
               size="2x"
@@ -126,6 +131,7 @@ class WebsiteFooter extends Component {
           </a>
           <a
             href="https://www.linkedin.com/company/ghostit-content/"
+            rel="noopener noreferrer"
             target="_blank"
           >
             <FontAwesomeIcon
@@ -135,7 +141,11 @@ class WebsiteFooter extends Component {
               className="clickable ml16 mb16"
             />
           </a>
-          <a href="https://www.instagram.com/ghostitcontent/" target="_blank">
+          <a
+            href="https://www.instagram.com/ghostitcontent/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <FontAwesomeIcon
               icon={faInstagram}
               size="2x"

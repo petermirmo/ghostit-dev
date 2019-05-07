@@ -9,8 +9,6 @@ import { bindActionCreators } from "redux";
 
 import { setUser, setaccounts } from "../../redux/actions/";
 
-import { validateEmail } from "../../componentFunctions";
-
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 
@@ -49,7 +47,7 @@ class LoginPage extends Component {
       axios
         .post("/api/login", { email: email.toLowerCase(), password })
         .then(res => {
-          const { success, user } = res.data;
+          const { message, success, user } = res.data;
 
           if (success) {
             ReactGA.event({

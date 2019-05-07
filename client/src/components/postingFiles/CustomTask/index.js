@@ -1,4 +1,3 @@
-import axios from "axios";
 import moment from "moment-timezone";
 import React, { Component } from "react";
 import Textarea from "react-textarea-autosize";
@@ -121,22 +120,17 @@ class CustomTask extends Component {
   render() {
     const {
       _id,
-      content,
       instructions,
       images,
-      socialType,
-      accountID,
-      accountType,
       filesToDelete,
       somethingChanged,
       promptModifyCampaignDates,
-      campaignID,
       name,
       sendEmailReminder
     } = this.state;
     let { date } = this.state;
 
-    const { postFinishedSavingCallback, canEditPost } = this.props;
+    const { canEditPost } = this.props;
 
     return (
       <div className="container-box white flex column x-fill y-fill ov-auto">

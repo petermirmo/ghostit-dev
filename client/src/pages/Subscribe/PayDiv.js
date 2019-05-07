@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser, changePage } from "../../redux/actions/";
+import { setUser } from "../../redux/actions/";
 
 import Loader from "../../components/notifications/Loader/";
 import Consumer from "../../context";
@@ -97,7 +97,7 @@ class ChargeCardForm extends Component {
                 this.props.user.role !== "manager"
               ) {
                 this.props.setUser(user);
-                this.props.changePage("content");
+                this.props.history.push("/calendar");
                 context.notify({
                   title: "Payment successful!",
                   type: "success",
@@ -105,9 +105,9 @@ class ChargeCardForm extends Component {
                 });
               } else {
                 context.notify({
+                  message: "",
                   title: "Payment successful!",
-                  type: "success",
-                  message: ""
+                  type: "success"
                 });
               }
             }
@@ -115,7 +115,7 @@ class ChargeCardForm extends Component {
             context.notify({
               message,
               type: "danger",
-              message: "Something went wrong!"
+              title: "Something went wrong!"
             });
           }
         });
@@ -161,7 +161,7 @@ function mapStateToProps(state) {
   return { user: state.user };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser, changePage }, dispatch);
+  return bindActionCreators({ setUser }, dispatch);
 }
 
 export default connect(

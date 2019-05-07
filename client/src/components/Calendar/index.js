@@ -8,10 +8,6 @@ import faFacebookF from "@fortawesome/fontawesome-free-brands/faFacebookF";
 import faLinkedinIn from "@fortawesome/fontawesome-free-brands/faLinkedinIn";
 import faTwitterNormal from "@fortawesome/fontawesome-free-brands/faTwitter";
 
-import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
-import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
-import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -43,7 +39,7 @@ class Calendar extends Component {
     return dayHeadingsArray;
   };
   createCalendarWeeks = calendarDate => {
-    const { calendarEvents, onSelectDay, onSelectPost } = this.props;
+    const { calendarEvents, onSelectDay } = this.props;
 
     let calendarCampaignsArray = this.addCalendarEvents(
       calendarEvents,
@@ -457,7 +453,9 @@ class Calendar extends Component {
               className="icon-regular-button common-transition"
               onClick={this.subtractMonth}
             />
-            <h1 className="tac fill-flex">{calendarDate.format("MMMM YYYY")}</h1>
+            <h1 className="tac fill-flex">
+              {calendarDate.format("MMMM YYYY")}
+            </h1>
             <FontAwesomeIcon
               icon={faAngleRight}
               size="3x"
@@ -495,12 +493,7 @@ class Calendar extends Component {
 
   render() {
     let { queueActive } = this.state;
-    let {
-      calendarEvents,
-      onSelectDay,
-      onSelectPost,
-      calendarDate
-    } = this.props;
+    let { calendarEvents, onSelectDay, calendarDate } = this.props;
 
     if (queueActive) {
       let quePostsToDisplay = [];

@@ -16,7 +16,6 @@ import GIContainer from "../../components/containers/GIContainer";
 
 import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
-import GIInput from "../../components/views/GIInput";
 
 import Consumer from "../../context";
 

@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import LoaderSimpleCircle from "../../components/notifications/LoaderSimpleCircle";
-import ViewWebsiteBlog from "../../components/ghostitBlog/ViewGhostitBlog";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
@@ -121,6 +120,7 @@ class BlogPage extends Component {
                       )}
                     </GIContainer>
                   );
+                else return undefined;
               })}
             </GIContainer>
           )}

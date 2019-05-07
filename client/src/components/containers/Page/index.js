@@ -65,7 +65,13 @@ class Page extends Component {
     return { style, title, description, image };
   };
   render() {
-    const { children, className, user, blendWithHomePage } = this.props; // Variables
+    const {
+      blendWithHomePage,
+      children,
+      className,
+      location,
+      user
+    } = this.props; // Variables
     const activePage = location.pathname;
 
     const { style, title, description, image } = this.checkPropsVariables(

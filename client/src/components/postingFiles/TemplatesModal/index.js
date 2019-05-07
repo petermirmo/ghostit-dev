@@ -10,7 +10,6 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-import faFile from "@fortawesome/fontawesome-free-solid/faFile";
 
 import LoaderSimpleCircle from "../../notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
@@ -64,13 +63,7 @@ class TemplatesModal extends Component {
   }
 
   createRecipeList = activeRecipes => {
-    const {
-      previewRecipeLocation,
-      activePost,
-      chooseRecipeDate,
-      startDate,
-      userID
-    } = this.state;
+    const { activePost, chooseRecipeDate, previewRecipeLocation } = this.state;
     let recipeArray = [];
 
     let recipeIndex = 0;
@@ -197,7 +190,6 @@ class TemplatesModal extends Component {
     chooseRecipeDate
   ) => {
     const { handleParentChange } = this.props;
-    let postDay;
     let lastPostDay;
     let signedInUserID = this.props.user.signedInAsUser
       ? this.props.user.signedInAsUser.id
@@ -205,7 +197,7 @@ class TemplatesModal extends Component {
     if (recipe.posts)
       recipe.posts.sort((a, b) => {
         if (new moment(a.postingDate) < new moment(b.postingDate)) return -1;
-        if (new moment(a.postingDate) > new moment(b.postingDate)) return 1;
+        else return 1;
       });
     return (
       <div
@@ -327,15 +319,7 @@ class TemplatesModal extends Component {
   };
 
   render() {
-    let {
-      activeRecipes,
-      loading,
-      recipe,
-      clientX,
-      clientY,
-      startDate,
-      promptDeleteRecipe
-    } = this.state;
+    let { activeRecipes, loading, promptDeleteRecipe } = this.state;
     const { handleParentChange } = this.props;
 
     let recipeArray = this.createRecipeList(activeRecipes);

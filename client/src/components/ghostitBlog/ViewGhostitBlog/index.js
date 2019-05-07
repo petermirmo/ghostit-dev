@@ -8,6 +8,7 @@ class ViewWebsiteBlog extends Component {
     return (
       <div className="simple-container my32" key={"image" + index}>
         <img
+          alt="Blog Image"
           key={"xuwm " + index}
           src={image.file || image.url}
           className={"image br4 " + image.size}

@@ -12,7 +12,7 @@ class LinkPreview extends Component {
   state = { activeImageIndex: 0 };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.link != this.props.link)
+    if (nextProps.link !== this.props.link)
       this.setState({ activeImageIndex: 0 });
   }
   changeImage = increment => {

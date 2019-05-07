@@ -12,12 +12,7 @@ import ContentModal from "../../components/postingFiles/ContentModal";
 import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
 
-import {
-  getCalendars,
-  getCampaigns,
-  triggerSocketPeers,
-  initSocket
-} from "../util";
+import { getCalendars, triggerSocketPeers, initSocket } from "../util";
 import Consumer from "../../context";
 
 class DashboardPage extends Component {

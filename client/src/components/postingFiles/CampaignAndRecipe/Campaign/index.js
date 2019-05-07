@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
@@ -13,7 +13,6 @@ import { setKeyListenerFunction } from "../../../../redux/actions/";
 
 import {
   trySavePost,
-  getSocialCharacters,
   fillPosts,
   newPost,
   createAppropriateDate
@@ -213,14 +212,7 @@ class Campaign extends Component {
   };
 
   initSocket = context => {
-    let {
-      campaign,
-      somethingChanged,
-      posts,
-      isFromRecipe,
-      recipeEditing
-    } = this.state;
-    let { clickedCalendarDate } = this.props;
+    let { campaign, isFromRecipe, recipeEditing } = this.state;
     let socket;
 
     if (process.env.NODE_ENV === "development")
@@ -410,7 +402,7 @@ class Campaign extends Component {
   };
 
   closeChecks = () => {
-    const { listOfPostChanges, somethingChanged } = this.state;
+    const { listOfPostChanges } = this.state;
 
     if (Object.keys(listOfPostChanges).length > 0) {
       // unsaved post changes
@@ -629,11 +621,10 @@ class Campaign extends Component {
       return;
     }
     const {
-      pendingPostType,
-      posts,
       campaign,
-      listOfPostChanges,
-      nextChosenPostIndex
+      nextChosenPostIndex,
+      pendingPostType,
+      posts
     } = this.state;
 
     if (pendingPostType) {
@@ -703,7 +694,8 @@ class Campaign extends Component {
     date,
     date_type,
     setDisplayAndMessage,
-    anchorDates = false
+    anchorDates = false,
+    context
   ) => {
     // function that gets passed to <DateTimePicker/> which lets it modify <Campaign/>'s start and end dates
     // before accepting the modifications, we must check to make sure that the new date doesn't invalidate any posts
@@ -743,7 +735,7 @@ class Campaign extends Component {
           "milliseconds"
         );
         if (
-          index == activePostIndex &&
+          index === activePostIndex &&
           listOfPostChanges &&
           Object.keys(listOfPostChanges).length > 0
         ) {
@@ -864,23 +856,6 @@ class Campaign extends Component {
       return (
         <CustomTask
           post={post_obj}
-          postFinishedSavingCallback={(savedPost, success, message) => {
-            if (success) {
-              context.handleChange({ saving: true });
-              socket.emit("new_post", { campaign, post: savedPost });
-              this.updatePost(savedPost);
-              socket.on("post_added", emitObject => {
-                socket.off("post_added");
-                campaign.posts = emitObject.campaignPosts;
-                context.handleChange({ saving: false });
-                this.setState({ campaign });
-                this.triggerCampaignPeers("campaign_post_saved", savedPost);
-              });
-            } else {
-              context.handleChange({ saving: false });
-              context.notify({ type: "danger", title: "Save Failed", message });
-            }
-          }}
           setSaving={() => {
             context.handleChange({ saving: true });
           }}
@@ -1045,8 +1020,8 @@ class Campaign extends Component {
     for (let i = 0; i < posts.length; i++) {
       for (var j = 0; j < posts.length - i - 1; j++) {
         if (posts[j].postingDate > posts[j + 1].postingDate) {
-          if (j == activePostIndex) activePostIndex += 1;
-          else if (j + 1 == activePostIndex) activePostIndex -= 1;
+          if (j === activePostIndex) activePostIndex += 1;
+          else if (j + 1 === activePostIndex) activePostIndex -= 1;
           let tmp = posts[j];
           posts[j] = posts[j + 1];
           posts[j + 1] = tmp;
@@ -1064,7 +1039,6 @@ class Campaign extends Component {
       confirmDelete,
       deleteIndex,
       listOfPostChanges,
-      nextChosenPostIndex,
       posts,
       postDeletedPrompt,
       postUpdatedPrompt,
@@ -1072,14 +1046,12 @@ class Campaign extends Component {
       promptDeletePost,
       promptDiscardPostChanges,
       recipeEditing,
-      saving,
       showDeletePostPrompt,
       socket,
       userList
     } = this.state;
     const { clickedCalendarDate } = this.props; // Variables
     const { handleParentChange } = this.props; // Functions
-    const { startDate, endDate, name, color } = campaign;
 
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
@@ -1090,7 +1062,20 @@ class Campaign extends Component {
             <CampaignRecipeHeader
               campaign={campaign}
               handleChange={this.handleCampaignChange}
-              tryChangingDates={this.tryChangingCampaignDates}
+              tryChangingDates={(
+                date,
+                date_type,
+                setDisplayAndMessage,
+                anchorDates
+              ) =>
+                this.tryChangingCampaignDates(
+                  date,
+                  date_type,
+                  setDisplayAndMessage,
+                  anchorDates,
+                  context
+                )
+              }
               backToRecipes={() => {
                 handleParentChange({
                   campaignModal: false,
