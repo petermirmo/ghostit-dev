@@ -23,16 +23,16 @@ class EmailForm extends Component {
       >
         <GIContainer>
           <GIInput
-            type="email"
+            autoCapitalize="off"
+            autoCorrect="off"
+            className="merge-with-button purple-border"
             name="EMAIL"
-            value={emailValue}
             onChange={e => {
               this.setState({ emailValue: e.target.value });
             }}
-            autoCapitalize="off"
-            autoCorrect="off"
             placeholder="Email address"
-            className="merge-with-button purple-border"
+            type="email"
+            value={emailValue}
           />
           <GIButton
             type="submit"

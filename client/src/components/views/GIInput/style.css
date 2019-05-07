@@ -1,7 +1,7 @@
 .merge-with-button {
   border-right: none;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .purple-border.merge-with-button:focus + .merge-with-input {
   border-color: var(--two-purple-color);
