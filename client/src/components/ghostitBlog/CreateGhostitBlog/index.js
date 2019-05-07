@@ -2,16 +2,11 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faPlus,
-  faImage,
-  faFont
-} from "@fortawesome/fontawesome-free-solid";
+import { faTrash, faImage, faFont } from "@fortawesome/fontawesome-free-solid";
 
 import ContentEditable from "react-contenteditable";
 
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import "./style.css";
 
@@ -198,8 +193,9 @@ class CreateWebsiteBlog extends Component {
           />
         </div>
         <img
-          src={image.file || image.url}
+          alt=""
           className={"image br4 " + image.size}
+          src={image.file || image.url}
         />
 
         <input

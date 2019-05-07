@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import GIText from "../../views/GIText";
 import GIInput from "../../views/GIInput";
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
@@ -9,10 +8,10 @@ import GIContainer from "../../containers/GIContainer";
 // The absolute div is to protect sign ups from bots
 
 class EmailForm extends Component {
-  state = { emailValue: "", fNameValue: "", lNameValue: "" };
+  state = { emailValue: "" };
 
   render() {
-    const { emailValue, fNameValue, lNameValue } = this.state;
+    const { emailValue } = this.state;
 
     return (
       <form

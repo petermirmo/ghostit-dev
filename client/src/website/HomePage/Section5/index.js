@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import moment from "moment-timezone";
 
 class Section5 extends Component {
   render() {
@@ -9,9 +8,9 @@ class Section5 extends Component {
         <div className="wrapping-container-full-center">
           <div className="profile-image-container medium round mx32">
             <img
-              src="https://res.cloudinary.com/ghostit-co/image/upload/v1544851312/IMG_9627_2.jpg"
-              alt="'image'"
+              alt=""
               className="profile-image medium"
+              src="https://res.cloudinary.com/ghostit-co/image/upload/v1544851312/IMG_9627_2.jpg"
             />
           </div>
 

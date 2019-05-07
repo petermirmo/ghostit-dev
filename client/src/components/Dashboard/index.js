@@ -20,6 +20,7 @@ class Dashboard extends Component {
             />
             <GIContainer className="full-center x-fill y-50">
               <img
+                alt=""
                 src={require("../../svgs/dashboard-post.svg")}
                 className="fill-parent"
               />
@@ -45,6 +46,7 @@ class Dashboard extends Component {
             />
             <GIContainer className="full-center x-fill y-50">
               <img
+                alt=""
                 src={require("../../svgs/dashboard-campaign.svg")}
                 className="fill-parent"
               />
@@ -70,6 +72,7 @@ class Dashboard extends Component {
             />
             <GIContainer className="full-center x-fill y-50">
               <img
+                alt=""
                 className="fill-parent"
                 src={require("../../svgs/dashboard-templates.svg")}
               />

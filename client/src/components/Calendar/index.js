@@ -493,7 +493,7 @@ class Calendar extends Component {
 
   render() {
     let { queueActive } = this.state;
-    let { calendarEvents, onSelectDay, calendarDate } = this.props;
+    let { calendarEvents, calendarDate } = this.props;
 
     if (queueActive) {
       let quePostsToDisplay = [];

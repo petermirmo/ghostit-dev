@@ -41,13 +41,11 @@ class PostList extends Component {
       recipeEditing,
       clickedCalendarDate
     } = this.props; // variables
-    const { newPost, deletePost, handleChange, duplicatePost } = this.props; // functions
+    const { newPost, deletePost, duplicatePost } = this.props; // functions
 
     return (
       <div className="list-container px16 pt16 light-scrollbar">
         {posts.map((post_obj, index) => {
-          let postDate = post_obj.postingDate;
-
           let entryClassName = undefined;
           if (index === activePostIndex) {
             entryClassName = "list-entry br4 pa8 active";

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";

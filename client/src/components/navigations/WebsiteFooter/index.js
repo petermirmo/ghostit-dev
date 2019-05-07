@@ -63,12 +63,7 @@ class WebsiteFooter extends Component {
             </Link>
           </div>
           <div className="container-box column tiny my16">
-            <GIText
-              className="white mb16"
-              type="h6"
-              text="Terms & Privacy"
-              type="h6"
-            />
+            <GIText className="white mb16" type="h6" text="Terms & Privacy" />
 
             <Link to="/terms-of-service">
               <GIText

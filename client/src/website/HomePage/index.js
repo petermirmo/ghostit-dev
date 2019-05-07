@@ -61,6 +61,7 @@ class HomePage extends Component {
             </div>
           )}
           <img
+            alt=""
             src={require("../../svgs/home-main-background.svg")}
             style={{
               position: "absolute",
@@ -83,8 +84,9 @@ class HomePage extends Component {
             className="mb32 tac"
           />
           <img
-            src={require("../../svgs/home-main.svg")}
+            alt=""
             className="fill-parent"
+            src={require("../../svgs/home-main.svg")}
             style={{ width: "60%", minWidth: "250px", height: "auto" }}
           />
         </GIContainer>
@@ -126,8 +128,9 @@ class HomePage extends Component {
             style={{ flex: 0.8 }}
           >
             <img
-              src={require("../../svgs/home-ai.svg")}
+              alt=""
               className="fill-parent"
+              src={require("../../svgs/home-ai.svg")}
             />
           </GIContainer>
         </GIContainer>
@@ -155,8 +158,9 @@ class HomePage extends Component {
             style={{ flex: 0.8 }}
           >
             <img
-              src={require("../../svgs/home-workflow.svg")}
+              alt=""
               className="fill-parent"
+              src={require("../../svgs/home-workflow.svg")}
             />
           </GIContainer>
         </GIContainer>
@@ -184,8 +188,9 @@ class HomePage extends Component {
             style={{ flex: 0.8 }}
           >
             <img
-              src={require("../../svgs/home-instructions.svg")}
+              alt=""
               className="fill-parent"
+              src={require("../../svgs/home-instructions.svg")}
             />
           </GIContainer>
         </GIContainer>
@@ -213,8 +218,9 @@ class HomePage extends Component {
             style={{ flex: 0.8 }}
           >
             <img
-              src={require("../../svgs/home-schedule.svg")}
+              alt=""
               className="fill-parent"
+              src={require("../../svgs/home-schedule.svg")}
             />
           </GIContainer>
         </GIContainer>

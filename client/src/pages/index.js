@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import moment from "moment-timezone";
 import { Route, Switch, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
@@ -91,7 +90,7 @@ class Routes extends Component {
   };
   render() {
     const { datebaseConnection, ghostitBlogs = [] } = this.state; // Variables
-    const { getKeyListenerFunction, location } = this.props; // Variables
+    const { getKeyListenerFunction } = this.props; // Variables
 
     const blogPages = this.createBlogPages(ghostitBlogs);
 

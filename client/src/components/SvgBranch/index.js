@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import sizeMe from "react-sizeme";
 
-import GIContainer from "../containers/GIContainer";
-
 import "./style.css";
 
 class SvgBranch extends Component {

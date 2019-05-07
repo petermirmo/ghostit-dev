@@ -4,11 +4,9 @@ import Textarea from "react-textarea-autosize";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
 import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 import axios from "axios";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import { Link } from "react-router-dom";
 
@@ -321,18 +319,14 @@ class PostingOptions extends Component {
   render() {
     const {
       accountID,
-      accountType,
       date,
       calendarAccounts,
-      calendarID,
-      campaignID,
       content,
       files,
       filesToDelete,
       instructions,
       link,
       linkCustomFiles,
-      linkImage,
       linkTitle,
       linkDescription,
       linkImagesArray,
@@ -342,17 +336,10 @@ class PostingOptions extends Component {
       showInstructions,
       socialType,
       somethingChanged,
-      videos,
       _id
     } = this.state;
 
-    const {
-      postFinishedSavingCallback,
-      setSaving,
-      accounts,
-      canEditPost,
-      maxCharacters
-    } = this.props;
+    const { accounts, canEditPost, maxCharacters } = this.props;
 
     const {
       canAddFilesToLink,
@@ -607,15 +594,6 @@ class PostingOptions extends Component {
       </Consumer>
     );
   }
-}
-
-function isDifferentPost(nextProps, id) {
-  if (nextProps) {
-    if (nextProps.post) {
-      if (nextProps._id !== id) return true;
-    }
-  }
-  return false;
 }
 
 function mapStateToProps(state) {

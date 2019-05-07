@@ -3,7 +3,6 @@ import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
 import faAngleUp from "@fortawesome/fontawesome-free-solid/faAngleUp";
 import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
 
@@ -36,13 +35,13 @@ class CampaignRecipeHeader extends Component {
 
   render() {
     const { colors, showMore } = this.state;
-    const { campaign, datePickerMessage } = this.props; // variables
+    const { campaign } = this.props; // variables
     const { handleChange, tryChangingDates } = this.props; // functions
 
     let colorDivs = [];
     for (let index in colors) {
       let isActive;
-      if (colors[index].color == campaign.color) isActive = "active";
+      if (colors[index].color === campaign.color) isActive = "active";
       colorDivs.push(
         <div
           className={"color-border mx4 pa4 round button " + isActive}

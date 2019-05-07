@@ -6,7 +6,7 @@ import GIText from "../../components/views/GIText";
 
 import { teamMembers } from "./teamMembers";
 
-import { isElementInViewport, correctOverflow } from "./util";
+import { correctOverflow } from "./util";
 
 import { mobileAndTabletcheck } from "../../componentFunctions";
 
@@ -39,9 +39,9 @@ class TeamPage extends Component {
               >
                 <div className="profile-image-container medium round no-pointer-events">
                   <img
-                    src={obj.image}
-                    alt="image"
+                    alt=""
                     className="profile-image medium"
+                    src={obj.image}
                   />
                 </div>
                 <GIText

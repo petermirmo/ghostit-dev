@@ -4,14 +4,16 @@ export const categories = [
   {
     notActive: (
       <img
-        src={require("../../svgs/agency-blog.svg")}
+        alt="agency-blog"
         className="fill-parent"
+        src={require("../../svgs/agency-blog.svg")}
       />
     ),
     active: (
       <img
-        src={require("../../svgs/agency-blog-active.svg")}
+        alt="agency-blog-active"
         className="fill-parent"
+        src={require("../../svgs/agency-blog-active.svg")}
       />
     ),
     title1: "Optimized",
@@ -22,14 +24,16 @@ export const categories = [
   {
     notActive: (
       <img
-        src={require("../../svgs/agency-social.svg")}
+        alt="agency-social"
         className="fill-parent"
+        src={require("../../svgs/agency-social.svg")}
       />
     ),
     active: (
       <img
-        src={require("../../svgs/agency-social-active.svg")}
+        alt="agency-social-active"
         className="fill-parent"
+        src={require("../../svgs/agency-social-active.svg")}
       />
     ),
     title1: "Social Media",
@@ -40,14 +44,16 @@ export const categories = [
   {
     notActive: (
       <img
-        src={require("../../svgs/agency-ebook.svg")}
+        alt="agency-ebook"
         className="fill-parent"
+        src={require("../../svgs/agency-ebook.svg")}
       />
     ),
     active: (
       <img
-        src={require("../../svgs/agency-ebook-active.svg")}
+        alt="agency-ebook-active"
         className="fill-parent"
+        src={require("../../svgs/agency-ebook-active.svg")}
       />
     ),
     title1: "Lead Generation",
@@ -58,14 +64,16 @@ export const categories = [
   {
     notActive: (
       <img
-        src={require("../../svgs/agency-newsletter.svg")}
+        alt="agency-newsletter"
         className="fill-parent"
+        src={require("../../svgs/agency-newsletter.svg")}
       />
     ),
     active: (
       <img
-        src={require("../../svgs/agency-newsletter-active.svg")}
+        alt="agency-newsletter-active"
         className="fill-parent"
+        src={require("../../svgs/agency-newsletter-active.svg")}
       />
     ),
     title1: "Email",
@@ -75,12 +83,17 @@ export const categories = [
   },
   {
     notActive: (
-      <img src={require("../../svgs/agency-web.svg")} className="fill-parent" />
+      <img
+        alt="agency-web"
+        className="fill-parent"
+        src={require("../../svgs/agency-web.svg")}
+      />
     ),
     active: (
       <img
-        src={require("../../svgs/agency-web-active.svg")}
+        alt="agency-web-active"
         className="fill-parent"
+        src={require("../../svgs/agency-web-active.svg")}
       />
     ),
     title1: "Web",

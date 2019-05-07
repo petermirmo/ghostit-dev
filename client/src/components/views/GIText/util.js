@@ -1,7 +1,7 @@
 import React from "react";
 
 export const getHtmlElement = props => {
-  const { text, type, style, className, htmlFor, children } = props;
+  const { children, className, style, text, type } = props;
   if (type === "h1") {
     return (
       <h1 style={style} className={className}>

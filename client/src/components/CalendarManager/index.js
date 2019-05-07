@@ -3,10 +3,8 @@ import axios from "axios";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import faQuestionCircle from "@fortawesome/fontawesome-free-solid/faQuestionCircle";
 import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
-import faUserTie from "@fortawesome/fontawesome-free-solid/faUserTie";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -16,8 +14,7 @@ import {
   getPostIcon,
   getPostColor,
   capitolizeFirstChar,
-  capitolizeWordsInString,
-  getArrayIndexWithHint
+  capitolizeWordsInString
 } from "../../componentFunctions";
 
 import Loader from "../notifications/Loader";
@@ -101,7 +98,7 @@ class CalendarManager extends Component {
         console.log(message);
       } else {
         const adminIndex = users.findIndex(
-          userObj => userObj._id == calendars[index].adminID
+          userObj => userObj._id === calendars[index].adminID
         );
         if (adminIndex !== -1 && adminIndex !== 0) {
           // swap admin to the top of the array so it always gets displayed first
@@ -496,14 +493,7 @@ class CalendarManager extends Component {
   };
 
   presentActiveCalendar = (isDefaultCalendar, isAdmin, calendar, context) => {
-    const {
-      calendars,
-      activeCalendarIndex,
-      unsavedChange,
-      inviteEmail,
-      showUserEmails,
-      showAccountNames
-    } = this.state;
+    const { activeCalendarIndex, unsavedChange, inviteEmail } = this.state;
 
     let userID = this.props.user._id;
     if (this.props.user.signedInAsUser) {
@@ -710,7 +700,7 @@ class CalendarManager extends Component {
     const calendar = calendars[activeCalendarIndex];
     const isDefaultCalendar =
       calendar._id.toString() === defaultCalendarID.toString();
-    const isAdmin = calendars[activeCalendarIndex].adminID == userID;
+    const isAdmin = calendars[activeCalendarIndex].adminID === userID;
 
     return (
       <Consumer>

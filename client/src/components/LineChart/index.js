@@ -53,9 +53,12 @@ class LineChart extends Component {
     let dataPointDivs = [];
     let dataLineDivs = [];
 
-    lines.map((line, lineIndex) => {
+    for (let lineIndex in lines) {
+      const line = lines[lineIndex];
       let prevDataPoint;
-      line.map((dataValue, dataIndex) => {
+
+      for (let dataIndex in line) {
+        const dataValue = line[dataIndex];
         let x = (dataIndex / (xMax - 0.9)) * 100;
         let y = (dataValue / yMax) * LINE_CHART_HEIGHT_RATIO;
 
@@ -105,8 +108,8 @@ class LineChart extends Component {
           />
         );
         prevDataPoint = { x, y };
-      });
-    });
+      }
+    }
     return { dataPointDivs, dataLineDivs };
   };
   XAxis = () => {

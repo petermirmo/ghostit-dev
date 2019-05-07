@@ -51,7 +51,7 @@ class HeaderSideBar extends Component {
 
   logout = () => {
     axios.get("/api/logout").then(res => {
-      const { success, loggedIn } = res.data;
+      const { success } = res.data;
 
       if (success) {
         this.props.setUser(null);
@@ -62,7 +62,7 @@ class HeaderSideBar extends Component {
     });
   };
   isActive = activePage => {
-    if ("/" + activePage == this.props.location.pathname) return " active";
+    if ("/" + activePage === this.props.location.pathname) return " active";
   };
   render() {
     const { user } = this.props;

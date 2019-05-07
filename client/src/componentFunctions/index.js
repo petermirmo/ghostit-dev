@@ -1,4 +1,3 @@
-"use strict";
 import moment from "moment-timezone";
 import axios from "axios";
 
@@ -50,8 +49,7 @@ export const newPost = (
   const { startDate, _id } = campaign;
 
   let postingDate = clickedCalendarDate;
-  if (clickedCalendarDate < new moment(campaign.startDate))
-    postingDate = campaign.startDate;
+  if (clickedCalendarDate < new moment(startDate)) postingDate = startDate;
 
   if (listOfPostChanges && Object.keys(listOfPostChanges).length > 0) {
     // current post has unsaved changes
@@ -131,9 +129,7 @@ export const trySavePost = (
     campaignEndDate,
     campaignStartDate,
     maxCharacters,
-    notify,
     postFinishedSavingCallback,
-    recipeEditing,
     setSaving
   } = post_props;
 
@@ -285,7 +281,7 @@ export function mobileAndTabletcheck() {
   return check;
 }
 export function validateEmail(email) {
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 export async function savePost(
@@ -346,7 +342,7 @@ export async function savePost(
       // Now we need to save images for post, Images are saved after post
       // Becuse they are handled so differently in the database
       // Text and images do not go well together
-      const { post, success, loggedIn, message } = res.data;
+      const { post, success, message } = res.data;
 
       if (success) {
         if (post._id && filesToSave.length !== 0) {

@@ -17,9 +17,9 @@ class ConfirmAlert extends Component {
   componentDidMount = () => {
     this._ismounted = true;
 
-    let { getKeyListenerFunction, setKeyListenerFunction } = this.props;
+    const { getKeyListenerFunction, setKeyListenerFunction } = this.props;
 
-    this.props.setKeyListenerFunction([
+    setKeyListenerFunction([
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
@@ -31,10 +31,10 @@ class ConfirmAlert extends Component {
   };
   componentWillUnmount = () => {
     this._ismounted = false;
-
-    this.props.setKeyListenerFunction([
-      this.props.getKeyListenerFunction[1],
-      this.props.getKeyListenerFunction[0]
+    const { getKeyListenerFunction, setKeyListenerFunction } = this.props;
+    setKeyListenerFunction([
+      getKeyListenerFunction[1],
+      getKeyListenerFunction[0]
     ]);
   };
 

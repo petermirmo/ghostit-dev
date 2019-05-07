@@ -1,7 +1,6 @@
-import React, { Component, createContext } from "react";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import ReactGA from "react-ga";
-import { SizeMe } from "react-sizeme";
 import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";

@@ -1,15 +1,9 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 
 import axios from "axios";
 import moment from "moment-timezone";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import {
-  openContentModal,
-  openCalendarManagerModal
-} from "../../redux/actions";
 
 import ContentModal from "../../components/postingFiles/ContentModal";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
@@ -375,8 +369,7 @@ class Content extends Component {
       socket,
       templatesModal,
       twitterPosts,
-      userList,
-      websitePosts
+      userList
     } = this.state;
     const {
       All,
@@ -423,6 +416,11 @@ class Content extends Component {
               break;
             case "instagram":
               if (Instagram) campaign.posts.push(post);
+              break;
+            case "custom":
+              if (Custom) campaign.posts.push(post);
+              break;
+            default:
               break;
           }
         }

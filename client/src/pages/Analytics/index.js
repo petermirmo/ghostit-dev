@@ -1,13 +1,7 @@
 import React, { Component } from "react";
-import moment from "moment-timezone";
 import axios from "axios";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
-import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
-
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
 import LineChart from "../../components/LineChart/";
 import Page from "../../components/containers/Page";
@@ -37,8 +31,7 @@ class Analytics extends Component {
   };
 
   render() {
-    let { accounts } = this.props;
-    let { facebookPosts, analyticsObjects } = this.state;
+    let { analyticsObjects } = this.state;
     let dataPointArrays = [];
     let dataLinesInformation = [];
 

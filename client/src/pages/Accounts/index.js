@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
-import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
-import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
-import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
 
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
@@ -140,22 +135,22 @@ class AccountsPage extends Component {
 
     accounts.map((account, index) => {
       if (account.socialType === "facebook") {
-        connectedFacebookAccountDivs.push(
+        return connectedFacebookAccountDivs.push(
           this.pushNewConnectedAccountDiv(account, index)
         );
       } else if (account.socialType === "twitter") {
-        connectedTwitterAccountDivs.push(
+        return connectedTwitterAccountDivs.push(
           this.pushNewConnectedAccountDiv(account, index)
         );
       } else if (account.socialType === "linkedin") {
-        connectedLinkedinAccountDivs.push(
+        return connectedLinkedinAccountDivs.push(
           this.pushNewConnectedAccountDiv(account, index)
         );
       } else if (account.socialType === "instagram") {
-        connectedInstagramAccountDivs.push(
+        return connectedInstagramAccountDivs.push(
           this.pushNewConnectedAccountDiv(account, index)
         );
-      }
+      } else return false;
     });
 
     return (
@@ -228,7 +223,7 @@ class AccountsPage extends Component {
         {addPageOrGroupModal && (
           <AddPageOrGroupModal
             getUserAccounts={() =>
-              getUserAccounts(accounts => this.props.setaccounts(accounts))
+              getUserAccounts(accounts => setaccounts(accounts))
             }
             pageOrGroupArray={pageOrGroupArray}
             accountType={accountType}
@@ -245,7 +240,7 @@ class AccountsPage extends Component {
             callback={confirmDelete =>
               disconnectAccount(confirmDelete, accountToDelete, stateObject => {
                 this.handleChange(stateObject);
-                getUserAccounts(accounts => this.props.setaccounts(accounts));
+                getUserAccounts(accounts => setaccounts(accounts));
               })
             }
           />

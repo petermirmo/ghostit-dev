@@ -26,7 +26,7 @@ class MySubscription extends Component {
   }
   getInvoices = () => {
     axios.get("/api/user/invoices").then(res => {
-      const { success, message, invoices } = res.data;
+      const { success, invoices } = res.data;
       if (success) this.setState({ invoices, databaseConnection: true });
       else this.setState({ databaseConnection: true });
     });

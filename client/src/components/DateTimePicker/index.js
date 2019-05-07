@@ -85,7 +85,6 @@ class DatePicker extends Component {
     let firstDayOfMonth = calendarDate.day();
 
     // To determine if 42 or 35 days in the calendar should be displayed
-    let lowerBound = 1;
     let weekStartMonth = firstDayOfMonth === 0 ? -1 : 0;
 
     let weekEndMonth =

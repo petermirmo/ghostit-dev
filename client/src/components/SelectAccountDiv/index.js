@@ -3,7 +3,6 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
 import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
 import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
 
 import "./style.css";
 
@@ -15,10 +14,8 @@ class SelectAccountDiv extends Component {
     let {
       activePageAccountsArray,
       inactivePageAccountsArray,
-      calendarID,
       activeAccount,
-      handleChange,
-      canEdit
+      handleChange
     } = this.props;
     if (!activePageAccountsArray) activePageAccountsArray = [];
     // To select which account to post to
@@ -125,7 +122,7 @@ class SelectAccountDiv extends Component {
     }
     return (
       <div className="simple-container">
-        {activePageAccountsArray.length == 0 && (
+        {activePageAccountsArray.length === 0 && (
           <h4>Connect an account to create a post!</h4>
         )}
         <div className="wrapping-container-no-center">{accountsListDiv}</div>

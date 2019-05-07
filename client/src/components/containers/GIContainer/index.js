@@ -4,7 +4,7 @@ import "./style.css";
 
 class Container extends Component {
   render() {
-    const { children, containerType, testMode, style, onClick } = this.props; // Variables
+    const { children, onClick, style, testMode } = this.props; // Variables
     let { className } = this.props;
 
     if (testMode) className += " test-mode";
