@@ -7,7 +7,6 @@ import reducers from "./redux/reducers/";
 import { GIProvider } from "./context";
 
 import Routes from "./pages";
-require("../public/favicon.ico");
 
 import "./theme.css";
 
