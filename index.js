@@ -98,11 +98,9 @@ require("./apiRoutes")(app);
 
 // If using production then if a route is not found in express we send user to react routes
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-
-  app.get("*", (req, res) => {
+  const injectMetaData = (req, res) => {
     const filePath = path.resolve(__dirname, "./client", "build", "index.html");
-    //  path.resolve(__dirname, "client", "build");
+
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         return console.log(err);
@@ -115,6 +113,15 @@ if (process.env.NODE_ENV === "production") {
 
       res.send(data);
     });
+  };
+
+  app.get("/", (req, res) => {
+    injectMetaData(req, res);
+  });
+  app.use(express.static(path.resolve(__dirname, "./client", "build")));
+
+  app.get("*", (req, res) => {
+    injectMetaData(req, res);
   });
 }
 
