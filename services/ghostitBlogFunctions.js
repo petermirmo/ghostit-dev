@@ -29,6 +29,7 @@ module.exports = {
 
     for (let index = 0; index < contentArray.length; index++) {
       const content = contentArray[index];
+      if (!content) continue;
 
       content.location = index;
       if (content.size) images.push(content);
