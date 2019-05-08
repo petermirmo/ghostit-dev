@@ -17,44 +17,30 @@ class ViewWebsiteBlog extends Component {
     );
   };
   render() {
-    const { contentArray, images } = this.props;
+    const { contentArray = [], images = [] } = this.props;
 
     let divs = [];
 
     let imageCounter = 0;
     let contentArrayIndex = 0;
 
-    for (let index = 0; index < contentArray.length + images.length; index++) {
-      let content = contentArray[contentArrayIndex];
-      let image = images[imageCounter];
-      if (content && image) {
-        if (image.location > content.location) {
-          divs.push(
-            <div
-              key={"fdj" + index}
-              className="simple-container large px32"
-              dangerouslySetInnerHTML={{ __html: content.html }}
-            />
-          );
-          contentArrayIndex += 1;
-        } else {
-          divs.push(this.createRelevantImageDiv(image, index));
-          imageCounter += 1;
-        }
-      } else if (image) {
-        divs.push(this.createRelevantImageDiv(image, index));
-        imageCounter += 1;
-      } else {
-        divs.push(
-          <div
-            key={"fdj" + index}
-            className="simple-container large px32"
-            dangerouslySetInnerHTML={{ __html: content.html }}
-          />
-        );
-        contentArrayIndex += 1;
-      }
+    for (let index in images) {
+      const image = images[index];
+      if (!image) continue;
+      divs[image.location] = this.createRelevantImageDiv(image, index);
     }
+    for (let index in contentArray) {
+      const content = contentArray[index];
+      if (!content) continue;
+      divs[content.location] = (
+        <div
+          key={"fdj" + index}
+          className="simple-container large px32"
+          dangerouslySetInnerHTML={{ __html: content.html }}
+        />
+      );
+    }
+
     let metaTitle = "";
     let temp = document.createElement("div");
     if (contentArray[0])

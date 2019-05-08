@@ -21,7 +21,6 @@ class ManagePage extends Component {
   componentDidMount() {
     this._ismounted = true;
     axios.get("/api/notifications").then(res => {
-      console.log(res.data);
       if (this._ismounted) this.setState({ notifications: res.data });
     });
   }

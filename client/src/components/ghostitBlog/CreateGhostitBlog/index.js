@@ -24,18 +24,19 @@ class CreateWebsiteBlog extends Component {
     if (this.props.id) {
       axios.get("/api/ghostit/blog/" + this.props.id).then(res => {
         const { ghostitBlog } = res.data;
+        const { contentArray, images } = ghostitBlog;
 
         if (ghostitBlog) {
-          const contentArray = [];
-          if (ghostitBlog.images)
-            for (let i = 0; i < ghostitBlog.images.length; i++) {
-              const image = ghostitBlog.images[i];
-              contentArray.splice(image.location, 0, image);
+          const mixedContentArray = [];
+          if (images)
+            for (let i = 0; i < images.length; i++) {
+              const image = images[i];
+              mixedContentArray[image.location] = image;
             }
-          if (ghostitBlog.contentArray)
-            for (let i = 0; i < ghostitBlog.contentArray.length; i++) {
-              const content = ghostitBlog.contentArray[i];
-              contentArray.splice(content.location, 0, content);
+          if (contentArray)
+            for (let i = 0; i < contentArray.length; i++) {
+              const content = contentArray[i];
+              mixedContentArray[content.location] = content;
             }
 
           for (let index in contentArray) {
@@ -47,7 +48,7 @@ class CreateWebsiteBlog extends Component {
               id: ghostitBlog._id,
               url: ghostitBlog.url,
               category: ghostitBlog.category,
-              contentArray
+              contentArray: mixedContentArray
             });
           }
         }
@@ -253,6 +254,7 @@ class CreateWebsiteBlog extends Component {
 
   render() {
     const { url, category, hyperlink, contentArray } = this.state;
+
     const blogDivs = [];
 
     for (let index = 0; index < contentArray.length; index++) {
@@ -272,7 +274,7 @@ class CreateWebsiteBlog extends Component {
           <input
             type="text"
             onChange={e => this.setState({ url: e.target.value })}
-            value={url}
+            value={url || ""}
             className="regular-input"
             placeholder="10-marketing-strategies"
           />
@@ -280,7 +282,7 @@ class CreateWebsiteBlog extends Component {
           <input
             className="regular-input"
             type="number"
-            value={category}
+            value={category || ""}
             onChange={e => this.setState({ category: e.target.value })}
           />
         </div>
@@ -310,7 +312,7 @@ class CreateWebsiteBlog extends Component {
           <input
             type="text"
             onChange={e => this.setState({ hyperlink: e.target.value })}
-            value={hyperlink}
+            value={hyperlink || ""}
             className="regular-input br0"
             placeholder="Type your hyperlink value here"
           />

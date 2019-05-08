@@ -24,24 +24,25 @@ module.exports = {
       }
     }
     const images = [];
-    const contentArray = [];
-    for (let index = 0; index < ghostitBlog.contentArray.length; index++) {
-      ghostitBlog.contentArray[index].location = index;
-      if (ghostitBlog.contentArray[index].size)
-        images.push(ghostitBlog.contentArray[index]);
-      else contentArray.push(ghostitBlog.contentArray[index]);
+    const pureContentArray = [];
+    const { category, contentArray, url } = ghostitBlog;
+
+    for (let index = 0; index < contentArray.length; index++) {
+      const content = contentArray[index];
+
+      content.location = index;
+      if (content.size) images.push(content);
+      else pureContentArray.push(content);
     }
-    ghostitBlog.images = images;
-    ghostitBlog.contentArray = contentArray;
 
     let newGhostitBlog = {};
     if (!ghostitBlog.id) newGhostitBlog = new GhostitBlog(ghostitBlog);
 
     newGhostitBlog.images = [];
     newGhostitBlog.userID = user._id;
-    newGhostitBlog.url = ghostitBlog.url;
-    newGhostitBlog.category = ghostitBlog.category;
-    newGhostitBlog.contentArray = ghostitBlog.contentArray;
+    newGhostitBlog.url = url;
+    newGhostitBlog.category = category;
+    newGhostitBlog.contentArray = pureContentArray;
 
     let saveBlog = blog => {
       let unsuccessfulSave = (blog, error) => {
@@ -82,14 +83,14 @@ module.exports = {
       }
     };
 
-    if (ghostitBlog.images.length != 0) {
+    if (images.length !== 0) {
       let asyncCounter = 0;
-      let continueCounter = ghostitBlog.images.length;
+      let continueCounter = images.length;
 
-      for (let index in ghostitBlog.images) {
+      for (let index in images) {
         asyncCounter++;
 
-        let image = ghostitBlog.images[index];
+        const image = images[index];
 
         if (image.url) {
           asyncCounter--;
@@ -99,24 +100,21 @@ module.exports = {
 
           continue;
         } else
-          cloudinary.v2.uploader.upload(
-            image.file,
-            (error, result) => {
-              if (error) return handleError(res, error);
-              else {
-                asyncCounter--;
-                newGhostitBlog.images.push({
-                  url: result.secure_url,
-                  publicID: result.public_id,
-                  size: image.size,
-                  location: image.location,
-                  alt: image.alt
-                });
+          cloudinary.v2.uploader.upload(image.file, (error, result) => {
+            if (error) return handleError(res, error);
+            else {
+              asyncCounter--;
+              newGhostitBlog.images.push({
+                url: result.secure_url,
+                publicID: result.public_id,
+                size: image.size,
+                location: image.location,
+                alt: image.alt
+              });
 
-                if (asyncCounter === 0) saveBlog(newGhostitBlog);
-              }
+              if (asyncCounter === 0) saveBlog(newGhostitBlog);
             }
-          );
+          });
       }
     } else {
       saveBlog(newGhostitBlog);

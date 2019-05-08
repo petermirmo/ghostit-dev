@@ -98,26 +98,26 @@ require("./apiRoutes")(app);
 
 // If using production then if a route is not found in express we send user to react routes
 if (process.env.NODE_ENV === "production") {
-}
-const injectMetaData = (req, res) => {
-  const filePath = path.resolve(__dirname, "./client", "build", "index.html");
+  const injectMetaData = (req, res) => {
+    const filePath = path.resolve(__dirname, "./client", "build", "index.html");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
+    fs.readFile(filePath, "utf8", (err, data) => {
+      if (err) {
+        return console.log(err);
+      }
 
-    getMetaInformation(req.originalUrl, metaObj => {
-      const { metaDescription, metaImage, metaTitle } = metaObj;
+      getMetaInformation(req.originalUrl, metaObj => {
+        const { metaDescription, metaImage, metaTitle } = metaObj;
 
-      data = data.replace(/\$OG_TITLE/g, metaTitle);
-      data = data.replace(/\$OG_DESCRIPTION/g, metaDescription);
-      data = data.replace(/\$OG_IMAGE/g, metaImage);
+        data = data.replace(/\$OG_TITLE/g, metaTitle);
+        data = data.replace(/\$OG_DESCRIPTION/g, metaDescription);
+        data = data.replace(/\$OG_IMAGE/g, metaImage);
 
-      res.send(data);
+        res.send(data);
+      });
     });
-  });
-};
+  };
+}
 
 app.get("/", (req, res) => {
   injectMetaData(req, res);

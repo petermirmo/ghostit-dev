@@ -54,7 +54,7 @@ class BlogPage extends Component {
       <Page
         className="simple-container website-page"
         title="Blog"
-        description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture."
+        description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture!"
         keywords="ghostit, blog"
       >
         <GIText className="tac pb32" text="Ghostit Blog" type="h1" />

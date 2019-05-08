@@ -81,7 +81,8 @@ const getMetaInformation = (url, callback) => {
         });
       case "/blog":
         return callback({
-          metaDescription: "Guides, events and all things Ghostit!",
+          metaDescription:
+            "Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture!",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
           metaTitle: "Blog | Ghostit"
