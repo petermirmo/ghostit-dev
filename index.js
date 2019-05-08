@@ -117,16 +117,16 @@ if (process.env.NODE_ENV === "production") {
       });
     });
   };
+
+  app.get("/", (req, res) => {
+    injectMetaData(req, res);
+  });
+  app.use(express.static(path.resolve(__dirname, "./client", "build")));
+
+  app.get("*", (req, res) => {
+    injectMetaData(req, res);
+  });
 }
-
-app.get("/", (req, res) => {
-  injectMetaData(req, res);
-});
-app.use(express.static(path.resolve(__dirname, "./client", "build")));
-
-app.get("*", (req, res) => {
-  injectMetaData(req, res);
-});
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT);
