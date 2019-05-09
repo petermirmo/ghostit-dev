@@ -4,12 +4,15 @@ const { savePostError, savePostSuccessfully } = require("./functions");
 const keys = require("../config/keys");
 
 const request = require("request");
+const http = require("http");
 const fs = require("fs");
 const FormData = require("form-data");
 
 const cloudinary = require("cloudinary");
 const FB = require("fb");
 const axios = require("axios");
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const fetch = require("node-fetch");
 
 const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
 
@@ -47,24 +50,7 @@ module.exports = {
               asyncCounter++;
 
               if (isUrlVideo(post.files[i].url)) {
-                /*let form = document.createElement("form");
-              form.setAttribute("method", "post");
-              form.setAttribute("enctype", "multipart/form-data"); */
-
-                // request(post.files[i].url).pipe(fs.createWriteStream("video.mp4")
-
-                // request(post.files[i].url)
-
-                // fs.createReadStream()
-
-                /*  let test = await axios
-                  .get(post.files[i].url)
-                  .then(response => response.data);*/
-                let videoData = fs.createReadStream(
-                  request(post.files[i].url).pipe(
-                    fs.createWriteStream("test.mp4")
-                  ).path
-                );
+                continue;
 
                 FB.api(
                   "/me/videos",
@@ -72,7 +58,7 @@ module.exports = {
                   {
                     title: "Video title",
                     description: "Timeline message...",
-                    source: videoData
+                    source: fs.createReadStream("nothing.mp4")
                   },
                   res => {
                     asyncCounter--;

@@ -414,7 +414,7 @@ export function postAttributeOptions(socialType) {
     return {
       canAddFilesToLink: false,
       canUploadPhoto: true,
-      canUploadVideo: false,
+      canUploadVideo: true,
       linkPreviewCanEdit: false,
       linkPreviewCanShow: true
     };

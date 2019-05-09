@@ -432,7 +432,7 @@ class PostingOptions extends Component {
                       filesToDelete={filesToDelete}
                       id="pdm"
                       imageClassName="flex image tiny"
-                      imageOnly={true}
+                      imageOnly={!canUploadVideo}
                     />
                   )}
                 </div>

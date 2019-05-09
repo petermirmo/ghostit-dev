@@ -658,6 +658,30 @@
   padding-left: 64px;
 }
 
+.pa48 {
+  padding: 48px;
+}
+.px48 {
+  padding-right: 48px;
+  padding-left: 48px;
+}
+.py48 {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+.pt48 {
+  padding-top: 48px;
+}
+.pr48 {
+  padding-right: 48px;
+}
+.pb48 {
+  padding-bottom: 48px;
+}
+.pl48 {
+  padding-left: 48px;
+}
+
 .pa32 {
   padding: 32px;
 }
