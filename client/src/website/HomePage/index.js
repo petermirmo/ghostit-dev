@@ -42,7 +42,7 @@ class HomePage extends Component {
 
     return (
       <Page
-        title="All-In-One Marketing Solution"
+        title="Home"
         description="Organize your marketing process with an all-in-one solution for unified content promotion."
         keywords="content, ghostit, marketing"
         blendWithHomePage={blendHeaderWithHomePage}

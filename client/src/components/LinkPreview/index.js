@@ -3,6 +3,8 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faLongArrowAltLeft from "@fortawesome/fontawesome-free-solid/faLongArrowAltLeft";
 import faLongArrowAltRight from "@fortawesome/fontawesome-free-solid/faLongArrowAltRight";
 
+import ContentEditable from "react-contenteditable";
+
 import GIContainer from "../containers/GIContainer";
 
 import FileUpload from "../views/FileUpload";
@@ -49,7 +51,7 @@ class LinkPreview extends Component {
       linkPreviewCanEdit,
       linkTitle
     } = this.props; // Variables
-    const { setCustomImages } = this.props; // Functions
+    const { handleChange, setCustomImages } = this.props; // Functions
 
     const linkImagesToDisplay = linkCustomFiles.concat(linkImagesArray);
 
@@ -59,7 +61,6 @@ class LinkPreview extends Component {
     let urlImageToDisplay = linkImagesToDisplay[activeImageIndex];
     if (urlImageToDisplay)
       if (urlImageToDisplay.url) urlImageToDisplay = urlImageToDisplay.url;
-
     return (
       <div className={className}>
         <div
@@ -116,8 +117,21 @@ class LinkPreview extends Component {
           </GIContainer>
         </div>
         <div className="simple-container py4">
-          <h4>{linkTitle}</h4>
-          <p>{smartLinkDescription}</p>
+          <ContentEditable
+            className="simple-container medium pa4"
+            disabled={true}
+            html={("<h4>" + linkTitle + "</h4>").toString()}
+            innerRef={this.contentEditable}
+            onChange={e => handleChange(e.target.value)}
+          />
+
+          <ContentEditable
+            className="simple-container medium pa4"
+            disabled={true}
+            html={("<p>" + smartLinkDescription + "</p>").toString()}
+            innerRef={this.contentEditable}
+            onChange={e => handleChange(e.target.value)}
+          />
         </div>
       </div>
     );
