@@ -129,7 +129,10 @@ class HeaderSideBar extends Component {
                     <div
                       className="header-button px16 py8"
                       onClick={() =>
-                        context.handleChange({ clientSideBar: true })
+                        context.handleChange({
+                          clientSideBar: true,
+                          headerSideBar: false
+                        })
                       }
                     >
                       <FontAwesomeIcon icon={faUsers} className="mr8" />
@@ -251,7 +254,10 @@ class HeaderSideBar extends Component {
                     <div
                       className="header-button px16 py8 justify-center flex"
                       onClick={() =>
-                        context.handleChange({ clientSideBar: true })
+                        context.handleChange({
+                          clientSideBar: true,
+                          headerSideBar: false
+                        })
                       }
                     >
                       <FontAwesomeIcon icon={faUsers} />
