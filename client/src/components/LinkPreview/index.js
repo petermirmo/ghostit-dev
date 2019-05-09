@@ -29,7 +29,7 @@ class LinkPreview extends Component {
       activeImageIndex = linkImagesArray.length + linkCustomFiles.length - 1;
     }
 
-    handleChange(linkImagesArray[activeImageIndex]);
+    handleChange(linkImagesArray[activeImageIndex], "linkImage");
     this.setState({ activeImageIndex });
   };
   shortenLinkDescriptionIfNeeded = linkDescription => {
@@ -38,6 +38,14 @@ class LinkPreview extends Component {
         return linkDescription.substring(0, 100) + "...";
       else return linkDescription;
     } else return linkDescription;
+  };
+  getTextFromHtml = htmlString => {
+    let temp = document.createElement("div");
+    if (htmlString)
+      temp.innerHTML =
+        "<div   dangerouslySetInnerHTML={{__html: " + htmlString + "";
+
+    return temp.textContent || temp.innerText || "";
   };
   render() {
     const { activeImageIndex } = this.state;
@@ -116,21 +124,28 @@ class LinkPreview extends Component {
             )}
           </GIContainer>
         </div>
-        <div className="simple-container py4">
+        <div className="simple-container pa4">
           <ContentEditable
-            className="simple-container medium pa4"
-            disabled={true}
+            className="pa4"
+            disabled={!linkPreviewCanEdit}
             html={("<h4>" + linkTitle + "</h4>").toString()}
             innerRef={this.contentEditable}
-            onChange={e => handleChange(e.target.value)}
+            onChange={e =>
+              handleChange(this.getTextFromHtml(e.target.value), "linkTitle")
+            }
           />
 
           <ContentEditable
-            className="simple-container medium pa4"
-            disabled={true}
+            className="pa4"
+            disabled={!linkPreviewCanEdit}
             html={("<p>" + smartLinkDescription + "</p>").toString()}
             innerRef={this.contentEditable}
-            onChange={e => handleChange(e.target.value)}
+            onChange={e =>
+              handleChange(
+                this.getTextFromHtml(e.target.value),
+                "linkDescription"
+              )
+            }
           />
         </div>
       </div>

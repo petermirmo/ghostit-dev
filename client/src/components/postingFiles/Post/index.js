@@ -88,7 +88,9 @@ class PostingOptions extends Component {
       instructions: "",
       link: "",
       linkCustomFiles: [],
+      linkDescription: "",
       linkImage: "",
+      linkTitle: "",
       linkImagesArray: [],
       name: "",
       promptModifyCampaignDates: false,
@@ -107,8 +109,14 @@ class PostingOptions extends Component {
       stateVariable.linkCustomFiles = props.post.linkCustomFiles
         ? props.post.linkCustomFiles
         : [];
+      stateVariable.linkDescription = props.post.linkDescription
+        ? props.post.linkDescription
+        : "";
       stateVariable.linkImage = props.post.linkImage
         ? props.post.linkImage
+        : "";
+      stateVariable.linkTitle = props.post.linkTitle
+        ? props.post.linkTitle
         : "";
       stateVariable.files = props.post.files ? props.post.files : [];
       stateVariable.videos = props.post.videos ? props.post.videos : [];
@@ -223,13 +231,17 @@ class PostingOptions extends Component {
   }
   getDataFromURL = newLink => {
     axios.post("/api/link", { link: newLink }).then(res => {
-      let { loggedIn } = res.data;
+      const { loggedIn } = res.data;
       if (loggedIn === false) this.props.history.push("/sign-in");
 
-      let { imgSrc, linkTitle, linkDescription } = res.data;
+      const { imgSrc } = res.data;
+      let { linkTitle, linkDescription } = this.state;
+
+      if (!linkTitle) linkTitle = res.data.linkTitle;
+      if (!linkDescription) linkDescription = res.data.linkDescription;
 
       if (this._ismounted && res.data && imgSrc[0]) {
-        let linkImage = imgSrc[0];
+        const linkImage = imgSrc[0];
 
         if (this._ismounted)
           this.setState({
@@ -435,9 +447,7 @@ class PostingOptions extends Component {
                       <LinkPreview
                         canAddFilesToLink={canAddFilesToLink && canEditPost}
                         canEdit={canEditPost}
-                        handleChange={image =>
-                          this.handleChange(image, "linkImage")
-                        }
+                        handleChange={this.handleChange}
                         link={link}
                         linkCustomFiles={linkCustomFiles}
                         linkDescription={linkDescription}
