@@ -911,15 +911,9 @@
   font-size: var(--eighteen-font-size);
 }
 
-.round-icon-button {
-  width: 25px;
-  height: 25px;
-
-  margin-left: auto;
-  margin-right: auto;
-
-  background-color: var(--seven-blue-color);
-  color: var(--white-theme-color);
+.round-icon {
+  min-width: 24px;
+  min-height: 24px;
 }
 .common-shadow {
   box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.2);

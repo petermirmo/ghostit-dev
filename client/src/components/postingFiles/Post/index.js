@@ -392,7 +392,7 @@ class PostingOptions extends Component {
       return (
         <div className="simple-column-box mt32 no-accounts">
           Connect {tempMessage} account!
-          <Link to="/social-accounts">Go to Social Profiles Page</Link>
+          <Link to="/social-accounts">Go to Social Accounts Page</Link>
         </div>
       );
     }

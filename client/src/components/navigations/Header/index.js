@@ -136,7 +136,7 @@ class HeaderSideBar extends Component {
                       }
                     >
                       <FontAwesomeIcon icon={faUsers} className="mr8" />
-                      Sign Into Client Account
+                      Client Account's
                     </div>
                   )}
                   {(user.role === "demo" || isAdmin) && (
@@ -147,7 +147,7 @@ class HeaderSideBar extends Component {
                         }
                       >
                         <FontAwesomeIcon icon={faStar} className="mr8" />
-                        Upgrade to Paid Plan
+                        Upgrade Plan
                       </div>
                     </Link>
                   )}
@@ -199,7 +199,7 @@ class HeaderSideBar extends Component {
                       }
                     >
                       <FontAwesomeIcon icon={faPlus} className="mr8" />
-                      Social Profiles
+                      Social Accounts
                     </div>
                   </Link>
                   {isAdmin && (

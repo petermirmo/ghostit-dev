@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 
 import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
+import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -13,6 +14,7 @@ import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 import GIContainer from "../../components/containers/GIContainer";
 import Page from "../../components/containers/Page";
 import GIButton from "../../components/views/GIButton";
+import GIText from "../../components/views/GIText";
 
 import {
   disconnectAccount,
@@ -86,7 +88,7 @@ class AccountsPage extends Component {
     const { socialType } = account;
 
     return (
-      <GIContainer className="connected-social-div" key={index}>
+      <GIContainer className="x-fill mb8" key={index}>
         <GIContainer className="full-center">
           <FontAwesomeIcon
             icon={getPostIcon(socialType)}
@@ -128,97 +130,248 @@ class AccountsPage extends Component {
 
     const { setaccounts, accounts } = this.props; // Functions
 
-    const connectedFacebookAccountDivs = [];
+    const connectedFacebookProfileAccountDivs = [];
+    const connectedFacebookPageAccountDivs = [];
+    const connectedFacebookGroupAccountDivs = [];
     const connectedTwitterAccountDivs = [];
-    const connectedLinkedinAccountDivs = [];
-    const connectedInstagramAccountDivs = [];
+    const connectedLinkedinProfileAccountDivs = [];
+    const connectedLinkedinPageAccountDivs = [];
+    const connectedInstagramPageAccountDivs = [];
 
     accounts.map((account, index) => {
       if (account.socialType === "facebook") {
-        return connectedFacebookAccountDivs.push(
-          this.pushNewConnectedAccountDiv(account, index)
-        );
+        if (account.accountType === "profile")
+          return connectedFacebookProfileAccountDivs.push(
+            this.pushNewConnectedAccountDiv(account, index)
+          );
+        else if (account.accountType === "page")
+          return connectedFacebookPageAccountDivs.push(
+            this.pushNewConnectedAccountDiv(account, index)
+          );
+        else if (account.accountType === "group")
+          return connectedFacebookGroupAccountDivs.push(
+            this.pushNewConnectedAccountDiv(account, index)
+          );
       } else if (account.socialType === "twitter") {
         return connectedTwitterAccountDivs.push(
           this.pushNewConnectedAccountDiv(account, index)
         );
       } else if (account.socialType === "linkedin") {
-        return connectedLinkedinAccountDivs.push(
-          this.pushNewConnectedAccountDiv(account, index)
-        );
+        if (account.accountType === "profile")
+          return connectedLinkedinProfileAccountDivs.push(
+            this.pushNewConnectedAccountDiv(account, index)
+          );
+        else if (account.accountType === "page")
+          return connectedLinkedinPageAccountDivs.push(
+            this.pushNewConnectedAccountDiv(account, index)
+          );
       } else if (account.socialType === "instagram") {
-        return connectedInstagramAccountDivs.push(
+        return connectedInstagramPageAccountDivs.push(
           this.pushNewConnectedAccountDiv(account, index)
         );
       } else return false;
     });
 
     return (
-      <Page className="py16 px32" title="Social Accounts">
-        <GIContainer className="column align-center fill-flex mx16">
+      <Page className="py16 px32 align-start" title="Social Accounts">
+        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+          <GIContainer className="align-center mb16">
+            <FontAwesomeIcon
+              className="mr8"
+              color={getPostColor("facebook")}
+              icon={getPostIcon("facebook")}
+              size="2x"
+            />
+            <GIText text="Facebook" type="h4" />
+          </GIContainer>
+          <GIText
+            className="tac mb16"
+            text="Connect a Facebook account to use it on Ghostit."
+            type="h6"
+          />
+
           <GIButton
-            className="social-header-button tac pa8 mb16"
+            className="regular-button mb16"
             onClick={() => {
               window.location = "/api/facebook";
             }}
             text="Connect Facebook"
-            style={{ backgroundColor: getPostColor("facebook") }}
           />
+          {connectedFacebookProfileAccountDivs}
+          <GIText
+            className="my16 border-bottom x-fill"
+            text="Your Facebook Pages"
+            type="h4"
+          />
+          {connectedFacebookProfileAccountDivs.length === 0 && (
+            <GIText
+              className="mb8"
+              text="You must first connect a profile account."
+              type="h6"
+            />
+          )}
+          {connectedFacebookPageAccountDivs}
+          {connectedFacebookProfileAccountDivs.length > 0 && (
+            <GIContainer className="align-center x-fill mt16">
+              <FontAwesomeIcon
+                className="regular-button-colors round clickable round-icon pa8"
+                icon={faPlus}
+                onClick={() => this.openModal("facebook", "page")}
+              />
+              <GIText className="pa4" text="Add Page" type="h6" />
+            </GIContainer>
+          )}
 
-          <GIButton
-            className="social-media-connect mb16 pa4"
-            onClick={() => this.openModal("facebook", "page")}
-            text="Connect Facebook Page"
-            style={{ backgroundColor: getPostColor("facebook") }}
+          <GIText
+            className="my16 border-bottom x-fill"
+            text="Your Facebook Groups"
+            type="h4"
           />
-          <GIButton
-            className="social-media-connect mb16 pa4"
-            onClick={() => this.openModal("facebook", "group")}
-            text="Connect Facebook Group"
-            style={{ backgroundColor: getPostColor("facebook") }}
-          />
-          {connectedFacebookAccountDivs}
+          {connectedFacebookProfileAccountDivs.length === 0 && (
+            <GIText
+              className="mb8"
+              text="You must first connect a profile account."
+              type="h6"
+            />
+          )}
+          {connectedFacebookGroupAccountDivs}
+          {connectedFacebookProfileAccountDivs.length > 0 && (
+            <GIContainer className="align-center x-fill mt16">
+              <FontAwesomeIcon
+                className="regular-button-colors round clickable round-icon pa8"
+                icon={faPlus}
+                onClick={() => this.openModal("facebook", "group")}
+              />
+              <GIText className="pa4" text="Add Group" type="h6" />
+            </GIContainer>
+          )}
         </GIContainer>
 
-        <GIContainer className="column align-center fill-flex mx16">
+        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+          <GIContainer className="align-center mb16">
+            <FontAwesomeIcon
+              className="mr8"
+              color={getPostColor("twitter")}
+              icon={getPostIcon("twitter")}
+              size="2x"
+            />
+            <GIText text="Twitter" type="h4" />
+          </GIContainer>
+          <GIText
+            className="tac mb16"
+            text="Connect a Twitter account to use it on Ghostit."
+            type="h6"
+          />
+
           <GIButton
-            className="social-header-button tac pa8 mb16"
+            className="regular-button mb16"
             onClick={() => {
               window.location = "/api/twitter";
             }}
             text="Connect Twitter"
-            style={{ backgroundColor: getPostColor("twitter") }}
           />
 
           {connectedTwitterAccountDivs}
         </GIContainer>
-        <GIContainer className="column align-center fill-flex mx16">
+
+        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+          <GIContainer className="align-center mb16">
+            <FontAwesomeIcon
+              className="mr8"
+              color={getPostColor("linkedin")}
+              icon={getPostIcon("linkedin")}
+              size="2x"
+            />
+            <GIText text="LinkedIn" type="h4" />
+          </GIContainer>
+          <GIText
+            className="tac mb16"
+            text="Connect a LinkedIn account to use it on Ghostit."
+            type="h6"
+          />
+
           <GIButton
-            className="social-header-button tac pa8 mb16"
+            className="regular-button mb16"
             onClick={() => {
               window.location = "/api/linkedin";
             }}
             text="Connect Linkedin"
-            style={{ backgroundColor: getPostColor("linkedin") }}
+          />
+          {connectedLinkedinProfileAccountDivs}
+
+          <GIText
+            className="my16 border-bottom x-fill"
+            text="Your LinkedIn Pages"
+            type="h4"
+          />
+          {connectedLinkedinProfileAccountDivs.length === 0 && (
+            <GIText
+              className="mb8"
+              text="You must first connect a profile account."
+              type="h6"
+            />
+          )}
+
+          {connectedLinkedinPageAccountDivs}
+          {connectedLinkedinProfileAccountDivs.length > 0 && (
+            <GIContainer className="align-center x-fill mt16">
+              <FontAwesomeIcon
+                className="regular-button-colors round clickable round-icon pa8"
+                icon={faPlus}
+                onClick={() => this.openModal("linkedin", "page")}
+              />
+              <GIText className="pa4" text="Add Page" type="h6" />
+            </GIContainer>
+          )}
+        </GIContainer>
+
+        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+          <GIContainer className="align-center mb16">
+            <FontAwesomeIcon
+              className="mr8"
+              color={getPostColor("instagram")}
+              icon={getPostIcon("instagram")}
+              size="2x"
+            />
+            <GIText text="Instagram" type="h4" />
+          </GIContainer>
+          <GIText
+            className="tac mb16"
+            text="Connect a Facebook account to add an Instagram Page."
+            type="h6"
+          />
+          <GIButton
+            className="regular-button mb16"
+            onClick={() => {
+              window.location = "/api/facebook";
+            }}
+            text="Connect Facebook"
           />
 
-          <GIButton
-            className="social-media-connect mb16 pa4"
-            onClick={() => this.openModal("linkedin", "page")}
-            text="Connect LinkedIn Page"
-            style={{ backgroundColor: getPostColor("linkedin") }}
+          <GIText
+            className="mb16 border-bottom x-fill"
+            text="Your Instagram Pages"
+            type="h4"
           />
-          {connectedLinkedinAccountDivs}
-        </GIContainer>
-        <GIContainer className="column align-center fill-flex mx16">
-          <GIButton
-            className="social-header-button flex hc button mb16 pa8 instagram"
-            onClick={() => this.openModal("instagram", "page")}
-          >
-            Connect Instagram <br />
-            (Coming Soon)
-          </GIButton>
-          {connectedInstagramAccountDivs}
+          {connectedFacebookProfileAccountDivs.length === 0 && (
+            <GIText
+              className="mb8"
+              text="You must first connect a Facebook Profile."
+              type="h6"
+            />
+          )}
+
+          {connectedInstagramPageAccountDivs}
+          {connectedFacebookProfileAccountDivs.length > 0 && (
+            <GIContainer className="align-center x-fill mt16">
+              <FontAwesomeIcon
+                className="regular-button-colors round clickable round-icon pa8"
+                icon={faPlus}
+                onClick={() => this.openModal("instagram", "page")}
+              />
+              <GIText className="pa4" text="Add Page" type="h6" />
+            </GIContainer>
+          )}
         </GIContainer>
         {addPageOrGroupModal && (
           <AddPageOrGroupModal
