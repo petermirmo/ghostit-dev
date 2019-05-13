@@ -40,10 +40,10 @@ class socialMediaDiv extends Component {
     const accountsDiv = accounts.map((page, index) => (
       <GIContainer
         className={index !== accounts.length - 1 ? "border-bottom" : ""}
+        key={index}
       >
         <GIContainer
           className="align-center justify-between fill-flex pa16"
-          key={index}
           onClick={event => this.handleParentClick(index)}
         >
           <GIContainer className="column">

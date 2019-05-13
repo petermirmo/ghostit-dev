@@ -68,7 +68,7 @@ class DashboardPage extends Component {
     return (
       <Consumer>
         {context => (
-          <Page className="column align-center py64 px64">
+          <Page className="column align-center py64 px64" title="Dashboard">
             <GIContainer className="x-fill">
               <GIText className="mb32 mx8" type="h1" text="Dashboard" />
             </GIContainer>

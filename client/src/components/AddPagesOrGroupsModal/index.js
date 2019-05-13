@@ -57,7 +57,7 @@ class AddPagesOrGroupsModal extends Component {
     return (
       <Modal
         body={
-          <GIContainer className="column bg-white x-fill fill-flex">
+          <GIContainer className="column x-fill y-fill">
             {!errorMessage && (
               <SocialMediaDiv
                 updateParentAccounts={this.setPagesToAdd}

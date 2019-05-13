@@ -65,7 +65,7 @@
 
   width: 100%;
   overflow: auto;
-  background-color: var(--light-grey-theme-color);
+  background-color: var(--white-theme-color);
 }
 
 .modal-footer {
