@@ -1,11 +1,3 @@
-.accounts-wrapper {
-}
-.account-column {
-}
-
-.connected-social-media-icon {
-  color: var(--primary-font-color);
-}
 .connected-social {
   flex: 1;
   color: var(--primary-font-color);

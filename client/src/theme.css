@@ -778,6 +778,30 @@
   padding-left: 4px;
 }
 
+.pa2 {
+  padding: 2px;
+}
+.px2 {
+  padding-right: 2px;
+  padding-left: 2px;
+}
+.py2 {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.pt2 {
+  padding-top: 2px;
+}
+.pr2 {
+  padding-right: 2px;
+}
+.pb2 {
+  padding-bottom: 2px;
+}
+.pl2 {
+  padding-left: 2px;
+}
+
 .ma64 {
   margin: 64px;
 }

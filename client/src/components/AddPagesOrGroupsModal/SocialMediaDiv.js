@@ -1,14 +1,22 @@
 import React, { Component } from "react";
 
+import CheckBox from "../views/CheckBox";
+import GIContainer from "../containers/GIContainer";
+import GIText from "../views/GIText";
+
 class socialMediaDiv extends Component {
   state = {
     pagesToAdd: [],
     activeDivs: []
   };
+
   //  For social media background color change on click
   handleParentClick = indexOfAccount => {
-    const { accounts } = this.props;
+    const { accounts } = this.props; // Variables
+    const { updateParentAccounts } = this.props; // Functions
+
     let { pagesToAdd, activeDivs } = this.state;
+
     let temp = activeDivs;
     // Check if object is in state array
     if (!pagesToAdd.includes(accounts[indexOfAccount])) {
@@ -22,46 +30,33 @@ class socialMediaDiv extends Component {
       temp[indexOfAccount] = false;
     }
     this.setState({ activeDivs: temp });
-    this.props.updateParentAccounts(pagesToAdd);
+    updateParentAccounts(pagesToAdd);
   };
 
   render() {
-    const { message, accounts } = this.props;
+    const { accounts } = this.props;
     const { activeDivs } = this.state;
 
-    // Error message
-    let pagesMessage = <p>{message}</p>;
-
-    let accountsDiv = [];
-
-    for (let index in accounts) {
-      let page = accounts[index];
-      pagesMessage = null;
-      let className = "social-media-div";
-      if (activeDivs[index]) {
-        className += " social-media-div-clicked";
-      }
-
-      // This creates a div for each page that can be clicked
-      // by the user to save these pages to our database
-      accountsDiv.push(
-        <div
+    const accountsDiv = accounts.map((page, index) => (
+      <GIContainer
+        className={index !== accounts.length - 1 ? "border-bottom" : ""}
+      >
+        <GIContainer
+          className="align-center justify-between fill-flex pa16"
           key={index}
-          className={className}
           onClick={event => this.handleParentClick(index)}
         >
-          <h4>{page.name ? page.name : page.username}</h4>
-          <p>{page.category}</p>
-        </div>
-      );
-    }
+          <GIContainer className="column">
+            <GIText text={page.name ? page.name : page.username} type="h4" />
+            <GIText text={page.category} type="p" />
+          </GIContainer>
 
-    return (
-      <div>
-        {pagesMessage}
-        {accountsDiv}
-      </div>
-    );
+          <CheckBox active={activeDivs[index]} />
+        </GIContainer>
+      </GIContainer>
+    ));
+
+    return <GIContainer className="column">{accountsDiv}</GIContainer>;
   }
 }
 

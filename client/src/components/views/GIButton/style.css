@@ -7,6 +7,14 @@
 .square-button:hover {
   background-color: var(--eight-blue-color);
 }
+
+.opposite-button-colors {
+  background-color: var(--white-theme-color);
+  color: var(--seven-blue-color);
+}
+.opposite-button-colors:hover {
+  color: var(--five-blue-color);
+}
 .regular-button-colors {
   background-color: var(--seven-blue-color);
   color: var(--white-theme-color);

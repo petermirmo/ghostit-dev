@@ -9,7 +9,7 @@ import "./style.css";
 
 class Modal extends Component {
   render() {
-    const { body, className, footer, header } = this.props; // Variables
+    const { body, className, footer, header, showClose = true } = this.props; // Variables
     const { close } = this.props; // Functions
     return (
       <GIContainer className="modal" onClick={close}>
@@ -17,12 +17,14 @@ class Modal extends Component {
           className={`modal-content ${className}`}
           onClick={e => e.stopPropagation()}
         >
-          <FontAwesomeIcon
-            icon={faTimes}
-            size="2x"
-            className="close"
-            onClick={close}
-          />
+          {showClose && (
+            <FontAwesomeIcon
+              icon={faTimes}
+              size="2x"
+              className="close"
+              onClick={close}
+            />
+          )}
           {header && (
             <GIContainer className="modal-header">{header}</GIContainer>
           )}

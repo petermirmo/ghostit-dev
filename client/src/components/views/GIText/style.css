@@ -55,7 +55,7 @@ h3 {
   font-family: var(--silly-font);
 }
 h4 {
-  color: var(--secondary-font-color);
+  color: var(--primary-font-color);
   margin: 0;
   text-align: left;
   font-weight: 100;
@@ -63,14 +63,14 @@ h4 {
   font-size: var(--twenty-font-size);
 }
 h5 {
-  color: var(--secondary-font-color);
+  color: var(--blue-font-color);
   margin: 0;
   font-weight: 100;
   font-family: var(--silly-font);
   font-size: var(--sixteen-font-size);
 }
 h6 {
-  color: var(--secondary-font-color);
+  color: var(--primary-font-color);
   margin: 0;
   font-weight: 100;
   font-family: var(--silly-font);
@@ -79,7 +79,7 @@ h6 {
 
 p {
   margin: 0;
-  color: var(--secondary-font-color);
+  color: var(--primary-font-color);
   text-align: left;
   font-size: var(--fourteen-font-size);
   font-weight: 100;

@@ -3,8 +3,12 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import axios from "axios";
 
+import Modal from "../containers/Modal";
+import GIContainer from "../containers/GIContainer";
+import GIButton from "../views/GIButton";
+import GIText from "../views/GIText";
+
 import SocialMediaDiv from "./SocialMediaDiv";
-import "./style.css";
 
 class AddPagesOrGroupsModal extends Component {
   state = {
@@ -51,26 +55,9 @@ class AddPagesOrGroupsModal extends Component {
     if (!pageOrGroupArray) pageOrGroupArray = [];
 
     return (
-      <div className="modal">
-        <div
-          className="modal-content"
-          style={{ textAlign: "center", width: "35%" }}
-        >
-          <div className={socialType + " modal-header"}>
-            <FontAwesomeIcon
-              icon={faTimes}
-              size="2x"
-              className="close"
-              onClick={() => this.props.close()}
-            />
-
-            <h2 className="connect-header">
-              Connect {socialType.charAt(0).toUpperCase() + socialType.slice(1)}{" "}
-              {accountType.charAt(0).toUpperCase() + accountType.slice(1)}
-            </h2>
-          </div>
-
-          <div className="modal-body">
+      <Modal
+        body={
+          <GIContainer className="column bg-white x-fill">
             {!errorMessage && (
               <SocialMediaDiv
                 updateParentAccounts={this.setPagesToAdd}
@@ -78,21 +65,47 @@ class AddPagesOrGroupsModal extends Component {
                 errorMessage={errorMessage}
               />
             )}
-            {errorMessage && <div>{errorMessage}</div>}
-          </div>
 
-          {pageOrGroupArray.length !== 0 && (
-            <div className="modal-footer">
-              <button
-                className={socialType + " connect-social-media"}
-                onClick={() => this.addAccounts()}
-              >
-                Connect
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+            {errorMessage && (
+              <GIContainer className="pa16">
+                <div>{errorMessage}</div>
+              </GIContainer>
+            )}
+          </GIContainer>
+        }
+        className="br8"
+        footer={
+          <GIContainer className="x-fill full-center my16">
+            <GIButton
+              className="regular-button"
+              onClick={() => this.addAccounts()}
+              text="Connect"
+            />
+          </GIContainer>
+        }
+        header={
+          <GIContainer className="bg-seven-blue x-fill full-center py16">
+            <GIContainer className="fill-flex" />
+            <GIText
+              className="white"
+              text={`Connect ${socialType
+                .charAt(0)
+                .toUpperCase()}${socialType.slice(1)} ${accountType
+                .charAt(0)
+                .toUpperCase()}${accountType.slice(1)}`}
+              type="h2"
+            />
+            <GIContainer className="justify-end fill-flex px16">
+              <FontAwesomeIcon
+                icon={faTimes}
+                className="opposite-button-colors clickable br4 round-icon"
+                onClick={() => this.props.close()}
+              />
+            </GIContainer>
+          </GIContainer>
+        }
+        showClose={false}
+      />
     );
   }
 }

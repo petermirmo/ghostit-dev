@@ -9,10 +9,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setaccounts } from "../../redux/actions";
 
-import AddPageOrGroupModal from "./AddPagesOrGroupsModal";
+import AddPageOrGroupModal from "../../components/AddPagesOrGroupsModal";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
-import GIContainer from "../../components/containers/GIContainer";
 import Page from "../../components/containers/Page";
+import GIContainer from "../../components/containers/GIContainer";
 import GIButton from "../../components/views/GIButton";
 import GIText from "../../components/views/GIText";
 
@@ -38,7 +38,8 @@ class AccountsPage extends Component {
     pageOrGroupArray: [],
     accountType: "",
     socialType: "",
-    errorMessage: "",
+    errorMessage:
+      "You either have no accounts to connect or you need to re-authenticate your profile account by re-adding it!",
     addPageOrGroupModal: false,
     accountToDelete: undefined,
     deleteAccount: false
@@ -58,6 +59,7 @@ class AccountsPage extends Component {
       accountType,
       addPageOrGroupModal: true
     });
+    const { errorMessage } = this.state;
 
     if (socialType === "facebook") {
       if (accountType === "page") {

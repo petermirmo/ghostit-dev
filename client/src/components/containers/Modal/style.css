@@ -27,9 +27,8 @@
 
   margin-top: 10vh;
 
-  border-radius: 4px;
-
   z-index: 10;
+  overflow: hidden;
 
   animation: animateOpacity 0.2s;
 }

@@ -20,7 +20,7 @@ class Filter extends Component {
           onClick={() => updateActiveCategory(index)}
           id={index}
         >
-          <div className="checkbox-box  flex vc hc br4">
+          <div className="checkbox-box flex vc hc br4">
             <div
               className="checkbox-check"
               style={{ display: categories[index] ? undefined : "none" }}
