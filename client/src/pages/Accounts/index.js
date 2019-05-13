@@ -223,30 +223,6 @@ class AccountsPage extends Component {
               <GIText className="pa4" text="Add Page" type="h6" />
             </GIContainer>
           )}
-
-          <GIText
-            className="my16 border-bottom x-fill"
-            text="Your Facebook Groups"
-            type="h4"
-          />
-          {connectedFacebookProfileAccountDivs.length === 0 && (
-            <GIText
-              className="mb8"
-              text="You must first connect a profile account."
-              type="h6"
-            />
-          )}
-          {connectedFacebookGroupAccountDivs}
-          {connectedFacebookProfileAccountDivs.length > 0 && (
-            <GIContainer className="align-center x-fill mt16">
-              <FontAwesomeIcon
-                className="regular-button-colors round clickable round-icon pa8"
-                icon={faPlus}
-                onClick={() => this.openModal("facebook", "group")}
-              />
-              <GIText className="pa4" text="Add Group" type="h6" />
-            </GIContainer>
-          )}
         </GIContainer>
 
         <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
@@ -327,54 +303,6 @@ class AccountsPage extends Component {
           )}
         </GIContainer>
 
-        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
-          <GIContainer className="align-center mb16">
-            <FontAwesomeIcon
-              className="mr8"
-              color={getPostColor("instagram")}
-              icon={getPostIcon("instagram")}
-              size="2x"
-            />
-            <GIText text="Instagram" type="h4" />
-          </GIContainer>
-          <GIText
-            className="tac mb16"
-            text="Connect a Facebook account to add an Instagram Page."
-            type="h6"
-          />
-          <GIButton
-            className="regular-button mb16"
-            onClick={() => {
-              window.location = "/api/facebook";
-            }}
-            text="Connect Facebook"
-          />
-
-          <GIText
-            className="mb16 border-bottom x-fill"
-            text="Your Instagram Pages"
-            type="h4"
-          />
-          {connectedFacebookProfileAccountDivs.length === 0 && (
-            <GIText
-              className="mb8"
-              text="You must first connect a Facebook Profile."
-              type="h6"
-            />
-          )}
-
-          {connectedInstagramPageAccountDivs}
-          {connectedFacebookProfileAccountDivs.length > 0 && (
-            <GIContainer className="align-center x-fill mt16">
-              <FontAwesomeIcon
-                className="regular-button-colors round clickable round-icon pa8"
-                icon={faPlus}
-                onClick={() => this.openModal("instagram", "page")}
-              />
-              <GIText className="pa4" text="Add Page" type="h6" />
-            </GIContainer>
-          )}
-        </GIContainer>
         {addPageOrGroupModal && (
           <AddPageOrGroupModal
             getUserAccounts={() =>
@@ -404,6 +332,81 @@ class AccountsPage extends Component {
     );
   }
 }
+
+/*
+<GIText
+  className="my16 border-bottom x-fill"
+  text="Your Facebook Groups"
+  type="h4"
+/>
+{connectedFacebookProfileAccountDivs.length === 0 && (
+  <GIText
+    className="mb8"
+    text="You must first connect a profile account."
+    type="h6"
+  />
+)}
+{connectedFacebookGroupAccountDivs}
+{connectedFacebookProfileAccountDivs.length > 0 && (
+  <GIContainer className="align-center x-fill mt16">
+    <FontAwesomeIcon
+      className="regular-button-colors round clickable round-icon pa8"
+      icon={faPlus}
+      onClick={() => this.openModal("facebook", "group")}
+    />
+    <GIText className="pa4" text="Add Group" type="h6" />
+  </GIContainer>
+)}*/
+
+/*
+<GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+  <GIContainer className="align-center mb16">
+    <FontAwesomeIcon
+      className="mr8"
+      color={getPostColor("instagram")}
+      icon={getPostIcon("instagram")}
+      size="2x"
+    />
+    <GIText text="Instagram" type="h4" />
+  </GIContainer>
+  <GIText
+    className="tac mb16"
+    text="Connect a Facebook account to add an Instagram Page."
+    type="h6"
+  />
+  <GIButton
+    className="regular-button mb16"
+    onClick={() => {
+      window.location = "/api/facebook";
+    }}
+    text="Connect Facebook"
+  />
+
+  <GIText
+    className="mb16 border-bottom x-fill"
+    text="Your Instagram Pages"
+    type="h4"
+  />
+  {connectedFacebookProfileAccountDivs.length === 0 && (
+    <GIText
+      className="mb8"
+      text="You must first connect a Facebook Profile."
+      type="h6"
+    />
+  )}
+
+  {connectedInstagramPageAccountDivs}
+  {connectedFacebookProfileAccountDivs.length > 0 && (
+    <GIContainer className="align-center x-fill mt16">
+      <FontAwesomeIcon
+        className="regular-button-colors round clickable round-icon pa8"
+        icon={faPlus}
+        onClick={() => this.openModal("instagram", "page")}
+      />
+      <GIText className="pa4" text="Add Page" type="h6" />
+    </GIContainer>
+  )}
+</GIContainer>*/
 
 function mapStateToProps(state) {
   return {
