@@ -5,12 +5,13 @@ import io from "socket.io-client";
 import moment from "moment-timezone";
 import TextArea from "react-textarea-autosize";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
-import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
-import faCircle from "@fortawesome/fontawesome-free-solid/faCircle";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faAngleDown,
+  faAngleRight,
+  faCircle,
+  faTimes
+} from "@fortawesome/free-solid-svg-icons";
 import "./style.css";
 
 class CalendarChat extends Component {

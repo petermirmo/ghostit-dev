@@ -1,10 +1,12 @@
 import moment from "moment-timezone";
 import axios from "axios";
 
-import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
-import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
-import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
-import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+import {
+  faFacebookSquare,
+  faInstagram,
+  faLinkedin,
+  faTwitterSquare
+} from "@fortawesome/free-brands-svg-icons";
 
 export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
   // function called when a user clicks on an existing recipe to edit
@@ -494,8 +496,8 @@ export function getSocialCharacters(post_type) {
   } else return undefined;
 }
 export function getPostIcon(socialType) {
-  if (socialType === "facebook") return faFacebook;
-  else if (socialType === "twitter") return faTwitter;
+  if (socialType === "facebook") return faFacebookSquare;
+  else if (socialType === "twitter") return faTwitterSquare;
   else if (socialType === "linkedin") return faLinkedin;
   else if (socialType === "instagram") return faInstagram;
   else return false;

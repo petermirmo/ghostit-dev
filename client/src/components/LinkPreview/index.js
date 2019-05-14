@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faLongArrowAltLeft from "@fortawesome/fontawesome-free-solid/faLongArrowAltLeft";
-import faLongArrowAltRight from "@fortawesome/fontawesome-free-solid/faLongArrowAltRight";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faLongArrowAltLeft,
+  faLongArrowAltRight
+} from "@fortawesome/free-solid-svg-icons";
 
 import ContentEditable from "react-contenteditable";
 

@@ -3,7 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { mobileAndTabletcheck } from "../../../componentFunctions";
 

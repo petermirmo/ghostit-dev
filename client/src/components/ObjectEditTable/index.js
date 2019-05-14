@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
-import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
-import faCheck from "@fortawesome/fontawesome-free-solid/faCheck";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import NonEditableAttribute from "./NonEditableAttribute";
 import EditableAttribute from "./EditableAttribute";

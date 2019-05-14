@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
-import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
-import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebookSquare,
+  faLinkedin,
+  faTwitter
+} from "@fortawesome/free-brands-svg-icons";
 
 import "./style.css";
 
@@ -50,7 +52,7 @@ class SelectAccountDiv extends Component {
         icon = faLinkedin;
         color = "#0077b5";
       } else if (account.socialType === "facebook") {
-        icon = faFacebook;
+        icon = faFacebookSquare;
         color = "#4267b2";
       }
       accountsListDiv.push(
@@ -101,7 +103,7 @@ class SelectAccountDiv extends Component {
         icon = faLinkedin;
         color = "#0077b5";
       } else if (account.socialType === "facebook") {
-        icon = faFacebook;
+        icon = faFacebookSquare;
         color = "#4267b2";
       }
       inactiveAccountsDiv.push(

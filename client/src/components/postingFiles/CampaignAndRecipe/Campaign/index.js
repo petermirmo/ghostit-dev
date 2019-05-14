@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-import faArrowLeft from "@fortawesome/fontawesome-free-solid/faArrowLeft";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import moment from "moment-timezone";
 import io from "socket.io-client";

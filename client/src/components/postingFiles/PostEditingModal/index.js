@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+
 import axios from "axios";
 
 import { connect } from "react-redux";

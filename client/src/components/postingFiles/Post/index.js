@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
-import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+
 import axios from "axios";
 
 import { connect } from "react-redux";

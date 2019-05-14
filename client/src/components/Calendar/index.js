@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
-import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
-import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
-import faFacebookF from "@fortawesome/fontawesome-free-brands/faFacebookF";
-import faLinkedinIn from "@fortawesome/fontawesome-free-brands/faLinkedinIn";
-import faTwitterNormal from "@fortawesome/fontawesome-free-brands/faTwitter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faPlus
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faFacebookF,
+  faTwitter,
+  faLinkedinIn
+} from "@fortawesome/free-brands-svg-icons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -304,7 +308,7 @@ class Calendar extends Component {
 
     let icon;
     if (post.socialType === "facebook") icon = faFacebookF;
-    if (post.socialType === "twitter") icon = faTwitterNormal;
+    if (post.socialType === "twitter") icon = faTwitter;
     if (post.socialType === "linkedin") icon = faLinkedinIn;
     if (needsCampaignCover) {
       return (

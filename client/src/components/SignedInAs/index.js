@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTimes from "@fortawesome/fontawesome-free-solid/faTimes";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { signOutOfUsersAccount } from "./util";
 import "./style.css";
 

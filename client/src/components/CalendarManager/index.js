@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-import faQuestionCircle from "@fortawesome/fontawesome-free-solid/faQuestionCircle";
-import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faSignOutAlt,
+  faTrash,
+  faQuestionCircle
+} from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

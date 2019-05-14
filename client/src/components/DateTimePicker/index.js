@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faCaretDown from "@fortawesome/fontawesome-free-solid/faCaretDown";
-import faAngleLeft from "@fortawesome/fontawesome-free-solid/faAngleLeft";
-import faAngleRight from "@fortawesome/fontawesome-free-solid/faAngleRight";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faAngleLeft,
+  faAngleRight,
+  faCaretDown
+} from "@fortawesome/free-solid-svg-icons";
 import moment from "moment-timezone";
 
 import "./style.css";

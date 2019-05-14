@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash";
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

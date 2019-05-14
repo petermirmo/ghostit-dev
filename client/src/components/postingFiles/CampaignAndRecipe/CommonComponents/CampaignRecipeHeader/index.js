@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faAngleUp from "@fortawesome/fontawesome-free-solid/faAngleUp";
-import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 import DateTimePicker from "../../../../DateTimePicker";
 import SocketUserList from "../../../../SocketUserList";

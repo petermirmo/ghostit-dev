@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faUsers from "@fortawesome/fontawesome-free-solid/faUsers";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
 
 import { capitolizeWordsInString } from "../../componentFunctions";
 

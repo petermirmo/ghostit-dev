@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faAngleDown from "@fortawesome/fontawesome-free-solid/faAngleDown";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import "./style.css";
 

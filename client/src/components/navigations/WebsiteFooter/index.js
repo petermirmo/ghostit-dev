@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faFacebook from "@fortawesome/fontawesome-free-brands/faFacebookSquare";
-import faTwitter from "@fortawesome/fontawesome-free-brands/faTwitterSquare";
-import faLinkedin from "@fortawesome/fontawesome-free-brands/faLinkedin";
-import faInstagram from "@fortawesome/fontawesome-free-brands/faInstagram";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getPostIcon } from "../../../componentFunctions";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../../views/GIText";
@@ -18,10 +15,7 @@ class WebsiteFooter extends Component {
   };
   render() {
     return (
-      <GIContainer
-        className="column x-fill"
-        style={{ backgroundColor: "var(--seven-blue-color)" }}
-      >
+      <GIContainer className="column x-fill bg-seven-blue">
         <GIContainer className="x-wrap px32">
           <div className="container-box column tiny my16">
             <GIText className="white mb16" type="h6" text="Resources" />
@@ -105,10 +99,9 @@ class WebsiteFooter extends Component {
             target="_blank"
           >
             <FontAwesomeIcon
-              icon={faFacebook}
+              className="clickable mb16 white"
+              icon={getPostIcon("facebook")}
               size="2x"
-              style={{ color: "white" }}
-              className="clickable mb16"
             />
           </a>
 
@@ -118,10 +111,9 @@ class WebsiteFooter extends Component {
             target="_blank"
           >
             <FontAwesomeIcon
-              icon={faTwitter}
+              className="clickable ml16 mb16 white"
+              icon={getPostIcon("twitter")}
               size="2x"
-              style={{ color: "white" }}
-              className="clickable ml16 mb16"
             />
           </a>
           <a
@@ -130,10 +122,9 @@ class WebsiteFooter extends Component {
             target="_blank"
           >
             <FontAwesomeIcon
-              icon={faLinkedin}
+              className="clickable ml16 mb16 white"
+              icon={getPostIcon("linkedin")}
               size="2x"
-              style={{ color: "white" }}
-              className="clickable ml16 mb16"
             />
           </a>
           <a
@@ -142,10 +133,9 @@ class WebsiteFooter extends Component {
             target="_blank"
           >
             <FontAwesomeIcon
-              icon={faInstagram}
+              className="clickable ml16 mb16 white"
+              icon={getPostIcon("instagram")}
               size="2x"
-              style={{ color: "white" }}
-              className="clickable ml16 mb16"
             />
           </a>
         </GIContainer>
