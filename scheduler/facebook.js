@@ -31,6 +31,7 @@ module.exports = {
         if (account) {
           // Use facebook profile access token to get account groups
           FB.setAccessToken(account.accessToken);
+          console.log(account.accessToken);
 
           if (post.files.length !== 0) {
             let facebookPostWithFile = {};
@@ -68,7 +69,12 @@ module.exports = {
                       facebookPhotoArray.push({ media_fbid: res.id });
                       if (asyncCounter === 0) {
                         facebookPostWithFile.attached_media = facebookPhotoArray;
+                        console.log(account.accessToken);
+
                         FB.api("me/feed", "post", facebookPostWithFile, res => {
+                          console.log(account.accessToken);
+                          console.log("\n");
+
                           if (!res || res.error) {
                             savePostError(post._id, res.error);
                           } else {
