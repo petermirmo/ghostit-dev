@@ -30,10 +30,6 @@ module.exports = {
         }
         if (account) {
           // Use facebook profile access token to get account groups
-          FB.setAccessToken(account.accessToken);
-          console.log(post._id);
-          console.log(account.accessToken);
-          console.log("\n");
 
           if (post.files.length !== 0) {
             let facebookPostWithFile = {};
@@ -54,7 +50,7 @@ module.exports = {
 
               if (isUrlVideo(post.files[i].url)) {
                 continue;
-
+                FB.setAccessToken(account.accessToken);
                 FB.api(
                   "/me/videos",
                   "post",
@@ -72,6 +68,7 @@ module.exports = {
                       if (asyncCounter === 0) {
                         facebookPostWithFile.attached_media = facebookPhotoArray;
 
+                        FB.setAccessToken(account.accessToken);
                         FB.api("me/feed", "post", facebookPostWithFile, res => {
                           if (!res || res.error) {
                             savePostError(post._id, res.error);
@@ -84,6 +81,7 @@ module.exports = {
                   }
                 );
               } else {
+                FB.setAccessToken(account.accessToken);
                 FB.api(
                   "me/photos",
                   "post",
@@ -95,16 +93,8 @@ module.exports = {
 
                     if (asyncCounter === 0) {
                       facebookPostWithFile.attached_media = facebookPhotoArray;
-                      console.log(post._id);
-                      console.log(account.accessToken);
-                      console.log("\n");
-
+                      FB.setAccessToken(account.accessToken);
                       FB.api("me/feed", "post", facebookPostWithFile, res => {
-                        console.log(post._id);
-
-                        console.log(account.accessToken);
-                        console.log("\n");
-                        console.log("\n");
                         if (!res || res.error) {
                           savePostError(post._id, res.error);
                         } else {
@@ -125,7 +115,7 @@ module.exports = {
             if (post.link !== "") {
               facebookPostNoFile.link = post.link;
             }
-
+            FB.setAccessToken(account.accessToken);
             FB.api("me/feed", "post", facebookPostNoFile, res => {
               if (!res || res.error) {
                 savePostError(post._id, res.error);
