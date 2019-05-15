@@ -49,7 +49,7 @@ module.exports = (env, argv) => {
           use: [{ loader: "style-loader" }, { loader: "css-loader" }]
         },
         {
-          test: /\.(jpe?g|ico|gif|png|svg|woff|ttf|wav|mp3|xml)$/,
+          test: /\.(jpe?g|ico|gif|png|svg|woff|ttf|wav|mp3)$/,
           loader: "file-loader?name=[name].[ext]"
         }
       ]
