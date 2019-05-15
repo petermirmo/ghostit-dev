@@ -1,11 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, argv) => {
   let plugins;
 
-  if (argv.mode == "development")
+  if (argv.mode === "development")
     plugins = [
       new HtmlWebpackPlugin({ template: "./public/index.html" }),
       new webpack.DefinePlugin({
@@ -14,9 +15,15 @@ module.exports = (env, argv) => {
         }
       })
     ];
-  else plugins = [new HtmlWebpackPlugin({ template: "./public/index.html" })];
-
+  else {
+    plugins = [
+      new HtmlWebpackPlugin({ template: "./public/index.html" }),
+      new CopyWebpackPlugin([{ from: "./static" }])
+    ];
+  }
   return {
+    context: path.join(__dirname, ""),
+
     entry: ["babel-polyfill", "./src/index.js"],
     output: {
       path: path.join(__dirname, "/build"),
@@ -42,7 +49,7 @@ module.exports = (env, argv) => {
           use: [{ loader: "style-loader" }, { loader: "css-loader" }]
         },
         {
-          test: /\.(jpe?g|ico|gif|png|svg|woff|ttf|wav|mp3)$/,
+          test: /\.(jpe?g|ico|gif|png|svg|woff|ttf|wav|mp3|xml)$/,
           loader: "file-loader?name=[name].[ext]"
         }
       ]
