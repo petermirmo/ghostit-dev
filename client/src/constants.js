@@ -27,4 +27,4 @@ export const postingTypes = [
   { name: "instagram" }
 ];
 
-export const roles = ["demo", "client", "manager", "admin"];
+export const roles = ["demo", "client", "manager", "tester", "admin"];

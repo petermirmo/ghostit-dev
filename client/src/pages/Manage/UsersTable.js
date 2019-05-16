@@ -162,7 +162,7 @@ class UsersTable extends Component {
         dropdown = true;
 
         if (index === "role") {
-          dropdownList = ["demo", "client", "manager", "admin"];
+          dropdownList = ["demo", "client", "manager", "tester", "admin"];
         } else if (index === "timezone") {
           dropdownList = moment.tz.names();
         } else if (index === "writer") {

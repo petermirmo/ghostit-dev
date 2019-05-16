@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
-let FB = require("fb");
+const FB = require("fb");
 const generalFunctions = require("./generalFunctions");
 const adsSdk = require("facebook-nodejs-business-sdk");
 const keys = require("../config/keys");
@@ -101,8 +101,8 @@ module.exports = {
               let asyncCounter = 0;
               // Each page the user is an admin of can have a connect Instagram account
               for (let index in facebookPages) {
-                let foundFacebookPage = facebookPages[index];
-                let accessToken = foundFacebookPage.access_token;
+                const foundFacebookPage = facebookPages[index];
+                const accessToken = foundFacebookPage.access_token;
 
                 FB.setAccessToken(accessToken);
 
