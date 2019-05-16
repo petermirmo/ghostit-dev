@@ -15,8 +15,21 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const fetch = require("node-fetch");
 
 const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
+const deletePostFromFacebook = (post, account) => {
+  if (post.socialMediaID) {
+    FB.setAccessToken(account.accessToken);
 
+    FB.api(post.socialMediaID, "delete", res => {
+      if (!res || res.error) {
+        console.log(!res ? "error occurred" : res.error);
+        return;
+      }
+      console.log("Post was deleted");
+    });
+  }
+};
 module.exports = {
+  deletePostFromFacebook,
   postToProfileOrPage: post => {
     Account.findOne(
       {
@@ -149,15 +162,31 @@ module.exports = {
             }
             for (let i = 0; i < post.files.length; i++) {
               facebookPostWithFile.link = post.files[i].url;
+
               FB.api(
-                "/" + account.socialID + "/feed",
+                `${account.socialID}/photos`,
                 "post",
-                facebookPostWithFile,
+                { url: post.files[i].url, published: false },
                 res => {
-                  if (!res || res.error) {
-                    savePostError(post._id, res.error);
-                  } else {
-                    savePostSuccessfully(post._id, res.id);
+                  asyncCounter--;
+
+                  facebookPhotoArray.push({ media_fbid: res.id });
+
+                  if (asyncCounter === 0) {
+                    facebookPostWithFile.attached_media = facebookPhotoArray;
+                    FB.setAccessToken(account.accessToken);
+                    FB.api(
+                      `${account.socialID}/feed`,
+                      "post",
+                      facebookPostWithFile,
+                      res => {
+                        if (!res || res.error) {
+                          savePostError(post._id, res.error);
+                        } else {
+                          savePostSuccessfully(post._id, res.id);
+                        }
+                      }
+                    );
                   }
                 }
               );

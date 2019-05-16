@@ -6,7 +6,7 @@ const adsSdk = require("facebook-nodejs-business-sdk");
 const keys = require("../config/keys");
 
 module.exports = {
-  getFacebookGroups: function(req, res) {
+  getFacebookGroups: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -20,14 +20,15 @@ module.exports = {
         socialType: "facebook",
         accountType: "profile"
       },
-      function(err, account) {
+      (err, account) => {
         if (err) return handleError(err);
         if (account) {
           // Use facebook profile access token to get account groups
           FB.setAccessToken(account.accessToken);
 
-          FB.api("me/groups", "get", function(results) {
+          FB.api("me/groups", "get", results => {
             let groups = results.data;
+            console.log(results);
 
             // Init some values
             for (let index in groups) {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThLarge,
   faAngleRight,
@@ -136,7 +136,7 @@ class HeaderSideBar extends Component {
                       }
                     >
                       <FontAwesomeIcon icon={faUsers} className="mr8" />
-                      Client Account's
+                      Client Accounts
                     </div>
                   )}
                   {(user.role === "demo" || isAdmin) && (
