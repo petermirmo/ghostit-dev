@@ -223,37 +223,34 @@ class AccountsPage extends Component {
               <GIText className="pa4" text="Add Page" type="h6" />
             </GIContainer>
           )}
-          {user.role === "admin" ||
-            (user.role === "tester" && (
+          {(user.role === "admin" || user.role === "tester") && (
+            <GIText
+              className="my16 border-bottom x-fill"
+              text="Your Facebook Groups"
+              type="h4"
+            />
+          )}
+          {(user.role === "admin" || user.role === "tester") &&
+            connectedFacebookProfileAccountDivs.length === 0 && (
               <GIText
-                className="my16 border-bottom x-fill"
-                text="Your Facebook Groups"
-                type="h4"
+                className="mb8"
+                text="You must first connect a profile account."
+                type="h6"
               />
-            ))}
-          {user.role === "admin" ||
-            (user.role === "tester" &&
-              connectedFacebookProfileAccountDivs.length === 0 && (
-                <GIText
-                  className="mb8"
-                  text="You must first connect a profile account."
-                  type="h6"
+            )}
+          {(user.role === "admin" || user.role === "tester") &&
+            connectedFacebookGroupAccountDivs}
+          {(user.role === "admin" || user.role === "tester") &&
+            connectedFacebookProfileAccountDivs.length > 0 && (
+              <GIContainer className="align-center x-fill mt16">
+                <FontAwesomeIcon
+                  className="regular-button-colors round clickable round-icon pa8"
+                  icon={faPlus}
+                  onClick={() => this.openModal("facebook", "group")}
                 />
-              ))}
-          {user.role === "admin" ||
-            (user.role === "tester" && connectedFacebookGroupAccountDivs)}
-          {user.role === "admin" ||
-            (user.role === "tester" &&
-              connectedFacebookProfileAccountDivs.length > 0 && (
-                <GIContainer className="align-center x-fill mt16">
-                  <FontAwesomeIcon
-                    className="regular-button-colors round clickable round-icon pa8"
-                    icon={faPlus}
-                    onClick={() => this.openModal("facebook", "group")}
-                  />
-                  <GIText className="pa4" text="Add Group" type="h6" />
-                </GIContainer>
-              ))}
+                <GIText className="pa4" text="Add Group" type="h6" />
+              </GIContainer>
+            )}
         </GIContainer>
 
         <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
