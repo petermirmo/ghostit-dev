@@ -544,7 +544,7 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
 };
 
 module.exports = {
-  requestAllFacebookPostAnalytics: function(req, res) {
+  requestAllFacebookPostAnalytics: (req, res) => {
     // request from FB api then store in our DB
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
@@ -679,7 +679,7 @@ module.exports = {
     });
   },
 
-  getAllAccountAnalytics: function(req, res) {
+  getAllAccountAnalytics: (req, res) => {
     // get from our DB
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
@@ -757,7 +757,7 @@ module.exports = {
       }
     });
   },
-  getAllPostAnalytics: function(req, res) {
+  getAllPostAnalytics: (req, res) => {
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
         if (foundUser.role !== "admin") {
@@ -780,7 +780,7 @@ module.exports = {
       }
     });
   },
-  requestAllFacebookPageAnalytics: function(req, res) {
+  requestAllFacebookPageAnalytics: (req, res) => {
     /*
     request from FB api
     for each account in DB that is a facebook page:

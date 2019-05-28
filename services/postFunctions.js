@@ -10,23 +10,15 @@ const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 
 const {
+  canCopyAttributeDirectly,
   isUrlImage,
   isUrlVideo,
+  isBinaryImage,
   uploadFiles,
   whatFileTypeIsUrl
 } = require("../util");
 
-const canCopyAttributeDirectly = index => {
-  if (index === "linkCustomFiles") {
-    return false;
-  } else {
-    return true;
-  }
-};
-const isBinaryImage = string => {
-  if (string.length > 500) return true;
-  else return false;
-};
+const { deletePostFromFacebook } = require("./facebookFunctions");
 
 const deletePostStandalone = (req, callback) => {
   // function called indirectly when deleting a post normally
@@ -84,13 +76,13 @@ const deletePostStandalone = (req, callback) => {
 };
 
 module.exports = {
-  deleteFile: function(req, res) {
-    cloudinary.uploader.destroy(req.params.publicID, function(result) {
+  deleteFile: (req, res) => {
+    cloudinary.uploader.destroy(req.params.publicID, result => {
       res.send(true);
       // TO DO: handle error here
     });
   },
-  getImagesFromUrl: function(req, res) {
+  getImagesFromUrl: (req, res) => {
     let url = req.body.link;
 
     request(url, (err, result, body) => {
@@ -300,9 +292,10 @@ module.exports = {
     });
   },
   deletePost: (req, res) => {
-    deletePostStandalone(
-      { postID: req.params.postID, user: req.user },
-      result => res.send(result)
+    const { postID } = req.params.postID;
+
+    deletePostStandalone({ postID, user: req.user }, result =>
+      res.send(result)
     );
   },
   deletePostStandalone

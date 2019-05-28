@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faUpload } from "@fortawesome/free-solid-svg-icons";
 
 import GIContainer from "../../containers/GIContainer";
@@ -31,7 +31,7 @@ class FileUpload extends Component {
           <GIContainer>
             <label
               htmlFor={id}
-              className={`custom-file-upload pa16 clickable full-center flex ${className}`}
+              className={`custom-file-upload clickable full-center flex ${className}`}
             >
               <FontAwesomeIcon icon={fileIcon} className="px4" />
             </label>
@@ -55,9 +55,9 @@ class FileUpload extends Component {
 
         {currentFiles.map((file, index) => {
           return (
-            <GIContainer
+            <div
               key={index}
-              className={`relative ml8 uploaded-file ${imageContainerClassName}`}
+              className={`relative uploaded-file ${imageContainerClassName}`}
             >
               {isImage(file) && (
                 <img
@@ -88,7 +88,7 @@ class FileUpload extends Component {
                   size="3x"
                 />
               )}
-            </GIContainer>
+            </div>
           );
         })}
       </GIContainer>

@@ -6,7 +6,7 @@ const generalFunctions = require("./generalFunctions");
 var stripe = require("stripe")(keys.stripeSecretKey);
 
 module.exports = {
-  getUserPlan: async function(req, res) {
+  getUserPlan: async (req, res) => {
     let user = req.user;
     if (user.signedInAsUser) {
       if (user.signedInAsUser.id) {
@@ -34,7 +34,7 @@ module.exports = {
       res.send(false);
     }
   },
-  signUpToPlanPro: async function(req, res) {
+  signUpToPlanPro: async (req, res) => {
     let userID = req.user._id;
     let userForPlan = req.user;
     if (userForPlan.signedInAsUser) {
@@ -122,7 +122,7 @@ module.exports = {
     }
   },
 
-  signUpToPlan: async function(req, res) {
+  signUpToPlan: async (req, res) => {
     let sixMonthCommitment = req.body.plan.checkbox;
     let currency = "usd";
     let tax = 0;

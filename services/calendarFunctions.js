@@ -54,7 +54,7 @@ fillCampaignPosts = async (res, campaigns) => {
 };
 
 module.exports = {
-  getCalendars: function(req, res) {
+  getCalendars: (req, res) => {
     // get all calendars that the user is subscribed to
     // res.send({ success: true, calendars, defaultCalendarID });
     let userID = req.user._id;
@@ -205,7 +205,7 @@ module.exports = {
       }
     );
   },
-  getPosts: function(req, res) {
+  getPosts: (req, res) => {
     // Get all posts for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -292,7 +292,7 @@ module.exports = {
       }
     });
   },
-  getBlogs: function(req, res) {
+  getBlogs: (req, res) => {
     // Get all blogs for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -322,7 +322,7 @@ module.exports = {
       }
     });
   },
-  getCampaigns: function(req, res) {
+  getCampaigns: (req, res) => {
     // Get all campaigns for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -370,7 +370,7 @@ module.exports = {
       }
     });
   },
-  createNewCalendar: function(req, res) {
+  createNewCalendar: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -409,7 +409,7 @@ module.exports = {
       }
     });
   },
-  getUsers: function(req, res) {
+  getUsers: (req, res) => {
     // return a list of the users (including their names and emails) associated with a calendar
     // this function is used for the Manage Calendar modal to display the users of a calendar
     const id = req.params.calendarID;
@@ -445,7 +445,7 @@ module.exports = {
       }
     });
   },
-  inviteUser: function(req, res) {
+  inviteUser: (req, res) => {
     const { email, calendarID } = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -505,7 +505,7 @@ module.exports = {
       }
     });
   },
-  getCalendarInvites: function(req, res) {
+  getCalendarInvites: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {
@@ -537,7 +537,7 @@ module.exports = {
       }
     });
   },
-  calendarInviteResponse: function(req, res) {
+  calendarInviteResponse: (req, res) => {
     const { calendarID, response } = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -583,7 +583,7 @@ module.exports = {
       }
     });
   },
-  renameCalendar: function(req, res) {
+  renameCalendar: (req, res) => {
     const { calendarID, name } = req.body;
 
     if (!name || name.length < 1) {
@@ -604,7 +604,7 @@ module.exports = {
       });
     }
   },
-  removeUserFromCalendar: function(req, res) {
+  removeUserFromCalendar: (req, res) => {
     const { userID, calendarID } = req.body;
     let thisUserID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -642,7 +642,7 @@ module.exports = {
       }
     });
   },
-  leaveCalendar: function(req, res) {
+  leaveCalendar: (req, res) => {
     // function for when a user wants to leave a calendar
     // calendar admins cannot leave, they must delete the calendar or pass admin to a different user then leave
     // if this is the user's default calendar, we won't update their default calendar id
@@ -722,7 +722,7 @@ module.exports = {
       }
     });
   },
-  deleteCalendar: function(req, res) {
+  deleteCalendar: (req, res) => {
     const { calendarID } = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -937,7 +937,7 @@ module.exports = {
       }
     });
   },
-  setDefaultCalendar: function(req, res) {
+  setDefaultCalendar: (req, res) => {
     const { calendarID } = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -980,7 +980,7 @@ module.exports = {
       }
     });
   },
-  getSocialAccounts: function(req, res) {
+  getSocialAccounts: (req, res) => {
     const calendarID = req.params.calendarID;
     Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
       if (err || !foundCalendar) {
@@ -1016,7 +1016,7 @@ module.exports = {
       }
     });
   },
-  getSocialAccountsExtra: function(req, res) {
+  getSocialAccountsExtra: (req, res) => {
     // this function is the same as getSocialAccounts() except that this one will
     // also return user info of the account's 'creator'
     // (this is so we can display who linked the account to the calendar)
@@ -1097,7 +1097,7 @@ module.exports = {
       }
     });
   },
-  linkSocialAccount: function(req, res) {
+  linkSocialAccount: (req, res) => {
     const { calendarID, accountID } = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -1142,7 +1142,7 @@ module.exports = {
       }
     });
   },
-  unlinkSocialAccount: function(req, res) {
+  unlinkSocialAccount: (req, res) => {
     const { accountID, calendarID } = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -1199,7 +1199,7 @@ module.exports = {
       }
     });
   },
-  promoteUser: function(req, res) {
+  promoteUser: (req, res) => {
     // removing the ability for a calendar to change its admin so this function will now just return false
     res.send({ success: false });
     return;

@@ -31,7 +31,6 @@ module.exports = app => {
     next();
   };
 
-  app.get("/api/test", (req, res) => facebookFunctions.test(req, res));
   // Login user
   app.post("/api/login", (req, res, next) => {
     passport.authenticate("local-login", (err, user, message) => {
@@ -125,10 +124,10 @@ module.exports = app => {
         "email",
         "publish_pages",
         "manage_pages",
-        "business_management",
         "read_insights",
         "instagram_basic",
-        "publish_to_groups"
+        "publish_to_groups",
+        "instagram_manage_insights"
       ]
     })
   );

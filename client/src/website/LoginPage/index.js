@@ -31,10 +31,11 @@ class LoginPage extends Component {
   };
 
   activateDemoUserLogin = (user, accounts) => {
-    ReactGA.event({
-      category: "User",
-      action: "Register"
-    });
+    if (process.env.NODE_ENV !== "development")
+      ReactGA.event({
+        category: "User",
+        action: "Register"
+      });
     this.props.setUser(user);
     this.props.setaccounts(accounts);
     this.props.history.push("/subscribe");

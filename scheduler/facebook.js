@@ -15,21 +15,7 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const fetch = require("node-fetch");
 
 const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
-const deletePostFromFacebook = (post, account) => {
-  if (post.socialMediaID) {
-    FB.setAccessToken(account.accessToken);
-
-    FB.api(post.socialMediaID, "delete", res => {
-      if (!res || res.error) {
-        console.log(!res ? "error occurred" : res.error);
-        return;
-      }
-      console.log("Post was deleted");
-    });
-  }
-};
 module.exports = {
-  deletePostFromFacebook,
   postToProfileOrPage: post => {
     Account.findOne(
       {

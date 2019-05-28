@@ -2,7 +2,7 @@ const User = require("../models/User");
 const { sendEmail } = require("./sendEmail");
 
 module.exports = {
-  sendPasswordReset: async function(req, res) {
+  sendPasswordReset: async (req, res) => {
     let { email } = req.body;
 
     let temporaryPassword = Math.random()

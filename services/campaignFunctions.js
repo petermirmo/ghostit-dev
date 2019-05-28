@@ -18,7 +18,7 @@ const deleteCampaignStandalone = (req, callback) => {
 };
 
 module.exports = {
-  getCampaigns: function(req, res) {
+  getCampaigns: (req, res) => {
     // Get all posts for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -76,7 +76,7 @@ module.exports = {
     });
   },
 
-  saveRecipe: function(req, res) {
+  saveRecipe: (req, res) => {
     // function called when a user makes a campaign in CampaignModal then tries to save it as a recipe
     // a different function is used when a user saves a campaign through the RecipeEditorModal
     let userID = req.user._id;
@@ -147,7 +147,7 @@ module.exports = {
       });
     }
   },
-  deleteRecipe: function(req, res) {
+  deleteRecipe: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {

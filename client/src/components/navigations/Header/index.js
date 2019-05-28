@@ -108,7 +108,7 @@ class HeaderSideBar extends Component {
                   <GIContainer className="full-center">
                     <FileUpload
                       canEdit={false}
-                      className="profile-image-container small round"
+                      className="profile-image-container medium round"
                       currentFiles={user.image ? [user.image] : []}
                       handleParentChange={parentStateChangeObject =>
                         saveUser(
@@ -119,7 +119,7 @@ class HeaderSideBar extends Component {
                       }
                       fileLimit={1}
                       id="hjq"
-                      imageClassName="profile-image medium round"
+                      imageClassName="profile-image medium"
                       imageContainerClassName="profile-image-container medium round"
                       imageOnly={true}
                     />
