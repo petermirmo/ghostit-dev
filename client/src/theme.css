@@ -559,7 +559,7 @@
   align-items: center;
   justify-content: center;
 }
-.flex.wrap {
+.wrap {
   flex-wrap: wrap;
 }
 .flex .end {
@@ -920,6 +920,30 @@
 }
 .ml4 {
   margin-left: 4px;
+}
+
+.ma2 {
+  margin: 2px;
+}
+.mx2 {
+  margin-right: 2px;
+  margin-left: 2px;
+}
+.my2 {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.mt2 {
+  margin-top: 2px;
+}
+.mr2 {
+  margin-right: 2px;
+}
+.mb2 {
+  margin-bottom: 2px;
+}
+.ml2 {
+  margin-left: 2px;
 }
 
 .round-button {

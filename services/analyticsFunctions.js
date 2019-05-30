@@ -781,134 +781,105 @@ module.exports = {
     });
   },
   requestAllFacebookPageAnalytics: (req, res) => {
-    /*
-    request from FB api
-    for each account in DB that is a facebook page:
-      request analytics:
-        update analytics object or create a new one
-    */
-    User.findOne({ _id: req.user._id }, (err, foundUser) => {
-      if (!err && foundUser) {
-        if (foundUser.role !== "admin") {
-          res.send({
+    Account.find(
+      { socialType: "facebook", accountType: "page" },
+      (err, accounts) => {
+        if (err || !accounts) {
+          return res.send({
             success: false,
-            message: "Only admins are allowed to make this request."
+            message: err
           });
-          return;
         }
-        Account.find({}, (err, accounts) => {
-          if (err || !accounts) {
-            res.send({
-              success: false,
-              message: err
-            });
-            return;
-          }
-          const socialIDs = [];
-          for (let i = 0; i < accounts.length; i++) {
-            const account = accounts[i];
-            if (
-              account.socialID &&
-              account.socialType === "facebook" &&
-              account.accountType === "page"
-            ) {
-              if (socialIDs.includes(account.socialID)) {
-                // don't fetch analytics data twice for the same account
-                continue;
-              }
-              socialIDs.push(account.socialID);
-
-              FB.setAccessToken(account.accessToken);
-              FB.api(account.socialID + fbAccountRequest, "get", function(
-                response
-              ) {
-                /*FB.setAccessToken(
-                "EAATBO1uFsCMBADdZAfryWDFU2KXtKGKGyjZCl5xmZCZAEOaw4pZAZBiREnzpzHR237PiRWBYzj2lAxVhZBTme4u8luNc8iqRdNZAP4cTRJScQVWasse794PNbZCsGnD13yrVPMAdUq52FlZABJmBQEyFGvieCIlvInoum2ZA8Q7zhDdaEVX1lSZAZBurU"
-              );
-              FB.api("507435342791094" + fbAccountRequest, "get", function(
-                response
-              ) {*/
-                if (!response) {
-                  console.log(
-                    "response from facebook = undefined for account " +
-                      account.givenName +
-                      " " +
-                      account._id
-                  );
-                  return;
-                } else if (response.error) {
-                  console.log(
-                    "response error for account " +
-                      account.givenName +
-                      " " +
-                      account._id
-                  );
-                  console.log(response.error);
-                  return;
-                } else if (!response.data) {
-                  console.log(
-                    "response.data from facebook = undefined for account " +
-                      account.givenName +
-                      " " +
-                      account._id
-                  );
-                  console.log(response);
-                  return;
-                }
-                let analyticsDbObject;
-                if (account.analyticsID) {
-                  Analytics.findOne(
-                    { _id: account.analyticsID },
-                    (err, foundObj) => {
-                      if (err || !foundObj) {
-                        console.log(
-                          "account.analyticsID exists, but can't find analytics object with that ID in the DB."
-                        );
-                        console.log(err);
-                        analyticsDbObject = new Analytics();
-                        account.analyticsID = analyticsDbObject._id;
-                        account.save();
-                        analyticsDbObject.socialType = "facebook";
-                        analyticsDbObject.analyticsType = "account";
-                        analyticsDbObject.associatedID = account._id;
-                        analyticsDbObject.accountName = account.givenName;
-                        analyticsDbObject.analytics = [];
-                      } else {
-                        analyticsDbObject = foundObj;
-                        analyticsDbObject.accountName = account.givenName;
-                      }
-                      fill_and_save_fb_page_db_object(
-                        analyticsDbObject,
-                        response.data
-                      );
-                    }
-                  );
-                } else {
-                  analyticsDbObject = new Analytics();
-                  account.analyticsID = analyticsDbObject._id;
-                  account.save();
-                  analyticsDbObject.socialType = "facebook";
-                  analyticsDbObject.analyticsType = "account";
-                  analyticsDbObject.associatedID = account._id;
-                  analyticsDbObject.accountName = account.givenName;
-                  analyticsDbObject.analytics = [];
-                  fill_and_save_fb_page_db_object(
-                    analyticsDbObject,
-                    response.data
-                  );
-                }
-              });
+        const socialIDs = [];
+        for (let i = 0; i < accounts.length; i++) {
+          const account = accounts[i];
+          if (account.socialID) {
+            if (socialIDs.includes(account.socialID)) {
+              // don't fetch analytics data twice for the same account
+              continue;
             }
+            socialIDs.push(account.socialID);
+
+            FB.setAccessToken(account.accessToken);
+            FB.api(account.socialID + fbAccountRequest, "get", response => {
+              if (!response) {
+                console.log(
+                  "response from facebook = undefined for account " +
+                    account.givenName +
+                    " " +
+                    account._id
+                );
+                return;
+              } else if (response.error) {
+                console.log(
+                  "response error for account " +
+                    account.givenName +
+                    " " +
+                    account._id
+                );
+                console.log(response.error);
+                return;
+              } else if (!response.data) {
+                console.log(
+                  "response.data from facebook = undefined for account " +
+                    account.givenName +
+                    " " +
+                    account._id
+                );
+                console.log(response);
+                return;
+              }
+              let analyticsDbObject;
+              if (account.analyticsID) {
+                Analytics.findOne(
+                  { _id: account.analyticsID },
+                  (err, foundObj) => {
+                    if (err || !foundObj) {
+                      console.log(
+                        "account.analyticsID exists, but can't find analytics object with that ID in the DB."
+                      );
+                      console.log(err);
+                      analyticsDbObject = new Analytics();
+                      account.analyticsID = analyticsDbObject._id;
+                      account.save();
+                      analyticsDbObject.socialType = "facebook";
+                      analyticsDbObject.analyticsType = "account";
+                      analyticsDbObject.associatedID = account._id;
+                      analyticsDbObject.accountName = account.givenName;
+                      analyticsDbObject.analytics = [];
+                    } else {
+                      analyticsDbObject = foundObj;
+                      analyticsDbObject.accountName = account.givenName;
+                    }
+                    fill_and_save_fb_page_db_object(
+                      analyticsDbObject,
+                      response.data
+                    );
+                  }
+                );
+              } else {
+                analyticsDbObject = new Analytics();
+                account.analyticsID = analyticsDbObject._id;
+                account.save();
+                analyticsDbObject.socialType = "facebook";
+                analyticsDbObject.analyticsType = "account";
+                analyticsDbObject.associatedID = account._id;
+                analyticsDbObject.accountName = account.givenName;
+                analyticsDbObject.analytics = [];
+                fill_and_save_fb_page_db_object(
+                  analyticsDbObject,
+                  response.data
+                );
+              }
+            });
           }
-          // for each account loop ends here
-          res.send({
-            success: true,
-            accounts: accounts.filter(obj => obj.analyticsID)
-          });
+        }
+        // for each account loop ends here
+        res.send({
+          success: true,
+          accounts: accounts.filter(obj => obj.analyticsID)
         });
-      } else {
-        res.send({ success: false, message: err });
       }
-    });
+    );
   }
 };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
@@ -116,7 +116,7 @@ class ContentModal extends Component {
             postFinishedSavingCallback={(post, success, message) => {
               if (this._ismounted) this.setState({ saving: false });
               if (success) savePostCallback(post);
-              else notify("danger", "Save Failed", message, 7500);
+              else notify({ type: "danger", title: "Save Failed", message });
             }}
             calendarID={calendarID}
             setSaving={this.setSaving}
@@ -155,7 +155,7 @@ class ContentModal extends Component {
             if (success) {
               savePostCallback(post);
             } else {
-              notify("danger", "Save Failed", message, 7500);
+              notify({ type: "danger", title: "Save Failed", message });
             }
           }}
           setSaving={this.setSaving}

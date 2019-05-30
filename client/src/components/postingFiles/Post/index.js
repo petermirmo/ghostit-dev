@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import Textarea from "react-textarea-autosize";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
@@ -23,7 +23,7 @@ import Consumer from "../../../context";
 
 import "./style.css";
 
-class PostingOptions extends Component {
+class Post extends Component {
   constructor(props) {
     super(props);
 
@@ -611,4 +611,4 @@ function mapStateToProps(state) {
     accounts: state.accounts
   };
 }
-export default connect(mapStateToProps)(PostingOptions);
+export default connect(mapStateToProps)(Post);

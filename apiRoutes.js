@@ -141,19 +141,11 @@ module.exports = app => {
   );
 
   app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) => {
-    if (req.params.accountID === "all") {
-      analyticsFunctions.requestAllFacebookPageAnalytics(req, res);
-    } else {
-      analyticsFunctions.getPageAnalytics(req, res);
-    }
+    analyticsFunctions.getPageAnalytics(req, res);
   });
 
   app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) => {
-    if (req.params.postID === "all") {
-      analyticsFunctions.requestAllFacebookPostAnalytics(req, res);
-    } else {
-      analyticsFunctions.getPostAnalytics(req, res);
-    }
+    analyticsFunctions.getPostAnalytics(req, res);
   });
 
   // Add Twitter account

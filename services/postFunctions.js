@@ -11,6 +11,7 @@ const Calendar = require("../models/Calendar");
 
 const {
   canCopyAttributeDirectly,
+  getUserID,
   isUrlImage,
   isUrlVideo,
   isBinaryImage,
@@ -29,12 +30,8 @@ const deletePostStandalone = (req, callback) => {
     if (post && !err) {
       if (!skipUserCheck) {
         // need to make sure the user has the right to delete this post
-        let userID = req.user._id;
-        if (req.user.signedInAsUser) {
-          if (req.user.signedInAsUser.id) {
-            userID = req.user.signedInAsUser.id;
-          }
-        }
+        const userID = getUserID(req);
+
         let invalidUser = false;
         await Calendar.findOne(
           { _id: post.calendarID, userIDs: userID },
@@ -180,13 +177,8 @@ module.exports = {
           } else if (foundPost) {
             newPost = foundPost;
           }
+          const userID = getUserID(req);
 
-          let userID = req.user._id;
-          if (req.user.signedInAsUser) {
-            if (req.user.signedInAsUser.id) {
-              userID = req.user.signedInAsUser.id;
-            }
-          }
           // Set color of post
           let backgroundColorOfPost;
           if (post.socialType === "facebook") backgroundColorOfPost = "#4267b2";
@@ -292,7 +284,7 @@ module.exports = {
     });
   },
   deletePost: (req, res) => {
-    const { postID } = req.params.postID;
+    const { postID } = req.params;
 
     deletePostStandalone({ postID, user: req.user }, result =>
       res.send(result)

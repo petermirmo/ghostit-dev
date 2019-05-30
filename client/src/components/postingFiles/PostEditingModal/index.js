@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import axios from "axios";
@@ -64,7 +64,11 @@ class PostEdittingModal extends Component {
             });
             this.props.close();
           } else {
-            context.notify("danger", "Post Delete Failed", message);
+            context.notify({
+              type: "danger",
+              title: "Post Delete Failed",
+              message
+            });
           }
         });
     } else {

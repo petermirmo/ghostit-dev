@@ -26,7 +26,7 @@ class FileUpload extends Component {
     } = this.props; // Variables
 
     return (
-      <GIContainer className="align-center">
+      <GIContainer className="align-center wrap width100">
         {!hideUploadButton && currentFiles.length < fileLimit && canEdit && (
           <GIContainer>
             <label
@@ -57,7 +57,7 @@ class FileUpload extends Component {
           return (
             <div
               key={index}
-              className={`relative uploaded-file ${imageContainerClassName}`}
+              className={`relative uploaded-file ${imageContainerClassName} ma2`}
             >
               {isImage(file) && (
                 <img
