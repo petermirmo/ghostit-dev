@@ -206,11 +206,11 @@ module.exports = {
     );
   },
   renewAuthToken: accounts => {
-    let account = accounts[0];
+    const account = accounts[0];
     getFbCode(account, accounts, 0, accessTokenCallback);
   },
   renewPageToken: accounts => {
-    let account = accounts[0];
+    const account = accounts[0];
     getFbCode(account, accounts, 0, pageTokenCallback);
   }
 };
@@ -262,10 +262,10 @@ function tradeCodeForToken(codeResult, account, accounts, counter, callback) {
 
 function pageTokenCallback(accessToken, accounts) {
   if (accessToken) {
-    let account = accounts[0];
+    const account = accounts[0];
     FB.setAccessToken(accessToken);
 
-    FB.api("me/accounts", "get", function(result) {
+    FB.api("me/accounts", "get", result => {
       let pages = result.data;
 
       for (let index in pages) {
@@ -274,8 +274,8 @@ function pageTokenCallback(accessToken, accounts) {
           for (let i = 0; i < accounts.length; i++) {
             accounts[i].accessToken = page.access_token;
             accounts[i].lastRenewed = new Date();
-            accounts[i].save().then(resu => {
-              console.log(resu);
+            accounts[i].save().then(res => {
+              console.log(res);
               console.log("success");
             });
           }
@@ -289,8 +289,8 @@ function accessTokenCallback(accessToken, accounts) {
     for (let i = 0; i < accounts.length; i++) {
       accounts[i].accessToken = accessToken;
       accounts[i].lastRenewed = new Date();
-      accounts[i].save().then(resu => {
-        console.log(resu);
+      accounts[i].save().then(res => {
+        console.log(res);
         console.log("success");
       });
     }

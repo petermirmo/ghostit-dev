@@ -39,14 +39,19 @@ cloudinary.config({
 });
 
 // Schedulers
-const PostScheduler = require("./scheduler/PostScheduler");
-const TokenScheduler = require("./scheduler/TokenScheduler");
-const EmailScheduler = require("./scheduler/EmailScheduler");
+const PostScheduler = require("./scheduler/Post");
+const TokenScheduler = require("./scheduler/Token");
+const EmailScheduler = require("./scheduler/Email");
+const AnalyticsScheduler = require("./scheduler/Analytics");
 const schedule = require("node-schedule");
 
 schedule.scheduleJob("0 0 * * 0", () => {
-  console.log("starting");
   TokenScheduler.main();
+});
+
+schedule.scheduleJob("* 2 * * *", () => {
+  console.log("starting");
+  AnalyticsScheduler.main();
 });
 
 if (process.env.NODE_ENV === "production") {

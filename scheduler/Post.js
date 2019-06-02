@@ -1,8 +1,8 @@
 const Post = require("../models/Post");
 
-let facebook = require("./facebook");
-let twitter = require("./twitter");
-let linkedin = require("./linkedin");
+let facebook = require("../functions/facebook");
+let twitter = require("../functions/twitter");
+let linkedin = require("../functions/linkedin");
 const generalFunctions = require("../services/generalFunctions");
 
 module.exports = {

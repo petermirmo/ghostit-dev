@@ -3,8 +3,6 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThLarge,
-  faAngleRight,
-  faAngleLeft,
   faChartLine,
   faHistory,
   faStar,
@@ -65,7 +63,7 @@ class HeaderSideBar extends Component {
     const { user } = this.props;
 
     if (!user) {
-      return <div style={{ display: "none" }} className="mr8" />;
+      return <div style={{ display: "none" }} />;
     }
 
     let isAdmin = user.role === "admin";
@@ -74,185 +72,13 @@ class HeaderSideBar extends Component {
     return (
       <Consumer>
         {context => (
-          <div className="header-navbar">
-            <GIContainer
-              className="absolute-50-over-container"
-              style={{
-                top: "16px",
-                width: "48px",
-                height: "48px"
-              }}
-            >
-              <GIButton
-                className="absolute-50-over-container-2 round regular-button-colors full-center"
-                onClick={() =>
-                  context.handleChange({
-                    headerSideBar: !context.headerSideBar,
-                    clientSideBar: false
-                  })
-                }
-              >
-                <FontAwesomeIcon
-                  size="3x"
-                  icon={
-                    context.headerSideBar || context.clientSideBar
-                      ? faAngleLeft
-                      : faAngleRight
-                  }
-                />
-              </GIButton>
-            </GIContainer>
-            <div className="navbar pt16" style={{ zIndex: "-1" }}>
+          <GIContainer className="header-navbar">
+            <GIContainer className="navbar pt16" style={{ zIndex: "-1" }}>
               {context.headerSideBar && !context.clientSideBar && (
                 <GIContainer className="x-fill column">
-                  <GIContainer className="full-center">
-                    <FileUpload
-                      canEdit={false}
-                      className="profile-image-container medium round"
-                      currentFiles={user.image ? [user.image] : []}
-                      handleParentChange={parentStateChangeObject =>
-                        saveUser(
-                          parentStateChangeObject,
-                          parentStateChangeObject =>
-                            this.setState(parentStateChangeObject)
-                        )
-                      }
-                      fileLimit={1}
-                      id="hjq"
-                      imageClassName="profile-image medium"
-                      imageContainerClassName="profile-image-container medium round"
-                      imageOnly={true}
-                    />
-                  </GIContainer>
-
                   {(isManager || isAdmin) && (
-                    <div
-                      className="header-button px16 py8"
-                      onClick={() =>
-                        context.handleChange({
-                          clientSideBar: true,
-                          headerSideBar: false
-                        })
-                      }
-                    >
-                      <FontAwesomeIcon icon={faUsers} className="mr8" />
-                      Client Accounts
-                    </div>
-                  )}
-                  {(user.role === "demo" || isAdmin) && (
-                    <Link to="/subscribe">
-                      <div
-                        className={
-                          "header-button px16 py8 " + this.isActive("subscribe")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faStar} className="mr8" />
-                        Upgrade Plan
-                      </div>
-                    </Link>
-                  )}
-                  <Link to="/dashboard">
-                    <div
-                      className={
-                        this.isActive("dashboard")
-                          ? "header-button px16 py8 " +
-                            this.isActive("dashboard")
-                          : "header-button px16 py8 "
-                      }
-                    >
-                      <FontAwesomeIcon icon={faThLarge} className="mr8" />
-                      Dashboard
-                    </div>
-                  </Link>
-                  <Link to="/calendar">
-                    <div
-                      className={
-                        this.isActive("calendar")
-                          ? "header-button px16 py8 " +
-                            this.isActive("calendar")
-                          : "header-button px16 py8 "
-                      }
-                    >
-                      <FontAwesomeIcon icon={faCalendar} className="mr8" />
-                      Calendar
-                    </div>
-                  </Link>
-
-                  {isAdmin && (
-                    <Link to="/analytics">
-                      <div
-                        className={
-                          "header-button px16 py8 " + this.isActive("analytics")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faChartLine} className="mr8" />
-                        Analytics
-                      </div>
-                    </Link>
-                  )}
-
-                  <Link to="/social-accounts">
-                    <div
-                      className={
-                        "header-button px16 py8 " +
-                        this.isActive("social-accounts")
-                      }
-                    >
-                      <FontAwesomeIcon icon={faPlus} className="mr8" />
-                      Social Accounts
-                    </div>
-                  </Link>
-                  {isAdmin && (
-                    <Link to="/manage">
-                      <div
-                        className={
-                          "header-button px16 py8 " + this.isActive("manage")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faCogs} className="mr8" />
-                        Manage
-                      </div>
-                    </Link>
-                  )}
-                  <Link to="/profile">
-                    <div
-                      className={
-                        "header-button px16 py8 " + this.isActive("profile")
-                      }
-                    >
-                      <FontAwesomeIcon icon={faUser} className="mr8" />
-                      Profile
-                    </div>
-                  </Link>
-                  {(user.role === "client" || isAdmin) && (
-                    <Link to="/subscription">
-                      <div
-                        className={
-                          "header-button px16 py8 " +
-                          this.isActive("subscription")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faHistory} className="mr8" />
-                        Billing History
-                      </div>
-                    </Link>
-                  )}
-                  <Link to="/home">
-                    <div
-                      className="header-button px16 py8 "
-                      onClick={() => this.logout()}
-                    >
-                      <FontAwesomeIcon icon={faSignOutAlt} className="mr8" />
-                      Logout
-                    </div>
-                  </Link>
-                </GIContainer>
-              )}
-              {!context.headerSideBar && (
-                <GIContainer className="x-fill column pt48">
-                  {(isManager || isAdmin) && (
-                    <div
-                      className="header-button px16 py8 justify-center flex"
+                    <GIContainer
+                      className="header-button"
                       onClick={() =>
                         context.handleChange({
                           clientSideBar: true,
@@ -261,115 +87,84 @@ class HeaderSideBar extends Component {
                       }
                     >
                       <FontAwesomeIcon icon={faUsers} />
-                    </div>
+                      Client Accounts
+                    </GIContainer>
                   )}
                   {(user.role === "demo" || isAdmin) && (
-                    <Link to="/subscribe">
-                      <div
-                        className={
-                          "header-button px16 py8 justify-center flex " +
-                          this.isActive("subscribe")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faStar} />
-                      </div>
+                    <Link
+                      className={"header-button " + this.isActive("subscribe")}
+                      to="/subscribe"
+                    >
+                      <FontAwesomeIcon icon={faStar} />
+                      Upgrade Plan
                     </Link>
                   )}
-                  <Link to="/dashboard">
-                    <div
-                      className={
-                        this.isActive("dashboard")
-                          ? "header-button px16 py8 justify-center flex " +
-                            this.isActive("dashboard")
-                          : "header-button px16 py8 justify-center flex "
-                      }
-                    >
-                      <FontAwesomeIcon icon={faThLarge} />
-                    </div>
+                  <Link
+                    className={"header-button " + this.isActive("dashboard")}
+                    to="/dashboard"
+                  >
+                    <FontAwesomeIcon icon={faThLarge} />
+                    Dashboard
                   </Link>
-                  <Link to="/calendar">
-                    <div
-                      className={
-                        this.isActive("calendar")
-                          ? "header-button px16 py8 justify-center flex " +
-                            this.isActive("calendar")
-                          : "header-button px16 py8 justify-center flex "
-                      }
-                    >
-                      <FontAwesomeIcon icon={faCalendar} />
-                    </div>
+                  <Link
+                    className={"header-button " + this.isActive("calendar")}
+                    to="/calendar"
+                  >
+                    <FontAwesomeIcon icon={faCalendar} />
+                    Calendar
                   </Link>
 
                   {isAdmin && (
-                    <Link to="/analytics">
-                      <div
-                        className={
-                          "header-button px16 py8 justify-center flex " +
-                          this.isActive("analytics")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faChartLine} />
-                      </div>
+                    <Link
+                      className={"header-button " + this.isActive("analytics")}
+                      to="/analytics"
+                    >
+                      <FontAwesomeIcon icon={faChartLine} />
+                      Analytics
                     </Link>
                   )}
 
-                  <Link to="/social-accounts">
-                    <div
-                      className={
-                        "header-button px16 py8 justify-center flex " +
-                        this.isActive("social-accounts")
-                      }
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </div>
+                  <Link
+                    className={
+                      "header-button " + this.isActive("social-accounts")
+                    }
+                    to="/social-accounts"
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                    Social Accounts
                   </Link>
                   {isAdmin && (
-                    <Link to="/manage">
-                      <div
-                        className={
-                          "header-button px16 py8 justify-center flex " +
-                          this.isActive("manage")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faCogs} />
-                      </div>
+                    <Link
+                      className={"header-button " + this.isActive("manage")}
+                      to="/manage"
+                    >
+                      <FontAwesomeIcon icon={faCogs} />
+                      Manage
                     </Link>
                   )}
-                  <Link to="/profile">
-                    <div
-                      className={
-                        "header-button px16 py8 justify-center flex " +
-                        this.isActive("profile")
-                      }
-                    >
-                      <FontAwesomeIcon icon={faUser} />
-                    </div>
+                  <Link
+                    className={"header-button " + this.isActive("profile")}
+                    to="/profile"
+                  >
+                    <FontAwesomeIcon icon={faUser} />
+                    Profile
                   </Link>
                   {(user.role === "client" || isAdmin) && (
-                    <Link to="/subscription">
-                      <div
-                        className={
-                          "header-button px16 py8 justify-center flex " +
-                          this.isActive("subscription")
-                        }
-                      >
-                        <FontAwesomeIcon icon={faHistory} />
-                      </div>
+                    <Link
+                      className={
+                        "header-button " + this.isActive("subscription")
+                      }
+                      to="/subscription"
+                    >
+                      <FontAwesomeIcon icon={faHistory} />
+                      Billing History
                     </Link>
                   )}
-                  <Link to="/home">
-                    <div
-                      className="header-button px16 py8 justify-center flex"
-                      onClick={() => this.logout()}
-                    >
-                      <FontAwesomeIcon icon={faSignOutAlt} />
-                    </div>
-                  </Link>
                 </GIContainer>
               )}
-            </div>
+            </GIContainer>
             {context.clientSideBar && <SideBarClients />}
-          </div>
+          </GIContainer>
         )}
       </Consumer>
     );

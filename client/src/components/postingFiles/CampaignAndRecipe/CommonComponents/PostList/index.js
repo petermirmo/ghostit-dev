@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDown,
   faCopy,
   faPlus,
   faTrash
-} from "@fortawesome/free-solid-svg-icons/faTrash";
+} from "@fortawesome/free-solid-svg-icons";
 
 import { getPostColor } from "../../../../../componentFunctions";
 

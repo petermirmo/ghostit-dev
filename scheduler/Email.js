@@ -4,7 +4,7 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 module.exports = {
-  main: function() {
+  main: () => {
     Email.find({}, (err, emailReminders) => {
       for (let index in emailReminders) {
         let emailReminder = emailReminders[index];

@@ -1,111 +1,39 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import { connect } from "react-redux";
 
-import LineChart from "../../components/LineChart/";
 import Page from "../../components/containers/Page";
+import GIContainer from "../../components/containers/GIContainer";
+import LineChart from "../../components/LineChart/";
+
+import { getAccountAnalytics, getDataLinesFromAnalytics } from "./util";
 
 import "./style.css";
 
 class Analytics extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { analyticsObjects: undefined, activeAnalytics: [] };
-  }
+  state = { activeAnalytics: [], analyticsObjects: undefined };
 
   componentDidMount() {
-    this.getAccountAnalytics();
+    getAccountAnalytics(this.handleChange);
     this._ismounted = true;
   }
   componentWillUnmount() {
     this._ismounted = false;
   }
-
-  getAccountAnalytics = () => {
-    axios.get("/api/ai/analytics/accounts").then(res => {
-      const { analyticsObjects } = res.data;
-      if (this._ismounted) this.setState({ analyticsObjects });
-    });
+  handleChange = stateObj => {
+    if (this._ismounted) this.setState(stateObj);
   };
 
   render() {
-    let { analyticsObjects } = this.state;
-    let dataPointArrays = [];
-    let dataLinesInformation = [];
+    const { analyticsObjects = [] } = this.state;
+    const { accounts } = this.props;
 
-    if (analyticsObjects) {
-      let analyticsObject = analyticsObjects[3];
-      if (analyticsObject) {
-        for (let index in analyticsObject.analytics) {
-          let dataPointArray = [];
-
-          dataLinesInformation.push({
-            description: analyticsObject.analytics[index].description,
-            title: analyticsObject.analytics[index].title
-          });
-          for (let index2 in analyticsObject.analytics[index].monthlyValues) {
-            for (let index3 in analyticsObject.analytics[index].monthlyValues[
-              index2
-            ].values) {
-              if (
-                analyticsObject.analytics[index].monthlyValues[index2].values[
-                  index3
-                ].value[0]
-              )
-                dataPointArray.push(
-                  analyticsObject.analytics[index].monthlyValues[index2].values[
-                    index3
-                  ].value[0].value
-                );
-              else dataPointArray.push(0);
-            }
-          }
-          dataPointArrays.push(dataPointArray);
-        }
-      }
-    }
-
-    let singleDataArray = [];
-    if (dataPointArrays[0]) singleDataArray[0] = dataPointArrays[9];
-
-    if (this.props.user.role !== "admin") {
-      return <div>Under Construction</div>;
-    }
-
-    return (
-      <Page title="Analytics">
-        <div className="flex column line-chart-navigation-container">
-          {dataLinesInformation.map((object, index) => (
-            <div
-              className="line-chart-navigation-item button ma4 pa4"
-              onClick={() => {}}
-              key={index + "item"}
-            >
-              {object.title}
-            </div>
-          ))}
-        </div>
-        <div className="line-chart-container">
-          <LineChart
-            {...{
-              lines: singleDataArray,
-              colors: ["#7B43A1", "#F2317A", "#FF9824", "#58CF6C"],
-              labels: ["Cats", "Dogs", "Ducks", "Cows"],
-              axis: [
-                "October",
-                "November",
-                "December",
-                "January",
-                "February",
-                "Marsh"
-              ]
-            }}
-          />
-        </div>
-      </Page>
+    const { dataLinesInformation, dataPointArrays } = getDataLinesFromAnalytics(
+      analyticsObjects,
+      analyticsObjects.length - 1
     );
+
+    return <Page title="Analytics">getDataLinesFromAnalytics</Page>;
   }
 }
 
