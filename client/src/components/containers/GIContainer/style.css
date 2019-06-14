@@ -2,7 +2,6 @@
   flex-shrink: 0;
   position: relative;
   display: flex;
-  box-sizing: border-box;
 
   transition: all 0.2s ease;
 }
@@ -68,7 +67,6 @@
 .container-box {
   position: relative;
 
-  box-sizing: border-box;
   overflow: hidden;
 }
 
@@ -122,7 +120,7 @@
   flex-direction: row-reverse;
 }
 .common-border {
-  border: 1px solid var(--divider-theme-color);
+  border: 1px solid #d8d8d8;
 }
 .common-border.light {
   border: 1px solid var(--light-grey-theme-color);
@@ -164,13 +162,16 @@
 .bg-grey {
   background-color: var(--light-grey-theme-color);
 }
-
+.bg-five-blue {
+  background-color: var(--five-blue-color);
+}
 .bg-seven-blue {
   background-color: var(--seven-blue-color);
 }
 .bg-white {
   background-color: var(--white-theme-color);
 }
+
 .test-mode {
   background-color: red;
 }

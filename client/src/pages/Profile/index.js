@@ -83,7 +83,7 @@ class Profile extends Component {
                 <p className="label mx8 mb4">Company Name</p>
                 <input
                   type="text"
-                  className="regular-input width100 border-box pa8 mb16 round"
+                  className="regular-input width100 pa8 mb16 round"
                   placeholder="Company Name"
                   onChange={event =>
                     this.handleChange("fullName", event.target.value)
@@ -98,7 +98,7 @@ class Profile extends Component {
                 <p className="label mx8 mb4">Email</p>
                 <input
                   type="text"
-                  className="regular-input width100 border-box pa8 mb16 round"
+                  className="regular-input width100 pa8 mb16 round"
                   placeholder="Email"
                   onChange={event =>
                     this.handleChange("email", event.target.value)
@@ -110,7 +110,7 @@ class Profile extends Component {
                 <p className="label mx8 mb4">Website</p>
                 <input
                   type="text"
-                  className="regular-input width100 border-box pa8 mb16 round"
+                  className="regular-input width100 pa8 mb16 round"
                   placeholder="Website"
                   onChange={event =>
                     this.handleChange("website", event.target.value)
@@ -125,7 +125,7 @@ class Profile extends Component {
                 <p className="label mx8 mb4">Password</p>
                 <input
                   type="password"
-                  className="regular-input width100 border-box pa8 mb16 round"
+                  className="regular-input width100 pa8 mb16 round"
                   placeholder="Password"
                   onChange={event =>
                     this.handleChange("password", event.target.value)
@@ -137,7 +137,7 @@ class Profile extends Component {
                 <p className="label mx8 mb4">New Password</p>
                 <input
                   type="password"
-                  className="regular-input width100 border-box pa8 mb16 round"
+                  className="regular-input width100 pa8 mb16 round"
                   placeholder="New Password"
                   onChange={event =>
                     this.handleChange("newPassword", event.target.value)

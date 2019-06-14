@@ -9,7 +9,7 @@
   background-color: var(--white-theme-color);
   width: 100%;
   resize: none;
-  box-sizing: border-box;
+  
 }
 .user-row {
   display: flex;
@@ -20,7 +20,7 @@
 
   background-color: var(--nine-blue-color);
   color: var(--white-theme-color);
-  box-sizing: border-box;
+  
 }
 .user-row:nth-child(even) {
   background-color: var(--seven-blue-color);

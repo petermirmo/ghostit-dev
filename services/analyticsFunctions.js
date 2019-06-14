@@ -138,7 +138,7 @@ const fbAccountRequest =
   ",page_posts_impressions_nonviral" + // all 3
   ",page_posts_impressions_nonviral_unique" + // all 3
   ",page_posts_impressions_frequency_distribution" + // all 3
-  "&date_preset=last_30d";
+  "&date_preset=last_90d";
 
 const fbPostRequest =
   "/insights?metric=" +
@@ -247,28 +247,27 @@ process_fb_page_analytics = (data, prevObject) => {
     "name": "page_video_views_organic",
     "title": "Daily Total Organic Views",
     "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
-    "monthlyValues": [
+    "dailyValues": [
       {
-        "month": 9,
-        "year": 2018,
         "values": [
           {
-            "day": 29,
             "value": [
               {
+                "date":
                 "key": "value",
                 "value": 0
               }
             ]
           },
           {
-            "day": 30,
             "value": [
               {
+                "date":
                 "key": "likes",
                 "value": 1
               },
               {
+                "date":
                 "key": "loves",
                 "value": 3
               }
@@ -277,13 +276,11 @@ process_fb_page_analytics = (data, prevObject) => {
         ]
       },
       {
-        "month": 10,
-        "year": 2018,
         "values": [
           {
-            "day": 1,
             "value": [
               {
+                "date":
                 "key": "value",
                 "value": 2
               }
@@ -298,15 +295,15 @@ process_fb_page_analytics = (data, prevObject) => {
     name: data.name,
     title: data.title,
     description: data.description,
-    monthlyValues: []
+    dailyValues: []
   };
-  if (prevObject && prevObject.monthlyValues) {
-    result.monthlyValues = [...prevObject.monthlyValues];
+  if (prevObject && prevObject.dailyValues) {
+    result.dailyValues = [...prevObject.dailyValues];
   }
 
   for (let i = 0; i < data.values.length; i++) {
     /*
-    currentValue =
+    currentData =
       {
         "value": { "likes": 1, "loves": 3 },
         "end_time": "2018-10-01T07:00:00+0000" // this date is 11pm sept 30th PST
@@ -327,55 +324,64 @@ process_fb_page_analytics = (data, prevObject) => {
         }
       }
     */
-    const currentValue = data.values[i];
-    const dateObject = parseFBDate(currentValue.end_time);
+    const currentData = data.values[i];
 
-    let month_index = result.monthlyValues.findIndex(
-      obj => obj.month === dateObject.month && obj.year === dateObject.year
-    );
-    if (month_index === -1) {
-      result.monthlyValues.push({
-        month: dateObject.month,
-        year: dateObject.year,
-        values: []
-      });
-      month_index = result.monthlyValues.length - 1;
+    let lastStoredDataDate = 0;
+    if (
+      result.dailyValues[result.dailyValues.length - 1] &&
+      result.dailyValues[result.dailyValues.length - 1].dailyValue &&
+      result.dailyValues[result.dailyValues.length - 1].dailyValue[0]
+    ) {
+      lastStoredDataDate = new moment(
+        result.dailyValues[result.dailyValues.length - 1].dailyValue[0].date
+      ).valueOf();
     }
+    const dateOfNewData = new moment(currentData.end_time);
 
-    let day_index = result.monthlyValues[month_index].values.findIndex(
-      obj => obj.day === dateObject.day
-    );
+    if (lastStoredDataDate >= dateOfNewData.valueOf()) continue;
 
     let valueArray = [];
     if (
-      Number.isInteger(currentValue.value) ||
-      typeof currentValue.value === "string" ||
-      currentValue.value instanceof String
+      Number.isInteger(currentData.value) ||
+      typeof currentData.value === "string" ||
+      currentData.value instanceof String
     ) {
       // if the value is just a simple number or string then we label it "value"
       valueArray = [
         {
           key: "value",
-          value: currentValue.value
+          value: currentData.value,
+          date: dateOfNewData
         }
       ];
     } else {
-      for (let index in currentValue.value) {
-        valueArray.push({
-          key: index,
-          value: currentValue.value[index]
-        });
+      for (let index in currentData.value) {
+        if (
+          Number.isInteger(currentData.value[index]) ||
+          typeof currentData.value[index] === "string" ||
+          currentData.value[index] instanceof String
+        ) {
+          valueArray.push({
+            key: index,
+            value: currentData.value[index],
+            date: dateOfNewData
+          });
+        } else {
+          for (let index2 in currentData.value[index]) {
+            valueArray.push({
+              key: index2,
+              value: currentData.value[index][index2],
+              date: dateOfNewData
+            });
+          }
+        }
       }
     }
-
-    if (day_index === -1) {
-      result.monthlyValues[month_index].values.push({
-        day: dateObject.day,
-        value: valueArray
-      });
-    } else {
-      result.monthlyValues[month_index].values[day_index].value = valueArray;
+    if (valueArray.length === 0) {
+      continue;
     }
+
+    result.dailyValues.push({ dailyValue: valueArray });
   }
   return result;
 };
@@ -442,11 +448,11 @@ process_fb_post_analytics = (data, prevObject) => {
     console.log("metric " + data.name + " has 0 values.");
     return result;
   } else {
-    const currentValue = data.values[0];
+    const currentData = data.values[0];
     if (
-      Number.isInteger(currentValue.value) ||
-      typeof currentValue.value === "string" ||
-      currentValue.value instanceof String
+      Number.isInteger(currentData.value) ||
+      typeof currentData.value === "string" ||
+      currentData.value instanceof String
     ) {
       /*
       "values": [
@@ -460,7 +466,7 @@ process_fb_post_analytics = (data, prevObject) => {
         value: [
           {
             key: "value",
-            value: currentValue.value
+            value: currentData.value
           }
         ]
       });
@@ -476,10 +482,10 @@ process_fb_post_analytics = (data, prevObject) => {
       ]
       */
       const valueArray = [];
-      for (let index in currentValue.value) {
+      for (let index in currentData.value) {
         valueArray.push({
           key: index,
-          value: currentValue.value[index]
+          value: currentData.value[index]
         });
       }
       result.lifetimeValues.push({
@@ -489,16 +495,6 @@ process_fb_post_analytics = (data, prevObject) => {
     }
     return result;
   }
-};
-
-parseFBDate = end_time => {
-  const end_time_moment = new moment(end_time).subtract(1, "day");
-  let returnObj = {
-    day: end_time_moment.get("date"),
-    month: end_time_moment.get("month") + 1,
-    year: end_time_moment.get("year")
-  };
-  return returnObj;
 };
 
 fill_and_save_fb_post_db_object = (analyticsDbObject, data) => {

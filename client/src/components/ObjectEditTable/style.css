@@ -44,7 +44,7 @@
   border: 2px solid var(--purple-theme-color);
   border-radius: 4px;
   padding: 5px;
-  box-sizing: border-box;
+  
   outline: none;
 }
 

@@ -49,7 +49,8 @@ schedule.scheduleJob("0 0 * * 0", () => {
   TokenScheduler.main();
 });
 
-schedule.scheduleJob("* 2 * * *", () => {
+schedule.scheduleJob("* * * * *", () => {
+  return;
   console.log("starting");
   AnalyticsScheduler.main();
 });

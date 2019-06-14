@@ -1,32 +1,37 @@
 .line-chart {
   shape-rendering: geometricPrecision;
-  box-sizing: border-box;
-  height: 100%;
-  width: 100%;
+
   overflow: visible;
 }
 .line-chart-axis {
-  stroke: var(--divider-theme-color);
+  stroke: var(--five-blue-color);
   fill: none;
-  stroke-width: 2px;
+  stroke-width: 1px;
   shape-rendering: geometricPrecision;
 }
 .line-chart-vertical-line {
-  stroke: var(--divider-theme-color);
+  stroke: #655c5c;
   fill: none;
-  stroke-width: 0px;
+  stroke-width: 1px;
+  shape-rendering: geometricPrecision;
+  opacity: 0.28;
+}
+.line-chart-horizontal-line {
+  stroke: #ededed;
+  fill: none;
+  stroke-width: 1px;
   shape-rendering: geometricPrecision;
 }
 .line-chart-data-point {
-  r: 1;
+  r: 3;
   stroke: var(--five-blue-color);
-  fill: var(--five-blue-color);
+  fill: var(--white-theme-color);
   shape-rendering: geometricPrecision;
   transition: 1.5s ease;
 }
 .line-chart-connecting-line {
   stroke: var(--five-blue-color);
-  stroke-width: 4px;
+  stroke-width: 1px;
   shape-rendering: geometricPrecision;
   transition: 1.5s ease;
 }

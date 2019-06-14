@@ -5,8 +5,8 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
-   
-   
+
+
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
@@ -21,12 +21,7 @@
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs id="defs4567">
-   <style type="text/css">
-     @font-face {
-       font-family: Varela Round;
-       src: url('https://fonts.googleapis.com/css?family=Varela+Round');
-     }
-   </style>
+   
     <linearGradient
        id="fff"
        osb:paint="solid">
@@ -116,7 +111,7 @@ Created by potrace 1.15, written by Peter Selinger 2001-2017
          id="tspan835"
          x="4798.5322"
          y="1994.8579"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4009.99975586px;font-family:'Varela Round';-inkscape-font-specification:'Varela Round';stroke-width:7.5">GHOSTIT</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4009.99975586px;stroke-width:7.5">GHOSTIT</tspan></text>
     <circle
        style="opacity:1;fill:#000000;fill-opacity:1;stroke-width:1.75221503;stroke-miterlimit:4;stroke-dasharray:none"
        id="path5114-3"

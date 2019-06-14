@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment-timezone";
 
 export const getAccountAnalytics = callback => {
   axios.get("/api/ai/analytics/accounts").then(res => {
@@ -10,8 +11,8 @@ export const getAccountAnalytics = callback => {
   });
 };
 
-export const getDataLinesFromAnalytics = (analyticsObjects, accountIndex) => {
-  let dataLinesInformation = [];
+export const getDataLinesFromAnalytics = (accountIndex, analyticsObjects) => {
+  let analyticsInformationList = [];
   let dataPointArrays = [];
 
   if (analyticsObjects) {
@@ -21,30 +22,101 @@ export const getDataLinesFromAnalytics = (analyticsObjects, accountIndex) => {
       for (let index in analyticsObject.analytics) {
         let dataPointArray = [];
 
-        dataLinesInformation.push({
+        let areAnyDataPointsGreaterThanZero = false;
+
+        analyticsInformationList.push({
           description: analyticsObject.analytics[index].description,
           title: analyticsObject.analytics[index].title
         });
-        for (let index2 in analyticsObject.analytics[index].monthlyValues) {
-          for (let index3 in analyticsObject.analytics[index].monthlyValues[
-            index2
-          ].values) {
-            if (
-              analyticsObject.analytics[index].monthlyValues[index2].values[
-                index3
-              ].value[0]
-            )
-              dataPointArray.push(
-                analyticsObject.analytics[index].monthlyValues[index2].values[
-                  index3
-                ].value[0].value
-              );
-            else dataPointArray.push(0);
+        const dailyValues = analyticsObject.analytics[index].dailyValues;
+
+        for (let index2 in dailyValues) {
+          const dailyValue = dailyValues[index2].dailyValue;
+
+          for (let index3 in dailyValue) {
+            if (dailyValue[index3].value > 0)
+              areAnyDataPointsGreaterThanZero = true;
+
+            if (dailyValue[index3])
+              dataPointArray.push({
+                data: dailyValue[index3].value,
+                date: new moment(dailyValue[index3].date)
+              });
+            else dataPointArray.push({ data: 0 });
           }
         }
-        dataPointArrays.push(dataPointArray);
+        if (areAnyDataPointsGreaterThanZero)
+          dataPointArrays.push(dataPointArray);
       }
     }
   }
-  return { dataLinesInformation, dataPointArrays };
+  return { analyticsInformationList, dataPointArrays };
+};
+
+export const calculateNumberOfYearsForGraphDropdown = analyticsObject => {
+  let analyticsDropdownYears = [];
+  if (analyticsObject) {
+    let momentStart = new moment(analyticsObject.createdAt).subtract(
+      3,
+      "month"
+    );
+    let momentEnd = new moment();
+
+    for (
+      let index = Number(momentStart.format("YYYY"));
+      index <= Number(momentEnd.format("YYYY"));
+      index++
+    ) {
+      analyticsDropdownYears.push(index);
+    }
+  }
+  return { analyticsDropdownYears };
+};
+export const canDisplayMonth = (analyticsObject, month, year) => {
+  if (analyticsObject) {
+    const momentStart = new moment(analyticsObject.createdAt)
+      .subtract(3, "month")
+      .startOf("month");
+    const momentEnd = new moment().endOf("month");
+
+    const monthToTest = new moment().set({ year, month });
+
+    if (monthToTest.isBetween(momentStart, momentEnd)) return true;
+  }
+  return false;
+};
+
+export const getCorrectMonthOfData = (
+  line,
+  activeGraphYear,
+  activeGraphMonthIndex,
+  graphType
+) => {
+  const dataPointsInMonth = [];
+  const horizontalTitles = [];
+
+  const lineStartDate = new moment()
+    .set({
+      year: activeGraphYear,
+      month: activeGraphMonthIndex - 1
+    })
+    .endOf("month");
+
+  const lineEndDate = new moment()
+    .set({
+      year: activeGraphYear,
+      month: activeGraphMonthIndex + 1
+    })
+    .startOf("month");
+
+  for (let index in line) {
+    const dataPoint = line[index];
+
+    if (new moment(dataPoint.date).isBetween(lineStartDate, lineEndDate)) {
+      dataPointsInMonth.push(dataPoint.data);
+      horizontalTitles.push(dataPoint.date);
+    }
+  }
+
+  return { dataPointsInMonth, horizontalTitles };
 };

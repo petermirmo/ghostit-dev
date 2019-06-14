@@ -9,8 +9,6 @@
   align-items: center;
   justify-content: space-between;
 
-  box-sizing: border-box;
-
   color: var(--primary-font-color);
 }
 .invoice-container-row:nth-child(odd) {

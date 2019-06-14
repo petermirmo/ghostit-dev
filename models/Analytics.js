@@ -43,22 +43,16 @@ const analyticsSchema = new Schema(
             ]
           }
         ],
-        monthlyValues: [
+        dailyValues: [
           // this is how account analytics are stored
-          // each element represents a different month/year
+          // each element represents a different day
           {
-            month: Number,
-            year: Number,
-            values: [
-              // each element represents a different day within the month
+            dailyValue: [
+              // multiple metrics like loves, likes, etc
               {
-                day: Number,
-                value: [
-                  {
-                    key: String,
-                    value: Number
-                  }
-                ]
+                date: Date,
+                key: String,
+                value: Number
               }
             ]
           }
@@ -85,7 +79,7 @@ Example object:
       "name": "page_video_views_organic",
       "title": "Daily Total Organic Views",
       "description": "Daily: Number of times a video has been viewed due to organic reach (Total Count)",
-      "monthlyValues": [
+      "dailyValues": [
         {
           "month": 9,
           "year": 2018,
@@ -135,7 +129,7 @@ Example object:
       "name": "page_video_views_unique",
       "title": "Daily Total Unique Views",
       "description": "Daily: Number of times a video has been viewed by a unique user (Total Count)",
-      "monthlyValues": [
+      "dailyValues": [
         {
           "month": 9,
           "year": 2018,

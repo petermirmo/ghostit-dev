@@ -1,5 +1,14 @@
 .white {
   color: var(--white-theme-color);
+  fill: var(--five-blue-color);
+}
+.five-blue {
+  color: var(--five-blue-color);
+  fill: var(--five-blue-color);
+}
+.seven-blue {
+  color: var(--seven-blue-color);
+  fill: var(--seven-blue-color);
 }
 .clickable {
   cursor: pointer;
@@ -8,6 +17,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.muli {
+  font-family: var(--muli-font);
+}
+
+.quicksand {
+  font-family: var(--quicksand-font);
 }
 
 .tac {
@@ -30,11 +47,18 @@
   color: var(--seven-blue-color);
 }
 
+.nine-blue {
+  color: var(--nine-blue-color);
+}
+.fs-thirteen {
+  font-size: var(--thirteen-font-size);
+}
+
 h1 {
   color: var(--blue-font-color);
   margin: 0;
   padding: 0;
-  font-family: var(--silly-font);
+
   font-weight: 100;
   font-size: var(--thirty-two-font-size);
 }
@@ -42,7 +66,6 @@ h2 {
   color: var(--primary-font-color);
   margin: 0;
   font-weight: 100;
-  font-family: var(--silly-font);
 
   font-size: var(--thirty-two-font-size);
 }
@@ -52,28 +75,27 @@ h3 {
   padding: 0;
   font-size: var(--twenty-font-size);
   font-weight: 100;
-  font-family: var(--silly-font);
 }
 h4 {
   color: var(--primary-font-color);
   margin: 0;
   text-align: left;
   font-weight: 100;
-  font-family: var(--silly-font);
+
   font-size: var(--twenty-font-size);
 }
 h5 {
   color: var(--blue-font-color);
   margin: 0;
   font-weight: 100;
-  font-family: var(--silly-font);
+
   font-size: var(--sixteen-font-size);
 }
 h6 {
   color: var(--primary-font-color);
   margin: 0;
   font-weight: 100;
-  font-family: var(--silly-font);
+
   font-size: var(--sixteen-font-size);
 }
 
@@ -83,4 +105,8 @@ p {
   text-align: left;
   font-size: var(--fourteen-font-size);
   font-weight: 100;
+}
+
+text {
+  font-size: var(--fourteen-font-size);
 }

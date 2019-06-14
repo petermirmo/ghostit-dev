@@ -1,20 +1,52 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from "moment-timezone";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
+import GIText from "../../components/views/GIText";
+import Dropdown from "../../components/views/Dropdown";
 import LineChart from "../../components/LineChart/";
 
-import { getAccountAnalytics, getDataLinesFromAnalytics } from "./util";
+import NavigationLayout from "../../components/navigations/NavigationLayout";
+
+import {
+  calculateNumberOfYearsForGraphDropdown,
+  canDisplayMonth,
+  getAccountAnalytics,
+  getCorrectMonthOfData,
+  getDataLinesFromAnalytics
+} from "./util";
+import { graphTypes, months, postingTypes } from "../../constants";
+import { capitolizeFirstChar } from "../../componentFunctions";
+import { getPostColor, getPostIconRound } from "../../componentFunctions";
 
 import "./style.css";
 
 class Analytics extends Component {
-  state = { activeAnalytics: [], analyticsObjects: undefined };
+  state = {
+    activeAnalyticsIndex: 0,
+    activeAnalyticsPageIndex: 0,
+    activeGraphYear: Number(new moment().format("YYYY")),
+    activeGraphMonthIndex: Number(new moment().format("MM")) - 1,
+    analyticsObjects: undefined,
+    graphType: 0
+  };
 
   componentDidMount() {
-    getAccountAnalytics(this.handleChange);
+    const { activeAnalyticsPageIndex } = this.state;
+
+    getAccountAnalytics(stateObj => {
+      this.handleChange({
+        ...getDataLinesFromAnalytics(
+          activeAnalyticsPageIndex,
+          stateObj.analyticsObjects
+        ),
+        ...stateObj
+      });
+    });
     this._ismounted = true;
   }
   componentWillUnmount() {
@@ -25,18 +57,242 @@ class Analytics extends Component {
   };
 
   render() {
-    const { analyticsObjects = [] } = this.state;
+    const {
+      activeAnalyticsIndex,
+      activeAnalyticsPageIndex,
+      activeGraphYear,
+      activeGraphMonthIndex,
+      analyticsInformationList = [],
+      analyticsObjects = [],
+      dataPointArrays = [],
+      graphType
+    } = this.state;
     const { accounts } = this.props;
 
-    const { dataLinesInformation, dataPointArrays } = getDataLinesFromAnalytics(
-      analyticsObjects,
-      analyticsObjects.length - 1
+    const { analyticsDropdownYears } = calculateNumberOfYearsForGraphDropdown(
+      analyticsObjects[activeAnalyticsPageIndex]
     );
 
-    return <Page title="Analytics">getDataLinesFromAnalytics</Page>;
+    const { dataPointsInMonth, horizontalTitles } = getCorrectMonthOfData(
+      dataPointArrays[activeAnalyticsIndex],
+      activeGraphYear,
+      activeGraphMonthIndex,
+      graphType
+    );
+
+    return (
+      <Page className="column x-fill" title="Analytics">
+        <NavigationLayout
+          className="x-fill"
+          data={postingTypes.map((category, index) => {
+            return (
+              <GIContainer
+                onClick={() =>
+                  this.handleChange({ activeAnalyticsPageIndex: index })
+                }
+                className="navigation-button border full-center fill-flex clickable py16"
+              >
+                <GIContainer className="round-icon round full-center">
+                  <FontAwesomeIcon
+                    color="var(--white-theme-color)"
+                    icon={getPostIconRound(category.name)}
+                  />
+                </GIContainer>
+                <GIText
+                  className="tac ml8"
+                  text={capitolizeFirstChar(category.name)}
+                  type="h3"
+                />
+              </GIContainer>
+            );
+          })}
+        />
+        <GIContainer className="mt32">
+          <GIContainer className="fill-flex full-center column common-shadow-green green-fade br8 pa16 ml32 mr8">
+            <GIContainer className="round-icon mb8">
+              <img
+                alt=""
+                src={require("../../svgs/icons/profile.svg")}
+                className="fill-parent"
+              />
+            </GIContainer>
+            <GIText className="tac white quicksand" text="1,200" type="h2" />
+            <GIText className="tac white bold" text="New Visitors" type="h6" />
+            <GIText
+              className="tac white fs-thirteen"
+              text="Last 30 Days"
+              type="p"
+            />
+          </GIContainer>
+          <GIContainer className="fill-flex full-center column common-shadow-purple purple-fade br8 pa16 mx8">
+            <GIContainer className="round-icon mb8">
+              <img
+                alt=""
+                src={require("../../svgs/icons/profile-with-plus.svg")}
+                className="fill-parent"
+              />
+            </GIContainer>
+            <GIText className="tac white quicksand" text="243" type="h2" />
+            <GIText className="tac white bold" text="New Followers" type="h6" />
+            <GIText
+              className="tac white fs-thirteen"
+              text="Last 30 Days"
+              type="p"
+            />
+          </GIContainer>
+          <GIContainer className="fill-flex full-center column common-shadow-light common-border br8 pa16 mx8">
+            <GIContainer className="round-icon mb8">
+              <img
+                alt=""
+                src={require("../../svgs/icons/thumbs-up.svg")}
+                className="fill-parent"
+              />
+            </GIContainer>
+            <GIText className="tac quicksand" text="4.1K" type="h1" />
+            <GIText className="tac bold" text="Total Likes" type="h6" />
+            <GIText className="tac fs-thirteen" text="Last 30 Days" type="p" />
+          </GIContainer>
+          <GIContainer className="fill-flex full-center column common-shadow-light common-border br8 pa16 mx8">
+            <GIContainer className="round-icon mb8">
+              <img
+                alt=""
+                src={require("../../svgs/icons/message.svg")}
+                className="fill-parent"
+              />
+            </GIContainer>
+            <GIText className="tac quicksand" text="1.4K" type="h1" />
+            <GIText className="tac bold" text="Total Comments" type="h6" />
+            <GIText className="tac fs-thirteen" text="Last 30 Days" type="h2" />
+          </GIContainer>
+          <GIContainer className="fill-flex full-center column common-shadow-orange orange-fade br8 pa16 ml8 mr32">
+            <GIContainer className="full-center">
+              <GIText className="tac white quicksand" text="34.2K" type="h1" />
+            </GIContainer>
+            <GIText
+              className="tac white bold"
+              text="Lifetime Total Likes"
+              type="h6"
+            />
+          </GIContainer>
+        </GIContainer>
+        <GIContainer className="mt16 column px32">
+          {analyticsInformationList[activeAnalyticsIndex] && (
+            <Dropdown
+              dropdownItems={analyticsInformationList.map(obj => obj.title)}
+              handleParentChange={dropdownClickedItemObj =>
+                this.handleChange({
+                  activeAnalyticsIndex: dropdownClickedItemObj.index
+                })
+              }
+              search
+              title={
+                <GIText
+                  className="tac muli bold fill-flex"
+                  text={analyticsInformationList[activeAnalyticsIndex].title}
+                  type="h3"
+                />
+              }
+            />
+          )}
+          {analyticsInformationList[activeAnalyticsIndex] && (
+            <GIText
+              className="tac mt16"
+              text={analyticsInformationList[activeAnalyticsIndex].description}
+              type="h6"
+            />
+          )}
+          <GIContainer className="justify-between mt32">
+            <NavigationLayout
+              className=""
+              data={graphTypes.map((obj, index) => (
+                <GIContainer
+                  className="navigation-button clickable full-center mr8 px8"
+                  onClick={() => this.handleChange({ graphType: index })}
+                >
+                  This {capitolizeFirstChar(obj.name)}
+                </GIContainer>
+              ))}
+            />
+            <GIContainer>
+              {graphType !== 1 && (
+                <Dropdown
+                  dropdownItems={months.map((month, index) => {
+                    if (
+                      canDisplayMonth(
+                        analyticsObjects[activeAnalyticsPageIndex],
+                        month,
+                        activeGraphYear
+                      )
+                    )
+                      return capitolizeFirstChar(month);
+                    else return null;
+                  })}
+                  handleParentChange={dropdownClickedItemObj =>
+                    this.handleChange({
+                      activeGraphMonthIndex: dropdownClickedItemObj.index
+                    })
+                  }
+                  title={
+                    <GIText
+                      className="tac nine-blue bold fill-flex"
+                      text={capitolizeFirstChar(months[activeGraphMonthIndex])}
+                      type="h5"
+                    />
+                  }
+                />
+              )}
+
+              <GIContainer className="ml8">
+                <Dropdown
+                  dropdownItems={analyticsDropdownYears}
+                  handleParentChange={dropdownClickedItemObj =>
+                    this.handleChange({
+                      activeGraphYear: dropdownClickedItemObj.item
+                    })
+                  }
+                  title={
+                    <GIContainer>
+                      <GIText
+                        className="tac nine-blue bold fill-flex mr8"
+                        text="year:"
+                        type="h6"
+                      />
+                      <GIText
+                        className="tac bold fill-flex"
+                        text={activeGraphYear}
+                        type="h5"
+                      />
+                    </GIContainer>
+                  }
+                />
+              </GIContainer>
+            </GIContainer>
+          </GIContainer>
+          <GIText
+            className="tac muli"
+            text={
+              graphType === 0
+                ? new moment().format("MMMM YYYY")
+                : new moment().format("YYYY")
+            }
+            type="h4"
+          />
+        </GIContainer>
+        {analyticsInformationList && (
+          <GIContainer className="mt16 px32">
+            <LineChart
+              className="x-fill"
+              line={dataPointsInMonth}
+              horizontalTitles={horizontalTitles.map((date, index) =>
+                date.date()
+              )}
+            />
+          </GIContainer>
+        )}
+      </Page>
+    );
   }
 }
-
 function mapStateToProps(state) {
   return {
     accounts: state.accounts,

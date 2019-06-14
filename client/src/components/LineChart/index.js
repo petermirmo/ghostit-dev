@@ -1,162 +1,165 @@
 import React, { Component } from "react";
+import sizeMe from "react-sizeme";
+
+import GIContainer from "../containers/GIContainer";
 
 import "./style.css";
 
-const LINE_CHART_HEIGHT_RATIO = 40;
+const PADDING = 24;
+const PADDING_SIDE_MULTIPLIER = 4;
 
 class LineChart extends Component {
-  getMaxMinXYValues = lines => {
+  getMaxMinXYValues = line => {
     let yMax;
     let yMin = 0;
     let xMax = 0;
-
-    // Loop through every line
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-
+    if (line) {
       let currentXMax = 0;
 
       // Loop through every data point in a line
-      for (let j = 0; j < line.length; j++) {
+      for (let index = 0; index < line.length; index++) {
         currentXMax++;
         // If values have not been initiated then set to this value
         // We do not set immediately because we have no idea what the data points are
         // They could be positive or negative
-        if (!yMax) yMax = line[j];
+        if (!yMax) yMax = line[index];
 
-        if (line[j] > yMax) yMax = line[j];
-        if (line[j] < yMin) yMin = line[j];
+        if (line[index] > yMax) yMax = line[index];
+        if (line[index] < yMin) yMin = line[index];
       }
       if (currentXMax > xMax) xMax = currentXMax;
       currentXMax = 0;
     }
+    if (!yMax) yMax = 1;
     return { yMax, yMin, xMax };
   };
-  createVerticalLines = xMax => {
+  createVerticalLine = (xMax, horizontalTitles) => {
+    const { width, height } = this.props.size;
+
     let verticalLineDivs = [];
-    for (let i = 0; i < xMax; i++) {
-      if (i === 0) continue;
-      let x = (i / (xMax - 1)) * 100;
+    for (let i = 0; i <= xMax; i++) {
+      const x =
+        (i / (xMax - 1)) * (width - PADDING * PADDING_SIDE_MULTIPLIER) +
+        PADDING * PADDING_SIDE_MULTIPLIER;
 
       verticalLineDivs.push(
-        <path
-          className="line-chart-vertical-line"
-          d={"M" + x + ",0 L " + x + "," + LINE_CHART_HEIGHT_RATIO}
-          key={x + "line"}
-          vectorEffect="non-scaling-stroke"
-        />
+        <g key={i}>
+          <path
+            className="line-chart-vertical-line"
+            d={"M" + x + ",0 L " + x + "," + (height - PADDING)}
+            key={i}
+            vectorEffect="non-scaling-stroke"
+          />
+          <text className="five-blue" textAnchor="middle" x={x} y={height}>
+            {horizontalTitles[i]}
+          </text>
+        </g>
       );
     }
     return verticalLineDivs;
   };
-  createDataLines = (lines, xMax, yMax, yMin, colors) => {
+  createDataLine = (line, xMax, yMax, yMin) => {
+    const { width } = this.props.size;
+    let { height } = this.props.size;
+    height -= PADDING;
+
     let dataPointDivs = [];
     let dataLineDivs = [];
 
-    for (let lineIndex in lines) {
-      const line = lines[lineIndex];
-      let prevDataPoint;
+    let prevDataPoint;
 
-      for (let dataIndex in line) {
-        const dataValue = line[dataIndex];
-        let x = (dataIndex / (xMax - 0.9)) * 100;
-        let y = (dataValue / yMax) * LINE_CHART_HEIGHT_RATIO;
+    for (let dataIndex in line) {
+      const dataValue = line[dataIndex];
+      const x =
+        (dataIndex / (xMax - 1)) * (width - PADDING * PADDING_SIDE_MULTIPLIER) +
+        PADDING * PADDING_SIDE_MULTIPLIER;
+      let y = (dataValue / yMax) * height;
 
-        y = LINE_CHART_HEIGHT_RATIO - y;
+      y = height - y;
 
-        if (prevDataPoint) {
-          let paddingWidth = 2;
+      if (prevDataPoint) {
+        const x1 = prevDataPoint.x;
+        const y1 = prevDataPoint.y;
+        const x2 = x;
+        const y2 = y;
 
-          let x1 = prevDataPoint.x;
-          let y1 = prevDataPoint.y;
-          let x2 = x;
-          let y2 = y;
-
-          let theta = Math.atan((y2 - y1) / (x2 - x1));
-          let yPadding = paddingWidth * Math.sin(theta);
-          let xPadding = paddingWidth * Math.cos(theta);
-
-          dataLineDivs.push(
-            <path
-              style={{ stroke: colors[lineIndex] }}
-              className="line-chart-connecting-line"
-              d={
-                "M" +
-                (x1 + xPadding) +
-                "," +
-                (y1 + yPadding) +
-                " L " +
-                (x2 - xPadding) +
-                "," +
-                (y2 - yPadding) +
-                ""
-              }
-              key={dataIndex + "line" + lineIndex}
-              vectorEffect="non-scaling-stroke"
-            />
-          );
-        }
-
-        dataPointDivs.push(
-          <circle
-            style={{ stroke: colors[lineIndex], fill: colors[lineIndex] }}
-            className="line-chart-data-point"
-            cx={x}
-            cy={y}
-            key={dataIndex + "circle" + lineIndex}
+        dataLineDivs.push(
+          <path
+            className="line-chart-connecting-line"
+            d={"M" + x1 + "," + y1 + " L " + x2 + "," + y2 + ""}
+            key={dataIndex + "line"}
             vectorEffect="non-scaling-stroke"
           />
         );
-        prevDataPoint = { x, y };
       }
+
+      dataPointDivs.push(
+        <circle
+          className="line-chart-data-point"
+          cx={x}
+          cy={y}
+          key={dataIndex + "circle"}
+          vectorEffect="non-scaling-stroke"
+        />
+      );
+      prevDataPoint = { x, y };
     }
+
     return { dataPointDivs, dataLineDivs };
   };
   XAxis = () => {
+    const { width, height } = this.props.size;
+
     return (
       <path
         className="line-chart-axis"
-        d={
-          "M 0," + LINE_CHART_HEIGHT_RATIO + " L 100," + LINE_CHART_HEIGHT_RATIO
-        }
+        d={`M ${PADDING * PADDING_SIDE_MULTIPLIER},${height -
+          PADDING}L${width},${height - PADDING}`}
         vectorEffect="non-scaling-stroke"
       />
     );
   };
   YAxis = () => {
+    const { width, height } = this.props.size;
+
     return (
       <path
         className="line-chart-axis"
-        d={"M 0,0 L 0," + LINE_CHART_HEIGHT_RATIO}
+        d={"M 0,0 L 0," + width}
         vectorEffect="non-scaling-stroke"
       />
     );
   };
   render() {
-    let { lines, colors } = this.props;
-    let { yMax, yMin, xMax } = this.getMaxMinXYValues(lines);
-    let { dataPointDivs, dataLineDivs } = this.createDataLines(
-      lines,
+    const {
+      className,
+      horizontalTitles,
+      line,
+      size,
+      verticalTitles
+    } = this.props; /// Variables
+    const { height, width } = size;
+
+    const { xMax, yMax, yMin } = this.getMaxMinXYValues(line);
+
+    const { dataPointDivs, dataLineDivs } = this.createDataLine(
+      line,
       xMax,
       yMax,
-      yMin,
-      colors
+      yMin
     );
 
     return (
-      <svg
-        className="line-chart"
-        viewBox={"0 0 100 " + LINE_CHART_HEIGHT_RATIO}
-        preserveAspectRatio="none"
-      >
-        {this.XAxis()}
-        {this.YAxis()}
-        {this.createVerticalLines(xMax)}
-        {dataLineDivs}
-        {dataPointDivs}
-      </svg>
+      <GIContainer className={className}>
+        <svg className="line-chart" width={width}>
+          {this.XAxis()}
+          {this.createVerticalLine(xMax, horizontalTitles)}
+          {dataLineDivs}
+          {dataPointDivs}
+        </svg>
+      </GIContainer>
     );
   }
 }
 
-export default LineChart;
+export default sizeMe({ monitorHeight: true })(LineChart);

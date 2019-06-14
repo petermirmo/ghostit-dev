@@ -96,7 +96,8 @@ class Routes extends Component {
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
-    if (!datebaseConnection) return <LoaderWedge />;
+    if (!datebaseConnection && process.env.NODE_ENV !== "development")
+      return <LoaderWedge />;
 
     return (
       <GIContainer className="main-wrapper">

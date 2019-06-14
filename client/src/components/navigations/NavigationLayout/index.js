@@ -11,11 +11,11 @@ class NavigationLayout extends Component {
   };
 
   render() {
-    const { data, className } = this.props;
+    const { className, data, testMode } = this.props;
     const { active } = this.state;
 
     return (
-      <GIContainer className={className}>
+      <GIContainer className={className} testMode={testMode}>
         {data.map((reactElement, index) => {
           let className = reactElement.props.className;
           if (index === active) className += " active";

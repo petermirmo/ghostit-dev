@@ -5,7 +5,10 @@ import {
   faFacebookSquare,
   faInstagram,
   faLinkedin,
-  faTwitterSquare
+  faTwitterSquare,
+  faFacebookF,
+  faTwitter,
+  faLinkedinIn
 } from "@fortawesome/free-brands-svg-icons";
 
 export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
@@ -488,20 +491,27 @@ export function getPostColor(socialType) {
     return "var(--five-purple-color)";
   }
 }
-export function getSocialCharacters(post_type) {
+export const getSocialCharacters = post_type => {
   if (post_type === "twitter") {
     return 280;
   } else if (post_type === "linkedin") {
     return 700;
   } else return undefined;
-}
-export function getPostIcon(socialType) {
+};
+export const getPostIcon = socialType => {
   if (socialType === "facebook") return faFacebookSquare;
   else if (socialType === "twitter") return faTwitterSquare;
   else if (socialType === "linkedin") return faLinkedin;
   else if (socialType === "instagram") return faInstagram;
   else return false;
-}
+};
+export const getPostIconRound = socialType => {
+  if (socialType === "facebook") return faFacebookF;
+  else if (socialType === "twitter") return faTwitter;
+  else if (socialType === "linkedin") return faLinkedinIn;
+  else if (socialType === "instagram") return faInstagram;
+  else return false;
+};
 
 export const getSocialDisplayName = account => {
   let name;

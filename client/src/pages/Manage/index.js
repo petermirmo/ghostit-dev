@@ -46,7 +46,7 @@ class ManagePage extends Component {
 
     return (
       <Page className="column" title="Manage">
-        <div className="manage-navigation flex vc py8 px16 mb16 common-shadow">
+        <div className="manage-navigation flex vc py8 px16 mb16">
           {Object.keys(categories).map((categoryIndex, index) => {
             let category = categories[categoryIndex];
 

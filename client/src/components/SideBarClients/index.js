@@ -47,8 +47,8 @@ class ClientSideBar extends Component {
   render() {
     return (
       <div
-        className="navbar pa16 animate-from-left-100"
-        style={{ zIndex: "-1" }}
+        className="bg-white pa16 animate-from-left-100"
+        style={{ zIndex: "1" }}
       >
         <SearchColumn
           objectList={this.state.untouchedClients}
