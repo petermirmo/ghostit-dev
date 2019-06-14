@@ -235,7 +235,7 @@ module.exports = {
 
               uploadFiles([post.linkImage], uploadedFiles => {
                 newPost.linkCustomFiles.unshift(uploadedFiles[0]);
-                newPost.linkImage = uploadedFiles[0].url;
+                if (uploadedFiles[0]) newPost.linkImage = uploadedFiles[0].url;
 
                 finalSavePost(newPost);
               });
