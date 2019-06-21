@@ -594,7 +594,7 @@ class CalendarManager extends Component {
 
     return (
       <div className="flex column fill-flex vc">
-        <div className="grid-two-columns py8 border-bottom width100">
+        <div className="grid-two-columns py8 border-bottom x-fill">
           <div className="flex vc hc mx16">
             <div className="label">Rename Calendar: </div>
             <input
@@ -646,7 +646,7 @@ class CalendarManager extends Component {
             )}
           </div>
         </div>
-        <div className="flex fill-flex width100">
+        <div className="flex fill-flex x-fill">
           <div className="list-container fill-flex pa16 light-scrollbar border-right">
             <div className="flex row">
               <h4 className="mx16">Social Accounts Linked To Calendar</h4>

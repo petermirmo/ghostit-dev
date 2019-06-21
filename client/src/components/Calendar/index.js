@@ -442,8 +442,8 @@ class Calendar extends Component {
     }
 
     return (
-      <div className="flex column vc width100">
-        <div className="calendar-header-container px32 pt8 width100 border-box">
+      <div className="flex column vc x-fill">
+        <div className="calendar-header-container px32 pt8 x-fill border-box">
           <div className="flex hc vc">
             <Filter
               updateActiveCategory={updateActiveCategory}
@@ -477,7 +477,7 @@ class Calendar extends Component {
           </div>
         </div>
         {calendarInviteDivs}
-        <div className="flex hc width100 relative">
+        <div className="flex hc x-fill relative">
           <CalendarPicker
             calendars={calendars}
             activeCalendarIndex={activeCalendarIndex}

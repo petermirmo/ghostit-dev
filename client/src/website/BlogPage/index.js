@@ -90,7 +90,7 @@ class BlogPage extends Component {
                         className="container-box column small ma32 common-shadow br4 button"
                       >
                         <div
-                          className="image-cover width100"
+                          className="image-cover x-fill"
                           style={
                             ghostitBlog.images[0]
                               ? {

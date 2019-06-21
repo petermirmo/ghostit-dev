@@ -2,6 +2,8 @@
   shape-rendering: geometricPrecision;
 
   overflow: visible;
+  min-height: 200px;
+  height: 40vh;
 }
 .line-chart-axis {
   stroke: var(--five-blue-color);
@@ -9,14 +11,14 @@
   stroke-width: 1px;
   shape-rendering: geometricPrecision;
 }
-.line-chart-vertical-line {
+.line-chart-vertical {
   stroke: #655c5c;
   fill: none;
   stroke-width: 1px;
   shape-rendering: geometricPrecision;
   opacity: 0.28;
 }
-.line-chart-horizontal-line {
+.line-chart-horizontal {
   stroke: #ededed;
   fill: none;
   stroke-width: 1px;
@@ -29,9 +31,23 @@
   shape-rendering: geometricPrecision;
   transition: 1.5s ease;
 }
-.line-chart-connecting-line {
+.line-chart-data-point:hover {
+  r: 6;
+  stroke: #ff6e5d;
+  stroke-width: 5px;
+  transition: 0.2s ease;
+}
+.line-chart-connecting {
+  fill: none;
   stroke: var(--five-blue-color);
   stroke-width: 1px;
   shape-rendering: geometricPrecision;
   transition: 1.5s ease;
+}
+
+.line-chart-vertical:hover + .line-chart-data-point {
+  r: 6;
+  stroke: #ff6e5d;
+  stroke-width: 5px;
+  transition: 0.2s ease;
 }

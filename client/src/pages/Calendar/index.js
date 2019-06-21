@@ -432,7 +432,7 @@ class Content extends Component {
     return (
       <Consumer>
         {context => (
-          <Page title="Calendar" className="content-page">
+          <Page className="content-page" title="Calendar">
             {loading && <Loader />}
             <Calendar
               activeCalendarIndex={activeCalendarIndex}

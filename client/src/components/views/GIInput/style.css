@@ -17,7 +17,7 @@ input {
 
   font-size: var(--sixteen-font-size);
   font-family: var(--regular-font);
-  border: 1px solid var(--divider-theme-color);
+  border: 1px solid #dedede;
   color: var(--primary-font-color);
   background-color: var(--white-theme-color);
 
@@ -26,7 +26,6 @@ input {
   padding-bottom: 4px;
   padding-left: 8px;
   width: 100%;
-  
 }
 textarea:focus,
 input:focus {
@@ -38,5 +37,4 @@ input[type="file"] {
 }
 ::placeholder {
   color: var(--divider-theme-color);
-  
 }

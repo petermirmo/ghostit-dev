@@ -200,7 +200,7 @@ class CreateWebsiteBlog extends Component {
         />
 
         <input
-          className="regular-input width100 border-box"
+          className="regular-input x-fill border-box"
           value={image.alt ? image.alt : ""}
           placeholder="alt"
           onChange={e => this.handleContentChange(e.target.value, index, "alt")}

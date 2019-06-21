@@ -1,6 +1,9 @@
+import React from "react";
 import axios from "axios";
 import io from "socket.io-client";
 import moment from "moment-timezone";
+
+import Loader from "../components/notifications/Loader";
 
 export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
   if (!calendars || !calendars[activeCalendarIndex]) {
@@ -399,4 +402,9 @@ export const initSocket = (
 
   callback({ socket });
   if (updateSocketCalendar) updateSocketCalendar();
+};
+
+export const isStillLoading = (page, user) => {
+  if (user) return page;
+  else return Loader;
 };

@@ -6,11 +6,8 @@ const {
 } = require("./responseStrings");
 
 const canCopyAttributeDirectly = index => {
-  if (index === "linkCustomFiles") {
-    return false;
-  } else {
-    return true;
-  }
+  if (index === "linkCustomFiles") return false;
+  else return true;
 };
 
 const deleteFiles = (deleteFilesArray, callback) => {

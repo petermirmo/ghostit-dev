@@ -5,11 +5,11 @@
   border-right: none !important;
 }
 .navigation-button.border {
-  border-left: solid 0.5px #d8d8d8;
-  border-bottom: solid 2px #d8d8d8;
+  border-left: solid 0.5px var(--grey-theme-color);
+  border-bottom: solid 2px var(--grey-theme-color);
 }
 .navigation-button {
-  color: #d8d8d8;
+  color: var(--grey-theme-color);
 }
 .navigation-button.active {
   border-bottom: solid 2px var(--five-blue-color);
@@ -19,7 +19,7 @@
   color: inherit;
 }
 .navigation-button .round-icon {
-  background-color: #d8d8d8;
+  background-color: var(--grey-theme-color);
 }
 .navigation-button.active .round-icon {
   background-color: var(--five-blue-color);
@@ -101,6 +101,20 @@
 .transparent-button-important.home.active {
   color: var(--white-theme-color);
 }
+.merge-with-input {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: 1px solid var(--divider-theme-color);
+  border-left: none;
+}
+.blue-fade {
+  padding: 8px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-radius: 4px;
+  box-shadow: 0 5px 12px 0 rgba(5, 164, 255, 0.27);
+  background-image: linear-gradient(283deg, #1ba5f9, #04c5fb);
+}
 button.purple {
   color: var(--seven-purple-color);
   background-color: var(--one-half-purple-color);
@@ -108,12 +122,6 @@ button.purple {
 button.purple:hover {
   color: var(--five-purple-color);
   background-color: var(--one-half-purple-color);
-}
-.merge-with-input {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border: 1px solid var(--divider-theme-color);
-  border-left: none;
 }
 button {
   color: var(--white-theme-color);

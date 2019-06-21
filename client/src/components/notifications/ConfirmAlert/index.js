@@ -81,7 +81,7 @@ class ConfirmAlert extends Component {
               </div>
               <input
                 type="text"
-                className="regular-input width100"
+                className="regular-input x-fill"
                 value={confirmText}
                 onChange={event =>
                   this.setState({ confirmText: event.target.value })

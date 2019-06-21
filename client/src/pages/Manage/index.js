@@ -64,7 +64,7 @@ class ManagePage extends Component {
             );
           })}
         </div>
-        <div className="width100">
+        <div className="x-fill">
           {categories.users.active && <UsersTable />}
           {categories.createBlog.active && (
             <CreateGhostitBlog

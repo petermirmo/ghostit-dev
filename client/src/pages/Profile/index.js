@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser } from "../../redux/actions/";
@@ -7,6 +10,8 @@ import { setUser } from "../../redux/actions/";
 import Page from "../../components/containers/Page";
 import Loader from "../../components/notifications/Loader/";
 import FileUpload from "../../components/views/FileUpload/";
+import GIText from "../../components/views/GIText/";
+import GIButton from "../../components/views/GIButton/";
 import GIContainer from "../../components/containers/GIContainer/";
 
 import { saveUser } from "./util";
@@ -15,6 +20,7 @@ import "./style.css";
 
 class Profile extends Component {
   state = { saving: false };
+
   constructor(props) {
     super(props);
     const { user } = props;
@@ -57,33 +63,18 @@ class Profile extends Component {
 
     return (
       <Page title="Profile">
-        <div className="profile-background flex vc hc">
-          <div className="profile-container flex column br8 pa32">
-            <GIContainer className="x-fill align-center mb8">
-              <FileUpload
-                canEdit={true}
-                className="profile-image-container medium round"
-                currentFiles={image ? [image] : []}
-                handleParentChange={parentStateChangeObject => {
-                  if (parentStateChangeObject.files)
-                    this.handleChange(
-                      "image",
-                      parentStateChangeObject.files[0]
-                    );
-                  else this.handleChange("image", undefined);
-                }}
-                fileLimit={1}
-                filesToDelete={[]}
-                id="hjqgf"
-                imageClassName="profile-image medium"
-                imageContainerClassName="profile-image-container medium round"
-                imageOnly={true}
-              />
-              <GIContainer className="column fill-flex ml8">
-                <p className="label mx8 mb4">Company Name</p>
+        <GIContainer className="column bg-light-grey x-fill align-center">
+          <GIContainer className="bg-white column common-border x-70 br8 pa32 my64">
+            <GIContainer className="x-fill align-center border-bottom-dashed mb8">
+              <GIContainer className="column x-50">
+                <GIText
+                  className="label mx8 mb4"
+                  text="Company Name"
+                  type="p"
+                />
                 <input
                   type="text"
-                  className="regular-input width100 pa8 mb16 round"
+                  className="regular-input x-fill pa8 mb16 round"
                   placeholder="Company Name"
                   onChange={event =>
                     this.handleChange("fullName", event.target.value)
@@ -91,14 +82,37 @@ class Profile extends Component {
                   value={fullName}
                 />
               </GIContainer>
+              <GIContainer className="justify-end x-50">
+                <GIContainer>
+                  <FileUpload
+                    canEdit={true}
+                    className="profile-image-container medium round"
+                    currentFiles={image ? [image] : []}
+                    handleParentChange={parentStateChangeObject => {
+                      if (parentStateChangeObject.files)
+                        this.handleChange(
+                          "image",
+                          parentStateChangeObject.files[0]
+                        );
+                      else this.handleChange("image", undefined);
+                    }}
+                    fileLimit={1}
+                    filesToDelete={[]}
+                    id="hjqgf"
+                    imageClassName="profile-image medium"
+                    imageContainerClassName="profile-image-container medium round"
+                    imageOnly={true}
+                  />
+                </GIContainer>
+              </GIContainer>
             </GIContainer>
 
-            <GIContainer className="x-fill">
+            <GIContainer className="x-fill mt32">
               <GIContainer className="column fill-flex">
-                <p className="label mx8 mb4">Email</p>
+                <GIText className="label mx8 mb4" text="Email" type="p" />
                 <input
                   type="text"
-                  className="regular-input width100 pa8 mb16 round"
+                  className="regular-input x-fill pa8 mb16 round"
                   placeholder="Email"
                   onChange={event =>
                     this.handleChange("email", event.target.value)
@@ -107,10 +121,10 @@ class Profile extends Component {
                 />
               </GIContainer>
               <GIContainer className="column fill-flex ml8">
-                <p className="label mx8 mb4">Website</p>
+                <GIText className="label mx8 mb4" text="Website" type="p" />
                 <input
                   type="text"
-                  className="regular-input width100 pa8 mb16 round"
+                  className="regular-input x-fill pa8 mb16 round"
                   placeholder="Website"
                   onChange={event =>
                     this.handleChange("website", event.target.value)
@@ -120,13 +134,14 @@ class Profile extends Component {
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="x-fill">
+            <GIContainer className="x-fill mt16">
               <GIContainer className="column fill-flex">
-                <p className="label mx8 mb4">Password</p>
+                <GIText className="label mx8 mb4" text="Password" type="p" />
+
                 <input
                   type="password"
-                  className="regular-input width100 pa8 mb16 round"
-                  placeholder="Password"
+                  className="regular-input x-fill pa8 mb16 round"
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
                   onChange={event =>
                     this.handleChange("password", event.target.value)
                   }
@@ -134,11 +149,15 @@ class Profile extends Component {
                 />
               </GIContainer>
               <GIContainer className="column fill-flex ml8">
-                <p className="label mx8 mb4">New Password</p>
+                <GIText
+                  className="label mx8 mb4"
+                  text="New Password"
+                  type="p"
+                />
                 <input
                   type="password"
-                  className="regular-input width100 pa8 mb16 round"
-                  placeholder="New Password"
+                  className="regular-input x-fill pa8 mb16 round"
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
                   onChange={event =>
                     this.handleChange("newPassword", event.target.value)
                   }
@@ -146,31 +165,34 @@ class Profile extends Component {
                 />
               </GIContainer>
             </GIContainer>
-            <button
-              className="regular-button margin-hc"
-              onClick={event => {
-                this.setState({ saving: true });
-                const { userFields } = this.state;
-                const { user } = this.props;
+            <GIContainer className="full-center mt16">
+              <GIButton
+                className="blue-fade full-center"
+                onClick={event => {
+                  this.setState({ saving: true });
+                  const { userFields } = this.state;
+                  const { user } = this.props;
 
-                saveUser(
-                  userFields,
-                  user._id,
-                  updatedUser => {
-                    this.props.setUser(updatedUser);
-                    this.setState({
-                      userFields: this.setUserToState(updatedUser),
-                      saving: false
-                    });
-                  },
-                  this.props
-                );
-              }}
-            >
-              Save Changes
-            </button>
-          </div>
-        </div>
+                  saveUser(
+                    userFields,
+                    user._id,
+                    updatedUser => {
+                      this.props.setUser(updatedUser);
+                      this.setState({
+                        userFields: this.setUserToState(updatedUser),
+                        saving: false
+                      });
+                    },
+                    this.props
+                  );
+                }}
+              >
+                <FontAwesomeIcon className="mr8" icon={faCheck} />
+                Save Changes
+              </GIButton>
+            </GIContainer>
+          </GIContainer>
+        </GIContainer>
         {saving && <Loader />}
       </Page>
     );

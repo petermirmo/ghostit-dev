@@ -203,7 +203,7 @@ class CustomTask extends Component {
           />
           {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
             <button
-              className="square-button py8 width100"
+              className="square-button py8 x-fill"
               onClick={() => this.setState(trySavePost(this.state, this.props))}
             >
               Save Task!

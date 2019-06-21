@@ -22,11 +22,12 @@ class FileUpload extends Component {
       id = String(Math.random()),
       imageClassName,
       imageContainerClassName,
-      imageOnly
+      imageOnly,
+      testMode
     } = this.props; // Variables
 
     return (
-      <GIContainer className="align-center wrap width100">
+      <GIContainer className="align-center wrap x-fill" testMode={testMode}>
         {!hideUploadButton && currentFiles.length < fileLimit && canEdit && (
           <GIContainer>
             <label

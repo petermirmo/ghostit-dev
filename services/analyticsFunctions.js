@@ -542,137 +542,76 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
 };
 
 module.exports = {
-  requestAllFacebookPostAnalytics: (req, res) => {
+  requestAllFacebookPostAnalytics: post => {
     // request from FB api then store in our DB
-    User.findOne({ _id: req.user._id }, (err, foundUser) => {
-      if (!err && foundUser) {
-        if (foundUser.role === "admin") {
-          Post.find(
-            { socialType: "facebook", accountType: "page", status: "posted" },
-            (err, foundPosts) => {
-              if (!err && foundPosts) {
-                for (let i = 0; i < foundPosts.length; i++) {
-                  const post = foundPosts[i];
-                  if (post.socialMediaID) {
-                    if (
-                      post.analyticsID &&
-                      new moment(post.postingDate).add(28, "days") <
-                        new moment()
-                    ) {
-                      // post is over 4 weeks old and already has an analytics object so dont bother updating it
-                      // if it is over 4 weeks old and doesn't have an analytics object, we should request its analytics
-                      // just once to get its lifetime values
-                      continue;
-                    }
-                    // need to get the account's access token
-                    Account.findOne(
-                      { _id: post.accountID },
-                      (err, foundAccount) => {
-                        if (!err && foundAccount) {
-                          FB.setAccessToken(foundAccount.accessToken);
-                          FB.api(
-                            post.socialMediaID + fbPostRequest,
-                            "get",
-                            function(response) {
-                              if (post.analyticsID) {
-                                // post has an analytics object already so need to update it
-                                Analytics.findOne(
-                                  { _id: post.analyticsID },
-                                  (err, foundPostAnalytics) => {
-                                    if (err || !foundPostAnalytics) {
-                                      console.log(
-                                        "post " +
-                                          post._id +
-                                          " was unable to find its analytics object with id " +
-                                          post.analyticsID +
-                                          " and so is creating a new one."
-                                      );
-                                      const analyticsDbObject = new Analytics();
-                                      post.analyticsID = analyticsDbObject._id;
-                                      post.save();
-                                      analyticsDbObject.socialType = "facebook";
-                                      analyticsDbObject.analyticsType = "post";
-                                      analyticsDbObject.associatedID = post._id;
-                                      analyticsDbObject.accountName =
-                                        foundAccount.givenName;
-                                      analyticsDbObject.postingTimeInSeconds = Math.round(
-                                        new moment(post.postingDate).valueOf() /
-                                          1000
-                                      );
-                                      analyticsDbObject.analytics = [];
-                                      fill_and_save_fb_post_db_object(
-                                        analyticsDbObject,
-                                        response.data
-                                      );
-                                    } else {
-                                      fill_and_save_fb_post_db_object(
-                                        foundPostAnalytics,
-                                        response.data
-                                      );
-                                    }
-                                  }
-                                );
-                              } else {
-                                // post doesn't have analytics object yet so need to create one
-                                const analyticsDbObject = new Analytics();
-                                post.analyticsID = analyticsDbObject._id;
-                                post.save();
-                                analyticsDbObject.socialType = "facebook";
-                                analyticsDbObject.analyticsType = "post";
-                                analyticsDbObject.associatedID = post._id;
-                                analyticsDbObject.accountName =
-                                  foundAccount.givenName;
-                                analyticsDbObject.postingTimeInSeconds = Math.round(
-                                  new moment(post.postingDate).valueOf() / 1000
-                                );
-                                analyticsDbObject.analytics = [];
-                                fill_and_save_fb_post_db_object(
-                                  analyticsDbObject,
-                                  response.data
-                                );
-                              }
-                            }
-                          );
-                        } else {
-                          // err or !foundAccount
-                          console.log(err);
-                          console.log(
-                            "post with id " +
-                              post._id +
-                              " was unable to find its account with id " +
-                              post.accountID +
-                              " so could not fetch its accessToken and was unable to request its analytics."
-                          );
-                        }
-                      }
-                    );
-                  }
+
+    // need to get the account's access token
+    Account.findOne({ socialID: post.accountID }, (err, foundAccount) => {
+      if (!err && foundAccount) {
+        FB.setAccessToken(foundAccount.accessToken);
+        FB.api(post.socialMediaID + fbPostRequest, "get", response => {
+          if (post.analyticsID) {
+            // post has an analytics object already so need to update it
+            Analytics.findOne(
+              { _id: post.analyticsID },
+              (err, foundPostAnalytics) => {
+                if (err || !foundPostAnalytics) {
+                  console.log(
+                    "post " +
+                      post._id +
+                      " was unable to find its analytics object with id " +
+                      post.analyticsID +
+                      " and so is creating a new one."
+                  );
+                  const analyticsDbObject = new Analytics();
+                  post.analyticsID = analyticsDbObject._id;
+                  post.save();
+                  analyticsDbObject.socialType = "facebook";
+                  analyticsDbObject.analyticsType = "post";
+                  analyticsDbObject.associatedID = post._id;
+                  analyticsDbObject.accountName = foundAccount.givenName;
+                  analyticsDbObject.postingTimeInSeconds = Math.round(
+                    new moment(post.postingDate).valueOf() / 1000
+                  );
+                  analyticsDbObject.analytics = [];
+                  fill_and_save_fb_post_db_object(
+                    analyticsDbObject,
+                    response.data
+                  );
+                } else {
+                  fill_and_save_fb_post_db_object(
+                    foundPostAnalytics,
+                    response.data
+                  );
                 }
-                // for each post loop ends here
-                res.send({ success: true });
-              } else {
-                console.log(err);
-                console.log(
-                  "Post.find returned err or !foundPosts. err logged above."
-                );
-                res.send({ success: false, err });
               }
-            }
-          );
-        } else {
-          console.log("User requesting all post analytics is not an admin.");
-          res.send({
-            success: false,
-            message: "Only admins can request all post analytics."
-          });
-        }
+            );
+          } else {
+            // post doesn't have analytics object yet so need to create one
+            const analyticsDbObject = new Analytics();
+            post.analyticsID = analyticsDbObject._id;
+            post.save();
+            analyticsDbObject.socialType = "facebook";
+            analyticsDbObject.analyticsType = "post";
+            analyticsDbObject.associatedID = post._id;
+            analyticsDbObject.accountName = foundAccount.givenName;
+            analyticsDbObject.postingTimeInSeconds = Math.round(
+              new moment(post.postingDate).valueOf() / 1000
+            );
+            analyticsDbObject.analytics = [];
+            fill_and_save_fb_post_db_object(analyticsDbObject, response.data);
+          }
+        });
       } else {
-        // User.findOne returned err or !foundUser
+        // err or !foundAccount
         console.log(err);
         console.log(
-          "User.findOne returned err or !foundUser. err logged above"
+          "post with id " +
+            post._id +
+            " was unable to find its account with id " +
+            post.accountID +
+            " so could not fetch its accessToken and was unable to request its analytics."
         );
-        res.send({ success: false, err });
       }
     });
   },

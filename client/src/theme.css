@@ -38,7 +38,7 @@
 
   --primary-font-color: #4a4a4a;
   --secondary-font-color: #567183;
-  --grey-font-color: #95a5a6;
+  --grey-font-color: #9b9b9b;
   --blue-font-color: #00aaff;
   --purple-font-color: #aa00ff;
 
@@ -61,8 +61,9 @@
   --black-theme-color: #000;
   --white-theme-color: #fff;
 
-  --light-light-grey-theme-color: #fbfcfc;
+  --grey-theme-color: #d8d8d8;
   --light-grey-theme-color: #e0e0e0;
+  --light-light-grey-theme-color: #fafafa;
   --dark-grey-theme-color: #95a5a6;
 
   --campaign-color1: #a6fff2;
@@ -512,10 +513,6 @@
   border-color: var(--seven-blue-color);
   background-color: var(--white-theme-color);
   color: var(--seven-blue-color);
-}
-
-.width100 {
-  width: 100%;
 }
 
 .width50 {
@@ -973,8 +970,8 @@
 }
 
 .round-icon {
-  min-width: 24px;
-  min-height: 24px;
+  min-width: 32px;
+  min-height: 32px;
 }
 .common-shadow {
   box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.2);
@@ -1146,6 +1143,9 @@ div {
 }
 .border-bottom {
   border-bottom: 1px solid var(--divider-theme-color);
+}
+.border-bottom-dashed {
+  border-bottom: 1px dashed var(--divider-theme-color);
 }
 .border-top {
   border-top: 1px solid var(--divider-theme-color);

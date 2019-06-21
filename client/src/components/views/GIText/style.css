@@ -109,4 +109,5 @@ p {
 
 text {
   font-size: var(--fourteen-font-size);
+  fill: var(--primary-font-color);
 }
