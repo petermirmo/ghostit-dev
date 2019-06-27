@@ -34,7 +34,6 @@ import {
   getUser,
   getBlogs,
   getAccounts,
-  isStillLoading,
   useAppropriateFunctionForEscapeKey
 } from "./util";
 
@@ -98,49 +97,20 @@ class Routes extends Component {
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
-    if (!datebaseConnection && process.env.NODE_ENV !== "development")
-      return <LoaderWedge />;
+    if (!datebaseConnection) return <LoaderWedge />;
 
     return (
       <GIContainer className="main-wrapper">
         <Switch>
-          <Route
-            path="/dashboard/"
-            component={isStillLoading(DashboardPage, user)}
-          />
-          <Route
-            path="/calendar/"
-            component={isStillLoading(CalendarPage, user)}
-          />
-          <Route
-            path="/subscribe/"
-            component={isStillLoading(SubscribePage, user)}
-          />
-          <Route
-            path="/analytics/"
-            component={isStillLoading(AnalyticsPage, user)}
-          />
-          <Route
-            path="/social-accounts/"
-            component={isStillLoading(AccountsPage, user)}
-          />
-          <Route
-            path="/manage/:id"
-            component={isStillLoading(ManagePage, user)}
-          />
-          <Route
-            path="/manage"
-            component={isStillLoading(ManagePage, user)}
-            exact
-          />
-          <Route
-            path="/profile/"
-            component={isStillLoading(ProfilePage, user)}
-          />
-          <Route
-            path="/subscription/"
-            component={isStillLoading(MySubscriptionPage)}
-          />
+          <Route path="/dashboard/" component={DashboardPage} />
+          <Route path="/calendar/" component={CalendarPage} />
+          <Route path="/subscribe/" component={SubscribePage} />
+          <Route path="/analytics/" component={AnalyticsPage} />
+          <Route path="/social-accounts/" component={AccountsPage} />
+          <Route path="/manage/:id" component={ManagePage} />
+          <Route path="/manage" component={ManagePage} exact />
+          <Route path="/profile/" component={ProfilePage} />
+          <Route path="/subscription/" component={MySubscriptionPage} />
 
           <Route path="/home/" component={HomePage} />
           <Route path="/pricing/" component={PricingPage} />

@@ -2,10 +2,10 @@ import React from "react";
 
 const PADDING = 16;
 const INITIAL_BOX_PADDING = 0.4;
-const MULTIPLE_OF_YMAX = 1.5;
+const MULTIPLE_OF_YMAX = 1.2;
 
 const getDecimalPlaces = yMax => {
-  if (yMax < 5) return 2;
+  if (yMax < 100) return 2;
   else return 0;
 };
 
@@ -19,12 +19,14 @@ const getY = (height, index, verticalTitles) => {
   return ((height - PADDING) / verticalTitles) * index;
 };
 
-const getYDataPoint = (dataValue, height, yMax) => {
-  // We add the (1 / 6) * yMax because the top squares aren't used in graph
+const getYDataPoint = (dataValue, height, verticalTitles, yMax, yMin) => {
+  // We add the (1 / verticalTitles) because the top squares aren't used in graph
+
   return (
     height -
     PADDING -
-    (dataValue / (yMax + (1 / 6) * yMax)) * (height - PADDING)
+    ((dataValue - yMin) / (yMax - yMin)) *
+      ((height - PADDING) * ((verticalTitles - 1) / verticalTitles))
   );
 };
 
@@ -48,8 +50,21 @@ export const createBackground = (
 
   return (
     <g>
-      <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" style={{ stopColor: "#b6ecff", stopOpacity: 1 }} />
+      <linearGradient
+        id="grad1"
+        style={{ transition: "fill 1.5s ease" }}
+        x1="0%"
+        y1="0%"
+        x2="0%"
+        y2="100%"
+      >
+        <stop
+          offset="0%"
+          style={{
+            stopColor: "#b6ecff",
+            stopOpacity: 1
+          }}
+        />
         <stop
           offset="100%"
           style={{ stopColor: "rgb(255,255,255,0)", stopOpacity: 1 }}
@@ -64,6 +79,7 @@ export const createDataLine = (
   paddingSideMultiplier,
   line,
   size,
+  verticalTitles,
   xMax,
   yMax,
   yMin
@@ -79,7 +95,7 @@ export const createDataLine = (
     const dataValue = line[dataIndex - 1];
     const x = getX(dataIndex, paddingSideMultiplier, width, xMax);
 
-    const y = getYDataPoint(dataValue, height, yMax);
+    const y = getYDataPoint(dataValue, height, verticalTitles, yMax, yMin);
 
     if (prevDataPoint) {
       const x1 = prevDataPoint.x;
@@ -111,7 +127,8 @@ export const createHorizontalLines = (
   size,
   verticalTitles,
   xMax,
-  yMax
+  yMax,
+  yMin
 ) => {
   const { height, width } = size;
 
@@ -125,11 +142,12 @@ export const createHorizontalLines = (
 
     const displayHorizontalTitle = (
       yMax -
-      (yMax / (verticalTitles - 1)) * (index - 1)
+      (((yMax - yMin) / (verticalTitles - 1)) * (index - 1) + yMin) +
+      yMin
     ).toFixed(getDecimalPlaces(yMax));
 
     horizontalLineDivs.push(
-      <g key={index} className="test">
+      <g key={index}>
         {index !== verticalTitles && (
           <path
             className="line-chart-vertical"
@@ -180,12 +198,12 @@ export const createVerticalLines = (
   return verticalLineDivs;
 };
 
-export const getSomething = line => {
+export const getGraphVariables = line => {
   let paddingSideMultiplier = 1;
   let verticalTitles = 7;
   let xMax = 0;
   let yMax;
-  let yMin = 0;
+  let yMin = line[0];
 
   if (line) {
     let currentXMax = 0;
@@ -205,7 +223,7 @@ export const getSomething = line => {
     currentXMax = 0;
   }
   if (!yMax) yMax = 1;
-  yMax = yMax * MULTIPLE_OF_YMAX;
+  yMax = (yMax - yMin) * MULTIPLE_OF_YMAX + yMin;
 
   /*
   if (yMax <= 1) verticalTitles = 2;

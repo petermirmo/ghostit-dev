@@ -8,7 +8,7 @@ import {
   createDataLine,
   createHorizontalLines,
   createVerticalLines,
-  getSomething,
+  getGraphVariables,
   xAxis,
   yAxis
 } from "./util";
@@ -26,12 +26,13 @@ class LineChart extends Component {
       xMax,
       yMax,
       yMin
-    } = getSomething(line);
+    } = getGraphVariables(line);
 
     const { dataPointDivs, dataLine } = createDataLine(
       paddingSideMultiplier,
       line,
       size,
+      verticalTitles,
       xMax,
       yMax,
       yMin
@@ -54,7 +55,8 @@ class LineChart extends Component {
             size,
             verticalTitles,
             xMax,
-            yMax
+            yMax,
+            yMin
           )}
           {dataLine.map((data, index) => {
             const { x1, x2, y1, y2 } = data;

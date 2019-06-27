@@ -24,33 +24,119 @@ export const getDataLinesFromAnalytics = (accountIndex, analyticsObjects) => {
 
         let areAnyDataPointsGreaterThanZero = false;
 
-        analyticsInformationList.push({
-          description: analyticsObject.analytics[index].description,
-          title: analyticsObject.analytics[index].title
-        });
         const dailyValues = analyticsObject.analytics[index].dailyValues;
 
         for (let index2 in dailyValues) {
           const dailyValue = dailyValues[index2].dailyValue;
 
-          for (let index3 in dailyValue) {
-            if (dailyValue[index3].value > 0)
-              areAnyDataPointsGreaterThanZero = true;
-
-            if (dailyValue[index3])
-              dataPointArray.push({
-                data: dailyValue[index3].value,
-                date: new moment(dailyValue[index3].date)
-              });
-            else dataPointArray.push({ data: 0 });
+          if (dailyValue.length === 0) {
+            dataPointArray.push({ data: 0 });
+          } else if (dailyValue.length === 1) {
+            if (dailyValue[0].value > 0) areAnyDataPointsGreaterThanZero = true;
+            dataPointArray.push({
+              data: dailyValue[0].value,
+              date: new moment(dailyValue[0].date)
+            });
           }
         }
-        if (areAnyDataPointsGreaterThanZero)
+
+        if (areAnyDataPointsGreaterThanZero) {
           dataPointArrays.push(dataPointArray);
+          analyticsInformationList.push({
+            description: analyticsObject.analytics[index].description,
+            title: analyticsObject.analytics[index].title
+          });
+        }
       }
     }
   }
+
   return { analyticsInformationList, dataPointArrays };
+};
+
+const getAnalyticTitle = (activeAnalyticsSocialType, analyticBoxValue) => {
+  if (activeAnalyticsSocialType === 0) {
+    if (analyticBoxValue === 0) return "Daily Page Engaged Users";
+    else if (analyticBoxValue === 1)
+      return "Daily New likes by paid and non-paid";
+    else if (analyticBoxValue === 4) return "Lifetime Total Likes";
+  }
+};
+
+export const getLatestAnalyticValue = (
+  activeAnalyticsSocialType,
+  analyticsObjects,
+  analyticBoxValue,
+  sum
+) => {
+  const analyticObject = analyticsObjects[activeAnalyticsSocialType];
+
+  if (analyticObject && analyticObject.analytics) {
+    const analyticTitleString = getAnalyticTitle(
+      activeAnalyticsSocialType,
+      analyticBoxValue
+    );
+    const analytic = findAnalytic(analyticObject, analyticTitleString);
+
+    if (analytic && !sum) return findLatestAnalyticValue(analytic);
+    else if (analytic && sum) return sumLastThirtyDaysOfAnalytic(analytic);
+  }
+};
+
+const findAnalytic = (analyticObject, analyticTitleString) => {
+  return analyticObject.analytics.find(
+    analytic => analytic.title === analyticTitleString
+  );
+};
+
+const findLatestAnalyticValue = analytic => {
+  const latestDailyData =
+    analytic.dailyValues[analytic.dailyValues.length - 1].dailyValue;
+  if (latestDailyData.length === 1) return latestDailyData[0].value;
+  else {
+    let dailySum = 0;
+    for (let index in latestDailyData) {
+      if (latestDailyData[index].key === "total")
+        return latestDailyData[index].value;
+      else dailySum += latestDailyData[index].value;
+    }
+    return dailySum;
+  }
+};
+
+const sumLastThirtyDaysOfAnalytic = analytic => {
+  const thirtyDaysAgoDate = new moment().subtract(30, "days");
+
+  let analyticSum = 0;
+
+  for (let index = 1; index <= 30; index++) {
+    const dateOfAnalytic = new moment(
+      analytic.dailyValues[
+        analytic.dailyValues.length - index
+      ].dailyValue[0].date
+    );
+
+    if (
+      dateOfAnalytic > thirtyDaysAgoDate &&
+      analytic.dailyValues[analytic.dailyValues.length - index]
+    ) {
+      const latestDailyData =
+        analytic.dailyValues[analytic.dailyValues.length - index].dailyValue;
+
+      if (latestDailyData.length === 1) analyticSum += latestDailyData[0].value;
+      else {
+        let dailySum = 0;
+        for (let index in latestDailyData) {
+          if (latestDailyData[index].key === "total") {
+            dailySum = latestDailyData[index].value;
+            break;
+          } else dailySum += latestDailyData[index].value;
+        }
+        analyticSum += dailySum;
+      }
+    }
+  }
+  return analyticSum;
 };
 
 export const calculateNumberOfYearsForGraphDropdown = analyticsObject => {
@@ -87,10 +173,10 @@ export const canDisplayMonth = (analyticsObject, month, year) => {
 };
 
 export const getCorrectMonthOfData = (
-  line,
   activeGraphYear,
   activeGraphMonthIndex,
-  graphType
+  graphType,
+  line
 ) => {
   const dataPointsInMonth = [];
   const horizontalTitles = [];

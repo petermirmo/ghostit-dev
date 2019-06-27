@@ -17,7 +17,8 @@ import {
   canDisplayMonth,
   getAccountAnalytics,
   getCorrectMonthOfData,
-  getDataLinesFromAnalytics
+  getDataLinesFromAnalytics,
+  getLatestAnalyticValue
 } from "./util";
 import { graphTypes, months, postingTypes } from "../../constants";
 import { capitolizeFirstChar } from "../../componentFunctions";
@@ -28,7 +29,7 @@ import "./style.css";
 class Analytics extends Component {
   state = {
     activeAnalyticsIndex: 0,
-    activeAnalyticsPageIndex: 0,
+    activeAnalyticsSocialType: 0,
     activeGraphYear: Number(new moment().format("YYYY")),
     activeGraphMonthIndex: Number(new moment().format("MM")) - 1,
     analyticsObjects: undefined,
@@ -36,12 +37,12 @@ class Analytics extends Component {
   };
 
   componentDidMount() {
-    const { activeAnalyticsPageIndex } = this.state;
+    const { activeAnalyticsSocialType } = this.state;
 
     getAccountAnalytics(stateObj => {
       this.handleChange({
         ...getDataLinesFromAnalytics(
-          activeAnalyticsPageIndex,
+          activeAnalyticsSocialType,
           stateObj.analyticsObjects
         ),
         ...stateObj
@@ -59,7 +60,7 @@ class Analytics extends Component {
   render() {
     const {
       activeAnalyticsIndex,
-      activeAnalyticsPageIndex,
+      activeAnalyticsSocialType,
       activeGraphYear,
       activeGraphMonthIndex,
       analyticsInformationList = [],
@@ -70,14 +71,14 @@ class Analytics extends Component {
     const { accounts } = this.props;
 
     const { analyticsDropdownYears } = calculateNumberOfYearsForGraphDropdown(
-      analyticsObjects[activeAnalyticsPageIndex]
+      analyticsObjects[activeAnalyticsSocialType]
     );
 
     const { dataPointsInMonth, horizontalTitles } = getCorrectMonthOfData(
-      dataPointArrays[activeAnalyticsIndex],
       activeGraphYear,
       activeGraphMonthIndex,
-      graphType
+      graphType,
+      dataPointArrays[activeAnalyticsIndex]
     );
 
     return (
@@ -87,10 +88,10 @@ class Analytics extends Component {
           data={postingTypes.map((category, index) => {
             return (
               <GIContainer
-                onClick={() =>
-                  this.handleChange({ activeAnalyticsPageIndex: index })
-                }
                 className="navigation-button border full-center fill-flex clickable py16"
+                onClick={() =>
+                  this.handleChange({ activeAnalyticsSocialType: index })
+                }
               >
                 <GIContainer className="round-icon round full-center">
                   <FontAwesomeIcon
@@ -116,7 +117,16 @@ class Analytics extends Component {
                 className="fill-parent"
               />
             </GIContainer>
-            <GIText className="tac white quicksand" text="1,200" type="h2" />
+            <GIText
+              className="tac white quicksand"
+              text={getLatestAnalyticValue(
+                activeAnalyticsSocialType,
+                analyticsObjects,
+                0,
+                true
+              )}
+              type="h2"
+            />
             <GIText className="tac white bold" text="New Visitors" type="h6" />
             <GIText
               className="tac white fs-thirteen"
@@ -132,7 +142,16 @@ class Analytics extends Component {
                 className="fill-parent"
               />
             </GIContainer>
-            <GIText className="tac white quicksand" text="243" type="h2" />
+            <GIText
+              className="tac white quicksand"
+              text={getLatestAnalyticValue(
+                activeAnalyticsSocialType,
+                analyticsObjects,
+                1,
+                true
+              )}
+              type="h2"
+            />
             <GIText className="tac white bold" text="New Followers" type="h6" />
             <GIText
               className="tac white fs-thirteen"
@@ -166,7 +185,15 @@ class Analytics extends Component {
           </GIContainer>
           <GIContainer className="fill-flex full-center column common-shadow-orange orange-fade br8 pa16 ml8 mr32">
             <GIContainer className="full-center">
-              <GIText className="tac white quicksand" text="34.2K" type="h1" />
+              <GIText
+                className="tac white quicksand"
+                text={getLatestAnalyticValue(
+                  activeAnalyticsSocialType,
+                  analyticsObjects,
+                  4
+                )}
+                type="h1"
+              />
             </GIContainer>
             <GIText
               className="tac white bold"
@@ -219,7 +246,7 @@ class Analytics extends Component {
                   dropdownItems={months.map((month, index) => {
                     if (
                       canDisplayMonth(
-                        analyticsObjects[activeAnalyticsPageIndex],
+                        analyticsObjects[activeAnalyticsSocialType],
                         month,
                         activeGraphYear
                       )

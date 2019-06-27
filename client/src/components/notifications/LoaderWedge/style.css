@@ -19,11 +19,10 @@
   }
 }
 .loader-background {
-  
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--one-half-blue-color);
+  background-color: var(--white-theme-color);
 
   height: 100vh;
 }
