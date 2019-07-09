@@ -1,22 +1,73 @@
 import axios from "axios";
 import moment from "moment-timezone";
 
+export const calculateTotalPostPositiveReactions = postAnalyticsObjects => {
+  let sumOfPostReactions = 0;
+
+  for (let index in postAnalyticsObjects) {
+    const postAnalyticsObject = postAnalyticsObjects[index];
+
+    if (postAnalyticsObject.analytics) {
+      for (let index2 in postAnalyticsObject.analytics) {
+        const analytic = postAnalyticsObject.analytics[index2];
+        if (
+          analytic.title === "Lifetime Total Like Reactions of a post." ||
+          analytic.title === "Lifetime Total Love Reactions of a post." ||
+          analytic.title === "Lifetime Total wow Reactions of a post."
+        ) {
+          sumOfPostReactions +=
+            analytic.lifetimeValues[analytic.lifetimeValues.length - 1].value[0]
+              .value;
+        }
+      }
+    }
+  }
+  return sumOfPostReactions;
+};
+
+export const getAnalytic = (
+  activeAnalyticsSocialType,
+  analyticBoxValue,
+  analyticObject
+) => {
+  if (!analyticObject) return;
+  const analyticTitleString = getAnalyticTitle(
+    activeAnalyticsSocialType,
+    analyticBoxValue
+  );
+  return findAnalytic(analyticObject, analyticTitleString);
+};
+
 export const getAccountAnalytics = callback => {
-  axios.get("/api/ai/analytics/accounts").then(res => {
-    const { analyticsObjects, message, success } = res.data;
-    if (success) callback({ analyticsObjects });
+  axios.get("/api/analytics/accounts").then(res => {
+    const { pageAnalyticsObjects, message, success } = res.data;
+    if (success) callback({ pageAnalyticsObjects });
     else {
       // todo handleerror
     }
   });
 };
 
-export const getDataLinesFromAnalytics = (accountIndex, analyticsObjects) => {
+export const getPostAnalytics = callback => {
+  axios.get("/api/analytics/posts").then(res => {
+    const { postAnalyticsObjects, message, success } = res.data;
+
+    if (success) callback({ postAnalyticsObjects });
+    else {
+      // todo handleerror
+    }
+  });
+};
+
+export const getDataLinesFromAnalytics = (
+  accountIndex,
+  pageAnalyticsObjects
+) => {
   let analyticsInformationList = [];
   let dataPointArrays = [];
 
-  if (analyticsObjects) {
-    const analyticsObject = analyticsObjects[accountIndex];
+  if (pageAnalyticsObjects) {
+    const analyticsObject = pageAnalyticsObjects[accountIndex];
 
     if (analyticsObject) {
       for (let index in analyticsObject.analytics) {
@@ -37,6 +88,7 @@ export const getDataLinesFromAnalytics = (accountIndex, analyticsObjects) => {
               data: dailyValue[0].value,
               date: new moment(dailyValue[0].date)
             });
+          } else {
           }
         }
 
@@ -59,17 +111,20 @@ const getAnalyticTitle = (activeAnalyticsSocialType, analyticBoxValue) => {
     if (analyticBoxValue === 0) return "Daily Page Engaged Users";
     else if (analyticBoxValue === 1)
       return "Daily New likes by paid and non-paid";
-    else if (analyticBoxValue === 4) return "Lifetime Total Likes";
+    else if (analyticBoxValue === 3) return "Lifetime Total Likes";
+    else if (analyticBoxValue === 5) {
+      return "Lifetime Likes by Country";
+    }
   }
 };
 
 export const getLatestAnalyticValue = (
   activeAnalyticsSocialType,
-  analyticsObjects,
+  pageAnalyticsObjects,
   analyticBoxValue,
   sum
 ) => {
-  const analyticObject = analyticsObjects[activeAnalyticsSocialType];
+  const analyticObject = pageAnalyticsObjects[activeAnalyticsSocialType];
 
   if (analyticObject && analyticObject.analytics) {
     const analyticTitleString = getAnalyticTitle(

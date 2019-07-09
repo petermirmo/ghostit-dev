@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import sizeMe from "react-sizeme";
 
-import GIContainer from "../containers/GIContainer";
+import GIContainer from "../../containers/GIContainer";
 
 import {
   createBackground,
@@ -15,7 +15,7 @@ import {
 
 import "./style.css";
 
-class LineChart extends Component {
+class LineGraph extends Component {
   render() {
     const { className, horizontalTitles, line, size } = this.props; /// Variables
     const { height, width } = size;
@@ -77,4 +77,4 @@ class LineChart extends Component {
   }
 }
 
-export default sizeMe({ monitorHeight: true })(LineChart);
+export default sizeMe({ monitorHeight: true })(LineGraph);

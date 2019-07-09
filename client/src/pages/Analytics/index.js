@@ -8,17 +8,21 @@ import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
 import Dropdown from "../../components/views/Dropdown";
-import LineChart from "../../components/LineChart/";
+import LineGraph from "../../components/graphs/LineGraph/";
+import PieGraph from "../../components/graphs/PieGraph/";
 
 import NavigationLayout from "../../components/navigations/NavigationLayout";
 
 import {
   calculateNumberOfYearsForGraphDropdown,
+  calculateTotalPostPositiveReactions,
   canDisplayMonth,
   getAccountAnalytics,
   getCorrectMonthOfData,
   getDataLinesFromAnalytics,
-  getLatestAnalyticValue
+  getLatestAnalyticValue,
+  getPostAnalytics,
+  getAnalytic
 } from "./util";
 import { graphTypes, months, postingTypes } from "../../constants";
 import { capitolizeFirstChar } from "../../componentFunctions";
@@ -28,11 +32,12 @@ import "./style.css";
 
 class Analytics extends Component {
   state = {
-    activeAnalyticsIndex: 0,
+    activeAnalyticIndex: 0,
     activeAnalyticsSocialType: 0,
     activeGraphYear: Number(new moment().format("YYYY")),
     activeGraphMonthIndex: Number(new moment().format("MM")) - 1,
-    analyticsObjects: undefined,
+    pageAnalyticsObjects: undefined,
+    postAnalyticsObjects: undefined,
     graphType: 0
   };
 
@@ -43,11 +48,12 @@ class Analytics extends Component {
       this.handleChange({
         ...getDataLinesFromAnalytics(
           activeAnalyticsSocialType,
-          stateObj.analyticsObjects
+          stateObj.pageAnalyticsObjects
         ),
         ...stateObj
       });
     });
+    getPostAnalytics(this.handleChange);
     this._ismounted = true;
   }
   componentWillUnmount() {
@@ -59,27 +65,39 @@ class Analytics extends Component {
 
   render() {
     const {
-      activeAnalyticsIndex,
+      activeAnalyticIndex,
       activeAnalyticsSocialType,
       activeGraphYear,
       activeGraphMonthIndex,
       analyticsInformationList = [],
-      analyticsObjects = [],
+      pageAnalyticsObjects = [],
+      postAnalyticsObjects = [],
       dataPointArrays = [],
       graphType
     } = this.state;
     const { accounts } = this.props;
 
     const { analyticsDropdownYears } = calculateNumberOfYearsForGraphDropdown(
-      analyticsObjects[activeAnalyticsSocialType]
+      pageAnalyticsObjects[activeAnalyticsSocialType]
     );
 
     const { dataPointsInMonth, horizontalTitles } = getCorrectMonthOfData(
       activeGraphYear,
       activeGraphMonthIndex,
       graphType,
-      dataPointArrays[activeAnalyticsIndex]
+      dataPointArrays[activeAnalyticIndex]
     );
+
+    const facebookSumOfPostReactions = calculateTotalPostPositiveReactions(
+      postAnalyticsObjects
+    );
+    const likesByCountryAnalytic = getAnalytic(
+      activeAnalyticsSocialType,
+      5,
+      pageAnalyticsObjects[activeAnalyticsSocialType]
+    );
+
+    console.log(likesByCountryAnalytic);
 
     return (
       <Page className="column x-fill" title="Analytics">
@@ -121,7 +139,7 @@ class Analytics extends Component {
               className="tac white quicksand"
               text={getLatestAnalyticValue(
                 activeAnalyticsSocialType,
-                analyticsObjects,
+                pageAnalyticsObjects,
                 0,
                 true
               )}
@@ -146,7 +164,7 @@ class Analytics extends Component {
               className="tac white quicksand"
               text={getLatestAnalyticValue(
                 activeAnalyticsSocialType,
-                analyticsObjects,
+                pageAnalyticsObjects,
                 1,
                 true
               )}
@@ -167,30 +185,23 @@ class Analytics extends Component {
                 className="fill-parent"
               />
             </GIContainer>
-            <GIText className="tac quicksand" text="4.1K" type="h1" />
-            <GIText className="tac bold" text="Total Likes" type="h6" />
+            <GIText
+              className="tac quicksand"
+              text={facebookSumOfPostReactions}
+              type="h1"
+            />
+            <GIText className="tac bold" text="Total Post Likes" type="h6" />
             <GIText className="tac fs-thirteen" text="Last 30 Days" type="p" />
           </GIContainer>
-          <GIContainer className="fill-flex full-center column common-shadow-light common-border br8 pa16 mx8">
-            <GIContainer className="round-icon mb8">
-              <img
-                alt=""
-                src={require("../../svgs/icons/message.svg")}
-                className="fill-parent"
-              />
-            </GIContainer>
-            <GIText className="tac quicksand" text="1.4K" type="h1" />
-            <GIText className="tac bold" text="Total Comments" type="h6" />
-            <GIText className="tac fs-thirteen" text="Last 30 Days" type="h2" />
-          </GIContainer>
+
           <GIContainer className="fill-flex full-center column common-shadow-orange orange-fade br8 pa16 ml8 mr32">
             <GIContainer className="full-center">
               <GIText
                 className="tac white quicksand"
                 text={getLatestAnalyticValue(
                   activeAnalyticsSocialType,
-                  analyticsObjects,
-                  4
+                  pageAnalyticsObjects,
+                  3
                 )}
                 type="h1"
               />
@@ -203,28 +214,28 @@ class Analytics extends Component {
           </GIContainer>
         </GIContainer>
         <GIContainer className="mt16 column px32">
-          {analyticsInformationList[activeAnalyticsIndex] && (
+          {analyticsInformationList[activeAnalyticIndex] && (
             <Dropdown
               dropdownItems={analyticsInformationList.map(obj => obj.title)}
               handleParentChange={dropdownClickedItemObj =>
                 this.handleChange({
-                  activeAnalyticsIndex: dropdownClickedItemObj.index
+                  activeAnalyticIndex: dropdownClickedItemObj.index
                 })
               }
               search
               title={
                 <GIText
                   className="tac muli bold fill-flex"
-                  text={analyticsInformationList[activeAnalyticsIndex].title}
+                  text={analyticsInformationList[activeAnalyticIndex].title}
                   type="h3"
                 />
               }
             />
           )}
-          {analyticsInformationList[activeAnalyticsIndex] && (
+          {analyticsInformationList[activeAnalyticIndex] && (
             <GIText
               className="tac mt16"
-              text={analyticsInformationList[activeAnalyticsIndex].description}
+              text={analyticsInformationList[activeAnalyticIndex].description}
               type="h6"
             />
           )}
@@ -246,7 +257,7 @@ class Analytics extends Component {
                   dropdownItems={months.map((month, index) => {
                     if (
                       canDisplayMonth(
-                        analyticsObjects[activeAnalyticsSocialType],
+                        pageAnalyticsObjects[activeAnalyticsSocialType],
                         month,
                         activeGraphYear
                       )
@@ -307,7 +318,7 @@ class Analytics extends Component {
         </GIContainer>
         {analyticsInformationList && (
           <GIContainer className="mt16 px32">
-            <LineChart
+            <LineGraph
               className="x-fill"
               line={dataPointsInMonth}
               horizontalTitles={horizontalTitles.map((date, index) =>
@@ -316,6 +327,21 @@ class Analytics extends Component {
             />
           </GIContainer>
         )}
+        <GIContainer className="ma32">
+          <GIContainer className="column common-border fill-flex br16 pa16 mr16">
+            <GIText text="Best Posts" type="h4" />
+            <GIText
+              text="The most active posts in the last 30 days."
+              type="h6"
+            />
+          </GIContainer>
+          <GIContainer className="column common-border fill-flex br16 pa16 ml16">
+            <GIText text="Top Countries" type="h4" />
+            <GIContainer>
+              <PieGraph className="x-fill" something={likesByCountryAnalytic} />
+            </GIContainer>
+          </GIContainer>
+        </GIContainer>
       </Page>
     );
   }

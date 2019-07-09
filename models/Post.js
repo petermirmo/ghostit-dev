@@ -6,7 +6,7 @@ const postSchema = new Schema(
   {
     accountID: String,
     accountType: String,
-    analyticsID: String,
+    analyticsID: { type: String, unique: true },
     calendarID: Schema.Types.ObjectId,
     campaignID: Schema.Types.ObjectId,
     color: String,

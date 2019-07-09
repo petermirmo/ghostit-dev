@@ -332,11 +332,11 @@ module.exports = app => {
     adminFunctions.getPlans(req, res)
   );
 
-  app.get("/api/ai/analytics/accounts", middleware, (req, res) => {
+  app.get("/api/analytics/accounts", middleware, (req, res) => {
     analyticsFunctions.getAllAccountAnalytics(req, res);
   });
 
-  app.get("/api/ai/analytics/posts", middleware, (req, res) => {
+  app.get("/api/analytics/posts", middleware, (req, res) => {
     analyticsFunctions.getAllPostAnalytics(req, res);
   });
 

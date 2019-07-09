@@ -3,9 +3,6 @@
   min-width: 600px;
   width: 100%;
 }
-.calendar-header-container {
-  display: flex;
-}
 .calendar-day-titles-container {
   display: flex;
   border-bottom: 1px solid var(--divider-theme-color);
@@ -79,8 +76,6 @@
   padding: 4px;
 
   margin-bottom: 2px;
-
-  
 
   background-color: var(--five-blue-color);
 }

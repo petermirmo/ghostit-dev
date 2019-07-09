@@ -639,20 +639,23 @@ module.exports = {
         });
 
         if (analyticsIDList.length !== 0) {
-          Analytics.find({ $or: analyticsIDList }, (err, analyticsObjects) => {
-            // fetch all analytics objects that belong to one of those accounts
-            if (err || !analyticsObjects) {
-              console.log(err);
-              res.send({
-                success: false,
-                err,
-                message:
-                  "Unable to find any social accounts associated with this user account."
-              });
-            } else {
-              res.send({ success: true, analyticsObjects });
+          Analytics.find(
+            { $or: analyticsIDList },
+            (err, pageAnalyticsObjects) => {
+              // fetch all analytics objects that belong to one of those accounts
+              if (err || !pageAnalyticsObjects) {
+                console.log(err);
+                res.send({
+                  success: false,
+                  err,
+                  message:
+                    "Unable to find any social accounts associated with this user account."
+                });
+              } else {
+                res.send({ success: true, pageAnalyticsObjects });
+              }
             }
-          });
+          );
         } else {
           return generalFunctions.handleError(
             res,
@@ -665,12 +668,11 @@ module.exports = {
   getAllPostAnalytics: (req, res) => {
     User.findOne({ _id: req.user._id }, (err, foundUser) => {
       if (!err && foundUser) {
-        if (foundUser.role !== "admin") {
-          res.send({ success: false, message: "User is not admin." });
-        } else {
-          Analytics.find({ analyticsType: "post" }, (err, foundAnalytics) => {
-            if (!err && foundAnalytics) {
-              res.send({ success: true, analyticsObjects: foundAnalytics });
+        Analytics.find(
+          { analyticsType: "post" },
+          (err, postAnalyticsObjects) => {
+            if (!err && postAnalyticsObjects) {
+              res.send({ success: true, postAnalyticsObjects });
             } else {
               res.send({
                 success: false,
@@ -678,8 +680,8 @@ module.exports = {
                 message: "Unable to find post analytics objects."
               });
             }
-          });
-        }
+          }
+        );
       } else {
         res.send({ success: false, message: "Unable to find user.", err });
       }

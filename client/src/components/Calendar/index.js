@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faPlus
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebookF,
   faTwitter,
@@ -17,10 +13,20 @@ import { bindActionCreators } from "redux";
 
 import { getPostIcon, getPostColor } from "../../componentFunctions";
 
+import GIContainer from "../containers/GIContainer";
+
 import FileUpload from "../views/FileUpload/";
-import Filter from "../Filter";
-import CalendarPicker from "../CalendarPicker/";
-import SocketUserList from "../SocketUserList/";
+
+import {
+  calendarHeader,
+  compareCampaigns,
+  compareCampaignPosts,
+  compareCampaignPostsReverse,
+  dateIndexIsInMonth,
+  getCurrentDay,
+  isInMonth,
+  lastIndexOfCampaign
+} from "./util";
 
 import "./style.css";
 
@@ -348,17 +354,6 @@ class Calendar extends Component {
     }
   };
 
-  addMonth = () => {
-    let { calendarDate, onDateChange } = this.props;
-    calendarDate.add(1, "months");
-    onDateChange(calendarDate);
-  };
-
-  subtractMonth = () => {
-    let { calendarDate, onDateChange } = this.props;
-    calendarDate.subtract(1, "months");
-    onDateChange(calendarDate);
-  };
   createQueuePostDiv = (post, key) => {
     let content = post.content;
     if (post.socialType === "custom") content = post.instructions;
@@ -397,103 +392,6 @@ class Calendar extends Component {
       </div>
     );
   };
-  calendarHeader = (calendarDate, queueActive) => {
-    const {
-      activeCalendarIndex,
-      calendarInvites,
-      calendars,
-      categories,
-      userList
-    } = this.props; // Variables
-    const {
-      inviteResponse,
-      enableCalendarManager,
-      updateActiveCalendar,
-      updateActiveCategory
-    } = this.props; // Functions
-
-    let calendarInviteDivs = [];
-    if (calendarInvites && calendarInvites.length > 0) {
-      calendarInviteDivs = calendarInvites.map((calendar, index) => {
-        return (
-          <div className="calendar-invite-prompt" key={`invite ${index}`}>
-            {`You have been invited to ${calendar.calendarName}.`}
-            <button
-              className="calendar-invite-accept"
-              onClick={e => {
-                e.preventDefault();
-                inviteResponse(index, true);
-              }}
-            >
-              Accept
-            </button>
-            <button
-              className="calendar-invite-reject"
-              onClick={e => {
-                e.preventDefault();
-                inviteResponse(index, false);
-              }}
-            >
-              Reject
-            </button>
-          </div>
-        );
-      });
-    }
-
-    return (
-      <div className="flex column vc x-fill">
-        <div className="calendar-header-container px32 pt8 x-fill border-box">
-          <div className="flex hc vc">
-            <Filter
-              updateActiveCategory={updateActiveCategory}
-              categories={categories}
-            />
-          </div>
-          <div className="flex hc vc px32 fill-flex">
-            <FontAwesomeIcon
-              icon={faAngleLeft}
-              size="3x"
-              className="icon-regular-button common-transition"
-              onClick={this.subtractMonth}
-            />
-            <h1 className="tac fill-flex">
-              {calendarDate.format("MMMM YYYY")}
-            </h1>
-            <FontAwesomeIcon
-              icon={faAngleRight}
-              size="3x"
-              className="icon-regular-button common-transition"
-              onClick={this.addMonth}
-            />
-          </div>
-          <div className="flex hc vc">
-            <button
-              className="regular-button no-text-wrap large common-transition"
-              onClick={() => this.setState({ queueActive: !queueActive })}
-            >
-              {queueActive ? "Calendar" : "Queue Preview"}
-            </button>
-          </div>
-        </div>
-        {calendarInviteDivs}
-        <div className="flex hc x-fill relative">
-          <CalendarPicker
-            calendars={calendars}
-            activeCalendarIndex={activeCalendarIndex}
-            updateActiveCalendar={updateActiveCalendar}
-            enableCalendarManager={enableCalendarManager}
-          />
-          <div className="absolute right">
-            <SocketUserList
-              userList={userList}
-              style={{ right: 0, left: "auto" }}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   render() {
     let { queueActive } = this.state;
@@ -528,7 +426,7 @@ class Calendar extends Component {
       }
       return (
         <div className="queue-container flex column px8">
-          {this.calendarHeader(calendarDate, queueActive)}
+          {calendarHeader(calendarDate, this.props, queueActive)}
           {queuePostDivs}
         </div>
       );
@@ -539,7 +437,7 @@ class Calendar extends Component {
 
     return (
       <div className="calendar-container">
-        {this.calendarHeader(calendarDate, queueActive)}
+        {calendarHeader(calendarDate, this.props, queueActive)}
 
         <div className="flex column">
           <div className="calendar-day-titles-container">
@@ -552,55 +450,12 @@ class Calendar extends Component {
   }
 }
 
-function compareCampaigns(a, b) {
-  if (new moment(a.startDate) < new moment(b.startDate)) return -1;
-  else if (new moment(a.startDate) > new moment(b.startDate)) return 1;
-  else return 0;
-}
-function compareCampaignPosts(a, b) {
-  if (a.postingDate < b.postingDate) return -1;
-  else if (a.postingDate > b.postingDate) return 1;
-  else return 0;
-}
-function compareCampaignPostsReverse(a, b) {
-  if (a.postingDate < b.postingDate) return 1;
-  else if (a.postingDate > b.postingDate) return -1;
-  else return 0;
-}
-
 function mapStateToProps(state) {
   return {};
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({}, dispatch);
-}
-function isInMonth(calendarEvent, calendarStartDate, calendarEndDate) {
-  return !(
-    new moment(calendarEvent.endDate) < calendarStartDate ||
-    new moment(calendarEvent.startDate) > calendarEndDate
-  );
-}
-function dateIndexIsInMonth(
-  dateIndexOfEvent,
-  calendarStartDate,
-  calendarEvent,
-  calendarEndDate
-) {
-  return (
-    dateIndexOfEvent <= new moment(calendarEvent.endDate) &&
-    dateIndexOfEvent <= calendarEndDate &&
-    dateIndexOfEvent >= calendarStartDate
-  );
-}
-function lastIndexOfCampaign(dateIndexOfEvent, calendarEvent, calendarEndDate) {
-  return (
-    dateIndexOfEvent.diff(new moment(calendarEvent.endDate), "days") === 0 ||
-    dateIndexOfEvent.diff(calendarEndDate, "days") === 0
-  );
-}
-function getCurrentDay(calendarStartDate, dateIndexOfEvent) {
-  return Math.abs(calendarStartDate.diff(dateIndexOfEvent, "days")) + 1;
 }
 export default connect(
   mapStateToProps,

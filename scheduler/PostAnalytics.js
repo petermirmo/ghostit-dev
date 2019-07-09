@@ -23,7 +23,9 @@ module.exports = {
                 // if it is over 4 weeks old and doesn't have an analytics object, we should request its analytics
                 // just once to get its lifetime values
                 continue;
-              } else requestAllFacebookPostAnalytics(post);
+              } else {
+                requestAllFacebookPostAnalytics(post);
+              }
             }
           }
         }
