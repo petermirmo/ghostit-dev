@@ -3,6 +3,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import moment from "moment-timezone";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight } from "@fortawesome/pro-light-svg-icons";
+
 import { connect } from "react-redux";
 
 import ContentModal from "../../components/postingFiles/ContentModal";
@@ -19,6 +22,8 @@ import Modal from "../../components/containers/Modal";
 
 import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
+import Dropdown from "../../components/views/Dropdown";
+import Filter from "../../components/Filter";
 
 import Consumer from "../../context";
 
@@ -29,6 +34,8 @@ import {
   initSocket,
   getCampaigns
 } from "../util";
+
+import { addMonth, subtractMonth } from "./util";
 
 class Content extends Component {
   state = {
@@ -304,7 +311,7 @@ class Content extends Component {
   };
 
   updateActiveCategory = categoryName => {
-    let calendarEventCategories = this.state.calendarEventCategories;
+    let { calendarEventCategories } = this.state;
     calendarEventCategories[categoryName] = !calendarEventCategories[
       categoryName
     ];
@@ -434,30 +441,118 @@ class Content extends Component {
         {context => (
           <Page className="content-page" title="Calendar">
             {loading && <Loader />}
-            <Calendar
-              activeCalendarIndex={activeCalendarIndex}
-              calendars={calendars}
-              calendarDate={calendarDate}
-              calendarEvents={calendarEvents}
-              calendarInvites={calendarInvites}
-              categories={calendarEventCategories}
-              enableCalendarManager={() =>
-                this.setState({ calendarManagerModal: true })
-              }
-              inviteResponse={this.inviteResponse}
-              onDateChange={date => {
-                this.handleChange({ calendarDate: date });
-                this.getPosts();
-              }}
-              onSelectCampaign={this.openCampaign}
-              onSelectDay={date =>
-                this.handleChange({ clickedDate: date, dashboardModal: true })
-              }
-              onSelectPost={this.editPost}
-              updateActiveCalendar={this.updateActiveCalendar}
-              updateActiveCategory={this.updateActiveCategory}
-              userList={userList}
-            />
+
+            <GIContainer className="column vc x-fill">
+              <GIContainer className="x-fill">
+                <Dropdown
+                  activeItem={activeCalendarIndex}
+                  className="x-fill"
+                  dropdownItems={calendars.map(
+                    (calendar, index) => calendar.calendarName
+                  )}
+                  handleParentChange={dropdownClickedItemObj =>
+                    this.updateActiveCalendar(dropdownClickedItemObj.index)
+                  }
+                  search
+                  title={
+                    <GIText
+                      className="tac muli bold fill-flex"
+                      text={
+                        calendars[activeCalendarIndex]
+                          ? calendars[activeCalendarIndex].calendarName
+                          : ""
+                      }
+                      type="h4"
+                    />
+                  }
+                />
+              </GIContainer>
+              <GIContainer className="justify-between x-fill px32 pt8">
+                <GIContainer className="full-center px32">
+                  <GIContainer
+                    className="round-icon small button round common-border five-blue full-center pa4"
+                    onClick={() => subtractMonth(props)}
+                  >
+                    <FontAwesomeIcon
+                      className="five-blue"
+                      icon={faAngleLeft}
+                      size="2x"
+                    />
+                  </GIContainer>
+                  <GIText
+                    className="tac muli mx64"
+                    text={calendarDate.format("MMMM YYYY")}
+                    type="h3"
+                  />
+
+                  <GIContainer
+                    className="round-icon small button round common-border five-blue full-center pa4"
+                    onClick={() => addMonth(props)}
+                  >
+                    <FontAwesomeIcon
+                      className="five-blue"
+                      icon={faAngleRight}
+                      size="2x"
+                    />
+                  </GIContainer>
+                </GIContainer>
+                <GIContainer className="full-center">
+                  <Filter
+                    categories={calendarEventCategories}
+                    updateActiveCategory={this.updateActiveCategory}
+                  />
+                </GIContainer>
+              </GIContainer>
+              {calendarInvites.map((calendar, index) => {
+                return (
+                  <GIContainer className="" key={`invite ${index}`}>
+                    {`You have been invited to ${calendar.calendarName}.`}
+                    <GIButton
+                      className="calendar-invite-accept"
+                      onClick={e => {
+                        e.preventDefault();
+                        inviteResponse(index, true);
+                      }}
+                      text="Accept"
+                    />
+                    <GIButton
+                      className="calendar-invite-reject"
+                      onClick={e => {
+                        e.preventDefault();
+                        inviteResponse(index, false);
+                      }}
+                      text="Reject"
+                    />
+                  </GIContainer>
+                );
+              })}
+            </GIContainer>
+            <GIContainer className="px16">
+              <Calendar
+                activeCalendarIndex={activeCalendarIndex}
+                calendars={calendars}
+                calendarDate={calendarDate}
+                calendarEvents={calendarEvents}
+                calendarInvites={calendarInvites}
+                categories={calendarEventCategories}
+                enableCalendarManager={() =>
+                  this.setState({ calendarManagerModal: true })
+                }
+                inviteResponse={this.inviteResponse}
+                onDateChange={date => {
+                  this.handleChange({ calendarDate: date });
+                  this.getPosts();
+                }}
+                onSelectCampaign={this.openCampaign}
+                onSelectDay={date =>
+                  this.handleChange({ clickedDate: date, dashboardModal: true })
+                }
+                onSelectPost={this.editPost}
+                updateActiveCalendar={this.updateActiveCalendar}
+                updateActiveCategory={this.updateActiveCategory}
+                userList={userList}
+              />
+            </GIContainer>
             {false && <CalendarChat calendars={calendars} />}
             {calendarManagerModal && (
               <Modal

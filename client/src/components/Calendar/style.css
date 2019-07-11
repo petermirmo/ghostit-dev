@@ -7,10 +7,7 @@
   display: flex;
   border-bottom: 1px solid var(--divider-theme-color);
 }
-.calendar-day-heading {
-  text-align: center;
-  color: var(--primary-font-color);
-}
+
 .calendar-week {
   display: flex;
   border-bottom: 1px solid var(--divider-theme-color);

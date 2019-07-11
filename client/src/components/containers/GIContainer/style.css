@@ -138,6 +138,9 @@
 .common-border.thick {
   border-width: 2px;
 }
+.common-border.five-blue {
+  border-color: var(--five-blue-color);
+}
 .common-border.seven-blue {
   border-color: var(--seven-blue-color);
 }

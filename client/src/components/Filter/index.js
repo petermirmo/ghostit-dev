@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import "./style.css";
 
 class Filter extends Component {
+  state = { isFilterClicked: false };
+  handleChange = stateObj => {
+    this.setState(stateObj);
+  };
   render() {
-    const { categories } = this.props; // Variable
+    const { isFilterClicked } = this.state;
+    const { categories } = this.props; // Variables
     const { updateActiveCategory } = this.props; // Functions
 
     let categoryDivs = [];
@@ -38,12 +43,17 @@ class Filter extends Component {
     }
 
     return (
-      <div className="filter-container flex relative">
+      <div
+        className="filter-container flex relative"
+        onClick={() => this.handleChange({ isFilterClicked: !isFilterClicked })}
+      >
         <div className="regular-button large common-transition">
           Filter Calendar
           <FontAwesomeIcon icon={faAngleDown} className="ml8" />
         </div>
-        <div className="dropdown left common-shadow br4">{categoryDivs}</div>
+        {isFilterClicked && (
+          <div className="dropdown left common-shadow br4">{categoryDivs}</div>
+        )}
       </div>
     );
   }

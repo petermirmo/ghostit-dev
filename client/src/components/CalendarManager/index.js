@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignOutAlt,
   faTrash,
@@ -20,7 +20,6 @@ import {
 } from "../../componentFunctions";
 
 import Loader from "../notifications/Loader";
-import CalendarPicker from "../CalendarPicker";
 import ConfirmAlert from "../notifications/ConfirmAlert";
 
 import Consumer from "../../context";
@@ -709,15 +708,6 @@ class CalendarManager extends Component {
         {context => (
           <div className="simple-container fill-flex">
             <div className="flex hc vc">
-              <CalendarPicker
-                calendars={calendars}
-                activeCalendarIndex={activeCalendarIndex}
-                calendarManager={true}
-                createNewCalendar={name =>
-                  this.createNewCalendar(name, context)
-                }
-                updateActiveCalendar={this.updateActiveCalendar}
-              />
               {isAdmin && (
                 <div title="Delete Calendar. Only calendars with one user can be deleted.">
                   <FontAwesomeIcon

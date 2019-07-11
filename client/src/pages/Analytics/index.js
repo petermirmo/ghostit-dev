@@ -216,6 +216,7 @@ class Analytics extends Component {
         <GIContainer className="mt16 column px32">
           {analyticsInformationList[activeAnalyticIndex] && (
             <Dropdown
+              className="br8"
               dropdownItems={analyticsInformationList.map(obj => obj.title)}
               handleParentChange={dropdownClickedItemObj =>
                 this.handleChange({
@@ -254,6 +255,7 @@ class Analytics extends Component {
             <GIContainer>
               {graphType !== 1 && (
                 <Dropdown
+                  className="br8"
                   dropdownItems={months.map((month, index) => {
                     if (
                       canDisplayMonth(
@@ -282,6 +284,7 @@ class Analytics extends Component {
 
               <GIContainer className="ml8">
                 <Dropdown
+                  className="br8"
                   dropdownItems={analyticsDropdownYears}
                   handleParentChange={dropdownClickedItemObj =>
                     this.handleChange({
