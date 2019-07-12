@@ -23,7 +23,6 @@ import Modal from "../../components/containers/Modal";
 import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
 import Dropdown from "../../components/views/Dropdown";
-import Filter from "../../components/Filter";
 
 import Consumer from "../../context";
 
@@ -35,46 +34,49 @@ import {
   getCampaigns
 } from "../util";
 
-import { addMonth, subtractMonth } from "./util";
+import { addMonth, getCalendarEvents, getPosts, subtractMonth } from "./util";
 
 class Content extends Component {
   state = {
-    loading: false,
-    clickedEvent: undefined,
-    clickedEventIsRecipe: false,
-    recipeEditing: false,
-
-    socket: undefined,
-    userList: [], // list of users connected to the same calendar socket as this user (including this user)
+    activeCalendarIndex: undefined,
 
     calendars: [],
     calendarInvites: [],
-    activeCalendarIndex: undefined,
-    defaultCalendarID: undefined,
-
-    facebookPosts: [],
-    twitterPosts: [],
-    linkedinPosts: [],
-    customPosts: [],
-
     clickedDate: new moment(),
     calendarDate: new moment(),
+    clickedEvent: undefined,
+    clickedEventIsRecipe: false,
+
+    defaultCalendarID: undefined,
+
+    customPosts: [],
+    facebookPosts: [],
+    linkedinPosts: [],
+    twitterPosts: [],
 
     calendarManagerModal: false,
     campaignModal: false,
     contentModal: false,
     dashboardModal: false,
-    postEdittingModal: false,
-    templatesModal: false,
 
     calendarEventCategories: {
       All: true,
-      Facebook: false,
-      Twitter: false,
-      Linkedin: false,
       Campaigns: false,
-      Custom: false
-    }
+      Custom: false,
+      Facebook: false,
+      Linkedin: false,
+      Twitter: false
+    },
+
+    loading: false,
+    postEdittingModal: false,
+
+    recipeEditing: false,
+    socket: undefined,
+
+    templatesModal: false,
+
+    userList: [] // list of users connected to the same calendar socket as this user (including this user)
   };
 
   componentDidMount() {
@@ -215,81 +217,12 @@ class Content extends Component {
 
   fillCalendar = () => {
     const { calendars, activeCalendarIndex } = this.state;
-    this.getPosts();
+    this.handleChange(getPosts(calendars, activeCalendarIndex, calendarDate));
     getCampaigns(calendars, activeCalendarIndex, this.handleChange);
-  };
-
-  getPosts = () => {
-    // if this (or any of the getPosts/getBlogs/getCampaigns/etc fails,
-    // we should maybe setState({ posts: [] })) so that we don't render
-    // posts from a previous calendar
-    const { calendars, activeCalendarIndex, calendarDate } = this.state;
-
-    if (!calendars || !calendars[activeCalendarIndex]) {
-      console.log(calendars);
-      console.log(activeCalendarIndex);
-      console.log("calendar error");
-      return;
-    }
-    const calendarID = calendars[activeCalendarIndex]._id;
-    let facebookPosts = [];
-    let twitterPosts = [];
-    let linkedinPosts = [];
-    let customPosts = [];
-
-    // Get all of user's posts to display in calendar
-    axios
-      .post("/api/calendar/posts/" + calendarID, { calendarDate })
-      .then(res => {
-        const { success, err, message, posts, loggedIn } = res.data;
-        if (!success) {
-          console.log(message);
-          console.log(err);
-        } else {
-          if (loggedIn === false) this.props.history.push("/sign-in");
-
-          for (let index in posts) {
-            posts[index].startDate = posts[index].postingDate;
-            posts[index].endDate = posts[index].postingDate;
-          }
-
-          for (let index in posts) {
-            if (posts[index].socialType === "facebook") {
-              facebookPosts.push(posts[index]);
-            } else if (posts[index].socialType === "twitter") {
-              twitterPosts.push(posts[index]);
-            } else if (posts[index].socialType === "linkedin") {
-              linkedinPosts.push(posts[index]);
-            } else if (posts[index].socialType === "custom") {
-              customPosts.push(posts[index]);
-            }
-          }
-          if (this._ismounted) {
-            this.setState({
-              facebookPosts,
-              twitterPosts,
-              linkedinPosts,
-              customPosts,
-              loading: false
-            });
-          }
-        }
-      });
   };
 
   handleChange = stateObject => {
     if (this._ismounted) this.setState(stateObject);
-  };
-  editPost = post => {
-    // Open editting modal
-    if (
-      post.socialType === "facebook" ||
-      post.socialType === "twitter" ||
-      post.socialType === "linkedin" ||
-      post.socialType === "custom"
-    ) {
-      this.setState({ postEdittingModal: true, clickedEvent: post });
-    }
   };
 
   openCampaign = campaign => {
@@ -310,14 +243,13 @@ class Content extends Component {
     });
   };
 
-  updateActiveCategory = categoryName => {
+  updateActiveCategory = key => {
     let { calendarEventCategories } = this.state;
-    calendarEventCategories[categoryName] = !calendarEventCategories[
-      categoryName
-    ];
+    calendarEventCategories[key] = !calendarEventCategories[key];
+
     calendarEventCategories["All"] = false;
 
-    if (categoryName === "All") {
+    if (key === "All") {
       this.setState({
         calendarEventCategories: {
           All: true,
@@ -378,64 +310,17 @@ class Content extends Component {
       twitterPosts,
       userList
     } = this.state;
-    const {
-      All,
-      Campaigns,
-      Custom,
-      Facebook,
-      Instagram,
-      Linkedin,
-      Twitter
-    } = calendarEventCategories;
 
-    let calendarEvents = [];
+    const calendarEvents = getCalendarEvents(
+      calendarEventCategories,
+      campaigns,
+      customPosts,
+      facebookPosts,
+      instagramPosts,
+      linkedinPosts,
+      twitterPosts
+    );
 
-    if (Custom || All)
-      if (customPosts) calendarEvents = calendarEvents.concat(customPosts);
-    if (Facebook || All)
-      if (facebookPosts) calendarEvents = calendarEvents.concat(facebookPosts);
-    if (Twitter || All)
-      if (twitterPosts) calendarEvents = calendarEvents.concat(twitterPosts);
-    if (Linkedin || All)
-      if (linkedinPosts) calendarEvents = calendarEvents.concat(linkedinPosts);
-    if (Instagram || All)
-      if (instagramPosts)
-        calendarEvents = calendarEvents.concat(instagramPosts);
-
-    if (Campaigns || All)
-      if (campaigns) calendarEvents = calendarEvents.concat(campaigns);
-    if (!Campaigns && !All) {
-      // only add the campaigns that have at least 1 post that passes the filter
-      // and within that campaign, only include the qualifying posts
-      for (let i = 0; i < campaigns.length; i++) {
-        const campaign = { ...campaigns[i], posts: [] };
-        for (let j = 0; j < campaigns[i].posts.length; j++) {
-          const post = campaigns[i].posts[j];
-          switch (post.socialType) {
-            case "facebook":
-              if (Facebook) campaign.posts.push(post);
-              break;
-            case "twitter":
-              if (Twitter) campaign.posts.push(post);
-              break;
-            case "linkedin":
-              if (Linkedin) campaign.posts.push(post);
-              break;
-            case "instagram":
-              if (Instagram) campaign.posts.push(post);
-              break;
-            case "custom":
-              if (Custom) campaign.posts.push(post);
-              break;
-            default:
-              break;
-          }
-        }
-        if (campaign.posts.length > 0) {
-          calendarEvents.push(campaign);
-        }
-      }
-    }
     return (
       <Consumer>
         {context => (
@@ -446,7 +331,7 @@ class Content extends Component {
               <GIContainer className="x-fill">
                 <Dropdown
                   activeItem={activeCalendarIndex}
-                  className="x-fill"
+                  className="x-fill common-shadow-medium"
                   dropdownItems={calendars.map(
                     (calendar, index) => calendar.calendarName
                   )}
@@ -454,9 +339,10 @@ class Content extends Component {
                     this.updateActiveCalendar(dropdownClickedItemObj.index)
                   }
                   search
+                  size="2x"
                   title={
                     <GIText
-                      className="tac muli bold fill-flex"
+                      className="muli fill-flex pl32 py16"
                       text={
                         calendars[activeCalendarIndex]
                           ? calendars[activeCalendarIndex].calendarName
@@ -467,42 +353,7 @@ class Content extends Component {
                   }
                 />
               </GIContainer>
-              <GIContainer className="justify-between x-fill px32 pt8">
-                <GIContainer className="full-center px32">
-                  <GIContainer
-                    className="round-icon small button round common-border five-blue full-center pa4"
-                    onClick={() => subtractMonth(props)}
-                  >
-                    <FontAwesomeIcon
-                      className="five-blue"
-                      icon={faAngleLeft}
-                      size="2x"
-                    />
-                  </GIContainer>
-                  <GIText
-                    className="tac muli mx64"
-                    text={calendarDate.format("MMMM YYYY")}
-                    type="h3"
-                  />
 
-                  <GIContainer
-                    className="round-icon small button round common-border five-blue full-center pa4"
-                    onClick={() => addMonth(props)}
-                  >
-                    <FontAwesomeIcon
-                      className="five-blue"
-                      icon={faAngleRight}
-                      size="2x"
-                    />
-                  </GIContainer>
-                </GIContainer>
-                <GIContainer className="full-center">
-                  <Filter
-                    categories={calendarEventCategories}
-                    updateActiveCategory={this.updateActiveCategory}
-                  />
-                </GIContainer>
-              </GIContainer>
               {calendarInvites.map((calendar, index) => {
                 return (
                   <GIContainer className="" key={`invite ${index}`}>
@@ -527,29 +378,89 @@ class Content extends Component {
                 );
               })}
             </GIContainer>
-            <GIContainer className="px16">
+            <GIContainer className="column px32">
+              <GIContainer className="justify-between x-fill my16">
+                <GIContainer className="full-center">
+                  <GIContainer
+                    className="round-icon button round common-border five-blue full-center pa4"
+                    onClick={() =>
+                      subtractMonth(calendarDate, date => {
+                        this.handleChange({ calendarDate: date });
+                        this.handleChange(
+                          getPosts(calendars, activeCalendarIndex, calendarDate)
+                        );
+                      })
+                    }
+                  >
+                    <FontAwesomeIcon
+                      className="five-blue"
+                      icon={faAngleLeft}
+                      size="2x"
+                    />
+                  </GIContainer>
+                  <GIText
+                    className="tac muli mx64"
+                    text={calendarDate.format("MMMM YYYY")}
+                    type="h3"
+                  />
+
+                  <GIContainer
+                    className="round-icon button round common-border five-blue full-center pa4"
+                    onClick={() =>
+                      addMonth(calendarDate, date => {
+                        this.handleChange({ calendarDate: date });
+                        this.handleChange(
+                          getPosts(calendars, activeCalendarIndex, calendarDate)
+                        );
+                      })
+                    }
+                  >
+                    <FontAwesomeIcon
+                      className="five-blue"
+                      icon={faAngleRight}
+                      size="2x"
+                    />
+                  </GIContainer>
+                </GIContainer>
+                <GIContainer className="full-center">
+                  <Dropdown
+                    className="x-fill common-border common-shadow-light br4"
+                    dropdownItems={Object.keys(calendarEventCategories).map(
+                      (key, index) => key
+                    )}
+                    handleParentChange={dropdownClickedItemObj =>
+                      this.updateActiveCategory(dropdownClickedItemObj.item)
+                    }
+                    search
+                    size="2x"
+                    title={
+                      <GIText
+                        className="tac muli fill-flex pl32 pr48 py16"
+                        text="Filter Calendar"
+                        type="h6"
+                      />
+                    }
+                  />
+                </GIContainer>
+              </GIContainer>
               <Calendar
                 activeCalendarIndex={activeCalendarIndex}
                 calendars={calendars}
                 calendarDate={calendarDate}
                 calendarEvents={calendarEvents}
                 calendarInvites={calendarInvites}
-                categories={calendarEventCategories}
                 enableCalendarManager={() =>
                   this.setState({ calendarManagerModal: true })
                 }
                 inviteResponse={this.inviteResponse}
-                onDateChange={date => {
-                  this.handleChange({ calendarDate: date });
-                  this.getPosts();
-                }}
                 onSelectCampaign={this.openCampaign}
                 onSelectDay={date =>
                   this.handleChange({ clickedDate: date, dashboardModal: true })
                 }
-                onSelectPost={this.editPost}
+                onSelectPost={clickedEvent =>
+                  this.handleChange({ postEdittingModal: true, clickedEvent })
+                }
                 updateActiveCalendar={this.updateActiveCalendar}
-                updateActiveCategory={this.updateActiveCategory}
                 userList={userList}
               />
             </GIContainer>
@@ -580,7 +491,9 @@ class Content extends Component {
                 handleParentChange={this.handleChange}
                 notify={context.notify}
                 savePostCallback={post => {
-                  this.getPosts();
+                  this.handleChange(
+                    getPosts(calendars, activeCalendarIndex, calendarDate)
+                  );
                   triggerSocketPeers(
                     "calendar_post_saved",
                     post,
@@ -595,7 +508,9 @@ class Content extends Component {
             {postEdittingModal && (
               <PostEdittingModal
                 savePostCallback={post => {
-                  this.getPosts();
+                  this.handleChange(
+                    getPosts(calendars, activeCalendarIndex, calendarDate)
+                  );
                   triggerSocketPeers(
                     "calendar_post_saved",
                     post,
@@ -604,7 +519,11 @@ class Content extends Component {
                     socket
                   );
                 }}
-                updateCalendarPosts={this.getPosts}
+                updateCalendarPosts={() =>
+                  this.handleChange(
+                    getPosts(calendars, activeCalendarIndex, calendarDate)
+                  )
+                }
                 clickedEvent={clickedEvent}
                 close={this.closeModals}
                 triggerSocketPeers={(type, post) =>

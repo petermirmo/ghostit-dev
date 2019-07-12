@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown } from "@fortawesome/pro-light-svg-icons";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../GIText";
@@ -30,19 +30,30 @@ class Dropdown extends Component {
   };
   render() {
     const { showDropdown } = this.state;
-    const { className, dropdownItems, search, testMode, title } = this.props; // Variables
+    const {
+      className,
+      dropdownItems,
+      search,
+      size,
+      testMode,
+      title
+    } = this.props; // Variables
     const { handleParentChange } = this.props; // Functions
 
     return (
       <GIContainer
-        className={`dropdown-container ${className}`}
+        className={`button ${className}`}
         onClick={() => this.setState({ showDropdown: !showDropdown })}
         forwardedRef={this.setWrapperRef}
         testMode={testMode}
       >
-        <GIContainer className="dropdown-something full-center pa8">
+        <GIContainer className="dropdown-title-container align-center pr8">
           {title}
-          <FontAwesomeIcon className="five-blue mx8" icon={faChevronDown} />
+          <FontAwesomeIcon
+            className="five-blue mx8"
+            icon={faAngleDown}
+            size={size}
+          />
         </GIContainer>
         {showDropdown && (
           <GIContainer className="dropdown">

@@ -1,3 +1,6 @@
+.gt-test-mode {
+  background-color: blue;
+}
 .white {
   color: var(--white-theme-color);
   fill: var(--five-blue-color);

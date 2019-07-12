@@ -62,7 +62,7 @@
   --white-theme-color: #fff;
 
   --grey-theme-color: #d8d8d8;
-  --light-grey-theme-color: #e0e0e0;
+  --light-grey-theme-color: #dedede;
   --light-light-grey-theme-color: #fafafa;
   --dark-grey-theme-color: #95a5a6;
 
@@ -607,15 +607,6 @@
   background-color: transparent;
   color: var(--white-theme-color);
 }
-.margin.bottom {
-  margin-bottom: 4px;
-}
-.spacing.top {
-  padding-top: 10px;
-}
-.spacing.left {
-  padding-left: 10px;
-}
 
 .common-transition {
   transition: all 0.2s ease;
@@ -970,8 +961,8 @@
 }
 
 .round-icon {
-  min-width: 32px;
-  min-height: 32px;
+  width: 32px;
+  height: 32px;
 }
 .round-icon.small {
   width: 16px;
@@ -994,6 +985,9 @@
 }
 .common-shadow-left {
   box-shadow: -4px 0 6px 0 rgba(0, 0, 0, 0.2);
+}
+.common-shadow-medium {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
 }
 .trial-days-left {
   width: 100%;
@@ -1075,16 +1069,6 @@ div {
   right: 0;
 }
 
-.checkbox-and-writing-container {
-  flex-shrink: 0;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  overflow: hidden;
-  max-width: 100%;
-}
 .checkbox-box {
   min-height: 16px;
   min-width: 16px;

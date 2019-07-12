@@ -83,14 +83,18 @@ export const createCalendarWeeks = (calendarDate, props) => {
         <div
           className={calendarClass}
           onClick={() => onSelectDay(calendarDay)}
-          key={weekIndex + "week" + dayIndex + "day"}
+          key={weekIndex + dayIndex}
         >
           <div className="date-plus-container">
-            <div className="calendar-day-date">{calendarDay.date()}</div>
+            <GIText
+              className="calendar-day-date quicksand"
+              text={calendarDay.date()}
+              type="p"
+            />
             {!pastDate && (
               <FontAwesomeIcon
+                className="calendar-day-plus common-shadow-orange round round-icon small ma4 pa2"
                 icon={faPlus}
-                className="calendar-day-plus common-transition ma4"
               />
             )}
           </div>
@@ -114,9 +118,9 @@ export const createDayHeaders = daysInWeek => {
   for (let index in daysInWeek) {
     dayHeadingsArray.push(
       <GIText
-        className="tac x-fill"
+        className="tac x-fill white"
         key={index}
-        text={daysInWeek[index]}
+        text={daysInWeek[index].substring(0, 3)}
         type="h6"
       />
     );

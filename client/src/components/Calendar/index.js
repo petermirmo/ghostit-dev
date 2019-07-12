@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { getPostIcon, getPostColor } from "../../componentFunctions";
-
 import GIContainer from "../containers/GIContainer";
 
 import FileUpload from "../views/FileUpload/";
@@ -31,12 +29,14 @@ class Calendar extends Component {
 
     return (
       <div className="calendar-container">
-        <div className="flex column">
-          <div className="calendar-day-titles-container">
+        <GIContainer className="column">
+          <GIContainer className="calendar-day-heading-container py16">
             {dayHeadingsArray}
-          </div>
-          {calendarWeekArray}
-        </div>
+          </GIContainer>
+          <GIContainer className="calendar-weeks-container column">
+            {calendarWeekArray}
+          </GIContainer>
+        </GIContainer>
       </div>
     );
   }
