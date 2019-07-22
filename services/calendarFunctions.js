@@ -437,8 +437,7 @@ module.exports = {
           } else {
             res.send({
               success: true,
-              users: foundUsers,
-              userIDs: foundCalendar.userIDs
+              users: foundUsers
             });
           }
         });

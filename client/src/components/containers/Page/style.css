@@ -13,7 +13,7 @@
 .website-page {
   display: flex;
   flex-direction: column;
-  
+
   padding-top: 15vh;
   min-height: 100vh;
 }

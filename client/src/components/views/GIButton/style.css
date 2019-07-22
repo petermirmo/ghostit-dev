@@ -115,6 +115,11 @@
   box-shadow: 0 5px 12px 0 rgba(5, 164, 255, 0.27);
   background-image: linear-gradient(283deg, #1ba5f9, #04c5fb);
 }
+.grey-button {
+  border: 1px solid var(--grey-font-color);
+  color: var(--grey-font-color);
+  background-color: var(--white-theme-color);
+}
 button.purple {
   color: var(--seven-purple-color);
   background-color: var(--one-half-purple-color);
@@ -124,6 +129,9 @@ button.purple:hover {
   background-color: var(--one-half-purple-color);
 }
 button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--white-theme-color);
   font-family: var(--regular-font);
   font-size: var(--sixteen-font-size);

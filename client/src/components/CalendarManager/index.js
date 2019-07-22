@@ -67,52 +67,6 @@ class CalendarManager extends Component {
     this._ismounted = false;
   }
 
-  getCalendarAccounts = index => {
-    const { calendars } = this.state;
-
-    axios
-      .get("/api/calendar/accounts/extra/" + calendars[index]._id)
-      .then(res => {
-        const { success, err, message, accounts } = res.data;
-        if (!success || err || !accounts) {
-          console.log(
-            "Retrieving calendar accounts from database was unsuccessful."
-          );
-          console.log(err);
-          console.log(message);
-        } else {
-          this.handleCalendarChange("accounts", accounts, index);
-        }
-      });
-  };
-
-  getCalendarUsers = index => {
-    const { calendars } = this.state;
-
-    axios.get("/api/calendar/users/" + calendars[index]._id).then(res => {
-      const { success, err, message, users, userIDs } = res.data;
-      if (!success || err || !users) {
-        console.log(
-          "Retrieving calendar users from database was unsuccessful."
-        );
-        console.log(err);
-        console.log(message);
-      } else {
-        const adminIndex = users.findIndex(
-          userObj => userObj._id === calendars[index].adminID
-        );
-        if (adminIndex !== -1 && adminIndex !== 0) {
-          // swap admin to the top of the array so it always gets displayed first
-          let temp = users[0];
-          users[0] = users[adminIndex];
-          users[adminIndex] = temp;
-        }
-        this.handleCalendarChange("users", users, index);
-        this.handleCalendarChange("userIDs", userIDs, index);
-      }
-    });
-  };
-
   handleCalendarChange = (key, value, calendarIndex) => {
     if (!this._ismounted) return;
     this.setState(prevState => {

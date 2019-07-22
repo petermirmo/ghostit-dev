@@ -1,5 +1,5 @@
 import React from "react";
-
+import axios from "axios";
 import { getPostIcon, getPostColor } from "../../componentFunctions";
 
 export const getCalendarEvents = (
@@ -71,7 +71,12 @@ export const getCalendarEvents = (
   return calendarEvents;
 };
 
-export const getPosts = (calendars, activeCalendarIndex, calendarDate) => {
+export const getPosts = (
+  calendars,
+  activeCalendarIndex,
+  calendarDate,
+  handleChange
+) => {
   // if this (or any of the getPosts/getBlogs/getCampaigns/etc fails,
   // we should maybe setState({ posts: [] })) so that we don't render
   // posts from a previous calendar
@@ -80,7 +85,7 @@ export const getPosts = (calendars, activeCalendarIndex, calendarDate) => {
     console.log(calendars);
     console.log(activeCalendarIndex);
     console.log("calendar error");
-    return {};
+    return handleChange({});
   }
   const calendarID = calendars[activeCalendarIndex]._id;
   let facebookPosts = [];
@@ -115,15 +120,13 @@ export const getPosts = (calendars, activeCalendarIndex, calendarDate) => {
             customPosts.push(posts[index]);
           }
         }
-        if (this._ismounted) {
-          return {
-            facebookPosts,
-            twitterPosts,
-            linkedinPosts,
-            customPosts,
-            loading: false
-          };
-        }
+        return handleChange({
+          facebookPosts,
+          twitterPosts,
+          linkedinPosts,
+          customPosts,
+          loading: false
+        });
       }
     });
 };
@@ -165,6 +168,116 @@ const createQueuePostDiv = (key, onSelectPost, post) => {
       </div>
     </div>
   );
+};
+
+export const getCalendarAccounts = index => {
+  const { calendars } = this.state;
+
+  axios
+    .get("/api/calendar/accounts/extra/" + calendars[index]._id)
+    .then(res => {
+      const { success, err, message, accounts } = res.data;
+      if (!success || err || !accounts) {
+        console.log(
+          "Retrieving calendar accounts from database was unsuccessful."
+        );
+        console.log(err);
+        console.log(message);
+      } else {
+        this.handleCalendarChange("accounts", accounts, index);
+      }
+    });
+};
+
+export const getCalendarUsers = (calendars, handleChange, index) => {
+  axios.get("/api/calendar/users/" + calendars[index]._id).then(res => {
+    const { success, err, message, users } = res.data;
+    if (!success || err || !users) {
+      console.log("Retrieving calendar users from database was unsuccessful.");
+      console.log(err);
+      console.log(message);
+    } else {
+      const adminIndex = users.findIndex(
+        userObj => userObj._id === calendars[index].adminID
+      );
+      if (adminIndex !== -1 && adminIndex !== 0) {
+        // swap admin to the top of the array so it always gets displayed first
+        let temp = users[0];
+        users[0] = users[adminIndex];
+        users[adminIndex] = temp;
+      }
+      handleChange({ calendarUsers: users });
+    }
+  });
+};
+
+export const inviteUserToCalendar = (
+  calendars,
+  context,
+  index,
+  handleChange,
+  inviteEmail
+) => {
+  const calendar = calendars[index];
+
+  handleChange({ loading: true });
+  axios
+    .post("/api/calendar/invite", {
+      email: inviteEmail.toLowerCase(),
+      calendarID: calendar._id
+    })
+    .then(res => {
+      handleChange({ loading: false });
+      const { success, err, message, emailsInvited } = res.data;
+      if (!success || err) {
+        console.log(err);
+        console.log(message);
+        context.notify({ type: "danger", title: "Invite Failed", message });
+      } else {
+        context.notify({
+          type: "success",
+          title: "Invite Successful",
+          message: `${inviteEmail} has been invited to join calendar ${
+            calendar.calendarName
+          }.`
+        });
+        handleChange(prevState => {
+          return {
+            inviteEmail: "",
+            calendars: [
+              ...prevState.calendars.slice(0, index),
+              { ...calendar, emailsInvited },
+              ...prevState.calendars.slice(index + 1)
+            ]
+          };
+        });
+      }
+    });
+};
+
+export const updateActiveCategory = (
+  calendarEventCategories,
+  handleChange,
+  key
+) => {
+  calendarEventCategories[key] = !calendarEventCategories[key];
+
+  calendarEventCategories["All"] = false;
+
+  if (key === "All") {
+    handleChange({
+      calendarEventCategories: {
+        All: true,
+        Facebook: false,
+        Twitter: false,
+        Linkedin: false,
+        Campaigns: false,
+        Custom: false
+      }
+    });
+  } else {
+    handleChange({ calendarEventCategories });
+  }
 };
 
 export const addMonth = (calendarDate, onDateChange) => {

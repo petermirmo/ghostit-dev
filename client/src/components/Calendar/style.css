@@ -6,14 +6,14 @@
 .calendar-day-heading-container {
   background-image: linear-gradient(274deg, #3dd6b4, #48def7);
 
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 .calendar-weeks-container {
   border: 1px var(--light-grey-theme-color) solid;
   border-top: none;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 .calendar-week {
   display: flex;

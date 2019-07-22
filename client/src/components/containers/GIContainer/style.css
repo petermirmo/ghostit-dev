@@ -185,6 +185,26 @@
   background-color: var(--white-theme-color);
 }
 
+.absolute {
+  position: absolute;
+  z-index: 1;
+}
+.absolute.top {
+  top: 5px;
+}
+.absolute.right {
+  right: 5px;
+}
+.absolute.bottom {
+  bottom: 5px;
+}
+.absolute.bottom-0 {
+  bottom: 0;
+}
+.translate-y-50 {
+  transform: translate(0, 50%);
+}
+
 .test-mode {
   background-color: red;
 }

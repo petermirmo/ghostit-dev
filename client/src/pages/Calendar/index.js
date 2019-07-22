@@ -4,7 +4,12 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/pro-light-svg-icons";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faPencilAlt,
+  faPlus
+} from "@fortawesome/pro-light-svg-icons";
 
 import { connect } from "react-redux";
 
@@ -20,9 +25,11 @@ import CalendarChat from "../../components/CalendarChat";
 import Page from "../../components/containers/Page";
 import Modal from "../../components/containers/Modal";
 
+import Dropdown from "../../components/views/Dropdown";
+import GIButton from "../../components/views/GIButton";
+import GIInput from "../../components/views/GIInput";
 import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
-import Dropdown from "../../components/views/Dropdown";
 
 import Consumer from "../../context";
 
@@ -31,23 +38,38 @@ import {
   getCalendarInvites,
   triggerSocketPeers,
   initSocket,
-  getCampaigns
+  getCampaigns,
+  getUserEmail
 } from "../util";
 
-import { addMonth, getCalendarEvents, getPosts, subtractMonth } from "./util";
+import { validateEmail } from "../../componentFunctions";
 
-class Content extends Component {
+import {
+  addMonth,
+  getCalendarEvents,
+  getCalendarUsers,
+  getPosts,
+  inviteUserToCalendar,
+  subtractMonth,
+  updateActiveCategory
+} from "./util";
+
+import "./style.css";
+
+class CalendarPage extends Component {
   state = {
     activeCalendarIndex: undefined,
 
     calendars: [],
     calendarInvites: [],
+    calendarUsers: [],
     clickedDate: new moment(),
     calendarDate: new moment(),
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
-
     defaultCalendarID: undefined,
+    inviteUserActivated: false,
+    inviteUserEmail: "",
 
     customPosts: [],
     facebookPosts: [],
@@ -58,6 +80,7 @@ class Content extends Component {
     campaignModal: false,
     contentModal: false,
     dashboardModal: false,
+    postEdittingModal: false,
 
     calendarEventCategories: {
       All: true,
@@ -69,7 +92,6 @@ class Content extends Component {
     },
 
     loading: false,
-    postEdittingModal: false,
 
     recipeEditing: false,
     socket: undefined,
@@ -107,6 +129,7 @@ class Content extends Component {
         customPosts,
         this.updateSocketCalendar
       );
+      getCalendarUsers(calendars, this.handleChange, activeCalendarIndex);
     });
 
     getCalendarInvites(stateObject => {
@@ -133,12 +156,14 @@ class Content extends Component {
 
   updateSocketCalendar = () => {
     const { calendars, activeCalendarIndex, socket } = this.state;
+    const { user } = this.props;
+
     if (!calendars || activeCalendarIndex === undefined || !socket) return;
 
     socket.emit("calendar_connect", {
       calendarID: calendars[activeCalendarIndex]._id,
-      email: this.props.user.email,
-      name: this.props.user.fullName
+      email: user.email,
+      name: user.fullName
     });
   };
 
@@ -216,8 +241,9 @@ class Content extends Component {
   };
 
   fillCalendar = () => {
-    const { calendars, activeCalendarIndex } = this.state;
-    this.handleChange(getPosts(calendars, activeCalendarIndex, calendarDate));
+    const { activeCalendarIndex, calendarDate, calendars } = this.state;
+
+    getPosts(calendars, activeCalendarIndex, calendarDate, this.handleChange);
     getCampaigns(calendars, activeCalendarIndex, this.handleChange);
   };
 
@@ -241,28 +267,6 @@ class Content extends Component {
       recipeEditorModal: false,
       clickedEvent: undefined
     });
-  };
-
-  updateActiveCategory = key => {
-    let { calendarEventCategories } = this.state;
-    calendarEventCategories[key] = !calendarEventCategories[key];
-
-    calendarEventCategories["All"] = false;
-
-    if (key === "All") {
-      this.setState({
-        calendarEventCategories: {
-          All: true,
-          Facebook: false,
-          Twitter: false,
-          Linkedin: false,
-          Campaigns: false,
-          Custom: false
-        }
-      });
-    } else {
-      this.setState({ calendarEventCategories });
-    }
   };
 
   updateActiveCalendar = index => {
@@ -289,6 +293,7 @@ class Content extends Component {
       calendarInvites,
       calendarManagerModal,
       calendars,
+      calendarUsers,
       campaignModal,
       campaigns,
       clickedDate,
@@ -301,6 +306,8 @@ class Content extends Component {
       defaultCalendarID,
       facebookPosts,
       instagramPosts,
+      inviteUserActivated,
+      inviteUserEmail,
       linkedinPosts,
       loading,
       postEdittingModal,
@@ -310,6 +317,10 @@ class Content extends Component {
       twitterPosts,
       userList
     } = this.state;
+
+    console.log(calendars[activeCalendarIndex]);
+
+    const { user } = this.props;
 
     const calendarEvents = getCalendarEvents(
       calendarEventCategories,
@@ -324,70 +335,61 @@ class Content extends Component {
     return (
       <Consumer>
         {context => (
-          <Page className="content-page" title="Calendar">
+          <Page className="x-fill relative" title="Calendar">
             {loading && <Loader />}
-
-            <GIContainer className="column vc x-fill">
-              <GIContainer className="x-fill">
-                <Dropdown
-                  activeItem={activeCalendarIndex}
-                  className="x-fill common-shadow-medium"
-                  dropdownItems={calendars.map(
-                    (calendar, index) => calendar.calendarName
-                  )}
-                  handleParentChange={dropdownClickedItemObj =>
-                    this.updateActiveCalendar(dropdownClickedItemObj.index)
-                  }
-                  search
-                  size="2x"
-                  title={
-                    <GIText
-                      className="muli fill-flex pl32 py16"
-                      text={
-                        calendars[activeCalendarIndex]
-                          ? calendars[activeCalendarIndex].calendarName
-                          : ""
-                      }
-                      type="h4"
-                    />
-                  }
-                />
+            <GIContainer className="calendar-grid x-fill">
+              <Dropdown
+                activeItem={activeCalendarIndex}
+                className="common-shadow-medium"
+                dropdownItems={calendars.map(
+                  (calendar, index) => calendar.calendarName
+                )}
+                handleParentChange={dropdownClickedItemObj =>
+                  this.updateActiveCalendar(dropdownClickedItemObj.index)
+                }
+                search
+                size="2x"
+                title={
+                  <GIText
+                    className="muli fill-flex pl32 py16"
+                    text={
+                      calendars[activeCalendarIndex]
+                        ? calendars[activeCalendarIndex].calendarName
+                        : ""
+                    }
+                    type="h4"
+                  />
+                }
+              />
+              <GIContainer className="common-shadow-medium">
+                <GIButton
+                  className="five-blue fill-flex common-border ml16 mr8 py8 px16 my8 br4"
+                  onClick={() => {}}
+                >
+                  <FontAwesomeIcon icon={faPencilAlt} />
+                  <GIText className="pl8" text="Edit" type="h5" />
+                </GIButton>
+                <GIButton
+                  className="bg-orange-fade fill-flex common-shadow-orange mr16 ml8 py8 px16 my8 br4"
+                  onClick={() => {}}
+                >
+                  <FontAwesomeIcon icon={faPlus} />
+                  <GIText className="white pl8" text="New" type="h6" />
+                </GIButton>
               </GIContainer>
 
-              {calendarInvites.map((calendar, index) => {
-                return (
-                  <GIContainer className="" key={`invite ${index}`}>
-                    {`You have been invited to ${calendar.calendarName}.`}
-                    <GIButton
-                      className="calendar-invite-accept"
-                      onClick={e => {
-                        e.preventDefault();
-                        inviteResponse(index, true);
-                      }}
-                      text="Accept"
-                    />
-                    <GIButton
-                      className="calendar-invite-reject"
-                      onClick={e => {
-                        e.preventDefault();
-                        inviteResponse(index, false);
-                      }}
-                      text="Reject"
-                    />
-                  </GIContainer>
-                );
-              })}
-            </GIContainer>
-            <GIContainer className="column px32">
-              <GIContainer className="justify-between x-fill my16">
+              <GIContainer className="justify-between x-fill pl32 pr16 my16">
                 <GIContainer className="full-center">
                   <GIContainer
                     className="round-icon button round common-border five-blue full-center pa4"
                     onClick={() =>
                       subtractMonth(calendarDate, date => {
                         this.handleChange({ calendarDate: date });
-                        this.handleChange(
-                          getPosts(calendars, activeCalendarIndex, calendarDate)
+                        getPosts(
+                          calendars,
+                          activeCalendarIndex,
+                          calendarDate,
+                          this.handleChange
                         );
                       })
                     }
@@ -409,8 +411,11 @@ class Content extends Component {
                     onClick={() =>
                       addMonth(calendarDate, date => {
                         this.handleChange({ calendarDate: date });
-                        this.handleChange(
-                          getPosts(calendars, activeCalendarIndex, calendarDate)
+                        getPosts(
+                          calendars,
+                          activeCalendarIndex,
+                          calendarDate,
+                          this.handleChange
                         );
                       })
                     }
@@ -429,7 +434,11 @@ class Content extends Component {
                       (key, index) => key
                     )}
                     handleParentChange={dropdownClickedItemObj =>
-                      this.updateActiveCategory(dropdownClickedItemObj.item)
+                      updateActiveCategory(
+                        calendarEventCategories,
+                        this.handleChange,
+                        dropdownClickedItemObj.item
+                      )
                     }
                     search
                     size="2x"
@@ -443,26 +452,138 @@ class Content extends Component {
                   />
                 </GIContainer>
               </GIContainer>
-              <Calendar
-                activeCalendarIndex={activeCalendarIndex}
-                calendars={calendars}
-                calendarDate={calendarDate}
-                calendarEvents={calendarEvents}
-                calendarInvites={calendarInvites}
-                enableCalendarManager={() =>
-                  this.setState({ calendarManagerModal: true })
-                }
-                inviteResponse={this.inviteResponse}
-                onSelectCampaign={this.openCampaign}
-                onSelectDay={date =>
-                  this.handleChange({ clickedDate: date, dashboardModal: true })
-                }
-                onSelectPost={clickedEvent =>
-                  this.handleChange({ postEdittingModal: true, clickedEvent })
-                }
-                updateActiveCalendar={this.updateActiveCalendar}
-                userList={userList}
-              />
+              <GIContainer className="full-center mr32">
+                <GIText className="tac" text="Calendar Users" type="h4" />
+              </GIContainer>
+              <GIContainer className="pl32 pr16">
+                <Calendar
+                  activeCalendarIndex={activeCalendarIndex}
+                  calendars={calendars}
+                  calendarDate={calendarDate}
+                  calendarEvents={calendarEvents}
+                  calendarInvites={calendarInvites}
+                  enableCalendarManager={() =>
+                    this.setState({ calendarManagerModal: true })
+                  }
+                  inviteResponse={this.inviteResponse}
+                  onSelectCampaign={this.openCampaign}
+                  onSelectDay={date =>
+                    this.handleChange({
+                      clickedDate: date,
+                      dashboardModal: true
+                    })
+                  }
+                  onSelectPost={clickedEvent =>
+                    this.handleChange({
+                      postEdittingModal: true,
+                      clickedEvent
+                    })
+                  }
+                  updateActiveCalendar={this.updateActiveCalendar}
+                  userList={userList}
+                />
+              </GIContainer>
+
+              <GIContainer className="column container-box twentyvw mr32">
+                <GIContainer className="full-center common-border relative pt16 pb32 br8">
+                  {inviteUserActivated && (
+                    <GIInput
+                      className="mx16 br4"
+                      onChange={event =>
+                        this.handleChange({
+                          inviteUserEmail: event.target.value
+                        })
+                      }
+                      name="email"
+                      placeholder="Email Address"
+                      type="text"
+                      value={inviteUserEmail}
+                    />
+                  )}
+                  {!inviteUserActivated && (
+                    <GIText
+                      className="tac"
+                      text={getUserEmail(user)}
+                      type="h5"
+                    />
+                  )}
+
+                  <GIButton
+                    className={
+                      validateEmail(inviteUserEmail) || !inviteUserActivated
+                        ? "absolute bottom-0 translate-y-50 bg-five-blue px16 py4 br4"
+                        : "absolute bottom-0 translate-y-50 grey-button px16 py4 br4"
+                    }
+                    onClick={() => {
+                      if (inviteUserActivated) {
+                        inviteUserToCalendar(
+                          calendars,
+                          context,
+                          activeCalendarIndex,
+                          this.handleChange,
+                          inviteUserEmail
+                        );
+                      } else this.handleChange({ inviteUserActivated: true });
+                    }}
+                    text="Invite"
+                  />
+                </GIContainer>
+                <GIContainer className="column full-center common-border pt8 br8">
+                  {calendarUsers.map((user, index) => {
+                    let className = "column x-fill px16 py16";
+                    if (
+                      index === calendarUsers.length - 1 &&
+                      (calendars[activeCalendarIndex] &&
+                        calendars[activeCalendarIndex].emailsInvited !== 0)
+                    )
+                      className += " border-bottom-light";
+
+                    return (
+                      <GIContainer className={className} key={index}>
+                        <GIText
+                          className="ellipsis"
+                          text={user.fullName}
+                          title={user.fullName}
+                          type="h6"
+                        />
+                        <GIText
+                          className="label ellipsis"
+                          text={user.email}
+                          type="p"
+                        />
+                      </GIContainer>
+                    );
+                  })}
+                  {calendars[activeCalendarIndex] &&
+                    calendars[activeCalendarIndex].emailsInvited.map(
+                      (email, index) => {
+                        let className = "column x-fill px16 py16";
+                        if (
+                          index !==
+                          calendars[activeCalendarIndex].emailsInvited.length -
+                            1
+                        )
+                          className += " border-bottom-light";
+
+                        return (
+                          <GIContainer className={className} key={index}>
+                            <GIText
+                              className="ellipsis"
+                              text={email}
+                              title={email}
+                              type="h6"
+                            />
+                            <GIText
+                              className="green ellipsis"
+                              text="Invitation Sent..."
+                              type="p"
+                            />
+                          </GIContainer>
+                        );
+                      }
+                    )}
+                </GIContainer>
+              </GIContainer>
             </GIContainer>
             {false && <CalendarChat calendars={calendars} />}
             {calendarManagerModal && (
@@ -491,8 +612,11 @@ class Content extends Component {
                 handleParentChange={this.handleChange}
                 notify={context.notify}
                 savePostCallback={post => {
-                  this.handleChange(
-                    getPosts(calendars, activeCalendarIndex, calendarDate)
+                  getPosts(
+                    calendars,
+                    activeCalendarIndex,
+                    calendarDate,
+                    this.handleChange
                   );
                   triggerSocketPeers(
                     "calendar_post_saved",
@@ -508,8 +632,11 @@ class Content extends Component {
             {postEdittingModal && (
               <PostEdittingModal
                 savePostCallback={post => {
-                  this.handleChange(
-                    getPosts(calendars, activeCalendarIndex, calendarDate)
+                  getPosts(
+                    calendars,
+                    activeCalendarIndex,
+                    calendarDate,
+                    this.handleChange
                   );
                   triggerSocketPeers(
                     "calendar_post_saved",
@@ -520,8 +647,11 @@ class Content extends Component {
                   );
                 }}
                 updateCalendarPosts={() =>
-                  this.handleChange(
-                    getPosts(calendars, activeCalendarIndex, calendarDate)
+                  getPosts(
+                    calendars,
+                    activeCalendarIndex,
+                    calendarDate,
+                    this.handleChange
                   )
                 }
                 clickedEvent={clickedEvent}
@@ -608,9 +738,33 @@ class Content extends Component {
   }
 }
 
+/*{calendarInvites.map((calendar, index) => {
+  return (
+    <GIContainer className="" key={`invite ${index}`}>
+      {`You have been invited to ${calendar.calendarName}.`}
+      <GIButton
+        className="calendar-invite-accept"
+        onClick={e => {
+          e.preventDefault();
+          inviteResponse(index, true);
+        }}
+        text="Accept"
+      />
+      <GIButton
+        className="calendar-invite-reject"
+        onClick={e => {
+          e.preventDefault();
+          inviteResponse(index, false);
+        }}
+        text="Reject"
+      />
+    </GIContainer>
+  );
+})}*/
+
 function mapStateToProps(state) {
   return {
     user: state.user
   };
 }
-export default connect(mapStateToProps)(Content);
+export default connect(mapStateToProps)(CalendarPage);

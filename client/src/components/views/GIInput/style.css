@@ -9,6 +9,9 @@
 .purple-border:focus {
   border-color: var(--two-purple-color);
 }
+.no-border {
+  border: none;
+}
 
 textarea,
 input {

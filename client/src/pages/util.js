@@ -29,18 +29,6 @@ export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
     }
   });
 };
-export const getUser = callback => {
-  axios.get("/api/user").then(res => {
-    const { error, user } = res.data;
-
-    if (!error) {
-      callback(user);
-    } else {
-      callback();
-      // TODO: handleerror
-    }
-  });
-};
 export const getAccounts = callback => {
   axios.get("/api/accounts").then(res => {
     // Set user's accounts to state
@@ -64,6 +52,25 @@ export const getBlogs = callback => {
       // TODO: handle error
     }
   });
+};
+
+export const getUser = callback => {
+  axios.get("/api/user").then(res => {
+    const { error, user } = res.data;
+
+    if (!error) {
+      callback(user);
+    } else {
+      callback();
+      // TODO: handleerror
+    }
+  });
+};
+
+export const getUserEmail = user => {
+  if (user && user.signedInAsUser && user.signedInAsUser.fullName)
+    return user.signedInAsUser.fullName;
+  else return user.email;
 };
 
 export const useAppropriateFunctionForEscapeKey = getKeyListenerFunction => {

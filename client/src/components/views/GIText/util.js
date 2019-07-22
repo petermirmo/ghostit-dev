@@ -2,55 +2,55 @@ import React from "react";
 
 export const getHtmlElement = props => {
   let { className } = props;
-  const { children, style, testMode, text, type } = props;
+  const { children, style, testMode, text, title, type } = props;
 
   if (testMode) className += " gt-test-mode";
 
   if (type === "h1") {
     return (
-      <h1 className={className} style={style}>
+      <h1 className={className} style={style} title={title}>
         {text}
       </h1>
     );
   } else if (type === "h2") {
     return (
-      <h2 className={className} style={style}>
+      <h2 className={className} style={style} title={title}>
         {text}
       </h2>
     );
   } else if (type === "h3") {
     return (
-      <h3 className={className} style={style}>
+      <h3 className={className} style={style} title={title}>
         {text}
       </h3>
     );
   } else if (type === "h4") {
     return (
-      <h4 className={className} style={style}>
+      <h4 className={className} style={style} title={title}>
         {text}
       </h4>
     );
   } else if (type === "h5") {
     return (
-      <h5 className={className} style={style}>
+      <h5 className={className} style={style} title={title}>
         {text}
       </h5>
     );
   } else if (type === "h6") {
     return (
-      <h6 className={className} style={style}>
+      <h6 className={className} style={style} title={title}>
         {text}
       </h6>
     );
   } else if (type === "p") {
     return (
-      <p className={className} style={style}>
+      <p className={className} style={style} title={title}>
         {text}
       </p>
     );
   } else if (type === "label") {
     return (
-      <label className={className} style={style}>
+      <label className={className} style={style} title={title}>
         {children}
       </label>
     );

@@ -42,7 +42,9 @@ class Dropdown extends Component {
 
     return (
       <GIContainer
-        className={`button ${className}`}
+        className={
+          showDropdown ? `button ${className} something` : `button ${className}`
+        }
         onClick={() => this.setState({ showDropdown: !showDropdown })}
         forwardedRef={this.setWrapperRef}
         testMode={testMode}
