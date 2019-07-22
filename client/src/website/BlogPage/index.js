@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
@@ -41,6 +41,16 @@ class BlogPage extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
+  findFirstImageIndex = images => {
+    let firstImageIndex = 0;
+
+    for (let index in images) {
+      if (images[index].location < images[firstImageIndex].location)
+        firstImageIndex = index;
+    }
+
+    return firstImageIndex;
+  };
   render() {
     const {
       ghostitBlogs,
@@ -95,7 +105,13 @@ class BlogPage extends Component {
                             ghostitBlog.images[0]
                               ? {
                                   backgroundImage:
-                                    "url(" + ghostitBlog.images[0].url + ")"
+                                    "url(" +
+                                    ghostitBlog.images[
+                                      this.findFirstImageIndex(
+                                        ghostitBlog.images
+                                      )
+                                    ].url +
+                                    ")"
                                 }
                               : {}
                           }
