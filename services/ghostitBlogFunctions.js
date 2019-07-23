@@ -6,6 +6,8 @@ const GhostitBlog = require("../models/GhostitBlog");
 
 const { handleError } = require("./generalFunctions");
 
+const { whatFileTypeIsUrl } = require("../util");
+
 module.exports = {
   saveGhostitBlog: (req, res) => {
     let user = req.user;
@@ -54,11 +56,15 @@ module.exports = {
           blog.images.forEach(image => {
             asyncCounter++;
 
-            cloudinary.uploader.destroy(image.publicID, cloudinaryResult => {
-              asyncCounter--;
+            cloudinary.uploader.destroy(
+              image.publicID,
+              cloudinaryResult => {
+                asyncCounter--;
 
-              if (asyncCounter === 0) handleError(res, error);
-            });
+                if (asyncCounter === 0) handleError(res, error);
+              },
+              { resource_type: whatFileTypeIsUrl(image.url) }
+            );
           });
         } else handleError(res, error);
       };
@@ -101,21 +107,25 @@ module.exports = {
 
           continue;
         } else
-          cloudinary.v2.uploader.upload(image.file, (error, result) => {
-            if (error) return handleError(res, error);
-            else {
-              asyncCounter--;
-              newGhostitBlog.images.push({
-                url: result.secure_url,
-                publicID: result.public_id,
-                size: image.size,
-                location: image.location,
-                alt: image.alt
-              });
+          cloudinary.v2.uploader.upload(
+            image.file,
+            (error, result) => {
+              if (error) return handleError(res, error);
+              else {
+                asyncCounter--;
+                newGhostitBlog.images.push({
+                  url: result.secure_url,
+                  publicID: result.public_id,
+                  size: image.size,
+                  location: image.location,
+                  alt: image.alt
+                });
 
-              if (asyncCounter === 0) saveBlog(newGhostitBlog);
-            }
-          });
+                if (asyncCounter === 0) saveBlog(newGhostitBlog);
+              }
+            },
+            { resource_type: whatFileTypeIsUrl(image.url) }
+          );
       }
     } else {
       saveBlog(newGhostitBlog);

@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faImage, faFont } from "@fortawesome/free-solid-svg-icons";
 
 import ContentEditable from "react-contenteditable";
 
 import { withRouter } from "react-router-dom";
+
+import { getFileType } from "../../views/FileUpload/util";
 
 import "./style.css";
 
@@ -95,10 +97,11 @@ class CreateWebsiteBlog extends Component {
 
       reader.onloadend = image => {
         contentArray.splice(location + index, 0, {
-          size: "small",
-          image,
+          alt: "",
           file: reader.result,
-          alt: ""
+          image,
+          size: "small",
+          type: getFileType(image)
         });
 
         this.setState({ contentArray });

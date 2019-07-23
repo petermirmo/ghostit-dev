@@ -107,7 +107,7 @@ export const isGif = fileToCheck => {
   const fileExtension = getFileExtension(fileToCheck);
   return fileExtension.match(/(\.|\/)(gif)($|;)/i);
 };
-const getFileType = file => {
+export const getFileType = file => {
   if (isImage(file)) return "image";
   else if (isVideo(file)) return "video";
   else if (isGif(file)) return "gif";

@@ -9,12 +9,7 @@ const Email = require("../models/Email");
 const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 
-const {
-  isUrlImage,
-  isUrlVideo,
-  uploadFiles,
-  whatFileTypeIsUrl
-} = require("../util");
+const { uploadFiles, whatFileTypeIsUrl } = require("../util");
 
 const canCopyAttributeDirectly = index => {
   if (index === "linkCustomFiles") {
