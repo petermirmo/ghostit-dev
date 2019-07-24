@@ -14,7 +14,7 @@ const axios = require("axios");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const fetch = require("node-fetch");
 
-const { whatFileTypeIsUrl, isUrlImage, isUrlVideo } = require("../util");
+const { whatFileTypeIsString, isUrlImage, isUrlVideo } = require("../util");
 const deletePostFromFacebook = (post, account) => {
   if (post.socialMediaID) {
     FB.setAccessToken(account.accessToken);

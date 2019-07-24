@@ -6,7 +6,7 @@ const GhostitBlog = require("../models/GhostitBlog");
 
 const { handleError } = require("./generalFunctions");
 
-const { whatFileTypeIsUrl } = require("../util");
+const { whatFileTypeIsString } = require("../util");
 
 module.exports = {
   saveGhostitBlog: (req, res) => {
@@ -63,7 +63,7 @@ module.exports = {
 
                 if (asyncCounter === 0) handleError(res, error);
               },
-              { resource_type: whatFileTypeIsUrl(image.url) }
+              { resource_type: whatFileTypeIsString(image.url) }
             );
           });
         } else handleError(res, error);
@@ -106,12 +106,15 @@ module.exports = {
           if (continueCounter === 0) saveBlog(newGhostitBlog);
 
           continue;
-        } else
+        } else {
           cloudinary.v2.uploader.upload(
             image.file,
+            { resource_type: whatFileTypeIsString(image.type) },
             (error, result) => {
-              if (error) return handleError(res, error);
-              else {
+              if (error) {
+                if (asyncCounter === 0) return handleError(res, error);
+                else handleError(undefined, error);
+              } else {
                 asyncCounter--;
                 newGhostitBlog.images.push({
                   url: result.secure_url,
@@ -123,9 +126,9 @@ module.exports = {
 
                 if (asyncCounter === 0) saveBlog(newGhostitBlog);
               }
-            },
-            { resource_type: whatFileTypeIsUrl(image.url) }
+            }
           );
+        }
       }
     } else {
       saveBlog(newGhostitBlog);

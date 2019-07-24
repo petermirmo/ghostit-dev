@@ -6,9 +6,14 @@ const isUrlImage = url => {
 const isUrlVideo = url => {
   return url.match(/video/);
 };
-const whatFileTypeIsUrl = url => {
+
+const isUrlGif = url => {
+  return url.match(/gif/);
+};
+const whatFileTypeIsString = url => {
   if (isUrlImage(url)) return "image";
   else if (isUrlVideo(url)) return "video";
+  else if (isUrlGif(url)) return "raw";
   else return "raw";
 };
 
@@ -59,7 +64,7 @@ const deleteFiles = (deleteFilesArray, callback) => {
         asyncCounter--;
         if (asyncCounter === 0) callback();
       },
-      { resource_type: whatFileTypeIsUrl(deleteFilesArray[i].url) }
+      { resource_type: whatFileTypeIsString(deleteFilesArray[i].url) }
     );
   }
 };
@@ -69,5 +74,5 @@ module.exports = {
   isUrlImage,
   isUrlVideo,
   uploadFiles,
-  whatFileTypeIsUrl
+  whatFileTypeIsString
 };

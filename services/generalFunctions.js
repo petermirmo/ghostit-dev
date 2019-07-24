@@ -8,7 +8,7 @@ module.exports = {
 
     console.log(err);
     console.log(message);
-    res.send({ success: false, message: error });
+    if (res) res.send({ success: false, message: error });
     return false;
   },
 

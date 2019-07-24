@@ -9,7 +9,7 @@ const Email = require("../models/Email");
 const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 
-const { uploadFiles, whatFileTypeIsUrl } = require("../util");
+const { uploadFiles, whatFileTypeIsString } = require("../util");
 
 const canCopyAttributeDirectly = index => {
   if (index === "linkCustomFiles") {
@@ -67,7 +67,7 @@ const deletePostStandalone = (req, callback) => {
             result => {
               // TO DO: handle error here
             },
-            { resource_type: whatFileTypeIsUrl(post.files[i].url) }
+            { resource_type: whatFileTypeIsString(post.files[i].url) }
           );
         }
       }
@@ -280,7 +280,7 @@ module.exports = {
         result => {
           // TO DO: handle error here
         },
-        { resource_type: whatFileTypeIsUrl(deleteFilesArray[i].url) }
+        { resource_type: whatFileTypeIsString(deleteFilesArray[i].url) }
       );
     }
     Post.findOne({ _id: req.params.postID }, (err, post) => {
