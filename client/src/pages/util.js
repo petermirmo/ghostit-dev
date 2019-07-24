@@ -5,6 +5,8 @@ import moment from "moment-timezone";
 
 import Loader from "../components/notifications/Loader";
 
+import { testingUser, testingAccounts } from "../keys";
+
 export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
   if (!calendars || !calendars[activeCalendarIndex]) {
     console.log(calendars);
@@ -30,9 +32,13 @@ export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
   });
 };
 export const getAccounts = callback => {
+  if (process.env.NODE_ENV === "development") {
+    callback(testingAccounts);
+  }
   axios.get("/api/accounts").then(res => {
     // Set user's accounts to state
     let { accounts } = res.data;
+
     if (!accounts) {
       // TODO: handle error
       accounts = [];
@@ -55,6 +61,9 @@ export const getBlogs = callback => {
 };
 
 export const getUser = callback => {
+  if (process.env.NODE_ENV === "development") {
+    return callback(testingUser);
+  }
   axios.get("/api/user").then(res => {
     const { error, user } = res.data;
 

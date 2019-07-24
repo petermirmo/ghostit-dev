@@ -318,8 +318,6 @@ class CalendarPage extends Component {
       userList
     } = this.state;
 
-    console.log(calendars[activeCalendarIndex]);
-
     const { user } = this.props;
 
     const calendarEvents = getCalendarEvents(
