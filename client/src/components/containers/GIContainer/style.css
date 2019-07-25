@@ -135,6 +135,9 @@
 .common-border.dark {
   border-color: var(--grey-font-color);
 }
+.common-border.font-color {
+  border-color: var(--primary-font-color);
+}
 .common-border.thick {
   border-width: 2px;
 }
@@ -143,6 +146,9 @@
 }
 .common-border.seven-blue {
   border-color: var(--seven-blue-color);
+}
+.common-border.white {
+  border-color: var(--white-theme-color);
 }
 .light-scrollbar::-webkit-scrollbar {
   width: 12px;
@@ -182,7 +188,7 @@
   background-color: var(--seven-blue-color);
 }
 .bg-white {
-  background-color: var(--white-theme-color);
+  background-color: var(--white-theme-color) !important;
 }
 
 .absolute {
@@ -190,13 +196,23 @@
   z-index: 1;
 }
 .absolute.top {
-  top: 5px;
+  top: 8px;
 }
 .absolute.right {
-  right: 5px;
+  right: 8px;
 }
 .absolute.bottom {
-  bottom: 5px;
+  bottom: 8px;
+}
+.absolute.bottom-0 {
+  bottom: 0;
+}
+
+.absolute.top-0 {
+  top: 0;
+}
+.absolute.right-0 {
+  right: 0;
 }
 .absolute.bottom-0 {
   bottom: 0;

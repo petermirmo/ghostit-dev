@@ -9,6 +9,10 @@
   color: var(--five-blue-color);
   fill: var(--five-blue-color);
 }
+.four-blue {
+  color: var(--four-blue-color);
+  fill: var(--four-blue-color);
+}
 .seven-blue {
   color: var(--seven-blue-color);
   fill: var(--seven-blue-color);
@@ -62,7 +66,7 @@
 }
 
 h1 {
-  color: var(--blue-font-color);
+  color: var(--five-blue-color);
   margin: 0;
   padding: 0;
 
@@ -77,7 +81,7 @@ h2 {
   font-size: var(--thirty-two-font-size);
 }
 h3 {
-  color: var(--blue-font-color);
+  color: var(--five-blue-color);
   margin: 0;
   padding: 0;
   font-size: var(--twenty-font-size);
@@ -92,7 +96,7 @@ h4 {
   font-size: var(--twenty-font-size);
 }
 h5 {
-  color: var(--blue-font-color);
+  color: var(--five-blue-color);
   margin: 0;
   font-weight: 100;
 

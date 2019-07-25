@@ -30,7 +30,7 @@
 
 .logo-text {
   font-size: 3500px;
-  
+
   fill: var(--primary-font-color);
   font-weight: bold;
   shape-rendering: geometricPrecision;

@@ -10,42 +10,18 @@ import Logo from "../../components/navigations/WebsiteHeader/Logo";
 import { mobileAndTabletcheck } from "../../componentFunctions";
 
 class HomePage extends Component {
-  state = {
-    blendHeaderWithHomePage: !mobileAndTabletcheck()
-  };
   componentDidMount() {
     this._ismounted = true;
-
-    // This is for header to blend with background when at top of home page
-    window.onscroll = e => {
-      if (
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop
-      )
-        this.changeState("blendHeaderWithHomePage", false);
-      else {
-        if (!mobileAndTabletcheck())
-          this.changeState("blendHeaderWithHomePage", true);
-      }
-    };
   }
   componentWillUnmount() {
     this._ismounted = false;
   }
-  changeState = (index, value) => {
-    if (this._ismounted) this.setState({ [index]: value });
-  };
-
   render() {
-    const { blendHeaderWithHomePage } = this.state;
-
     return (
       <Page
         title="Home"
         description="Organize your marketing process with an all-in-one solution for unified content promotion."
         keywords="content, ghostit, marketing"
-        blendWithHomePage={blendHeaderWithHomePage}
         className="column"
       >
         <GIContainer

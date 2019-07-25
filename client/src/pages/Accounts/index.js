@@ -6,7 +6,7 @@ import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setaccounts } from "../../redux/actions";
+import { setAccounts } from "../../redux/actions";
 
 import AddPageOrGroupModal from "../../components/AddPagesOrGroupsModal";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
@@ -129,7 +129,7 @@ class AccountsPage extends Component {
       socialType
     } = this.state;
 
-    const { setaccounts, accounts = [] } = this.props; // Functions
+    const { setAccounts, accounts = [] } = this.props; // Functions
     const { user } = this.props; // Variables
 
     const connectedFacebookProfileAccountDivs = [];
@@ -335,7 +335,7 @@ class AccountsPage extends Component {
           {addPageOrGroupModal && (
             <AddPageOrGroupModal
               getUserAccounts={() =>
-                getUserAccounts(accounts => setaccounts(accounts))
+                getUserAccounts(accounts => setAccounts(accounts))
               }
               pageOrGroupArray={pageOrGroupArray}
               accountType={accountType}
@@ -355,7 +355,7 @@ class AccountsPage extends Component {
                   accountToDelete,
                   stateObject => {
                     this.handleChange(stateObject);
-                    getUserAccounts(accounts => setaccounts(accounts));
+                    getUserAccounts(accounts => setAccounts(accounts));
                   }
                 )
               }
@@ -424,7 +424,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setaccounts }, dispatch);
+  return bindActionCreators({ setAccounts }, dispatch);
 }
 export default connect(
   mapStateToProps,

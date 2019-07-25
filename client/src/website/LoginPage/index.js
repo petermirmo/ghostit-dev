@@ -7,7 +7,7 @@ import ReactGA from "react-ga";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { setUser, setaccounts } from "../../redux/actions/";
+import { setUser, setAccounts } from "../../redux/actions/";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
@@ -37,7 +37,7 @@ class LoginPage extends Component {
         action: "Register"
       });
     this.props.setUser(user);
-    this.props.setaccounts(accounts);
+    this.props.setAccounts(accounts);
     this.props.history.push("/subscribe");
   };
   login = (event, context) => {
@@ -64,7 +64,7 @@ class LoginPage extends Component {
                 this.activateDemoUserLogin(user, accounts);
               else {
                 this.props.setUser(user);
-                this.props.setaccounts(accounts);
+                this.props.setAccounts(accounts);
                 this.props.history.push("/dashboard");
               }
             });
@@ -159,7 +159,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setaccounts
+      setAccounts
     },
     dispatch
   );

@@ -17,11 +17,19 @@ class TeamPage extends Component {
     return (
       <Page
         className="website-page justify-center"
-        title="Team"
         description="Meet the Ghostit Team!"
         keywords="ghostit, team"
+        title="Team"
       >
-        <GIText className="pb16 tac" text="Meet the Ghostit Team!" type="h1" />
+        <GIContainer className="full-center">
+          <GIText className="pb16 tac" text="Meet the" type="h2" />
+          <GIText
+            className="four-blue pb16 tac"
+            text="&nbsp;Ghostit Team!"
+            type="h1"
+          />
+        </GIContainer>
+
         <GIContainer className="x-wrap justify-center pb32 mb32">
           {teamMembers.map((obj, index) => {
             let id = index + "team-member";

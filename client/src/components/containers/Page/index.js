@@ -50,13 +50,7 @@ class Page extends Component {
     return { style, title, description, image };
   };
   render() {
-    const {
-      blendWithHomePage,
-      children,
-      className,
-      location,
-      user
-    } = this.props; // Variables
+    const { children, className, location, user } = this.props; // Variables
     const activePage = location.pathname;
 
     const { style, title, description, image } = this.checkPropsVariables(
@@ -77,10 +71,8 @@ class Page extends Component {
         </Helmet>
         {isUserInPlatform(activePage) && <HeaderSideBar />}
 
-        <GIContainer className="column fill-flex ov-hidden">
-          {!isUserInPlatform(activePage) && (
-            <WebsiteHeader blendWithHomePage={blendWithHomePage} />
-          )}
+        <GIContainer className="column fill-flex">
+          {!isUserInPlatform(activePage) && <WebsiteHeader />}
 
           <GIContainer
             className={

@@ -8,7 +8,7 @@
   --seven-blue-color: #0c89db;
   --six-blue-color: #079cef;
   --five-blue-color: #05a4ff;
-  --four-blue-color: #24b7ff;
+  --four-blue-color: #04cdfa;
   --three-blue-color: #4dc4ff;
   --two-blue-color: #81d5ff;
   --one-blue-color: #b3e5ff;
@@ -39,7 +39,6 @@
   --primary-font-color: #4a4a4a;
   --secondary-font-color: #567183;
   --grey-font-color: #9b9b9b;
-  --blue-font-color: #00aaff;
   --purple-font-color: #aa00ff;
 
   --divider-theme-color: #bdbdbd;
@@ -366,7 +365,7 @@
 }
 
 .hover-blue:hover {
-  color: var(--blue-font-color);
+  color: var(--five-blue-color);
 }
 
 .copy,
@@ -971,6 +970,12 @@
 .common-shadow-medium {
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
 }
+.shadow-1 {
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
+}
+.shadow-2 {
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+}
 .trial-days-left {
   width: 100%;
   background-color: var(--red-theme-color);
@@ -994,7 +999,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 a {
-  color: var(--blue-font-color);
+  color: var(--five-blue-color);
   font-weight: bold;
   text-decoration: none;
 }
@@ -1066,7 +1071,6 @@ div {
 
   transform: rotate(-45deg);
 }
-
 .moving-border:after {
   display: block;
   content: "";
@@ -1106,22 +1110,22 @@ div {
   color: var(--eight-blue-color);
 }
 .border.small {
-  border: 0.5px solid var(--divider-theme-color);
+  border: 0.5px solid var(--grey-theme-color);
 }
 .border-right {
-  border-right: 1px solid var(--divider-theme-color);
+  border-right: 1px solid var(--grey-theme-color);
 }
 .border-bottom {
-  border-bottom: 1px solid var(--divider-theme-color);
+  border-bottom: 1px solid var(--grey-theme-color);
 }
 .border-bottom-light {
   border-bottom: 1px solid var(--grey-theme-color);
 }
 .border-bottom-dashed {
-  border-bottom: 1px dashed var(--divider-theme-color);
+  border-bottom: 1px dashed var(--grey-theme-color);
 }
 .border-top {
-  border-top: 1px solid var(--divider-theme-color);
+  border-top: 1px solid var(--grey-theme-color);
 }
 .list-item {
   flex-shrink: 0;
@@ -1213,7 +1217,7 @@ div {
   padding: 0;
 }
 .transparent-button.active {
-  color: var(--blue-font-color);
+  color: var(--five-blue-color);
   font-weight: bold;
   font-size: var(--eighteen-font-size);
 }

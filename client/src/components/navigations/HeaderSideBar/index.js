@@ -17,7 +17,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser, setaccounts } from "../../../redux/actions/";
+import { setUser } from "../../../redux/actions/";
 
 import SideBarClients from "../../SideBarClients/";
 import FileUpload from "../../views/FileUpload/";
@@ -43,18 +43,6 @@ class HeaderSideBar extends Component {
     });
   };
 
-  logout = () => {
-    axios.get("/api/logout").then(res => {
-      const { success } = res.data;
-
-      if (success) {
-        this.props.setUser(null);
-        this.props.setaccounts([]);
-      } else {
-        window.location.reload();
-      }
-    });
-  };
   isActive = activePage => {
     if ("/" + activePage === this.props.location.pathname) return " active";
   };
@@ -176,8 +164,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setUser,
-      setaccounts
+      setUser
     },
     dispatch
   );

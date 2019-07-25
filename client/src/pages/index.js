@@ -4,7 +4,7 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-import { setUser, setaccounts } from "../redux/actions";
+import { setUser, setAccounts } from "../redux/actions";
 
 import LoaderWedge from "../components/notifications/LoaderWedge";
 import GIContainer from "../components/containers/GIContainer";
@@ -51,7 +51,7 @@ class Routes extends Component {
     getBlogs(ghostitBlogs => this.setState({ ghostitBlogs, loading: false }));
   }
   getUserDataAndCheckAuthorization = () => {
-    const { setUser, setaccounts } = this.props; // Functions
+    const { setUser, setAccounts } = this.props; // Functions
     const { location, history } = this.props; // Variables
 
     getUser(user => {
@@ -59,7 +59,7 @@ class Routes extends Component {
         setUser(user);
         getAccounts(accounts => {
           this.setState({ datebaseConnection: true });
-          setaccounts(accounts);
+          setAccounts(accounts);
         });
       } else if (isUserInPlatform(location.pathname)) {
         history.push("/sign-in");
@@ -142,7 +142,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setaccounts
+      setAccounts
     },
     dispatch
   );

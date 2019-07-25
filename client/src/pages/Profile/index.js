@@ -2,10 +2,11 @@ import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faSignOut } from "@fortawesome/pro-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser } from "../../redux/actions/";
+import { setUser, setAccounts } from "../../redux/actions/";
 
 import Page from "../../components/containers/Page";
 import Loader from "../../components/notifications/Loader/";
@@ -14,7 +15,7 @@ import GIText from "../../components/views/GIText/";
 import GIButton from "../../components/views/GIButton/";
 import GIContainer from "../../components/containers/GIContainer/";
 
-import { saveUser } from "./util";
+import { logout, saveUser } from "./util";
 
 import "./style.css";
 
@@ -61,9 +62,26 @@ class Profile extends Component {
       website
     } = userFields;
 
+    const { setAccounts, setUser } = this.props;
+
     return (
       <Page title="Profile">
         <GIContainer className="column bg-light-grey x-fill align-center">
+          <GIContainer className="full-center border-bottom x-fill py16">
+            <GIText className="muli" text="Profile" type="h2" />
+            <GIButton
+              className="five-blue bg-white shadow-2 absolute top-0 right-0 px16 py8 br16"
+              onClick={() =>
+                logout(() => {
+                  setUser(null);
+                  setAccounts([]);
+                })
+              }
+            >
+              <FontAwesomeIcon className="mr8" icon={faSignOut} />
+              Logout
+            </GIButton>
+          </GIContainer>
           <GIContainer className="bg-white column common-border x-70 br8 pa32 my64">
             <GIContainer className="x-fill align-center border-bottom-dashed mb8">
               <GIContainer className="column x-50">
@@ -167,7 +185,7 @@ class Profile extends Component {
             </GIContainer>
             <GIContainer className="full-center mt16">
               <GIButton
-                className="blue-fade full-center"
+                className="blue-fade white full-center"
                 onClick={event => {
                   this.setState({ saving: true });
                   const { userFields } = this.state;
@@ -205,7 +223,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setUser }, dispatch);
+  return bindActionCreators({ setAccounts, setUser }, dispatch);
 }
 
 export default connect(

@@ -4,7 +4,7 @@ export const setUser = user => {
     payload: user
   };
 };
-export const setaccounts = value => {
+export const setAccounts = value => {
   return {
     type: "SOCIAL_ACCOUNTS",
     payload: value

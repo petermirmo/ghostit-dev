@@ -4,14 +4,15 @@ import "./style.css";
 
 class Logo extends Component {
   render() {
-    const { className, style, onClick } = this.props;
+    const { className, id, style, onClick } = this.props;
 
     return (
       <svg
-        viewBox="0 0 2077 700"
-        preserveAspectRatio="xMidYMid meet"
         className={`logo-background ${className}`}
+        id={id}
         onClick={onClick}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 2077 700"
         style={style}
       >
         <g
