@@ -1,22 +1,28 @@
 .text-test-mode {
   background-color: blue;
 }
+
+.primary-font {
+  color: var(--primary-font-color);
+  fill: var(--primary-font-color);
+}
 .white {
   color: var(--white-theme-color);
-  fill: var(--five-blue-color);
-}
-.five-blue {
-  color: var(--five-blue-color);
   fill: var(--five-blue-color);
 }
 .four-blue {
   color: var(--four-blue-color);
   fill: var(--four-blue-color);
 }
+.five-blue {
+  color: var(--five-blue-color);
+  fill: var(--five-blue-color);
+}
 .seven-blue {
   color: var(--seven-blue-color);
   fill: var(--seven-blue-color);
 }
+
 .green {
   color: #3dd6b4;
   fill: #3dd6b4;

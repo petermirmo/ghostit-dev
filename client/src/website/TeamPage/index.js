@@ -34,7 +34,7 @@ class TeamPage extends Component {
     }
     return (
       <Page
-        className="website-page justify-center mt32"
+        className="website-page align-center mt32"
         description="Meet the Ghostit Team!"
         keywords="ghostit, team"
         title="Team"

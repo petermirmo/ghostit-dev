@@ -1108,6 +1108,13 @@ div {
 .border-top {
   border-top: 1px solid var(--grey-theme-color);
 }
+.border-bottom-50 {
+  position: absolute;
+  left: 40%;
+  right: 40%;
+  bottom: 0;
+  border-bottom: 2px solid var(--four-blue-color);
+}
 .list-item {
   flex-shrink: 0;
   display: flex;

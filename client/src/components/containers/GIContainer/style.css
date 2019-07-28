@@ -94,6 +94,10 @@
   width: 200px;
   height: 200px;
 }
+
+.container-box.x-150px {
+  min-width: 150px;
+}
 .container-box.tinier {
   min-width: 150px;
   max-height: 150px;

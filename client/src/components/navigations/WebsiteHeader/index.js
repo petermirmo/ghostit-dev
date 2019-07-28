@@ -109,7 +109,7 @@ class WebsiteHeader extends Component {
         >
           <Link to="/team">
             <button
-              className={"mr16" + this.isActive("team")}
+              className={"relative pb8 mr16" + this.isActive("team")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -118,12 +118,13 @@ class WebsiteHeader extends Component {
                   : () => {}
               }
             >
+              {this.isActive("team") && <div className="border-bottom-50" />}
               Our Team
             </button>
           </Link>
           <Link to="/pricing">
             <button
-              className={"mr16" + this.isActive("pricing")}
+              className={"relative pb8 mr16" + this.isActive("pricing")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -132,12 +133,13 @@ class WebsiteHeader extends Component {
                   : () => {}
               }
             >
+              {this.isActive("pricing") && <div className="border-bottom-50" />}
               Pricing
             </button>
           </Link>
           <Link to="/agency">
             <button
-              className={"mr16" + this.isActive("agency")}
+              className={"relative pb8 mr16" + this.isActive("agency")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -146,12 +148,13 @@ class WebsiteHeader extends Component {
                   : () => {}
               }
             >
+              {this.isActive("agency") && <div className="border-bottom-50" />}
               Ghostit Agency
             </button>
           </Link>
           <Link to="/blog">
             <button
-              className={"mr16" + this.isRootActive("blog")}
+              className={"relative pb8 mr16" + this.isRootActive("blog")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -160,6 +163,7 @@ class WebsiteHeader extends Component {
                   : () => {}
               }
             >
+              {this.isActive("blog") && <div className="border-bottom-50" />}
               Blog
             </button>
           </Link>
