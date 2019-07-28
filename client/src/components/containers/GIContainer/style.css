@@ -43,6 +43,18 @@
   width: 200px;
 }
 
+.xy-200px {
+  width: 200px;
+  height: 200px;
+}
+.xy-125px {
+  width: 125px;
+  height: 125px;
+}
+
+.x-150px {
+  min-width: 150px;
+}
 .y-fill {
   height: 100%;
 }
@@ -89,14 +101,6 @@
 
 .container-box.white {
   background-color: var(--white-theme-color);
-}
-.container-box.xy-200px {
-  width: 200px;
-  height: 200px;
-}
-
-.container-box.x-150px {
-  min-width: 150px;
 }
 .container-box.tinier {
   min-width: 150px;
@@ -170,6 +174,12 @@
 .common-border.thick {
   border-width: 2px;
 }
+.common-border.one-blue {
+  border-color: var(--one-blue-color);
+}
+.common-border.four-blue {
+  border-color: var(--four-blue-color);
+}
 .common-border.five-blue {
   border-color: var(--five-blue-color);
 }
@@ -209,6 +219,9 @@
 }
 .bg-light-grey {
   background-color: var(--light-light-grey-theme-color);
+}
+.bg-four-blue {
+  background-color: var(--four-blue-color);
 }
 .bg-five-blue {
   background-color: var(--five-blue-color);

@@ -35,7 +35,7 @@ class TeamPage extends Component {
     return (
       <Page
         className="website-page align-center mt32"
-        description="Meet the Ghostit Team!"
+        description="Have fun, make money!"
         keywords="ghostit, team"
         title="Team"
       >
@@ -50,8 +50,8 @@ class TeamPage extends Component {
 
         <GIText
           className="tac mb32 mx32"
-          text="Curabitur blandit tempus ardua ridiculus sed magna."
-          type="p"
+          text="Have fun, make money!"
+          type="h6"
         />
 
         <GIContainer className="x-wrap x-fill px64">{firstTeamRow}</GIContainer>

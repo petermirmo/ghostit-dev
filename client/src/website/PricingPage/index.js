@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/pro-light-svg-icons";
+
 import GIContainer from "../../components/containers/GIContainer";
+import GIButton from "../../components/views/GIButton";
+import GIText from "../../components/views/GIText";
 
 import Page from "../../components/containers/Page";
 
@@ -8,66 +13,119 @@ class PricingPage extends Component {
   render() {
     return (
       <Page
-        className="column align-center website-page"
+        className="website-page align-center mt32"
         title="Pricing"
         description="Have questions? Give us a call: 250-415-3093"
         keywords="ghostit, pricing"
       >
-        <h1 className="tac mb8">Ghostit Pricing</h1>
-        <h4 className="tac mx16 mb16">
-          Have questions? Give us a call: 250-415-3093
-        </h4>
+        <GIText className="tac mb8" text="Pricing" type="h2">
+          <GIText className="four-blue" text="Ghostit&nbsp;" type="span" />
+        </GIText>
+        <GIText className="tac mx16 mb32" type="h6">
+          Have questions? Give us a call:
+          <GIText className="four-blue" text="&nbsp;250-415-3093" type="span" />
+        </GIText>
 
-        <GIContainer className="x-wrap justify-center mt16">
-          <div className="container-box column small common-shadow pa32 mb32 mx16 br4">
-            <div className="common-container colorful-bottom-border hc vc mb16">
-              <h2 className="tac mb4">Professional</h2>
-              <h6 className="tac">$40 / month</h6>
-            </div>
-            <p className="pt8">
-              Marketing campaign templates (custom or pre-built)
-            </p>
-            <p className="pt8">Custom workflows</p>
-            <p className="pt8">Social scheduling</p>
-            <p className="pt8">Task manager</p>
-            <p className="pt8">Real-time multi-user</p>
-          </div>
+        <GIContainer className="x-wrap justify-center align-end mt16">
+          <GIContainer className="container-box small column shadow-3 common-border one-blue mb32 mx16 br16">
+            <GIContainer className="x-wrap x-fill full-center py32 px16">
+              <GIText
+                className="fill-flex muli tac mb4"
+                text="Starter"
+                type="h2"
+              />
+              <GIContainer className="fill-flex full-center">
+                <GIContainer className="xy-125px full-center round common-border four-blue">
+                  <GIText className="muli four-blue" text="FREE" type="h2" />
+                </GIContainer>
+              </GIContainer>
+            </GIContainer>
 
-          <div className="container-box column small common-shadow pa32 mb32 mx16 br4">
-            <div className="common-container colorful-bottom-border orange hc vc mb16">
-              <h2 className="tac mb4">
-                Agency
-                <br />
-              </h2>
-              <h6 className="tac">Plans starting at $300 / month</h6>
-            </div>
-            <p className="pt8">Dedicated industry writer</p>
-            <p className="pt8">Blog posts</p>
-            <p className="pt8">Email newsletters</p>
-            <p className="pt8">Social media posts</p>
-            <p className="pt8">Keyword research</p>
-            <p className="pt8">Competitive analysis</p>
-          </div>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText
+                text="Marketing campaign templates (custom or pre-built)"
+                type="p"
+              />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Custom workflows" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Social scheduling" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Task manager" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Real-time multi-user" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed border-bottom-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Advanced analytics" type="p" />
+            </GIContainer>
+            <GIContainer className="x-fill full-center py16">
+              <GIButton
+                className="bg-blue-fade white common-shadow-blue py16 px32 br32"
+                text="Get Started Now!"
+              />
+            </GIContainer>
+          </GIContainer>
 
-          <div className="container-box column small common-shadow pa32 mb32 mx16 br4">
-            <div
-              className="common-container colorful-bottom-border hc vc mb16"
-              style={{ borderColor: "var(--five-purple-color)" }}
-            >
-              <h2 className="tac mb4">Enterprise</h2>
-              <h6 className="tac">Contact us for pricing </h6>
-            </div>
-            <p className="pt8">Custom reporting</p>
-            <p className="pt8">Custom feature-building</p>
-            <p className="pt8">Custom Branding</p>
-            <p className="pt8">In-depth competitive analysis</p>
-            <p className="pt8">
-              Marketing campaign templates (custom or pre-built)
-            </p>
-            <p className="pt8">Custom workflows</p>
-            <p className="pt8">Social scheduling</p>
-            <p className="pt8">Task manager</p>
-          </div>
+          <GIContainer className="container-box small column shadow-3 common-border one-blue mb32 mx16 br16">
+            <GIContainer className="x-wrap x-fill full-center py32 px16">
+              <GIText
+                className="fill-flex muli tac mb4"
+                text="Agency"
+                type="h2"
+              />
+              <GIContainer className="fill-flex full-center">
+                <GIContainer className="xy-125px full-center column round bg-four-blue">
+                  <GIText className="quicksand white" text="$300" type="h2" />
+                  <GIText className="white" text="Per Month" type="h6" />
+                </GIContainer>
+              </GIContainer>
+            </GIContainer>
+
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Dedicated industry writer" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Blog posts" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Email newsletters" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Social media posts" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Keyword research" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed border-bottom-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Competitive analysis" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed border-bottom-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Custom graphics" type="p" />
+            </GIContainer>
+            <GIContainer className="x-fill full-center py16">
+              <GIButton
+                className="bg-orange-fade-2 white common-shadow-orange-2 py16 px32 br32"
+                text="Get Started Now!"
+              />
+            </GIContainer>
+          </GIContainer>
         </GIContainer>
       </Page>
     );
