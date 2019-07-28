@@ -104,7 +104,7 @@ class Profile extends Component {
                 <GIContainer>
                   <FileUpload
                     canEdit={true}
-                    className="profile-image-container medium round"
+                    className="container-box tinier round"
                     currentFiles={image ? [image] : []}
                     handleParentChange={parentStateChangeObject => {
                       if (parentStateChangeObject.files)
@@ -117,8 +117,8 @@ class Profile extends Component {
                     fileLimit={1}
                     filesToDelete={[]}
                     id="hjqgf"
-                    imageClassName="profile-image medium"
-                    imageContainerClassName="profile-image-container medium round"
+                    imageClassName="x-200px"
+                    imageContainerClassName="container-box tinier round"
                     imageOnly={true}
                   />
                 </GIContainer>

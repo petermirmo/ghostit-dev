@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { mobileAndTabletcheck } from "../../../componentFunctions";
+import { isMobileOrTablet } from "../../../componentFunctions";
 
 import Logo from "./Logo";
 import GIContainer from "../../containers/GIContainer";
@@ -15,23 +15,11 @@ import "./styles";
 
 class WebsiteHeader extends Component {
   state = {
-    showHeader: !mobileAndTabletcheck(),
-    headerAtTop: true
+    showHeader: !isMobileOrTablet()
   };
   componentDidMount() {
     // This is for header to blend with background when at top of home page
     this._ismounted = true;
-    window.onscroll = e => {
-      if (
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop
-      )
-        this.changeState("headerAtTop", false);
-      else {
-        if (!mobileAndTabletcheck()) this.changeState("headerAtTop", true);
-      }
-    };
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -55,10 +43,9 @@ class WebsiteHeader extends Component {
   };
 
   render() {
-    const { headerAtTop, showHeader } = this.state;
+    const { showHeader } = this.state;
     const { user } = this.props;
 
-    let headerButtonClassName = "mr16";
     let trialButtonClassName = "regular-button";
 
     if (!showHeader) {
@@ -73,15 +60,29 @@ class WebsiteHeader extends Component {
     }
 
     return (
-      <div
-        className={
-          headerAtTop
-            ? "flex full-center common-transition pt32 pb8"
-            : "flex full-center common-transition bg-white pt32 pb8"
-        }
-        id="website-header"
-      >
-        {mobileAndTabletcheck() && (
+      <GIContainer className="website-header full-center common-transition pt32 pb8">
+        {!isMobileOrTablet() && (
+          <img
+            alt="blob"
+            id="blob-under-login"
+            src={require("../../../svgs/blob-under-login.svg")}
+          />
+        )}
+        {!isMobileOrTablet() && (
+          <img
+            alt="blob"
+            id="small-star-circle-under-login"
+            src={require("../../../svgs/circle-stars.svg")}
+          />
+        )}
+        {!isMobileOrTablet() && (
+          <img
+            alt="blob"
+            id="medium-likes-circle-under-login"
+            src={require("../../../svgs/circle-likes.svg")}
+          />
+        )}
+        {isMobileOrTablet() && (
           <FontAwesomeIcon
             icon={faTimes}
             size="2x"
@@ -89,12 +90,12 @@ class WebsiteHeader extends Component {
             onClick={() => this.setState({ showHeader: false })}
           />
         )}
-        <GIContainer className="full-center fill-flex">
+        <GIContainer className="full-center">
           <Link to="/home">
             <Logo
               id="logo-container"
               onClick={
-                mobileAndTabletcheck()
+                isMobileOrTablet()
                   ? () => {
                       this.setState({ showHeader: false });
                     }
@@ -103,86 +104,86 @@ class WebsiteHeader extends Component {
             />
           </Link>
         </GIContainer>
-        <Link to="/team">
-          <button
-            className={headerButtonClassName + this.isActive("team")}
-            onClick={
-              mobileAndTabletcheck()
-                ? () => {
-                    this.setState({ showHeader: false });
-                  }
-                : () => {}
-            }
-          >
-            Our Team
-          </button>
-        </Link>
-        <Link to="/pricing">
-          <button
-            className={headerButtonClassName + this.isActive("pricing")}
-            onClick={
-              mobileAndTabletcheck()
-                ? () => {
-                    this.setState({ showHeader: false });
-                  }
-                : () => {}
-            }
-          >
-            Pricing
-          </button>
-        </Link>
-        <Link to="/agency">
-          <button
-            className={headerButtonClassName + this.isActive("agency")}
-            onClick={
-              mobileAndTabletcheck()
-                ? () => {
-                    this.setState({ showHeader: false });
-                  }
-                : () => {}
-            }
-          >
-            Ghostit Agency
-          </button>
-        </Link>
-        <Link to="/blog">
-          <button
-            className={headerButtonClassName + this.isRootActive("blog")}
-            onClick={
-              mobileAndTabletcheck()
-                ? () => {
-                    this.setState({ showHeader: false });
-                  }
-                : () => {}
-            }
-          >
-            Blog
-          </button>
-        </Link>
-        {user && (
-          <Link to="/dashboard">
-            <button className={headerButtonClassName}>Go to Software</button>
+        <GIContainer
+          className={isMobileOrTablet() ? "full-center column" : "full-center"}
+        >
+          <Link to="/team">
+            <button
+              className={"mr16" + this.isActive("team")}
+              onClick={
+                isMobileOrTablet()
+                  ? () => {
+                      this.setState({ showHeader: false });
+                    }
+                  : () => {}
+              }
+            >
+              Our Team
+            </button>
           </Link>
-        )}
-        {!user && (
-          <GIContainer className="fill-flex justify-end align-center">
+          <Link to="/pricing">
+            <button
+              className={"mr16" + this.isActive("pricing")}
+              onClick={
+                isMobileOrTablet()
+                  ? () => {
+                      this.setState({ showHeader: false });
+                    }
+                  : () => {}
+              }
+            >
+              Pricing
+            </button>
+          </Link>
+          <Link to="/agency">
+            <button
+              className={"mr16" + this.isActive("agency")}
+              onClick={
+                isMobileOrTablet()
+                  ? () => {
+                      this.setState({ showHeader: false });
+                    }
+                  : () => {}
+              }
+            >
+              Ghostit Agency
+            </button>
+          </Link>
+          <Link to="/blog">
+            <button
+              className={"mr16" + this.isRootActive("blog")}
+              onClick={
+                isMobileOrTablet()
+                  ? () => {
+                      this.setState({ showHeader: false });
+                    }
+                  : () => {}
+              }
+            >
+              Blog
+            </button>
+          </Link>
+        </GIContainer>
+        <GIContainer className="justify-end align-center mr32">
+          {!user && (
             <Link to="/sign-in">
               <GIButton
-                className={
-                  headerAtTop
-                    ? `${headerButtonClassName} ${this.isActive(
-                        "sign-in"
-                      )} common-border white mr16 br20`
-                    : `${headerButtonClassName} ${this.isActive(
-                        "sign-in"
-                      )} common-border font-color px16 py8 mr16 br20`
-                }
+                className="common-border white br20  px16 py8"
                 text="login"
               />
             </Link>
-          </GIContainer>
-        )}
-      </div>
+          )}
+
+          {user && (
+            <Link to="/dashboard">
+              <GIButton
+                className="common-border white br20 px16 py8"
+                text="Go to Software"
+              />
+            </Link>
+          )}
+        </GIContainer>
+      </GIContainer>
     );
   }
 }

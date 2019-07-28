@@ -7,7 +7,7 @@ import Section5 from "./Section5";
 
 import Logo from "../../components/navigations/WebsiteHeader/Logo";
 
-import { mobileAndTabletcheck } from "../../componentFunctions";
+import { isMobileOrTablet } from "../../componentFunctions";
 
 class HomePage extends Component {
   componentDidMount() {
@@ -26,12 +26,12 @@ class HomePage extends Component {
       >
         <GIContainer
           className={
-            mobileAndTabletcheck()
+            isMobileOrTablet()
               ? "column full-screen align-center"
               : "column full-screen full-center"
           }
         >
-          {mobileAndTabletcheck() && (
+          {isMobileOrTablet() && (
             <div className="x-fill pt8 pl8">
               <Logo onClick={() => {}} />
             </div>
@@ -90,10 +90,10 @@ class HomePage extends Component {
               <GIText
                 text="Machine Learning"
                 type="h1"
-                className={`${mobileAndTabletcheck() ? "tac" : "tal"} mb8`}
+                className={`${isMobileOrTablet() ? "tac" : "tal"} mb8`}
               />
               <GIText
-                className={`${mobileAndTabletcheck() ? "tac" : "tal"}`}
+                className={`${isMobileOrTablet() ? "tac" : "tal"}`}
                 text="Use the power of artificial intelligence to target the right marketing channels."
                 type="h6"
               />
@@ -120,10 +120,10 @@ class HomePage extends Component {
               <GIText
                 text="Custom Workflows"
                 type="h1"
-                className={`${mobileAndTabletcheck() ? "tac" : "tar"} mb8`}
+                className={`${isMobileOrTablet() ? "tac" : "tar"} mb8`}
               />
               <GIText
-                className={`${mobileAndTabletcheck() ? "tac" : "tar"}`}
+                className={`${isMobileOrTablet() ? "tac" : "tar"}`}
                 text="Map your marketing campaign from scratch or use pre-built templates."
                 type="h6"
               />
@@ -150,10 +150,10 @@ class HomePage extends Component {
               <GIText
                 text="Post Instructions"
                 type="h1"
-                className={`${mobileAndTabletcheck() ? "tac" : "tal"} mb8`}
+                className={`${isMobileOrTablet() ? "tac" : "tal"} mb8`}
               />
               <GIText
-                className={`${mobileAndTabletcheck() ? "tac" : "tal"}`}
+                className={`${isMobileOrTablet() ? "tac" : "tal"}`}
                 text="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
                 type="h6"
               />
@@ -180,10 +180,10 @@ class HomePage extends Component {
               <GIText
                 text="Social Scheduling"
                 type="h1"
-                className={`${mobileAndTabletcheck() ? "tac" : "tar"} mb8`}
+                className={`${isMobileOrTablet() ? "tac" : "tar"} mb8`}
               />
               <GIText
-                className={`${mobileAndTabletcheck() ? "tac" : "tar"}`}
+                className={`${isMobileOrTablet() ? "tac" : "tar"}`}
                 text="Sync all your social sharing accounts and post directly from our platform."
                 type="h6"
               />

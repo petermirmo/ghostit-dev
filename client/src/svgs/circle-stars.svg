@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="152" viewBox="0 0 152 152">
+    <defs>
+        <radialGradient id="c" cy="22.539%" r="81.508%" fx="50%" fy="22.539%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity=".73"/>
+            <stop offset="100%" stop-color="#FFF" stop-opacity=".047"/>
+        </radialGradient>
+        <circle id="b" cx="38" cy="38" r="38"/>
+        <filter id="a" width="268.4%" height="268.4%" x="-84.2%" y="-94.7%" filterUnits="objectBoundingBox">
+            <feOffset dy="-8" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="20"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.0196078431 0 0 0 0 0.752941176 0 0 0 0 0.996078431 0 0 0 0.531165082 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(38 46)">
+            <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+            <use fill="url(#c)" xlink:href="#b"/>
+        </g>
+        <text fill="#FFF" font-family="Quicksand-Medium, Quicksand" font-size="17" font-weight="400" letter-spacing="-.212" transform="translate(38 46)">
+            <tspan x="16.503" y="47.4">12.6 K</tspan>
+        </text>
+        <path fill="#FFF" d="M80.882 66.82a.593.593 0 0 0-.17.526l.917 5.352-4.806-2.527a.592.592 0 0 0-.553 0l-4.807 2.527.918-5.352a.592.592 0 0 0-.174-.528l-3.95-3.787 5.438-.781a.594.594 0 0 0 .448-.325l2.403-4.87 2.403 4.87a.595.595 0 0 0 .448.325l5.373.78-3.888 3.79zm5.729-4.387a.594.594 0 0 0-.48-.405l-6.255-.908-2.797-5.669a.594.594 0 0 0-1.065 0l-2.797 5.668-6.334.91a.593.593 0 0 0-.327 1.016l4.602 4.411-1.068 6.228a.594.594 0 0 0 .861.625l5.595-2.941 5.595 2.941a.594.594 0 0 0 .862-.625l-1.069-6.23 4.527-4.413a.594.594 0 0 0 .15-.608z"/>
+    </g>
+</svg>

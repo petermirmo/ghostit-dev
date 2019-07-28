@@ -104,25 +104,6 @@
 .no-pointer-events {
   pointer-events: none;
 }
-.profile-image-container {
-  overflow: hidden;
-}
-.profile-image-container.small {
-  width: 75px;
-  height: 75px;
-}
-.profile-image-container.medium {
-  width: 150px;
-  height: 150px;
-}
-
-.profile-image.small {
-  width: 75px;
-}
-.profile-image.medium {
-  width: 150px;
-}
-
 .wrapping-container {
   flex-shrink: 0;
   display: flex;

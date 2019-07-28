@@ -6,80 +6,96 @@ import GIText from "../../components/views/GIText";
 
 import { teamMembers } from "./teamMembers";
 
-import { correctOverflow } from "./util";
+import { correctOverflow, teamMemberDiv } from "./util";
 
-import { mobileAndTabletcheck } from "../../componentFunctions";
+import { isMobileOrTablet } from "../../componentFunctions";
 
 import "./style.css";
 
 class TeamPage extends Component {
   render() {
+    const firstTeamRow = [];
+    const secondTeamRow = [];
+    const thirdTeamRow = [];
+    const fourthTeamRow = [];
+
+    for (let index in teamMembers) {
+      const teamMember = teamMembers[index];
+
+      if (index < 3) {
+        firstTeamRow.push(teamMemberDiv(index, teamMember));
+      } else if (index < 5) {
+        secondTeamRow.push(teamMemberDiv(index, teamMember));
+      } else if (index < 8) {
+        thirdTeamRow.push(teamMemberDiv(index, teamMember));
+      } else {
+        fourthTeamRow.push(teamMemberDiv(index, teamMember));
+      }
+    }
     return (
       <Page
-        className="website-page justify-center"
+        className="website-page justify-center mt32"
         description="Meet the Ghostit Team!"
         keywords="ghostit, team"
         title="Team"
       >
-        <GIContainer className="full-center">
-          <GIText className="pb16 tac" text="Meet the" type="h2" />
+        <GIText className="tac full-center pb8 mx32" type="h2">
+          Meet the
           <GIText
-            className="four-blue pb16 tac"
+            className="four-blue tac"
             text="&nbsp;Ghostit Team!"
-            type="h1"
+            type="span"
           />
+        </GIText>
+
+        <GIText
+          className="tac mb32 mx32"
+          text="Curabitur blandit tempus ardua ridiculus sed magna."
+          type="p"
+        />
+
+        <GIContainer className="x-wrap x-fill px64">{firstTeamRow}</GIContainer>
+        <GIContainer
+          className={
+            "x-wrap x-fill relative " + (isMobileOrTablet() ? "px64" : "")
+          }
+        >
+          {!isMobileOrTablet() && (
+            <GIContainer className="relative">
+              <img
+                alt=""
+                className="container-box y-30vw"
+                src={require("../../svgs/team-page-1.png")}
+              />
+              <img
+                alt="blob"
+                id="circle-love"
+                src={require("../../svgs/circle-love.svg")}
+              />
+            </GIContainer>
+          )}
+
+          {secondTeamRow}
         </GIContainer>
-
-        <GIContainer className="x-wrap justify-center pb32 mb32">
-          {teamMembers.map((obj, index) => {
-            let id = index + "team-member";
-            return (
-              <div
-                className="simple-column-box pa16 br8 common-transition"
-                key={index + "team"}
-                onMouseEnter={event => {
-                  correctOverflow(document.getElementById(id));
-                  event.target.style.backgroundColor = obj.color;
-                }}
-                onMouseOut={event => {
-                  event.target.style.backgroundColor = "transparent";
-                }}
-              >
-                <div className="profile-image-container medium round no-pointer-events">
-                  <img
-                    alt=""
-                    className="profile-image medium"
-                    src={obj.image}
-                  />
-                </div>
-                <GIText
-                  className="team-member-name py8 tac"
-                  style={{ color: obj.color }}
-                  text={obj.name}
-                  type="h6"
-                />
-                {!mobileAndTabletcheck() && (
-                  <div
-                    className="team-member-dropdown-container br8 pa32"
-                    style={{ backgroundColor: obj.color }}
-                    id={id}
-                  >
-                    <GIText
-                      className="team-member-name py8"
-                      text={obj.name}
-                      type="h6"
-                    />
-
-                    <GIText
-                      className="team-member-description"
-                      text={obj.description}
-                      type="p"
-                    />
-                  </div>
-                )}
-              </div>
-            );
-          })}
+        <GIContainer className="x-wrap x-fill relative px64">
+          {thirdTeamRow}
+        </GIContainer>
+        <GIContainer className="x-wrap x-fill justify-end pl64">
+          {fourthTeamRow}
+          {!isMobileOrTablet() && (
+            <GIContainer className="relative justify-end">
+              <img
+                alt=""
+                className="container-box y-30vw"
+                src={require("../../svgs/team-page-2.png")}
+              />
+              <img
+                alt="blob"
+                id="circle-likes-2"
+                src={require("../../svgs/circle-likes-2.svg")}
+              />
+            </GIContainer>
+          )}
         </GIContainer>
       </Page>
     );

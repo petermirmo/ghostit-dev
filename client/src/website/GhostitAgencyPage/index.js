@@ -12,7 +12,7 @@ import AgencyForm from "../../components/forms/AgencyForm";
 
 import { categories } from "./util.js";
 
-import { mobileAndTabletcheck } from "../../componentFunctions";
+import { isMobileOrTablet } from "../../componentFunctions";
 
 class GhostitAgency extends Component {
   state = {
@@ -23,7 +23,7 @@ class GhostitAgency extends Component {
     const { categories, activeAgencyComponent } = this.state;
     let textAlignClassName = "taj";
 
-    if (mobileAndTabletcheck()) textAlignClassName = "tac";
+    if (isMobileOrTablet()) textAlignClassName = "tac";
     return (
       <Page
         title="Agency"
@@ -37,7 +37,7 @@ class GhostitAgency extends Component {
           text="Increase the amount of qualified traffic to your site."
           className="tac mb16"
         />
-        {!mobileAndTabletcheck() && (
+        {!isMobileOrTablet() && (
           <NavigationLayout
             className="x-wrap full-center"
             data={categories.map((category, index) => {
@@ -72,7 +72,7 @@ class GhostitAgency extends Component {
         )}
 
         <GIContainer className="column full-center container-box extra-large">
-          {!mobileAndTabletcheck() && (
+          {!isMobileOrTablet() && (
             <GIContainer
               className="py32 px64 mt16 mb32 br4"
               style={{ backgroundColor: "var(--seven-blue-color)" }}
@@ -84,7 +84,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           )}
-          {!mobileAndTabletcheck() && (
+          {!isMobileOrTablet() && (
             <GIText
               text="Our content services are focused on one thing. Increasing the amount of qualified traffic to your site."
               type="h3"
@@ -93,7 +93,7 @@ class GhostitAgency extends Component {
           )}
 
           <GIContainer className="x-fill">
-            {!mobileAndTabletcheck() && (
+            {!isMobileOrTablet() && (
               <GIContainer>
                 <SvgBranch start />
               </GIContainer>
@@ -123,7 +123,7 @@ class GhostitAgency extends Component {
           </GIContainer>
 
           <GIContainer className="x-fill">
-            {!mobileAndTabletcheck() && (
+            {!isMobileOrTablet() && (
               <GIContainer>
                 <SvgBranch />
               </GIContainer>
@@ -152,7 +152,7 @@ class GhostitAgency extends Component {
             </GIContainer>
           </GIContainer>
           <GIContainer className="x-fill">
-            {!mobileAndTabletcheck() && (
+            {!isMobileOrTablet() && (
               <GIContainer>
                 <SvgBranch end />
               </GIContainer>

@@ -47,8 +47,8 @@ class Dashboard extends Component {
             <GIContainer className="full-center x-fill y-50">
               <img
                 alt=""
-                src={require("../../svgs/dashboard-campaign.svg")}
                 className="fill-parent"
+                src={require("../../svgs/dashboard-campaign.svg")}
               />
             </GIContainer>
             <GIContainer className="x-fill full-center column">

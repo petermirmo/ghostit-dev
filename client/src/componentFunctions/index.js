@@ -269,7 +269,7 @@ export function capitolizeFirstChar(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 // Taken from stack overflow
-export function mobileAndTabletcheck() {
+export function isMobileOrTablet() {
   let check = false;
   (function(a) {
     if (

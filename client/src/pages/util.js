@@ -62,7 +62,7 @@ export const getBlogs = callback => {
 
 export const getUser = callback => {
   if (process.env.NODE_ENV === "development") {
-    //  return callback(testingUser);
+    return callback(testingUser);
   }
   axios.get("/api/user").then(res => {
     const { error, user } = res.data;
