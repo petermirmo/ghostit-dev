@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment-timezone";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -16,19 +18,14 @@ import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 
 import { isAdmin, getTextFromHtmlTag, getGhostitBlogs } from "./util";
+import { isMobileOrTablet } from "../../componentFunctions";
 
 import "./style.css";
 
 class BlogPage extends Component {
   state = {
     loading: true,
-    categories: [
-      "Most Recent",
-      "Road to 100",
-      "Content and Coffee",
-      "Content Marketing",
-      "Business"
-    ],
+    categories: ["Recent Posts", "Most Popular", "Social Marketing"],
     activeBlogCategory: 0
   };
   componentDidMount() {
@@ -52,63 +49,127 @@ class BlogPage extends Component {
 
     return (
       <Page
-        className="simple-container website-page"
-        title="Blog"
+        className="website-page align-center"
         description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture!"
         keywords="ghostit, blog"
+        title="Blog"
       >
-        <GIText className="tac pb32" text="Ghostit Blog" type="h1" />
-
-        <NavigationLayout
-          className="x-wrap full-center"
-          data={categories.map((category, index) => (
-            <GIButton
-              className="transparent-button mx8 hover-blue"
-              key={index}
-              onClick={() => this.setState({ activeBlogCategory: index })}
-              text={category}
+        <GIContainer
+          className={
+            "x-fill mt64 px64" +
+            (isMobileOrTablet() ? " column" : " grid-3-column")
+          }
+        >
+          <GIText
+            className="four-blue muli x-fill mb32"
+            text="Blog"
+            type="h2"
+          />
+          <GIContainer className="full-center x-fill mb32">
+            <NavigationLayout
+              className="x-wrap full-center common-border one-blue px16 br4"
+              data={categories.map((category, index) => (
+                <GIText
+                  className="transparent-button tac button hover-blue relative py8 mx8"
+                  key={index}
+                  onClick={() => this.setState({ activeBlogCategory: index })}
+                  text={category}
+                  type="h6"
+                >
+                  {activeBlogCategory === index && (
+                    <div className="border-bottom-50" />
+                  )}
+                </GIText>
+              ))}
             />
-          ))}
-        />
-        <GIContainer className="column fill-parent">
+          </GIContainer>
+        </GIContainer>
+        <GIContainer className="fill-parent px64 mb64">
           {loading && (
             <GIContainer className="fill-parent full-center">
               <LoaderSimpleCircle />
             </GIContainer>
           )}
           {!loading && (
-            <GIContainer className="x-wrap fill-parent justify-center">
+            <GIContainer className="grid-300px grid-gap-32 x-fill">
               {ghostitBlogs.map((ghostitBlog, index) => {
+                const { contentArray, createdAt } = ghostitBlog;
+                const ghostitBlogDate = new moment(createdAt);
+
+                let temp = document.createElement("div");
+                if (contentArray[1])
+                  temp.innerHTML =
+                    "<div   dangerouslySetInnerHTML={{__html: " +
+                    contentArray[1].html +
+                    "";
+
+                const metaDescription =
+                  temp.textContent || temp.innerText || "";
+
                 if (
                   activeBlogCategory === ghostitBlog.category ||
                   !activeBlogCategory
                 )
                   return (
-                    <GIContainer key={index}>
+                    <GIContainer className="relative" key={index}>
                       <Link
+                        className="x-fill column common-border one-blue shadow-3 button relative br16"
                         to={"blog/" + ghostitBlog.url}
-                        className="container-box column small ma32 common-shadow br4 button"
                       >
-                        <div
-                          className="image-cover x-fill"
-                          style={
-                            ghostitBlog.images[0]
-                              ? {
-                                  backgroundImage:
-                                    "url(" + ghostitBlog.images[0].url + ")"
-                                }
-                              : {}
-                          }
-                        />
-                        {ghostitBlog.contentArray[0] && (
-                          <div className="common-container py8 px16">
-                            <h3 className="tac">
-                              {getTextFromHtmlTag(
-                                ghostitBlog.contentArray[0].html
+                        <GIContainer className="column pa32">
+                          <GIContainer
+                            className="image-cover x-fill relative br8"
+                            style={
+                              ghostitBlog.images[0]
+                                ? {
+                                    backgroundImage:
+                                      "url(" + ghostitBlog.images[0].url + ")"
+                                  }
+                                : {}
+                            }
+                          >
+                            <GIContainer
+                              className="absolute top-0 left-0 bg-white full-center shadow-4 px16 py8"
+                              style={{ borderBottomRightRadius: "4px" }}
+                            >
+                              <GIText
+                                className="quicksand four-blue mr8"
+                                text={ghostitBlogDate.format("DD")}
+                                type="h4"
+                              />
+                              <GIText
+                                className="bold"
+                                text={`${ghostitBlogDate
+                                  .format("MMMM")
+                                  .substring(0, 3)}, ${ghostitBlogDate.year()}`}
+                                type="p"
+                              />
+                            </GIContainer>
+                          </GIContainer>
+                          {ghostitBlog.contentArray[0] && (
+                            <GIContainer className="column pt16">
+                              <GIText
+                                className="muli"
+                                text={getTextFromHtmlTag(
+                                  ghostitBlog.contentArray[0].html
+                                )}
+                                type="h4"
+                              />
+                              {ghostitBlog.contentArray[1] && (
+                                <GIText
+                                  className="pt8"
+                                  text={getTextFromHtmlTag(
+                                    ghostitBlog.contentArray[1].html
+                                  ).substring(0, 150)}
+                                  type="p"
+                                />
                               )}
-                            </h3>
-                          </div>
-                        )}
+                            </GIContainer>
+                          )}
+                        </GIContainer>
+                        <GIContainer className="absolute bottom--16 left-0 right-0 round-icon common-border four-blue margin-hc round bg-white common-shadow-blue-2 full-center">
+                          <FontAwesomeIcon icon={faAngleRight} />
+                        </GIContainer>
                       </Link>
                       {isAdmin(user) && (
                         <Link to={"/manage/" + ghostitBlog._id}>

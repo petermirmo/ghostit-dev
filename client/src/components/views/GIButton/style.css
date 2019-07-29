@@ -108,6 +108,9 @@
   color: var(--grey-font-color);
   background-color: var(--white-theme-color);
 }
+.transparent-button.active {
+  color: var(--four-blue-color);
+}
 button.purple {
   color: var(--seven-purple-color);
   background-color: var(--one-half-purple-color);
@@ -128,4 +131,10 @@ button {
   background-color: transparent;
   pointer-events: auto;
   box-sizing: border-box;
+}
+
+a {
+  color: var(--four-blue-color);
+  font-weight: bold;
+  text-decoration: none;
 }

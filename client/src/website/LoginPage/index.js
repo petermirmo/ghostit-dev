@@ -23,7 +23,7 @@ class LoginPage extends Component {
     password: ""
   };
   componentDidMount() {
-    if (this.props.user) this.props.history.push("/home");
+    if (this.props.user) this.props.history.push("/dashboard");
   }
 
   handleChange = (index, value) => {

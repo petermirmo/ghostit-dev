@@ -53,11 +53,7 @@ export const teamMemberDiv = (index, teamMember) => (
       <div className="container-box xy-200px round blue-shadow-fade mb32">
         <img alt="" className="x-200px" src={teamMember.image} />
       </div>
-      <GIText
-        className="four-blue muli ellipsis mb4"
-        text={teamMember.name}
-        type="h4"
-      />
+      <GIText className="muli ellipsis mb4" text={teamMember.name} type="h3" />
       <GIText className="bold ellipsis mb8" text={teamMember.title} type="p" />
       <GIText text={teamMember.description} type="p" />
     </div>

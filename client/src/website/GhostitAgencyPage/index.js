@@ -31,7 +31,7 @@ class GhostitAgency extends Component {
         keywords="content, ghostit, marketing, agency"
         title="Agency"
       >
-        <GIText className="four-blue tac mb8" type="h1">
+        <GIText className="tac mb8" type="h1">
           Content
           <GIText className="primary-font" text="&nbsp;Services" type="span" />
         </GIText>

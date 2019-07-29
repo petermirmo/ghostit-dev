@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/pro-light-svg-icons";
 
+import { Link, withRouter } from "react-router-dom";
+
 import GIContainer from "../../components/containers/GIContainer";
 import GIButton from "../../components/views/GIButton";
 import GIText from "../../components/views/GIText";
@@ -36,7 +38,7 @@ class PricingPage extends Component {
               />
               <GIContainer className="fill-flex full-center">
                 <GIContainer className="xy-125px full-center round common-border four-blue">
-                  <GIText className="muli four-blue" text="FREE" type="h2" />
+                  <GIText className="muli" text="FREE" type="h1" />
                 </GIContainer>
               </GIContainer>
             </GIContainer>
@@ -69,10 +71,12 @@ class PricingPage extends Component {
               <GIText text="Advanced analytics" type="p" />
             </GIContainer>
             <GIContainer className="x-fill full-center py16">
-              <GIButton
-                className="bg-blue-fade white common-shadow-blue py16 px32 br32"
-                text="Get Started Now!"
-              />
+              <Link to="/sign-up">
+                <GIButton
+                  className="bg-blue-fade white common-shadow-blue py16 px32 br32"
+                  text="Get Started Now!"
+                />
+              </Link>
             </GIContainer>
           </GIContainer>
 

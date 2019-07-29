@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import Page from "../../containers/Page";
+import GIContainer from "../../containers/GIContainer";
 
 import "./style.css";
 
 class ViewWebsiteBlog extends Component {
   createRelevantImageDiv = (image, index) => {
     return (
-      <div className="simple-container my32" key={"image" + index}>
-        <img
-          alt="Blog"
-          key={"xuwm " + index}
-          src={image.file || image.url}
-          className={"image br4 " + image.size}
-        />
-      </div>
+      <img
+        alt="Blog"
+        className={
+          "float-left ov-hidden br8 image " +
+          image.size +
+          (image.size === "medium" ? "" : " mr16")
+        }
+        key={index + "image"}
+        src={image.file || image.url}
+      />
     );
   };
   render() {
@@ -33,11 +36,7 @@ class ViewWebsiteBlog extends Component {
       const content = contentArray[index];
       if (!content) continue;
       divs[content.location] = (
-        <div
-          key={"fdj" + index}
-          className="simple-container large px32"
-          dangerouslySetInnerHTML={{ __html: content.html }}
-        />
+        <div key={index} dangerouslySetInnerHTML={{ __html: content.html }} />
       );
     }
 
@@ -67,7 +66,7 @@ class ViewWebsiteBlog extends Component {
         }
         keywords="ghostit, blog"
       >
-        <div className="common-container-center">{divs}</div>
+        <GIContainer className="container-box large block">{divs}</GIContainer>
       </Page>
     );
   }

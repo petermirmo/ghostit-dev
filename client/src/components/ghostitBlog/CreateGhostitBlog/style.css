@@ -1,23 +1,26 @@
-#ghostit-blog-img-container:hover .hover-options-container {
+.ghostit-blog-img-container:hover .hover-options-container {
   display: flex;
 }
 #ghostit-blog-text-styling {
   position: fixed;
   bottom: 0;
+  left: 15%;
+  right: 15%;
   background-color: var(--white-theme-color);
   max-width: 80%;
 }
 #editable-text-container:hover .top-right-over-div {
   display: flex;
 }
-#ghostit-blog-img-container:hover .top-right-over-div {
+.ghostit-blog-img-container:hover .top-right-over-div {
   display: flex;
 }
 
 .top-right-over-div {
   position: absolute;
   top: 0;
-  left: 100%;
+  right: -50px;
+  z-index: 1;
 
   display: none;
   flex-direction: column;

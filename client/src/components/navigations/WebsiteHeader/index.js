@@ -60,7 +60,7 @@ class WebsiteHeader extends Component {
     }
 
     return (
-      <GIContainer className="website-header full-center common-transition pt32 pb8">
+      <GIContainer className="website-header grid-3-column full-center common-transition pt32 pb8">
         {!isMobileOrTablet() && (
           <img
             alt="blob"
@@ -109,7 +109,7 @@ class WebsiteHeader extends Component {
         >
           <Link to="/team">
             <button
-              className={"relative pb8 mr16" + this.isActive("team")}
+              className={"relative pb8 mx8" + this.isActive("team")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -124,7 +124,7 @@ class WebsiteHeader extends Component {
           </Link>
           <Link to="/pricing">
             <button
-              className={"relative pb8 mr16" + this.isActive("pricing")}
+              className={"relative pb8 mx8" + this.isActive("pricing")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -139,7 +139,7 @@ class WebsiteHeader extends Component {
           </Link>
           <Link to="/agency">
             <button
-              className={"relative pb8 mr16" + this.isActive("agency")}
+              className={"relative pb8 mx8" + this.isActive("agency")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -154,7 +154,7 @@ class WebsiteHeader extends Component {
           </Link>
           <Link to="/blog">
             <button
-              className={"relative pb8 mr16" + this.isRootActive("blog")}
+              className={"relative pb8 mx8" + this.isRootActive("blog")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -163,7 +163,9 @@ class WebsiteHeader extends Component {
                   : () => {}
               }
             >
-              {this.isActive("blog") && <div className="border-bottom-50" />}
+              {this.isRootActive("blog") && (
+                <div className="border-bottom-50" />
+              )}
               Blog
             </button>
           </Link>
