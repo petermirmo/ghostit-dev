@@ -58,7 +58,12 @@ class Page extends Component {
     );
 
     return (
-      <GIContainer className="screen-container" style={style}>
+      <GIContainer
+        className={
+          "screen-container " + (isUserInPlatform(activePage) ? "pt48" : "")
+        }
+        style={style}
+      >
         <Helmet>
           <meta charSet="utf-8" />
           <title>{`${title} | Ghostit`}</title>
@@ -77,7 +82,7 @@ class Page extends Component {
           <GIContainer
             className={
               isUserInPlatform(activePage)
-                ? `page-container bg-white ${className} mt48`
+                ? `page-container bg-white ${className}`
                 : className
             }
           >

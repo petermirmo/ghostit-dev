@@ -8,7 +8,7 @@ class NavBar extends Component {
     for (let index in categories) {
       if (!index) break;
       let className =
-        "nagivation-option common-transition flex hc vc py8 px32 mx16 br4";
+        "nagivation-option common-transition white flex hc vc py8 px32 mx16 br4";
       if (categories[index]) className += " active";
       categoryDivs.push(
         <button

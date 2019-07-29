@@ -74,7 +74,7 @@ class HeaderSideBar extends Component {
     return (
       <Consumer>
         {context => (
-          <GIContainer className="header-navbar mt48 mr16">
+          <GIContainer className="header-navbar mr16">
             <GIContainer className="column">
               <GIContainer
                 className="header-button"

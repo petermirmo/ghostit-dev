@@ -371,7 +371,7 @@ class CalendarPage extends Component {
                   className="bg-orange-fade fill-flex common-shadow-orange mr16 ml8 py8 px16 my8 br4"
                   onClick={() => {}}
                 >
-                  <FontAwesomeIcon icon={faPlus} />
+                  <FontAwesomeIcon className="white" icon={faPlus} />
                   <GIText className="white pl8" text="New" type="h6" />
                 </GIButton>
               </GIContainer>
@@ -508,9 +508,10 @@ class CalendarPage extends Component {
 
                   <GIButton
                     className={
-                      validateEmail(inviteUserEmail) || !inviteUserActivated
-                        ? "absolute bottom-0 translate-y-50 bg-five-blue px16 py4 br4"
-                        : "absolute bottom-0 translate-y-50 grey-button px16 py4 br4"
+                      "absolute bottom-0 translate-y-50 white px16 py4 br4" +
+                      (validateEmail(inviteUserEmail) || !inviteUserActivated
+                        ? " bg-five-blue"
+                        : " grey-button")
                     }
                     onClick={() => {
                       if (inviteUserActivated) {
