@@ -137,16 +137,6 @@ class HeaderSideBar extends Component {
                 <FontAwesomeIcon icon={faUser} />
                 <p>Profile</p>
               </Link>
-              {(user.role === "client" || isAdmin) && (
-                <Link
-                  className={"header-button " + this.isActive("subscription")}
-                  to="/subscription"
-                >
-                  <FontAwesomeIcon icon={faHistory} />
-                  <p>Billing</p>
-                  <p>History</p>
-                </Link>
-              )}
             </GIContainer>
             {context.clientSideBar && <SideBarClients />}
           </GIContainer>

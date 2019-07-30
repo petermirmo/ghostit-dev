@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { Link } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faSignOut } from "@fortawesome/pro-solid-svg-icons";
@@ -62,7 +64,7 @@ class Profile extends Component {
       website
     } = userFields;
 
-    const { setAccounts, setUser } = this.props;
+    const { setAccounts, setUser, user } = this.props;
 
     return (
       <Page title="Profile">
@@ -81,9 +83,17 @@ class Profile extends Component {
               <FontAwesomeIcon className="mr8" icon={faSignOut} />
               Logout
             </GIButton>
+            {(user.role === "client" || user.role === "admin") && (
+              <Link
+                className="bg-white shadow-2 absolute top-0 left-0 px16 py8 br16"
+                to="/subscription"
+              >
+                <GIButton className="five-blue" text="Billing History" />
+              </Link>
+            )}
           </GIContainer>
-          <GIContainer className="bg-white column common-border x-70 br8 pa32 my64">
-            <GIContainer className="x-fill align-center border-bottom-dashed mb8">
+          <GIContainer className="bg-white column common-border x-70 br8 my64">
+            <GIContainer className="x-fill align-center border-bottom-dashed pa32">
               <GIContainer className="column x-50">
                 <GIText
                   className="label mx8 mb4"
@@ -104,7 +114,7 @@ class Profile extends Component {
                 <GIContainer>
                   <FileUpload
                     canEdit={true}
-                    className="container-box tinier round"
+                    className="xy-125px round"
                     currentFiles={image ? [image] : []}
                     handleParentChange={parentStateChangeObject => {
                       if (parentStateChangeObject.files)
@@ -117,15 +127,15 @@ class Profile extends Component {
                     fileLimit={1}
                     filesToDelete={[]}
                     id="hjqgf"
-                    imageClassName="x-200px"
-                    imageContainerClassName="container-box tinier round"
+                    imageClassName="xy-125px round"
+                    imageContainerClassName=""
                     imageOnly={true}
                   />
                 </GIContainer>
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="x-fill mt32">
+            <GIContainer className="x-fill px32 pt32">
               <GIContainer className="column fill-flex">
                 <GIText className="label mx8 mb4" text="Email" type="p" />
                 <input
@@ -152,7 +162,7 @@ class Profile extends Component {
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="x-fill mt16">
+            <GIContainer className="x-fill px32 pb16">
               <GIContainer className="column fill-flex">
                 <GIText className="label mx8 mb4" text="Password" type="p" />
 
@@ -183,7 +193,7 @@ class Profile extends Component {
                 />
               </GIContainer>
             </GIContainer>
-            <GIContainer className="full-center mt16">
+            <GIContainer className="full-center pb32">
               <GIButton
                 className="blue-fade white full-center"
                 onClick={event => {
