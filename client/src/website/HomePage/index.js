@@ -7,7 +7,7 @@ import Section5 from "./Section5";
 
 import Logo from "../../components/navigations/WebsiteHeader/Logo";
 
-import { isMobileOrTablet } from "../../componentFunctions";
+import { isMobileOrTablet } from "../../util";
 
 class HomePage extends Component {
   componentDidMount() {

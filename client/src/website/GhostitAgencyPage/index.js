@@ -12,7 +12,7 @@ import AgencyForm from "../../components/forms/AgencyForm";
 
 import { categories } from "./util.js";
 
-import { isMobileOrTablet } from "../../componentFunctions";
+import { isMobileOrTablet } from "../../util";
 
 class GhostitAgency extends Component {
   state = {

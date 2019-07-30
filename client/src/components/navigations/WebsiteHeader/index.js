@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { isMobileOrTablet } from "../../../componentFunctions";
+import { isMobileOrTablet } from "../../../util";
 
 import Logo from "./Logo";
 import GIContainer from "../../containers/GIContainer";

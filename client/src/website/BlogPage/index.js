@@ -17,8 +17,9 @@ import NavigationLayout from "../../components/navigations/NavigationLayout";
 import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 
-import { isAdmin, getTextFromHtmlTag, getGhostitBlogs } from "./util";
-import { isMobileOrTablet } from "../../componentFunctions";
+import { isAdmin, getTextFromHtmlTag } from "../../util";
+import { getGhostitBlogs } from "./util";
+import { isMobileOrTablet } from "../../util";
 
 import "./style.css";
 
@@ -93,7 +94,7 @@ class BlogPage extends Component {
           {!loading && (
             <GIContainer className="grid-300px grid-gap-32 x-fill">
               {ghostitBlogs.map((ghostitBlog, index) => {
-                const { contentArray, createdAt } = ghostitBlog;
+                const { contentArray, createdAt, images } = ghostitBlog;
                 const ghostitBlogDate = new moment(createdAt);
 
                 let temp = document.createElement("div");
@@ -120,10 +121,10 @@ class BlogPage extends Component {
                           <GIContainer
                             className="image-cover x-fill relative br8"
                             style={
-                              ghostitBlog.images[0]
+                              images[0]
                                 ? {
                                     backgroundImage:
-                                      "url(" + ghostitBlog.images[0].url + ")"
+                                      "url(" + images[0].url + ")"
                                   }
                                 : {}
                             }

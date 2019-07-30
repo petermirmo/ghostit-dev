@@ -1,6 +1,6 @@
 import React from "react";
 import GIText from "../../components/views/GIText";
-import { isMobileOrTablet } from "../../componentFunctions";
+import { isMobileOrTablet } from "../../util";
 
 export const isElementInViewport = el => {
   const rect = el.getBoundingClientRect();

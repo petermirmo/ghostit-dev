@@ -51,6 +51,10 @@
 .x-200px {
   width: 200px;
 }
+
+.x-300px {
+  width: 300px;
+}
 .x-150px {
   min-width: 150px;
 }

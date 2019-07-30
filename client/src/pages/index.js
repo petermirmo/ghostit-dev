@@ -71,22 +71,19 @@ class Routes extends Component {
   };
 
   createBlogPages = ghostitBlogs => {
-    return ghostitBlogs.map((ghostitBlog, index) => {
-      return (
-        <Route
-          path={"/blog/" + ghostitBlog.url + "/"}
-          key={index}
-          render={props => {
-            return (
-              <ViewWebsiteBlog
-                contentArray={ghostitBlog.contentArray}
-                images={ghostitBlog.images}
-              />
-            );
-          }}
-        />
-      );
-    });
+    return ghostitBlogs.map((ghostitBlog, index) => (
+      <Route
+        path={"/blog/" + ghostitBlog.url + "/"}
+        key={index}
+        render={props => (
+          <ViewWebsiteBlog
+            contentArray={ghostitBlog.contentArray}
+            featuredBlogs={ghostitBlogs.slice(0, 3)}
+            images={ghostitBlog.images}
+          />
+        )}
+      />
+    ));
   };
   render() {
     const { datebaseConnection, ghostitBlogs = [] } = this.state;

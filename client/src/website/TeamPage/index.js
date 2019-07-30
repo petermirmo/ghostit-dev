@@ -8,7 +8,7 @@ import { teamMembers } from "./teamMembers";
 
 import { correctOverflow, teamMemberDiv } from "./util";
 
-import { isMobileOrTablet } from "../../componentFunctions";
+import { isMobileOrTablet } from "../../util";
 
 import "./style.css";
 
