@@ -12,12 +12,7 @@ class Dashboard extends Component {
     return (
       <GIContainer className="x-fill y-fill column ov-auto">
         <GIContainer className={`x-wrap x-fill ${className}`}>
-          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
-            <GIText
-              text="Create a post"
-              type="h3"
-              className="seven-blue mb16 tac"
-            />
+          <GIContainer className="container-box bg-white column twentyvw justify-between common-border py16 px32 mb32 mx8 br8">
             <GIContainer className="full-center x-fill y-50">
               <img
                 alt=""
@@ -25,6 +20,11 @@ class Dashboard extends Component {
                 className="fill-parent"
               />
             </GIContainer>
+            <GIText
+              className="five-blue mb16 tac"
+              text="Create a post"
+              type="h4"
+            />
             <GIContainer className="x-fill full-center column">
               <GIText
                 className="tac mb8"
@@ -38,12 +38,7 @@ class Dashboard extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
-            <GIText
-              text="Create a campaign"
-              type="h3"
-              className="seven-blue mb16 tac"
-            />
+          <GIContainer className="container-box bg-white column twentyvw justify-between common-border py16 px32 mb32 mx8 br8">
             <GIContainer className="full-center x-fill y-50">
               <img
                 alt=""
@@ -51,6 +46,11 @@ class Dashboard extends Component {
                 src={require("../../svgs/dashboard-campaign.svg")}
               />
             </GIContainer>
+            <GIText
+              className="five-blue mb16 tac"
+              text="Create a campaign"
+              type="h4"
+            />
             <GIContainer className="x-fill full-center column">
               <GIText
                 className="tac mb8"
@@ -64,12 +64,7 @@ class Dashboard extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
-            <GIText
-              className="seven-blue mb16 tac"
-              text="Browse templates"
-              type="h3"
-            />
+          <GIContainer className="container-box bg-white column twentyvw justify-between common-border py16 px32 mb32 mx8 br8">
             <GIContainer className="full-center x-fill y-50">
               <img
                 alt=""
@@ -77,6 +72,11 @@ class Dashboard extends Component {
                 src={require("../../svgs/dashboard-templates.svg")}
               />
             </GIContainer>
+            <GIText
+              className="five-blue mb16 tac"
+              text="Browse templates"
+              type="h4"
+            />
             <GIContainer className="x-fill full-center column">
               <GIText
                 className="tac mb8"

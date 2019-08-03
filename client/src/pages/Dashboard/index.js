@@ -7,7 +7,7 @@ import Dashboard from "../../components/Dashboard";
 
 import TemplatesModal from "../../components/postingFiles/TemplatesModal";
 import Campaign from "../../components/postingFiles/CampaignAndRecipe/Campaign";
-import ContentModal from "../../components/postingFiles/ContentModal";
+import PostCreation from "../../components/postingFiles/PostCreation";
 
 import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
@@ -83,19 +83,23 @@ class DashboardPage extends Component {
                 />
               )}
               {contentModal && calendars[activeCalendarIndex] && (
-                <ContentModal
-                  calendarID={calendars[activeCalendarIndex]._id}
-                  clickedCalendarDate={calendarDate}
-                  handleParentChange={this.handleChange}
-                  notify={context.notify}
-                  savePostCallback={post => {
-                    triggerSocketPeers("calendar_post_saved", post);
-                    this.handleChange({ contentModal: false });
-                    context.notify({
-                      type: "success",
-                      title: "Post saved successfully!"
-                    });
-                  }}
+                <Modal
+                  body={
+                    <PostCreation
+                      calendarID={calendars[activeCalendarIndex]._id}
+                      clickedCalendarDate={calendarDate}
+                      handleParentChange={this.handleChange}
+                      notify={context.notify}
+                      savePostCallback={post => {
+                        triggerSocketPeers("calendar_post_saved", post);
+                        this.handleChange({ contentModal: false });
+                        context.notify({
+                          type: "success",
+                          title: "Post saved successfully!"
+                        });
+                      }}
+                    />
+                  }
                 />
               )}
               {campaignModal && calendars[activeCalendarIndex] && (

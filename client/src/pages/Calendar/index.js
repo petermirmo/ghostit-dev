@@ -13,7 +13,7 @@ import {
 
 import { connect } from "react-redux";
 
-import ContentModal from "../../components/postingFiles/ContentModal";
+import PostCreation from "../../components/postingFiles/PostCreation";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar";
 import CalendarManager from "../../components/CalendarManager";
@@ -24,6 +24,7 @@ import Loader from "../../components/notifications/Loader";
 import CalendarChat from "../../components/CalendarChat";
 import Page from "../../components/containers/Page";
 import Modal from "../../components/containers/Modal";
+import Modal0 from "../../components/containers/Modal0";
 
 import Dropdown from "../../components/views/Dropdown";
 import GIButton from "../../components/views/GIButton";
@@ -586,7 +587,7 @@ class CalendarPage extends Component {
             </GIContainer>
             {false && <CalendarChat calendars={calendars} />}
             {calendarManagerModal && (
-              <Modal
+              <Modal0
                 body={
                   <CalendarManager
                     calendars={calendars}
@@ -605,27 +606,32 @@ class CalendarPage extends Component {
               />
             )}
             {contentModal && calendars[activeCalendarIndex] && (
-              <ContentModal
-                calendarID={calendars[activeCalendarIndex]._id}
-                clickedCalendarDate={clickedDate}
-                handleParentChange={this.handleChange}
-                notify={context.notify}
-                savePostCallback={post => {
-                  getPosts(
-                    calendars,
-                    activeCalendarIndex,
-                    calendarDate,
-                    this.handleChange
-                  );
-                  triggerSocketPeers(
-                    "calendar_post_saved",
-                    post,
-                    calendars,
-                    activeCalendarIndex,
-                    socket
-                  );
-                  this.setState({ contentModal: false });
-                }}
+              <Modal0
+                body={
+                  <PostCreation
+                    calendarID={calendars[activeCalendarIndex]._id}
+                    clickedCalendarDate={clickedDate}
+                    handleParentChange={this.handleChange}
+                    notify={context.notify}
+                    savePostCallback={post => {
+                      getPosts(
+                        calendars,
+                        activeCalendarIndex,
+                        calendarDate,
+                        this.handleChange
+                      );
+                      triggerSocketPeers(
+                        "calendar_post_saved",
+                        post,
+                        calendars,
+                        activeCalendarIndex,
+                        socket
+                      );
+                      this.setState({ contentModal: false });
+                    }}
+                  />
+                }
+                close={() => this.handleChange({ contentModal: false })}
               />
             )}
             {postEdittingModal && (
@@ -669,7 +675,7 @@ class CalendarPage extends Component {
             )}
 
             {campaignModal && calendars[activeCalendarIndex] && (
-              <Modal
+              <Modal0
                 body={
                   <Campaign
                     calendarID={calendars[activeCalendarIndex]._id}
@@ -697,7 +703,6 @@ class CalendarPage extends Component {
                     }
                   />
                 }
-                className="large-modal"
                 close={() => this.setState({ campaignModal: false })}
               />
             )}
@@ -709,9 +714,15 @@ class CalendarPage extends Component {
               />
             )}
             {dashboardModal && calendars[activeCalendarIndex] && (
-              <Modal
+              <Modal0
+                close={() => this.setState({ dashboardModal: false })}
                 body={
-                  <GIContainer className="x-fill py16">
+                  <GIContainer className="column x-fill bg-light-grey py16">
+                    <GIText
+                      className="muli x-fill tac py32"
+                      text="Schedule Task"
+                      type="h4"
+                    />
                     <Dashboard
                       className="justify-center"
                       handleParentChange={stateObject => {
@@ -719,13 +730,6 @@ class CalendarPage extends Component {
                         this.handleChange(stateObject);
                       }}
                     />
-                  </GIContainer>
-                }
-                className="large-modal"
-                close={() => this.setState({ dashboardModal: false })}
-                header={
-                  <GIContainer className="border-bottom full-center x-fill py8">
-                    <GIText text="Schedule Task" type="h3" />
                   </GIContainer>
                 }
               />

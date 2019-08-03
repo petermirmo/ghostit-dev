@@ -19,10 +19,11 @@ class HomePage extends Component {
   render() {
     return (
       <Page
-        title="Home"
-        description="Organize your marketing process with an all-in-one solution for unified content promotion."
-        keywords="content, ghostit, marketing"
         className="column"
+        description="Organize your marketing process with an all-in-one solution for unified content promotion."
+        homePage={true}
+        keywords="content, ghostit, marketing"
+        title="Home"
       >
         <GIContainer
           className={

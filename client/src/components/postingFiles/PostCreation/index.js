@@ -7,7 +7,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import ContentModalHeader from "./ContentModalHeader";
+import GIContainer from "../../containers/GIContainer";
+
+import Header from "./Header";
 import Loader from "../../notifications/Loader/";
 import Post from "../Post";
 import CustomTask from "../CustomTask";
@@ -101,10 +103,10 @@ class ContentModal extends Component {
       return <Loader />;
     }
 
-    let modalBody;
+    let body;
 
     if (activeTab.name === "custom") {
-      modalBody = (
+      body = (
         <div className="modal-body">
           <CustomTask
             post={{
@@ -132,7 +134,7 @@ class ContentModal extends Component {
         </div>
       );
     } else {
-      modalBody = (
+      body = (
         <Post
           backupChanges={this.backupPostChanges}
           calendarID={calendarID}
@@ -164,29 +166,7 @@ class ContentModal extends Component {
       );
     }
 
-    return (
-      <div
-        className="modal"
-        onClick={() => handleParentChange({ contentModal: false })}
-      >
-        <div className="post-modal" onClick={e => e.stopPropagation()}>
-          <FontAwesomeIcon
-            icon={faTimes}
-            size="2x"
-            className="close"
-            onClick={() => handleParentChange({ contentModal: false })}
-          />
-
-          <ContentModalHeader
-            categories={this.state.categories}
-            switchTabs={this.switchTabState}
-            activeTab={activeTab}
-            accounts={accounts}
-          />
-          <div className="post-modal-body">{modalBody}</div>
-        </div>
-      </div>
-    );
+    return <GIContainer className="x-fill">{body}</GIContainer>;
   }
 }
 function mapStateToProps(state) {

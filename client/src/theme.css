@@ -832,7 +832,7 @@
   height: 32px;
 }
 .round-icon.small {
-  width: 16px;
+  width: 16px !important;
   height: 16px;
 }
 .common-shadow {

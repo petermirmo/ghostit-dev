@@ -23,46 +23,50 @@ class MyForm extends Component {
       >
         <GIText type="h4" text="Full Name" className="mb8" />
         <input
-          type="text"
-          name="FNAME"
-          value={fName}
+          className="br4"
           onChange={e => {
             this.setState({ fName: e.target.value });
           }}
+          name="FNAME"
           placeholder="Bruce Wayne"
+          value={fName}
+          type="text"
         />
 
         <GIText type="h4" text="Email Address" className="mt16 mb8" />
         <input
-          type="email"
-          name="EMAIL"
-          value={email}
+          autoCapitalize="off"
+          autoCorrect="off"
+          className="br4"
           onChange={e => {
             this.setState({ email: e.target.value });
           }}
-          autoCapitalize="off"
-          autoCorrect="off"
+          name="EMAIL"
           placeholder="bruce@wayneenterprises.com"
+          value={email}
+          type="email"
         />
         <GIText type="h4" text="Company Name" className="mt16 mb8" />
         <input
-          type="text"
-          name="CNAME"
-          value={cName}
+          className="br4"
           onChange={e => {
             this.setState({ cName: e.target.value });
           }}
+          name="CNAME"
           placeholder="Wayne Tech"
+          value={cName}
+          type="text"
         />
         <GIText type="h4" text="Phone Number" className="mt16 mb8" />
         <input
-          type="text"
-          name="PHONE"
-          value={phoneNumber}
+          className="br4"
           onChange={e => {
             this.setState({ phoneNumber: e.target.value });
           }}
+          name="PHONE"
           placeholder="+1 (555) 555-5555"
+          value={phoneNumber}
+          type="text"
         />
         <GIContainer className="justify-end mt32">
           <GIButton

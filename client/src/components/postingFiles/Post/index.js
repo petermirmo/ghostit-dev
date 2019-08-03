@@ -10,6 +10,8 @@ import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 
+import GIContainer from "../../containers/GIContainer";
+
 import DateTimePicker from "../../DateTimePicker";
 import SelectAccountDiv from "../../SelectAccountDiv/";
 import LinkPreview from "../../LinkPreview";
@@ -498,48 +500,17 @@ class Post extends Component {
                   </div>
                 )}
               </div>
-              <div
-                className="instructions-container common-shadow-left light-scrollbar pa16"
-                style={{
-                  width: showInstructions ? "40%" : "0",
-                  padding: showInstructions ? undefined : 0
-                }}
-              >
-                {showInstructions && (
-                  <input
-                    onChange={event =>
-                      this.handleChange(event.target.value, "name")
-                    }
-                    value={name}
-                    className="pa8 mb8"
-                    placeholder="Title"
-                    readOnly={!canEditPost}
-                  />
-                )}
-                {showInstructions && (
-                  <Textarea
-                    className="instruction-textarea pa8 light-scrollbar"
-                    placeholder="Include any comments or instructions here."
-                    onChange={event => {
-                      this.handleChange(event.target.value, "instructions");
-                    }}
-                    value={instructions}
-                    readOnly={!canEditPost}
-                  />
-                )}
-                {showInstructions && (
-                  <div
-                    className="show-more center-vertically left"
-                    onClick={() =>
-                      this.setState({
-                        showInstructions: false
-                      })
-                    }
-                  >
-                    <FontAwesomeIcon icon={faAngleRight} />
-                  </div>
-                )}
-              </div>
+              <GIContainer className="instructions-container pa16">
+                <Textarea
+                  className="instruction-textarea light-scrollbar common-border pa8 br16"
+                  placeholder="Include any comments or instructions here."
+                  onChange={event => {
+                    this.handleChange(event.target.value, "instructions");
+                  }}
+                  value={instructions}
+                  readOnly={!canEditPost}
+                />
+              </GIContainer>
             </div>
             <div className="common-container-center border-top">
               <DateTimePicker
