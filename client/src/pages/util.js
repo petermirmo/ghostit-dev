@@ -49,11 +49,11 @@ export const getAccounts = callback => {
   });
 };
 
-export const getBlogs = callback => {
+export const getGhostitBlogs = callback => {
   axios.get("/api/ghostit/blogs").then(res => {
-    const { error, ghostitBlogs } = res.data;
+    const { success, ghostitBlogs } = res.data;
 
-    if (!error) callback(ghostitBlogs);
+    if (success) callback(ghostitBlogs);
     else {
       // TODO: handle error
     }

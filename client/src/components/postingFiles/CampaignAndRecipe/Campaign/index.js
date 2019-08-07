@@ -1057,7 +1057,7 @@ class Campaign extends Component {
     return (
       <Consumer>
         {context => (
-          <div className="container-box white flex column y-fill fill-flex br4">
+          <div className="container-box bg-white flex column y-fill fill-flex br4">
             <CampaignRecipeHeader
               campaign={campaign}
               handleChange={this.handleCampaignChange}

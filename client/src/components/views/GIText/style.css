@@ -67,8 +67,11 @@
 .nine-blue {
   color: var(--nine-blue-color);
 }
-.fs-thirteen {
+.fs-13 {
   font-size: var(--thirteen-font-size);
+}
+.fs-26 {
+  font-size: var(--twenty-six-font-size);
 }
 
 h1 {

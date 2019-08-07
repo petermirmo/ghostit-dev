@@ -32,7 +32,7 @@ class RegisterPage extends Component {
   };
 
   componentDidMount() {
-    if (this.props.user) this.props.history.push("/dashboard");
+    if (this.props.user) this.props.history.push("/home");
   }
   handleChange = (index, value) => {
     this.setState({ [index]: value });

@@ -44,7 +44,7 @@ class WebsiteHeader extends Component {
 
   render() {
     const { showHeader } = this.state;
-    const { user } = this.props;
+    const { homePage, user } = this.props;
 
     let trialButtonClassName = "regular-button";
 
@@ -66,16 +66,17 @@ class WebsiteHeader extends Component {
             alt="blob"
             id="blob-under-login"
             src={require("../../../svgs/blob-under-login.svg")}
+            style={{ width: homePage ? "55vw" : "350px" }}
           />
         )}
-        {!isMobileOrTablet() && (
+        {!isMobileOrTablet() && !homePage && (
           <img
             alt="blob"
             id="small-star-circle-under-login"
             src={require("../../../svgs/circle-stars.svg")}
           />
         )}
-        {!isMobileOrTablet() && (
+        {!isMobileOrTablet() && !homePage && (
           <img
             alt="blob"
             id="medium-likes-circle-under-login"

@@ -83,8 +83,7 @@ export const teamMembers = [
   },
   {
     color: "var(--five-purple-color)",
-    description:
-      "Curabitur blandit tempus ardua ridiculus sed magna. Ullamco laboris nisi ut aliquid ex ea commodi consequat. ",
+    description: "",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/ahmad.jpg",
     location: "Afghanistan",

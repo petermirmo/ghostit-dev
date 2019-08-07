@@ -405,7 +405,7 @@ class Post extends Component {
     return (
       <Consumer>
         {context => (
-          <div className="container-box white flex column x-fill y-fill ov-auto">
+          <div className="container-box bg-white flex column x-fill y-fill ov-auto">
             <div className="post-instruction-container">
               <div
                 className="posting-container common-transition light-scrollbar pa16"

@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser, setAccounts } from "../redux/actions";
 
+import Consumer, { NotificationContext } from "../context";
+
 import LoaderWedge from "../components/notifications/LoaderWedge";
 import GIContainer from "../components/containers/GIContainer";
 
@@ -32,7 +34,7 @@ import PrivacyPage from "../website/PrivacyPage";
 
 import {
   getUser,
-  getBlogs,
+  getGhostitBlogs,
   getAccounts,
   useAppropriateFunctionForEscapeKey
 } from "./util";
@@ -41,14 +43,17 @@ import { isUserInPlatform } from "../components/containers/Page/util";
 
 class Routes extends Component {
   state = {
-    datebaseConnection: false,
-    ghostitBlogs: []
+    datebaseConnection: false
   };
 
   componentDidMount() {
+    const { context } = this;
+
     this.getUserDataAndCheckAuthorization();
 
-    getBlogs(ghostitBlogs => this.setState({ ghostitBlogs, loading: false }));
+    getGhostitBlogs(ghostitBlogs => {
+      context.handleChange({ ghostitBlogs });
+    });
   }
   getUserDataAndCheckAuthorization = () => {
     const { setUser, setAccounts } = this.props; // Functions
@@ -97,36 +102,41 @@ class Routes extends Component {
     if (!datebaseConnection) return <LoaderWedge />;
 
     return (
-      <GIContainer className="main-wrapper">
-        <Switch>
-          <Route path="/dashboard/" component={DashboardPage} />
-          <Route path="/calendar/" component={CalendarPage} />
-          <Route path="/subscribe/" component={SubscribePage} />
-          <Route path="/analytics/" component={AnalyticsPage} />
-          <Route path="/social-accounts/" component={AccountsPage} />
-          <Route path="/manage/:id" component={ManagePage} />
-          <Route path="/manage" component={ManagePage} exact />
-          <Route path="/profile/" component={ProfilePage} />
-          <Route path="/subscription/" component={MySubscriptionPage} />
+      <Consumer>
+        {context => (
+          <GIContainer className="main-wrapper">
+            <Switch>
+              <Route path="/dashboard/" component={DashboardPage} />
+              <Route path="/calendar/" component={CalendarPage} />
+              <Route path="/subscribe/" component={SubscribePage} />
+              <Route path="/analytics/" component={AnalyticsPage} />
+              <Route path="/social-accounts/" component={AccountsPage} />
+              <Route path="/manage/:id" component={ManagePage} />
+              <Route path="/manage" component={ManagePage} exact />
+              <Route path="/profile/" component={ProfilePage} />
+              <Route path="/subscription/" component={MySubscriptionPage} />
 
-          <Route path="/home/" component={HomePage} />
-          <Route path="/pricing/" component={PricingPage} />
-          <Route path="/team/" component={TeamPage} />
-          <Route path="/blog/" component={BlogPage} exact />
-          <Route path="/agency/" component={GhostitAgencyPage} />
-          <Route path="/sign-in/" component={LoginPage} />
-          <Route path="/sign-up/" component={RegisterPage} />
-          <Route path="/forgot-password/" component={ForgotPasswordPage} />
+              <Route path="/home/" component={HomePage} />
+              <Route path="/pricing/" component={PricingPage} />
+              <Route path="/team/" component={TeamPage} />
+              <Route path="/blog/" component={BlogPage} exact />
+              <Route path="/agency/" component={GhostitAgencyPage} />
+              <Route path="/sign-in/" component={LoginPage} />
+              <Route path="/sign-up/" component={RegisterPage} />
+              <Route path="/forgot-password/" component={ForgotPasswordPage} />
 
-          <Route path="/terms-of-service/" component={TermsPage} />
-          <Route path="/privacy-policy/" component={PrivacyPage} />
-          {blogPages}
-          <Route component={HomePage} />
-        </Switch>
-      </GIContainer>
+              <Route path="/terms-of-service/" component={TermsPage} />
+              <Route path="/privacy-policy/" component={PrivacyPage} />
+              {blogPages}
+              <Route component={HomePage} />
+            </Switch>
+          </GIContainer>
+        )}
+      </Consumer>
     );
   }
 }
+Routes.contextType = NotificationContext;
 
 function mapStateToProps(state) {
   return {

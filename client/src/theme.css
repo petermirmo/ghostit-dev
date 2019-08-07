@@ -79,8 +79,10 @@
   --sixteen-font-size: 16px;
   --eighteen-font-size: 18px;
   --twenty-font-size: 20px;
+
   --twenty-two-font-size: 22px;
   --twenty-four-font-size: 24px;
+  --twenty-six-font-size: 26px;
   --thirty-two-font-size: 32px;
   --forty-font-size: 40px;
 
@@ -210,6 +212,12 @@
 }
 .bg-blue-fade {
   background: linear-gradient(99deg, #04f0fa, var(--five-blue-color));
+}
+.bg-blue-fade-2 {
+  background-image: linear-gradient(280deg, #1ba5f9, #04c5fb);
+}
+.bg-blue-fade-3 {
+  background-image: linear-gradient(to bottom, #04f0fa, var(--five-blue-color));
 }
 
 .fixed {
@@ -859,6 +867,9 @@
 .common-shadow-blue-2 {
   box-shadow: 0 3px 8px 0 rgba(5, 197, 253, 0.25);
 }
+.common-shadow-blue-3 {
+  box-shadow: 0 5px 12px 0 rgba(5, 164, 255, 0.27);
+}
 .common-shadow-left {
   box-shadow: -4px 0 6px 0 rgba(0, 0, 0, 0.2);
 }
@@ -876,6 +887,9 @@
 }
 .shadow-4 {
   box-shadow: 0 1px 3px 0 rgba(2, 61, 106, 0.29);
+}
+.shadow-5 {
+  box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.2);
 }
 .trial-days-left {
   width: 100%;

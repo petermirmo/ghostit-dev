@@ -8,6 +8,7 @@ const { Provider, Consumer } = NotificationContext;
 class GIProvider extends Component {
   state = {
     clientSideBar: false,
+    ghostitBlogs: [],
     notification: {
       on: false,
       title: "Something went wrong!",
@@ -39,11 +40,13 @@ class GIProvider extends Component {
     if (this._ismounted) this.setState(stateObject);
   };
   render() {
-    const { clientSideBar, notification, saving } = this.state;
+    const { clientSideBar, ghostitBlogs, notification, saving } = this.state;
+
     return (
       <Provider
         value={{
           clientSideBar,
+          ghostitBlogs,
           handleChange: this.handleChange,
           notify: this.notify,
           saving

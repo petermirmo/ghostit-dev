@@ -147,7 +147,7 @@ class Analytics extends Component {
             />
             <GIText className="tac white bold" text="New Visitors" type="h6" />
             <GIText
-              className="tac white fs-thirteen"
+              className="tac white fs-13"
               text="Last 30 Days"
               type="p"
             />
@@ -172,7 +172,7 @@ class Analytics extends Component {
             />
             <GIText className="tac white bold" text="New Followers" type="h6" />
             <GIText
-              className="tac white fs-thirteen"
+              className="tac white fs-13"
               text="Last 30 Days"
               type="p"
             />
@@ -191,7 +191,7 @@ class Analytics extends Component {
               type="h1"
             />
             <GIText className="tac bold" text="Total Post Likes" type="h6" />
-            <GIText className="tac fs-thirteen" text="Last 30 Days" type="p" />
+            <GIText className="tac fs-13" text="Last 30 Days" type="p" />
           </GIContainer>
 
           <GIContainer className="fill-flex full-center column common-shadow-orange bg-orange-fade br8 pa16 ml8 mr32">
