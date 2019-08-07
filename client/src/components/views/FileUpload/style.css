@@ -1,6 +1,13 @@
 .uploaded-file:hover .icon-x-hover {
   display: flex;
 }
-.uploaded-file:hover .image {
-  opacity: 0.4;
+
+.icon-x-hover {
+  position: absolute;
+  display: none;
+
+  top: -8px;
+  right: -8px;
+
+  z-index: 1;
 }

@@ -254,6 +254,7 @@ class Post extends Component {
                         this.handleChangeRegular(parentStateChangeObject)
                       }
                       imageClassName="flex image tiny"
+                      imageContainerClassName="align-end"
                       imageOnly={!canUploadVideo}
                     />
                   )}

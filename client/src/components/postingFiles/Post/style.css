@@ -1,11 +1,10 @@
 .posting-textarea {
-  min-height: 100px;
+  min-height: 150px;
 
   border-bottom: none;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 
-  resize: none;
   outline: 0;
   overflow: auto;
 }

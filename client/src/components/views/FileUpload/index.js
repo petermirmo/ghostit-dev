@@ -54,45 +54,45 @@ class FileUpload extends Component {
             />
           </GIContainer>
         )}
-
-        {currentFiles.map((file, index) => {
-          return (
-            <div
-              key={index}
-              className={`relative uploaded-file ${imageContainerClassName} ma2`}
-            >
-              {isImage(file) && (
-                <img
-                  alt="error"
-                  className={imageClassName}
-                  src={file.file ? file.file : file.url}
-                />
-              )}
-              {isVideo(file) && (
-                <video
-                  alt="error"
-                  className={imageClassName}
-                  src={file.file ? file.file : file.url}
-                />
-              )}
-              {canEdit && (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  className="icon-x-hover"
-                  onClick={() =>
-                    removeFile(
-                      currentFiles,
-                      filesToDelete,
-                      handleParentChange,
-                      index
-                    )
-                  }
-                  size="3x"
-                />
-              )}
-            </div>
-          );
-        })}
+        <GIContainer className="fill-flex justify-end">
+          {currentFiles.map((file, index) => {
+            return (
+              <GIContainer
+                className={`relative uploaded-file ${imageContainerClassName} ma2`}
+                key={index}
+              >
+                {isImage(file) && (
+                  <img
+                    alt="error"
+                    className={imageClassName}
+                    src={file.file ? file.file : file.url}
+                  />
+                )}
+                {isVideo(file) && (
+                  <video
+                    alt="error"
+                    className={imageClassName}
+                    src={file.file ? file.file : file.url}
+                  />
+                )}
+                {canEdit && (
+                  <FontAwesomeIcon
+                    className="bg-white primary-font shadow-left icon-x-hover round-icon small clickable round"
+                    icon={faTimes}
+                    onClick={() =>
+                      removeFile(
+                        currentFiles,
+                        filesToDelete,
+                        handleParentChange,
+                        index
+                      )
+                    }
+                  />
+                )}
+              </GIContainer>
+            );
+          })}
+        </GIContainer>
       </GIContainer>
     );
   }
