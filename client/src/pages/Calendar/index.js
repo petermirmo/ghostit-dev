@@ -79,7 +79,7 @@ class CalendarPage extends Component {
 
     calendarManagerModal: false,
     campaignModal: false,
-    contentModal: false,
+    contentModal: true,
     dashboardModal: false,
     postEdittingModal: false,
 
@@ -339,7 +339,7 @@ class CalendarPage extends Component {
             <GIContainer className="calendar-grid x-fill">
               <Dropdown
                 activeItem={activeCalendarIndex}
-                className="common-shadow-medium"
+                className="shadow-medium"
                 dropdownItems={calendars.map(
                   (calendar, index) => calendar.calendarName
                 )}
@@ -360,7 +360,7 @@ class CalendarPage extends Component {
                   />
                 }
               />
-              <GIContainer className="common-shadow-medium">
+              <GIContainer className="shadow-medium">
                 <GIButton
                   className="five-blue fill-flex common-border ml16 mr8 py8 px16 my8 br4"
                   onClick={() => {}}
@@ -369,7 +369,7 @@ class CalendarPage extends Component {
                   <GIText className="pl8" text="Edit" type="h5" />
                 </GIButton>
                 <GIButton
-                  className="bg-orange-fade fill-flex common-shadow-orange mr16 ml8 py8 px16 my8 br4"
+                  className="bg-orange-fade fill-flex shadow-orange mr16 ml8 py8 px16 my8 br4"
                   onClick={() => {}}
                 >
                   <FontAwesomeIcon className="white" icon={faPlus} />
@@ -428,7 +428,7 @@ class CalendarPage extends Component {
                 </GIContainer>
                 <GIContainer className="full-center">
                   <Dropdown
-                    className="x-fill common-border common-shadow-light br4"
+                    className="x-fill common-border shadow-light br4"
                     dropdownItems={Object.keys(calendarEventCategories).map(
                       (key, index) => key
                     )}

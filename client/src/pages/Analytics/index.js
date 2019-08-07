@@ -127,7 +127,7 @@ class Analytics extends Component {
           })}
         />
         <GIContainer className="mt32">
-          <GIContainer className="fill-flex full-center column common-shadow-green bg-green-fade br8 pa16 ml32 mr8">
+          <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
             <GIContainer className="round-icon mb8">
               <img
                 alt=""
@@ -152,7 +152,7 @@ class Analytics extends Component {
               type="p"
             />
           </GIContainer>
-          <GIContainer className="fill-flex full-center column common-shadow-purple bg-purple-fade br8 pa16 mx8">
+          <GIContainer className="fill-flex full-center column shadow-purple bg-purple-fade br8 pa16 mx8">
             <GIContainer className="round-icon mb8">
               <img
                 alt=""
@@ -177,7 +177,7 @@ class Analytics extends Component {
               type="p"
             />
           </GIContainer>
-          <GIContainer className="fill-flex full-center column common-shadow-light common-border br8 pa16 mx8">
+          <GIContainer className="fill-flex full-center column shadow-light common-border br8 pa16 mx8">
             <GIContainer className="round-icon mb8">
               <img
                 alt=""
@@ -194,7 +194,7 @@ class Analytics extends Component {
             <GIText className="tac fs-13" text="Last 30 Days" type="p" />
           </GIContainer>
 
-          <GIContainer className="fill-flex full-center column common-shadow-orange bg-orange-fade br8 pa16 ml8 mr32">
+          <GIContainer className="fill-flex full-center column shadow-orange bg-orange-fade br8 pa16 ml8 mr32">
             <GIContainer className="full-center">
               <GIText
                 className="tac white quicksand"

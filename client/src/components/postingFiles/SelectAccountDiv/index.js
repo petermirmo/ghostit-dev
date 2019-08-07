@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebookSquare,
   faLinkedin,
   faTwitter
 } from "@fortawesome/free-brands-svg-icons";
+
+import GIContainer from "../../containers/GIContainer";
 
 import "./style.css";
 
@@ -56,7 +58,7 @@ class SelectAccountDiv extends Component {
         color = "#4267b2";
       }
       accountsListDiv.push(
-        <div
+        <GIContainer
           className={className}
           onClick={event => handleChange(account)}
           key={index}
@@ -64,11 +66,13 @@ class SelectAccountDiv extends Component {
           <span className="account-icon">
             <FontAwesomeIcon icon={icon} size="3x" color={color} />
           </span>
-          <div className="account-title-type-container">
-            <div className="account-name">{name}</div>
-            <div className="account-type">{account.accountType}</div>
-          </div>
-        </div>
+          <GIContainer className="account-title-type-container">
+            <GIContainer className="account-name">{name}</GIContainer>
+            <GIContainer className="account-type">
+              {account.accountType}
+            </GIContainer>
+          </GIContainer>
+        </GIContainer>
       );
     }
 
@@ -107,7 +111,7 @@ class SelectAccountDiv extends Component {
         color = "#4267b2";
       }
       inactiveAccountsDiv.push(
-        <div
+        <GIContainer
           className={className}
           onClick={() => this.props.linkAccountToCalendarPrompt(account._id)}
           key={index}
@@ -115,28 +119,32 @@ class SelectAccountDiv extends Component {
           <span className="account-icon inactive">
             <FontAwesomeIcon icon={icon} size="3x" color={color} />
           </span>
-          <div className="account-title-type-container inactive">
-            <div className="account-name inactive">{name}</div>
-            <div className="account-type inactive">{account.accountType}</div>
-          </div>
-        </div>
+          <GIContainer className="account-title-type-container inactive">
+            <GIContainer className="account-name inactive">{name}</GIContainer>
+            <GIContainer className="account-type inactive">
+              {account.accountType}
+            </GIContainer>
+          </GIContainer>
+        </GIContainer>
       );
     }
     return (
-      <div className="simple-container">
+      <GIContainer className="simple-container">
         {activePageAccountsArray.length === 0 && (
           <h4>Connect an account to create a post!</h4>
         )}
-        <div className="wrapping-container-no-center">{accountsListDiv}</div>
+        <GIContainer className="wrapping-container-no-center">
+          {accountsListDiv}
+        </GIContainer>
         {inactiveAccountsDiv.length !== 0 && (
-          <div className="accounts-link-to-calendar-label">
+          <GIContainer className="accounts-link-to-calendar-label">
             Accounts not yet linked to calendar
-          </div>
+          </GIContainer>
         )}
-        <div className="wrapping-container-no-center">
+        <GIContainer className="wrapping-container-no-center">
           {inactiveAccountsDiv}
-        </div>
-      </div>
+        </GIContainer>
+      </GIContainer>
     );
   }
 }

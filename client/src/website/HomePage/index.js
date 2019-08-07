@@ -76,7 +76,7 @@ class RegularVersion extends Component {
                 />
                 <Link to="/sign-up">
                   <GIButton
-                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32 mb32"
+                    className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
                     text="Get Your Free Trial"
                   />
                 </Link>
@@ -129,7 +129,7 @@ class RegularVersion extends Component {
                 />
                 <Link to="/sign-up">
                   <GIButton
-                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32 mb32"
+                    className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
                     text="Get Your Free Trial"
                   />
                 </Link>
@@ -182,7 +182,7 @@ class RegularVersion extends Component {
                 />
                 <Link to="/sign-up">
                   <GIButton
-                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32 mb32"
+                    className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
                     text="Get Your Free Trial"
                   />
                 </Link>
@@ -274,7 +274,7 @@ class RegularVersion extends Component {
               </GIContainer>
               <Link to="/sign-up">
                 <GIButton
-                  className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32 mt32"
+                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mt32"
                   text="Get Your Free Trial"
                 />
               </Link>
@@ -343,7 +343,7 @@ class RegularVersion extends Component {
                 )}
                 <Link to="/blog">
                   <GIButton
-                    className="bg-white common-border four-blue common-shadow-blue-2 br32 py16 px32 my64"
+                    className="bg-white common-border four-blue shadow-blue-2 br32 py16 px32 my64"
                     text="View All Posts"
                   />
                 </Link>

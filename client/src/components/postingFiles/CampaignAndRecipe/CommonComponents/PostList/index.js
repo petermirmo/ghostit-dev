@@ -116,7 +116,7 @@ class PostList extends Component {
         {!newPostPrompt && (
           <FontAwesomeIcon
             onClick={() => this.setState({ newPostPrompt: true })}
-            className="round-icon margin-hc clickable round common-shadow regular-button-colors pa8"
+            className="round-icon margin-hc clickable round shadow regular-button-colors pa8"
             icon={faPlus}
             size="2x"
           />

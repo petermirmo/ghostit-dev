@@ -73,7 +73,7 @@ class PricingPage extends Component {
             <GIContainer className="x-fill full-center py16">
               <Link to="/sign-up">
                 <GIButton
-                  className="bg-blue-fade white common-shadow-blue py16 px32 br32"
+                  className="bg-blue-fade white shadow-blue py16 px32 br32"
                   text="Get Started Now!"
                 />
               </Link>
@@ -125,7 +125,7 @@ class PricingPage extends Component {
             </GIContainer>
             <GIContainer className="x-fill full-center py16">
               <GIButton
-                className="bg-orange-fade-2 white common-shadow-orange-2 py16 px32 br32"
+                className="bg-orange-fade-2 white shadow-orange-2 py16 px32 br32"
                 text="Get Started Now!"
               />
             </GIContainer>

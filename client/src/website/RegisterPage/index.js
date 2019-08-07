@@ -119,7 +119,7 @@ class RegisterPage extends Component {
               type="h1"
             />
 
-            <div className="basic-box common-shadow pa32 br16 margin-hc">
+            <div className="basic-box shadow pa32 br16 margin-hc">
               <form className="common-container">
                 <input
                   className="regular-input mb8"

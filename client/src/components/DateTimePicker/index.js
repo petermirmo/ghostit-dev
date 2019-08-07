@@ -290,7 +290,7 @@ class DatePicker extends Component {
         </div>
         {calendarDropdown && (
           <div
-            className="dropdown flex simple-container common-shadow pa8"
+            className="dropdown flex simple-container shadow pa8"
             style={style}
           >
             <div className="nowrap-container-center">
@@ -326,7 +326,7 @@ class DatePicker extends Component {
                   {date.format("h")} <FontAwesomeIcon icon={faCaretDown} />
                   {hourDropdown && (
                     <div
-                      className="dropdown flex common-shadow simple-container"
+                      className="dropdown flex shadow simple-container"
                       style={{ overflow: "auto", maxHeight: "120px" }}
                     >
                       {hours}
@@ -342,7 +342,7 @@ class DatePicker extends Component {
                   {date.format("mm")} <FontAwesomeIcon icon={faCaretDown} />
                   {minuteDropdown && (
                     <div
-                      className="dropdown flex common-shadow simple-container"
+                      className="dropdown flex shadow simple-container"
                       style={{ overflow: "auto", maxHeight: "120px" }}
                     >
                       {minutes}
@@ -358,7 +358,7 @@ class DatePicker extends Component {
                   {date.format("A")} <FontAwesomeIcon icon={faCaretDown} />
                   {amPmDropdown && (
                     <div
-                      className="dropdown flex common-shadow simple-container"
+                      className="dropdown flex shadow simple-container"
                       style={{ overflow: "auto", maxHeight: "120px" }}
                     >
                       {amPM}

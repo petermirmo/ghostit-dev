@@ -33,7 +33,7 @@ class Dashboard extends Component {
                 type="p"
               />
               <GIButton
-                className="x-fill common-shadow-blue-3 bg-blue-fade-2 white br4 py8"
+                className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 py8"
                 onClick={() => handleParentChange({ contentModal: true })}
                 text="Create"
               />
@@ -60,7 +60,7 @@ class Dashboard extends Component {
                 type="p"
               />
               <GIButton
-                className="x-fill common-shadow-blue-3 bg-blue-fade-2 white br4 py8"
+                className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 py8"
                 onClick={() => handleParentChange({ campaignModal: true })}
                 text="Create"
               />
@@ -87,7 +87,7 @@ class Dashboard extends Component {
                 type="p"
               />
               <GIButton
-                className="x-fill common-shadow-blue-3 bg-blue-fade-2 white br4 py8"
+                className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 py8"
                 onClick={() => handleParentChange({ templatesModal: true })}
                 text="Browse"
               />

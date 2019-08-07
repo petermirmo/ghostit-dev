@@ -93,7 +93,7 @@ class LoginPage extends Component {
           >
             <GIText className="pb16 tac" text="Sign in to Ghostit!" type="h1" />
 
-            <GIContainer className="basic-box common-shadow pa32 br16">
+            <GIContainer className="basic-box shadow pa32 br16">
               <form
                 className="common-container"
                 onSubmit={event => event.preventDefault()}

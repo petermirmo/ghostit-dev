@@ -33,7 +33,7 @@ export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
 };
 export const getAccounts = callback => {
   if (process.env.NODE_ENV === "development") {
-    callback(testingAccounts);
+    //  callback(testingAccounts);
   }
   axios.get("/api/accounts").then(res => {
     // Set user's accounts to state
@@ -62,7 +62,7 @@ export const getGhostitBlogs = callback => {
 
 export const getUser = callback => {
   if (process.env.NODE_ENV === "development") {
-    return callback(testingUser);
+    //  return callback(testingUser);
   }
   axios.get("/api/user").then(res => {
     const { error, user } = res.data;

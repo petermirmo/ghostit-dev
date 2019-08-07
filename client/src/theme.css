@@ -210,6 +210,9 @@
 .bg-orange-fade-2 {
   background: linear-gradient(285deg, #fd5642, #ff9464);
 }
+.bg-orange-fade-3 {
+  background-image: linear-gradient(285deg, #fd5642, #ff9464);
+}
 .bg-blue-fade {
   background: linear-gradient(99deg, #04f0fa, var(--five-blue-color));
 }
@@ -218,6 +221,9 @@
 }
 .bg-blue-fade-3 {
   background-image: linear-gradient(to bottom, #04f0fa, var(--five-blue-color));
+}
+.bg-blue-fade-4 {
+  background-image: linear-gradient(312deg, #1ba5f9, #04c5fb);
 }
 
 .fixed {
@@ -843,37 +849,40 @@
   width: 16px !important;
   height: 16px;
 }
-.common-shadow {
+.shadow {
   box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.2);
 }
-.common-shadow-light {
+.shadow-light {
   box-shadow: 0 5px 12px 0 rgba(0, 0, 0, 0.07);
 }
-.common-shadow-green {
+.shadow-green {
   box-shadow: 0 5px 12px 0 rgba(50, 242, 202, 0.35);
 }
-.common-shadow-purple {
+.shadow-purple {
   box-shadow: 0 5px 12px 0 rgba(99, 101, 255, 0.25);
 }
-.common-shadow-orange {
+.shadow-orange {
   box-shadow: 0 5px 12px 0 rgba(248, 81, 61, 0.35);
 }
-.common-shadow-orange-2 {
+.shadow-orange-2 {
   box-shadow: 0 8px 15px 0 rgba(248, 81, 61, 0.35);
 }
-.common-shadow-blue {
+.shadow-blue {
   box-shadow: 0 7px 12px 0 rgba(5, 197, 253, 0.5);
 }
-.common-shadow-blue-2 {
+.shadow-blue-2 {
   box-shadow: 0 3px 8px 0 rgba(5, 197, 253, 0.25);
 }
-.common-shadow-blue-3 {
+.shadow-blue-3 {
   box-shadow: 0 5px 12px 0 rgba(5, 164, 255, 0.27);
 }
-.common-shadow-left {
+.shadow-blue-4 {
+  box-shadow: 0 4px 11px 0 rgba(5, 175, 255, 0.29);
+}
+.shadow-left {
   box-shadow: -4px 0 6px 0 rgba(0, 0, 0, 0.2);
 }
-.common-shadow-medium {
+.shadow-medium {
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12);
 }
 .shadow-1 {

@@ -296,7 +296,7 @@ class CreateWebsiteBlog extends Component {
           {blogDivs}
 
           <div
-            className="wrapping-container common-shadow"
+            className="wrapping-container shadow"
             id="ghostit-blog-text-styling"
           >
             <EditButton cmd="undo" />

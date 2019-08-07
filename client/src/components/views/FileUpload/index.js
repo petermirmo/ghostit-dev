@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/pro-light-svg-icons";
 
 import GIContainer from "../../containers/GIContainer";
 
@@ -15,7 +16,7 @@ class FileUpload extends Component {
       className = "br8",
       canEdit = true,
       currentFiles = [],
-      fileIcon = faUpload,
+      fileIcon = faPlus,
       fileLimit = 4,
       filesToDelete = [],
       hideUploadButton = false,
@@ -32,9 +33,9 @@ class FileUpload extends Component {
           <GIContainer>
             <label
               htmlFor={id}
-              className={`custom-file-upload clickable full-center flex ${className}`}
+              className={`br4 shadow-blue-4 bg-blue-fade-4 white xy-64px clickable full-center flex ${className}`}
             >
-              <FontAwesomeIcon icon={fileIcon} className="px4" />
+              <FontAwesomeIcon icon={fileIcon} size="2x" />
             </label>
 
             <input

@@ -103,16 +103,6 @@ class HeaderSideBar extends Component {
                 <p>Calendar</p>
               </Link>
 
-              {isAdmin && (
-                <Link
-                  className={"header-button " + this.isActive("analytics")}
-                  to="/analytics"
-                >
-                  <FontAwesomeIcon icon={faChartLine} />
-                  <p>Analytics</p>
-                </Link>
-              )}
-
               <Link
                 className={"header-button " + this.isActive("social-accounts")}
                 to="/social-accounts"
@@ -121,15 +111,7 @@ class HeaderSideBar extends Component {
                 <p>Social</p>
                 <p>Accounts</p>
               </Link>
-              {isAdmin && (
-                <Link
-                  className={"header-button " + this.isActive("manage")}
-                  to="/manage"
-                >
-                  <FontAwesomeIcon icon={faCogs} />
-                  <p>Manage</p>
-                </Link>
-              )}
+
               <Link
                 className={"header-button " + this.isActive("profile")}
                 to="/profile"

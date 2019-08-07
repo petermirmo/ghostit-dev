@@ -64,6 +64,10 @@
   width: 125px;
 }
 
+.xy-64px {
+  width: 64px;
+  height: 64px;
+}
 .xy-125px {
   width: 125px;
   height: 125px;
