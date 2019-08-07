@@ -28,7 +28,7 @@ class PricingPage extends Component {
           <GIText className="four-blue" text="&nbsp;250-415-3093" type="span" />
         </GIText>
 
-        <GIContainer className="x-wrap justify-center align-end mt16">
+        <GIContainer className="x-wrap justify-center align-end mt16 mb32">
           <GIContainer className="container-box small column shadow-3 common-border one-blue mb32 mx16 br16">
             <GIContainer className="x-wrap x-fill full-center py32 px16">
               <GIText
