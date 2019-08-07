@@ -5,6 +5,13 @@
   z-index: 100;
   color: var(--secondary-font-color);
 }
+
+#blob-under-login {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -2;
+}
 .website-header {
   position: fixed;
   top: 0;

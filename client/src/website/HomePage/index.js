@@ -31,14 +31,24 @@ class RegularVersion extends Component {
                 isMobileOrTablet() ? "column" : "reverse mt64"
               }`}
             >
+              {isMobileOrTablet() && (
+                <img
+                  alt="blob"
+                  id="blob-under-login"
+                  src={require("../../svgs/blob-under-login.svg")}
+                  style={{ width: "95vw" }}
+                />
+              )}
               <GIContainer
                 className={`${
-                  isMobileOrTablet() ? "x-fill px32" : "container-box medium"
+                  isMobileOrTablet()
+                    ? "x-fill full-center px32 mt64"
+                    : "container-box medium"
                 }`}
               >
                 <img
                   alt=""
-                  className="fill-parent"
+                  className={`${isMobileOrTablet() ? "x-85" : "fill-parent"}`}
                   src={require("../../svgs/home-1.svg")}
                 />
               </GIContainer>
@@ -66,23 +76,44 @@ class RegularVersion extends Component {
                 />
                 <Link to="/sign-up">
                   <GIButton
-                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32"
+                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32 mb32"
                     text="Get Your Free Trial"
                   />
                 </Link>
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="full-center x-fill mt64">
-              <GIContainer className="container-box medium">
+            <GIContainer
+              className={`full-center x-fill  ${
+                isMobileOrTablet() ? "column" : "mt64"
+              }`}
+            >
+              <GIContainer
+                className={`${
+                  isMobileOrTablet()
+                    ? "x-fill full-center px32"
+                    : "container-box medium"
+                }`}
+              >
                 <img
                   alt=""
-                  className="fill-parent"
+                  className={`${isMobileOrTablet() ? "x-85" : "fill-parent"}`}
                   src={require("../../svgs/home-2.svg")}
                 />
               </GIContainer>
-              <GIContainer className="container-box medium column align-start px32">
-                <GIText className="muli mb16" type="h2">
+              <GIContainer
+                className={`column px32 ${
+                  isMobileOrTablet()
+                    ? "x-fill full-center"
+                    : "container-box medium align-start"
+                }`}
+              >
+                <GIText
+                  className={`muli mb16 ${
+                    isMobileOrTablet() ? "x-fill tac" : ""
+                  }`}
+                  type="h2"
+                >
                   Improve Your
                   <GIText
                     className="four-blue"
@@ -98,16 +129,44 @@ class RegularVersion extends Component {
                 />
                 <Link to="/sign-up">
                   <GIButton
-                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32"
+                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32 mb32"
                     text="Get Your Free Trial"
                   />
                 </Link>
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="full-center x-fill my64">
-              <GIContainer className="container-box medium column align-start px32">
-                <GIText className="muli mb16" type="h2">
+            <GIContainer
+              className={`full-center x-fill my64 ${
+                isMobileOrTablet() ? "column" : "reverse"
+              }`}
+            >
+              <GIContainer
+                className={`${
+                  isMobileOrTablet()
+                    ? "x-fill full-center px32"
+                    : "container-box medium"
+                }`}
+              >
+                <img
+                  alt=""
+                  className={`${isMobileOrTablet() ? "x-85" : "fill-parent"}`}
+                  src={require("../../svgs/home-3.svg")}
+                />
+              </GIContainer>
+              <GIContainer
+                className={`column px32 ${
+                  isMobileOrTablet()
+                    ? "x-fill full-center"
+                    : "container-box medium align-start "
+                }`}
+              >
+                <GIText
+                  className={`muli mb16 ${
+                    isMobileOrTablet() ? "x-fill tac" : ""
+                  }`}
+                  type="h2"
+                >
                   Machine
                   <GIText
                     className="four-blue"
@@ -123,17 +182,10 @@ class RegularVersion extends Component {
                 />
                 <Link to="/sign-up">
                   <GIButton
-                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32"
+                    className="bg-orange-fade-2 common-shadow-orange-2 white br32 py16 px32 mb32"
                     text="Get Your Free Trial"
                   />
                 </Link>
-              </GIContainer>
-              <GIContainer className="container-box medium">
-                <img
-                  alt=""
-                  className="fill-parent"
-                  src={require("../../svgs/home-3.svg")}
-                />
               </GIContainer>
             </GIContainer>
 
@@ -150,7 +202,7 @@ class RegularVersion extends Component {
                 />
               </GIText>
 
-              <GIContainer className="x-wrap">
+              <GIContainer className="x-wrap full-center">
                 <GIContainer className="container-box small column">
                   <GIContainer className="mb32">
                     <img
@@ -248,7 +300,9 @@ class RegularVersion extends Component {
                 </GIContainer>
               </GIContainer>
               <GIText
-                className="container-box large white tac mt32"
+                className={`white tac mt32 ${
+                  isMobileOrTablet() ? "x-fill" : "container-box large "
+                }`}
                 text="Repeatedly running digital campaigns for multiple clients can get both cumbersome and at times confusing. Ghostit's platform lets me schedule all of my client's marketing initiatives unlike any other platform and keep them all organized."
                 type="p"
               />
