@@ -208,7 +208,7 @@ class Post extends Component {
                   />
                 )}
                 <GIContainer className="align-center justify-start">
-                  <GIText text="Post Date:" type="p" />
+                  <GIText className="pr8" text="Post Date:" type="p" />
                   <GIContainer>
                     <DateTimePicker
                       canEdit={canEditPost}

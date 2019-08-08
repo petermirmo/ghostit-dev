@@ -111,7 +111,7 @@ class Analytics extends Component {
                   this.handleChange({ activeAnalyticsSocialType: index })
                 }
               >
-                <GIContainer className="round-icon round full-center">
+                <GIContainer className="round-icon-small round full-center">
                   <FontAwesomeIcon
                     color="var(--white-theme-color)"
                     icon={getPostIconRound(category.name)}
@@ -128,7 +128,7 @@ class Analytics extends Component {
         />
         <GIContainer className="mt32">
           <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
-            <GIContainer className="round-icon mb8">
+            <GIContainer className="round-icon-small mb8">
               <img
                 alt=""
                 src={require("../../svgs/icons/profile.svg")}
@@ -146,14 +146,10 @@ class Analytics extends Component {
               type="h2"
             />
             <GIText className="tac white bold" text="New Visitors" type="h6" />
-            <GIText
-              className="tac white fs-13"
-              text="Last 30 Days"
-              type="p"
-            />
+            <GIText className="tac white fs-13" text="Last 30 Days" type="p" />
           </GIContainer>
           <GIContainer className="fill-flex full-center column shadow-purple bg-purple-fade br8 pa16 mx8">
-            <GIContainer className="round-icon mb8">
+            <GIContainer className="round-icon-small mb8">
               <img
                 alt=""
                 src={require("../../svgs/icons/profile-with-plus.svg")}
@@ -171,14 +167,10 @@ class Analytics extends Component {
               type="h2"
             />
             <GIText className="tac white bold" text="New Followers" type="h6" />
-            <GIText
-              className="tac white fs-13"
-              text="Last 30 Days"
-              type="p"
-            />
+            <GIText className="tac white fs-13" text="Last 30 Days" type="p" />
           </GIContainer>
           <GIContainer className="fill-flex full-center column shadow-light common-border br8 pa16 mx8">
-            <GIContainer className="round-icon mb8">
+            <GIContainer className="round-icon-small mb8">
               <img
                 alt=""
                 src={require("../../svgs/icons/thumbs-up.svg")}
@@ -216,7 +208,10 @@ class Analytics extends Component {
         <GIContainer className="mt16 column px32">
           {analyticsInformationList[activeAnalyticIndex] && (
             <Dropdown
+              activeItem={activeAnalyticIndex}
               className="br8"
+              dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
+              dropdownClassName="common-border five-blue"
               dropdownItems={analyticsInformationList.map(obj => obj.title)}
               handleParentChange={dropdownClickedItemObj =>
                 this.handleChange({
@@ -255,7 +250,10 @@ class Analytics extends Component {
             <GIContainer>
               {graphType !== 1 && (
                 <Dropdown
+                  activeItem={activeGraphMonthIndex}
                   className="br8"
+                  dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
+                  dropdownClassName="common-border five-blue"
                   dropdownItems={months.map((month, index) => {
                     if (
                       canDisplayMonth(
@@ -284,7 +282,10 @@ class Analytics extends Component {
 
               <GIContainer className="ml8">
                 <Dropdown
+                  activeItem={activeGraphYear}
                   className="br8"
+                  dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
+                  dropdownClassName="common-border five-blue"
                   dropdownItems={analyticsDropdownYears}
                   handleParentChange={dropdownClickedItemObj =>
                     this.handleChange({

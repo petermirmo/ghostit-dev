@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/pro-light-svg-icons";
+import { faCheck } from "@fortawesome/pro-solid-svg-icons";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../GIText";
+
+import { isActiveItem } from "./util";
 
 import "./style.css";
 
@@ -31,7 +35,10 @@ class Dropdown extends Component {
   render() {
     const { showDropdown } = this.state;
     const {
+      activeItem,
+      dropdownActiveDisplayClassName,
       className,
+      dropdownClassName,
       dropdownItems,
       search,
       size,
@@ -42,9 +49,9 @@ class Dropdown extends Component {
 
     return (
       <GIContainer
-        className={
-          showDropdown ? `button ${className} something` : `button ${className}`
-        }
+        className={`button ${className}  ${
+          showDropdown ? dropdownActiveDisplayClassName : ""
+        }`}
         onClick={() => this.setState({ showDropdown: !showDropdown })}
         forwardedRef={this.setWrapperRef}
         testMode={testMode}
@@ -58,14 +65,27 @@ class Dropdown extends Component {
           />
         </GIContainer>
         {showDropdown && (
-          <GIContainer className="dropdown">
+          <GIContainer className={`dropdown ${dropdownClassName}`}>
             {dropdownItems.map((item, index) => (
-              <GIContainer
+              <GIText
+                className={`flex align-center border-top px16 py8 ${isActiveItem(
+                  activeItem,
+                  index
+                )}`}
                 key={index}
                 onClick={() => handleParentChange({ item, index })}
+                type="h4"
               >
                 {item}
-              </GIContainer>
+                {isActiveItem(activeItem, index) && (
+                  <GIContainer className="fill-flex justify-end">
+                    <FontAwesomeIcon
+                      className="round-icon-medium round bg-five-blue white pa4"
+                      icon={faCheck}
+                    />
+                  </GIContainer>
+                )}
+              </GIText>
             ))}
           </GIContainer>
         )}

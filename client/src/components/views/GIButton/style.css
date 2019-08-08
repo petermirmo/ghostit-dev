@@ -18,10 +18,10 @@
 .navigation-button h3 {
   color: inherit;
 }
-.navigation-button .round-icon {
+.navigation-button .round-icon-small {
   background-color: var(--grey-theme-color);
 }
-.navigation-button.active .round-icon {
+.navigation-button.active .round-icon-small {
   background-color: var(--five-blue-color);
 }
 .square-button {
@@ -105,7 +105,7 @@
 }
 .grey-button {
   border: 1px solid var(--grey-font-color);
-  color: var(--grey-font-color);
+  color: var(--grey-font-color) !important;
   background-color: var(--white-theme-color);
 }
 .transparent-button.active {

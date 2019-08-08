@@ -47,6 +47,7 @@ import { validateEmail } from "../../componentFunctions";
 
 import {
   addMonth,
+  getActiveCategoriesInArray,
   getCalendarEvents,
   getCalendarUsers,
   getPosts,
@@ -79,7 +80,7 @@ class CalendarPage extends Component {
 
     calendarManagerModal: false,
     campaignModal: false,
-    contentModal: true,
+    contentModal: false,
     dashboardModal: false,
     postEdittingModal: false,
 
@@ -340,6 +341,8 @@ class CalendarPage extends Component {
               <Dropdown
                 activeItem={activeCalendarIndex}
                 className="shadow-medium"
+                dropdownActiveDisplayClassName="border-right five-blue"
+                dropdownClassName="border-bottom border-right five-blue"
                 dropdownItems={calendars.map(
                   (calendar, index) => calendar.calendarName
                 )}
@@ -428,7 +431,12 @@ class CalendarPage extends Component {
                 </GIContainer>
                 <GIContainer className="full-center">
                   <Dropdown
+                    activeItem={getActiveCategoriesInArray(
+                      calendarEventCategories
+                    )}
                     className="x-fill common-border shadow-light br4"
+                    dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
+                    dropdownClassName="common-border five-blue"
                     dropdownItems={Object.keys(calendarEventCategories).map(
                       (key, index) => key
                     )}
@@ -509,20 +517,22 @@ class CalendarPage extends Component {
 
                   <GIButton
                     className={
-                      "absolute bottom-0 translate-y-50 white px16 py4 br4" +
+                      "white absolute bottom-0 translate-y-50 px16 py4 br4" +
                       (validateEmail(inviteUserEmail) || !inviteUserActivated
                         ? " bg-five-blue"
                         : " grey-button")
                     }
                     onClick={() => {
                       if (inviteUserActivated) {
-                        inviteUserToCalendar(
-                          calendars,
-                          context,
-                          activeCalendarIndex,
-                          this.handleChange,
-                          inviteUserEmail
-                        );
+                        if (validateEmail(inviteUserEmail))
+                          inviteUserToCalendar(
+                            calendars,
+                            context,
+                            activeCalendarIndex,
+                            this.handleChange,
+                            inviteUserEmail
+                          );
+                        else alert("Not an email address");
                       } else this.handleChange({ inviteUserActivated: true });
                     }}
                     text="Invite"

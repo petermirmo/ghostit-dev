@@ -845,7 +845,11 @@
   width: 32px !important;
   height: 32px;
 }
-.round-icon.small {
+.round-icon-medium {
+  width: 24px !important;
+  height: 24px;
+}
+.round-icon-small {
   width: 16px !important;
   height: 16px;
 }
@@ -900,14 +904,8 @@
 .shadow-5 {
   box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.2);
 }
-.trial-days-left {
-  width: 100%;
-  background-color: var(--red-theme-color);
-  color: var(--white-theme-color);
-}
-.sign-up-now {
-  color: inherit;
-  text-decoration: underline;
+.shadow-6 {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.07);
 }
 body {
   min-height: 100%;
@@ -1027,34 +1025,6 @@ div {
 }
 .icon-regular-button:hover {
   color: var(--eight-blue-color);
-}
-.border.small {
-  border: 0.5px solid var(--grey-theme-color);
-}
-.border-right {
-  border-right: 1px solid var(--grey-theme-color);
-}
-.border-bottom {
-  border-bottom: 1px solid var(--grey-theme-color);
-}
-.border-bottom-light {
-  border-bottom: 1px solid var(--grey-theme-color);
-}
-.border-bottom-dashed {
-  border-bottom: 1px dashed var(--grey-theme-color);
-}
-.border-top {
-  border-top: 1px solid var(--grey-theme-color);
-}
-.border-top-dashed {
-  border-top: 1px dashed var(--grey-theme-color);
-}
-.border-bottom-50 {
-  position: absolute;
-  left: 40%;
-  right: 40%;
-  bottom: 0;
-  border-bottom: 2px solid var(--four-blue-color);
 }
 .list-item {
   flex-shrink: 0;

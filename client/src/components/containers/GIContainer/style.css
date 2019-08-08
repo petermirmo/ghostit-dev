@@ -116,6 +116,9 @@
 .justify-between {
   justify-content: space-between;
 }
+.align-between {
+  align-items: space-between;
+}
 
 .container-box {
   position: relative;
@@ -193,6 +196,8 @@
 .common-border.four-blue {
   border-color: var(--four-blue-color);
 }
+.border-right.five-blue,
+.border-bottom.five-blue,
 .common-border.five-blue {
   border-color: var(--five-blue-color);
 }
@@ -201,6 +206,35 @@
 }
 .common-border.white {
   border-color: var(--white-theme-color);
+}
+
+.border.small {
+  border: 0.5px solid var(--grey-theme-color);
+}
+.border-right {
+  border-right: 1px solid var(--grey-theme-color);
+}
+.border-bottom {
+  border-bottom: 1px solid var(--grey-theme-color);
+}
+.border-bottom-light {
+  border-bottom: 1px solid var(--grey-theme-color);
+}
+.border-bottom-dashed {
+  border-bottom: 1px dashed var(--grey-theme-color);
+}
+.border-top {
+  border-top: 1px solid var(--grey-theme-color);
+}
+.border-top-dashed {
+  border-top: 1px dashed var(--grey-theme-color);
+}
+.border-bottom-50 {
+  position: absolute;
+  left: 40%;
+  right: 40%;
+  bottom: 0;
+  border-bottom: 2px solid var(--four-blue-color);
 }
 .light-scrollbar::-webkit-scrollbar {
   width: 12px;
@@ -292,6 +326,10 @@
 .grid-3-column {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
+}
+.no-bottom-br {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .test-mode {

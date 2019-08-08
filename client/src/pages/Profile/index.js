@@ -83,7 +83,7 @@ class Profile extends Component {
               <FontAwesomeIcon className="mr8" icon={faSignOut} />
               Logout
             </GIButton>
-            {(user.role === "client" || user.role === "admin") && (
+            {((user && user.role === "client") || user.role === "admin") && (
               <Link
                 className="bg-white shadow-2 absolute top-0 left-0 px16 py8 br16"
                 to="/subscription"

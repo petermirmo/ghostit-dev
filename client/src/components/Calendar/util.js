@@ -93,7 +93,7 @@ export const createCalendarWeeks = (calendarDate, props) => {
             />
             {!pastDate && (
               <FontAwesomeIcon
-                className="calendar-day-plus shadow-orange round round-icon small ma4 pa2"
+                className="calendar-day-plus shadow-orange round round-icon-small small ma4 pa2"
                 icon={faPlus}
               />
             )}

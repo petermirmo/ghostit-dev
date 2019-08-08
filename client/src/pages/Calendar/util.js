@@ -237,9 +237,7 @@ export const inviteUserToCalendar = (
         context.notify({
           type: "success",
           title: "Invite Successful",
-          message: `${inviteEmail} has been invited to join calendar ${
-            calendar.calendarName
-          }.`
+          message: `${inviteEmail} has been invited to join calendar ${calendar.calendarName}.`
         });
         handleChange(prevState => {
           return {
@@ -254,7 +252,15 @@ export const inviteUserToCalendar = (
       }
     });
 };
-
+export const getActiveCategoriesInArray = calendarEventCategories => {
+  const temp = [];
+  let i = 0;
+  for (let index in calendarEventCategories) {
+    if (calendarEventCategories[index]) temp.push(i);
+    i++;
+  }
+  return temp;
+};
 export const updateActiveCategory = (
   calendarEventCategories,
   handleChange,

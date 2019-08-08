@@ -77,7 +77,7 @@ class FileUpload extends Component {
                 )}
                 {canEdit && (
                   <FontAwesomeIcon
-                    className="bg-white primary-font shadow-left icon-x-hover round-icon small clickable round"
+                    className="bg-white primary-font shadow-left icon-x-hover round-icon-small small clickable round"
                     icon={faTimes}
                     onClick={() =>
                       removeFile(

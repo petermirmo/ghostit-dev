@@ -59,6 +59,9 @@
 .bold {
   font-weight: bold;
 }
+.bold-600 {
+  font-weight: 600;
+}
 
 .seven-blue {
   color: var(--seven-blue-color);
