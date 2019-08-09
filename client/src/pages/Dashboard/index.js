@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import Page from "../../components/containers/Page";
-import Modal from "../../components/containers/Modal";
+import Modal0 from "../../components/containers/Modal0";
 
 import Dashboard from "../../components/Dashboard";
 
@@ -83,7 +83,7 @@ class DashboardPage extends Component {
                 />
               )}
               {contentModal && calendars[activeCalendarIndex] && (
-                <Modal
+                <Modal0
                   body={
                     <PostCreation
                       calendarID={calendars[activeCalendarIndex]._id}
@@ -100,10 +100,11 @@ class DashboardPage extends Component {
                       }}
                     />
                   }
+                  close={() => this.handleChange({ contentModal: false })}
                 />
               )}
               {campaignModal && calendars[activeCalendarIndex] && (
-                <Modal
+                <Modal0
                   body={
                     <Campaign
                       calendarID={calendars[activeCalendarIndex]._id}

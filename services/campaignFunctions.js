@@ -61,7 +61,7 @@ module.exports = {
       else {
         for (let index in allRecipes) {
           User.findOne({ _id: allRecipes[index].userID }, (err, user) => {
-            if (err) generalFunctions.handleError(res, err);
+            if (err || !user) generalFunctions.handleError(res, err);
             else {
               allRecipes[index].creator = user.fullName;
               if (index == allRecipes.length - 1) {

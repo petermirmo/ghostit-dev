@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import GIContainer from "../../containers/GIContainer";
+import GIButton from "../../views/GIButton";
 import GIText from "../../views/GIText";
 
 import DateTimePicker from "../../DateTimePicker";
@@ -49,6 +50,7 @@ class Post extends Component {
     this._ismounted = true;
 
     const { calendarID, content, linkDescription, linkTitle } = this.state;
+
     findLink(this.handleChangeRegular, linkDescription, linkTitle, content);
     getCalendarAccounts(calendarID, this.handleChangeRegular, this.props);
   }
@@ -111,11 +113,13 @@ class Post extends Component {
       accountID,
       date,
       calendarAccounts,
+      calendarID,
       content,
       files,
       filesToDelete,
       instructions,
       link,
+      linkAccountToCalendarID,
       linkCustomFiles,
       linkTitle,
       linkDescription,
@@ -128,7 +132,13 @@ class Post extends Component {
       _id
     } = this.state;
 
-    const { accounts, canEditPost, maxCharacters, recipeEditing } = this.props; // Variables
+    const {
+      accounts,
+      canEditPost,
+      deletePost,
+      maxCharacters,
+      recipeEditing
+    } = this.props; // Variables
     const { modifyCampaignDates } = this.props; // Functions
 
     const {
@@ -300,10 +310,18 @@ class Post extends Component {
                 />
               </GIContainer>
             </GIContainer>
-            {canEditPost && (somethingChanged || (!recipeEditing && !_id)) && (
-              <GIContainer className="justify-end py8">
-                <button
-                  className="bg-orange-fade shadow-orange-2 white py8 br4"
+
+            <GIContainer className="justify-end py8">
+              {deletePost && (
+                <GIButton
+                  className="common-border dark bg-white shadow-6 primary-font py8 px16 mr8 br4"
+                  onClick={deletePost}
+                  text="Delete"
+                />
+              )}
+              {canEditPost && (somethingChanged || (!recipeEditing && !_id)) && (
+                <GIButton
+                  className="bg-orange-fade shadow-orange-2 white py8 px16 br4"
                   onClick={() =>
                     this.handleChangeRegular(
                       trySavePost(this.state, this.props)
@@ -312,9 +330,9 @@ class Post extends Component {
                 >
                   <FontAwesomeIcon className="mr8" icon={faCheck} />
                   {recipeEditing ? "Save Post" : "Schedule Post!"}
-                </button>
-              </GIContainer>
-            )}
+                </GIButton>
+              )}
+            </GIContainer>
 
             {promptModifyCampaignDates && (
               <ConfirmAlert

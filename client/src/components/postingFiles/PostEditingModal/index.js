@@ -12,6 +12,7 @@ import Post from "../Post";
 import CustomTask from "../CustomTask";
 import ConfirmAlert from "../../notifications/ConfirmAlert";
 import Loader from "../../notifications/Loader/";
+import Modal0 from "../../containers/Modal0/";
 
 import Consumer from "../../../context";
 
@@ -25,93 +26,89 @@ class PostEdittingModal extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    this.props.setKeyListenerFunction([
+    const {
+      close,
+      getKeyListenerFunction,
+      setKeyListenerFunction
+    } = this.props;
+
+    setKeyListenerFunction([
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
-          this.props.close(); // escape button pushed
+          close(); // escape button pushed
         }
       },
-      this.props.getKeyListenerFunction[0]
+      getKeyListenerFunction[0]
     ]);
   }
   componentWillUnmount() {
     this._ismounted = false;
   }
 
-  deletePostPopUp = () => {
-    this.setState({ confirmDelete: true });
+  handleChange = stateObject => {
+    if (this._ismounted) this.setState(stateObject);
   };
   deletePost = (deletePost, context) => {
-    this.setState({ confirmDelete: false, saving: true });
-    if (!this.props.clickedEvent._id) {
+    const {
+      clickedEvent,
+      close,
+      history,
+      updateCalendarPosts,
+      triggerSocketPeers
+    } = this.props;
+
+    handleChange({ confirmDelete: false, saving: true });
+    if (!clickedEvent._id) {
       alert("Error cannot find post. Please contact our dev team immediately");
       return;
     }
     if (deletePost) {
-      axios
-        .delete("/api/post/delete/" + this.props.clickedEvent._id)
-        .then(res => {
-          let { loggedIn, message, success } = res.data;
-          if (loggedIn === false) this.props.history.push("/sign-in");
+      axios.delete("/api/post/delete/" + clickedEvent._id).then(res => {
+        const { loggedIn, message, success } = res.data;
 
-          if (success) {
-            this.props.updateCalendarPosts();
-            context.notify({ type: "success", title: "Post Deleted", message });
-            this.props.triggerSocketPeers("calendar_post_deleted", {
-              postID: this.props.clickedEvent._id,
-              socialType: this.props.clickedEvent.socialType
-            });
-            this.props.close();
-          } else {
-            context.notify({
-              type: "danger",
-              title: "Post Delete Failed",
-              message
-            });
-          }
-        });
+        if (loggedIn === false) history.push("/sign-in");
+
+        if (success) {
+          updateCalendarPosts();
+          context.notify({ message, title: "Post Deleted", type: "success" });
+          triggerSocketPeers("calendar_post_deleted", {
+            postID: clickedEvent._id,
+            socialType: clickedEvent.socialType
+          });
+          close();
+        } else {
+          context.notify({
+            message,
+            title: "Post Delete Failed",
+            type: "danger"
+          });
+        }
+      });
     } else {
-      this.setState({
+      this.handleChange({
         confirmDelete: false,
         saving: false
       });
     }
   };
-  setSaving = () => {
-    this.setState({ saving: true });
-  };
+
   render() {
-    if (this.state.saving) {
-      return <Loader />;
-    }
+    const { confirmDelete, saving } = this.state;
     const {
+      calendarID,
       close,
       savePostCallback,
       clickedEvent,
       accounts,
       timezone
     } = this.props;
+    const canEditPost = clickedEvent.status !== "posted";
 
-    let modalFooter;
-    let canEditPost = clickedEvent.status !== "posted";
-    if (canEditPost) {
-      modalFooter = (
-        <div className="modal-footer">
-          <div
-            className="campaign-footer-option right"
-            title="Delete campaign."
-          >
-            <FontAwesomeIcon
-              onClick={this.deletePostPopUp}
-              className="delete"
-              icon={faTrash}
-              size="2x"
-            />
-          </div>
-        </div>
-      );
+    if (this.state.saving) {
+      return <Loader />;
     }
+
     let maxCharacters;
     if (clickedEvent.socialType === "twitter") {
       maxCharacters = 280;
@@ -122,59 +119,50 @@ class PostEdittingModal extends Component {
     return (
       <Consumer>
         {context => (
-          <div className="modal" onClick={this.props.close}>
-            <div className="large-modal" onClick={e => e.stopPropagation()}>
-              <div className="modal-header">
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  className="close"
-                  size="2x"
-                  onClick={() => close()}
+          <Modal0
+            body={
+              clickedEvent.socialType === "custom" ? (
+                <CustomTask
+                  calendarID={calendarID}
+                  canEditPost={canEditPost}
+                  deletePost={() => this.handleChange({ confirmDelete: true })}
+                  notify={context.notify}
+                  post={clickedEvent}
+                  postFinishedSavingCallback={post => {
+                    savePostCallback(post);
+                    close();
+                  }}
+                  setSaving={() => this.handleChange({ saving: false })}
                 />
-              </div>
-              <div className="modal-body">
-                {clickedEvent.socialType === "custom" && (
-                  <CustomTask
-                    setSaving={this.setSaving}
-                    post={clickedEvent}
-                    canEditPost={canEditPost}
-                    postFinishedSavingCallback={post => {
-                      savePostCallback(post);
-                      close();
-                    }}
-                    calendarID={this.props.calendarID}
-                    notify={context.notify}
-                  />
-                )}
-                {clickedEvent.socialType !== "custom" && (
-                  <Post
-                    setSaving={this.setSaving}
-                    post={clickedEvent}
-                    canEditPost={canEditPost}
-                    postFinishedSavingCallback={post => {
-                      savePostCallback(post);
-                      close();
-                    }}
-                    accounts={accounts}
-                    timezone={timezone}
-                    maxCharacters={maxCharacters}
-                    calendarID={this.props.calendarID}
-                    notify={context.notify}
-                  />
-                )}
-              </div>
-              {this.state.confirmDelete && (
-                <ConfirmAlert
-                  close={() => this.setState({ confirmDelete: false })}
-                  title="Delete Post"
-                  message="Are you sure you want to delete this post?"
-                  callback={deletePost => this.deletePost(deletePost, context)}
+              ) : (
+                <Post
+                  accounts={accounts}
+                  calendarID={calendarID}
+                  canEditPost={canEditPost}
+                  deletePost={() => this.handleChange({ confirmDelete: true })}
+                  maxCharacters={maxCharacters}
+                  notify={context.notify}
+                  post={clickedEvent}
+                  postFinishedSavingCallback={post => {
+                    savePostCallback(post);
+                    close();
+                  }}
+                  setSaving={() => this.handleChange({ saving: false })}
+                  timezone={timezone}
                 />
-              )}
-
-              {modalFooter}
-            </div>
-          </div>
+              )
+            }
+            onClick={close}
+          >
+            {confirmDelete && (
+              <ConfirmAlert
+                callback={deletePost => this.deletePost(deletePost, context)}
+                close={() => this.setState({ confirmDelete: false })}
+                message="Are you sure you want to delete this post?"
+                title="Delete Post"
+              />
+            )}
+          </Modal0>
         )}
       </Consumer>
     );

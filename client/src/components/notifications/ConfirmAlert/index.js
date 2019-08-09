@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
 import "./style.css";
@@ -49,6 +49,7 @@ class ConfirmAlert extends Component {
       extraConfirmationKey
     } = this.props; // variables
     const { close, callback } = this.props; // functions
+
     let firstButton = "Delete";
     let secondButton = "Cancel";
     let firstButtonStyle = "confirm-button";
@@ -62,8 +63,10 @@ class ConfirmAlert extends Component {
         firstButton = "Discard";
       } // else "delete-campaign" or "delete-post" or "delete-calendar"
     }
+
     if (this.props.firstButton) firstButton = this.props.firstButton;
     if (this.props.secondButton) secondButton = this.props.secondButton;
+
     return (
       <div className="confirm-alert-background" onClick={close}>
         <div className="confirm-alert" onClick={e => e.stopPropagation()}>

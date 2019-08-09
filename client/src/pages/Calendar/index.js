@@ -646,6 +646,9 @@ class CalendarPage extends Component {
             )}
             {postEdittingModal && (
               <PostEdittingModal
+                calendarID={calendars[activeCalendarIndex]._id}
+                clickedEvent={clickedEvent}
+                close={this.closeModals}
                 savePostCallback={post => {
                   getPosts(
                     calendars,
@@ -661,16 +664,6 @@ class CalendarPage extends Component {
                     socket
                   );
                 }}
-                updateCalendarPosts={() =>
-                  getPosts(
-                    calendars,
-                    activeCalendarIndex,
-                    calendarDate,
-                    this.handleChange
-                  )
-                }
-                clickedEvent={clickedEvent}
-                close={this.closeModals}
                 triggerSocketPeers={(type, post) =>
                   triggerSocketPeers(
                     type,
@@ -680,7 +673,14 @@ class CalendarPage extends Component {
                     socket
                   )
                 }
-                calendarID={calendars[activeCalendarIndex]._id}
+                updateCalendarPosts={() =>
+                  getPosts(
+                    calendars,
+                    activeCalendarIndex,
+                    calendarDate,
+                    this.handleChange
+                  )
+                }
               />
             )}
 
