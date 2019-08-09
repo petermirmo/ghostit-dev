@@ -79,7 +79,7 @@ class CalendarPage extends Component {
     twitterPosts: [],
 
     calendarManagerModal: false,
-    campaignModal: true,
+    campaignModal: false,
     contentModal: false,
     dashboardModal: false,
     postEdittingModal: false,

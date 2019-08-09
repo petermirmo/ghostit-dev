@@ -1239,40 +1239,43 @@ class Campaign extends Component {
               close={() => this.attemptToCloseModal()}
             />
             {!firstPostChosen && (
-              <GIContainer className="column bg-white common-border mx32 mt32 br16">
-                <h4 className="tac my16">
-                  How do you want to start off your campaign?
-                </h4>
-                <PostTypePicker
-                  newPost={socialType => {
-                    this.setState(
-                      newPost(
-                        socialType,
-                        posts,
-                        campaign,
-                        clickedCalendarDate,
-                        listOfPostChanges
-                      )
-                    );
-                  }}
-                  deletePost={
-                    showDeletePostPrompt
-                      ? index => {
-                          this.setState({
-                            promptDeletePost: true,
-                            deleteIndex: index
-                          });
-                        }
-                      : index => {
-                          this.deletePost(index);
-                        }
-                  }
-                  handleChange={this.handleChange}
-                  recipeEditing={recipeEditing}
-                  duplicatePost={index => {
-                    this.duplicatePost(index);
-                  }}
-                />
+              <GIContainer className="column">
+                <GIContainer className="column bg-white common-border mx32 mt32 br16">
+                  <h4 className="tac my16">
+                    How do you want to start off your campaign?
+                  </h4>
+                  <PostTypePicker
+                    newPost={socialType => {
+                      this.setState(
+                        newPost(
+                          socialType,
+                          posts,
+                          campaign,
+                          clickedCalendarDate,
+                          listOfPostChanges
+                        )
+                      );
+                    }}
+                    deletePost={
+                      showDeletePostPrompt
+                        ? index => {
+                            this.setState({
+                              promptDeletePost: true,
+                              deleteIndex: index
+                            });
+                          }
+                        : index => {
+                            this.deletePost(index);
+                          }
+                    }
+                    handleChange={this.handleChange}
+                    recipeEditing={recipeEditing}
+                    duplicatePost={index => {
+                      this.duplicatePost(index);
+                    }}
+                  />
+                </GIContainer>
+                <GIContainer className="py8 px32">{saveButtons}</GIContainer>
               </GIContainer>
             )}
             {firstPostChosen && this.getActivePost(saveButtons)}

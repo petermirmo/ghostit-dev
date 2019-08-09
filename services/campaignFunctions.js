@@ -61,8 +61,15 @@ module.exports = {
       else {
         for (let index in allRecipes) {
           User.findOne({ _id: allRecipes[index].userID }, (err, user) => {
-            if (err || !user) generalFunctions.handleError(res, err);
-            else {
+            if (err) generalFunctions.handleError(res, err);
+            else if (!user) {
+              allRecipes[index].creator = "Unkown";
+              if (index == allRecipes.length - 1) {
+                Recipe.find({ userID }, (err, usersRecipes) => {
+                  res.send({ usersRecipes, allRecipes });
+                });
+              }
+            } else {
               allRecipes[index].creator = user.fullName;
               if (index == allRecipes.length - 1) {
                 Recipe.find({ userID }, (err, usersRecipes) => {

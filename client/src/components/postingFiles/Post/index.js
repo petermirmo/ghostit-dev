@@ -184,14 +184,24 @@ class Post extends Component {
       let tempMessage = socialType;
       if (socialType === "facebook") tempMessage += " group/page";
       return (
-        <GIContainer className="column fill-parent relative mt32">
-          <GIText
-            className="bold tac fs-26"
-            text={`Connect ${tempMessage} account!`}
-            type="h4"
-          />
-
-          <Link to="/social-accounts">Go to Social Accounts Page</Link>
+        <GIContainer className="bg-light-grey column x-fill pa32">
+          <GIContainer className="bg-white common-border x-fill full-center column relative pa32 br8">
+            {close && (
+              <FontAwesomeIcon
+                className="close"
+                icon={faTimes}
+                onClick={close}
+                size="2x"
+              />
+            )}
+            <GIText
+              className="bold tac fs-26"
+              text={`Connect ${tempMessage} account!`}
+              type="h4"
+            />
+            <Link to="/social-accounts">Go to Social Accounts Page</Link>
+          </GIContainer>
+          <GIContainer className="py16">{saveButtons}</GIContainer>
         </GIContainer>
       );
     }

@@ -223,6 +223,10 @@
 .border-bottom-dashed {
   border-bottom: 1px dashed var(--grey-theme-color);
 }
+
+.border-right-dashed {
+  border-right: 1px dashed var(--grey-theme-color);
+}
 .border-top {
   border-top: 1px solid var(--grey-theme-color);
 }

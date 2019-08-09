@@ -7,6 +7,8 @@ import { setKeyListenerFunction } from "../../../redux/actions/";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
+import GIContainer from "../../containers/GIContainer";
+
 import "./style.css";
 
 class ConfirmAlert extends Component {
@@ -117,15 +119,17 @@ class ConfirmAlert extends Component {
             </button>
           </div>
           {checkboxMessage && (
-            <div
-              className="flex vc hc"
+            <GIContainer
+              className="flex full-center x-fill clickable"
               onClick={() => {
                 this.setState({ checked: !checked });
               }}
             >
-              <input type="checkbox" checked={checked} onChange={() => {}} />
+              <GIContainer className="round-icon small full-center">
+                <input type="checkbox" checked={checked} onChange={() => {}} />
+              </GIContainer>
               {checkboxMessage}
-            </div>
+            </GIContainer>
           )}
         </div>
       </div>
