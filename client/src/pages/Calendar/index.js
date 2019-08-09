@@ -79,7 +79,7 @@ class CalendarPage extends Component {
     twitterPosts: [],
 
     calendarManagerModal: false,
-    campaignModal: false,
+    campaignModal: true,
     contentModal: false,
     dashboardModal: false,
     postEdittingModal: false,
@@ -332,269 +332,278 @@ class CalendarPage extends Component {
       twitterPosts
     );
 
+    const modalsOpen =
+      calendarManagerModal ||
+      campaignModal ||
+      contentModal ||
+      dashboardModal ||
+      postEdittingModal;
+
     return (
       <Consumer>
         {context => (
-          <Page className="x-fill relative" title="Calendar">
+          <Page className="x-fill column relative" title="Calendar">
             {loading && <Loader />}
-            <GIContainer className="calendar-grid x-fill">
-              <Dropdown
-                activeItem={activeCalendarIndex}
-                className="shadow-medium"
-                dropdownActiveDisplayClassName="border-right five-blue"
-                dropdownClassName="border-bottom border-right five-blue"
-                dropdownItems={calendars.map(
-                  (calendar, index) => calendar.calendarName
-                )}
-                handleParentChange={dropdownClickedItemObj =>
-                  this.updateActiveCalendar(dropdownClickedItemObj.index)
-                }
-                search
-                size="2x"
-                title={
-                  <GIText
-                    className="muli fill-flex pl32 py16"
-                    text={
-                      calendars[activeCalendarIndex]
-                        ? calendars[activeCalendarIndex].calendarName
-                        : ""
-                    }
-                    type="h4"
-                  />
-                }
-              />
-              <GIContainer className="shadow-medium">
-                <GIButton
-                  className="five-blue fill-flex common-border ml16 mr8 py8 px16 my8 br4"
-                  onClick={() => {}}
-                >
-                  <FontAwesomeIcon icon={faPencilAlt} />
-                  <GIText className="pl8" text="Edit" type="h5" />
-                </GIButton>
-                <GIButton
-                  className="bg-orange-fade fill-flex shadow-orange mr16 ml8 py8 px16 my8 br4"
-                  onClick={() => {}}
-                >
-                  <FontAwesomeIcon className="white" icon={faPlus} />
-                  <GIText className="white pl8" text="New" type="h6" />
-                </GIButton>
-              </GIContainer>
-
-              <GIContainer className="justify-between x-fill pl32 pr16 my16">
-                <GIContainer className="full-center">
-                  <GIContainer
-                    className="round-icon button round common-border five-blue full-center pa4"
-                    onClick={() =>
-                      subtractMonth(calendarDate, date => {
-                        this.handleChange({ calendarDate: date });
-                        getPosts(
-                          calendars,
-                          activeCalendarIndex,
-                          calendarDate,
-                          this.handleChange
-                        );
-                      })
-                    }
-                  >
-                    <FontAwesomeIcon
-                      className="five-blue"
-                      icon={faAngleLeft}
-                      size="2x"
+            {!modalsOpen && (
+              <GIContainer className="calendar-grid x-fill">
+                <Dropdown
+                  activeItem={activeCalendarIndex}
+                  className="shadow-medium"
+                  dropdownActiveDisplayClassName="border-right five-blue"
+                  dropdownClassName="border-bottom border-right five-blue"
+                  dropdownItems={calendars.map(
+                    (calendar, index) => calendar.calendarName
+                  )}
+                  handleParentChange={dropdownClickedItemObj =>
+                    this.updateActiveCalendar(dropdownClickedItemObj.index)
+                  }
+                  search
+                  size="2x"
+                  title={
+                    <GIText
+                      className="muli fill-flex pl32 py16"
+                      text={
+                        calendars[activeCalendarIndex]
+                          ? calendars[activeCalendarIndex].calendarName
+                          : ""
+                      }
+                      type="h4"
                     />
-                  </GIContainer>
-                  <GIText
-                    className="tac muli mx64"
-                    text={calendarDate.format("MMMM YYYY")}
-                    type="h3"
-                  />
-
-                  <GIContainer
-                    className="round-icon button round common-border five-blue full-center pa4"
-                    onClick={() =>
-                      addMonth(calendarDate, date => {
-                        this.handleChange({ calendarDate: date });
-                        getPosts(
-                          calendars,
-                          activeCalendarIndex,
-                          calendarDate,
-                          this.handleChange
-                        );
-                      })
-                    }
-                  >
-                    <FontAwesomeIcon
-                      className="five-blue"
-                      icon={faAngleRight}
-                      size="2x"
-                    />
-                  </GIContainer>
-                </GIContainer>
-                <GIContainer className="full-center">
-                  <Dropdown
-                    activeItem={getActiveCategoriesInArray(
-                      calendarEventCategories
-                    )}
-                    className="x-fill common-border shadow-light br4"
-                    dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
-                    dropdownClassName="common-border five-blue"
-                    dropdownItems={Object.keys(calendarEventCategories).map(
-                      (key, index) => key
-                    )}
-                    handleParentChange={dropdownClickedItemObj =>
-                      updateActiveCategory(
-                        calendarEventCategories,
-                        this.handleChange,
-                        dropdownClickedItemObj.item
-                      )
-                    }
-                    search
-                    size="2x"
-                    title={
-                      <GIText
-                        className="tac muli fill-flex pl32 pr48 py16"
-                        text="Filter Calendar"
-                        type="h6"
-                      />
-                    }
-                  />
-                </GIContainer>
-              </GIContainer>
-              <GIContainer className="full-center mr32">
-                <GIText className="tac" text="Calendar Users" type="h4" />
-              </GIContainer>
-              <GIContainer className="pl32 pr16">
-                <Calendar
-                  activeCalendarIndex={activeCalendarIndex}
-                  calendars={calendars}
-                  calendarDate={calendarDate}
-                  calendarEvents={calendarEvents}
-                  calendarInvites={calendarInvites}
-                  enableCalendarManager={() =>
-                    this.setState({ calendarManagerModal: true })
                   }
-                  inviteResponse={this.inviteResponse}
-                  onSelectCampaign={this.openCampaign}
-                  onSelectDay={date =>
-                    this.handleChange({
-                      clickedDate: date,
-                      dashboardModal: true
-                    })
-                  }
-                  onSelectPost={clickedEvent =>
-                    this.handleChange({
-                      postEdittingModal: true,
-                      clickedEvent
-                    })
-                  }
-                  updateActiveCalendar={this.updateActiveCalendar}
-                  userList={userList}
                 />
-              </GIContainer>
+                <GIContainer className="shadow-medium">
+                  <GIButton
+                    className="five-blue fill-flex common-border ml16 mr8 py8 px16 my8 br4"
+                    onClick={() => {}}
+                  >
+                    <FontAwesomeIcon icon={faPencilAlt} />
+                    <GIText className="pl8" text="Edit" type="h5" />
+                  </GIButton>
+                  <GIButton
+                    className="bg-orange-fade fill-flex shadow-orange mr16 ml8 py8 px16 my8 br4"
+                    onClick={() => {}}
+                  >
+                    <FontAwesomeIcon className="white" icon={faPlus} />
+                    <GIText className="white pl8" text="New" type="h6" />
+                  </GIButton>
+                </GIContainer>
 
-              <GIContainer className="column container-box twentyvw mr32">
-                <GIContainer className="full-center common-border relative pt16 pb32 br8">
-                  {inviteUserActivated && (
-                    <GIInput
-                      className="mx16 br4"
-                      onChange={event =>
-                        this.handleChange({
-                          inviteUserEmail: event.target.value
+                <GIContainer className="justify-between x-fill pl32 pr16 my16">
+                  <GIContainer className="full-center">
+                    <GIContainer
+                      className="round-icon button round common-border five-blue full-center pa4"
+                      onClick={() =>
+                        subtractMonth(calendarDate, date => {
+                          this.handleChange({ calendarDate: date });
+                          getPosts(
+                            calendars,
+                            activeCalendarIndex,
+                            calendarDate,
+                            this.handleChange
+                          );
                         })
                       }
-                      name="email"
-                      placeholder="Email Address"
-                      type="text"
-                      value={inviteUserEmail}
-                    />
-                  )}
-                  {!inviteUserActivated && (
+                    >
+                      <FontAwesomeIcon
+                        className="five-blue"
+                        icon={faAngleLeft}
+                        size="2x"
+                      />
+                    </GIContainer>
                     <GIText
-                      className="tac"
-                      text={getUserEmail(user)}
-                      type="h5"
+                      className="tac muli mx64"
+                      text={calendarDate.format("MMMM YYYY")}
+                      type="h3"
                     />
-                  )}
 
-                  <GIButton
-                    className={
-                      "white absolute bottom-0 translate-y-50 px16 py4 br4" +
-                      (validateEmail(inviteUserEmail) || !inviteUserActivated
-                        ? " bg-five-blue"
-                        : " grey-button")
-                    }
-                    onClick={() => {
-                      if (inviteUserActivated) {
-                        if (validateEmail(inviteUserEmail))
-                          inviteUserToCalendar(
+                    <GIContainer
+                      className="round-icon button round common-border five-blue full-center pa4"
+                      onClick={() =>
+                        addMonth(calendarDate, date => {
+                          this.handleChange({ calendarDate: date });
+                          getPosts(
                             calendars,
-                            context,
                             activeCalendarIndex,
-                            this.handleChange,
-                            inviteUserEmail
+                            calendarDate,
+                            this.handleChange
                           );
-                        else alert("Not an email address");
-                      } else this.handleChange({ inviteUserActivated: true });
-                    }}
-                    text="Invite"
-                  />
-                </GIContainer>
-                <GIContainer className="column full-center common-border pt8 br8">
-                  {calendarUsers.map((user, index) => {
-                    let className = "column x-fill px16 py16";
-                    if (
-                      index === calendarUsers.length - 1 &&
-                      (calendars[activeCalendarIndex] &&
-                        calendars[activeCalendarIndex].emailsInvited !== 0)
-                    )
-                      className += " border-bottom-light";
-
-                    return (
-                      <GIContainer className={className} key={index}>
+                        })
+                      }
+                    >
+                      <FontAwesomeIcon
+                        className="five-blue"
+                        icon={faAngleRight}
+                        size="2x"
+                      />
+                    </GIContainer>
+                  </GIContainer>
+                  <GIContainer className="full-center">
+                    <Dropdown
+                      activeItem={getActiveCategoriesInArray(
+                        calendarEventCategories
+                      )}
+                      className="x-fill common-border shadow-light br4"
+                      dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
+                      dropdownClassName="common-border five-blue"
+                      dropdownItems={Object.keys(calendarEventCategories).map(
+                        (key, index) => key
+                      )}
+                      handleParentChange={dropdownClickedItemObj =>
+                        updateActiveCategory(
+                          calendarEventCategories,
+                          this.handleChange,
+                          dropdownClickedItemObj.item
+                        )
+                      }
+                      search
+                      size="2x"
+                      title={
                         <GIText
-                          className="ellipsis"
-                          text={user.fullName}
-                          title={user.fullName}
+                          className="tac muli fill-flex pl32 pr48 py16"
+                          text="Filter Calendar"
                           type="h6"
                         />
-                        <GIText
-                          className="label ellipsis"
-                          text={user.email}
-                          type="p"
-                        />
-                      </GIContainer>
-                    );
-                  })}
-                  {calendars[activeCalendarIndex] &&
-                    calendars[activeCalendarIndex].emailsInvited.map(
-                      (email, index) => {
-                        let className = "column x-fill px16 py16";
-                        if (
-                          index !==
-                          calendars[activeCalendarIndex].emailsInvited.length -
-                            1
-                        )
-                          className += " border-bottom-light";
-
-                        return (
-                          <GIContainer className={className} key={index}>
-                            <GIText
-                              className="ellipsis"
-                              text={email}
-                              title={email}
-                              type="h6"
-                            />
-                            <GIText
-                              className="green ellipsis"
-                              text="Invitation Sent..."
-                              type="p"
-                            />
-                          </GIContainer>
-                        );
                       }
+                    />
+                  </GIContainer>
+                </GIContainer>
+                <GIContainer className="full-center mr32">
+                  <GIText className="tac" text="Calendar Users" type="h4" />
+                </GIContainer>
+                <GIContainer className="pl32 pr16">
+                  <Calendar
+                    activeCalendarIndex={activeCalendarIndex}
+                    calendars={calendars}
+                    calendarDate={calendarDate}
+                    calendarEvents={calendarEvents}
+                    calendarInvites={calendarInvites}
+                    enableCalendarManager={() =>
+                      this.setState({ calendarManagerModal: true })
+                    }
+                    inviteResponse={this.inviteResponse}
+                    onSelectCampaign={this.openCampaign}
+                    onSelectDay={date =>
+                      this.handleChange({
+                        clickedDate: date,
+                        dashboardModal: true
+                      })
+                    }
+                    onSelectPost={clickedEvent =>
+                      this.handleChange({
+                        postEdittingModal: true,
+                        clickedEvent
+                      })
+                    }
+                    updateActiveCalendar={this.updateActiveCalendar}
+                    userList={userList}
+                  />
+                </GIContainer>
+                <GIContainer className="column container-box twentyvw mr32">
+                  <GIContainer className="full-center common-border relative pt16 pb32 br8">
+                    {inviteUserActivated && (
+                      <GIInput
+                        className="mx16 br4"
+                        onChange={event =>
+                          this.handleChange({
+                            inviteUserEmail: event.target.value
+                          })
+                        }
+                        name="email"
+                        placeholder="Email Address"
+                        type="text"
+                        value={inviteUserEmail}
+                      />
                     )}
+                    {!inviteUserActivated && (
+                      <GIText
+                        className="tac"
+                        text={getUserEmail(user)}
+                        type="h5"
+                      />
+                    )}
+
+                    <GIButton
+                      className={
+                        "white absolute bottom-0 translate-y-50 px16 py4 br4" +
+                        (validateEmail(inviteUserEmail) || !inviteUserActivated
+                          ? " bg-five-blue"
+                          : " grey-button")
+                      }
+                      onClick={() => {
+                        if (inviteUserActivated) {
+                          if (validateEmail(inviteUserEmail))
+                            inviteUserToCalendar(
+                              calendars,
+                              context,
+                              activeCalendarIndex,
+                              this.handleChange,
+                              inviteUserEmail
+                            );
+                          else alert("Not an email address");
+                        } else this.handleChange({ inviteUserActivated: true });
+                      }}
+                      text="Invite"
+                    />
+                  </GIContainer>
+                  <GIContainer className="column full-center common-border pt8 br8">
+                    {calendarUsers.map((user, index) => {
+                      let className = "column x-fill px16 py16";
+                      if (
+                        index === calendarUsers.length - 1 &&
+                        (calendars[activeCalendarIndex] &&
+                          calendars[activeCalendarIndex].emailsInvited !== 0)
+                      )
+                        className += " border-bottom-light";
+
+                      return (
+                        <GIContainer className={className} key={index}>
+                          <GIText
+                            className="ellipsis"
+                            text={user.fullName}
+                            title={user.fullName}
+                            type="h6"
+                          />
+                          <GIText
+                            className="label ellipsis"
+                            text={user.email}
+                            type="p"
+                          />
+                        </GIContainer>
+                      );
+                    })}
+                    {calendars[activeCalendarIndex] &&
+                      calendars[activeCalendarIndex].emailsInvited.map(
+                        (email, index) => {
+                          let className = "column x-fill px16 py16";
+                          if (
+                            index !==
+                            calendars[activeCalendarIndex].emailsInvited
+                              .length -
+                              1
+                          )
+                            className += " border-bottom-light";
+
+                          return (
+                            <GIContainer className={className} key={index}>
+                              <GIText
+                                className="ellipsis"
+                                text={email}
+                                title={email}
+                                type="h6"
+                              />
+                              <GIText
+                                className="green ellipsis"
+                                text="Invitation Sent..."
+                                type="p"
+                              />
+                            </GIContainer>
+                          );
+                        }
+                      )}
+                  </GIContainer>
                 </GIContainer>
               </GIContainer>
-            </GIContainer>
+            )}
             {false && <CalendarChat calendars={calendars} />}
             {calendarManagerModal && (
               <Modal0

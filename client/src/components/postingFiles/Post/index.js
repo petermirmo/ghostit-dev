@@ -4,7 +4,11 @@ import axios from "axios";
 import Textarea from "react-textarea-autosize";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCommentAltLines } from "@fortawesome/pro-light-svg-icons";
+import {
+  faCheck,
+  faCommentAltLines,
+  faTimes
+} from "@fortawesome/pro-light-svg-icons";
 
 import { connect } from "react-redux";
 
@@ -135,9 +139,11 @@ class Post extends Component {
     const {
       accounts,
       canEditPost,
+      close,
       deletePost,
       maxCharacters,
-      recipeEditing
+      recipeEditing,
+      saveButtons
     } = this.props; // Variables
     const { modifyCampaignDates } = this.props; // Functions
 
@@ -196,8 +202,16 @@ class Post extends Component {
     return (
       <Consumer>
         {context => (
-          <GIContainer className="bg-light-grey column fill-parent ov-auto pa32">
-            <GIContainer className="bg-white common-border x-fill pa32 br8">
+          <GIContainer className="bg-light-grey column x-fill pa32">
+            <GIContainer className="bg-white common-border x-fill relative pa32 br8">
+              {close && (
+                <FontAwesomeIcon
+                  className="close"
+                  icon={faTimes}
+                  onClick={close}
+                  size="2x"
+                />
+              )}
               <GIContainer className="column x-70 pr8">
                 {!recipeEditing && (
                   <SelectAccountDiv
@@ -310,28 +324,30 @@ class Post extends Component {
                 />
               </GIContainer>
             </GIContainer>
-
-            <GIContainer className="justify-end py8">
-              {deletePost && (
-                <GIButton
-                  className="common-border dark bg-white shadow-6 primary-font py8 px16 mr8 br4"
-                  onClick={deletePost}
-                  text="Delete"
-                />
-              )}
-              {canEditPost && (somethingChanged || (!recipeEditing && !_id)) && (
-                <GIButton
-                  className="bg-orange-fade shadow-orange-2 white py8 px16 br4"
-                  onClick={() =>
-                    this.handleChangeRegular(
-                      trySavePost(this.state, this.props)
-                    )
-                  }
-                >
-                  <FontAwesomeIcon className="mr8" icon={faCheck} />
-                  {recipeEditing ? "Save Post" : "Schedule Post!"}
-                </GIButton>
-              )}
+            <GIContainer className="x-fill py8">
+              {saveButtons}
+              <GIContainer className="fill-flex justify-end">
+                {deletePost && (
+                  <GIButton
+                    className="common-border dark bg-white shadow-6 primary-font py8 px16 mr8 br4"
+                    onClick={deletePost}
+                    text="Delete"
+                  />
+                )}
+                {canEditPost && (somethingChanged || (!recipeEditing && !_id)) && (
+                  <GIButton
+                    className="bg-orange-fade shadow-orange-2 white py8 px16 br4"
+                    onClick={() =>
+                      this.handleChangeRegular(
+                        trySavePost(this.state, this.props)
+                      )
+                    }
+                  >
+                    <FontAwesomeIcon className="mr8" icon={faCheck} />
+                    {recipeEditing ? "Save Post" : "Schedule Post!"}
+                  </GIButton>
+                )}
+              </GIContainer>
             </GIContainer>
 
             {promptModifyCampaignDates && (

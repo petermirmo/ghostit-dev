@@ -1,13 +1,11 @@
 .campaign-title {
-  
   font-size: var(--twenty-four-font-size);
 }
 .campaign-description,
 .campaign-title {
   width: 100%;
   border: none;
-  
-  text-align: center;
+
   resize: none;
 }
 .color {

@@ -39,5 +39,5 @@ input[type="file"] {
   display: none;
 }
 ::placeholder {
-  color: var(--divider-theme-color);
+  color: var(--dark-grey-theme-color);
 }

@@ -280,6 +280,36 @@
   background-color: var(--white-theme-color) !important;
 }
 
+.bg-green-fade {
+  background: linear-gradient(320deg, #3dd6b4, #48def7);
+}
+.bg-purple-fade {
+  background: linear-gradient(320deg, #6163ff, #9c9dff);
+}
+.bg-orange-fade {
+  background: linear-gradient(320deg, #ff6e5d, #ffb791);
+}
+.bg-orange-fade-2 {
+  background: linear-gradient(285deg, #fd5642, #ff9464);
+}
+.bg-orange-fade-3 {
+  background-image: linear-gradient(285deg, #fd5642, #ff9464);
+}
+.bg-blue-fade {
+  background: linear-gradient(99deg, #04f0fa, var(--five-blue-color));
+}
+.bg-blue-fade-2 {
+  background-image: linear-gradient(280deg, #1ba5f9, #04c5fb);
+}
+.bg-blue-fade-3 {
+  background-image: linear-gradient(to bottom, #04f0fa, var(--five-blue-color));
+}
+.bg-blue-fade-4 {
+  background-image: linear-gradient(312deg, #1ba5f9, #04c5fb);
+}
+.bg-transparent {
+  background-color: transparent;
+}
 .absolute {
   position: absolute;
   z-index: 1;
@@ -330,6 +360,10 @@
 .no-bottom-br {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+.grid-4-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .test-mode {

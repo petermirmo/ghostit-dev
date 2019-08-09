@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/pro-light-svg-icons";
 
 import GIContainer from "../GIContainer";
 
@@ -22,16 +22,16 @@ class Modal extends Component {
       <GIContainer className="modal0-content column">
         {showClose && (
           <FontAwesomeIcon
-            icon={faTimes}
-            size="2x"
             className="close"
+            icon={faTimes}
             onClick={close}
+            size="2x"
           />
         )}
         {header && (
           <GIContainer className="modal0-header">{header}</GIContainer>
         )}
-        <GIContainer className="modal0-body">{body}</GIContainer>
+        {body}
         {footer && (
           <GIContainer className="modal0-footer">{footer}</GIContainer>
         )}

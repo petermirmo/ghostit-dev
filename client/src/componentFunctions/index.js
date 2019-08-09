@@ -455,7 +455,7 @@ export function postAttributeOptions(socialType) {
       linkPreviewCanShow: false
     };
 }
-export function getPostColor(socialType) {
+export const getPostColor = socialType => {
   if (socialType === "facebook") {
     return "#4267b2";
   } else if (socialType === "twitter") {
@@ -469,11 +469,11 @@ export function getPostColor(socialType) {
   } else if (socialType === "newsletter") {
     return "#fd651c";
   } else if (socialType === "custom") {
-    return "var(--seven-purple-color)";
+    return "#3dd6b4";
   } else {
     return "var(--five-purple-color)";
   }
-}
+};
 export const getSocialCharacters = post_type => {
   if (post_type === "twitter") {
     return 280;
