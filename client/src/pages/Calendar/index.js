@@ -283,6 +283,7 @@ class CalendarPage extends Component {
       () => {
         this.fillCalendar();
         this.updateSocketCalendar();
+        getCalendarUsers(calendars, this.handleChange, index);
       }
     );
   };
@@ -344,6 +345,40 @@ class CalendarPage extends Component {
         {context => (
           <Page className="x-fill column relative" title="Calendar">
             {loading && <Loader />}
+            {calendarInvites &&
+              calendarInvites.length > 0 &&
+              calendarInvites.map((obj, index) =>
+                calendarInvites.map((calendar, index) => {
+                  return (
+                    <GIContainer
+                      className="x-fill full-center py8"
+                      key={`invite ${index}`}
+                    >
+                      {`You have been invited to ${calendar.calendarName}.`}
+                      <GIContainer>
+                        <button
+                          className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 px16 py8 ml8"
+                          onClick={e => {
+                            e.preventDefault();
+                            this.inviteResponse(index, true);
+                          }}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className="x-fill common-border five-blue br4 px16 py8 ml8"
+                          onClick={e => {
+                            e.preventDefault();
+                            this.inviteResponse(index, false);
+                          }}
+                        >
+                          Reject
+                        </button>
+                      </GIContainer>
+                    </GIContainer>
+                  );
+                })
+              )}
             {!modalsOpen && (
               <GIContainer className="calendar-grid x-fill">
                 <Dropdown
@@ -476,7 +511,6 @@ class CalendarPage extends Component {
                     calendars={calendars}
                     calendarDate={calendarDate}
                     calendarEvents={calendarEvents}
-                    calendarInvites={calendarInvites}
                     enableCalendarManager={() =>
                       this.setState({ calendarManagerModal: true })
                     }
@@ -547,16 +581,11 @@ class CalendarPage extends Component {
                   </GIContainer>
                   <GIContainer className="column full-center common-border pt8 br8">
                     {calendarUsers.map((user, index) => {
-                      let className = "column x-fill px16 py16";
-                      if (
-                        index === calendarUsers.length - 1 &&
-                        (calendars[activeCalendarIndex] &&
-                          calendars[activeCalendarIndex].emailsInvited !== 0)
-                      )
-                        className += " border-bottom-light";
-
                       return (
-                        <GIContainer className={className} key={index}>
+                        <GIContainer
+                          className="column x-fill border-bottom-light px16 py16"
+                          key={index}
+                        >
                           <GIText
                             className="ellipsis"
                             text={user.fullName}

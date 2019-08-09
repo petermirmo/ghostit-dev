@@ -206,6 +206,7 @@ export const getCalendarUsers = (calendars, handleChange, index) => {
         users[0] = users[adminIndex];
         users[adminIndex] = temp;
       }
+
       handleChange({ calendarUsers: users });
     }
   });
