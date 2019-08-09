@@ -1,17 +1,11 @@
 .recipe-navigation-container {
   flex-basis: 0;
-  display: flex;
 
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
   min-height: 60px;
 
   color: var(--primary-font-color);
 
   border-bottom: 1px solid var(--primary-font-color);
-  
 }
 .recipe-navigation-option {
   border-bottom: 4px solid transparent;
@@ -26,6 +20,8 @@
 
 .recipes-container-container {
   flex: 1;
+  flex-wrap: wrap;
+  padding: 16px;
 
   width: 100%;
 
@@ -40,9 +36,8 @@
 
   flex-wrap: nowrap;
 
-  padding: 10px;
-
-  
+  padding: 8px;
+  width: 100%;
 }
 .recipe-container {
   position: relative;
@@ -54,8 +49,6 @@
   max-height: 25vh;
 
   background-color: var(--white-theme-color);
-
-  
 }
 .recipe-container:hover .hover-active-div {
   background-color: var(--seven-blue-color);
@@ -71,7 +64,6 @@
   padding: 0 10px 0 10px;
 
   font-size: var(--thirteen-font-size);
-  
 }
 
 .recipe-uses,
@@ -100,8 +92,6 @@
 
   background-color: var(--seven-blue-color);
   color: var(--white-theme-color);
-
-  
 }
 
 .preview-recipe {
@@ -115,7 +105,6 @@
   margin-top: 20px;
 
   background-color: var(--white-theme-color);
-  
 }
 
 .recipe-posts-navigation {
@@ -129,8 +118,6 @@
 
   overflow: auto;
   overflow-x: hidden;
-
-  
 }
 .post-day {
   text-align: center;
@@ -150,7 +137,6 @@
   background-color: var(--light-grey-theme-color);
 
   cursor: pointer;
-  
 }
 .custom-task-block-color {
   height: 27px;
@@ -231,7 +217,6 @@
 
   height: 100%;
 
-  
   border-radius: inherit;
 }
 

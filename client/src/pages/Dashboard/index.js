@@ -64,63 +64,64 @@ class DashboardPage extends Component {
       recipeEditing,
       templatesModal
     } = this.state;
+    const modalsOpen = campaignModal || contentModal || templatesModal;
 
     return (
       <Consumer>
         {context => (
           <Page className="column" title="Dashboard">
-            <GIContainer className="column align-center py64 px64">
-              <GIContainer className="x-fill">
+            {!modalsOpen && (
+              <GIContainer className="x-fill column align-center py32 px64">
                 <GIText className="mb32 mx8" type="h1" text="Dashboard" />
+                <Dashboard handleParentChange={this.handleChange} />
               </GIContainer>
-              <Dashboard handleParentChange={this.handleChange} />
+            )}
 
-              {templatesModal && calendars[activeCalendarIndex] && (
-                <TemplatesModal
-                  calendarID={calendars[activeCalendarIndex]._id}
-                  clickedCalendarDate={calendarDate}
-                  handleParentChange={this.handleChange}
-                />
-              )}
-              {contentModal && calendars[activeCalendarIndex] && (
-                <Modal0
-                  body={
-                    <PostCreation
-                      calendarID={calendars[activeCalendarIndex]._id}
-                      clickedCalendarDate={calendarDate}
-                      handleParentChange={this.handleChange}
-                      notify={context.notify}
-                      savePostCallback={post => {
-                        triggerSocketPeers("calendar_post_saved", post);
-                        this.handleChange({ contentModal: false });
-                        context.notify({
-                          type: "success",
-                          title: "Post saved successfully!"
-                        });
-                      }}
-                    />
-                  }
-                  close={() => this.handleChange({ contentModal: false })}
-                />
-              )}
-              {campaignModal && calendars[activeCalendarIndex] && (
-                <Modal0
-                  body={
-                    <Campaign
-                      calendarID={calendars[activeCalendarIndex]._id}
-                      campaign={clickedEvent}
-                      clickedCalendarDate={calendarDate}
-                      handleParentChange={this.handleChange}
-                      isRecipe={clickedEventIsRecipe}
-                      recipeEditing={recipeEditing}
-                      triggerSocketPeers={triggerSocketPeers}
-                    />
-                  }
-                  className="large-modal"
-                  close={() => this.handleChange({ campaignModal: false })}
-                />
-              )}
-            </GIContainer>
+            {templatesModal && calendars[activeCalendarIndex] && (
+              <TemplatesModal
+                calendarID={calendars[activeCalendarIndex]._id}
+                clickedCalendarDate={calendarDate}
+                handleParentChange={this.handleChange}
+              />
+            )}
+            {contentModal && calendars[activeCalendarIndex] && (
+              <Modal0
+                body={
+                  <PostCreation
+                    calendarID={calendars[activeCalendarIndex]._id}
+                    clickedCalendarDate={calendarDate}
+                    handleParentChange={this.handleChange}
+                    notify={context.notify}
+                    savePostCallback={post => {
+                      triggerSocketPeers("calendar_post_saved", post);
+                      this.handleChange({ contentModal: false });
+                      context.notify({
+                        type: "success",
+                        title: "Post saved successfully!"
+                      });
+                    }}
+                  />
+                }
+                close={() => this.handleChange({ contentModal: false })}
+              />
+            )}
+            {campaignModal && calendars[activeCalendarIndex] && (
+              <Modal0
+                body={
+                  <Campaign
+                    calendarID={calendars[activeCalendarIndex]._id}
+                    campaign={clickedEvent}
+                    clickedCalendarDate={calendarDate}
+                    handleParentChange={this.handleChange}
+                    isRecipe={clickedEventIsRecipe}
+                    recipeEditing={recipeEditing}
+                    triggerSocketPeers={triggerSocketPeers}
+                  />
+                }
+                className="large-modal"
+                close={() => this.handleChange({ campaignModal: false })}
+              />
+            )}
           </Page>
         )}
       </Consumer>

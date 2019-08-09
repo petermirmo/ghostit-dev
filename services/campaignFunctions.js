@@ -56,22 +56,17 @@ module.exports = {
         userID = req.user.signedInAsUser.id;
       }
     }
+
     Recipe.find({}, (err, allRecipes) => {
       if (err) generalFunctions.handleError(res, err);
       else {
-        for (let index in allRecipes) {
+        for (let index = 0; index < allRecipes.length; index++) {
           User.findOne({ _id: allRecipes[index].userID }, (err, user) => {
             if (err) generalFunctions.handleError(res, err);
-            else if (!user) {
-              allRecipes[index].creator = "Unkown";
-              if (index == allRecipes.length - 1) {
-                Recipe.find({ userID }, (err, usersRecipes) => {
-                  res.send({ usersRecipes, allRecipes });
-                });
-              }
-            } else {
-              allRecipes[index].creator = user.fullName;
-              if (index == allRecipes.length - 1) {
+            else {
+              if (user) allRecipes[index].creator = user.fullName;
+              else allRecipes[index].creator = "Unknown";
+              if (index === allRecipes.length - 1) {
                 Recipe.find({ userID }, (err, usersRecipes) => {
                   res.send({ usersRecipes, allRecipes });
                 });

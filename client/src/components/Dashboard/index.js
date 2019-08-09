@@ -9,6 +9,7 @@ class Dashboard extends Component {
   render() {
     const { className } = this.props; // Variables
     const { handleParentChange } = this.props; // Functions
+
     return (
       <GIContainer className="x-fill column">
         <GIContainer className={`x-wrap x-fill ${className}`}>

@@ -83,6 +83,7 @@ class CalendarPage extends Component {
     contentModal: false,
     dashboardModal: false,
     postEdittingModal: false,
+    templatesModal: false,
 
     calendarEventCategories: {
       All: true,
@@ -97,8 +98,6 @@ class CalendarPage extends Component {
 
     recipeEditing: false,
     socket: undefined,
-
-    templatesModal: false,
 
     userList: [] // list of users connected to the same calendar socket as this user (including this user)
   };
@@ -337,7 +336,8 @@ class CalendarPage extends Component {
       campaignModal ||
       contentModal ||
       dashboardModal ||
-      postEdittingModal;
+      postEdittingModal ||
+      templatesModal;
 
     return (
       <Consumer>
