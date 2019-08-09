@@ -1,4 +1,4 @@
-export const shouldShowSignedInAsDiv = (user, activePage) => {
+export const shouldShowSignedInAsDiv = (activePage, user) => {
   if (
     user &&
     (activePage === "/calendar" ||

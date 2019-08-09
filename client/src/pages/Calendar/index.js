@@ -470,7 +470,7 @@ class CalendarPage extends Component {
                 <GIContainer className="full-center mr32">
                   <GIText className="tac" text="Calendar Users" type="h4" />
                 </GIContainer>
-                <GIContainer className="pl32 pr16">
+                <GIContainer className="pl32 pr16 pb32">
                   <Calendar
                     activeCalendarIndex={activeCalendarIndex}
                     calendars={calendars}

@@ -8,7 +8,7 @@ import "./style.css";
 class SignedInAs extends Component {
   render() {
     const { user } = this.props;
-    return <div />;
+
     return (
       <div className="signed-in-as pa16">
         Logged in as: {user.signedInAsUser.fullName}

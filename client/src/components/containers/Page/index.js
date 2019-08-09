@@ -88,7 +88,7 @@ class Page extends Component {
                 : className
             }
           >
-            {shouldShowSignedInAsDiv(user, activePage) && (
+            {shouldShowSignedInAsDiv(activePage, user) && (
               <SignedInAs user={user} />
             )}
             {children}

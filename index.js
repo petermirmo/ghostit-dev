@@ -62,25 +62,22 @@ schedule.scheduleJob("* * * * *", () => {
   PostAnalyticsScheduler.main();
 });
 
-schedule.scheduleJob("* * * * *", () => {
-  return;
-  PostScheduler.main();
-});
-
 if (process.env.NODE_ENV === "production") {
+  schedule.scheduleJob("* * * * *", () => {
+    return;
+    PostScheduler.main();
+  });
+
   schedule.scheduleJob("* * * * *", () => {
     EmailScheduler.main();
   });
 }
 
 // Connect to database
-mongoose.connect(
-  keys.mongoDevelopmentURI,
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true
-  }
-);
+mongoose.connect(keys.mongoDevelopmentURI, {
+  useNewUrlParser: true,
+  useCreateIndex: true
+});
 var db = mongoose.connection;
 
 require("./services/passport")(passport);
