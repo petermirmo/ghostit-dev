@@ -58,7 +58,7 @@ class PostEdittingModal extends Component {
       triggerSocketPeers
     } = this.props;
 
-    handleChange({ confirmDelete: false, saving: true });
+    this.handleChange({ confirmDelete: false, saving: true });
     if (!clickedEvent._id) {
       alert("Error cannot find post. Please contact our dev team immediately");
       return;
@@ -152,6 +152,7 @@ class PostEdittingModal extends Component {
                 />
               )
             }
+            close={close}
             onClick={close}
           >
             {confirmDelete && (

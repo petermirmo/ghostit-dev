@@ -145,8 +145,8 @@ const getDataFromURL = (
 
     const { imgSrc, linkDescription, linkTitle } = res.data;
 
-    if (!linkTitle) linkTitle1 = linkTitle;
-    if (!linkDescription) linkDescription1 = linkDescription;
+    if (!linkTitle1) linkTitle1 = linkTitle;
+    if (!linkDescription1) linkDescription1 = linkDescription;
 
     if (res.data && imgSrc[0]) {
       const linkImage = imgSrc[0];

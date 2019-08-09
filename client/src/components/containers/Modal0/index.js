@@ -9,7 +9,14 @@ import "./style.css";
 
 class Modal extends Component {
   render() {
-    const { body, className, footer, header, showClose = true } = this.props; // Variables
+    const {
+      body,
+      children,
+      className,
+      footer,
+      header,
+      showClose = true
+    } = this.props; // Variables
     const { close } = this.props; // Functions
     return (
       <GIContainer className="modal0-content column">
@@ -28,6 +35,7 @@ class Modal extends Component {
         {footer && (
           <GIContainer className="modal0-footer">{footer}</GIContainer>
         )}
+        {children}
       </GIContainer>
     );
   }

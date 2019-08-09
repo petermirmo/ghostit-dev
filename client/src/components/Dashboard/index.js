@@ -10,7 +10,7 @@ class Dashboard extends Component {
     const { className } = this.props; // Variables
     const { handleParentChange } = this.props; // Functions
     return (
-      <GIContainer className="x-fill y-fill column ov-auto">
+      <GIContainer className="x-fill column">
         <GIContainer className={`x-wrap x-fill ${className}`}>
           <GIContainer className="container-box small bg-white column justify-between common-border pt32 pb16 px16 mb32 mx8 br8">
             <GIContainer className="full-center x-fill fill-flex">
