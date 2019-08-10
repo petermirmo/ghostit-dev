@@ -203,15 +203,15 @@ class RegularVersion extends Component {
               </GIText>
 
               <GIContainer className="x-wrap full-center">
-                <GIContainer className="container-box small column">
-                  <GIContainer className="mb32">
+                <GIContainer className="container-box small column mb32">
+                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img
                       alt=""
                       className="fill-parent"
                       src={require("../../svgs/home-5.svg")}
                     />
                   </GIContainer>
-                  <GIText className="muli tac mb16" type="h4">
+                  <GIText className="muli tac mb8" type="h4">
                     Custom
                     <GIText
                       className="four-blue"
@@ -226,15 +226,15 @@ class RegularVersion extends Component {
                   />
                 </GIContainer>
 
-                <GIContainer className="container-box small column">
-                  <GIContainer className="mb32">
+                <GIContainer className="container-box small column mb32">
+                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img
                       alt=""
                       className="fill-parent"
                       src={require("../../svgs/home-6.svg")}
                     />
                   </GIContainer>
-                  <GIText className="muli tac mb16" type="h4">
+                  <GIText className="muli tac mb8" type="h4">
                     Post
                     <GIText
                       className="four-blue"
@@ -249,15 +249,15 @@ class RegularVersion extends Component {
                   />
                 </GIContainer>
 
-                <GIContainer className="container-box small column">
-                  <GIContainer className="mb32">
+                <GIContainer className="container-box small column mb32">
+                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img
                       alt=""
                       className="fill-parent"
                       src={require("../../svgs/home-7.svg")}
                     />
                   </GIContainer>
-                  <GIText className="muli tac mb16" type="h4">
+                  <GIText className="muli tac mb8" type="h4">
                     Social
                     <GIText
                       className="four-blue"
@@ -274,7 +274,7 @@ class RegularVersion extends Component {
               </GIContainer>
               <Link to="/sign-up">
                 <GIButton
-                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mt32"
+                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32"
                   text="Get Your Free Trial"
                 />
               </Link>
