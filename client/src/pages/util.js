@@ -5,7 +5,11 @@ import moment from "moment-timezone";
 
 import Loader from "../components/notifications/Loader";
 
-import { testingUser, testingAccounts } from "../keys";
+try {
+  var { testingUser, testingAccounts } = require("../keys");
+} catch (ex) {
+  console.log("live");
+}
 
 export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
   if (!calendars || !calendars[activeCalendarIndex]) {
