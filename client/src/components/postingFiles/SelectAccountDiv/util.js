@@ -34,21 +34,26 @@ export const createInactiveAccountDivs = (
   inactivePageAccountsArray,
   linkAccountToCalendarPrompt
 ) => {
+  const inactiveAccountsDiv = [];
   // inactive accounts will be slightly transparent and clicking on them will prompt
   // the user to link the account to the calendar
-  return inactivePageAccountsArray.map((account, index) => {
+  for (let index in inactivePageAccountsArray) {
+    const account = inactivePageAccountsArray[index];
     const name = createName(account);
     const { color, icon } = getColorSocial(account);
     let className =
       "account-container clickable full-center px16 py8 mr8 mb8 br4";
 
     // skip account if it's already being displayed in the active list
-    if (activeAccountIDs.includes(account._id.toString())) return;
+    if (activeAccountIDs.includes(account._id.toString())) continue;
 
-    return accountDiv(account, className, color, icon, index, name, () =>
-      linkAccountToCalendarPrompt(account._id)
+    inactiveAccountsDiv.push(
+      accountDiv(account, className, color, icon, index, name, () =>
+        linkAccountToCalendarPrompt(account._id)
+      )
     );
-  });
+  }
+  return inactiveAccountsDiv;
 };
 
 const createName = account => {
