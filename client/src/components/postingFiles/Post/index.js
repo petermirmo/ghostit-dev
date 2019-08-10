@@ -110,7 +110,7 @@ class Post extends Component {
       recipeEditing,
       saveButtons
     } = this.props; // Variables
-    const { modifyCampaignDates } = this.props; // Functions
+    const { modifyCampaignDates, switchTabState } = this.props; // Functions
 
     const {
       canAddFilesToLink,
@@ -196,6 +196,7 @@ class Post extends Component {
                     handleChange={account => {
                       this.handleChange(account.socialID, "accountID");
                       this.handleChange(account.accountType, "accountType");
+                      this.handleChange(account.socialType, "socialType");
                     }}
                     inactivePageAccountsArray={inactivePageAccountsArray}
                     linkAccountToCalendarPrompt={actID =>
@@ -204,6 +205,7 @@ class Post extends Component {
                         linkAccountToCalendarID: actID
                       })
                     }
+                    switchTabState={switchTabState}
                   />
                 )}
                 <GIContainer className="align-center justify-start">

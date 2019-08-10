@@ -18,7 +18,6 @@ import "../style.css";
 
 class ContentModal extends Component {
   state = {
-    saving: false,
     activeTab: { name: "facebook" },
     categories: [
       { name: "facebook" },
@@ -26,7 +25,8 @@ class ContentModal extends Component {
       { name: "linkedin", maxCharacters: 700 },
       { name: "custom" }
     ],
-    listOfPostChanges: {}
+    listOfPostChanges: {},
+    saving: false
   };
   componentDidMount() {
     this._ismounted = true;
@@ -53,6 +53,7 @@ class ContentModal extends Component {
 
   switchTabState = activeTab => {
     if (activeTab.name === this.state.activeTab.name) return;
+
     if (this._ismounted)
       this.setState(prevState => {
         return {
@@ -158,6 +159,7 @@ class ContentModal extends Component {
           }}
           setSaving={() => handleParentChange({ loading: true })}
           socialType={activeTab.name}
+          switchTabState={this.switchTabState}
         />
       );
     }

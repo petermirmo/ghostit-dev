@@ -11,15 +11,19 @@ class SelectAccountDiv extends Component {
     const {
       activeAccount,
       activePageAccountsArray = [],
-      inactivePageAccountsArray = [],
+      inactivePageAccountsArray = []
+    } = this.props; // Variables
+    const {
       handleChange,
-      linkAccountToCalendarPrompt
-    } = this.props;
+      linkAccountToCalendarPrompt,
+      switchTabState
+    } = this.props; // Functions
 
     const accountsListDiv = createActiveAccountDivs(
       activeAccount,
       activePageAccountsArray,
-      handleChange
+      handleChange,
+      switchTabState
     );
     const inactiveAccountsDiv = createInactiveAccountDivs(
       activePageAccountsArray.map((account, index) => account._id),

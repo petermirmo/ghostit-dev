@@ -14,7 +14,8 @@ import GIText from "../../views/GIText";
 export const createActiveAccountDivs = (
   activeAccount,
   activePageAccountsArray,
-  handleChange
+  handleChange,
+  switchTabState
 ) => {
   // To select which account to post to
   return activePageAccountsArray.map((account, index) => {
@@ -24,9 +25,10 @@ export const createActiveAccountDivs = (
       activeAccount === String(account.socialID) ? "common-active" : ""
     }`;
 
-    return accountDiv(account, className, color, icon, index, name, () =>
-      handleChange(account)
-    );
+    return accountDiv(account, className, color, icon, index, name, () => {
+      handleChange(account);
+      if (switchTabState) switchTabState({ name: account.socialType });
+    });
   });
 };
 export const createInactiveAccountDivs = (
