@@ -1,3 +1,29 @@
+.navigation-button.border:first-child {
+  border-left: none !important;
+}
+.navigation-button.border:last-child {
+  border-right: none !important;
+}
+.navigation-button.border {
+  border-left: solid 0.5px var(--grey-theme-color);
+  border-bottom: solid 2px var(--grey-theme-color);
+}
+.navigation-button {
+  color: var(--grey-theme-color);
+}
+.navigation-button.active {
+  border-bottom: solid 2px var(--five-blue-color);
+  color: var(--five-blue-color);
+}
+.navigation-button h3 {
+  color: inherit;
+}
+.navigation-button .round-icon-small {
+  background-color: var(--grey-theme-color);
+}
+.navigation-button.active .round-icon-small {
+  background-color: var(--five-blue-color);
+}
 .square-button {
   display: flex;
   justify-content: center;
@@ -63,18 +89,27 @@
   color: var(--white-theme-color);
 }
 
-.transparent-button-important {
-  color: var(--primary-font-color);
-  font-family: var(--silly-font);
+.merge-with-input {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: 1px solid var(--divider-theme-color);
+  border-left: none;
 }
-.transparent-button-important.home {
-  color: var(--white-theme-color);
+.blue-fade {
+  padding: 8px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-radius: 4px;
+  box-shadow: 0 5px 12px 0 rgba(5, 164, 255, 0.27);
+  background-image: linear-gradient(283deg, #1ba5f9, #04c5fb);
 }
-.transparent-button-important.active {
-  color: var(--blue-font-color);
+.grey-button {
+  border: 1px solid var(--grey-font-color);
+  color: var(--grey-font-color) !important;
+  background-color: var(--white-theme-color);
 }
-.transparent-button-important.home.active {
-  color: var(--white-theme-color);
+.transparent-button.active {
+  color: var(--four-blue-color);
 }
 button.purple {
   color: var(--seven-purple-color);
@@ -84,17 +119,10 @@ button.purple:hover {
   color: var(--five-purple-color);
   background-color: var(--one-half-purple-color);
 }
-.merge-with-input {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border: 1px solid var(--divider-theme-color);
-  border-left: none;
-}
 button {
-  color: var(--white-theme-color);
+  color: var(--primary-font-color);
   font-family: var(--regular-font);
   font-size: var(--sixteen-font-size);
-  font-family: var(--silly-font);
 
   cursor: pointer;
   outline: 0;
@@ -103,4 +131,10 @@ button {
   background-color: transparent;
   pointer-events: auto;
   box-sizing: border-box;
+}
+
+a {
+  color: var(--four-blue-color);
+  font-weight: bold;
+  text-decoration: none;
 }

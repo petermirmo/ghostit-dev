@@ -2,7 +2,7 @@ const Strategy = require("../models/Strategy");
 const generalFunctions = require("./generalFunctions");
 
 module.exports = {
-  saveStrategy: function(req, res) {
+  saveStrategy: (req, res) => {
     let currentStrategy = req.body;
     let userID = req.user._id;
     if (req.user.signedInAsUser) {

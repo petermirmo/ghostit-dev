@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 
-import Header from "../../navigations/Header";
+import HeaderSideBar from "../../navigations/HeaderSideBar";
 import SignedInAs from "../..//SignedInAs";
 
 import WebsiteHeader from "../../navigations/WebsiteHeader";
@@ -17,9 +17,6 @@ import { isUserInPlatform, shouldShowSignedInAsDiv } from "./util";
 import "./style.css";
 
 class Page extends Component {
-  state = {
-    headerWidth: 0
-  };
   constructor(props) {
     super(props);
     const activePage = props.location.pathname;
@@ -34,19 +31,9 @@ class Page extends Component {
     window.scrollTo(0, 0);
   }
 
-  onSize = sizeChangeObj => {
-    this.setState({ headerWidth: sizeChangeObj.width });
-  };
-
-  websiteOrSoftwareHeader = (activePage, blendWithHomePage) => {
-    if (!isUserInPlatform(activePage))
-      return <WebsiteHeader blendWithHomePage={blendWithHomePage} />;
-    else return <Header onSize={this.onSize} />;
-  };
   checkPropsVariables = activePage => {
     const { testMode } = this.props; // Variables
     let { title, description, image, style } = this.props; // Variables
-    let { headerWidth } = this.state; // Variables
 
     if (!style) style = {};
     if (!title) title = "All In One Marketing Solution";
@@ -57,20 +44,13 @@ class Page extends Component {
       image =
         "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png";
     if (testMode) style.backgroundColor = "blue";
-
-    if (!isUserInPlatform(activePage)) headerWidth = 0;
-    style.marginLeft = headerWidth;
+    if (isUserInPlatform(activePage))
+      style.backgroundImage = "linear-gradient(320deg, #246afb, #17bef8)";
 
     return { style, title, description, image };
   };
   render() {
-    const {
-      blendWithHomePage,
-      children,
-      className,
-      location,
-      user
-    } = this.props; // Variables
+    const { children, className, homePage, location, user } = this.props; // Variables
     const activePage = location.pathname;
 
     const { style, title, description, image } = this.checkPropsVariables(
@@ -78,22 +58,45 @@ class Page extends Component {
     );
 
     return (
-      <div className="page-container" style={style}>
+      <GIContainer
+        className={
+          "screen-container " + (isUserInPlatform(activePage) ? "pt48" : "")
+        }
+        style={style}
+      >
         <Helmet>
           <meta charSet="utf-8" />
           <title>{`${title} | Ghostit`}</title>
           <meta name="title" content={`${title} | Ghostit`} />
+          <meta name="og:title" content={`${title} | Ghostit`} />
           <meta name="description" content={description} />
+          <meta name="og:description" content={description} />
           <meta property="image" content={image} />
           <meta property="og:image" content={image} />
         </Helmet>
-        {this.websiteOrSoftwareHeader(activePage, blendWithHomePage)}
-        {shouldShowSignedInAsDiv(user, activePage) && (
-          <SignedInAs user={user} />
-        )}
-        <GIContainer className={className}>{children}</GIContainer>
-        {!isUserInPlatform(activePage) && <WebsiteFooter />}
-      </div>
+        {isUserInPlatform(activePage) && <HeaderSideBar />}
+
+        <GIContainer className="column fill-flex">
+          {!isUserInPlatform(activePage) && (
+            <WebsiteHeader homePage={homePage} />
+          )}
+
+          <GIContainer
+            className={
+              isUserInPlatform(activePage)
+                ? `page-container bg-white ${className}`
+                : className
+            }
+          >
+            {shouldShowSignedInAsDiv(activePage, user) && (
+              <SignedInAs user={user} />
+            )}
+            {children}
+          </GIContainer>
+
+          {!isUserInPlatform(activePage) && <WebsiteFooter />}
+        </GIContainer>
+      </GIContainer>
     );
   }
 }

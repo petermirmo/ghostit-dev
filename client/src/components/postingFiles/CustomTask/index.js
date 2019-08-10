@@ -133,7 +133,7 @@ class CustomTask extends Component {
     const { canEditPost } = this.props;
 
     return (
-      <div className="container-box white flex column x-fill y-fill ov-auto">
+      <div className="container-box bg-white flex column x-fill y-fill ov-auto">
         <div className="post-instruction-container">
           <div
             className="posting-container light-scrollbar pa16"
@@ -203,7 +203,7 @@ class CustomTask extends Component {
           />
           {(somethingChanged || (!this.props.recipeEditing && !_id)) && (
             <button
-              className="square-button py8 width100"
+              className="square-button py8 x-fill"
               onClick={() => this.setState(trySavePost(this.state, this.props))}
             >
               Save Task!

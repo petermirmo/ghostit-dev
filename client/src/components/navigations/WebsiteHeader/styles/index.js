@@ -1,6 +1,6 @@
-let { mobileAndTabletcheck } = require("../../../../componentFunctions");
+import { isMobileOrTablet } from "../../../../util";
 
-if (mobileAndTabletcheck()) {
+if (isMobileOrTablet()) {
   module.exports = require("./mobileStyle.css");
 } else {
   module.exports = require("./style.css");

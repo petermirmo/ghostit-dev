@@ -5,13 +5,13 @@ import "./style.css";
 class GIButton extends Component {
   render() {
     const {
-      text,
-      onClick,
+      children,
       className,
-      style,
       name,
-      type,
-      children
+      onClick,
+      style,
+      text,
+      type
     } = this.props;
     return (
       <button

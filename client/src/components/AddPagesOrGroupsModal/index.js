@@ -98,7 +98,7 @@ class AddPagesOrGroupsModal extends Component {
             <GIContainer className="justify-end fill-flex px16">
               <FontAwesomeIcon
                 icon={faTimes}
-                className="opposite-button-colors clickable br4 round-icon"
+                className="opposite-button-colors clickable br4 round-icon-small"
                 onClick={() => this.props.close()}
               />
             </GIContainer>

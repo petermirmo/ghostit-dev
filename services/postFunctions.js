@@ -9,19 +9,17 @@ const Email = require("../models/Email");
 const Account = require("../models/Account");
 const Calendar = require("../models/Calendar");
 
-const { uploadFiles, whatFileTypeIsString } = require("../util");
+const {
+  canCopyAttributeDirectly,
+  getUserID,
+  isUrlImage,
+  isUrlVideo,
+  isBinaryImage,
+  uploadFiles,
+  whatFileTypeIsUrl
+} = require("../util");
 
-const canCopyAttributeDirectly = index => {
-  if (index === "linkCustomFiles") {
-    return false;
-  } else {
-    return true;
-  }
-};
-const isBinaryImage = string => {
-  if (string.length > 500) return true;
-  else return false;
-};
+const { deletePostFromFacebook } = require("./facebookFunctions");
 
 const deletePostStandalone = (req, callback) => {
   // function called indirectly when deleting a post normally
@@ -32,12 +30,8 @@ const deletePostStandalone = (req, callback) => {
     if (post && !err) {
       if (!skipUserCheck) {
         // need to make sure the user has the right to delete this post
-        let userID = req.user._id;
-        if (req.user.signedInAsUser) {
-          if (req.user.signedInAsUser.id) {
-            userID = req.user.signedInAsUser.id;
-          }
-        }
+        const userID = getUserID(req);
+
         let invalidUser = false;
         await Calendar.findOne(
           { _id: post.calendarID, userIDs: userID },
@@ -79,13 +73,13 @@ const deletePostStandalone = (req, callback) => {
 };
 
 module.exports = {
-  deleteFile: function(req, res) {
-    cloudinary.uploader.destroy(req.params.publicID, function(result) {
+  deleteFile: (req, res) => {
+    cloudinary.uploader.destroy(req.params.publicID, result => {
       res.send(true);
       // TO DO: handle error here
     });
   },
-  getImagesFromUrl: function(req, res) {
+  getImagesFromUrl: (req, res) => {
     let url = req.body.link;
 
     request(url, (err, result, body) => {
@@ -183,13 +177,8 @@ module.exports = {
           } else if (foundPost) {
             newPost = foundPost;
           }
+          const userID = getUserID(req);
 
-          let userID = req.user._id;
-          if (req.user.signedInAsUser) {
-            if (req.user.signedInAsUser.id) {
-              userID = req.user.signedInAsUser.id;
-            }
-          }
           // Set color of post
           let backgroundColorOfPost;
           if (post.socialType === "facebook") backgroundColorOfPost = "#4267b2";
@@ -295,9 +284,10 @@ module.exports = {
     });
   },
   deletePost: (req, res) => {
-    deletePostStandalone(
-      { postID: req.params.postID, user: req.user },
-      result => res.send(result)
+    const { postID } = req.params;
+
+    deletePostStandalone({ postID, user: req.user }, result =>
+      res.send(result)
     );
   },
   deletePostStandalone

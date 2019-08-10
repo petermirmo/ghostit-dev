@@ -15,3 +15,15 @@ export const saveUser = (userUpdates, userID, callback, props) => {
     }
   });
 };
+
+export const logout = callback => {
+  axios.get("/api/logout").then(res => {
+    const { success } = res.data;
+
+    if (success) {
+      callback();
+    } else {
+      window.location.reload();
+    }
+  });
+};

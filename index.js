@@ -39,19 +39,33 @@ cloudinary.config({
 });
 
 // Schedulers
-const PostScheduler = require("./scheduler/PostScheduler");
-const TokenScheduler = require("./scheduler/TokenScheduler");
-const EmailScheduler = require("./scheduler/EmailScheduler");
+const PostScheduler = require("./scheduler/Post");
+const TokenScheduler = require("./scheduler/Token");
+const EmailScheduler = require("./scheduler/Email");
+const PageAnalyticsScheduler = require("./scheduler/PageAnalytics");
+const PostAnalyticsScheduler = require("./scheduler/PostAnalytics");
 const schedule = require("node-schedule");
+
+schedule.scheduleJob("0 0 * * 0", () => {
+  TokenScheduler.main();
+});
+
+schedule.scheduleJob("* * * * *", () => {
+  return;
+  console.log("starting");
+  PageAnalyticsScheduler.main();
+});
+
+schedule.scheduleJob("* * * * *", () => {
+  return;
+  console.log("starting");
+  PostAnalyticsScheduler.main();
+});
 
 if (process.env.NODE_ENV === "production") {
   schedule.scheduleJob("* * * * *", () => {
+    return;
     PostScheduler.main();
-  });
-
-  schedule.scheduleJob("0 0 * * 0", () => {
-    console.log("starting");
-    TokenScheduler.main();
   });
 
   schedule.scheduleJob("* * * * *", () => {
@@ -60,13 +74,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Connect to database
-mongoose.connect(
-  keys.mongoDevelopmentURI,
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true
-  }
-);
+mongoose.connect(keys.mongoDevelopmentURI, {
+  useNewUrlParser: true,
+  useCreateIndex: true
+});
 var db = mongoose.connection;
 
 require("./services/passport")(passport);

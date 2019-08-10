@@ -9,84 +9,88 @@ class Dashboard extends Component {
   render() {
     const { className } = this.props; // Variables
     const { handleParentChange } = this.props; // Functions
+
     return (
-      <GIContainer className="x-fill y-fill column ov-auto">
+      <GIContainer className="x-fill column">
         <GIContainer className={`x-wrap x-fill ${className}`}>
-          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
-            <GIText
-              text="Create a post"
-              type="h3"
-              className="seven-blue mb16 tac"
-            />
-            <GIContainer className="full-center x-fill y-50">
-              <img
-                alt=""
-                src={require("../../svgs/dashboard-post.svg")}
-                className="fill-parent"
-              />
+          <GIContainer className="container-box small bg-white column justify-between common-border pt32 pb16 px16 mb32 mx8 br8">
+            <GIContainer className="full-center x-fill fill-flex">
+              <GIContainer className="full-center x-50">
+                <img
+                  alt=""
+                  src={require("../../svgs/dashboard-post.svg")}
+                  className="fill-parent"
+                />
+              </GIContainer>
             </GIContainer>
+            <GIText className="five-blue tac mt32 mb8" type="h4">
+              Create a
+              <GIText className="bold" text="&nbsp;Post" type="span" />
+            </GIText>
             <GIContainer className="x-fill full-center column">
               <GIText
-                className="tac mb8"
+                className="tac mb32"
                 text="Create and schedule a new post to your social media."
                 type="p"
               />
               <GIButton
-                className="regular-button light small x-85"
+                className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 py8"
                 onClick={() => handleParentChange({ contentModal: true })}
-                text="Create post"
+                text="Create"
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
-            <GIText
-              text="Create a campaign"
-              type="h3"
-              className="seven-blue mb16 tac"
-            />
-            <GIContainer className="full-center x-fill y-50">
-              <img
-                alt=""
-                src={require("../../svgs/dashboard-campaign.svg")}
-                className="fill-parent"
-              />
+          <GIContainer className="container-box small bg-white column justify-between common-border pt32 pb16 px16 mb32 mx8 br8">
+            <GIContainer className="full-center x-fill fill-flex">
+              <GIContainer className="full-center x-50">
+                <img
+                  alt=""
+                  className="fill-parent"
+                  src={require("../../svgs/dashboard-campaign.svg")}
+                />
+              </GIContainer>
             </GIContainer>
+            <GIText className="five-blue tac mt32 mb8" type="h4">
+              Create a
+              <GIText className="bold" text="&nbsp;Campaign" type="span" />
+            </GIText>
             <GIContainer className="x-fill full-center column">
               <GIText
-                className="tac mb8"
+                className="tac mb32"
                 text="Create a new campaign and schedule multiple posts. "
                 type="p"
               />
               <GIButton
-                className="regular-button light small x-85"
+                className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 py8"
                 onClick={() => handleParentChange({ campaignModal: true })}
-                text="Create campaign"
+                text="Create"
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="container-box column white twentyvw justify-between py16 px32 mb32 mx8 br8 common-border light">
-            <GIText
-              className="seven-blue mb16 tac"
-              text="Browse templates"
-              type="h3"
-            />
-            <GIContainer className="full-center x-fill y-50">
-              <img
-                alt=""
-                className="fill-parent"
-                src={require("../../svgs/dashboard-templates.svg")}
-              />
+          <GIContainer className="container-box small bg-white column justify-between common-border pt32 pb16 px16 mb32 mx8 br8">
+            <GIContainer className="full-center x-fill fill-flex">
+              <GIContainer className="full-center x-50">
+                <img
+                  alt=""
+                  className="fill-parent"
+                  src={require("../../svgs/dashboard-templates.svg")}
+                />
+              </GIContainer>
             </GIContainer>
+            <GIText className="five-blue tac mt32 mb8" type="h4">
+              Browse
+              <GIText className="bold" text="&nbsp;Templates" type="span" />
+            </GIText>
             <GIContainer className="x-fill full-center column">
               <GIText
-                className="tac mb8"
+                className="tac mb32"
                 text="Browse existing templates to help your marketing strategy."
                 type="p"
               />
               <GIButton
-                className="regular-button light small x-85"
+                className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 py8"
                 onClick={() => handleParentChange({ templatesModal: true })}
-                text="Browse templates"
+                text="Browse"
               />
             </GIContainer>
           </GIContainer>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setUser, setaccounts } from "../../redux/actions/";
+import { setUser, setAccounts } from "../../redux/actions/";
 
 import SearchColumn from "../SearchColumn/";
 import "./style.css";
@@ -47,8 +47,8 @@ class ClientSideBar extends Component {
   render() {
     return (
       <div
-        className="navbar pa16 animate-from-left-100"
-        style={{ zIndex: "-1" }}
+        className="bg-white pa16 animate-from-left-100"
+        style={{ zIndex: "1" }}
       >
         <SearchColumn
           objectList={this.state.untouchedClients}
@@ -76,7 +76,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setaccounts
+      setAccounts
     },
     dispatch
   );

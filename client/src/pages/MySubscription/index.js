@@ -72,7 +72,12 @@ class MySubscription extends Component {
     if (invoices) invoiceRowDivs = this.createInvoiceRows(invoices);
     return (
       <Page title="Subscriptions">
-        <GIContainer className="invoice-container x-fill full-center column mt64">
+        {!databaseConnection && (
+          <GIContainer className="x-fill justify-center">
+            <LoaderSimpleCircle />
+          </GIContainer>
+        )}
+        <GIContainer className="invoice-container x-fill column">
           {invoiceRowDivs.length !== 0 && invoiceRowDivs}
           {invoiceRowDivs.length === 0 && databaseConnection && (
             <GIText
@@ -81,7 +86,6 @@ class MySubscription extends Component {
               type="h2"
             />
           )}
-          {!databaseConnection && <LoaderSimpleCircle />}
         </GIContainer>
       </Page>
     );

@@ -30,7 +30,7 @@ class SocketUserList extends Component {
           {userList.length}
           <FontAwesomeIcon icon={faUsers} className="ml8" />
         </div>
-        <div style={style} className="dropdown common-shadow br4">
+        <div style={style} className="dropdown shadow br4">
           {userDivs}
         </div>
       </div>

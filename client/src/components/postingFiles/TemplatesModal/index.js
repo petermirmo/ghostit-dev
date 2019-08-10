@@ -6,12 +6,15 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import LoaderSimpleCircle from "../../notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";
 import ConfirmAlert from "../../notifications/ConfirmAlert";
+import Modal0 from "../../containers/Modal0";
+
+import GIContainer from "../../containers/GIContainer";
 
 import { getPostColor, getPostIcon } from "../../../componentFunctions";
 
@@ -40,16 +43,20 @@ class TemplatesModal extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
-    const { handleParentChange } = this.props;
+    const {
+      handleParentChange,
+      getKeyListenerFunction,
+      setKeyListenerFunction
+    } = this.props;
 
-    this.props.setKeyListenerFunction([
+    setKeyListenerFunction([
       event => {
         if (!this._ismounted) return;
         if (event.keyCode === 27) {
           handleParentChange({ templatesModal: false }); // escape button pushed
         }
       },
-      this.props.getKeyListenerFunction[0]
+      getKeyListenerFunction[0]
     ]);
 
     getRecipes(stateObject => {
@@ -98,7 +105,7 @@ class TemplatesModal extends Component {
         let opacity;
         if (!recipe.color) opacity = 0;
         rowArray.push(
-          <div
+          <GIContainer
             className="recipe-container pa8 ma8 flex column button"
             key={recipeIndex2 + "recipe"}
             onClick={e => {
@@ -125,10 +132,12 @@ class TemplatesModal extends Component {
             }}
             style={{ opacity, cursor: recipe.cursor }}
           >
-            <div className="recipe-name">{recipe.name}</div>
-            <div className="recipe-description">{recipe.description}</div>
-            <div className="recipe-information-container">
-              <div className="recipe-uses">
+            <GIContainer className="recipe-name">{recipe.name}</GIContainer>
+            <GIContainer className="recipe-description">
+              {recipe.description}
+            </GIContainer>
+            <GIContainer className="recipe-information-container">
+              <GIContainer className="recipe-uses">
                 Use count:{" "}
                 <span className="blue">
                   {recipe.useCount ? recipe.useCount : 0}
@@ -137,9 +146,9 @@ class TemplatesModal extends Component {
                 {recipe.creator && (
                   <span className="italic">{recipe.creator}</span>
                 )}
-              </div>
-            </div>
-          </div>
+              </GIContainer>
+            </GIContainer>
+          </GIContainer>
         );
         recipeIndex++;
       }
@@ -149,15 +158,21 @@ class TemplatesModal extends Component {
         recipeArray.length === 1
       ) {
         recipeArray.push(
-          <div className="recipes-container" key={recipeRow + "each_row"}>
+          <GIContainer
+            className="recipes-container"
+            key={recipeRow + "each_row"}
+          >
             {rowArray}
-          </div>
+          </GIContainer>
         );
       } else {
         recipeArray[recipeArray.length - 2] = (
-          <div className="recipes-container" key={recipeRow + "each_row"}>
+          <GIContainer
+            className="recipes-container"
+            key={recipeRow + "each_row"}
+          >
             {rowArray}
-          </div>
+          </GIContainer>
         );
       }
     }
@@ -198,12 +213,12 @@ class TemplatesModal extends Component {
         else return 1;
       });
     return (
-      <div
+      <GIContainer
         className="preview-recipe"
         key={recipeRow + "preview_recipe" + recipeColumn}
         id="current-displayed-recipe"
       >
-        <div className="recipe-posts-navigation">
+        <GIContainer className="recipe-posts-navigation">
           {recipe.posts.map((post_obj, index) => {
             let postDay =
               new moment(post_obj.postingDate).diff(recipe.startDate, "days") +
@@ -212,9 +227,11 @@ class TemplatesModal extends Component {
             else lastPostDay = postDay;
 
             return (
-              <div key={index + "post-div"}>
-                {postDay && <div className="post-day">Day {postDay}</div>}
-                <div
+              <GIContainer key={index + "post-div"}>
+                {postDay && (
+                  <GIContainer className="post-day">Day {postDay}</GIContainer>
+                )}
+                <GIContainer
                   className="post-entry"
                   onClick={e => this.setState({ activePost: post_obj })}
                 >
@@ -227,27 +244,31 @@ class TemplatesModal extends Component {
                     />
                   )}
                   {!getPostIcon(post_obj.socialType) && (
-                    <div
+                    <GIContainer
                       className="custom-task-block-color"
                       style={{ backgroundColor: post_obj.color }}
                     />
                   )}
 
-                  <div className="recipe-post-name">{post_obj.name}</div>
-                </div>
-              </div>
+                  <GIContainer className="recipe-post-name">
+                    {post_obj.name}
+                  </GIContainer>
+                </GIContainer>
+              </GIContainer>
             );
           })}
-        </div>
-        <div className="recipe-post-and-use-container">
+        </GIContainer>
+        <GIContainer className="recipe-post-and-use-container">
           {activePost && (
-            <div className="post-preview">
-              <div className="title">{recipe.name}</div>
-              <div className="preview-recipe-description">
-                {recipe.description}
-              </div>
+            <GIContainer className="post-preview">
+              <GIContainer className="column">
+                <GIContainer className="title">{recipe.name}</GIContainer>
+                <GIContainer className="preview-recipe-description">
+                  {recipe.description}
+                </GIContainer>
+              </GIContainer>
               {signedInUserID === recipe.userID && (
-                <div className="recipe-edit-delete-container">
+                <GIContainer className="recipe-edit-delete-container">
                   <FontAwesomeIcon
                     icon={faEdit}
                     className="recipe-edit-button"
@@ -268,22 +289,22 @@ class TemplatesModal extends Component {
                     size="2x"
                     onClick={() => this.setState({ promptDeleteRecipe: true })}
                   />
-                </div>
+                </GIContainer>
               )}
-            </div>
+            </GIContainer>
           )}
-          <div className="use-recipe-date-container">
+          <GIContainer className="use-recipe-date-container">
             {!chooseRecipeDate && (
-              <div
+              <GIContainer
                 className="use-this-recipe"
                 onClick={() => this.setState({ chooseRecipeDate: true })}
               >
                 Use This Template
-              </div>
+              </GIContainer>
             )}
 
             {chooseRecipeDate && (
-              <div className="label">Choose Start Date: </div>
+              <GIContainer className="label">Choose Start Date: </GIContainer>
             )}
             {chooseRecipeDate && (
               <DateTimePicker
@@ -310,81 +331,86 @@ class TemplatesModal extends Component {
                 }}
               />
             )}
-          </div>
-        </div>
-      </div>
+          </GIContainer>
+        </GIContainer>
+      </GIContainer>
     );
   };
 
   render() {
-    let { activeRecipes, loading, promptDeleteRecipe } = this.state;
+    const {
+      activeRecipes,
+      allRecipes,
+      loading,
+      promptDeleteRecipe,
+      usersRecipes
+    } = this.state;
     const { handleParentChange } = this.props;
 
-    let recipeArray = this.createRecipeList(activeRecipes);
+    const recipeArray = this.createRecipeList(activeRecipes);
 
     return (
-      <div
+      <Modal0
+        body={
+          <GIContainer className="bg-light-grey x-fill pa32">
+            <GIContainer className="bg-white common-border column x-fill relative pa32 br8">
+              <GIContainer className="recipe-navigation-container full-center x-fill">
+                <GIContainer
+                  className={
+                    activeRecipes === usersRecipes
+                      ? "recipe-navigation-option pa4 button mx8 active"
+                      : "recipe-navigation-option pa4 button mx8"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      activeRecipes: usersRecipes,
+                      previewRecipeLocation: undefined,
+                      activePost: undefined
+                    });
+                  }}
+                >
+                  Your Templates
+                </GIContainer>
+                <GIContainer
+                  className={
+                    activeRecipes === allRecipes
+                      ? "recipe-navigation-option pa4 button mx8 active"
+                      : "recipe-navigation-option pa4 button mx8"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      activeRecipes: allRecipes,
+                      previewRecipeLocation: undefined,
+                      activePost: undefined
+                    });
+                  }}
+                >
+                  All Templates
+                </GIContainer>
+              </GIContainer>
+              <GIContainer className="recipes-container-container">
+                {loading && (
+                  <GIContainer className="x-fill full-center">
+                    <LoaderSimpleCircle />
+                  </GIContainer>
+                )}
+                {recipeArray}
+              </GIContainer>
+
+              {promptDeleteRecipe && (
+                <ConfirmAlert
+                  close={() => this.setState({ promptDeleteRecipe: false })}
+                  title="Delete Recipe"
+                  message="Are you sure you want to delete this recipe?"
+                  callback={this.deleteRecipe}
+                />
+              )}
+            </GIContainer>
+          </GIContainer>
+        }
         className="modal"
-        onClick={() => handleParentChange({ templatesModal: false })}
-      >
-        <div
-          className="large-modal common-transition"
-          onClick={e => e.stopPropagation()}
-        >
-          <FontAwesomeIcon
-            icon={faTimes}
-            size="2x"
-            className="close"
-            onClick={() => handleParentChange({ templatesModal: false })}
-          />
-          <div className="modal-header">
-            <div className="recipe-navigation-container">
-              <div
-                className={
-                  activeRecipes === this.state.usersRecipes
-                    ? "recipe-navigation-option pa4 button mx8 active"
-                    : "recipe-navigation-option pa4 button mx8"
-                }
-                onClick={() => {
-                  this.setState({
-                    activeRecipes: this.state.usersRecipes,
-                    previewRecipeLocation: undefined,
-                    activePost: undefined
-                  });
-                }}
-              >
-                Your Templates
-              </div>
-              <div
-                className={
-                  activeRecipes === this.state.allRecipes
-                    ? "recipe-navigation-option pa4 button mx8 active"
-                    : "recipe-navigation-option pa4 button mx8"
-                }
-                onClick={() => {
-                  this.setState({
-                    activeRecipes: this.state.allRecipes,
-                    previewRecipeLocation: undefined,
-                    activePost: undefined
-                  });
-                }}
-              >
-                All Templates
-              </div>
-            </div>
-          </div>
-          <div className="recipes-container-container">{recipeArray}</div>
-          {loading && <LoaderSimpleCircle />}
-          {promptDeleteRecipe && (
-            <ConfirmAlert
-              close={() => this.setState({ promptDeleteRecipe: false })}
-              title="Delete Recipe"
-              message="Are you sure you want to delete this recipe?"
-              callback={this.deleteRecipe}
-            />
-          )}
-        </div>
-      </div>
+        close={() => handleParentChange({ templatesModal: false })}
+      />
     );
   }
 }

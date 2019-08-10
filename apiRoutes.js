@@ -31,7 +31,6 @@ module.exports = app => {
     next();
   };
 
-  app.get("/api/test", (req, res) => facebookFunctions.test(req, res));
   // Login user
   app.post("/api/login", (req, res, next) => {
     passport.authenticate("local-login", (err, user, message) => {
@@ -125,10 +124,10 @@ module.exports = app => {
         "email",
         "publish_pages",
         "manage_pages",
-        "business_management",
         "read_insights",
         "instagram_basic",
-        "publish_to_groups"
+        "publish_to_groups",
+        "instagram_manage_insights"
       ]
     })
   );
@@ -142,19 +141,11 @@ module.exports = app => {
   );
 
   app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) => {
-    if (req.params.accountID === "all") {
-      analyticsFunctions.requestAllFacebookPageAnalytics(req, res);
-    } else {
-      analyticsFunctions.getPageAnalytics(req, res);
-    }
+    analyticsFunctions.getPageAnalytics(req, res);
   });
 
   app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) => {
-    if (req.params.postID === "all") {
-      analyticsFunctions.requestAllFacebookPostAnalytics(req, res);
-    } else {
-      analyticsFunctions.getPostAnalytics(req, res);
-    }
+    analyticsFunctions.getPostAnalytics(req, res);
   });
 
   // Add Twitter account
@@ -341,11 +332,11 @@ module.exports = app => {
     adminFunctions.getPlans(req, res)
   );
 
-  app.get("/api/ai/analytics/accounts", middleware, (req, res) => {
+  app.get("/api/analytics/accounts", middleware, (req, res) => {
     analyticsFunctions.getAllAccountAnalytics(req, res);
   });
 
-  app.get("/api/ai/analytics/posts", middleware, (req, res) => {
+  app.get("/api/analytics/posts", middleware, (req, res) => {
     analyticsFunctions.getAllPostAnalytics(req, res);
   });
 

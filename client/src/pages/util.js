@@ -1,6 +1,11 @@
+import React from "react";
 import axios from "axios";
 import io from "socket.io-client";
 import moment from "moment-timezone";
+
+import Loader from "../components/notifications/Loader";
+
+import { testingUser, testingAccounts } from "../keys";
 
 export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
   if (!calendars || !calendars[activeCalendarIndex]) {
@@ -26,7 +31,39 @@ export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
     }
   });
 };
+export const getAccounts = callback => {
+  if (process.env.NODE_ENV === "development") {
+    //  callback(testingAccounts);
+  }
+  axios.get("/api/accounts").then(res => {
+    // Set user's accounts to state
+    let { accounts } = res.data;
+
+    if (!accounts) {
+      // TODO: handle error
+      accounts = [];
+      callback(accounts);
+    }
+
+    callback(accounts);
+  });
+};
+
+export const getGhostitBlogs = callback => {
+  axios.get("/api/ghostit/blogs").then(res => {
+    const { success, ghostitBlogs } = res.data;
+
+    if (success) callback(ghostitBlogs);
+    else {
+      // TODO: handle error
+    }
+  });
+};
+
 export const getUser = callback => {
+  if (process.env.NODE_ENV === "development") {
+    //  return callback(testingUser);
+  }
   axios.get("/api/user").then(res => {
     const { error, user } = res.data;
 
@@ -38,29 +75,11 @@ export const getUser = callback => {
     }
   });
 };
-export const getAccounts = callback => {
-  axios.get("/api/accounts").then(res => {
-    // Set user's accounts to state
-    let { accounts } = res.data;
-    if (!accounts) {
-      // TODO: handle error
-      accounts = [];
-      callback(accounts);
-    }
 
-    callback(accounts);
-  });
-};
-
-export const getBlogs = callback => {
-  axios.get("/api/ghostit/blogs").then(res => {
-    const { error, ghostitBlogs } = res.data;
-
-    if (!error) callback(ghostitBlogs);
-    else {
-      // TODO: handle error
-    }
-  });
+export const getUserEmail = user => {
+  if (user && user.signedInAsUser && user.signedInAsUser.fullName)
+    return user.signedInAsUser.fullName;
+  else return user.email;
 };
 
 export const useAppropriateFunctionForEscapeKey = getKeyListenerFunction => {
@@ -399,4 +418,9 @@ export const initSocket = (
 
   callback({ socket });
   if (updateSocketCalendar) updateSocketCalendar();
+};
+
+export const isStillLoading = (page, user) => {
+  if (user) return page;
+  else return Loader;
 };

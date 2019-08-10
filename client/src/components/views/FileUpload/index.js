@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/pro-light-svg-icons";
 
 import GIContainer from "../../containers/GIContainer";
 
@@ -15,25 +16,26 @@ class FileUpload extends Component {
       className = "br8",
       canEdit = true,
       currentFiles = [],
-      fileIcon = faUpload,
+      fileIcon = faPlus,
       fileLimit = 4,
       filesToDelete = [],
       hideUploadButton = false,
       id = String(Math.random()),
       imageClassName,
       imageContainerClassName,
-      imageOnly
+      imageOnly,
+      testMode
     } = this.props; // Variables
 
     return (
-      <GIContainer className="align-center">
+      <GIContainer className="align-center wrap x-fill" testMode={testMode}>
         {!hideUploadButton && currentFiles.length < fileLimit && canEdit && (
           <GIContainer>
             <label
               htmlFor={id}
-              className={`custom-file-upload pa16 clickable full-center flex ${className}`}
+              className={`br4 shadow-blue-4 bg-blue-fade-4 white xy-64px clickable full-center flex ${className}`}
             >
-              <FontAwesomeIcon icon={fileIcon} className="px4" />
+              <FontAwesomeIcon icon={fileIcon} size="2x" />
             </label>
 
             <input
@@ -52,45 +54,45 @@ class FileUpload extends Component {
             />
           </GIContainer>
         )}
-
-        {currentFiles.map((file, index) => {
-          return (
-            <GIContainer
-              key={index}
-              className={`relative ml8 uploaded-file ${imageContainerClassName}`}
-            >
-              {isImage(file) && (
-                <img
-                  alt="error"
-                  className={imageClassName}
-                  src={file.file ? file.file : file.url}
-                />
-              )}
-              {isVideo(file) && (
-                <video
-                  alt="error"
-                  className={imageClassName}
-                  src={file.file ? file.file : file.url}
-                />
-              )}
-              {canEdit && (
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  className="icon-x-hover"
-                  onClick={() =>
-                    removeFile(
-                      currentFiles,
-                      filesToDelete,
-                      handleParentChange,
-                      index
-                    )
-                  }
-                  size="3x"
-                />
-              )}
-            </GIContainer>
-          );
-        })}
+        <GIContainer className="fill-flex justify-end">
+          {currentFiles.map((file, index) => {
+            return (
+              <GIContainer
+                className={`relative uploaded-file ${imageContainerClassName} ma2`}
+                key={index}
+              >
+                {isImage(file) && (
+                  <img
+                    alt="error"
+                    className={imageClassName}
+                    src={file.file ? file.file : file.url}
+                  />
+                )}
+                {isVideo(file) && (
+                  <video
+                    alt="error"
+                    className={imageClassName}
+                    src={file.file ? file.file : file.url}
+                  />
+                )}
+                {canEdit && (
+                  <FontAwesomeIcon
+                    className="bg-white primary-font shadow-left icon-x-hover round-icon-small small clickable round"
+                    icon={faTimes}
+                    onClick={() =>
+                      removeFile(
+                        currentFiles,
+                        filesToDelete,
+                        handleParentChange,
+                        index
+                      )
+                    }
+                  />
+                )}
+              </GIContainer>
+            );
+          })}
+        </GIContainer>
       </GIContainer>
     );
   }

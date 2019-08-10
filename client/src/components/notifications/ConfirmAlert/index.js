@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+
+import GIContainer from "../../containers/GIContainer";
 
 import "./style.css";
 
@@ -49,6 +51,7 @@ class ConfirmAlert extends Component {
       extraConfirmationKey
     } = this.props; // variables
     const { close, callback } = this.props; // functions
+
     let firstButton = "Delete";
     let secondButton = "Cancel";
     let firstButtonStyle = "confirm-button";
@@ -62,8 +65,10 @@ class ConfirmAlert extends Component {
         firstButton = "Discard";
       } // else "delete-campaign" or "delete-post" or "delete-calendar"
     }
+
     if (this.props.firstButton) firstButton = this.props.firstButton;
     if (this.props.secondButton) secondButton = this.props.secondButton;
+
     return (
       <div className="confirm-alert-background" onClick={close}>
         <div className="confirm-alert" onClick={e => e.stopPropagation()}>
@@ -81,7 +86,7 @@ class ConfirmAlert extends Component {
               </div>
               <input
                 type="text"
-                className="regular-input width100"
+                className="regular-input x-fill"
                 value={confirmText}
                 onChange={event =>
                   this.setState({ confirmText: event.target.value })
@@ -114,15 +119,17 @@ class ConfirmAlert extends Component {
             </button>
           </div>
           {checkboxMessage && (
-            <div
-              className="flex vc hc"
+            <GIContainer
+              className="flex full-center x-fill clickable"
               onClick={() => {
                 this.setState({ checked: !checked });
               }}
             >
-              <input type="checkbox" checked={checked} onChange={() => {}} />
+              <GIContainer className="round-icon small full-center">
+                <input type="checkbox" checked={checked} onChange={() => {}} />
+              </GIContainer>
               {checkboxMessage}
-            </div>
+            </GIContainer>
           )}
         </div>
       </div>

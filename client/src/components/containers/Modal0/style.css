@@ -1,0 +1,28 @@
+.modal0-content {
+  width: 100%;
+  min-height: 100%;
+
+  align-items: center;
+
+  animation: animateOpacity 0.2s;
+  background-color: var(--light-light-grey-theme-color);
+}
+.modal0-header {
+  width: 100%;
+  background-color: var(--white-theme-color);
+}
+
+.modal0-footer {
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+
+  border-top: 1px solid var(--divider-theme-color);
+  background-color: var(--white-theme-color);
+}

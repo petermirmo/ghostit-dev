@@ -9,6 +9,9 @@
 .purple-border:focus {
   border-color: var(--two-purple-color);
 }
+.no-border {
+  border: none;
+}
 
 textarea,
 input {
@@ -17,7 +20,7 @@ input {
 
   font-size: var(--sixteen-font-size);
   font-family: var(--regular-font);
-  border: 1px solid var(--divider-theme-color);
+  border: 1px solid var(--light-grey-theme-color);
   color: var(--primary-font-color);
   background-color: var(--white-theme-color);
 
@@ -26,7 +29,6 @@ input {
   padding-bottom: 4px;
   padding-left: 8px;
   width: 100%;
-  box-sizing: border-box;
 }
 textarea:focus,
 input:focus {
@@ -37,6 +39,5 @@ input[type="file"] {
   display: none;
 }
 ::placeholder {
-  color: var(--divider-theme-color);
-  font-family: var(--silly-font);
+  color: var(--dark-grey-theme-color);
 }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLongArrowAltLeft,
   faLongArrowAltRight
@@ -75,7 +75,7 @@ class LinkPreview extends Component {
       <div className={className}>
         <div
           id="link-preview-container"
-          className="common-shadow"
+          className="shadow"
           style={
             linkImagesToDisplay[activeImageIndex]
               ? {

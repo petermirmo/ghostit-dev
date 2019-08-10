@@ -18,7 +18,7 @@ const deleteCampaignStandalone = (req, callback) => {
 };
 
 module.exports = {
-  getCampaigns: function(req, res) {
+  getCampaigns: (req, res) => {
     // Get all posts for user
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -56,15 +56,17 @@ module.exports = {
         userID = req.user.signedInAsUser.id;
       }
     }
+
     Recipe.find({}, (err, allRecipes) => {
       if (err) generalFunctions.handleError(res, err);
       else {
-        for (let index in allRecipes) {
+        for (let index = 0; index < allRecipes.length; index++) {
           User.findOne({ _id: allRecipes[index].userID }, (err, user) => {
             if (err) generalFunctions.handleError(res, err);
             else {
-              allRecipes[index].creator = user.fullName;
-              if (index == allRecipes.length - 1) {
+              if (user) allRecipes[index].creator = user.fullName;
+              else allRecipes[index].creator = "Unknown";
+              if (index === allRecipes.length - 1) {
                 Recipe.find({ userID }, (err, usersRecipes) => {
                   res.send({ usersRecipes, allRecipes });
                 });
@@ -76,7 +78,7 @@ module.exports = {
     });
   },
 
-  saveRecipe: function(req, res) {
+  saveRecipe: (req, res) => {
     // function called when a user makes a campaign in CampaignModal then tries to save it as a recipe
     // a different function is used when a user saves a campaign through the RecipeEditorModal
     let userID = req.user._id;
@@ -147,7 +149,7 @@ module.exports = {
       });
     }
   },
-  deleteRecipe: function(req, res) {
+  deleteRecipe: (req, res) => {
     let userID = req.user._id;
     if (req.user.signedInAsUser) {
       if (req.user.signedInAsUser.id) {

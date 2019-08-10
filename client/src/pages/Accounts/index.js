@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTrash } from "@fortawesome/pro-solid-svg-icons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { setaccounts } from "../../redux/actions";
+import { setAccounts } from "../../redux/actions";
 
 import AddPageOrGroupModal from "../../components/AddPagesOrGroupsModal";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
@@ -121,15 +121,15 @@ class AccountsPage extends Component {
   render() {
     const {
       accountToDelete,
+      accountType,
       addPageOrGroupModal,
       deleteAccount,
       errorMessage,
       pageOrGroupArray,
-      socialType,
-      accountType
+      socialType
     } = this.state;
 
-    const { setaccounts, accounts } = this.props; // Functions
+    const { setAccounts, accounts = [] } = this.props; // Functions
     const { user } = this.props; // Variables
 
     const connectedFacebookProfileAccountDivs = [];
@@ -175,187 +175,193 @@ class AccountsPage extends Component {
     });
 
     return (
-      <Page className="py16 px32 align-start" title="Social Accounts">
-        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
-          <GIContainer className="align-center mb16">
-            <FontAwesomeIcon
-              className="mr8"
-              color={getPostColor("facebook")}
-              icon={getPostIcon("facebook")}
-              size="2x"
-            />
-            <GIText text="Facebook" type="h4" />
-          </GIContainer>
-          <GIText
-            className="tac mb16"
-            text="Connect a Facebook account to use it on Ghostit."
-            type="h6"
-          />
-
-          <GIButton
-            className="regular-button mb16"
-            onClick={() => {
-              window.location = "/api/facebook";
-            }}
-            text="Connect Facebook"
-          />
-          {connectedFacebookProfileAccountDivs}
-          <GIText
-            className="my16 border-bottom x-fill"
-            text="Your Facebook Pages"
-            type="h4"
-          />
-          {connectedFacebookProfileAccountDivs.length === 0 && (
+      <Page className="column" title="Social Accounts">
+        <GIContainer className="py16 px32 align-start">
+          <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+            <GIContainer className="align-center mb16">
+              <FontAwesomeIcon
+                className="mr8"
+                color={getPostColor("facebook")}
+                icon={getPostIcon("facebook")}
+                size="2x"
+              />
+              <GIText text="Facebook" type="h4" />
+            </GIContainer>
             <GIText
-              className="mb8"
-              text="You must first connect a profile account."
+              className="tac mb16"
+              text="Connect a Facebook account to use it on Ghostit."
               type="h6"
             />
-          )}
-          {connectedFacebookPageAccountDivs}
-          {connectedFacebookProfileAccountDivs.length > 0 && (
-            <GIContainer className="align-center x-fill mt16">
-              <FontAwesomeIcon
-                className="regular-button-colors round clickable round-icon pa8"
-                icon={faPlus}
-                onClick={() => this.openModal("facebook", "page")}
-              />
-              <GIText className="pa4" text="Add Page" type="h6" />
-            </GIContainer>
-          )}
-          {(user.role === "admin" || user.role === "tester") && (
+
+            <GIButton
+              className="regular-button mb16"
+              onClick={() => {
+                window.location = "/api/facebook";
+              }}
+              text="Connect Facebook"
+            />
+            {connectedFacebookProfileAccountDivs}
             <GIText
               className="my16 border-bottom x-fill"
-              text="Your Facebook Groups"
+              text="Your Facebook Pages"
               type="h4"
             />
-          )}
-          {(user.role === "admin" || user.role === "tester") &&
-            connectedFacebookProfileAccountDivs.length === 0 && (
+            {connectedFacebookProfileAccountDivs.length === 0 && (
               <GIText
                 className="mb8"
                 text="You must first connect a profile account."
                 type="h6"
               />
             )}
-          {(user.role === "admin" || user.role === "tester") &&
-            connectedFacebookGroupAccountDivs}
-          {(user.role === "admin" || user.role === "tester") &&
-            connectedFacebookProfileAccountDivs.length > 0 && (
+            {connectedFacebookPageAccountDivs}
+            {connectedFacebookProfileAccountDivs.length > 0 && (
               <GIContainer className="align-center x-fill mt16">
                 <FontAwesomeIcon
                   className="regular-button-colors round clickable round-icon pa8"
                   icon={faPlus}
-                  onClick={() => this.openModal("facebook", "group")}
+                  onClick={() => this.openModal("facebook", "page")}
                 />
-                <GIText className="pa4" text="Add Group" type="h6" />
+                <GIText className="pa4" text="Add Page" type="h6" />
               </GIContainer>
             )}
-        </GIContainer>
-
-        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
-          <GIContainer className="align-center mb16">
-            <FontAwesomeIcon
-              className="mr8"
-              color={getPostColor("twitter")}
-              icon={getPostIcon("twitter")}
-              size="2x"
-            />
-            <GIText text="Twitter" type="h4" />
+            {(user.role === "admin" || user.role === "tester") && (
+              <GIText
+                className="my16 border-bottom x-fill"
+                text="Your Facebook Groups"
+                type="h4"
+              />
+            )}
+            {(user.role === "admin" || user.role === "tester") &&
+              connectedFacebookProfileAccountDivs.length === 0 && (
+                <GIText
+                  className="mb8"
+                  text="You must first connect a profile account."
+                  type="h6"
+                />
+              )}
+            {(user.role === "admin" || user.role === "tester") &&
+              connectedFacebookGroupAccountDivs}
+            {(user.role === "admin" || user.role === "tester") &&
+              connectedFacebookProfileAccountDivs.length > 0 && (
+                <GIContainer className="align-center x-fill mt16">
+                  <FontAwesomeIcon
+                    className="regular-button-colors round clickable round-icon pa8"
+                    icon={faPlus}
+                    onClick={() => this.openModal("facebook", "group")}
+                  />
+                  <GIText className="pa4" text="Add Group" type="h6" />
+                </GIContainer>
+              )}
           </GIContainer>
-          <GIText
-            className="tac mb16"
-            text="Connect a Twitter account to use it on Ghostit."
-            type="h6"
-          />
 
-          <GIButton
-            className="regular-button mb16"
-            onClick={() => {
-              window.location = "/api/twitter";
-            }}
-            text="Connect Twitter"
-          />
-
-          {connectedTwitterAccountDivs}
-        </GIContainer>
-
-        <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
-          <GIContainer className="align-center mb16">
-            <FontAwesomeIcon
-              className="mr8"
-              color={getPostColor("linkedin")}
-              icon={getPostIcon("linkedin")}
-              size="2x"
-            />
-            <GIText text="LinkedIn" type="h4" />
-          </GIContainer>
-          <GIText
-            className="tac mb16"
-            text="Connect a LinkedIn account to use it on Ghostit."
-            type="h6"
-          />
-
-          <GIButton
-            className="regular-button mb16"
-            onClick={() => {
-              window.location = "/api/linkedin";
-            }}
-            text="Connect Linkedin"
-          />
-          {connectedLinkedinProfileAccountDivs}
-
-          <GIText
-            className="my16 border-bottom x-fill"
-            text="Your LinkedIn Pages"
-            type="h4"
-          />
-          {connectedLinkedinProfileAccountDivs.length === 0 && (
+          <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+            <GIContainer className="align-center mb16">
+              <FontAwesomeIcon
+                className="mr8"
+                color={getPostColor("twitter")}
+                icon={getPostIcon("twitter")}
+                size="2x"
+              />
+              <GIText text="Twitter" type="h4" />
+            </GIContainer>
             <GIText
-              className="mb8"
-              text="You must first connect a profile account."
+              className="tac mb16"
+              text="Connect a Twitter account to use it on Ghostit."
               type="h6"
             />
-          )}
 
-          {connectedLinkedinPageAccountDivs}
-          {connectedLinkedinProfileAccountDivs.length > 0 && (
-            <GIContainer className="align-center x-fill mt16">
+            <GIButton
+              className="regular-button mb16"
+              onClick={() => {
+                window.location = "/api/twitter";
+              }}
+              text="Connect Twitter"
+            />
+
+            {connectedTwitterAccountDivs}
+          </GIContainer>
+
+          <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+            <GIContainer className="align-center mb16">
               <FontAwesomeIcon
-                className="regular-button-colors round clickable round-icon pa8"
-                icon={faPlus}
-                onClick={() => this.openModal("linkedin", "page")}
+                className="mr8"
+                color={getPostColor("linkedin")}
+                icon={getPostIcon("linkedin")}
+                size="2x"
               />
-              <GIText className="pa4" text="Add Page" type="h6" />
+              <GIText text="LinkedIn" type="h4" />
             </GIContainer>
+            <GIText
+              className="tac mb16"
+              text="Connect a LinkedIn account to use it on Ghostit."
+              type="h6"
+            />
+
+            <GIButton
+              className="regular-button mb16"
+              onClick={() => {
+                window.location = "/api/linkedin";
+              }}
+              text="Connect Linkedin"
+            />
+            {connectedLinkedinProfileAccountDivs}
+
+            <GIText
+              className="my16 border-bottom x-fill"
+              text="Your LinkedIn Pages"
+              type="h4"
+            />
+            {connectedLinkedinProfileAccountDivs.length === 0 && (
+              <GIText
+                className="mb8"
+                text="You must first connect a profile account."
+                type="h6"
+              />
+            )}
+
+            {connectedLinkedinPageAccountDivs}
+            {connectedLinkedinProfileAccountDivs.length > 0 && (
+              <GIContainer className="align-center x-fill mt16">
+                <FontAwesomeIcon
+                  className="regular-button-colors round clickable round-icon pa8"
+                  icon={faPlus}
+                  onClick={() => this.openModal("linkedin", "page")}
+                />
+                <GIText className="pa4" text="Add Page" type="h6" />
+              </GIContainer>
+            )}
+          </GIContainer>
+
+          {addPageOrGroupModal && (
+            <AddPageOrGroupModal
+              getUserAccounts={() =>
+                getUserAccounts(accounts => setAccounts(accounts))
+              }
+              pageOrGroupArray={pageOrGroupArray}
+              accountType={accountType}
+              socialType={socialType}
+              errorMessage={errorMessage}
+              close={() => this.setState({ addPageOrGroupModal: false })}
+            />
+          )}
+          {deleteAccount && (
+            <ConfirmAlert
+              close={() => this.setState({ confirmDelete: false })}
+              title="Delete Account"
+              message="Are you sure you want to delete this social account from our software?"
+              callback={confirmDelete =>
+                disconnectAccount(
+                  confirmDelete,
+                  accountToDelete,
+                  stateObject => {
+                    this.handleChange(stateObject);
+                    getUserAccounts(accounts => setAccounts(accounts));
+                  }
+                )
+              }
+            />
           )}
         </GIContainer>
-
-        {addPageOrGroupModal && (
-          <AddPageOrGroupModal
-            getUserAccounts={() =>
-              getUserAccounts(accounts => setaccounts(accounts))
-            }
-            pageOrGroupArray={pageOrGroupArray}
-            accountType={accountType}
-            socialType={socialType}
-            errorMessage={errorMessage}
-            close={() => this.setState({ addPageOrGroupModal: false })}
-          />
-        )}
-        {deleteAccount && (
-          <ConfirmAlert
-            close={() => this.setState({ confirmDelete: false })}
-            title="Delete Account"
-            message="Are you sure you want to delete this social account from our software?"
-            callback={confirmDelete =>
-              disconnectAccount(confirmDelete, accountToDelete, stateObject => {
-                this.handleChange(stateObject);
-                getUserAccounts(accounts => setaccounts(accounts));
-              })
-            }
-          />
-        )}
       </Page>
     );
   }
@@ -418,7 +424,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setaccounts }, dispatch);
+  return bindActionCreators({ setAccounts }, dispatch);
 }
 export default connect(
   mapStateToProps,

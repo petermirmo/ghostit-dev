@@ -1,3 +1,7 @@
+import React from "react";
+import GIText from "../../components/views/GIText";
+import { isMobileOrTablet } from "../../util";
+
 export const isElementInViewport = el => {
   const rect = el.getBoundingClientRect();
 
@@ -42,3 +46,16 @@ export const correctOverflow = element => {
     }
   }
 };
+
+export const teamMemberDiv = (index, teamMember) => (
+  <div key={index} className="fill-flex mb64">
+    <div className={"container-box small pa16 br8 common-transition"}>
+      <div className="container-box xy-200px round blue-shadow-fade mb32">
+        <img alt="" className="x-200px" src={teamMember.image} />
+      </div>
+      <GIText className="muli ellipsis mb4" text={teamMember.name} type="h3" />
+      <GIText className="bold ellipsis mb8" text={teamMember.title} type="p" />
+      <GIText text={teamMember.description} type="p" />
+    </div>
+  </div>
+);

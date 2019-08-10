@@ -1,6 +1,0 @@
-.calendars-container {
-  font-size: var(--twenty-font-size);
-}
-.calendars-container:hover .dropdown {
-  display: flex;
-}

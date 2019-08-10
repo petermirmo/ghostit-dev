@@ -10,6 +10,8 @@ import { withRouter } from "react-router-dom";
 
 import { getFileType } from "../../views/FileUpload/util";
 
+import GIContainer from "../../containers/GIContainer";
+
 import "./style.css";
 
 class CreateWebsiteBlog extends Component {
@@ -138,10 +140,13 @@ class CreateWebsiteBlog extends Component {
   };
   createRelevantImageDiv = (image, index) => {
     return (
-      <div
-        className="common-container-center my32"
+      <GIContainer
+        className={
+          "relative full-center column ghostit-blog-img-container image " +
+          image.size +
+          (image.size === "medium" ? "" : " mr16")
+        }
         key={"image" + index}
-        id="ghostit-blog-img-container"
       >
         <div
           className="hover-options-container"
@@ -150,21 +155,25 @@ class CreateWebsiteBlog extends Component {
           }}
         >
           <button
+            className="white"
             onClick={() => this.handleContentChange("tiny", index, "size")}
           >
             tiny
           </button>
           <button
+            className="white"
             onClick={() => this.handleContentChange("small", index, "size")}
           >
             small
           </button>
           <button
+            className="white"
             onClick={() => this.handleContentChange("medium", index, "size")}
           >
             medium
           </button>
           <button
+            className="white"
             onClick={() => this.handleContentChange("large", index, "size")}
           >
             large
@@ -196,38 +205,25 @@ class CreateWebsiteBlog extends Component {
             onClick={() => this.insertTextbox(index)}
           />
         </div>
-        <img
-          alt=""
-          className={"image br4 " + image.size}
-          src={image.file || image.url}
-        />
+        <img alt="" className="fill-parent br8" src={image.file || image.url} />
 
         <input
-          className="regular-input width100 border-box"
+          className="regular-input x-fill border-box"
           value={image.alt ? image.alt : ""}
           placeholder="alt"
           onChange={e => this.handleContentChange(e.target.value, index, "alt")}
         />
-      </div>
+      </GIContainer>
     );
   };
 
   editableTextbox = (content, index) => {
     return (
       <div
-        key={"jsk" + index}
-        className="relative"
+        className="relative bg-white"
         id="editable-text-container"
+        key={index}
       >
-        <ContentEditable
-          innerRef={this.contentEditable}
-          html={content.html}
-          disabled={false}
-          onChange={e =>
-            this.handleContentChange(e.target.value, index, "html")
-          }
-          className="simple-container medium pa4"
-        />
         <div className="top-right-over-div">
           <FontAwesomeIcon
             icon={faTrash}
@@ -251,6 +247,15 @@ class CreateWebsiteBlog extends Component {
             onClick={() => this.insertTextbox(index)}
           />
         </div>
+        <ContentEditable
+          className="block pa4"
+          disabled={false}
+          html={content.html}
+          innerRef={this.contentEditable}
+          onChange={e =>
+            this.handleContentChange(e.target.value, index, "html")
+          }
+        />
       </div>
     );
   };
@@ -271,79 +276,83 @@ class CreateWebsiteBlog extends Component {
     }
 
     return (
-      <div className="common-container-center pb32 mb32">
-        <div className="flex my8">
-          <p className="label mr8">Blog URL:</p>
-          <input
-            type="text"
-            onChange={e => this.setState({ url: e.target.value })}
-            value={url || ""}
-            className="regular-input"
-            placeholder="10-marketing-strategies"
-          />
-          <p className="label mx8">Category: (number)</p>
-          <input
-            className="regular-input"
-            type="number"
-            value={category || ""}
-            onChange={e => this.setState({ category: e.target.value })}
-          />
-        </div>
+      <GIContainer className="x-fill justify-center">
+        <GIContainer className="container-box large ov-visible block mb64">
+          <div className="flex my8">
+            <p className="label mr8">Blog URL:</p>
+            <input
+              type="text"
+              onChange={e => this.setState({ url: e.target.value })}
+              value={url || ""}
+              className="regular-input"
+              placeholder="10-marketing-strategies"
+            />
+            <p className="label mx8">Category: (number)</p>
+            <input
+              className="regular-input"
+              type="number"
+              value={category || ""}
+              onChange={e => this.setState({ category: e.target.value })}
+            />
+          </div>
 
-        {blogDivs}
+          {blogDivs}
 
-        <div
-          className="wrapping-container common-shadow"
-          id="ghostit-blog-text-styling"
-        >
-          <EditButton cmd="undo" />
-          <EditButton cmd="italic" />
-          <EditButton cmd="bold" />
-          <EditButton cmd="underline" />
-          <EditButton cmd="justifyLeft" name="Left" />
-          <EditButton cmd="justifyCenter" name="Center" />
-          <EditButton cmd="justifyRight" name="Right" />
-          <EditButton cmd="formatBlock" arg="p" name="p" />
-          <EditButton cmd="formatBlock" arg="h1" name="h1" />
-          <EditButton cmd="formatBlock" arg="h2" name="h2" />
-          <EditButton cmd="formatBlock" arg="h3" name="h3" />
-          <EditButton cmd="formatBlock" arg="h4" name="h4" />
-          <EditButton cmd="formatBlock" arg="h5" name="h5" />
-          <EditButton cmd="formatBlock" arg="h6" name="h6" />
-          <EditButton cmd="unlink" arg={hyperlink} name="Unlink" />
-          <EditButton cmd="createLink" arg={hyperlink} name="Link" />
-          <input
-            type="text"
-            onChange={e => this.setState({ hyperlink: e.target.value })}
-            value={hyperlink || ""}
-            className="regular-input br0"
-            placeholder="Type your hyperlink value here"
-          />
-          <EditButton cmd="insertParagraph" name="Insert new Paragraph" />
-          <EditButton cmd="removeFormat" name="Clear formatting" />
-        </div>
-
-        <div className="flex my16">
-          <label htmlFor="file-upload3" className="regular-button mr8">
-            Insert Image
-          </label>
-          <input
-            id="file-upload3"
-            type="file"
-            onChange={event => this.insertImage(event, contentArray.length - 1)}
-          />
-          <button
-            className="regular-button ml8"
-            onClick={() => this.insertTextbox(contentArray.length - 1)}
+          <div
+            className="wrapping-container shadow"
+            id="ghostit-blog-text-styling"
           >
-            Insert Textbox
-          </button>
-        </div>
+            <EditButton cmd="undo" />
+            <EditButton cmd="italic" />
+            <EditButton cmd="bold" />
+            <EditButton cmd="underline" />
+            <EditButton cmd="justifyLeft" name="Left" />
+            <EditButton cmd="justifyCenter" name="Center" />
+            <EditButton cmd="justifyRight" name="Right" />
+            <EditButton cmd="formatBlock" arg="p" name="p" />
+            <EditButton cmd="formatBlock" arg="h1" name="h1" />
+            <EditButton cmd="formatBlock" arg="h2" name="h2" />
+            <EditButton cmd="formatBlock" arg="h3" name="h3" />
+            <EditButton cmd="formatBlock" arg="h4" name="h4" />
+            <EditButton cmd="formatBlock" arg="h5" name="h5" />
+            <EditButton cmd="formatBlock" arg="h6" name="h6" />
+            <EditButton cmd="unlink" arg={hyperlink} name="Unlink" />
+            <EditButton cmd="createLink" arg={hyperlink} name="Link" />
+            <input
+              type="text"
+              onChange={e => this.setState({ hyperlink: e.target.value })}
+              value={hyperlink || ""}
+              className="regular-input br0"
+              placeholder="Type your hyperlink value here"
+            />
+            <EditButton cmd="insertParagraph" name="Insert new Paragraph" />
+            <EditButton cmd="removeFormat" name="Clear formatting" />
+          </div>
 
-        <button onClick={this.saveGhostitBlog} className="regular-button">
-          Save Ghostit Blog
-        </button>
-      </div>
+          <div className="flex my16">
+            <label htmlFor="file-upload3" className="regular-button mr8">
+              Insert Image
+            </label>
+            <input
+              id="file-upload3"
+              type="file"
+              onChange={event =>
+                this.insertImage(event, contentArray.length - 1)
+              }
+            />
+            <button
+              className="regular-button ml8"
+              onClick={() => this.insertTextbox(contentArray.length - 1)}
+            >
+              Insert Textbox
+            </button>
+          </div>
+
+          <button onClick={this.saveGhostitBlog} className="regular-button">
+            Save Ghostit Blog
+          </button>
+        </GIContainer>
+      </GIContainer>
     );
   }
 }

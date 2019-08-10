@@ -15,10 +15,6 @@
   }
 }
 .loader-circle {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,25 +39,25 @@
   border-radius: 50px 0 0 0;
 }
 .lds-wedges2 > div div:nth-child(1) > div {
-  background: var(--turqoise-theme-color);
+  background: var(--three-blue-color);
 }
 .lds-wedges2 > div div:nth-child(1) {
   animation-duration: 2.25s;
 }
 .lds-wedges2 > div div:nth-child(2) > div {
-  background: var(--yellow-theme-color);
+  background: var(--five-blue-color);
 }
 .lds-wedges2 > div div:nth-child(2) {
   animation-duration: 3s;
 }
 .lds-wedges2 > div div:nth-child(3) > div {
-  background: var(--green-theme-color);
+  background: var(--seven-blue-color);
 }
 .lds-wedges2 > div div:nth-child(3) {
   animation-duration: 4.5s;
 }
 .lds-wedges2 > div div:nth-child(4) > div {
-  background: var(--pink-theme-color);
+  background: var(--nine-blue-color);
 }
 .lds-wedges2 > div div:nth-child(4) {
   animation-duration: 9s;

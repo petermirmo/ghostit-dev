@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+
+import Consumer from "../../context";
 
 import LoaderSimpleCircle from "../../components/notifications/LoaderSimpleCircle";
 
@@ -15,28 +16,19 @@ import NavigationLayout from "../../components/navigations/NavigationLayout";
 import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 
-import { isAdmin, getTextFromHtmlTag, getGhostitBlogs } from "./util";
+import Blog from "./Blog";
+
+import { isMobileOrTablet } from "../../util";
 
 import "./style.css";
 
 class BlogPage extends Component {
   state = {
-    loading: true,
-    categories: [
-      "Most Recent",
-      "Road to 100",
-      "Content and Coffee",
-      "Content Marketing",
-      "Business"
-    ],
-    activeBlogCategory: 0
+    activeBlogCategory: 0,
+    categories: ["Recent Posts", "Most Popular", "Social Marketing"]
   };
   componentDidMount() {
     this._ismounted = true;
-
-    getGhostitBlogs(ghostitBlogs => {
-      if (this._ismounted) this.setState({ ghostitBlogs, loading: false });
-    });
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -52,15 +44,11 @@ class BlogPage extends Component {
     return firstImageIndex;
   };
   render() {
-    const {
-      ghostitBlogs,
-      loading,
-      categories,
-      activeBlogCategory
-    } = this.state;
+    const { activeBlogCategory, categories } = this.state;
     const { user } = this.props;
 
     return (
+<<<<<<< HEAD
       <Page
         className="simple-container website-page"
         title="Blog"
@@ -133,15 +121,70 @@ class BlogPage extends Component {
                             icon={faEdit}
                           />
                         </Link>
+=======
+      <Consumer>
+        {context => (
+          <Page
+            className="website-page align-center"
+            description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture!"
+            keywords="ghostit, blog"
+            title="Blog"
+          >
+            <GIContainer
+              className={
+                "x-fill mt64 px64" +
+                (isMobileOrTablet() ? " column" : " grid-3-column")
+              }
+            >
+              <GIText
+                className="four-blue muli x-fill mb32"
+                text="Blog"
+                type="h2"
+              />
+              <GIContainer className="full-center x-fill mb32">
+                <NavigationLayout
+                  className="x-wrap full-center common-border one-blue px16 br4"
+                  data={categories.map((category, index) => (
+                    <GIText
+                      className="transparent-button tac button hover-blue relative py8 mx8"
+                      key={index}
+                      onClick={() =>
+                        this.setState({ activeBlogCategory: index })
+                      }
+                      text={category}
+                      type="h6"
+                    >
+                      {activeBlogCategory === index && (
+                        <div className="border-bottom-50" />
+>>>>>>> c5fedc928fda4a278e35999048e48051643e20bd
                       )}
-                    </GIContainer>
-                  );
-                else return undefined;
-              })}
+                    </GIText>
+                  ))}
+                />
+              </GIContainer>
             </GIContainer>
-          )}
-        </GIContainer>
-      </Page>
+            <GIContainer className="fill-parent px64 mb64">
+              {context.ghostitBlogs.length === 0 && (
+                <GIContainer className="fill-parent full-center">
+                  <LoaderSimpleCircle />
+                </GIContainer>
+              )}
+              {context.ghostitBlogs.length !== 0 && (
+                <GIContainer className="grid-300px grid-gap-32 x-fill">
+                  {context.ghostitBlogs.map((ghostitBlog, index) => (
+                    <Blog
+                      activeBlogCategory={activeBlogCategory}
+                      ghostitBlog={ghostitBlog}
+                      key={index}
+                      user={user}
+                    />
+                  ))}
+                </GIContainer>
+              )}
+            </GIContainer>
+          </Page>
+        )}
+      </Consumer>
     );
   }
 }

@@ -7,7 +7,7 @@ import ReactGA from "react-ga";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { setUser, setaccounts } from "../../redux/actions/";
+import { setUser, setAccounts } from "../../redux/actions/";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
@@ -23,7 +23,7 @@ class LoginPage extends Component {
     password: ""
   };
   componentDidMount() {
-    if (this.props.user) this.props.history.push("/home");
+    if (this.props.user) this.props.history.push("/dashboard");
   }
 
   handleChange = (index, value) => {
@@ -31,12 +31,13 @@ class LoginPage extends Component {
   };
 
   activateDemoUserLogin = (user, accounts) => {
-    ReactGA.event({
-      category: "User",
-      action: "Register"
-    });
+    if (process.env.NODE_ENV !== "development")
+      ReactGA.event({
+        category: "User",
+        action: "Register"
+      });
     this.props.setUser(user);
-    this.props.setaccounts(accounts);
+    this.props.setAccounts(accounts);
     this.props.history.push("/subscribe");
   };
   login = (event, context) => {
@@ -63,7 +64,7 @@ class LoginPage extends Component {
                 this.activateDemoUserLogin(user, accounts);
               else {
                 this.props.setUser(user);
-                this.props.setaccounts(accounts);
+                this.props.setAccounts(accounts);
                 this.props.history.push("/dashboard");
               }
             });
@@ -92,7 +93,7 @@ class LoginPage extends Component {
           >
             <GIText className="pb16 tac" text="Sign in to Ghostit!" type="h1" />
 
-            <GIContainer className="basic-box common-shadow pa32 br16">
+            <GIContainer className="basic-box shadow pa32 br16">
               <form
                 className="common-container"
                 onSubmit={event => event.preventDefault()}
@@ -158,7 +159,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setaccounts
+      setAccounts
     },
     dispatch
   );

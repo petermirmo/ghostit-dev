@@ -2,10 +2,7 @@ import axios from "axios";
 
 export const getRecipes = callback => {
   axios.get("/api/recipes").then(res => {
-    let { usersRecipes, allRecipes } = res.data;
-
-    if (!usersRecipes) usersRecipes = [];
-    if (!allRecipes) allRecipes = [];
+    const { usersRecipes = [], allRecipes = [] } = res.data;
 
     callback({
       usersRecipes,

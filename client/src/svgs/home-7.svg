@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="358" height="273" viewBox="0 0 358 273">
+    <defs>
+        <rect id="b" width="334" height="249" rx="10"/>
+        <filter id="a" width="112%" height="116.1%" x="-6%" y="-6.4%" filterUnits="objectBoundingBox">
+            <feOffset dy="4" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.00636668858 0 0 0 0 0.237824784 0 0 0 0 0.415869473 0 0 0 0.0974014946 0"/>
+        </filter>
+        <rect id="d" width="270" height="179" x="33" y="32" rx="5"/>
+        <filter id="c" width="107.4%" height="111.2%" x="-3.7%" y="-4.5%" filterUnits="objectBoundingBox">
+            <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="3"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.0180516098 0 0 0 0 0.686470283 0 0 0 0 1 0 0 0 0.183763587 0"/>
+        </filter>
+        <linearGradient id="g" x1="91.26%" x2="10.714%" y1="93.739%" y2="9.492%">
+            <stop offset="0%" stop-color="#FD5642"/>
+            <stop offset="100%" stop-color="#FF9464"/>
+        </linearGradient>
+        <circle id="f" cx="220.5" cy="138.5" r="16.5"/>
+        <filter id="e" width="260.6%" height="260.6%" x="-80.3%" y="-56.1%" filterUnits="objectBoundingBox">
+            <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="7.5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.97254902 0 0 0 0 0.317647059 0 0 0 0 0.239215686 0 0 0 0.35 0"/>
+        </filter>
+        <linearGradient id="h" x1="73.148%" x2="24.329%" y1="85.813%" y2="10.069%">
+            <stop offset="0%" stop-color="#04DCFA"/>
+            <stop offset="100%" stop-color="#05A4FF"/>
+        </linearGradient>
+        <rect id="j" width="84" height="28" x="179" y="161" rx="5"/>
+        <filter id="i" width="156%" height="267.9%" x="-28%" y="-66.1%" filterUnits="objectBoundingBox">
+            <feOffset dy="5" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="7"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.0180516098 0 0 0 0 0.686470283 0 0 0 0 1 0 0 0 0.183763587 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(12 8)">
+        <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+        <rect width="333" height="248" x=".5" y=".5" fill="#FFF" stroke="#C2DCF0" stroke-linejoin="square" rx="10"/>
+        <use fill="#000" filter="url(#c)" xlink:href="#d"/>
+        <rect width="269" height="178" x="33.5" y="32.5" fill="#FFF" stroke="#C2DCF0" stroke-linejoin="square" rx="5"/>
+        <circle cx="46.5" cy="78.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="46.5" cy="127.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="99.5" cy="78.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="99.5" cy="127.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="152.5" cy="78.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="152.5" cy="127.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="205.5" cy="78.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="258.5" cy="78.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="258.5" cy="127.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="46.5" cy="176.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="99.5" cy="176.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="152.5" cy="176.5" r="6.5" fill="#C2DCF0" opacity=".463"/>
+        <circle cx="205.5" cy="176.5" r="6.5" fill="#C2DCF0"/>
+        <use fill="#000" filter="url(#e)" xlink:href="#f"/>
+        <use fill="url(#g)" xlink:href="#f"/>
+        <g stroke="#FFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M220.5 131.326v14.348M227.674 138.5h-14.348"/>
+        </g>
+        <rect width="50" height="4" x="143" y="48" fill="#C2DCF0" rx="2"/>
+        <g fill="#C2DCF0">
+            <path d="M212 49.125a.837.837 0 0 1-.245.591l-5.321 5.29a.844.844 0 0 1-1.188 0 .833.833 0 0 1 0-1.181l4.726-4.7-4.726-4.7a.833.833 0 0 1 0-1.18.844.844 0 0 1 1.188 0l5.32 5.289a.837.837 0 0 1 .246.591M124 49.125c0 .214.082.428.245.591l5.321 5.29a.844.844 0 0 0 1.188 0 .833.833 0 0 0 0-1.181l-4.726-4.7 4.726-4.7a.833.833 0 0 0 0-1.18.844.844 0 0 0-1.188 0l-5.32 5.289a.837.837 0 0 0-.246.591"/>
+        </g>
+        <path stroke="#C2DCF0" stroke-linecap="square" d="M33.5 66.25h268M33.5 114.25h268M33.5 163.25h268M86.5 66.51v143.98M139.5 66.51v143.98M192.5 66.51v143.98M245.5 66.51v143.98"/>
+        <rect width="202" height="5" x="39" y="102" fill="url(#h)" rx="2.5"/>
+        <use fill="#000" filter="url(#i)" xlink:href="#j"/>
+        <rect width="83" height="27" x="179.5" y="161.5" fill="#FFF" stroke="#05A4FF" stroke-linejoin="square" rx="5"/>
+        <path fill="#05A4FF" d="M192.297 172.307H191v2.189h1.297V181h2.664v-6.504h1.787s.168-1.05.248-2.196h-2.025v-1.497c0-.224.29-.524.578-.524H197V168h-1.974c-2.795 0-2.73 2.191-2.73 2.518v1.789zM228 171.184c-.478.2-.993.336-1.532.397a2.554 2.554 0 0 0 1.173-1.396 5.503 5.503 0 0 1-1.695.612A2.732 2.732 0 0 0 224 170c-1.472 0-2.666 1.13-2.666 2.524 0 .199.022.39.069.575-2.217-.105-4.182-1.11-5.498-2.638-.23.374-.36.808-.36 1.27 0 .876.47 1.648 1.185 2.102a2.789 2.789 0 0 1-1.209-.315v.03c0 1.224.92 2.245 2.14 2.476a2.781 2.781 0 0 1-1.204.044c.34 1.003 1.324 1.733 2.492 1.752a5.547 5.547 0 0 1-3.313 1.081c-.215 0-.428-.011-.636-.035a7.866 7.866 0 0 0 4.088 1.134c4.907 0 7.589-3.846 7.589-7.182 0-.11-.003-.22-.008-.327.522-.356.975-.801 1.331-1.307M256 179h-2.676v-3.59c0-.938-.418-1.578-1.338-1.578-.704 0-1.095.432-1.278.85-.069.148-.057.357-.057.564V179H248s.035-6.356 0-6.933h2.65v1.087c.157-.475 1.004-1.154 2.355-1.154 1.677 0 2.995.997 2.995 3.144V179zm-10.508-8h-.018c-.894 0-1.474-.662-1.474-1.5 0-.852.597-1.5 1.51-1.5.91 0 1.472.646 1.49 1.498 0 .838-.58 1.502-1.508 1.502zM244 172h3v7h-3v-7z"/>
+        <rect width="95" height="5" x="39" y="151" fill="url(#h)" rx="2.5"/>
+        <path stroke="#05A4FF" stroke-linecap="square" d="M207.25 161.5v26M235.25 161.5v26"/>
+    </g>
+</svg>
