@@ -5,6 +5,8 @@ import { faCheck } from "@fortawesome/pro-light-svg-icons";
 
 import { Link, withRouter } from "react-router-dom";
 
+import AgencyForm from "../../components/forms/AgencyForm";
+
 import GIContainer from "../../components/containers/GIContainer";
 import GIButton from "../../components/views/GIButton";
 import GIText from "../../components/views/GIText";
@@ -12,7 +14,11 @@ import GIText from "../../components/views/GIText";
 import Page from "../../components/containers/Page";
 
 class PricingPage extends Component {
+  state = {
+    displayForm: false
+  };
   render() {
+    const { displayForm } = this.state;
     return (
       <Page
         className="website-page align-center mt32"
@@ -27,7 +33,6 @@ class PricingPage extends Component {
           Have questions? Give us a call:
           <GIText className="four-blue" text="&nbsp;250-415-3093" type="span" />
         </GIText>
-
         <GIContainer className="x-wrap justify-center align-end mt16 mb32">
           <GIContainer className="container-box small column shadow-3 common-border one-blue mb32 mx16 br16">
             <GIContainer className="x-wrap x-fill full-center py32 px16">
@@ -126,11 +131,34 @@ class PricingPage extends Component {
             <GIContainer className="x-fill full-center py16">
               <GIButton
                 className="bg-orange-fade-2 white shadow-orange-2 py16 px32 br32"
+                onClick={() => {
+                  this.setState({ displayForm: true });
+                  window.setTimeout(() => {
+                    document.getElementById("sign-up-form").scrollIntoView();
+                  }, 10);
+                }}
                 text="Get Started Now!"
               />
             </GIContainer>
           </GIContainer>
         </GIContainer>
+        {displayForm && (
+          <GIContainer
+            className="x-wrap px32 x-fill container-box extra-large"
+            id="sign-up-form"
+          >
+            <GIContainer className="fill-flex my32">
+              <AgencyForm />
+            </GIContainer>
+            <GIContainer className="pl32 my32">
+              <img
+                alt="agency-call"
+                src={require("../../svgs/agency-call.svg")}
+                className="fill-parent"
+              />
+            </GIContainer>
+          </GIContainer>
+        )}
       </Page>
     );
   }
