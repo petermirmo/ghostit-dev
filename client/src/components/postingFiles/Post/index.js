@@ -62,41 +62,6 @@ class Post extends Component {
     this._ismounted = false;
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { accountID, calendarAccounts } = this.state;
-    if (nextProps.listOfChanges) {
-      // this is run when the campaignModal's state changes which results in a re-render of this
-      // Post component. this block will make sure all the previous unsaved changes to the Post component are reapplied
-      // it is also run when switching between tabs in the single task creation modal
-      if (Object.keys(nextProps.listOfChanges).length > 0) {
-        if (this._ismounted)
-          this.setState({ ...nextProps.listOfChanges, somethingChanged: true });
-      } else {
-        if (this._ismounted) this.setState({ somethingChanged: false });
-      }
-      const currentAccount = calendarAccounts
-        ? calendarAccounts.find(act => act.socialID === accountID)
-        : undefined;
-      if (
-        accountID === "" ||
-        (currentAccount && currentAccount.socialType !== nextProps.socialType)
-      ) {
-        const returnObj = getDefaultAccount(calendarAccounts, nextProps);
-
-        this.handleChangeRegular({
-          accountID: returnObj.id,
-          accountType: returnObj.type
-        });
-      }
-    } else {
-      // this block is entered when a new post is created within a campaign,
-      // or when changing to a different post within a campaign
-      // or at the beginning of a new single post creation,
-      // or when a post/campaign that already exists is opened from the calendar
-      this.handleChangeRegular(createState(calendarAccounts, nextProps));
-    }
-  }
-
   handleChange = (value, index) => {
     if (this._ismounted)
       this.setState({

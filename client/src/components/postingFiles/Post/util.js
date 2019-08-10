@@ -75,7 +75,9 @@ export const createActiveAccounts = (compareValue, compareValue2, accounts) => {
     if (account.accountType === "profile" && account.socialType === "facebook")
       continue;
 
-    activePageAccountsArray.push(account);
+    if (account[compareValue] === compareValue2) {
+      activePageAccountsArray.push(account);
+    }
   }
   return activePageAccountsArray;
 };
