@@ -173,11 +173,13 @@ class GhostitAgency extends Component {
           <GIContainer className="fill-flex my32">
             <AgencyForm />
           </GIContainer>
-          <GIContainer className="pl32 my32">
+          <GIContainer
+            className={`x-fill my32 ${isMobileOrTablet() ? "" : "pl32"}`}
+          >
             <img
               alt="agency-call"
-              src={require("../../svgs/agency-call.svg")}
               className="fill-parent"
+              src={require("../../svgs/agency-call.svg")}
             />
           </GIContainer>
         </GIContainer>
