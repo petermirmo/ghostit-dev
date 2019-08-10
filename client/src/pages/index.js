@@ -91,11 +91,9 @@ class Routes extends Component {
     ));
   };
   render() {
-    const { datebaseConnection, ghostitBlogs = [] } = this.state;
-    const { getKeyListenerFunction } = this.props; // Variables
+    const { datebaseConnection } = this.state;
+    const { getKeyListenerFunction, ghostitBlogs = [] } = this.props; // Variables
     const { user } = this.props; // Functions
-
-    const blogPages = this.createBlogPages(ghostitBlogs);
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
@@ -127,7 +125,7 @@ class Routes extends Component {
 
               <Route path="/terms-of-service/" component={TermsPage} />
               <Route path="/privacy-policy/" component={PrivacyPage} />
-              {blogPages}
+              {this.createBlogPages(context.ghostitBlogs)}
               <Route component={HomePage} />
             </Switch>
           </GIContainer>
