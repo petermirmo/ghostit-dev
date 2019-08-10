@@ -7,9 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
   faAngleRight,
+  faCheck,
   faPencilAlt,
-  faPlus
+  faPlus,
+  faTimes
 } from "@fortawesome/pro-light-svg-icons";
+
+import { faTrash } from "@fortawesome/pro-solid-svg-icons";
 
 import { connect } from "react-redux";
 
@@ -25,6 +29,7 @@ import CalendarChat from "../../components/CalendarChat";
 import Page from "../../components/containers/Page";
 import Modal from "../../components/containers/Modal";
 import Modal0 from "../../components/containers/Modal0";
+import ConfirmAlert from "../../components/notifications/ConfirmAlert";
 
 import Dropdown from "../../components/views/Dropdown";
 import GIButton from "../../components/views/GIButton";
@@ -33,6 +38,8 @@ import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
 
 import Consumer from "../../context";
+
+import { isAdmin } from "../../util";
 
 import {
   getCalendars,
@@ -47,11 +54,16 @@ import { validateEmail } from "../../componentFunctions";
 
 import {
   addMonth,
+  createNewCalendar,
+  deleteCalendar,
   getActiveCategoriesInArray,
   getCalendarEvents,
   getCalendarUsers,
   getPosts,
   inviteUserToCalendar,
+  isUserAdminOfCalendar,
+  removeUserFromCalendar,
+  saveCalendarName,
   subtractMonth,
   updateActiveCategory
 } from "./util";
@@ -67,6 +79,8 @@ class CalendarPage extends Component {
     calendarUsers: [],
     clickedDate: new moment(),
     calendarDate: new moment(),
+    calendarEditing: false,
+    calendarName: "",
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
     defaultCalendarID: undefined,
@@ -97,6 +111,8 @@ class CalendarPage extends Component {
     loading: false,
 
     recipeEditing: false,
+    removeUserObj: undefined,
+    removeUserPrompt: false,
     socket: undefined,
 
     userList: [] // list of users connected to the same calendar socket as this user (including this user)
@@ -248,8 +264,9 @@ class CalendarPage extends Component {
     getCampaigns(calendars, activeCalendarIndex, this.handleChange);
   };
 
-  handleChange = stateObject => {
+  handleChange = (stateObject, callback) => {
     if (this._ismounted) this.setState(stateObject);
+    if (callback) callback();
   };
 
   openCampaign = campaign => {
@@ -278,7 +295,8 @@ class CalendarPage extends Component {
     this.setState(
       {
         activeCalendarIndex: index,
-        calendarDate: new moment(calendarDate)
+        calendarDate: new moment(calendarDate),
+        calendarEditing: false
       },
       () => {
         this.fillCalendar();
@@ -292,8 +310,10 @@ class CalendarPage extends Component {
     const {
       activeCalendarIndex,
       calendarDate,
+      calendarEditing,
       calendarInvites,
       calendarManagerModal,
+      calendarName,
       calendars,
       calendarUsers,
       campaignModal,
@@ -314,6 +334,8 @@ class CalendarPage extends Component {
       loading,
       postEdittingModal,
       recipeEditing,
+      removeUserObj,
+      removeUserPrompt,
       socket,
       templatesModal,
       twitterPosts,
@@ -381,46 +403,135 @@ class CalendarPage extends Component {
               )}
             {!modalsOpen && (
               <GIContainer className="calendar-grid x-fill">
-                <Dropdown
-                  activeItem={activeCalendarIndex}
-                  className="shadow-medium"
-                  dropdownActiveDisplayClassName="border-right five-blue"
-                  dropdownClassName="border-bottom border-right five-blue"
-                  dropdownItems={calendars.map(
-                    (calendar, index) => calendar.calendarName
-                  )}
-                  handleParentChange={dropdownClickedItemObj =>
-                    this.updateActiveCalendar(dropdownClickedItemObj.index)
-                  }
-                  search
-                  size="2x"
-                  title={
-                    <GIText
-                      className="muli fill-flex pl32 py16"
-                      text={
-                        calendars[activeCalendarIndex]
-                          ? calendars[activeCalendarIndex].calendarName
-                          : ""
+                {calendarEditing && (
+                  <GIInput
+                    className="fs-20 shadow-medium px32"
+                    onChange={event =>
+                      this.handleChange({
+                        calendarName: event.target.value
+                      })
+                    }
+                    placeholder="Calendar Name..."
+                    type="text"
+                    value={calendarName}
+                  />
+                )}
+                {!calendarEditing && (
+                  <Dropdown
+                    activeItem={activeCalendarIndex}
+                    className="shadow-medium"
+                    dropdownActiveDisplayClassName="border-right five-blue"
+                    dropdownClassName="border-bottom border-right five-blue"
+                    dropdownItems={calendars.map(
+                      (calendar, index) => calendar.calendarName
+                    )}
+                    handleParentChange={dropdownClickedItemObj =>
+                      this.updateActiveCalendar(dropdownClickedItemObj.index)
+                    }
+                    search
+                    size="2x"
+                    title={
+                      <GIText
+                        className="muli fill-flex pl32 py16"
+                        text={
+                          calendars[activeCalendarIndex]
+                            ? calendars[activeCalendarIndex].calendarName
+                            : ""
+                        }
+                        type="h4"
+                      />
+                    }
+                  />
+                )}
+                <GIContainer className="shadow-medium px8">
+                  {!calendarEditing &&
+                    (isUserAdminOfCalendar(
+                      calendars[activeCalendarIndex],
+                      user
+                    ) ||
+                      isAdmin(user)) && (
+                      <GIButton
+                        className="five-blue fill-flex common-border mx8 py8 px16 my8 br4"
+                        onClick={() =>
+                          this.handleChange({
+                            calendarEditing: true,
+                            calendarName:
+                              calendars[activeCalendarIndex].calendarName
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                        <GIText className="five-blue" text="Edit" type="h5" />
+                      </GIButton>
+                    )}
+                  {!calendarEditing && (
+                    <GIButton
+                      className="bg-orange-fade fill-flex shadow-orange mx8 py8 px16 my8 br4"
+                      onClick={() =>
+                        createNewCalendar(
+                          context,
+                          this.handleChange,
+                          calendars.length,
+                          "Calendar " + (calendars.length + 1),
+                          this.updateActiveCalendar
+                        )
                       }
-                      type="h4"
-                    />
-                  }
-                />
-                <GIContainer className="shadow-medium">
-                  <GIButton
-                    className="five-blue fill-flex common-border ml16 mr8 py8 px16 my8 br4"
-                    onClick={() => {}}
-                  >
-                    <FontAwesomeIcon icon={faPencilAlt} />
-                    <GIText className="pl8" text="Edit" type="h5" />
-                  </GIButton>
-                  <GIButton
-                    className="bg-orange-fade fill-flex shadow-orange mr16 ml8 py8 px16 my8 br4"
-                    onClick={() => {}}
-                  >
-                    <FontAwesomeIcon className="white" icon={faPlus} />
-                    <GIText className="white pl8" text="New" type="h6" />
-                  </GIButton>
+                    >
+                      <FontAwesomeIcon className="white" icon={faPlus} />
+                      <GIText className="white" text="New" type="h6" />
+                    </GIButton>
+                  )}
+                  {calendarEditing && (
+                    <GIButton
+                      className="five-blue fill-flex common-border mx8 py8 px16 my8 br4"
+                      onClick={() =>
+                        this.handleChange({ calendarEditing: true })
+                      }
+                    >
+                      <FontAwesomeIcon icon={faCheck} />
+                      <GIText
+                        className="five-blue"
+                        onClick={() =>
+                          saveCalendarName(
+                            calendars,
+                            this.handleChange,
+                            activeCalendarIndex,
+                            calendarName
+                          )
+                        }
+                        text="Save"
+                        type="h5"
+                      />
+                    </GIButton>
+                  )}
+                  {calendarEditing && (
+                    <GIButton
+                      className="fill-flex common-border mx8 py8 px16 my8 br4"
+                      onClick={() =>
+                        this.handleChange({ calendarEditing: false })
+                      }
+                    >
+                      <FontAwesomeIcon icon={faTimes} />
+                      <GIText text="Cancel" type="h6" />
+                    </GIButton>
+                  )}
+                  {calendarEditing && (
+                    <GIButton
+                      className="fill-flex common-border mx8 py8 px16 my8 br4"
+                      onClick={() =>
+                        deleteCalendar(
+                          calendars,
+                          context,
+                          this.handleChange,
+                          activeCalendarIndex,
+                          this.updateActiveCalendar
+                        )
+                      }
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                      <GIText text="Delete Calendar" type="h6" />
+                    </GIButton>
+                  )}
                 </GIContainer>
 
                 <GIContainer className="justify-between x-fill pl32 pr16 my16">
@@ -581,29 +692,47 @@ class CalendarPage extends Component {
                   </GIContainer>
                   <GIContainer className="column full-center common-border pt8 br8">
                     {calendarUsers.map((user, index) => {
+                      let className = "align-center x-fill px16 py16";
+                      if (index !== calendarUsers.length - 1)
+                        className += " border-bottom-light";
+
                       return (
-                        <GIContainer
-                          className="column x-fill border-bottom-light px16 py16"
-                          key={index}
-                        >
-                          <GIText
-                            className="ellipsis"
-                            text={user.fullName}
-                            title={user.fullName}
-                            type="h6"
-                          />
-                          <GIText
-                            className="label ellipsis"
-                            text={user.email}
-                            type="p"
-                          />
+                        <GIContainer className={className} key={index}>
+                          <GIContainer className="x-70 column fill-flex">
+                            <GIText
+                              className="ellipsis"
+                              text={user.fullName}
+                              title={user.fullName}
+                              type="h6"
+                            />
+                            <GIText
+                              className="label ellipsis"
+                              text={user.email}
+                              type="p"
+                            />
+                          </GIContainer>
+                          {calendarEditing && (
+                            <FontAwesomeIcon
+                              className="delete ml8"
+                              icon={faTrash}
+                              onClick={() => {
+                                this.handleChange({
+                                  removeUserPrompt: true,
+                                  removeUserObj: {
+                                    calendarIndex: activeCalendarIndex,
+                                    userIndex: index
+                                  }
+                                });
+                              }}
+                            />
+                          )}
                         </GIContainer>
                       );
                     })}
                     {calendars[activeCalendarIndex] &&
                       calendars[activeCalendarIndex].emailsInvited.map(
                         (email, index) => {
-                          let className = "column x-fill px16 py16";
+                          let className = "align-center x-fill px16 py16";
                           if (
                             index !==
                             calendars[activeCalendarIndex].emailsInvited
@@ -614,17 +743,19 @@ class CalendarPage extends Component {
 
                           return (
                             <GIContainer className={className} key={index}>
-                              <GIText
-                                className="ellipsis"
-                                text={email}
-                                title={email}
-                                type="h6"
-                              />
-                              <GIText
-                                className="green ellipsis"
-                                text="Invitation Sent..."
-                                type="p"
-                              />
+                              <GIContainer className="x-70 column fill-flex">
+                                <GIText
+                                  className="ellipsis"
+                                  text={email}
+                                  title={email}
+                                  type="h6"
+                                />
+                                <GIText
+                                  className="green ellipsis"
+                                  text="Invitation Sent..."
+                                  type="p"
+                                />
+                              </GIContainer>
                             </GIContainer>
                           );
                         }
@@ -782,36 +913,39 @@ class CalendarPage extends Component {
                 }
               />
             )}
+            {removeUserPrompt && (
+              <ConfirmAlert
+                close={() =>
+                  this.handleChange({
+                    removeUserPrompt: false,
+                    removeUserObj: undefined
+                  })
+                }
+                title="Remove User"
+                message="Are you sure you want to remove this user from the calendar?"
+                firstButton="Remove"
+                callback={response => {
+                  this.handleChange({
+                    removeUserPrompt: false,
+                    removeUserObj: undefined
+                  });
+                  if (response)
+                    removeUserFromCalendar(
+                      removeUserObj.calendarIndex,
+                      calendars,
+                      context,
+                      removeUserObj.userIndex
+                    );
+                }}
+                type="delete-calendar"
+              />
+            )}
           </Page>
         )}
       </Consumer>
     );
   }
 }
-
-/*{calendarInvites.map((calendar, index) => {
-  return (
-    <GIContainer className="" key={`invite ${index}`}>
-      {`You have been invited to ${calendar.calendarName}.`}
-      <GIButton
-        className="calendar-invite-accept"
-        onClick={e => {
-          e.preventDefault();
-          inviteResponse(index, true);
-        }}
-        text="Accept"
-      />
-      <GIButton
-        className="calendar-invite-reject"
-        onClick={e => {
-          e.preventDefault();
-          inviteResponse(index, false);
-        }}
-        text="Reject"
-      />
-    </GIContainer>
-  );
-})}*/
 
 function mapStateToProps(state) {
   return {

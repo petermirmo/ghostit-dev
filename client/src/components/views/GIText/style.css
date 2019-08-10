@@ -73,6 +73,9 @@
 .fs-13 {
   font-size: var(--thirteen-font-size);
 }
+.fs-20 {
+  font-size: var(--twenty-font-size);
+}
 .fs-26 {
   font-size: var(--twenty-six-font-size);
 }
