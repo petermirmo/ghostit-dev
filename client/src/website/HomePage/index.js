@@ -301,7 +301,7 @@ class RegularVersion extends Component {
               </GIContainer>
               <GIText
                 className={`white tac mt32 ${
-                  isMobileOrTablet() ? "x-fill" : "container-box large "
+                  isMobileOrTablet() ? "x-fill px32" : "container-box large "
                 }`}
                 text="Repeatedly running digital campaigns for multiple clients can get both cumbersome and at times confusing. Ghostit's platform lets me schedule all of my client's marketing initiatives unlike any other platform and keep them all organized."
                 type="p"
