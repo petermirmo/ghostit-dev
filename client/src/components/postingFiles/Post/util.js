@@ -75,9 +75,7 @@ export const createActiveAccounts = (compareValue, compareValue2, accounts) => {
     if (account.accountType === "profile" && account.socialType === "facebook")
       continue;
 
-    if (account[compareValue] === compareValue2) {
-      activePageAccountsArray.push(account);
-    }
+    activePageAccountsArray.push(account);
   }
   return activePageAccountsArray;
 };
@@ -85,6 +83,7 @@ export const createActiveAccounts = (compareValue, compareValue2, accounts) => {
 export const getCalendarAccounts = (calendarID, handleChangeRegular, props) => {
   axios.get("/api/calendar/accounts/" + calendarID).then(res => {
     const { success, err, message, accounts } = res.data;
+
     if (!success) {
       console.log(err);
       console.log(message);

@@ -96,7 +96,7 @@ class ContentModal extends Component {
 
   render() {
     const { activeTab, listOfPostChanges, saving } = this.state;
-    const { accounts, calendarID, clickedCalendarDate } = this.props; // Variables
+    const { calendarID, clickedCalendarDate } = this.props; // Variables
     const { handleParentChange, savePostCallback, notify } = this.props; // Functions
 
     let body;
@@ -167,7 +167,6 @@ class ContentModal extends Component {
 }
 function mapStateToProps(state) {
   return {
-    accounts: state.accounts,
     getKeyListenerFunction: state.getKeyListenerFunction
   };
 }
