@@ -8,9 +8,9 @@ import { GIProvider } from "./context";
 
 import Routes from "./pages";
 
-require("../public/favicon.ico");
-
 import "./theme.css";
+
+require("./favicon.ico");
 
 function logger({ getState }) {
   return next => action => {
