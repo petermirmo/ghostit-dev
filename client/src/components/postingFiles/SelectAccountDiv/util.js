@@ -20,7 +20,7 @@ export const createActiveAccountDivs = (
   return activePageAccountsArray.map((account, index) => {
     const name = createName(account);
     const { color, icon } = getColorSocial(account);
-    let className = `account-container clickable full-center px16 py8 mr8 br4 ${
+    let className = `account-container clickable full-center px16 py8 mr8 mb8 br4 ${
       activeAccount === String(account.socialID) ? "common-active" : ""
     }`;
 
@@ -39,7 +39,8 @@ export const createInactiveAccountDivs = (
   return inactivePageAccountsArray.map((account, index) => {
     const name = createName(account);
     const { color, icon } = getColorSocial(account);
-    let className = "account-container clickable full-center px16 py8 mr8 br4";
+    let className =
+      "account-container clickable full-center px16 py8 mr8 mb8 br4";
 
     // skip account if it's already being displayed in the active list
     if (activeAccountIDs.includes(account._id.toString())) return;
@@ -76,11 +77,10 @@ const getColorSocial = account => {
   } else if (account.socialType === "facebook") {
     icon = faFacebookF;
     color = "#4267b2";
+  } else if (account.socialType === "instagram") {
+    icon = faInstagram;
+    color = "#cd486b";
   }
-} else if (account.socialType === "instagram") {
-  icon = faInstagram;
-  color = "#cd486b";
-}
   return { color, icon };
 };
 

@@ -28,7 +28,7 @@ class SelectAccountDiv extends Component {
     );
 
     return (
-      <GIContainer className="simple-container mb32">
+      <GIContainer className="simple-container">
         {activePageAccountsArray.length === 0 && (
           <h4>Connect an account to create a post!</h4>
         )}
@@ -36,7 +36,7 @@ class SelectAccountDiv extends Component {
           {accountsListDiv}
         </GIContainer>
         {inactiveAccountsDiv.length !== 0 && (
-          <GIContainer className="py8">
+          <GIContainer className="mb8">
             Accounts not yet linked to calendar
           </GIContainer>
         )}
