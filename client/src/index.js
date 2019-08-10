@@ -8,6 +8,8 @@ import { GIProvider } from "./context";
 
 import Routes from "./pages";
 
+require("../public/favicon.ico");
+
 import "./theme.css";
 
 function logger({ getState }) {
