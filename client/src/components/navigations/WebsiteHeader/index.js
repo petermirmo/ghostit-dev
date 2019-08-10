@@ -171,11 +171,17 @@ class WebsiteHeader extends Component {
             </button>
           </Link>
         </GIContainer>
-        <GIContainer className="justify-end align-center mr32">
+        <GIContainer
+          className={`justify-end align-center ${
+            isMobileOrTablet() ? "" : "mr32"
+          }`}
+        >
           {!user && (
             <Link to="/sign-in">
               <GIButton
-                className="common-border white br20  px16 py8"
+                className={`common-border br20 px16 py8 ${
+                  isMobileOrTablet() ? "four-blue" : "white"
+                }`}
                 text="login"
               />
             </Link>
@@ -184,7 +190,9 @@ class WebsiteHeader extends Component {
           {user && (
             <Link to="/dashboard">
               <GIButton
-                className="common-border white br20 px16 py8"
+                className={`common-border br20 px16 py8 ${
+                  isMobileOrTablet() ? "four-blue" : "white"
+                }`}
                 text="Go to Software"
               />
             </Link>
