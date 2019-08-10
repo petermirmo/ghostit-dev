@@ -96,18 +96,15 @@ class PostEdittingModal extends Component {
   render() {
     const { confirmDelete, saving } = this.state;
     const {
-      calendarID,
-      close,
-      savePostCallback,
-      clickedEvent,
       accounts,
+      calendarID,
+      clickedEvent,
+      close,
+      handleParentChange,
+      savePostCallback,
       timezone
     } = this.props;
     const canEditPost = clickedEvent.status !== "posted";
-
-    if (this.state.saving) {
-      return <Loader />;
-    }
 
     let maxCharacters;
     if (clickedEvent.socialType === "twitter") {
@@ -132,7 +129,7 @@ class PostEdittingModal extends Component {
                     savePostCallback(post);
                     close();
                   }}
-                  setSaving={() => this.handleChange({ saving: false })}
+                  setSaving={() => handleParentChange({ loading: true })}
                 />
               ) : (
                 <Post
@@ -144,10 +141,12 @@ class PostEdittingModal extends Component {
                   notify={context.notify}
                   post={clickedEvent}
                   postFinishedSavingCallback={post => {
+                    handleParentChange({ loading: false });
+
                     savePostCallback(post);
                     close();
                   }}
-                  setSaving={() => this.handleChange({ saving: false })}
+                  setSaving={() => handleParentChange({ loading: true })}
                   timezone={timezone}
                 />
               )

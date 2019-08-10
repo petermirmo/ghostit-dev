@@ -299,6 +299,8 @@
   color: var(--white-theme-color);
 }
 .sign-out-of-clients-account {
+  width: 20px !important;
+  height: 20px;
   padding-left: 4px;
   color: var(--red-theme-color);
   cursor: pointer;

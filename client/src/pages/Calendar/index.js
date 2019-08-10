@@ -793,6 +793,7 @@ class CalendarPage extends Component {
                     handleParentChange={this.handleChange}
                     notify={context.notify}
                     savePostCallback={post => {
+                      this.setState({ contentModal: false });
                       getPosts(
                         calendars,
                         activeCalendarIndex,
@@ -806,7 +807,6 @@ class CalendarPage extends Component {
                         activeCalendarIndex,
                         socket
                       );
-                      this.setState({ contentModal: false });
                     }}
                   />
                 }
@@ -818,6 +818,7 @@ class CalendarPage extends Component {
                 calendarID={calendars[activeCalendarIndex]._id}
                 clickedEvent={clickedEvent}
                 close={this.closeModals}
+                handleParentChange={this.handleChange}
                 savePostCallback={post => {
                   getPosts(
                     calendars,

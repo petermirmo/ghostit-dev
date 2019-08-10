@@ -95,13 +95,9 @@ class ContentModal extends Component {
   };
 
   render() {
-    const { activeTab, listOfPostChanges } = this.state;
+    const { activeTab, listOfPostChanges, saving } = this.state;
     const { accounts, calendarID, clickedCalendarDate } = this.props; // Variables
     const { handleParentChange, savePostCallback, notify } = this.props; // Functions
-
-    if (this.state.saving) {
-      return <Loader />;
-    }
 
     let body;
 
@@ -153,14 +149,14 @@ class ContentModal extends Component {
                 : clickedCalendarDate
           }}
           postFinishedSavingCallback={(post, success, message) => {
-            if (this._ismounted) this.setState({ saving: false });
+            handleParentChange({ loading: false });
             if (success) {
               savePostCallback(post);
             } else {
               notify({ type: "danger", title: "Save Failed", message });
             }
           }}
-          setSaving={this.setSaving}
+          setSaving={() => handleParentChange({ loading: true })}
           socialType={activeTab.name}
         />
       );

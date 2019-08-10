@@ -16,6 +16,7 @@ const {
   isUrlVideo,
   isBinaryImage,
   uploadFiles,
+  whatFileTypeIsString,
   whatFileTypeIsUrl
 } = require("../util");
 
