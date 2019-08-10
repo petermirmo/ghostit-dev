@@ -102,7 +102,6 @@ class HeaderSideBar extends Component {
                 <FontAwesomeIcon icon={faCalendar} />
                 <p>Calendar</p>
               </Link>
-
               <Link
                 className={"header-button " + this.isActive("social-accounts")}
                 to="/social-accounts"
@@ -111,7 +110,6 @@ class HeaderSideBar extends Component {
                 <p>Social</p>
                 <p>Accounts</p>
               </Link>
-
               <Link
                 className={"header-button " + this.isActive("profile")}
                 to="/profile"
@@ -119,6 +117,16 @@ class HeaderSideBar extends Component {
                 <FontAwesomeIcon icon={faUser} />
                 <p>Profile</p>
               </Link>
+              {isAdmin && (
+                <Link
+                  className={"header-button " + this.isActive("manage")}
+                  to="/manage"
+                >
+                  <FontAwesomeIcon icon={faCogs} />
+
+                  <p>Manage</p>
+                </Link>
+              )}
             </GIContainer>
             {context.clientSideBar && <SideBarClients />}
           </GIContainer>
