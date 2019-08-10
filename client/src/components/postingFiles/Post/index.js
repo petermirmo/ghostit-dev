@@ -125,20 +125,23 @@ class Post extends Component {
     let activePageAccountsArray = [];
     if (canEditPost) {
       activePageAccountsArray = createActiveAccounts(
+        calendarAccounts,
+        close,
         "socialType",
-        socialType,
-        calendarAccounts
+        socialType
       );
       inactivePageAccountsArray = createActiveAccounts(
+        accounts,
+        close,
         "socialType",
-        socialType,
-        accounts
+        socialType
       );
     } else {
       activePageAccountsArray = createActiveAccounts(
+        calendarAccounts,
+        close,
         "socialID",
-        accountID,
-        calendarAccounts
+        accountID
       );
     }
 

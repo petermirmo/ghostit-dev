@@ -68,14 +68,22 @@ export const createState = (calendarAccounts, props) => {
   return stateVariable;
 };
 
-export const createActiveAccounts = (compareValue, compareValue2, accounts) => {
+export const createActiveAccounts = (
+  accounts,
+  close,
+  compareValue,
+  compareValue2
+) => {
   let activePageAccountsArray = [];
   for (let index in accounts) {
     let account = accounts[index];
     if (account.accountType === "profile" && account.socialType === "facebook")
       continue;
 
-    activePageAccountsArray.push(account);
+    if (close) {
+      if (account[compareValue] === compareValue2)
+        activePageAccountsArray.push(account);
+    } else activePageAccountsArray.push(account);
   }
   return activePageAccountsArray;
 };
