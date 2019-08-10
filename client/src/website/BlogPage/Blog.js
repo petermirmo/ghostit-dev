@@ -8,7 +8,7 @@ import { faAngleRight, faEdit } from "@fortawesome/free-solid-svg-icons";
 import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
 
-import { isAdmin, getTextFromHtmlTag } from "../../util";
+import { getTextFromHtmlTag, isAdmin } from "../../util";
 
 class Blog extends Component {
   render() {
@@ -79,7 +79,7 @@ class Blog extends Component {
                 </GIContainer>
               )}
             </GIContainer>
-            <GIContainer className="absolute bottom--16 left-0 right-0 round-icon-small common-border four-blue margin-hc round bg-white shadow-blue-2 full-center">
+            <GIContainer className="absolute bottom--16 left-0 right-0 round-icon common-border four-blue margin-hc round bg-white shadow-blue-2 full-center">
               <FontAwesomeIcon icon={faAngleRight} />
             </GIContainer>
           </Link>
