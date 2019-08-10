@@ -163,8 +163,7 @@ const getDataFromURL = (
 
 export const getDefaultAccount = (calendarAccounts, props) => {
   const { socialType } = props;
-
-  if (calendarAccounts) {
+  if (calendarAccounts && calendarAccounts.length !== 0) {
     // by default, set accountID to the first account
     for (let index in calendarAccounts) {
       let account = calendarAccounts[index];
