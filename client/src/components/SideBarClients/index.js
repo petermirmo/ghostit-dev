@@ -45,13 +45,14 @@ class ClientSideBar extends Component {
     });
   };
   render() {
+    const { untouchedClients } = this.state;
     return (
       <div
-        className="bg-white pa16 animate-from-left-100"
+        className="bg-white animate-from-left-100 pa16 ml16 br16"
         style={{ zIndex: "1" }}
       >
         <SearchColumn
-          objectList={this.state.untouchedClients}
+          objectList={untouchedClients}
           indexSearch="fullName"
           indexSearch2="email"
           handleClickedObject={this.userClicked}

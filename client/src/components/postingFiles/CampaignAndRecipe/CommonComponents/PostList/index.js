@@ -9,8 +9,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPencilAlt } from "@fortawesome/pro-light-svg-icons";
 
-import { getPostColor } from "../../../../../componentFunctions";
-
 import PostTypePicker from "../PostTypePicker";
 import GIContainer from "../../../../containers/GIContainer";
 import GIText from "../../../../views/GIText";

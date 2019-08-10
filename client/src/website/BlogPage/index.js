@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-
 import { connect } from "react-redux";
 
 import Consumer from "../../context";
@@ -33,95 +30,11 @@ class BlogPage extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
-  findFirstImageIndex = images => {
-    let firstImageIndex = 0;
-
-    for (let index in images) {
-      if (images[index].location < images[firstImageIndex].location)
-        firstImageIndex = index;
-    }
-
-    return firstImageIndex;
-  };
   render() {
     const { activeBlogCategory, categories } = this.state;
     const { user } = this.props;
 
     return (
-<<<<<<< HEAD
-      <Page
-        className="simple-container website-page"
-        title="Blog"
-        description="Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture!"
-        keywords="ghostit, blog"
-      >
-        <GIText className="tac pb32" text="Ghostit Blog" type="h1" />
-
-        <NavigationLayout
-          className="x-wrap full-center"
-          data={categories.map((category, index) => (
-            <GIButton
-              className="transparent-button mx8 hover-blue"
-              key={index}
-              onClick={() => this.setState({ activeBlogCategory: index })}
-              text={category}
-            />
-          ))}
-        />
-        <GIContainer className="column fill-parent">
-          {loading && (
-            <GIContainer className="fill-parent full-center">
-              <LoaderSimpleCircle />
-            </GIContainer>
-          )}
-          {!loading && (
-            <GIContainer className="x-wrap fill-parent justify-center">
-              {ghostitBlogs.map((ghostitBlog, index) => {
-                if (
-                  activeBlogCategory === ghostitBlog.category ||
-                  !activeBlogCategory
-                )
-                  return (
-                    <GIContainer key={index}>
-                      <Link
-                        to={"blog/" + ghostitBlog.url}
-                        className="container-box column small ma32 common-shadow br4 button"
-                      >
-                        <div
-                          className="image-cover width100"
-                          style={
-                            ghostitBlog.images[0]
-                              ? {
-                                  backgroundImage:
-                                    "url(" +
-                                    ghostitBlog.images[
-                                      this.findFirstImageIndex(
-                                        ghostitBlog.images
-                                      )
-                                    ].url +
-                                    ")"
-                                }
-                              : {}
-                          }
-                        />
-                        {ghostitBlog.contentArray[0] && (
-                          <div className="common-container py8 px16">
-                            <h3 className="tac">
-                              {getTextFromHtmlTag(
-                                ghostitBlog.contentArray[0].html
-                              )}
-                            </h3>
-                          </div>
-                        )}
-                      </Link>
-                      {isAdmin(user) && (
-                        <Link to={"/manage/" + ghostitBlog._id}>
-                          <FontAwesomeIcon
-                            className="icon-regular-button absolute bottom right"
-                            icon={faEdit}
-                          />
-                        </Link>
-=======
       <Consumer>
         {context => (
           <Page
@@ -156,7 +69,6 @@ class BlogPage extends Component {
                     >
                       {activeBlogCategory === index && (
                         <div className="border-bottom-50" />
->>>>>>> c5fedc928fda4a278e35999048e48051643e20bd
                       )}
                     </GIText>
                   ))}
