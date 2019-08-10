@@ -89,11 +89,18 @@ class PricingPage extends Component {
 
           <GIContainer className="container-box small column shadow-3 common-border one-blue mb32 mx16 br16">
             <GIContainer className="x-wrap x-fill full-center py32 px16">
-              <GIText
-                className="fill-flex muli tac mb4"
-                text="Agency"
-                type="h2"
-              />
+              <GIContainer className="column">
+                <GIText
+                  className="fill-flex muli tac mb4"
+                  text="Agency"
+                  type="h2"
+                />
+                <GIText
+                  className="fill-flex muli tac mb4"
+                  text="Starting at"
+                  type="h6"
+                />
+              </GIContainer>
               <GIContainer className="fill-flex full-center">
                 <GIContainer className="xy-125px full-center column round bg-four-blue">
                   <GIText className="quicksand white" text="$300" type="h2" />
