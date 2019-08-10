@@ -3,6 +3,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebookF,
+  faInstagram,
   faLinkedinIn,
   faTwitter
 } from "@fortawesome/free-brands-svg-icons";
@@ -76,6 +77,10 @@ const getColorSocial = account => {
     icon = faFacebookF;
     color = "#4267b2";
   }
+} else if (account.socialType === "instagram") {
+  icon = faInstagram;
+  color = "#cd486b";
+}
   return { color, icon };
 };
 
