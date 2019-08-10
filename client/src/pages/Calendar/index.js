@@ -20,6 +20,7 @@ import { connect } from "react-redux";
 import PostCreation from "../../components/postingFiles/PostCreation";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar";
+import QueuePreview from "../../components/QueuePreview";
 import CalendarManager from "../../components/CalendarManager";
 import Campaign from "../../components/postingFiles/CampaignAndRecipe/Campaign";
 import Dashboard from "../../components/Dashboard";
@@ -110,6 +111,7 @@ class CalendarPage extends Component {
 
     loading: false,
 
+    queuePreview: false,
     recipeEditing: false,
     removeUserObj: undefined,
     removeUserPrompt: false,
@@ -333,6 +335,7 @@ class CalendarPage extends Component {
       linkedinPosts,
       loading,
       postEdittingModal,
+      queuePreview,
       recipeEditing,
       removeUserObj,
       removeUserPrompt,
@@ -584,11 +587,18 @@ class CalendarPage extends Component {
                     </GIContainer>
                   </GIContainer>
                   <GIContainer className="full-center">
+                    <GIButton
+                      className="common-border py16 px32 mr8 br4"
+                      onClick={() =>
+                        this.handleChange({ queuePreview: !queuePreview })
+                      }
+                      text={queuePreview ? "Calendar" : "Queue Preview"}
+                    />
                     <Dropdown
                       activeItem={getActiveCategoriesInArray(
                         calendarEventCategories
                       )}
-                      className="x-fill common-border shadow-light br4"
+                      className="common-border shadow-light br4"
                       dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
                       dropdownClassName="common-border five-blue"
                       dropdownItems={Object.keys(calendarEventCategories).map(
@@ -617,31 +627,45 @@ class CalendarPage extends Component {
                   <GIText className="tac" text="Calendar Users" type="h4" />
                 </GIContainer>
                 <GIContainer className="pl32 pr16 pb32">
-                  <Calendar
-                    activeCalendarIndex={activeCalendarIndex}
-                    calendars={calendars}
-                    calendarDate={calendarDate}
-                    calendarEvents={calendarEvents}
-                    enableCalendarManager={() =>
-                      this.setState({ calendarManagerModal: true })
-                    }
-                    inviteResponse={this.inviteResponse}
-                    onSelectCampaign={this.openCampaign}
-                    onSelectDay={date =>
-                      this.handleChange({
-                        clickedDate: date,
-                        dashboardModal: true
-                      })
-                    }
-                    onSelectPost={clickedEvent =>
-                      this.handleChange({
-                        postEdittingModal: true,
-                        clickedEvent
-                      })
-                    }
-                    updateActiveCalendar={this.updateActiveCalendar}
-                    userList={userList}
-                  />
+                  {queuePreview && (
+                    <QueuePreview
+                      calendarDate={calendarDate}
+                      calendarEvents={calendarEvents}
+                      onSelectPost={clickedEvent =>
+                        this.handleChange({
+                          postEdittingModal: true,
+                          clickedEvent
+                        })
+                      }
+                    />
+                  )}
+                  {!queuePreview && (
+                    <Calendar
+                      activeCalendarIndex={activeCalendarIndex}
+                      calendars={calendars}
+                      calendarDate={calendarDate}
+                      calendarEvents={calendarEvents}
+                      enableCalendarManager={() =>
+                        this.setState({ calendarManagerModal: true })
+                      }
+                      inviteResponse={this.inviteResponse}
+                      onSelectCampaign={this.openCampaign}
+                      onSelectDay={date =>
+                        this.handleChange({
+                          clickedDate: date,
+                          dashboardModal: true
+                        })
+                      }
+                      onSelectPost={clickedEvent =>
+                        this.handleChange({
+                          postEdittingModal: true,
+                          clickedEvent
+                        })
+                      }
+                      updateActiveCalendar={this.updateActiveCalendar}
+                      userList={userList}
+                    />
+                  )}
                 </GIContainer>
                 <GIContainer className="column container-box twentyvw mr32">
                   <GIContainer className="full-center common-border relative pt16 pb32 br8">
