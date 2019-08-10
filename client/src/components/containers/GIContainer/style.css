@@ -328,6 +328,9 @@
   bottom: 8px;
 }
 
+.absolute.top-100 {
+  top: 100%;
+}
 .absolute.top-0 {
   top: 0;
 }
@@ -371,5 +374,8 @@
 }
 
 .test-mode {
-  background-color: red;
+  position: absolute;
+  top: 100%;
+  z-index: 1;
+  background-color: white;
 }

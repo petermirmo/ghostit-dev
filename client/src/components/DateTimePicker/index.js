@@ -141,8 +141,8 @@ class DatePicker extends Component {
           </GIText>
         </div>
         {calendarDropdown && (
-          <div
-            className="dropdown flex simple-container shadow pa8"
+          <GIContainer
+            className="absolute top-100 column bg-white shadow pa8"
             style={style}
           >
             <div className="nowrap-container-center">
@@ -173,7 +173,7 @@ class DatePicker extends Component {
               {!disableTime && (
                 <div
                   className="time-dropdown mr4 pa4"
-                  onClick={() => this.setActive("hourDropdown")}
+                  onClick={() => this.setActive("hourDropdownDisplay")}
                 >
                   {date.format("h")} <FontAwesomeIcon icon={faCaretDown} />
                   {hourDropdownDisplay && (
@@ -189,7 +189,7 @@ class DatePicker extends Component {
               {!disableTime && (
                 <div
                   className="time-dropdown mr4 pa4"
-                  onClick={() => this.setActive("minuteDropdown")}
+                  onClick={() => this.setActive("minuteDropdownDisplay")}
                 >
                   {date.format("mm")} <FontAwesomeIcon icon={faCaretDown} />
                   {minuteDropdownDisplay && (
@@ -205,7 +205,7 @@ class DatePicker extends Component {
               {!disableTime && (
                 <div
                   className="time-dropdown mr4 pa4"
-                  onClick={() => this.setActive("amPmDropdown")}
+                  onClick={() => this.setActive("amPmDropdownDisplay")}
                 >
                   {date.format("A")} <FontAwesomeIcon icon={faCaretDown} />
                   {amPmDropdownDisplay && (
@@ -219,7 +219,7 @@ class DatePicker extends Component {
                 </div>
               )}
               <button
-                className="square-button px16"
+                className="square-button white px16"
                 onClick={() => {
                   this.setActive("calendarDropdown");
                   this.props.handleChange(
@@ -244,7 +244,7 @@ class DatePicker extends Component {
                 Anchor Dates
               </div>
             )}
-          </div>
+          </GIContainer>
         )}
       </div>
     );
