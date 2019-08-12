@@ -7,7 +7,10 @@ import GIContainer from "../GIContainer";
 
 import "./style.css";
 
-class Modal extends Component {
+class Modal0 extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     const {
       body,
@@ -41,4 +44,4 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+export default Modal0;
