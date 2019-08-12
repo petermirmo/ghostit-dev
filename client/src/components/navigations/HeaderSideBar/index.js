@@ -64,28 +64,30 @@ class HeaderSideBar extends Component {
         {context => (
           <GIContainer className="header-navbar mr16">
             <GIContainer className="column">
-              {isAdmin && (
+              {isTester && (
                 <Link
-                  className={"header-button " + this.isActive("manage")}
-                  to="/manage"
+                  className={"header-button " + this.isActive("analytics")}
+                  to="/analytics"
                 >
-                  <FontAwesomeIcon icon={faCogs} />
+                  <FontAwesomeIcon icon={faChartLine} />
 
-                  <p>Manage</p>
+                  <p>Analytics</p>
                 </Link>
               )}
-              <GIContainer
-                className="header-button"
-                onClick={() =>
-                  context.handleChange({
-                    clientSideBar: !context.clientSideBar
-                  })
-                }
-              >
-                <FontAwesomeIcon icon={faUsers} />
-                <p>Client</p>
-                <p>Accounts</p>
-              </GIContainer>
+              {(isAdmin || isManager) && (
+                <GIContainer
+                  className="header-button"
+                  onClick={() =>
+                    context.handleChange({
+                      clientSideBar: !context.clientSideBar
+                    })
+                  }
+                >
+                  <FontAwesomeIcon icon={faUsers} />
+                  <p>Client</p>
+                  <p>Accounts</p>
+                </GIContainer>
+              )}
               <Link
                 className={"header-button " + this.isActive("dashboard")}
                 to="/dashboard"
