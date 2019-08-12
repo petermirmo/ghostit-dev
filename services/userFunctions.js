@@ -79,7 +79,17 @@ module.exports = {
   },
   currentUser: (req, res) => {
     if (req.user) {
-      res.send({ success: true, user: req.user });
+      if (req.user.signedInAsUser && req.user.signedInAsUser.id)
+        User.findOne({ _id: req.user.signedInAsUser.id }, (err, user) => {
+          if (err || !user) return generalFunctions.handleError(res, err);
+          else
+            return res.send({
+              signedInAsUser: user,
+              success: true,
+              user: req.user
+            });
+        });
+      else res.send({ success: true, user: req.user });
     } else {
       res.send({ success: false });
     }

@@ -6,6 +6,9 @@
 .display-date:hover {
   border-color: var(--five-blue-color);
 }
+.z-index-100 {
+  z-index: 100;
+}
 
 .date-picker-dropdown-header {
   border-bottom: 1px solid var(--five-blue-color);

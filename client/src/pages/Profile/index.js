@@ -117,7 +117,7 @@ class Profile extends Component {
                 <GIContainer>
                   <FileUpload
                     canEdit={true}
-                    className="xy-125px round"
+                    className="xy-125px round x-fill full-center"
                     currentFiles={image ? [image] : []}
                     handleParentChange={parentStateChangeObject => {
                       if (parentStateChangeObject.files)

@@ -55,6 +55,7 @@ class LinkPreview extends Component {
       canAddFilesToLink,
       canEdit,
       className,
+      id,
       linkCustomFiles = [],
       linkDescription,
       linkImagesArray = [],
@@ -89,7 +90,7 @@ class LinkPreview extends Component {
               <GIContainer className="full-center fill-flex file-upload-on-file">
                 <FileUpload
                   canEdit={canEdit}
-                  className=""
+                  className="x-fill full-center"
                   currentFiles={[]}
                   handleParentChange={filesObject => {
                     if (filesObject.files)
@@ -101,7 +102,7 @@ class LinkPreview extends Component {
                   }}
                   fileLimit={1}
                   filesToDelete={[]}
-                  id="fdhs"
+                  id={id ? id : "fdhssdafasd"}
                   imageClassName="flex image tiny"
                   imageOnly={true}
                 />

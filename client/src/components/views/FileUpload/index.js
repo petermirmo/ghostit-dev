@@ -30,10 +30,10 @@ class FileUpload extends Component {
     return (
       <GIContainer className="align-center wrap x-fill" testMode={testMode}>
         {!hideUploadButton && currentFiles.length < fileLimit && canEdit && (
-          <GIContainer>
+          <GIContainer className={className}>
             <label
               htmlFor={id}
-              className={`br4 shadow-blue-4 bg-blue-fade-4 white xy-64px clickable full-center flex ${className}`}
+              className="br4 shadow-blue-4 bg-blue-fade-4 white xy-64px clickable full-center flex"
             >
               <FontAwesomeIcon icon={fileIcon} size="2x" />
             </label>

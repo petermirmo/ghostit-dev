@@ -80,7 +80,13 @@ class DatePicker extends Component {
   setActive = index => {
     let indexValue = this.state[index];
     indexValue = !indexValue;
-    this.setState({ [index]: indexValue });
+    let temp = {
+      hourDropdownDisplay: false,
+      minuteDropdownDisplay: false,
+      amPmDropdownDisplay: false
+    };
+    temp[index] = indexValue;
+    this.setState(temp);
   };
 
   handleChange = (value, index) => {
@@ -121,7 +127,7 @@ class DatePicker extends Component {
 
     return (
       <div
-        className={"button relative fill-flex" + className}
+        className={"button relative fill-flex " + className}
         ref={this.setWrapperRef}
       >
         <div
@@ -142,7 +148,7 @@ class DatePicker extends Component {
         </div>
         {calendarDropdown && (
           <GIContainer
-            className="absolute top-100 column bg-white shadow pa8"
+            className="absolute top-100 column bg-white shadow z-index-100 pa8"
             style={style}
           >
             <div className="nowrap-container-center">

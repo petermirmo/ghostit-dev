@@ -53,29 +53,27 @@ class HeaderSideBar extends Component {
       return <div style={{ display: "none" }} />;
     }
 
-    let isAdmin = user.role === "admin";
-    let isManager = user.role === "manager";
-    /*{(isManager || isAdmin) && (
-
-
-      {(user.role === "demo" || isAdmin) && (
-        <Link
-          className={"header-button " + this.isActive("subscribe")}
-          to="/subscribe"
-        >
-          <FontAwesomeIcon icon={faStar} />
-
-          <p>Upgrade</p>
-          <p>Plan</p>
-        </Link>
-      )}
-    )}*/
+    const isAdmin = user.role === "admin";
+    const isManager = user.role === "manager";
+    let isTester = user.role === "tester";
+    if (user.signedInAsUser && user.signedInAsUser.id) {
+    }
 
     return (
       <Consumer>
         {context => (
           <GIContainer className="header-navbar mr16">
             <GIContainer className="column">
+              {isAdmin && (
+                <Link
+                  className={"header-button " + this.isActive("manage")}
+                  to="/manage"
+                >
+                  <FontAwesomeIcon icon={faCogs} />
+
+                  <p>Manage</p>
+                </Link>
+              )}
               <GIContainer
                 className="header-button"
                 onClick={() =>
