@@ -110,6 +110,14 @@ export const getCalendarAccounts = (calendarID, handleChangeRegular, props) => {
   });
 };
 
+export const getMaxCharacters = socialType => {
+  if (socialType) {
+    if (socialType === "linkedin") return 700;
+    else if (socialType === "twitter") return 280;
+    else return undefined;
+  } else return undefined;
+};
+
 export const findLink = (
   handleChangeRegular,
   linkDescription,

@@ -35,6 +35,7 @@ import {
   findLink,
   getCalendarAccounts,
   getDefaultAccount,
+  getMaxCharacters,
   linkAccountToCalendar,
   modifyCampaignDate
 } from "./util";
@@ -106,7 +107,6 @@ class Post extends Component {
       canEditPost,
       close,
       deletePost,
-      maxCharacters,
       recipeEditing,
       saveButtons
     } = this.props; // Variables
@@ -173,7 +173,6 @@ class Post extends Component {
         </GIContainer>
       );
     }
-    let remainingCharacters = maxCharacters - content.length;
     if (link && socialType === "twitter")
       remainingCharacters += link.length - 23;
 
@@ -240,11 +239,7 @@ class Post extends Component {
                   readOnly={!canEditPost}
                   value={content}
                 />
-                {maxCharacters && (
-                  <GIContainer className="ml16">
-                    {remainingCharacters}
-                  </GIContainer>
-                )}
+
                 <GIContainer className="common-border bg-light-grey pa16">
                   {(canUploadPhoto || canUploadVideo) && (
                     <FileUpload
@@ -263,6 +258,11 @@ class Post extends Component {
                     />
                   )}
                 </GIContainer>
+                {getMaxCharacters(socialType) && (
+                  <GIContainer>
+                    {getMaxCharacters(socialType) - content.length}
+                  </GIContainer>
+                )}
 
                 {linkPreviewCanShow && link && (
                   <GIContainer className="container-box column medium mx16 mt16">

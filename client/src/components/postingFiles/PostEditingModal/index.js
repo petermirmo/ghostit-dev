@@ -106,13 +106,6 @@ class PostEdittingModal extends Component {
     } = this.props;
     const canEditPost = clickedEvent.status !== "posted";
 
-    let maxCharacters;
-    if (clickedEvent.socialType === "twitter") {
-      maxCharacters = 280;
-    } else if (clickedEvent.socialType === "linkedin") {
-      maxCharacters = 700;
-    }
-
     return (
       <Consumer>
         {context => (
@@ -137,7 +130,6 @@ class PostEdittingModal extends Component {
                   calendarID={calendarID}
                   canEditPost={canEditPost}
                   deletePost={() => this.handleChange({ confirmDelete: true })}
-                  maxCharacters={maxCharacters}
                   notify={context.notify}
                   post={clickedEvent}
                   postFinishedSavingCallback={post => {

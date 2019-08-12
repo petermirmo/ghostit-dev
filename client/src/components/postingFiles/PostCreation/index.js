@@ -21,8 +21,8 @@ class ContentModal extends Component {
     activeTab: { name: "facebook" },
     categories: [
       { name: "facebook" },
-      { name: "twitter", maxCharacters: 280 },
-      { name: "linkedin", maxCharacters: 700 },
+      { name: "twitter" },
+      { name: "linkedin" },
       { name: "custom" }
     ],
     listOfPostChanges: {},
