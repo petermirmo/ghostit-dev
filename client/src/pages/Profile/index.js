@@ -71,18 +71,21 @@ class Profile extends Component {
         <GIContainer className="column bg-light-grey x-fill align-center">
           <GIContainer className="full-center border-bottom x-fill py16">
             <GIText className="muli" text="Profile" type="h2" />
-            <GIButton
-              className="five-blue bg-white shadow-2 absolute top-0 right-0 px16 py8 br16"
-              onClick={() =>
-                logout(() => {
-                  setUser(null);
-                  setAccounts([]);
-                })
-              }
-            >
-              <FontAwesomeIcon className="mr8" icon={faSignOut} />
-              Logout
-            </GIButton>
+            <Link to="/sign-in">
+              <GIButton
+                className="five-blue bg-white shadow-2 absolute top-0 right-0 px16 py8 br16"
+                onClick={() =>
+                  logout(() => {
+                    setUser(null);
+                    setAccounts([]);
+                    window.location.reload();
+                  })
+                }
+              >
+                <FontAwesomeIcon className="mr8" icon={faSignOut} />
+                Logout
+              </GIButton>
+            </Link>
             {((user && user.role === "client") || user.role === "admin") && (
               <Link
                 className="bg-white shadow-2 absolute top-0 left-0 px16 py8 br16"

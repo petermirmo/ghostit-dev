@@ -46,7 +46,7 @@ class RegisterPage extends Component {
       });
     this.props.setUser(user);
     this.props.setAccounts(accounts);
-    this.props.history.push("/subscribe");
+    this.props.history.push("/dashboard");
   };
   register = (event, context) => {
     event.preventDefault();

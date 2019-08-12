@@ -38,7 +38,7 @@ class LoginPage extends Component {
       });
     this.props.setUser(user);
     this.props.setAccounts(accounts);
-    this.props.history.push("/subscribe");
+    this.props.history.push("/dashboard");
   };
   login = (event, context) => {
     event.preventDefault();
