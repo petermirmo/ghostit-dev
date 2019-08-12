@@ -153,14 +153,16 @@ class PricingPage extends Component {
         </GIContainer>
         {displayForm && (
           <GIContainer
-            className="x-wrap px32 x-fill container-box extra-large"
+            className={`x-wrap x-fill container-box extra-large ${
+              isMobileOrTablet() ? "" : "px32"
+            }`}
             id="sign-up-form"
           >
             <GIContainer className="fill-flex my32">
               <AgencyForm />
             </GIContainer>
             <GIContainer
-              className={`x-fill my32 ${isMobileOrTablet() ? "" : "pl32"}`}
+              className={`my32 ${isMobileOrTablet() ? "x-fill" : "pl32"}`}
             >
               <img
                 alt="agency-call"

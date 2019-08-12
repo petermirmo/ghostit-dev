@@ -374,8 +374,5 @@
 }
 
 .test-mode {
-  position: absolute;
-  top: 100%;
-  z-index: 1;
-  background-color: white;
+  background-color: red;
 }
