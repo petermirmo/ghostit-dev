@@ -110,11 +110,13 @@ export const getCalendarAccounts = (calendarID, handleChangeRegular, props) => {
   });
 };
 
-export const getMaxCharacters = socialType => {
+export const getMaxCharacters = (link, socialType) => {
   if (socialType) {
     if (socialType === "linkedin") return 700;
-    else if (socialType === "twitter") return 280;
-    else return undefined;
+    else if (socialType === "twitter") {
+      if (link) 280 - 23;
+      else return 280;
+    } else return undefined;
   } else return undefined;
 };
 

@@ -330,10 +330,10 @@ class Analytics extends Component {
                       )}
                       handleParentChange={dropdownClickedItemObj =>
                         this.handleChange({
-                          activeGraphMonthIndex: months.find((month, index) => {
-                            if (dropdownClickedItemObj.item === month)
-                              return index;
-                          })
+                          activeGraphMonthIndex: months.find(
+                            (month, index) =>
+                              dropdownClickedItemObj.item === month
+                          )
                         })
                       }
                       title={

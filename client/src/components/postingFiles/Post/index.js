@@ -173,8 +173,6 @@ class Post extends Component {
         </GIContainer>
       );
     }
-    if (link && socialType === "twitter")
-      remainingCharacters += link.length - 23;
 
     return (
       <Consumer>
@@ -258,9 +256,9 @@ class Post extends Component {
                     />
                   )}
                 </GIContainer>
-                {getMaxCharacters(socialType) && (
+                {getMaxCharacters(link, socialType) && (
                   <GIContainer>
-                    {getMaxCharacters(socialType) - content.length}
+                    {getMaxCharacters(link, socialType) - content.length}
                   </GIContainer>
                 )}
 
