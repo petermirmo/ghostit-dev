@@ -58,9 +58,11 @@ class Routes extends Component {
   getUserDataAndCheckAuthorization = () => {
     const { setUser, setAccounts } = this.props; // Functions
     const { location, history } = this.props; // Variables
+    const { context } = this;
 
-    getUser(user => {
+    getUser((signedInAsUser, user) => {
       if (user) {
+        if (signedInAsUser) context.handleChange({ signedInAsUser });
         setUser(user);
         getAccounts(accounts => {
           this.setState({ datebaseConnection: true });
@@ -69,9 +71,7 @@ class Routes extends Component {
       } else if (isUserInPlatform(location.pathname)) {
         history.push("/sign-in");
         this.setState({ datebaseConnection: true });
-      } else {
-        this.setState({ datebaseConnection: true });
-      }
+      } else this.setState({ datebaseConnection: true });
     });
   };
 

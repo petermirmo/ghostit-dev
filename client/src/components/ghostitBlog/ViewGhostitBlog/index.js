@@ -78,12 +78,16 @@ class ViewWebsiteBlog extends Component {
         keywords="ghostit, blog"
       >
         <GIContainer>
-          <GIContainer className="container-box large block">
+          <GIContainer
+            className={`block ${
+              isMobileOrTablet() ? "x-fill px16" : "container-box large"
+            }`}
+          >
             {divs}
           </GIContainer>
-          <GIContainer className="column ml32 x-300px">
-            {!isMobileOrTablet() &&
-              featuredBlogs.map((ghostitBlog, index) => {
+          {!isMobileOrTablet() && (
+            <GIContainer className="column ml32 x-300px">
+              {featuredBlogs.map((ghostitBlog, index) => {
                 const { contentArray, createdAt } = ghostitBlog;
                 const ghostitBlogDate = new moment(createdAt);
 
@@ -160,7 +164,8 @@ class ViewWebsiteBlog extends Component {
                   </Link>
                 );
               })}
-          </GIContainer>
+            </GIContainer>
+          )}
         </GIContainer>
       </Page>
     );

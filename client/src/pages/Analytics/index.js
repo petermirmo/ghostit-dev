@@ -16,14 +16,17 @@ import NavigationLayout from "../../components/navigations/NavigationLayout";
 import {
   calculateNumberOfYearsForGraphDropdown,
   calculateTotalPostPositiveReactions,
-  canDisplayMonth,
   getAccountAnalytics,
   getCorrectMonthOfData,
   getDataLinesFromAnalytics,
   getLatestAnalyticValue,
   getPostAnalytics,
-  getAnalytic
+  getAnalytic,
+  getDropdownMonths
 } from "./util";
+
+import { createName } from "../../components/postingFiles/SelectAccountDiv/util";
+
 import { graphTypes, months, postingTypes } from "../../constants";
 import { capitolizeFirstChar } from "../../componentFunctions";
 import { getPostColor, getPostIconRound } from "../../componentFunctions";
@@ -32,6 +35,7 @@ import "./style.css";
 
 class Analytics extends Component {
   state = {
+    activeAnalyticsAccountID: 0,
     activeAnalyticIndex: 0,
     activeAnalyticsSocialType: 0,
     activeGraphYear: Number(new moment().format("YYYY")),
@@ -44,15 +48,7 @@ class Analytics extends Component {
   componentDidMount() {
     const { activeAnalyticsSocialType } = this.state;
 
-    getAccountAnalytics(stateObj => {
-      this.handleChange({
-        ...getDataLinesFromAnalytics(
-          activeAnalyticsSocialType,
-          stateObj.pageAnalyticsObjects
-        ),
-        ...stateObj
-      });
-    });
+    getAccountAnalytics(this.handleChange);
     getPostAnalytics(this.handleChange);
     this._ismounted = true;
   }
@@ -65,20 +61,29 @@ class Analytics extends Component {
 
   render() {
     const {
+      activeAnalyticsAccountID,
       activeAnalyticIndex,
       activeAnalyticsSocialType,
       activeGraphYear,
       activeGraphMonthIndex,
-      analyticsInformationList = [],
       pageAnalyticsObjects = [],
       postAnalyticsObjects = [],
-      dataPointArrays = [],
       graphType
     } = this.state;
     const { accounts } = this.props;
 
+    const activePageAnalyticsObj = pageAnalyticsObjects.find(
+      pageAnalyticsObj =>
+        pageAnalyticsObj.associatedID === activeAnalyticsAccountID
+    );
+
+    const {
+      analyticsInformationList,
+      dataPointArrays
+    } = getDataLinesFromAnalytics(activePageAnalyticsObj);
+
     const { analyticsDropdownYears } = calculateNumberOfYearsForGraphDropdown(
-      pageAnalyticsObjects[activeAnalyticsSocialType]
+      activePageAnalyticsObj
     );
 
     const { dataPointsInMonth, horizontalTitles } = getCorrectMonthOfData(
@@ -94,13 +99,11 @@ class Analytics extends Component {
     const likesByCountryAnalytic = getAnalytic(
       activeAnalyticsSocialType,
       5,
-      pageAnalyticsObjects[activeAnalyticsSocialType]
+      activePageAnalyticsObj
     );
 
-    console.log(likesByCountryAnalytic);
-
     return (
-      <Page className="column x-fill" title="Analytics">
+      <Page className="x-fill column" title="Analytics">
         <NavigationLayout
           className="x-fill"
           data={postingTypes.map((category, index) => {
@@ -111,14 +114,16 @@ class Analytics extends Component {
                   this.handleChange({ activeAnalyticsSocialType: index })
                 }
               >
-                <GIContainer className="round-icon-small round full-center">
-                  <FontAwesomeIcon
-                    color="var(--white-theme-color)"
-                    icon={getPostIconRound(category.name)}
-                  />
-                </GIContainer>
+                <FontAwesomeIcon
+                  className={`round-icon round full-center pa8 ${
+                    activeAnalyticsSocialType === index
+                      ? "bg-five-blue white"
+                      : ""
+                  }`}
+                  icon={getPostIconRound(category.name)}
+                />
                 <GIText
-                  className="tac ml8"
+                  className="tac five-blue ml8"
                   text={capitolizeFirstChar(category.name)}
                   type="h3"
                 />
@@ -126,226 +131,296 @@ class Analytics extends Component {
             );
           })}
         />
-        <GIContainer className="mt32">
-          <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
-            <GIContainer className="round-icon-small mb8">
-              <img
-                alt=""
-                src={require("../../svgs/icons/profile.svg")}
-                className="fill-parent"
-              />
-            </GIContainer>
-            <GIText
-              className="tac white quicksand"
-              text={getLatestAnalyticValue(
-                activeAnalyticsSocialType,
-                pageAnalyticsObjects,
-                0,
-                true
-              )}
-              type="h2"
-            />
-            <GIText className="tac white bold" text="New Visitors" type="h6" />
-            <GIText className="tac white fs-13" text="Last 30 Days" type="p" />
-          </GIContainer>
-          <GIContainer className="fill-flex full-center column shadow-purple bg-purple-fade br8 pa16 mx8">
-            <GIContainer className="round-icon-small mb8">
-              <img
-                alt=""
-                src={require("../../svgs/icons/profile-with-plus.svg")}
-                className="fill-parent"
-              />
-            </GIContainer>
-            <GIText
-              className="tac white quicksand"
-              text={getLatestAnalyticValue(
-                activeAnalyticsSocialType,
-                pageAnalyticsObjects,
-                1,
-                true
-              )}
-              type="h2"
-            />
-            <GIText className="tac white bold" text="New Followers" type="h6" />
-            <GIText className="tac white fs-13" text="Last 30 Days" type="p" />
-          </GIContainer>
-          <GIContainer className="fill-flex full-center column shadow-light common-border br8 pa16 mx8">
-            <GIContainer className="round-icon-small mb8">
-              <img
-                alt=""
-                src={require("../../svgs/icons/thumbs-up.svg")}
-                className="fill-parent"
-              />
-            </GIContainer>
-            <GIText
-              className="tac quicksand"
-              text={facebookSumOfPostReactions}
-              type="h1"
-            />
-            <GIText className="tac bold" text="Total Post Likes" type="h6" />
-            <GIText className="tac fs-13" text="Last 30 Days" type="p" />
-          </GIContainer>
-
-          <GIContainer className="fill-flex full-center column shadow-orange bg-orange-fade br8 pa16 ml8 mr32">
-            <GIContainer className="full-center">
-              <GIText
-                className="tac white quicksand"
-                text={getLatestAnalyticValue(
-                  activeAnalyticsSocialType,
-                  pageAnalyticsObjects,
-                  3
-                )}
-                type="h1"
-              />
-            </GIContainer>
-            <GIText
-              className="tac white bold"
-              text="Lifetime Total Likes"
-              type="h6"
-            />
-          </GIContainer>
-        </GIContainer>
-        <GIContainer className="mt16 column px32">
-          {analyticsInformationList[activeAnalyticIndex] && (
-            <Dropdown
-              activeItem={activeAnalyticIndex}
-              className="br8"
-              dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
-              dropdownClassName="common-border five-blue"
-              dropdownItems={analyticsInformationList.map(obj => obj.title)}
-              handleParentChange={dropdownClickedItemObj =>
-                this.handleChange({
-                  activeAnalyticIndex: dropdownClickedItemObj.index
-                })
-              }
-              search
-              title={
-                <GIText
-                  className="tac muli bold fill-flex"
-                  text={analyticsInformationList[activeAnalyticIndex].title}
-                  type="h3"
-                />
-              }
-            />
-          )}
-          {analyticsInformationList[activeAnalyticIndex] && (
-            <GIText
-              className="tac mt16"
-              text={analyticsInformationList[activeAnalyticIndex].description}
-              type="h6"
-            />
-          )}
-          <GIContainer className="justify-between mt32">
-            <NavigationLayout
-              className=""
-              data={graphTypes.map((obj, index) => (
-                <GIContainer
-                  className="navigation-button clickable full-center mr8 px8"
-                  onClick={() => this.handleChange({ graphType: index })}
-                >
-                  This {capitolizeFirstChar(obj.name)}
-                </GIContainer>
-              ))}
-            />
+        {activeAnalyticsSocialType !== 0 && (
+          <GIText
+            className="x-fill tac mt32"
+            text="Coming soon! :)"
+            type="h2"
+          />
+        )}
+        {activeAnalyticsSocialType === 0 && (
+          <GIContainer className="x-fill column mt32">
             <GIContainer>
-              {graphType !== 1 && (
+              <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
+                <GIContainer className="round-icon mb8">
+                  <img
+                    alt=""
+                    src={require("../../svgs/icons/profile.svg")}
+                    className="fill-parent"
+                  />
+                </GIContainer>
+                <GIText
+                  className="tac white quicksand"
+                  text={getLatestAnalyticValue(
+                    activeAnalyticsSocialType,
+                    pageAnalyticsObjects,
+                    0,
+                    true
+                  )}
+                  type="h2"
+                />
+                <GIText
+                  className="tac white bold"
+                  text="New Visitors"
+                  type="h6"
+                />
+                <GIText
+                  className="tac white fs-13"
+                  text="Last 30 Days"
+                  type="p"
+                />
+              </GIContainer>
+              <GIContainer className="fill-flex full-center column shadow-purple bg-purple-fade br8 pa16 mx8">
+                <GIContainer className="round-icon mb8">
+                  <img
+                    alt=""
+                    src={require("../../svgs/icons/profile-with-plus.svg")}
+                    className="fill-parent"
+                  />
+                </GIContainer>
+                <GIText
+                  className="tac white quicksand"
+                  text={getLatestAnalyticValue(
+                    activeAnalyticsSocialType,
+                    pageAnalyticsObjects,
+                    1,
+                    true
+                  )}
+                  type="h2"
+                />
+                <GIText
+                  className="tac white bold"
+                  text="New Followers"
+                  type="h6"
+                />
+                <GIText
+                  className="tac white fs-13"
+                  text="Last 30 Days"
+                  type="p"
+                />
+              </GIContainer>
+              {false && (
+                <GIContainer className="fill-flex full-center column shadow-light common-border br8 pa16 mx8">
+                  <GIContainer className="round-icon mb8">
+                    <img
+                      alt=""
+                      className="fill-parent"
+                      src={require("../../svgs/icons/thumbs-up.svg")}
+                    />
+                  </GIContainer>
+                  <GIText
+                    className="tac quicksand"
+                    text={facebookSumOfPostReactions}
+                    type="h1"
+                  />
+                  <GIText
+                    className="tac bold"
+                    text="Total Post Likes"
+                    type="h6"
+                  />
+                  <GIText className="tac fs-13" text="Last 30 Days" type="p" />
+                </GIContainer>
+              )}
+
+              <GIContainer className="fill-flex full-center column shadow-orange bg-orange-fade br8 pa16 ml8 mr32">
+                <GIContainer className="full-center">
+                  <GIText
+                    className="tac white quicksand"
+                    text={getLatestAnalyticValue(
+                      activeAnalyticsSocialType,
+                      pageAnalyticsObjects,
+                      3
+                    )}
+                    type="h1"
+                  />
+                </GIContainer>
+                <GIText
+                  className="tac white bold"
+                  text="Lifetime Total Likes"
+                  type="h6"
+                />
+              </GIContainer>
+            </GIContainer>
+            <GIContainer className="mt16 column px32">
+              {analyticsInformationList[activeAnalyticIndex] && (
                 <Dropdown
-                  activeItem={activeGraphMonthIndex}
-                  className="br8"
-                  dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
-                  dropdownClassName="common-border five-blue"
-                  dropdownItems={months.map((month, index) => {
-                    if (
-                      canDisplayMonth(
-                        pageAnalyticsObjects[activeAnalyticsSocialType],
-                        month,
-                        activeGraphYear
-                      )
-                    )
-                      return capitolizeFirstChar(month);
-                    else return null;
-                  })}
+                  activeItem={activeAnalyticIndex}
+                  className="common-border shadow-6 br8 py16 px32"
+                  dropdownActiveDisplayClassName="no-bottom-br five-blue"
+                  dropdownClassName="common-border five-blue no-top-br br8"
+                  dropdownItems={analyticsInformationList.map(obj => obj.title)}
                   handleParentChange={dropdownClickedItemObj =>
                     this.handleChange({
-                      activeGraphMonthIndex: dropdownClickedItemObj.index
+                      activeAnalyticIndex: dropdownClickedItemObj.index
                     })
                   }
+                  search
                   title={
                     <GIText
-                      className="tac nine-blue bold fill-flex"
-                      text={capitolizeFirstChar(months[activeGraphMonthIndex])}
-                      type="h5"
+                      className="tac muli bold fill-flex"
+                      text={analyticsInformationList[activeAnalyticIndex].title}
+                      type="h3"
                     />
                   }
                 />
               )}
-
-              <GIContainer className="ml8">
-                <Dropdown
-                  activeItem={activeGraphYear}
-                  className="br8"
-                  dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
-                  dropdownClassName="common-border five-blue"
-                  dropdownItems={analyticsDropdownYears}
-                  handleParentChange={dropdownClickedItemObj =>
-                    this.handleChange({
-                      activeGraphYear: dropdownClickedItemObj.item
-                    })
+              {
+                <GIContainer className="py16">
+                  {accounts.map((account, index) => {
+                    return (
+                      <GIContainer
+                        className={`common-border clickable py8 px16 mr8 br4 ${
+                          activeAnalyticsAccountID === account._id
+                            ? "five-blue"
+                            : "grey"
+                        }`}
+                        key={index}
+                        onClick={() =>
+                          this.handleChange({
+                            activeAnalyticsAccountID: account._id
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon
+                          className={`round-icon-medium round full-center pa4 mr8 ${
+                            activeAnalyticsAccountID === account._id
+                              ? "bg-five-blue white"
+                              : "common-border"
+                          }`}
+                          icon={getPostIconRound(account.socialType)}
+                        />
+                        {createName(account)}
+                      </GIContainer>
+                    );
+                  })}
+                </GIContainer>
+              }
+              {analyticsInformationList[activeAnalyticIndex] && (
+                <GIText
+                  className="tac mt16"
+                  text={
+                    analyticsInformationList[activeAnalyticIndex].description
                   }
-                  title={
-                    <GIContainer>
-                      <GIText
-                        className="tac nine-blue bold fill-flex mr8"
-                        text="year:"
-                        type="h6"
-                      />
-                      <GIText
-                        className="tac bold fill-flex"
-                        text={activeGraphYear}
-                        type="h5"
-                      />
+                  type="h6"
+                />
+              )}
+              <GIContainer className="justify-between mt32">
+                <NavigationLayout
+                  className=""
+                  data={graphTypes.map((obj, index) => (
+                    <GIContainer
+                      className="navigation-button clickable full-center mr8 px8"
+                      onClick={() => this.handleChange({ graphType: index })}
+                    >
+                      This {capitolizeFirstChar(obj.name)}
                     </GIContainer>
-                  }
+                  ))}
+                />
+                <GIContainer>
+                  {graphType !== 1 && (
+                    <Dropdown
+                      activeItem={activeGraphMonthIndex}
+                      className="common-border shadow-6 br8 py16 px32"
+                      dropdownActiveDisplayClassName="no-bottom-br five-blue"
+                      dropdownClassName="common-border five-blue no-top-br br8"
+                      dropdownItems={getDropdownMonths(
+                        activeGraphYear,
+                        months,
+                        activePageAnalyticsObj
+                      )}
+                      handleParentChange={dropdownClickedItemObj =>
+                        this.handleChange({
+                          activeGraphMonthIndex: months.find((month, index) => {
+                            if (dropdownClickedItemObj.item === month)
+                              return index;
+                          })
+                        })
+                      }
+                      title={
+                        <GIText
+                          className="tac nine-blue bold fill-flex"
+                          text={capitolizeFirstChar(
+                            months[activeGraphMonthIndex]
+                          )}
+                          type="h5"
+                        />
+                      }
+                    />
+                  )}
+
+                  <GIContainer className="ml8">
+                    <Dropdown
+                      activeItem={activeGraphYear}
+                      className="common-border shadow-6 br8 py16 px32"
+                      dropdownActiveDisplayClassName="no-bottom-br five-blue"
+                      dropdownClassName="common-border five-blue no-top-br br8"
+                      dropdownItems={analyticsDropdownYears}
+                      handleParentChange={dropdownClickedItemObj =>
+                        this.handleChange({
+                          activeGraphYear: dropdownClickedItemObj.item
+                        })
+                      }
+                      title={
+                        <GIContainer>
+                          <GIText
+                            className="tac nine-blue bold fill-flex mr8"
+                            text="year:"
+                            type="h6"
+                          />
+                          <GIText
+                            className="tac bold fill-flex"
+                            text={activeGraphYear}
+                            type="h5"
+                          />
+                        </GIContainer>
+                      }
+                    />
+                  </GIContainer>
+                </GIContainer>
+              </GIContainer>
+              <GIText
+                className="tac muli"
+                text={
+                  graphType === 0
+                    ? new moment().format("MMMM YYYY")
+                    : new moment().format("YYYY")
+                }
+                type="h4"
+              />
+            </GIContainer>
+            {analyticsInformationList && (
+              <GIContainer className="mt16 px32">
+                <LineGraph
+                  className="x-fill"
+                  horizontalTitles={horizontalTitles.map((date, index) =>
+                    date.date()
+                  )}
+                  line={dataPointsInMonth}
                 />
               </GIContainer>
-            </GIContainer>
-          </GIContainer>
-          <GIText
-            className="tac muli"
-            text={
-              graphType === 0
-                ? new moment().format("MMMM YYYY")
-                : new moment().format("YYYY")
-            }
-            type="h4"
-          />
-        </GIContainer>
-        {analyticsInformationList && (
-          <GIContainer className="mt16 px32">
-            <LineGraph
-              className="x-fill"
-              line={dataPointsInMonth}
-              horizontalTitles={horizontalTitles.map((date, index) =>
-                date.date()
-              )}
-            />
+            )}
+            {false && (
+              <GIContainer className="ma32">
+                <GIContainer className="column common-border fill-flex br16 pa16 mr16">
+                  <GIText text="Best Posts" type="h4" />
+                  <GIText
+                    text="The most active posts in the last 30 days."
+                    type="h6"
+                  />
+                </GIContainer>
+                <GIContainer className="column common-border fill-flex br16 pa16 ml16">
+                  <GIText text="Top Countries" type="h4" />
+                  <GIContainer>
+                    <PieGraph
+                      className="x-fill"
+                      something={likesByCountryAnalytic}
+                    />
+                  </GIContainer>
+                </GIContainer>
+              </GIContainer>
+            )}
           </GIContainer>
         )}
-        <GIContainer className="ma32">
-          <GIContainer className="column common-border fill-flex br16 pa16 mr16">
-            <GIText text="Best Posts" type="h4" />
-            <GIText
-              text="The most active posts in the last 30 days."
-              type="h6"
-            />
-          </GIContainer>
-          <GIContainer className="column common-border fill-flex br16 pa16 ml16">
-            <GIText text="Top Countries" type="h4" />
-            <GIContainer>
-              <PieGraph className="x-fill" something={likesByCountryAnalytic} />
-            </GIContainer>
-          </GIContainer>
-        </GIContainer>
       </Page>
     );
   }

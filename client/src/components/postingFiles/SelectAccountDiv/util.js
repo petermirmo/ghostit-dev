@@ -58,7 +58,7 @@ export const createInactiveAccountDivs = (
   return inactiveAccountsDiv;
 };
 
-const createName = account => {
+export const createName = account => {
   let name;
   if (account.givenName)
     name =

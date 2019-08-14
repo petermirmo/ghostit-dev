@@ -4,19 +4,7 @@ const Schema = mongoose.Schema;
 
 const accountSchema = new Schema(
   {
-    userID: {
-      type: Schema.Types.ObjectId,
-      required: true
-    },
-    socialID: {
-      type: String
-    },
     accessToken: {
-      type: String,
-      required: true
-    },
-    tokenSecret: String,
-    socialType: {
       type: String,
       required: true
     },
@@ -24,15 +12,27 @@ const accountSchema = new Schema(
       type: String,
       required: true
     },
+    analyticsID: String,
+    category: String,
+    email: String,
     givenName: String,
     familyName: String,
-    username: String,
-    email: String,
-    provider: String,
-    category: String,
-    renewSuccess: Boolean,
     lastRenewed: Number,
-    analyticsID: String
+    provider: String,
+    renewSuccess: Boolean,
+    socialID: {
+      type: String
+    },
+    socialType: {
+      type: String,
+      required: true
+    },
+    tokenSecret: String,
+    userID: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+    username: String
   },
   {
     timestamps: true

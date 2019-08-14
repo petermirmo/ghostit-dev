@@ -365,8 +365,12 @@
   grid-template-columns: 1fr 3fr 1fr;
 }
 .no-bottom-br {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.no-top-br {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 .grid-4-columns {
   display: grid;

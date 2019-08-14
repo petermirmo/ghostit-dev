@@ -69,10 +69,9 @@ export const getUser = callback => {
     //  return callback(testingUser);
   }
   axios.get("/api/user").then(res => {
-    const { error, user } = res.data;
-
+    const { error, signedInAsUser, user } = res.data;
     if (!error) {
-      callback(user);
+      callback(signedInAsUser, user);
     } else {
       callback();
       // TODO: handleerror

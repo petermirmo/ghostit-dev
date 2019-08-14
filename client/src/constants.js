@@ -27,7 +27,7 @@ export const postingTypes = [
 
 export const roles = ["demo", "client", "manager", "tester", "admin"];
 
-export const graphTypes = [{ name: "month" }, { name: "year" }];
+export const graphTypes = [{ name: "month" }];
 
 export const months = [
   "january",

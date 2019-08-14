@@ -19,6 +19,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser } from "../../../redux/actions/";
 
+import Consumer, { NotificationContext } from "../../../context";
+
 import SideBarClients from "../../SideBarClients/";
 import FileUpload from "../../views/FileUpload/";
 
@@ -26,7 +28,6 @@ import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
 
 import { saveUser } from "../../../pages/Profile/util";
-import Consumer from "../../../context";
 
 import "./style.css";
 
@@ -48,6 +49,7 @@ class HeaderSideBar extends Component {
   };
   render() {
     const { user } = this.props;
+    const { context } = this;
 
     if (!user) {
       return <div style={{ display: "none" }} />;
@@ -56,85 +58,83 @@ class HeaderSideBar extends Component {
     const isAdmin = user.role === "admin";
     const isManager = user.role === "manager";
     let isTester = user.role === "tester";
-    if (user.signedInAsUser && user.signedInAsUser.id) {
+    if (context.signedInAsUser) {
+      isTester = context.signedInAsUser.role === "tester";
     }
 
     return (
-      <Consumer>
-        {context => (
-          <GIContainer className="header-navbar mr16">
-            <GIContainer className="column">
-              {isTester && (
-                <Link
-                  className={"header-button " + this.isActive("analytics")}
-                  to="/analytics"
-                >
-                  <FontAwesomeIcon icon={faChartLine} />
+      <GIContainer className="header-navbar mr16">
+        <GIContainer className="column">
+          {isTester && (
+            <Link
+              className={"header-button " + this.isActive("analytics")}
+              to="/analytics"
+            >
+              <FontAwesomeIcon icon={faChartLine} />
 
-                  <p>Analytics</p>
-                </Link>
-              )}
-              {(isAdmin || isManager) && (
-                <GIContainer
-                  className="header-button"
-                  onClick={() =>
-                    context.handleChange({
-                      clientSideBar: !context.clientSideBar
-                    })
-                  }
-                >
-                  <FontAwesomeIcon icon={faUsers} />
-                  <p>Client</p>
-                  <p>Accounts</p>
-                </GIContainer>
-              )}
-              <Link
-                className={"header-button " + this.isActive("dashboard")}
-                to="/dashboard"
-              >
-                <FontAwesomeIcon icon={faThLarge} />
-                <p>Dashboard</p>
-              </Link>
-              <Link
-                className={"header-button " + this.isActive("calendar")}
-                to="/calendar"
-              >
-                <FontAwesomeIcon icon={faCalendar} />
-                <p>Calendar</p>
-              </Link>
-              <Link
-                className={"header-button " + this.isActive("social-accounts")}
-                to="/social-accounts"
-              >
-                <FontAwesomeIcon icon={faPlus} />
-                <p>Social</p>
-                <p>Accounts</p>
-              </Link>
-              <Link
-                className={"header-button " + this.isActive("profile")}
-                to="/profile"
-              >
-                <FontAwesomeIcon icon={faUser} />
-                <p>Profile</p>
-              </Link>
-              {isAdmin && (
-                <Link
-                  className={"header-button " + this.isActive("manage")}
-                  to="/manage"
-                >
-                  <FontAwesomeIcon icon={faCogs} />
-
-                  <p>Manage</p>
-                </Link>
-              )}
+              <p>Analytics</p>
+            </Link>
+          )}
+          {(isAdmin || isManager) && (
+            <GIContainer
+              className="header-button"
+              onClick={() =>
+                context.handleChange({
+                  clientSideBar: !context.clientSideBar
+                })
+              }
+            >
+              <FontAwesomeIcon icon={faUsers} />
+              <p>Client</p>
+              <p>Accounts</p>
             </GIContainer>
-            {context.clientSideBar && <SideBarClients />}
-          </GIContainer>
-        )}
-      </Consumer>
+          )}
+          <Link
+            className={"header-button " + this.isActive("dashboard")}
+            to="/dashboard"
+          >
+            <FontAwesomeIcon icon={faThLarge} />
+            <p>Dashboard</p>
+          </Link>
+          <Link
+            className={"header-button " + this.isActive("calendar")}
+            to="/calendar"
+          >
+            <FontAwesomeIcon icon={faCalendar} />
+            <p>Calendar</p>
+          </Link>
+          <Link
+            className={"header-button " + this.isActive("social-accounts")}
+            to="/social-accounts"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+            <p>Social</p>
+            <p>Accounts</p>
+          </Link>
+          <Link
+            className={"header-button " + this.isActive("profile")}
+            to="/profile"
+          >
+            <FontAwesomeIcon icon={faUser} />
+            <p>Profile</p>
+          </Link>
+          {isAdmin && (
+            <Link
+              className={"header-button " + this.isActive("manage")}
+              to="/manage"
+            >
+              <FontAwesomeIcon icon={faCogs} />
+
+              <p>Manage</p>
+            </Link>
+          )}
+        </GIContainer>
+        {context.clientSideBar && <SideBarClients />}
+      </GIContainer>
     );
   }
 }
+HeaderSideBar.contextType = NotificationContext;
 
 function mapStateToProps(state) {
   return {

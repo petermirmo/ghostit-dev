@@ -8,7 +8,11 @@
 }
 .white {
   color: var(--white-theme-color);
-  fill: var(--five-blue-color);
+  fill: var(--white-theme-color);
+}
+.grey {
+  color: var(--grey-theme-color);
+  fill: var(--grey-theme-color);
 }
 .four-blue {
   color: var(--four-blue-color);

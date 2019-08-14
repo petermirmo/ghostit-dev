@@ -471,13 +471,7 @@ class CalendarPage extends Component {
                     <GIButton
                       className="bg-orange-fade fill-flex shadow-orange mx8 py8 px16 my8 br4"
                       onClick={() =>
-                        createNewCalendar(
-                          context,
-                          this.handleChange,
-                          calendars.length,
-                          "Calendar " + (calendars.length + 1),
-                          this.updateActiveCalendar
-                        )
+                        this.handleChange({ dashboardModal: true })
                       }
                     >
                       <FontAwesomeIcon className="white" icon={faPlus} />
@@ -600,7 +594,7 @@ class CalendarPage extends Component {
                       )}
                       className="common-border shadow-light br4"
                       dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
-                      dropdownClassName="common-border five-blue"
+                      dropdownClassName="common-border five-blue no-top-br br4"
                       dropdownItems={Object.keys(calendarEventCategories).map(
                         (key, index) => key
                       )}
@@ -971,6 +965,14 @@ class CalendarPage extends Component {
     );
   }
 }
+
+/*createNewCalendar(
+  context,
+  this.handleChange,
+  calendars.length,
+  "Calendar " + (calendars.length + 1),
+  this.updateActiveCalendar
+)*/
 
 function mapStateToProps(state) {
   return {

@@ -1,6 +1,8 @@
 import axios from "axios";
 import moment from "moment-timezone";
 
+import { capitolizeFirstChar } from "../../componentFunctions";
+
 export const calculateTotalPostPositiveReactions = postAnalyticsObjects => {
   let sumOfPostReactions = 0;
 
@@ -40,7 +42,7 @@ export const getAnalytic = (
 
 export const getAccountAnalytics = callback => {
   axios.get("/api/analytics/accounts").then(res => {
-    const { pageAnalyticsObjects, message, success } = res.data;
+    const { message, pageAnalyticsObjects, success } = res.data;
     if (success) callback({ pageAnalyticsObjects });
     else {
       // todo handleerror
@@ -59,23 +61,18 @@ export const getPostAnalytics = callback => {
   });
 };
 
-export const getDataLinesFromAnalytics = (
-  accountIndex,
-  pageAnalyticsObjects
-) => {
-  let analyticsInformationList = [];
-  let dataPointArrays = [];
+export const getDataLinesFromAnalytics = pageAnalyticsObj => {
+  const analyticsInformationList = [];
+  const dataPointArrays = [];
 
-  if (pageAnalyticsObjects) {
-    const analyticsObject = pageAnalyticsObjects[accountIndex];
-
-    if (analyticsObject) {
-      for (let index in analyticsObject.analytics) {
+  if (pageAnalyticsObj) {
+    if (pageAnalyticsObj) {
+      for (let index in pageAnalyticsObj.analytics) {
         let dataPointArray = [];
 
         let areAnyDataPointsGreaterThanZero = false;
 
-        const dailyValues = analyticsObject.analytics[index].dailyValues;
+        const dailyValues = pageAnalyticsObj.analytics[index].dailyValues;
 
         for (let index2 in dailyValues) {
           const dailyValue = dailyValues[index2].dailyValue;
@@ -95,8 +92,8 @@ export const getDataLinesFromAnalytics = (
         if (areAnyDataPointsGreaterThanZero) {
           dataPointArrays.push(dataPointArray);
           analyticsInformationList.push({
-            description: analyticsObject.analytics[index].description,
-            title: analyticsObject.analytics[index].title
+            description: pageAnalyticsObj.analytics[index].description,
+            title: pageAnalyticsObj.analytics[index].title
           });
         }
       }
@@ -213,7 +210,7 @@ export const calculateNumberOfYearsForGraphDropdown = analyticsObject => {
   }
   return { analyticsDropdownYears };
 };
-export const canDisplayMonth = (analyticsObject, month, year) => {
+const canDisplayMonth = (analyticsObject, month, year) => {
   if (analyticsObject) {
     const momentStart = new moment(analyticsObject.createdAt)
       .subtract(3, "month")
@@ -260,4 +257,14 @@ export const getCorrectMonthOfData = (
   }
 
   return { dataPointsInMonth, horizontalTitles };
+};
+
+export const getDropdownMonths = (analyticsObject, months, year) => {
+  const temp = [];
+
+  for (let index in months)
+    if (canDisplayMonth(analyticsObject, months[index], year))
+      temp.push(capitolizeFirstChar(months[index]));
+
+  return temp;
 };
