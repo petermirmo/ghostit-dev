@@ -114,7 +114,7 @@ export const getMaxCharacters = (link, socialType) => {
   if (socialType) {
     if (socialType === "linkedin") return 700;
     else if (socialType === "twitter") {
-      if (link) return 280 - 23;
+      if (link) return 280 - 23 + link.length;
       else return 280;
     } else return undefined;
   } else return undefined;
