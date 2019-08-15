@@ -50,8 +50,7 @@ schedule.scheduleJob("0 0 * * 0", () => {
   TokenScheduler.main();
 });
 
-schedule.scheduleJob("* * * * *", () => {
-  return;
+schedule.scheduleJob("0 0 * * *", () => {
   console.log("starting");
   PageAnalyticsScheduler.main();
 });

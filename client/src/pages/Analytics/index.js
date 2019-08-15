@@ -48,7 +48,14 @@ class Analytics extends Component {
   componentDidMount() {
     const { activeAnalyticsSocialType } = this.state;
 
-    getAccountAnalytics(this.handleChange);
+    getAccountAnalytics(stateObj => {
+      this.handleChange({
+        activeAnalyticsAccountID: stateObj.pageAnalyticsObjects.find(
+          analyticsObj => analyticsObj.socialType === "facebook"
+        ).associatedID,
+        ...stateObj
+      });
+    });
     getPostAnalytics(this.handleChange);
     this._ismounted = true;
   }
@@ -153,7 +160,7 @@ class Analytics extends Component {
                   className="tac white quicksand"
                   text={getLatestAnalyticValue(
                     activeAnalyticsSocialType,
-                    pageAnalyticsObjects,
+                    activePageAnalyticsObj,
                     0,
                     true
                   )}
@@ -182,7 +189,7 @@ class Analytics extends Component {
                   className="tac white quicksand"
                   text={getLatestAnalyticValue(
                     activeAnalyticsSocialType,
-                    pageAnalyticsObjects,
+                    activePageAnalyticsObj,
                     1,
                     true
                   )}
@@ -228,7 +235,7 @@ class Analytics extends Component {
                     className="tac white quicksand"
                     text={getLatestAnalyticValue(
                       activeAnalyticsSocialType,
-                      pageAnalyticsObjects,
+                      activePageAnalyticsObj,
                       3
                     )}
                     type="h1"
@@ -266,33 +273,39 @@ class Analytics extends Component {
               )}
               {
                 <GIContainer className="py16">
-                  {accounts.map((account, index) => {
-                    return (
-                      <GIContainer
-                        className={`common-border clickable py8 px16 mr8 br4 ${
-                          activeAnalyticsAccountID === account._id
-                            ? "five-blue"
-                            : "grey"
-                        }`}
-                        key={index}
-                        onClick={() =>
-                          this.handleChange({
-                            activeAnalyticsAccountID: account._id
-                          })
-                        }
-                      >
-                        <FontAwesomeIcon
-                          className={`round-icon-medium round full-center pa4 mr8 ${
+                  {accounts
+                    .filter(
+                      account =>
+                        account.socialType === "facebook" &&
+                        account.accountType === "page"
+                    )
+                    .map((account, index) => {
+                      return (
+                        <GIContainer
+                          className={`common-border clickable py8 px16 mr8 br4 ${
                             activeAnalyticsAccountID === account._id
-                              ? "bg-five-blue white"
-                              : "common-border"
+                              ? "five-blue"
+                              : "grey"
                           }`}
-                          icon={getPostIconRound(account.socialType)}
-                        />
-                        {createName(account)}
-                      </GIContainer>
-                    );
-                  })}
+                          key={index}
+                          onClick={() =>
+                            this.handleChange({
+                              activeAnalyticsAccountID: account._id
+                            })
+                          }
+                        >
+                          <FontAwesomeIcon
+                            className={`round-icon-medium round full-center pa4 mr8 ${
+                              activeAnalyticsAccountID === account._id
+                                ? "bg-five-blue white"
+                                : "common-border"
+                            }`}
+                            icon={getPostIconRound(account.socialType)}
+                          />
+                          {createName(account)}
+                        </GIContainer>
+                      );
+                    })}
                 </GIContainer>
               }
               {analyticsInformationList[activeAnalyticIndex] && (
@@ -389,7 +402,7 @@ class Analytics extends Component {
               />
             </GIContainer>
             {analyticsInformationList && (
-              <GIContainer className="mt16 px32">
+              <GIContainer className="px32 mt16 mb32">
                 <LineGraph
                   className="x-fill"
                   horizontalTitles={horizontalTitles.map((date, index) =>

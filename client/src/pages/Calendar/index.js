@@ -148,7 +148,11 @@ class CalendarPage extends Component {
         customPosts,
         this.updateSocketCalendar
       );
-      getCalendarUsers(calendars, this.handleChange, activeCalendarIndex);
+      getCalendarUsers(
+        stateObject.calendars,
+        this.handleChange,
+        stateObject.activeCalendarIndex
+      );
     });
 
     getCalendarInvites(stateObject => {
@@ -953,6 +957,7 @@ class CalendarPage extends Component {
                       removeUserObj.calendarIndex,
                       calendars,
                       context,
+                      this.handleChange,
                       removeUserObj.userIndex
                     );
                 }}

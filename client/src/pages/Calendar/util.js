@@ -338,6 +338,7 @@ export const removeUserFromCalendar = (
   calendarIndex,
   calendars,
   context,
+  handleChange,
   userIndex
 ) => {
   const calendar = calendars[calendarIndex];
@@ -359,7 +360,7 @@ export const removeUserFromCalendar = (
           message
         });
       } else {
-        this.getCalendarUsers(calendarIndex);
+        getCalendarUsers(calendars, handleChange, calendarIndex);
         context.notify({
           type: "success",
           title: "User Removed",

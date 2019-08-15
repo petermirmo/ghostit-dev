@@ -266,7 +266,8 @@ export function capitolizeWordsInString(str) {
   return str.replace(/\b\w/g, l => l.toUpperCase());
 }
 export function capitolizeFirstChar(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  if (string) return string.charAt(0).toUpperCase() + string.slice(1);
+  else return;
 }
 export function validateEmail(email) {
   var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

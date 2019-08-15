@@ -117,18 +117,16 @@ const getAnalyticTitle = (activeAnalyticsSocialType, analyticBoxValue) => {
 
 export const getLatestAnalyticValue = (
   activeAnalyticsSocialType,
-  pageAnalyticsObjects,
+  activePageAnalyticsObj,
   analyticBoxValue,
   sum
 ) => {
-  const analyticObject = pageAnalyticsObjects[activeAnalyticsSocialType];
-
-  if (analyticObject && analyticObject.analytics) {
+  if (activePageAnalyticsObj && activePageAnalyticsObj.analytics) {
     const analyticTitleString = getAnalyticTitle(
       activeAnalyticsSocialType,
       analyticBoxValue
     );
-    const analytic = findAnalytic(analyticObject, analyticTitleString);
+    const analytic = findAnalytic(activePageAnalyticsObj, analyticTitleString);
 
     if (analytic && !sum) return findLatestAnalyticValue(analytic);
     else if (analytic && sum) return sumLastThirtyDaysOfAnalytic(analytic);
