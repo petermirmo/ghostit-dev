@@ -553,7 +553,7 @@ module.exports = {
           if (post.analyticsID) {
             // post has an analytics object already so need to update it
             Analytics.findOne(
-              { _id: post.analyticsID },
+              { associatedID: post.socialMediaID },
               (err, foundPostAnalytics) => {
                 if (err || !foundPostAnalytics) {
                   console.log(
@@ -568,7 +568,7 @@ module.exports = {
                   post.save();
                   analyticsDbObject.socialType = "facebook";
                   analyticsDbObject.analyticsType = "post";
-                  analyticsDbObject.associatedID = post._id;
+                  analyticsDbObject.associatedID = post.socialMediaID;
                   analyticsDbObject.accountName = foundAccount.givenName;
                   analyticsDbObject.postingTimeInSeconds = Math.round(
                     new moment(post.postingDate).valueOf() / 1000
@@ -593,7 +593,7 @@ module.exports = {
             post.save();
             analyticsDbObject.socialType = "facebook";
             analyticsDbObject.analyticsType = "post";
-            analyticsDbObject.associatedID = post._id;
+            analyticsDbObject.associatedID = post.socialMediaID;
             analyticsDbObject.accountName = foundAccount.givenName;
             analyticsDbObject.postingTimeInSeconds = Math.round(
               new moment(post.postingDate).valueOf() / 1000
@@ -635,7 +635,7 @@ module.exports = {
 
         // make an array to be used with an 'or' operator for the analytics object request
         const analyticsIDList = foundAccounts.map(obj => {
-          return { _id: obj.analyticsID };
+          return { associatedID: obj.socialID };
         });
 
         if (analyticsIDList.length !== 0) {
@@ -721,7 +721,7 @@ module.exports = {
         account.save();
         analyticsDbObject.socialType = "facebook";
         analyticsDbObject.analyticsType = "account";
-        analyticsDbObject.associatedID = account._id;
+        analyticsDbObject.associatedID = account.socialID;
         analyticsDbObject.accountName = account.givenName;
         analyticsDbObject.analytics = [];
       };

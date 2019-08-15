@@ -4,24 +4,7 @@ const Schema = mongoose.Schema;
 
 const analyticsSchema = new Schema(
   {
-    socialType: {
-      // "facebook" or "twitter" etc.
-      type: String,
-      required: true
-    },
-    analyticsType: {
-      // "post" or "account"
-      type: String,
-      required: true
-    },
-    associatedID: {
-      // post / account ID that this object is associated with
-      type: String,
-      required: true,
-      unique: true
-    },
     accountName: String,
-    postingTimeInSeconds: Number, // post-only variable unix epoch in seconds and UTC
     analytics: [
       // each element represents a different analytics metric
       {
@@ -58,7 +41,24 @@ const analyticsSchema = new Schema(
           }
         ]
       }
-    ]
+    ],
+    analyticsType: {
+      // "post" or "account"
+      type: String,
+      required: true
+    },
+    associatedID: {
+      // post / account ID that this object is associated with
+      type: String,
+      required: true,
+      unique: true
+    },
+    postingTimeInSeconds: Number, // post-only variable unix epoch in seconds and UTC
+    socialType: {
+      // "facebook" or "twitter" etc.
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true

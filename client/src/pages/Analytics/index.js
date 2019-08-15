@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment-timezone";
 
+import { NotificationContext } from "../../context";
+
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
@@ -33,7 +35,7 @@ import { getPostColor, getPostIconRound } from "../../componentFunctions";
 
 import "./style.css";
 
-class Analytics extends Component {
+class AnalyticsPage extends Component {
   state = {
     activeAnalyticsAccountID: 0,
     activeAnalyticIndex: 0,
@@ -47,8 +49,12 @@ class Analytics extends Component {
 
   componentDidMount() {
     const { activeAnalyticsSocialType } = this.state;
+    const { context } = this;
+    context.handleChange({ saving: true });
 
     getAccountAnalytics(stateObj => {
+      context.handleChange({ saving: false });
+
       this.handleChange({
         activeAnalyticsAccountID: stateObj.pageAnalyticsObjects.find(
           analyticsObj => analyticsObj.socialType === "facebook"
@@ -283,20 +289,20 @@ class Analytics extends Component {
                       return (
                         <GIContainer
                           className={`common-border clickable py8 px16 mr8 br4 ${
-                            activeAnalyticsAccountID === account._id
+                            activeAnalyticsAccountID === account.socialID
                               ? "five-blue"
                               : "grey"
                           }`}
                           key={index}
                           onClick={() =>
                             this.handleChange({
-                              activeAnalyticsAccountID: account._id
+                              activeAnalyticsAccountID: account.socialID
                             })
                           }
                         >
                           <FontAwesomeIcon
                             className={`round-icon-medium round full-center pa4 mr8 ${
-                              activeAnalyticsAccountID === account._id
+                              activeAnalyticsAccountID === account.socialID
                                 ? "bg-five-blue white"
                                 : "common-border"
                             }`}
@@ -341,14 +347,13 @@ class Analytics extends Component {
                         months,
                         activePageAnalyticsObj
                       )}
-                      handleParentChange={dropdownClickedItemObj =>
+                      handleParentChange={dropdownClickedItemObj => {
                         this.handleChange({
-                          activeGraphMonthIndex: months.find(
-                            (month, index) =>
-                              dropdownClickedItemObj.item === month
-                          )
-                        })
-                      }
+                          activeGraphMonthIndex: new Date(
+                            Date.parse(dropdownClickedItemObj.item + " 1, 2012")
+                          ).getMonth()
+                        });
+                      }}
                       title={
                         <GIText
                           className="tac nine-blue bold fill-flex"
@@ -438,10 +443,13 @@ class Analytics extends Component {
     );
   }
 }
+
+AnalyticsPage.contextType = NotificationContext;
+
 function mapStateToProps(state) {
   return {
     accounts: state.accounts,
     user: state.user
   };
 }
-export default connect(mapStateToProps)(Analytics);
+export default connect(mapStateToProps)(AnalyticsPage);

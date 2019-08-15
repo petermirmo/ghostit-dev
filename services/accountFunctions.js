@@ -5,6 +5,8 @@ const FB = require("fb");
 const moment = require("moment-timezone");
 const generalFunctions = require("./generalFunctions");
 
+const { requestAllFacebookPageAnalytics } = require("./analyticsFunctions");
+
 module.exports = {
   disconnectAccount: (req, res) => {
     let userID = req.user._id;
@@ -50,7 +52,10 @@ module.exports = {
 
         newAccount.lastRenewed = new Date().getTime();
 
-        newAccount.save().then(result => res.send(true));
+        newAccount.save().then(result => {
+          requestAllFacebookPageAnalytics(result);
+          res.send(true);
+        });
       };
       if (accounts.length === 0) {
         createNewAccount();
@@ -69,10 +74,14 @@ module.exports = {
           asyncCounter++;
 
           account.save((err, result) => {
+            requestAllFacebookPageAnalytics(result);
+
             asyncCounter--;
             if (asyncCounter === 0) {
               if (!accountFoundUser) createNewAccount();
-              else return res.send(true);
+              else {
+                return res.send(true);
+              }
             }
           });
         }
