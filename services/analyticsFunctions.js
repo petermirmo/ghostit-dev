@@ -726,20 +726,23 @@ module.exports = {
         analyticsDbObject.analytics = [];
       };
 
-      if (account.analyticsID) {
-        Analytics.findOne({ _id: account.analyticsID }, (err, foundObj) => {
-          if (err || !foundObj) {
-            console.log(
-              "account.analyticsID exists, but can't find analytics object with that ID in the DB."
-            );
-            console.log(err);
-            createNewAnalytics();
-          } else {
-            analyticsDbObject = foundObj;
-            analyticsDbObject.accountName = account.givenName;
+      if (account.socialID) {
+        Analytics.findOne(
+          { associatedID: account.socialID },
+          (err, foundObj) => {
+            if (err || !foundObj) {
+              console.log(
+                "account.analyticsID exists, but can't find analytics object with that ID in the DB."
+              );
+              console.log(err);
+              createNewAnalytics();
+            } else {
+              analyticsDbObject = foundObj;
+              analyticsDbObject.accountName = account.givenName;
+            }
+            fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
           }
-          fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
-        });
+        );
       } else {
         createNewAnalytics();
         fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
