@@ -3,8 +3,12 @@ const Analytics = require("../models/Analytics");
 const Account = require("../models/Account");
 const Post = require("../models/Post");
 const FB = require("fb");
+const Instagram = require("node-instagram").default;
+
 const moment = require("moment-timezone");
+
 const generalFunctions = require("./generalFunctions");
+const keys = require("../config/keys");
 
 const { getUserID } = require("../util");
 
@@ -217,6 +221,13 @@ const fbPostRequest =
   ",post_video_view_time_by_distribution_type" +
   ",post_video_view_time_by_country_id" +
   "&period=lifetime";
+
+const inAccountRequest =
+  "/insights?metric=" +
+  "impressions" +
+  ",reach" +
+  ",profile_views" +
+  "&period=day";
 
 process_fb_page_analytics = (data, prevObject) => {
   /*
@@ -747,6 +758,18 @@ module.exports = {
         createNewAnalytics();
         fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
       }
+    });
+  },
+  requestAllInstagramPageAnalytics: account => {
+    return;
+    const instagram = new Instagram({
+      clientId: keys.fbClientID,
+      clientSecret: keys.fbClientSecret,
+      accessToken: account.accessToken
+    });
+    FB.setAccessToken(account.accessToken);
+    FB.api(account.socialID + inAccountRequest, "get", response => {
+      console.log(response);
     });
   }
 };

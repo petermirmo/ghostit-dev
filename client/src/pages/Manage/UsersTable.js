@@ -12,13 +12,20 @@ class UsersTable extends Component {
     demoUsers: [],
     clientUsers: [],
     managerUsers: [],
+    testerUsers: [],
     adminUsers: [],
     activeUsers: [],
     untouchedUsers: [],
     clickedUser: undefined,
     editting: false,
     plans: undefined,
-    userCategories: { admin: false, manager: false, client: true, demo: false }
+    userCategories: {
+      admin: false,
+      tester: false,
+      manager: false,
+      client: true,
+      demo: false
+    }
   };
 
   componentDidMount() {
@@ -45,6 +52,7 @@ class UsersTable extends Component {
         let demoUsers = [];
         let clientUsers = [];
         let managerUsers = [];
+        let testerUsers = [];
         let adminUsers = [];
 
         for (let index in users) {
@@ -54,6 +62,8 @@ class UsersTable extends Component {
             clientUsers.push(users[index]);
           } else if (users[index].role === "manager") {
             managerUsers.push(users[index]);
+          } else if (users[index].role === "tester") {
+            testerUsers.push(users[index]);
           } else if (users[index].role === "admin") {
             adminUsers.push(users[index]);
           }
@@ -62,13 +72,17 @@ class UsersTable extends Component {
         demoUsers.sort(compare);
         clientUsers.sort(compare);
         managerUsers.sort(compare);
+        testerUsers.sort(compare);
         adminUsers.sort(compare);
+
         if (userCategories["demo"]) {
           activeUsers = demoUsers;
         } else if (userCategories["client"]) {
           activeUsers = clientUsers;
         } else if (userCategories["manager"]) {
           activeUsers = managerUsers;
+        } else if (userCategories["tester"]) {
+          activeUsers = testerUsers;
         } else if (userCategories["admin"]) {
           activeUsers = adminUsers;
         }
@@ -77,6 +91,7 @@ class UsersTable extends Component {
             demoUsers,
             clientUsers,
             managerUsers,
+            testerUsers,
             adminUsers,
             activeUsers,
             untouchedUsers: activeUsers
@@ -104,6 +119,8 @@ class UsersTable extends Component {
     let users;
     if (userCategories["admin"]) {
       users = this.state.adminUsers;
+    } else if (userCategories["tester"]) {
+      users = this.state.testerUsers;
     } else if (userCategories["manager"]) {
       users = this.state.managerUsers;
     } else if (userCategories["client"]) {

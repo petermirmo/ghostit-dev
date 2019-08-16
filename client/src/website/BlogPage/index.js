@@ -45,8 +45,10 @@ class BlogPage extends Component {
           >
             <GIContainer
               className={
-                "x-fill mt64 px64" +
-                (isMobileOrTablet() ? " column" : " grid-3-column")
+                (isMobileOrTablet()
+                  ? "column"
+                  : "container-box extra-large grid-3-column") +
+                " x-fill mt64 px64"
               }
             >
               <GIText
@@ -75,7 +77,13 @@ class BlogPage extends Component {
                 />
               </GIContainer>
             </GIContainer>
-            <GIContainer className="fill-parent px64 mb64">
+            <GIContainer
+              className={`${
+                isMobileOrTablet()
+                  ? "x-fill px32 mb32"
+                  : "container-box extra-large x-wrap px64 mb64"
+              }`}
+            >
               {context.ghostitBlogs.length === 0 && (
                 <GIContainer className="fill-parent full-center">
                   <LoaderSimpleCircle />

@@ -28,8 +28,9 @@ class RegularVersion extends Component {
           >
             <GIContainer
               className={`justify-center x-fill ${
-                isMobileOrTablet() ? "column" : "reverse mt64"
+                isMobileOrTablet() ? "column" : "reverse"
               }`}
+              style={{ minHeight: "90vh" }}
             >
               {isMobileOrTablet() && (
                 <img
@@ -39,6 +40,7 @@ class RegularVersion extends Component {
                   style={{ width: "95vw" }}
                 />
               )}
+
               <GIContainer
                 className={`${
                   isMobileOrTablet()
@@ -53,9 +55,9 @@ class RegularVersion extends Component {
                 />
               </GIContainer>
               <GIContainer
-                className={`column px32 ${
+                className={`column full-center px32 ${
                   isMobileOrTablet()
-                    ? "x-fill full-center"
+                    ? "x-fill "
                     : "container-box medium align-start"
                 }`}
               >
