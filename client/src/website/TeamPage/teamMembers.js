@@ -46,7 +46,7 @@ export const teamMembers = [
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164140/patrick.jpg",
     location: "Victoria",
-    name: "Patrick CwikLinski",
+    name: "Patrick Cwiklinski",
     title: "Content Manager"
   },
 
