@@ -1,9 +1,10 @@
 const Account = require("../models/Account");
 
 const {
-  requestAllFacebookPageAnalytics,
-  requestAllInstagramPageAnalytics
+  requestAllFacebookPageAnalytics
 } = require("../services/analyticsFunctions");
+
+const { fbAccountRequest, instagramAccountRequest } = require("../constants");
 
 module.exports = {
   main: () => {
@@ -23,13 +24,12 @@ module.exports = {
             account.socialType === "facebook" &&
             account.accountType === "page"
           ) {
-            continue;
-            requestAllFacebookPageAnalytics(account);
+            requestAllFacebookPageAnalytics(account, fbAccountRequest);
           } else if (
             account.socialType === "instagram" &&
             account.accountType === "page"
           ) {
-            requestAllInstagramPageAnalytics(account);
+            requestAllFacebookPageAnalytics(account, instagramAccountRequest);
           }
         }
       }
