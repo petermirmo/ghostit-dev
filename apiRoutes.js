@@ -126,7 +126,6 @@ module.exports = app => {
         "manage_pages",
         "read_insights",
         "instagram_basic",
-        "publish_to_groups",
         "instagram_manage_insights"
       ]
     })

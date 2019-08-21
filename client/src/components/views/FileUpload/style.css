@@ -11,3 +11,8 @@
 
   z-index: 1;
 }
+
+img {
+  object-fit: contain;
+  display: inline-flex;
+}

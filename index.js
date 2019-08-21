@@ -50,18 +50,24 @@ schedule.scheduleJob("0 0 * * 0", () => {
   TokenScheduler.main();
 });
 
-schedule.scheduleJob("0 0 * * *", () => {
-  console.log("starting");
-  PageAnalyticsScheduler.main();
-});
-
 schedule.scheduleJob("* * * * *", () => {
   return;
   console.log("starting");
   PostAnalyticsScheduler.main();
 });
+if (process.env.NODE_ENV !== "production") {
+  schedule.scheduleJob("* * * * *", () => {
+    return;
+    console.log("starting");
+    PageAnalyticsScheduler.main();
+  });
+}
 
 if (process.env.NODE_ENV === "production") {
+  schedule.scheduleJob("0 0 * * *", () => {
+    PageAnalyticsScheduler.main();
+  });
+
   schedule.scheduleJob("* * * * *", () => {
     PostScheduler.main();
   });

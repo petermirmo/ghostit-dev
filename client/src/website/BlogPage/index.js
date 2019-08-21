@@ -80,8 +80,8 @@ class BlogPage extends Component {
             <GIContainer
               className={`${
                 isMobileOrTablet()
-                  ? "x-fill px32 mb32"
-                  : "container-box extra-large x-wrap px64 mb64"
+                  ? "x-fill px32 pb32"
+                  : "container-box extra-large x-wrap px64 ob64"
               }`}
             >
               {context.ghostitBlogs.length === 0 && (

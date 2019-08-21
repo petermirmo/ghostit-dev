@@ -144,14 +144,15 @@ class AnalyticsPage extends Component {
             );
           })}
         />
-        {activeAnalyticsSocialType !== 0 && (
+        {activeAnalyticsSocialType !== 0 && activeAnalyticsSocialType !== 3 && (
           <GIText
             className="x-fill tac mt32"
             text="Coming soon! :)"
             type="h2"
           />
         )}
-        {activeAnalyticsSocialType === 0 && (
+        {(activeAnalyticsSocialType === 0 ||
+          activeAnalyticsSocialType === 3) && (
           <GIContainer className="x-fill column mt32">
             <GIContainer>
               <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
@@ -282,8 +283,12 @@ class AnalyticsPage extends Component {
                   {accounts
                     .filter(
                       account =>
-                        account.socialType === "facebook" &&
-                        account.accountType === "page"
+                        account.socialType ===
+                          postingTypes[activeAnalyticsSocialType].name &&
+                        !(
+                          account.socialType === "facebook" &&
+                          account.accountType === "profile"
+                        )
                     )
                     .map((account, index) => {
                       return (
