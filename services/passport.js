@@ -183,84 +183,84 @@ module.exports = function(passport) {
       }
     )
   );
-
-  // Add Twitter account
-  passport.use(
-    new TwitterStrategy(
-      {
-        consumerKey: keys.twitterConsumerKey,
-        consumerSecret: keys.twitterConsumerSecret,
-        callbackURL: keys.twitterCallbackURL,
-        passReqToCallback: true
-      },
-      function(req, token, tokenSecret, profile, done) {
-        // Account does not exist
-        let user = req.user; // pull the user out of the session
-        let userID = req.user._id;
-        if (req.user.signedInAsUser) {
-          if (req.user.signedInAsUser.id) {
-            userID = req.user.signedInAsUser.id;
+  if (keys.twitterConsumerKey)
+    // Add Twitter account
+    passport.use(
+      new TwitterStrategy(
+        {
+          consumerKey: keys.twitterConsumerKey,
+          consumerSecret: keys.twitterConsumerSecret,
+          callbackURL: keys.twitterCallbackURL,
+          passReqToCallback: true
+        },
+        function(req, token, tokenSecret, profile, done) {
+          // Account does not exist
+          let user = req.user; // pull the user out of the session
+          let userID = req.user._id;
+          if (req.user.signedInAsUser) {
+            if (req.user.signedInAsUser.id) {
+              userID = req.user.signedInAsUser.id;
+            }
           }
-        }
-        Account.find({ socialID: profile.id }, (err, accounts) => {
-          let createNewAccount = () => {
-            let newAccount = new Account();
+          Account.find({ socialID: profile.id }, (err, accounts) => {
+            let createNewAccount = () => {
+              let newAccount = new Account();
 
-            // Split displayName into first name and last name
-            let givenName;
-            let familyName;
-            for (let index in profile.displayName) {
-              if (profile.displayName[index] === " ") {
-                givenName = profile.displayName.slice(0, index);
-                familyName = profile.displayName.slice(
-                  index,
-                  profile.displayName.length
-                );
-              }
-            }
-
-            newAccount.userID = userID;
-            newAccount.socialType = "twitter";
-            newAccount.accountType = "profile";
-            newAccount.accessToken = token;
-            newAccount.tokenSecret = tokenSecret;
-            newAccount.socialID = profile.id;
-            newAccount.username = profile.username;
-            newAccount.givenName = givenName;
-            newAccount.familyName = familyName;
-            newAccount.email = profile.email;
-            newAccount.lastRenewed = new Date().getTime();
-
-            newAccount.save(err => {
-              if (err) return done(err);
-              return done(null, user);
-            });
-          };
-          if (accounts.length === 0) {
-            createNewAccount();
-          } else if (accounts.length > 0) {
-            let asyncCounter = 0;
-            let accountFoundUser = false;
-
-            for (let index in accounts) {
-              let account = accounts[index];
-              if (String(account.userID) == userID) accountFoundUser = true;
-
-              account.accessToken = token;
-              account.tokenSecret = tokenSecret;
-
-              asyncCounter++;
-              account.save((err, result) => {
-                asyncCounter--;
-                if (asyncCounter === 0) {
-                  if (!accountFoundUser) createNewAccount();
-                  else return done(null, req.session.passport.user);
+              // Split displayName into first name and last name
+              let givenName;
+              let familyName;
+              for (let index in profile.displayName) {
+                if (profile.displayName[index] === " ") {
+                  givenName = profile.displayName.slice(0, index);
+                  familyName = profile.displayName.slice(
+                    index,
+                    profile.displayName.length
+                  );
                 }
+              }
+
+              newAccount.userID = userID;
+              newAccount.socialType = "twitter";
+              newAccount.accountType = "profile";
+              newAccount.accessToken = token;
+              newAccount.tokenSecret = tokenSecret;
+              newAccount.socialID = profile.id;
+              newAccount.username = profile.username;
+              newAccount.givenName = givenName;
+              newAccount.familyName = familyName;
+              newAccount.email = profile.email;
+              newAccount.lastRenewed = new Date().getTime();
+
+              newAccount.save(err => {
+                if (err) return done(err);
+                return done(null, user);
               });
-            }
-          } else return done(null, req.session.passport.user);
-        });
-      }
-    )
-  );
+            };
+            if (accounts.length === 0) {
+              createNewAccount();
+            } else if (accounts.length > 0) {
+              let asyncCounter = 0;
+              let accountFoundUser = false;
+
+              for (let index in accounts) {
+                let account = accounts[index];
+                if (String(account.userID) == userID) accountFoundUser = true;
+
+                account.accessToken = token;
+                account.tokenSecret = tokenSecret;
+
+                asyncCounter++;
+                account.save((err, result) => {
+                  asyncCounter--;
+                  if (asyncCounter === 0) {
+                    if (!accountFoundUser) createNewAccount();
+                    else return done(null, req.session.passport.user);
+                  }
+                });
+              }
+            } else return done(null, req.session.passport.user);
+          });
+        }
+      )
+    );
 };

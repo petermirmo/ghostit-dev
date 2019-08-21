@@ -10,25 +10,24 @@ module.exports = (env, argv) => {
     plugins = [
       new HtmlWebpackPlugin({ template: "./public/index.html" }),
       new webpack.DefinePlugin({
-        "process.env": {
-          NODE_ENV: '"development"'
-        }
+        "process.env.NODE_ENV": JSON.stringify("development")
       })
     ];
   else {
     plugins = [
       new HtmlWebpackPlugin({ template: "./public/index.html" }),
-      new CopyWebpackPlugin([{ from: "./static" }])
+      new CopyWebpackPlugin([{ from: "./static" }]),
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": JSON.stringify("production")
+      })
     ];
   }
   return {
     context: path.join(__dirname, ""),
-
     entry: ["babel-polyfill", "./src/index.js"],
     output: {
       path: path.join(__dirname, "/build"),
       publicPath: "/",
-
       filename: "bundle.js"
     },
     module: {
@@ -55,7 +54,7 @@ module.exports = (env, argv) => {
       ]
     },
 
-    plugins: plugins,
+    plugins,
     devServer: {
       proxy: {
         "/api/*": "http://localhost:5000"

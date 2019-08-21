@@ -15,7 +15,7 @@ const fs = require("fs");
 
 const { getMetaInformation } = require("./functions/meta");
 
-var allowCrossDomain = (req, res, next) => {
+const allowCrossDomain = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -113,7 +113,7 @@ app.use(secure);
 require("./apiRoutes")(app);
 
 // If using production then if a route is not found in express we send user to react routes
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "production") {
   const injectMetaData = (req, res) => {
     const filePath = path.resolve(__dirname, "./client", "build", "index.html");
 
@@ -135,11 +135,16 @@ if (process.env.NODE_ENV === "production") {
   };
 
   app.get("/", (req, res) => {
+    console.log("here1");
+    console.log(req.url);
     injectMetaData(req, res);
   });
+
   app.use(express.static(path.resolve(__dirname, "./client", "build")));
 
   app.get("*", (req, res) => {
+    console.log("here2");
+    console.log(req.url);
     injectMetaData(req, res);
   });
 }

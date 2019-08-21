@@ -65,7 +65,7 @@ class TeamPage extends Component {
               <img
                 alt=""
                 className="container-box y-30vw"
-                src={require("../../svgs/team-page-1.png")}
+                src="https://res.cloudinary.com/ghostit-co/image/upload/v1566407446/team-page-1.png"
               />
               <img
                 alt="blob"
@@ -87,7 +87,7 @@ class TeamPage extends Component {
               <img
                 alt=""
                 className="container-box y-30vw"
-                src={require("../../svgs/team-page-2.png")}
+                src="https://res.cloudinary.com/ghostit-co/image/upload/v1566407452/team-page-2.png"
               />
               <img
                 alt="blob"

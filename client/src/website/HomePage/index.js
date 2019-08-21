@@ -297,7 +297,7 @@ class RegularVersion extends Component {
                   <img
                     alt=""
                     className="x-125px"
-                    src={require("../../svgs/home-testimony-1.png")}
+                    src="https://res.cloudinary.com/ghostit-co/image/upload/v1566407434/home-testimony-1.png"
                   />
                 </GIContainer>
               </GIContainer>
