@@ -55,13 +55,6 @@ schedule.scheduleJob("* * * * *", () => {
   console.log("starting");
   PostAnalyticsScheduler.main();
 });
-if (process.env.NODE_ENV !== "production") {
-  schedule.scheduleJob("* * * * *", () => {
-    return;
-    console.log("starting");
-    PageAnalyticsScheduler.main();
-  });
-}
 
 if (process.env.NODE_ENV === "production") {
   schedule.scheduleJob("0 0 * * *", () => {
@@ -135,16 +128,12 @@ if (process.env.NODE_ENV !== "production") {
   };
 
   app.get("/", (req, res) => {
-    console.log("here1");
-    console.log(req.url);
     injectMetaData(req, res);
   });
 
   app.use(express.static(path.resolve(__dirname, "./client", "build")));
 
   app.get("*", (req, res) => {
-    console.log("here2");
-    console.log(req.url);
     injectMetaData(req, res);
   });
 }

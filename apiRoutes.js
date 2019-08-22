@@ -124,12 +124,12 @@ module.exports = app => {
         "email",
         "publish_pages",
         "manage_pages",
-        "read_insights",
-        "instagram_basic",
-        "instagram_manage_insights"
+        "read_insights"
       ]
     })
   );
+  /*"instagram_basic",
+  "instagram_manage_insights"*/
   // Facebook callback
   app.get(
     "/api/facebook/callback",

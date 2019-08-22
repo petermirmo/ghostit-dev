@@ -6,6 +6,7 @@ const moment = require("moment-timezone");
 const generalFunctions = require("./generalFunctions");
 
 const { requestAllFacebookPageAnalytics } = require("./analyticsFunctions");
+const { fbAccountRequest, instagramAccountRequest } = require("../constants");
 
 module.exports = {
   disconnectAccount: (req, res) => {
@@ -53,7 +54,20 @@ module.exports = {
         newAccount.lastRenewed = new Date().getTime();
 
         newAccount.save().then(result => {
-          requestAllFacebookPageAnalytics(result);
+          if (
+            result.socialType === "facebook" &&
+            result.accountType === "page"
+          ) {
+            requestAllFacebookPageAnalytics(
+              result,
+              fbAccountRequest + "lifetime"
+            );
+          } else if (
+            result.socialType === "instagram" &&
+            result.accountType === "page"
+          ) {
+            requestAllFacebookPageAnalytics(result, instagramAccountRequest);
+          }
           res.send(true);
         });
       };
@@ -74,7 +88,20 @@ module.exports = {
           asyncCounter++;
 
           account.save((err, result) => {
-            requestAllFacebookPageAnalytics(result);
+            if (
+              result.socialType === "facebook" &&
+              result.accountType === "page"
+            ) {
+              requestAllFacebookPageAnalytics(
+                result,
+                fbAccountRequest + "lifetime"
+              );
+            } else if (
+              result.socialType === "instagram" &&
+              result.accountType === "page"
+            ) {
+              requestAllFacebookPageAnalytics(result, instagramAccountRequest);
+            }
 
             asyncCounter--;
             if (asyncCounter === 0) {

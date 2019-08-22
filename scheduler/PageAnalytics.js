@@ -24,7 +24,10 @@ module.exports = {
             account.socialType === "facebook" &&
             account.accountType === "page"
           ) {
-            requestAllFacebookPageAnalytics(account, fbAccountRequest);
+            requestAllFacebookPageAnalytics(
+              account,
+              fbAccountRequest + "last_3d"
+            );
           } else if (
             account.socialType === "instagram" &&
             account.accountType === "page"

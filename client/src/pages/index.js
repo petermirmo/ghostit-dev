@@ -11,8 +11,6 @@ import Consumer, { NotificationContext } from "../context";
 import LoaderWedge from "../components/notifications/LoaderWedge";
 import GIContainer from "../components/containers/GIContainer";
 
-import DynamicImport from "./DynamicImport";
-
 import DashboardPage from "./Dashboard";
 import CalendarPage from "./Calendar";
 import AccountsPage from "./Accounts";
@@ -42,14 +40,6 @@ import {
 } from "./util";
 
 import { isUserInPlatform } from "../components/containers/Page/util";
-
-const someFunction = (props, importString) => (
-  <DynamicImport load={() => import(importString)}>
-    {Component =>
-      Component === null ? <p>Loading</p> : <Component {...props} />
-    }
-  </DynamicImport>
-);
 
 class Routes extends Component {
   state = {
