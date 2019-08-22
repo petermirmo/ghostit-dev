@@ -71,7 +71,7 @@ export const getDataLinesFromAnalytics = pageAnalyticsObj => {
         let dataPointArray = [];
 
         let areAnyDataPointsGreaterThanZero = false;
-
+        if (!pageAnalyticsObj.analytics[index]) continue;
         const dailyValues = pageAnalyticsObj.analytics[index].dailyValues;
 
         for (let index2 in dailyValues) {
