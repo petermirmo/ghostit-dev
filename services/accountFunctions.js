@@ -88,21 +88,6 @@ module.exports = {
           asyncCounter++;
 
           account.save((err, result) => {
-            if (
-              result.socialType === "facebook" &&
-              result.accountType === "page"
-            ) {
-              requestAllFacebookPageAnalytics(
-                result,
-                fbAccountRequest + "lifetime"
-              );
-            } else if (
-              result.socialType === "instagram" &&
-              result.accountType === "page"
-            ) {
-              requestAllFacebookPageAnalytics(result, instagramAccountRequest);
-            }
-
             asyncCounter--;
             if (asyncCounter === 0) {
               if (!accountFoundUser) createNewAccount();
