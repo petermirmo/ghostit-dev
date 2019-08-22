@@ -113,7 +113,7 @@ app.use(secure);
 require("./apiRoutes")(app);
 
 // If using production then if a route is not found in express we send user to react routes
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
   const injectMetaData = (req, res) => {
     const filePath = path.resolve(__dirname, "./client", "build", "index.html");
 
