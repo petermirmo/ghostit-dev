@@ -65,16 +65,6 @@ class HeaderSideBar extends Component {
     return (
       <GIContainer className="header-navbar mr16">
         <GIContainer className="column">
-          {isTester && (
-            <Link
-              className={"header-button " + this.isActive("analytics")}
-              to="/analytics"
-            >
-              <FontAwesomeIcon icon={faChartLine} />
-
-              <p>Analytics</p>
-            </Link>
-          )}
           {(isAdmin || isManager) && (
             <GIContainer
               className="header-button"
@@ -89,6 +79,14 @@ class HeaderSideBar extends Component {
               <p>Accounts</p>
             </GIContainer>
           )}
+          <Link
+            className={"header-button " + this.isActive("analytics")}
+            to="/analytics"
+          >
+            <FontAwesomeIcon icon={faChartLine} />
+
+            <p>Analytics</p>
+          </Link>
           <Link
             className={"header-button " + this.isActive("dashboard")}
             to="/dashboard"

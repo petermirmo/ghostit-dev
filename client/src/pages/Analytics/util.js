@@ -43,9 +43,9 @@ export const getAnalytic = (
 export const getAccountAnalytics = callback => {
   axios.get("/api/analytics/accounts").then(res => {
     const { message, pageAnalyticsObjects, success } = res.data;
-    if (success) callback({ pageAnalyticsObjects });
+    if (success) callback({ pageAnalyticsObjects }, success);
     else {
-      // todo handleerror
+      callback({ pageAnalyticsObjects }, success);
     }
   });
 };

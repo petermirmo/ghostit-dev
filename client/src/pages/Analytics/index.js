@@ -52,15 +52,19 @@ class AnalyticsPage extends Component {
     const { context } = this;
     context.handleChange({ saving: true });
 
-    getAccountAnalytics(stateObj => {
+    getAccountAnalytics((stateObj, success) => {
       context.handleChange({ saving: false });
-
-      this.handleChange({
-        activeAnalyticsAccountID: stateObj.pageAnalyticsObjects.find(
-          analyticsObj => analyticsObj.socialType === "facebook"
-        ).associatedID,
-        ...stateObj
-      });
+      if (success)
+        this.handleChange({
+          activeAnalyticsAccountID: stateObj.pageAnalyticsObjects.find(
+            analyticsObj => analyticsObj.socialType === "facebook"
+          ).associatedID,
+          ...stateObj
+        });
+      else
+        alert(
+          "Could not find your analytics, if you just connected your Facebook Page please wait a few more minutes and try again. Otherwise, please connect your Facebook Page and return here!"
+        );
     });
     getPostAnalytics(this.handleChange);
     this._ismounted = true;
@@ -144,15 +148,14 @@ class AnalyticsPage extends Component {
             );
           })}
         />
-        {activeAnalyticsSocialType !== 0 && activeAnalyticsSocialType !== 3 && (
+        {activeAnalyticsSocialType !== 0 && (
           <GIText
             className="x-fill tac mt32"
             text="Coming soon! :)"
             type="h2"
           />
         )}
-        {(activeAnalyticsSocialType === 0 ||
-          activeAnalyticsSocialType === 3) && (
+        {(activeAnalyticsSocialType === 0 || false) && (
           <GIContainer className="x-fill column mt32">
             <GIContainer>
               <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">

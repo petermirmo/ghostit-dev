@@ -128,7 +128,7 @@ const fbAccountRequest =
   ",page_posts_impressions_nonviral" + // all 3
   ",page_posts_impressions_nonviral_unique" + // all 3
   ",page_posts_impressions_frequency_distribution" + // all 3
-  "&date_preset=last_90d";
+  "&date_preset=";
 
 const fbPostRequest =
   "/insights?metric=" +
