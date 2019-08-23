@@ -60,7 +60,7 @@ module.exports = {
           ) {
             requestAllFacebookPageAnalytics(
               result,
-              fbAccountRequest + "lifetime"
+              fbAccountRequest + "last_90d"
             );
           } else if (
             result.socialType === "instagram" &&

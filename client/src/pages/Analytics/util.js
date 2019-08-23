@@ -155,11 +155,13 @@ const findLatestAnalyticValue = analytic => {
 };
 
 const sumLastThirtyDaysOfAnalytic = analytic => {
+  console.log(analytic);
   const thirtyDaysAgoDate = new moment().subtract(30, "days");
 
   let analyticSum = 0;
 
   for (let index = 1; index <= 30; index++) {
+    if (!analytic.dailyValues[analytic.dailyValues.length - index]) continue;
     const dateOfAnalytic = new moment(
       analytic.dailyValues[
         analytic.dailyValues.length - index
