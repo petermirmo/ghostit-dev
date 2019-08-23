@@ -40,7 +40,7 @@ module.exports = {
       }
     }
     Account.find({ socialID: page.id }, (err, accounts) => {
-      let createNewAccount = () => {
+      const createNewAccount = () => {
         let newAccount = new Account();
         newAccount.userID = userID;
         newAccount.socialType = page.socialType;
@@ -88,6 +88,21 @@ module.exports = {
           asyncCounter++;
 
           account.save((err, result) => {
+            if (
+              accountFoundUser &&
+              result.socialType === "facebook" &&
+              result.accountType === "page"
+            ) {
+              requestAllFacebookPageAnalytics(
+                result,
+                fbAccountRequest + "last_90d"
+              );
+            } else if (
+              result.socialType === "instagram" &&
+              result.accountType === "page"
+            ) {
+              requestAllFacebookPageAnalytics(result, instagramAccountRequest);
+            }
             asyncCounter--;
             if (asyncCounter === 0) {
               if (!accountFoundUser) createNewAccount();
