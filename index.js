@@ -61,15 +61,15 @@ if (process.env.NODE_ENV === "production") {
     PageAnalyticsScheduler.main();
   });
 
-  schedule.scheduleJob("* * * * *", () => {
-    PostScheduler.main();
-  });
+ 
 
   schedule.scheduleJob("* * * * *", () => {
     EmailScheduler.main();
   });
 }
-
+schedule.scheduleJob("* * * * *", () => {
+  PostScheduler.main();
+});
 // Connect to database
 mongoose.connect(keys.mongoDevelopmentURI, {
   useNewUrlParser: true,

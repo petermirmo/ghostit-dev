@@ -9,6 +9,7 @@ const fs = require("fs");
 const FormData = require("form-data");
 
 const cloudinary = require("cloudinary");
+const FBVideoUpload = require('facebook-api-video-upload');
 const FB = require("fb");
 const axios = require("axios");
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -61,37 +62,47 @@ module.exports = {
               asyncCounter++;
 
               if (isUrlVideo(post.files[i].url)) {
-                continue;
-                FB.setAccessToken(account.accessToken);
-                FB.api(
-                  "/me/videos",
-                  "post",
-                  {
-                    title: "Video title",
-                    description: "Timeline message...",
-                    source: fs.createReadStream("nothing.mp4")
-                  },
-                  res => {
-                    asyncCounter--;
-                    if (!res || res.error) {
-                      savePostError(post._id, res.error);
-                    } else {
-                      facebookPhotoArray.push({ media_fbid: res.id });
-                      if (asyncCounter === 0) {
-                        facebookPostWithFile.attached_media = facebookPhotoArray;
-
-                        FB.setAccessToken(account.accessToken);
-                        FB.api("me/feed", "post", facebookPostWithFile, res => {
-                          if (!res || res.error) {
-                            savePostError(post._id, res.error);
-                          } else {
-                            savePostSuccessfully(post._id, res.id);
-                          }
-                        });
+                const link =  post.files[i].url;
+                request(link)
+                  .pipe(fs.createWriteStream("../../video.mp4"))
+                  .on('finish', function() { 
+                  const stream = fs.createReadStream("../../video.mp4")
+            
+                    const VideoData = {
+                      token: account.accessToken, 
+                      id: account.socialID,
+                      stream: stream,
+                      title: "Post title",
+                      description: post.content,
                       }
-                    }
-                  }
-                );
+                  
+                    FBVideoUpload(VideoData).then(
+                          res => {
+                              asyncCounter--;
+                             
+                              if (!res || res.error) {
+                                savePostError(post._id, res.error);
+                                
+                              } else {
+                            
+                                facebookPhotoArray.push({ media_fbid: res.id });
+                                if (asyncCounter === 0) {
+                                  facebookPostWithFile.attached_media = facebookPhotoArray;
+                      
+                                  FB.setAccessToken(account.accessToken);
+                                  FB.api("me/feed", "post", facebookPostWithFile, res => {
+                                    if (!res || res.error) {
+                                      savePostError(post._id, res.error);
+                                    } else {
+                                      savePostSuccessfully(post._id, res.id);
+                                    }
+                                  });
+                                }
+                              }
+                            }
+                      ).catch(); 
+                       fs.unlinkSync('../../video.mp4')
+                    });
               } else {
                 FB.setAccessToken(account.accessToken);
                 FB.api(
