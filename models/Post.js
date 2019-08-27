@@ -30,6 +30,7 @@ const postSchema = new Schema(
     status: String,
     socialMediaID: String,
     socialType: String,
+    videoTitle: String,
     userID: {
       type: Schema.Types.ObjectId,
       required: true

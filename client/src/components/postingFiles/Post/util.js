@@ -2,6 +2,15 @@ import axios from "axios";
 import moment from "moment-timezone";
 import { trySavePost } from "../../../componentFunctions";
 
+import { isVideo } from "../../views/FileUpload/util";
+
+export const anyVideos = files => {
+  for (let index in files) {
+    if (isVideo(files[index])) return true;
+  }
+  return false;
+};
+
 export const createState = (calendarAccounts, props) => {
   let stateVariable = {
     _id: undefined,
@@ -22,7 +31,7 @@ export const createState = (calendarAccounts, props) => {
     promptModifyCampaignDates: false,
     socialType: props.socialType,
     somethingChanged: false,
-    videos: []
+    videoTitle: ""
   };
 
   if (props.post) {
@@ -41,7 +50,6 @@ export const createState = (calendarAccounts, props) => {
     stateVariable.linkImage = props.post.linkImage ? props.post.linkImage : "";
     stateVariable.linkTitle = props.post.linkTitle ? props.post.linkTitle : "";
     stateVariable.files = props.post.files ? props.post.files : [];
-    stateVariable.videos = props.post.videos ? props.post.videos : [];
     stateVariable.accountType = props.post.accountType
       ? props.post.accountType
       : returnObj.type;
@@ -56,6 +64,9 @@ export const createState = (calendarAccounts, props) => {
       ? props.post.campaignID
       : undefined;
     stateVariable.name = props.post.name ? props.post.name : "";
+    stateVariable.videoTitle = props.post.videoTitle
+      ? props.post.videoTitle
+      : "";
   }
 
   stateVariable.date =

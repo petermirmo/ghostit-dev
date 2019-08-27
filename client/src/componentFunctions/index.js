@@ -128,6 +128,7 @@ export const trySavePost = (
     name,
     sendEmailReminder,
     socialType,
+    videoTitle,
     _id
   } = post_state;
   const {
@@ -206,7 +207,8 @@ export const trySavePost = (
       undefined,
       linkTitle,
       linkDescription,
-      linkCustomFiles
+      linkCustomFiles,
+      videoTitle
     );
   }
   setStateObj.somethingChanged = false;
@@ -292,7 +294,8 @@ export async function savePost(
   sendEmailReminder,
   linkTitle,
   linkDescription,
-  linkCustomFiles
+  linkCustomFiles,
+  videoTitle
 ) {
   if (filesToDelete) {
     if (filesToDelete.length !== 0) {
@@ -325,7 +328,8 @@ export async function savePost(
       sendEmailReminder,
       linkTitle,
       linkDescription,
-      linkCustomFiles
+      linkCustomFiles,
+      videoTitle
     })
     .then(res => {
       // Now we need to save images for post, Images are saved after post

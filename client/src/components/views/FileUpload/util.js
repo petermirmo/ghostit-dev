@@ -31,10 +31,30 @@ export const showFiles = (
 
   // Check to make sure there are not more than the fileLimit
   if (newFiles.length + currentFiles.length > fileLimit) {
-    alert(
+    return alert(
       "You have selected more than " + fileLimit + " files! Please try again"
     );
-    return;
+  }
+  for (let index in currentFiles) {
+    if (isVideo(currentFiles[index])) {
+      return alert(
+        "You can't upload anymore because you have already uploaded a video"
+      );
+    }
+  }
+
+  for (let index in newFiles) {
+    if (index === "length") continue;
+    if (isVideo(newFiles[index]) && newFiles.length > 1) {
+      return alert(
+        "You can't upload any photos with a video and you can only upload 1 video max with a post."
+      );
+    }
+  }
+  if (currentFiles.length > 0 && isVideo(newFiles[0])) {
+    return alert(
+      "You can't upload any photos with a video and you can only upload 1 video max with a post."
+    );
   }
 
   // Check to make sure each file is under 5MB
@@ -78,8 +98,8 @@ const isFileOverSize = fileToCheck => {
       return true;
     }
   } else if (isVideo(fileToCheck)) {
-    if (fileToCheck.size > 10000000) {
-      alert("File size on one or more videos is over 10MB.");
+    if (fileToCheck.size > 1750000000) {
+      alert("File size on one or more videos is over 1.75GB.");
       return true;
     }
   } /*else if (isGif(fileToCheck)) {

@@ -30,6 +30,7 @@ import ConfirmAlert from "../../notifications/ConfirmAlert";
 import Consumer from "../../../context";
 
 import {
+  anyVideos,
   createState,
   createActiveAccounts,
   findLink,
@@ -99,6 +100,7 @@ class Post extends Component {
       promptLinkAccountToCalendar,
       socialType,
       somethingChanged,
+      videoTitle,
       _id
     } = this.state;
 
@@ -222,6 +224,18 @@ class Post extends Component {
                     />
                   </GIContainer>
                 </GIContainer>
+
+                {anyVideos(files) && (
+                  <Textarea
+                    className="mb8 pa8 br8"
+                    onChange={event =>
+                      this.handleChange(event.target.value, "videoTitle")
+                    }
+                    placeholder="Video Title"
+                    readOnly={!canEditPost}
+                    value={videoTitle}
+                  />
+                )}
                 <Textarea
                   className="posting-textarea light-scrollbar pa8"
                   onChange={event => {
