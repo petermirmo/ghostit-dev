@@ -31,6 +31,7 @@
     "express": "^4.16.4",
     "express-force-https": "^1.0.0",
     "express-session": "^1.15.6",
+    "facebook-api-video-upload": "^2.0.1",
     "facebook-nodejs-business-sdk": "^3.1.4",
     "fb": "^2.0.0",
     "form-data": "^2.3.3",
