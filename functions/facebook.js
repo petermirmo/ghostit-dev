@@ -75,7 +75,6 @@ module.exports = {
                       title: post.videoTitle,
                       description: post.content
                     };
-                    console.log(post);
 
                     FBVideoUpload(VideoData)
                       .then(res => {

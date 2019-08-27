@@ -98,8 +98,9 @@ const isFileOverSize = fileToCheck => {
       return true;
     }
   } else if (isVideo(fileToCheck)) {
-    if (fileToCheck.size > 1750000000) {
-      alert("File size on one or more videos is over 1.75GB.");
+    //  if (fileToCheck.size > 1750000000) {
+    if (fileToCheck.size > 10000000) {
+      alert("File size on one or more videos is over 10MB.");
       return true;
     }
   } /*else if (isGif(fileToCheck)) {
