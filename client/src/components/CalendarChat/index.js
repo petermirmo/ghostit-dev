@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import moment from "moment-timezone";
 import TextArea from "react-textarea-autosize";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faAngleRight,

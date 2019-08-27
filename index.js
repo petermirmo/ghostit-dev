@@ -8,7 +8,6 @@ const morgan = require("morgan"); // Every request is console logged
 const session = require("express-session"); // Create sessions in backend
 const cookieParser = require("cookie-parser");
 const MongoStore = require("connect-mongo")(session); // Store sessions in mongo securely
-const User = require("./models/User");
 const secure = require("express-force-https"); // force https so http does not work
 const path = require("path");
 const fs = require("fs");
