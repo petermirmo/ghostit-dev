@@ -12,6 +12,10 @@ export const getTextFromHtmlTag = tagString => {
 
 // Taken from stack overflow
 export function isMobileOrTablet() {
+  if (screen.width > 600) return false;
+  else return true;
+
+  /*
   let check = false;
   (function(a) {
     if (
@@ -25,5 +29,5 @@ export function isMobileOrTablet() {
       check = true;
   })(navigator.userAgent || navigator.vendor || window.opera);
 
-  return check;
+  return check;*/
 }
