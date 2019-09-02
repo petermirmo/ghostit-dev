@@ -87,7 +87,7 @@ class AnalyticsPage extends Component {
       postAnalyticsObjects = [],
       graphType
     } = this.state;
-    const { accounts } = this.props;
+    const { accounts, user } = this.props;
 
     const activePageAnalyticsObj = pageAnalyticsObjects.find(
       pageAnalyticsObj =>
@@ -148,14 +148,18 @@ class AnalyticsPage extends Component {
             );
           })}
         />
-        {activeAnalyticsSocialType !== 0 && (
-          <GIText
-            className="x-fill tac mt32"
-            text="Coming soon! :)"
-            type="h2"
-          />
-        )}
-        {(activeAnalyticsSocialType === 0 || false) && (
+        {activeAnalyticsSocialType !== 0 &&
+          (activeAnalyticsSocialType !== 3 &&
+            (user.role === "admin" || user.role === "tester")) && (
+            <GIText
+              className="x-fill tac mt32"
+              text="Coming soon! :)"
+              type="h2"
+            />
+          )}
+        {(activeAnalyticsSocialType === 0 ||
+          (activeAnalyticsSocialType === 3 &&
+            (user.role === "admin" || user.role === "tester"))) && (
           <GIContainer className="x-fill column mt32">
             <GIContainer>
               <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">

@@ -54,21 +54,20 @@ schedule.scheduleJob("* * * * *", () => {
   console.log("starting");
   PostAnalyticsScheduler.main();
 });
+schedule.scheduleJob("0 0 * * *", () => {
+  PageAnalyticsScheduler.main();
+});
 
 if (process.env.NODE_ENV === "production") {
-  schedule.scheduleJob("0 0 * * *", () => {
-    PageAnalyticsScheduler.main();
+  schedule.scheduleJob("* * * * *", () => {
+    PostScheduler.main();
   });
-
- 
 
   schedule.scheduleJob("* * * * *", () => {
     EmailScheduler.main();
   });
 }
-schedule.scheduleJob("* * * * *", () => {
-  PostScheduler.main();
-});
+
 // Connect to database
 mongoose.connect(keys.mongoDevelopmentURI, {
   useNewUrlParser: true,
