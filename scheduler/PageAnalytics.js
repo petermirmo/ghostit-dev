@@ -4,6 +4,10 @@ const {
   requestAllFacebookPageAnalytics
 } = require("../services/analyticsFunctions");
 
+const {
+  requestAllLinkedinPageAnalytics
+} = require("../functions/linkedinAnalytics");
+
 const { fbAccountRequest, instagramAccountRequest } = require("../constants");
 
 module.exports = {
@@ -33,6 +37,10 @@ module.exports = {
             account.accountType === "page"
           ) {
             requestAllFacebookPageAnalytics(account, instagramAccountRequest);
+          } else if (
+            account.socialType === "linkedin" &&
+            account.accountType === "page"
+          ) {
           }
         }
       }

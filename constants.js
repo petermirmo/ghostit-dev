@@ -211,8 +211,14 @@ const fbPostRequest =
 const instagramAccountRequest =
   "/insights?metric=" +
   "impressions" +
-  ",reach" +
   ",profile_views" +
+  ",follower_count" +
+  ",get_directions_clicks" +
+  ",phone_call_clicks" +
+  ",profile_views" +
+  ",reach" +
+  ",text_message_clicks" +
+  ",website_clicks" +
   "&period=day";
 
 module.exports = {

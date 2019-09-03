@@ -148,18 +148,15 @@ class AnalyticsPage extends Component {
             );
           })}
         />
-        {activeAnalyticsSocialType !== 0 &&
-          (activeAnalyticsSocialType !== 3 &&
-            (user.role === "admin" || user.role === "tester")) && (
-            <GIText
-              className="x-fill tac mt32"
-              text="Coming soon! :)"
-              type="h2"
-            />
-          )}
+        {activeAnalyticsSocialType !== 0 && activeAnalyticsSocialType !== 3 && (
+          <GIText
+            className="x-fill tac mt32"
+            text="Coming soon! :)"
+            type="h2"
+          />
+        )}
         {(activeAnalyticsSocialType === 0 ||
-          (activeAnalyticsSocialType === 3 &&
-            (user.role === "admin" || user.role === "tester"))) && (
+          activeAnalyticsSocialType === 3) && (
           <GIContainer className="x-fill column mt32">
             <GIContainer>
               <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
@@ -306,11 +303,22 @@ class AnalyticsPage extends Component {
                               : "grey"
                           }`}
                           key={index}
-                          onClick={() =>
-                            this.handleChange({
-                              activeAnalyticsAccountID: account.socialID
-                            })
-                          }
+                          onClick={() => {
+                            if (
+                              !pageAnalyticsObjects.find(
+                                pageAnalyticsObj =>
+                                  pageAnalyticsObj.associatedID ===
+                                  account.socialID
+                              )
+                            )
+                              alert(
+                                "Please reconnect your social profile and social page for this account. Make sure that you allow all permissions when going through the authentication workflow! :)"
+                              );
+                            else
+                              this.handleChange({
+                                activeAnalyticsAccountID: account.socialID
+                              });
+                          }}
                         >
                           <FontAwesomeIcon
                             className={`round-icon-medium round full-center pa4 mr8 ${
@@ -412,8 +420,14 @@ class AnalyticsPage extends Component {
                 className="tac muli"
                 text={
                   graphType === 0
-                    ? new moment().format("MMMM YYYY")
-                    : new moment().format("YYYY")
+                    ? new moment({
+                        month: activeGraphMonthIndex,
+                        year: activeGraphYear
+                      }).format("MMMM YYYY")
+                    : new moment({
+                        month: activeGraphMonthIndex,
+                        year: activeGraphYear
+                      }).format("YYYY")
                 }
                 type="h4"
               />

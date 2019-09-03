@@ -66,7 +66,10 @@ module.exports = {
             result.socialType === "instagram" &&
             result.accountType === "page"
           ) {
-            requestAllFacebookPageAnalytics(result, instagramAccountRequest);
+            requestAllFacebookPageAnalytics(
+              result,
+              instagramAccountRequest + "&since=1564929193&until=1567520695"
+            );
           }
           res.send(true);
         });
@@ -101,7 +104,10 @@ module.exports = {
               result.socialType === "instagram" &&
               result.accountType === "page"
             ) {
-              requestAllFacebookPageAnalytics(result, instagramAccountRequest);
+              requestAllFacebookPageAnalytics(
+                result,
+                instagramAccountRequest + "&since=1564929193&until=1567520695"
+              );
             }
             asyncCounter--;
             if (asyncCounter === 0) {
