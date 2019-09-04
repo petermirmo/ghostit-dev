@@ -11,8 +11,9 @@ class NavigationLayout extends Component {
   };
 
   render() {
-    const { className, data, testMode } = this.props;
-    const { active } = this.state;
+    const { activeIndex, className, data, testMode } = this.props;
+    let { active } = this.state;
+    if (activeIndex) active = activeIndex;
 
     return (
       <GIContainer className={className} testMode={testMode}>

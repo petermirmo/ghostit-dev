@@ -3,6 +3,14 @@ import moment from "moment-timezone";
 
 import { capitolizeFirstChar } from "../../componentFunctions";
 
+export const accountFilter = (
+  account,
+  activeAnalyticsSocialType,
+  postingTypes
+) =>
+  account.socialType === postingTypes[activeAnalyticsSocialType].name &&
+  !(account.socialType === "facebook" && account.accountType === "profile");
+
 export const calculateTotalPostPositiveReactions = postAnalyticsObjects => {
   let sumOfPostReactions = 0;
 
@@ -48,6 +56,39 @@ export const getAccountAnalytics = callback => {
       callback({ pageAnalyticsObjects }, success);
     }
   });
+};
+
+export const getBox1Value = (
+  activeAnalyticsSocialType,
+  activePageAnalyticsObj
+) => {
+  return getLatestAnalyticValue(
+    activeAnalyticsSocialType,
+    activePageAnalyticsObj,
+    0,
+    true
+  );
+};
+export const getBox2Value = (
+  activeAnalyticsSocialType,
+  activePageAnalyticsObj
+) => {
+  return getLatestAnalyticValue(
+    activeAnalyticsSocialType,
+    activePageAnalyticsObj,
+    1,
+    true
+  );
+};
+export const getBox3Value = (
+  activeAnalyticsSocialType,
+  activePageAnalyticsObj
+) => {
+  return getLatestAnalyticValue(
+    activeAnalyticsSocialType,
+    activePageAnalyticsObj,
+    3
+  );
 };
 
 export const getPostAnalytics = callback => {

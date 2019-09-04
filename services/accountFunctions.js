@@ -8,6 +8,12 @@ const generalFunctions = require("./generalFunctions");
 const { requestAllFacebookPageAnalytics } = require("./analyticsFunctions");
 const { fbAccountRequest, instagramAccountRequest } = require("../constants");
 
+const instagramSinceUntilString =
+  "&since=" +
+  Math.round(new moment().subtract(27, "days").valueOf() / 1000) +
+  "&until=" +
+  Math.round(new moment().valueOf() / 1000);
+
 module.exports = {
   disconnectAccount: (req, res) => {
     let userID = req.user._id;
@@ -68,7 +74,7 @@ module.exports = {
           ) {
             requestAllFacebookPageAnalytics(
               result,
-              instagramAccountRequest + "&since=1564929193&until=1567520695"
+              instagramAccountRequest + instagramSinceUntilString
             );
           }
           res.send(true);
@@ -106,7 +112,7 @@ module.exports = {
             ) {
               requestAllFacebookPageAnalytics(
                 result,
-                instagramAccountRequest + "&since=1564929193&until=1567520695"
+                instagramAccountRequest + instagramSinceUntilString
               );
             }
             asyncCounter--;

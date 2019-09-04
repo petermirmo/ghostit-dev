@@ -402,6 +402,19 @@ export function postChecks(
   return true;
 }
 
+export const getSocialTypeNumber = socialTypeString => {
+  if (socialTypeString === "facebook") return 0;
+  else if (socialTypeString === "twitter") return 1;
+  else if (socialTypeString === "linkedin") return 2;
+  else if (socialTypeString === "instagram") return 3;
+};
+export const getSocialTypeString = socialTypeIndex => {
+  if (socialTypeIndex === 0) return "facebook";
+  else if (socialTypeIndex === 1) return "twitter";
+  else if (socialTypeIndex === 2) return "linkedin";
+  else if (socialTypeIndex === 3) return "instagram";
+};
+
 export function postAttributeOptions(socialType) {
   if (socialType === "facebook") {
     return {
