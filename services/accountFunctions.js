@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
 const Post = require("../models/Post");
+const Analytics = require("../models/Analytics");
 const FB = require("fb");
 const moment = require("moment-timezone");
 const generalFunctions = require("./generalFunctions");
@@ -46,59 +47,26 @@ module.exports = {
       }
     }
     Account.find({ socialID: page.id }, (err, accounts) => {
-      const createNewAccount = () => {
-        let newAccount = new Account();
-        newAccount.userID = userID;
-        newAccount.socialType = page.socialType;
-        newAccount.accountType = page.accountType;
-        newAccount.accessToken = page.access_token;
-        newAccount.socialID = page.id;
-        newAccount.category = page.category;
-        newAccount.username = page.username;
-        if (!newAccount.username) newAccount.username = page.name;
+      Analytics.findOne({ associatedID: page.id }, (err, foundAnalytics) => {
+        let analyticsID = "";
+        if (foundAnalytics) analyticsID = foundAnalytics._id;
 
-        newAccount.lastRenewed = new Date().getTime();
+        const createNewAccount = () => {
+          let newAccount = new Account();
+          newAccount.userID = userID;
+          newAccount.socialType = page.socialType;
+          newAccount.accountType = page.accountType;
+          newAccount.accessToken = page.access_token;
+          newAccount.socialID = page.id;
+          newAccount.category = page.category;
+          newAccount.username = page.username;
+          newAccount.analyticsID = analyticsID;
+          if (!newAccount.username) newAccount.username = page.name;
 
-        newAccount.save().then(result => {
-          if (
-            result.socialType === "facebook" &&
-            result.accountType === "page"
-          ) {
-            requestAllFacebookPageAnalytics(
-              result,
-              fbAccountRequest + "last_90d"
-            );
-          } else if (
-            result.socialType === "instagram" &&
-            result.accountType === "page"
-          ) {
-            requestAllFacebookPageAnalytics(
-              result,
-              instagramAccountRequest + instagramSinceUntilString
-            );
-          }
-          res.send(true);
-        });
-      };
-      if (accounts.length === 0) {
-        createNewAccount();
-      } else if (accounts.length > 0) {
-        let asyncCounter = 0;
-        let accountFoundUser = false;
+          newAccount.lastRenewed = new Date().getTime();
 
-        for (let index in accounts) {
-          let account = accounts[index];
-          account.accessToken = page.access_token;
-          account.username = page.username;
-          if (!account.username) account.username = page.name;
-
-          if (String(account.userID) == userID) accountFoundUser = true;
-
-          asyncCounter++;
-
-          account.save((err, result) => {
+          newAccount.save().then(result => {
             if (
-              accountFoundUser &&
               result.socialType === "facebook" &&
               result.accountType === "page"
             ) {
@@ -115,16 +83,56 @@ module.exports = {
                 instagramAccountRequest + instagramSinceUntilString
               );
             }
-            asyncCounter--;
-            if (asyncCounter === 0) {
-              if (!accountFoundUser) createNewAccount();
-              else {
-                return res.send(true);
-              }
-            }
+            res.send(true);
           });
-        }
-      } else return res.send(true);
+        };
+        if (accounts.length === 0) {
+          createNewAccount();
+        } else if (accounts.length > 0) {
+          let asyncCounter = 0;
+          let accountFoundUser = false;
+
+          for (let index in accounts) {
+            let account = accounts[index];
+            account.accessToken = page.access_token;
+            account.username = page.username;
+            account.analyticsID = analyticsID;
+
+            if (!account.username) account.username = page.name;
+
+            if (String(account.userID) == userID) accountFoundUser = true;
+
+            asyncCounter++;
+            account.save((err, result) => {
+              if (
+                accountFoundUser &&
+                result.socialType === "facebook" &&
+                result.accountType === "page"
+              ) {
+                requestAllFacebookPageAnalytics(
+                  result,
+                  fbAccountRequest + "last_90d"
+                );
+              } else if (
+                result.socialType === "instagram" &&
+                result.accountType === "page"
+              ) {
+                requestAllFacebookPageAnalytics(
+                  result,
+                  instagramAccountRequest + instagramSinceUntilString
+                );
+              }
+              asyncCounter--;
+              if (asyncCounter === 0) {
+                if (!accountFoundUser) createNewAccount();
+                else {
+                  return res.send(true);
+                }
+              }
+            });
+          }
+        } else return res.send(true);
+      });
     });
   },
   getAccounts: (req, res) => {
