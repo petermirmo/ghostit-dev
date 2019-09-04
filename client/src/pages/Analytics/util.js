@@ -62,33 +62,83 @@ export const getBox1Value = (
   activeAnalyticsSocialType,
   activePageAnalyticsObj
 ) => {
-  return getLatestAnalyticValue(
-    activeAnalyticsSocialType,
-    activePageAnalyticsObj,
-    0,
-    true
-  );
+  let box1Value = 0;
+  let box1Text = "";
+
+  if (activeAnalyticsSocialType === 0) {
+    box1Text = "New Visitors";
+    box1Value = getLatestAnalyticValue(
+      activeAnalyticsSocialType,
+      activePageAnalyticsObj,
+      0,
+      true
+    );
+  } else if (activeAnalyticsSocialType === 3) {
+    box1Text = "New Visitors";
+    box1Value = getLatestAnalyticValue(
+      activeAnalyticsSocialType,
+      activePageAnalyticsObj,
+      0,
+      true
+    );
+  }
+
+  return { box1Value, box1Text };
 };
+
 export const getBox2Value = (
   activeAnalyticsSocialType,
   activePageAnalyticsObj
 ) => {
-  return getLatestAnalyticValue(
-    activeAnalyticsSocialType,
-    activePageAnalyticsObj,
-    1,
-    true
-  );
+  let box2Value = 0;
+  let box2Text = "";
+
+  if (activeAnalyticsSocialType === 0) {
+    box2Text = "New Followers";
+    box2Value = getLatestAnalyticValue(
+      activeAnalyticsSocialType,
+      activePageAnalyticsObj,
+      1,
+      true
+    );
+  } else if (activeAnalyticsSocialType === 3) {
+    box2Text = "New Followers";
+    box2Value = getLatestAnalyticValue(
+      activeAnalyticsSocialType,
+      activePageAnalyticsObj,
+      1,
+      true
+    );
+  }
+
+  return { box2Value, box2Text };
 };
+
 export const getBox3Value = (
   activeAnalyticsSocialType,
   activePageAnalyticsObj
 ) => {
-  return getLatestAnalyticValue(
-    activeAnalyticsSocialType,
-    activePageAnalyticsObj,
-    3
-  );
+  let box3Value = 0;
+  let box3Text = "";
+
+  if (activeAnalyticsSocialType === 0) {
+    box3Text = "Lifetime Total Likes";
+    box3Text = box3Value = getLatestAnalyticValue(
+      activeAnalyticsSocialType,
+      activePageAnalyticsObj,
+      3
+    );
+  } else if (activeAnalyticsSocialType === 3) {
+    box3Text = "Impressions";
+    box3Value = getLatestAnalyticValue(
+      activeAnalyticsSocialType,
+      activePageAnalyticsObj,
+      3,
+      true
+    );
+  }
+
+  return { box3Text, box3Value };
 };
 
 export const getPostAnalytics = callback => {
@@ -153,6 +203,10 @@ const getAnalyticTitle = (activeAnalyticsSocialType, analyticBoxValue) => {
     else if (analyticBoxValue === 5) {
       return "Lifetime Likes by Country";
     }
+  } else if (activeAnalyticsSocialType === 3) {
+    if (analyticBoxValue === 0) return "Profile Views";
+    else if (analyticBoxValue === 1) return "Reach";
+    else if (analyticBoxValue === 3) return "Impressions";
   }
 };
 

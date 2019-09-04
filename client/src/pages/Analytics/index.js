@@ -134,15 +134,15 @@ class AnalyticsPage extends Component {
       activePageAnalyticsObj
     );
 
-    const box1Value = getBox1Value(
+    const { box1Text, box1Value } = getBox1Value(
       activeAnalyticsSocialType,
       activePageAnalyticsObj
     );
-    const box2Value = getBox2Value(
+    const { box2Text, box2Value } = getBox2Value(
       activeAnalyticsSocialType,
       activePageAnalyticsObj
     );
-    const box3Value = getBox3Value(
+    const { box3Text, box3Value } = getBox3Value(
       activeAnalyticsSocialType,
       activePageAnalyticsObj
     );
@@ -236,7 +236,7 @@ class AnalyticsPage extends Component {
                   />
                   <GIText
                     className="tac white bold"
-                    text="New Visitors"
+                    text={box1Text}
                     type="h6"
                   />
                   <GIText
@@ -260,7 +260,7 @@ class AnalyticsPage extends Component {
                   />
                   <GIText
                     className="tac white bold"
-                    text="New Followers"
+                    text={box2Text}
                     type="h6"
                   />
                   <GIText
@@ -283,11 +283,7 @@ class AnalyticsPage extends Component {
                       text={facebookSumOfPostReactions}
                       type="h1"
                     />
-                    <GIText
-                      className="tac bold"
-                      text="Total Post Likes"
-                      type="h6"
-                    />
+                    <GIText className="tac bold" text={box3Text} type="h6" />
                     <GIText
                       className="tac fs-13"
                       text="Last 30 Days"
@@ -306,7 +302,7 @@ class AnalyticsPage extends Component {
                   </GIContainer>
                   <GIText
                     className="tac white bold"
-                    text="Lifetime Total Likes"
+                    text={box3Text}
                     type="h6"
                   />
                 </GIContainer>
