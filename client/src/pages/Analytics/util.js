@@ -119,11 +119,11 @@ export const getBox3Value = (
   activePageAnalyticsObj
 ) => {
   let box3Value = 0;
-  let box3Text = "";
+  var box3Text = "";
 
   if (activeAnalyticsSocialType === 0) {
     box3Text = "Lifetime Total Likes";
-    box3Text = box3Value = getLatestAnalyticValue(
+    box3Value = getLatestAnalyticValue(
       activeAnalyticsSocialType,
       activePageAnalyticsObj,
       3
