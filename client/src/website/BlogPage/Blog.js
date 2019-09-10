@@ -11,6 +11,14 @@ import GIText from "../../components/views/GIText";
 import { getTextFromHtmlTag, isAdmin } from "../../util";
 
 class Blog extends Component {
+  findFirstImage = images => {
+    let location = images[0].location;
+    let indexOfSmallestLocation = 0;
+    for (let index in images) {
+      if (images[index].location < location) indexOfSmallestLocation = index;
+    }
+    return indexOfSmallestLocation;
+  };
   render() {
     const { activeBlogCategory = 0, ghostitBlog, user } = this.props; // Variables
 
@@ -37,7 +45,8 @@ class Blog extends Component {
                 style={
                   images[0]
                     ? {
-                        backgroundImage: "url(" + images[0].url + ")"
+                        backgroundImage:
+                          "url(" + images[this.findFirstImage(images)].url + ")"
                       }
                     : {}
                 }
