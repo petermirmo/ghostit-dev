@@ -90,7 +90,7 @@ class BlogPage extends Component {
                 </GIContainer>
               )}
               {context.ghostitBlogs.length !== 0 && (
-                <GIContainer className="grid-300px grid-gap-32 x-fill">
+                <GIContainer className="grid-300px grid-gap-32 x-fill mb32">
                   {context.ghostitBlogs.map((ghostitBlog, index) => (
                     <Blog
                       activeBlogCategory={activeBlogCategory}
