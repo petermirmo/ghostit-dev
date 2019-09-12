@@ -68,13 +68,18 @@ class FileUpload extends Component {
                     src={file.file ? file.file : file.url}
                   />
                 )}
-                {isVideo(file) && (
-                  <video
-                    alt="error"
-                    className={imageClassName}
-                    src={file.file ? file.file : file.url}
-                  />
-                )}
+                {isVideo(file) &&
+                  (file.url ? (
+                    <video
+                      alt="error"
+                      className={imageClassName}
+                      src={file.url}
+                    />
+                  ) : (
+                    <video alt="error" className={imageClassName}>
+                      <source src={file.file} type="video/mp4" />
+                    </video>
+                  ))}
                 {canEdit && (
                   <FontAwesomeIcon
                     className="bg-white primary-font shadow-left icon-x-hover round-icon-small small clickable round"
