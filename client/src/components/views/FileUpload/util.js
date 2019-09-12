@@ -44,7 +44,7 @@ export const showFiles = (
   }
 
   for (let index in newFiles) {
-    if (index === "length") continue;
+    if (isNaN(index)) continue;
     if (isVideo(newFiles[index]) && newFiles.length > 1) {
       return alert(
         "You can't upload any photos with a video and you can only upload 1 video max with a post."
@@ -120,9 +120,10 @@ export const isImage = fileToCheck => {
 };
 
 export const isVideo = fileToCheck => {
-  const fileExtension = getFileExtension(fileToCheck);
-  return fileExtension.match(
-    /(\.|\/)(avi|flv|wmv|mov|mp4|AVI|FLV|WMV|MOV|MP4)($|;)/i
+  const fileExtension = String(getFileExtension(fileToCheck));
+  return (
+    fileExtension.match(/(\.|\/)(avi|flv|wmv|mov|mp4|video)($|;)/i) ||
+    fileExtension.substring(0, 10) === "data:video"
   );
 };
 
