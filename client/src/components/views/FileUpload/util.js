@@ -121,7 +121,9 @@ export const isImage = fileToCheck => {
 
 export const isVideo = fileToCheck => {
   const fileExtension = getFileExtension(fileToCheck);
-  return fileExtension.match(/(\.|\/)(avi|flv|wmv|mov|mp4)($|;)/i);
+  return fileExtension.match(
+    /(\.|\/)(avi|flv|wmv|mov|mp4|AVI|FLV|WMV|MOV|MP4)($|;)/i
+  );
 };
 
 export const isGif = fileToCheck => {
