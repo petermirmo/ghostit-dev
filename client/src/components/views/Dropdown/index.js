@@ -13,7 +13,9 @@ import "./style.css";
 
 class Dropdown extends Component {
   state = {
-    showDropdown: false
+    showDropdown: false,
+    localStateActiveIndex: undefined,
+    localStateActiveItem: undefined
   };
 
   componentDidMount() {
@@ -33,7 +35,11 @@ class Dropdown extends Component {
     }
   };
   render() {
-    const { showDropdown } = this.state;
+    const {
+      localStateActiveIndex,
+      localStateActiveItem,
+      showDropdown
+    } = this.state;
     const {
       activeItem,
       dropdownActiveDisplayClassName,
@@ -52,7 +58,20 @@ class Dropdown extends Component {
         className={`button ${className}  ${
           showDropdown ? dropdownActiveDisplayClassName : ""
         }`}
-        onClick={() => this.setState({ showDropdown: !showDropdown })}
+        onClick={() => {
+          this.setState({ showDropdown: !showDropdown });
+
+          window.setTimeout(() => {
+            if (
+              document.getElementById(
+                localStateActiveIndex + localStateActiveItem
+              )
+            )
+              document
+                .getElementById(localStateActiveIndex + localStateActiveItem)
+                .scrollIntoView();
+          }, 10);
+        }}
         forwardedRef={this.setWrapperRef}
         testMode={testMode}
       >
@@ -72,8 +91,15 @@ class Dropdown extends Component {
                   activeItem,
                   index
                 )}`}
+                id={index + item}
                 key={index}
-                onClick={() => handleParentChange({ item, index })}
+                onClick={() => {
+                  //  handleParentChange({ item, index });
+                  this.setState({
+                    localStateActiveItem: item,
+                    localStateActiveIndex: index
+                  });
+                }}
                 type="h4"
               >
                 {item}

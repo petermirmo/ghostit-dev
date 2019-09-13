@@ -26,7 +26,7 @@ class TeamPage extends Component {
         firstTeamRow.push(teamMemberDiv(index, teamMember));
       } else if (index < 5) {
         secondTeamRow.push(teamMemberDiv(index, teamMember));
-      } else if (index < 8) {
+      } else if (index < 7) {
         thirdTeamRow.push(teamMemberDiv(index, teamMember));
       } else {
         fourthTeamRow.push(teamMemberDiv(index, teamMember));
@@ -77,11 +77,9 @@ class TeamPage extends Component {
 
           {secondTeamRow}
         </GIContainer>
-        <GIContainer className="x-wrap x-fill relative px64">
-          {thirdTeamRow}
-        </GIContainer>
+
         <GIContainer className="x-wrap x-fill justify-end pl64">
-          {fourthTeamRow}
+          {thirdTeamRow}
           {!isMobileOrTablet() && (
             <GIContainer className="relative justify-end">
               <img
@@ -96,6 +94,9 @@ class TeamPage extends Component {
               />
             </GIContainer>
           )}
+        </GIContainer>
+        <GIContainer className="x-wrap x-fill relative px64">
+          {fourthTeamRow}
         </GIContainer>
       </Page>
     );

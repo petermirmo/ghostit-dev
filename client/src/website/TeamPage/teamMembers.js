@@ -60,27 +60,6 @@ export const teamMembers = [
     name: "Tori Dudys",
     title: "Content Manager"
   },
-
-  {
-    color: "var(--five-blue-color)",
-    description:
-      "The field of computer science waited patiently for Patrick while he spent 7 years after high school playing junior then professional hockey. Always a computer nerd and always looking to solve problems, programming was a perfect fit. Loves to get things working and then quickly asking Peter to make it look pretty.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164163/patrickHolland.jpg",
-    location: "Victoria",
-    name: "Patrick Holland",
-    title: "Algorithm Specialist"
-  },
-  {
-    color: "var(--five-orange-color)",
-    description:
-      "Alex sees in technology the power of creating meaningful and lasting impact. Curious by nature, he’s always reading about the latest trends in tech. With a background in design, he advocates user centered design principles in pretty much everything he does. Want to know what the latest edition of Wired magazine is about? Alex is your man.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1552443011/27.jpg",
-    location: "Vancouver",
-    name: "Alex Mcleod",
-    title: "Graphic Designer"
-  },
   {
     color: "var(--five-purple-color)",
     description: "",

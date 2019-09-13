@@ -145,7 +145,8 @@ export const hourDropdown = (date, handleChange) => {
     hourDivs.push(
       <div
         className="item-colored"
-        key={index + "hour"}
+        id={index + "hour"}
+        key={index}
         onClick={() => handleChange(newDate, "date")}
       >
         {tempDate.format("h")}
@@ -166,7 +167,8 @@ export const minuteDropdown = (date, handleChange) => {
     minuteDivs.push(
       <div
         className="item-colored"
-        key={index + "minute"}
+        id={tempDate.format("mm") + "minute"}
+        key={index}
         onClick={() => handleChange(newDate, "date")}
       >
         {tempDate.format("mm")}

@@ -926,7 +926,6 @@ class CalendarPage extends Component {
                       type="h4"
                     />
                     <Dashboard
-                      className="justify-center"
                       handleParentChange={stateObject => {
                         stateObject.dashboardModal = false;
                         this.handleChange(stateObject);

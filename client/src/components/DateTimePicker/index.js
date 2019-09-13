@@ -179,7 +179,15 @@ class DatePicker extends Component {
               {!disableTime && (
                 <div
                   className="time-dropdown mr4 pa4"
-                  onClick={() => this.setActive("hourDropdownDisplay")}
+                  onClick={() => {
+                    this.setActive("hourDropdownDisplay");
+                    window.setTimeout(() => {
+                      if (document.getElementById(date.format("h") + "hour"))
+                        document
+                          .getElementById(date.format("h") + "hour")
+                          .scrollIntoView();
+                    }, 10);
+                  }}
                 >
                   {date.format("h")} <FontAwesomeIcon icon={faCaretDown} />
                   {hourDropdownDisplay && (
@@ -195,7 +203,15 @@ class DatePicker extends Component {
               {!disableTime && (
                 <div
                   className="time-dropdown mr4 pa4"
-                  onClick={() => this.setActive("minuteDropdownDisplay")}
+                  onClick={() => {
+                    this.setActive("minuteDropdownDisplay");
+                    window.setTimeout(() => {
+                      if (document.getElementById(date.format("mm") + "minute"))
+                        document
+                          .getElementById(date.format("mm") + "minute")
+                          .scrollIntoView();
+                    }, 10);
+                  }}
                 >
                   {date.format("mm")} <FontAwesomeIcon icon={faCaretDown} />
                   {minuteDropdownDisplay && (
