@@ -94,7 +94,7 @@ class Dropdown extends Component {
                 id={index + item}
                 key={index}
                 onClick={() => {
-                  //  handleParentChange({ item, index });
+                  handleParentChange({ item, index });
                   this.setState({
                     localStateActiveItem: item,
                     localStateActiveIndex: index
