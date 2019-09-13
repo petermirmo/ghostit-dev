@@ -65,7 +65,6 @@ const createSmallDiv = (contentImagesArray, index) => {
   )
     text = (
       <div
-        className="x-50"
         key={index}
         dangerouslySetInnerHTML={{
           __html: contentImagesArray[Number(index) + 1].html
@@ -73,7 +72,7 @@ const createSmallDiv = (contentImagesArray, index) => {
       />
     );
   return (
-    <GIContainer className="align-start" key={index}>
+    <GIContainer className="block" key={index}>
       {imageDiv}
       {text}
     </GIContainer>
