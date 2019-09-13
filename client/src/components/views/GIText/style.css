@@ -136,6 +136,10 @@ p {
   font-size: var(--fourteen-font-size);
   font-weight: 100;
 }
+ul {
+  width: auto;
+  overflow: hidden;
+}
 
 text {
   font-size: var(--fourteen-font-size);
