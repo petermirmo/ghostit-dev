@@ -362,3 +362,15 @@ export const getDropdownMonths = (analyticsObject, months, year) => {
 
   return temp;
 };
+
+export const makeAnalyticTitle = analyticInformation => {
+  if (!analyticInformation) return undefined;
+  const match = analyticInformation.description.match(/\((.*?)\)/);
+  if (match)
+    return (
+      analyticInformation.title +
+      " " +
+      analyticInformation.description.match(/\((.*?)\)/)[0]
+    );
+  else return analyticInformation.title;
+};

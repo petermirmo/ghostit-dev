@@ -29,7 +29,8 @@ import {
   getLatestAnalyticValue,
   getPostAnalytics,
   getAnalytic,
-  getDropdownMonths
+  getDropdownMonths,
+  makeAnalyticTitle
 } from "./util";
 
 import { createName } from "../../components/postingFiles/SelectAccountDiv/util";
@@ -314,8 +315,8 @@ class AnalyticsPage extends Component {
                     className="common-border shadow-6 br8 py16 px32"
                     dropdownActiveDisplayClassName="no-bottom-br five-blue"
                     dropdownClassName="common-border five-blue no-top-br br8"
-                    dropdownItems={analyticsInformationList.map(
-                      obj => obj.title
+                    dropdownItems={analyticsInformationList.map(obj =>
+                      makeAnalyticTitle(obj)
                     )}
                     handleParentChange={dropdownClickedItemObj =>
                       this.handleChange({
@@ -326,9 +327,9 @@ class AnalyticsPage extends Component {
                     title={
                       <GIText
                         className="tac muli bold fill-flex"
-                        text={
-                          analyticsInformationList[activeAnalyticIndex].title
-                        }
+                        text={makeAnalyticTitle(
+                          analyticsInformationList[activeAnalyticIndex]
+                        )}
                         type="h3"
                       />
                     }
