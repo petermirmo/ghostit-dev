@@ -5,7 +5,7 @@ const INITIAL_BOX_PADDING = 0.4;
 const MULTIPLE_OF_YMAX = 1.2;
 
 const getDecimalPlaces = yMax => {
-  if (yMax < 100) return 2;
+  if (yMax < 20) return 2;
   else return 0;
 };
 
@@ -107,13 +107,20 @@ export const createDataLine = (
     }
 
     dataPointDivs.push(
-      <g key={dataIndex}>
+      <g className="line-chart-data-container" key={dataIndex}>
         <circle
           className="line-chart-data-point"
           cx={x}
           cy={y}
           vectorEffect="non-scaling-stroke"
         />
+        <text
+          className="quicksand fs-20 line-chart-data-point-text"
+          x={x}
+          y={y - 20}
+        >
+          {dataValue}
+        </text>
       </g>
     );
     prevDataPoint = { x, y };
