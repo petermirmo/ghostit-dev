@@ -12,44 +12,24 @@ import GIContainer from "../../containers/GIContainer";
 import GIText from "../../views/GIText";
 
 import { getTextFromHtmlTag, isMobileOrTablet } from "../../../util";
+import { createBlogDivs, createContentImagesArray } from "./util";
 
 import "./style.css";
 
 class ViewWebsiteBlog extends Component {
-  createRelevantImageDiv = (image, index) => {
-    return (
-      <img
-        alt="Blog"
-        className={
-          "float-left ov-hidden br8 image " +
-          image.size +
-          (image.size === "medium" ? "" : " mr16")
-        }
-        key={index + "image"}
-        src={image.file || image.url}
-      />
-    );
-  };
   render() {
     const { contentArray = [], featuredBlogs = [], images = [] } = this.props;
 
-    let divs = [];
+    const contentImagesArray = createContentImagesArray(contentArray, images);
+    const divs = createBlogDivs(contentImagesArray);
 
-    let imageCounter = 0;
-    let contentArrayIndex = 0;
+    /*
+divs[image.location] = this.createRelevantImageDiv(image, index);
 
-    for (let index in images) {
-      const image = images[index];
-      if (!image) continue;
-      divs[image.location] = this.createRelevantImageDiv(image, index);
-    }
-    for (let index in contentArray) {
-      const content = contentArray[index];
-      if (!content) continue;
-      divs[content.location] = (
-        <div key={index} dangerouslySetInnerHTML={{ __html: content.html }} />
-      );
-    }
+
+    divs[content.location] = (
+      <div key={index} dangerouslySetInnerHTML={{ __html: content.html }} />
+    );*/
 
     let metaTitle = "";
     let temp = document.createElement("div");
