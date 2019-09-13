@@ -46,7 +46,7 @@ const createRelevantImageDiv = (image, index) => {
     <img
       alt="Blog"
       className={
-        "ov-hidden image my8 br8 " +
+        "float-left ov-hidden image my8 br8 " +
         image.size +
         (image.size === "medium" ? "" : " mr16")
       }
@@ -65,6 +65,7 @@ const createSmallDiv = (contentImagesArray, index) => {
   )
     text = (
       <div
+        className="x-50"
         key={index}
         dangerouslySetInnerHTML={{
           __html: contentImagesArray[Number(index) + 1].html
@@ -72,7 +73,7 @@ const createSmallDiv = (contentImagesArray, index) => {
       />
     );
   return (
-    <GIContainer key={index}>
+    <GIContainer className="align-start" key={index}>
       {imageDiv}
       {text}
     </GIContainer>
