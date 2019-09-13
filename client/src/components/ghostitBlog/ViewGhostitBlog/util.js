@@ -46,7 +46,7 @@ const createRelevantImageDiv = (image, index) => {
     <img
       alt="Blog"
       className={
-        "float-left ov-hidden image my8 br8 " +
+        "float-left ov-hidden image br8 " +
         image.size +
         (image.size === "medium" ? "" : " mr16")
       }
@@ -72,9 +72,11 @@ const createSmallDiv = (contentImagesArray, index) => {
       />
     );
   return (
-    <GIContainer className="block" key={index}>
-      {imageDiv}
-      {text}
+    <GIContainer className="my8" key={index}>
+      <GIContainer className="block container-box large">
+        {imageDiv}
+        {text}
+      </GIContainer>
     </GIContainer>
   );
 };
