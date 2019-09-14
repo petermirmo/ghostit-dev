@@ -1,6 +1,6 @@
 import React from "react";
 
-const PADDING = 16;
+const PADDING = 24;
 const INITIAL_BOX_PADDING = 0.4;
 const MULTIPLE_OF_YMAX = 1.2;
 
@@ -248,6 +248,7 @@ export const getGraphVariables = line => {
     if (verticalTitleStringLength > paddingSideMultiplier)
       paddingSideMultiplier = verticalTitleStringLength;
   }
+  paddingSideMultiplier = -2;
   return { paddingSideMultiplier, verticalTitles, yMax, yMin, xMax };
 };
 

@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import HeaderSideBar from "../../navigations/HeaderSideBar";
+import HeaderTopBar from "../../navigations/HeaderTopBar";
 import SignedInAs from "../..//SignedInAs";
 
 import WebsiteHeader from "../../navigations/WebsiteHeader";
@@ -58,12 +59,7 @@ class Page extends Component {
     );
 
     return (
-      <GIContainer
-        className={
-          "screen-container " + (isUserInPlatform(activePage) ? "pt48" : "")
-        }
-        style={style}
-      >
+      <GIContainer className="screen-container" style={style}>
         <Helmet>
           <meta charSet="utf-8" />
           <title>{`${title} | Ghostit`}</title>
@@ -74,27 +70,32 @@ class Page extends Component {
           <meta property="image" content={image} />
           <meta property="og:image" content={image} />
         </Helmet>
-        {isUserInPlatform(activePage) && <HeaderSideBar />}
+        <GIContainer className="column x-fill">
+          {isUserInPlatform(activePage) && <HeaderTopBar />}
+          <GIContainer className="x-fill">
+            {isUserInPlatform(activePage) && <HeaderSideBar />}
 
-        <GIContainer className="column fill-flex">
-          {!isUserInPlatform(activePage) && (
-            <WebsiteHeader homePage={homePage} />
-          )}
+            <GIContainer className="column fill-flex">
+              {!isUserInPlatform(activePage) && (
+                <WebsiteHeader homePage={homePage} />
+              )}
 
-          <GIContainer
-            className={
-              isUserInPlatform(activePage)
-                ? `page-container bg-white ${className}`
-                : className
-            }
-          >
-            {shouldShowSignedInAsDiv(activePage, user) && (
-              <SignedInAs user={user} />
-            )}
-            {children}
+              <GIContainer
+                className={
+                  isUserInPlatform(activePage)
+                    ? `page-container bg-white ${className}`
+                    : className
+                }
+              >
+                {shouldShowSignedInAsDiv(activePage, user) && (
+                  <SignedInAs user={user} />
+                )}
+                {children}
+              </GIContainer>
+
+              {!isUserInPlatform(activePage) && <WebsiteFooter />}
+            </GIContainer>
           </GIContainer>
-
-          {!isUserInPlatform(activePage) && <WebsiteFooter />}
         </GIContainer>
       </GIContainer>
     );

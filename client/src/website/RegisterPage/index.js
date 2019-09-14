@@ -38,12 +38,13 @@ class RegisterPage extends Component {
     this.setState({ [index]: value });
   };
 
-  activateDemoUserLogin = (user, accounts) => {
+  activateDemoUserLogin = (accounts, context, user) => {
     if (process.env.NODE_ENV !== "development")
       ReactGA.event({
         category: "User",
         action: "Register"
       });
+    context.handleChange({ user });
     this.props.setUser(user);
     this.props.setAccounts(accounts);
     this.props.history.push("/dashboard");
@@ -81,7 +82,7 @@ class RegisterPage extends Component {
         .then(res => {
           const { success, user, message } = res.data;
 
-          if (success && user) this.activateDemoUserLogin(user, []);
+          if (success && user) this.activateDemoUserLogin([], context, user);
           else {
             context.notify({
               message,

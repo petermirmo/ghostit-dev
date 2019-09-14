@@ -4,7 +4,7 @@ import "./style.css";
 
 class Logo extends Component {
   render() {
-    const { className, id, style, onClick } = this.props;
+    const { className, displayText = true, id, onClick, style } = this.props;
 
     return (
       <svg
@@ -12,7 +12,7 @@ class Logo extends Component {
         id={id}
         onClick={onClick}
         preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 2077 700"
+        viewBox={`0 0 ${displayText ? "2077" : "550"} 700`}
         style={style}
       >
         <g
@@ -50,9 +50,16 @@ class Logo extends Component {
             rx="1796.25"
             ry="161.25"
           />
-          <text x="5200" y="1750" transform="scale(1,-1)" className="logo-text">
-            GHOSTIT
-          </text>
+          {displayText && (
+            <text
+              x="5200"
+              y="1750"
+              transform="scale(1,-1)"
+              className="logo-text"
+            >
+              GHOSTIT
+            </text>
+          )}
         </g>
       </svg>
     );

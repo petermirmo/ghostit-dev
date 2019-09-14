@@ -877,6 +877,9 @@ div {
   font-size: var(--sixteen-font-size);
   color: var(--primary-font-color);
 }
+img {
+  box-sizing: border-box;
+}
 [hoverinstructions]:before {
   /* needed - do not touch */
   content: attr(hoverinstructions);

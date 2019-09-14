@@ -1,7 +1,6 @@
 .logo-background {
   shape-rendering: geometricPrecision;
-  width: 10vw;
-  min-width: 100px;
+
   pointer-events: auto;
 }
 .logo-outer-shape {

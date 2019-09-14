@@ -16,7 +16,8 @@ class GIProvider extends Component {
       type: "danger"
     },
     saving: false,
-    signedInAsUser: undefined
+    signedInAsUser: undefined,
+    user: undefined
   };
   componentDidMount() {
     this._ismounted = true;
@@ -46,7 +47,8 @@ class GIProvider extends Component {
       ghostitBlogs,
       notification,
       saving,
-      signedInAsUser
+      signedInAsUser,
+      user
     } = this.state;
 
     return (
@@ -57,7 +59,8 @@ class GIProvider extends Component {
           handleChange: this.handleChange,
           notify: this.notify,
           saving,
-          signedInAsUser
+          signedInAsUser,
+          user
         }}
       >
         {notification.on && (

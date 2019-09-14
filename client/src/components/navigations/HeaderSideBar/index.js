@@ -35,7 +35,9 @@ class HeaderSideBar extends Component {
   signOutOfUsersAccount = () => {
     axios.get("/api/signOutOfUserAccount").then(res => {
       const { success, loggedIn, user } = res.data;
+      const { context } = this;
       if (success) {
+        context.handleChange({ user });
         this.props.setUser(user);
         window.location.reload();
       } else {

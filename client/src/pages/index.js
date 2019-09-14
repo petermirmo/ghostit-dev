@@ -63,6 +63,7 @@ class Routes extends Component {
     getUser((signedInAsUser, user) => {
       if (user) {
         if (signedInAsUser) context.handleChange({ signedInAsUser });
+        context.handleChange({ user });
         setUser(user);
         getAccounts(accounts => {
           this.setState({ datebaseConnection: true });
