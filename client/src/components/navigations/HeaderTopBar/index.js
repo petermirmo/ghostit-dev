@@ -21,7 +21,7 @@ class HeaderTopBar extends Component {
               />
             </GIContainer>
             <GIContainer className="fill-flex align-end justify-end">
-              {context.user && context.user.image.url && (
+              {context.user && context.user.image && context.user.image.url && (
                 <GIContainer className="relative mx16">
                   <img
                     className="ov-hidden xy-48px round"
