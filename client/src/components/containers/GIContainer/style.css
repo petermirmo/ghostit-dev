@@ -65,9 +65,9 @@
   width: 125px;
 }
 
-.xy-48px {
-  width: 48px;
-  height: 48px;
+.xy-36px {
+  width: 36px;
+  height: 36px;
 }
 .xy-64px {
   width: 64px;
@@ -218,6 +218,10 @@
 }
 .border-right {
   border-right: 1px solid var(--grey-theme-color);
+}
+
+.border-left {
+  border-left: 1px solid rgba(255, 255, 255, 0.21);
 }
 .border-bottom {
   border-bottom: 1px solid var(--grey-theme-color);

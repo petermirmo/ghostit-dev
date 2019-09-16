@@ -318,18 +318,19 @@
 .show-more {
   position: absolute;
 
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border-radius: 100px;
+  border-radius: 50%;
 
   background-color: var(--white-theme-color);
-  border: 1px solid var(--secondary-font-color);
-  color: var(--secondary-font-color);
+  box-shadow: 0 1px 3px 0 rgba(26, 25, 25, 0.42);
+  color: var(--five-blue-color);
+  z-index: 100;
 
   cursor: pointer;
 }
@@ -358,8 +359,9 @@
   top: 2px;
 }
 .show-more.bottom {
-  bottom: 2px;
+  bottom: -10px;
 }
+.show-more-parent:hover .show-more,
 .show-more:hover {
   border-color: var(--seven-blue-color);
   background-color: var(--white-theme-color);

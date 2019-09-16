@@ -59,10 +59,6 @@ class HeaderSideBar extends Component {
 
     const isAdmin = user.role === "admin";
     const isManager = user.role === "manager";
-    let isTester = user.role === "tester";
-    if (context.signedInAsUser) {
-      isTester = context.signedInAsUser.role === "tester";
-    }
 
     return (
       <GIContainer className="header-navbar mr16">
