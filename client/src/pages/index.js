@@ -36,7 +36,6 @@ import {
   getUser,
   getGhostitBlogs,
   getAccounts,
-  reviChatScript,
   useAppropriateFunctionForEscapeKey
 } from "./util";
 

@@ -293,7 +293,7 @@ class RegularVersion extends Component {
                 type="h2"
               />
               <GIContainer className="bg-white round pa8 mt32">
-                <GIContainer className="xy-125px ov-hidden round">
+                <GIContainer className="xy-128px ov-hidden round">
                   <img
                     alt=""
                     className="x-125px"

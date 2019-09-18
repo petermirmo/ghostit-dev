@@ -44,7 +44,7 @@ class PricingPage extends Component {
                 type="h2"
               />
               <GIContainer className="fill-flex full-center">
-                <GIContainer className="xy-125px full-center round common-border four-blue">
+                <GIContainer className="xy-128px full-center round common-border four-blue">
                   <GIText className="muli" text="FREE" type="h1" />
                 </GIContainer>
               </GIContainer>
@@ -102,7 +102,7 @@ class PricingPage extends Component {
                 />
               </GIContainer>
               <GIContainer className="fill-flex full-center">
-                <GIContainer className="xy-125px full-center column round bg-four-blue">
+                <GIContainer className="xy-128px full-center column round bg-four-blue">
                   <GIText className="quicksand white" text="$300" type="h2" />
                   <GIText className="white" text="Per Month" type="h6" />
                 </GIContainer>

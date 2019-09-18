@@ -84,27 +84,6 @@ export const getUserEmail = user => {
     return user.signedInAsUser.fullName;
   else return user.email;
 };
-export const reviChatScript =
-  window.$_REVECHAT_API ||
-  (function(d, w) {
-    var r = function(c) {
-      r._.push(c);
-    };
-    w.__revechat_account = "2307055";
-    w.__revechat_version = 2;
-    r._ = [];
-    var rc = d.createElement("script");
-    rc.type = "text/javascript";
-    rc.async = true;
-    rc.setAttribute("charset", "utf-8");
-    rc.src =
-      ("https:" == document.location.protocol ? "https://" : "http://") +
-      "static.revechat.com/widget/scripts/new-livechat.js?" +
-      new Date().getTime();
-    var s = d.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(rc, s);
-  })(document, window);
-
 export const useAppropriateFunctionForEscapeKey = getKeyListenerFunction => {
   document.removeEventListener("keydown", getKeyListenerFunction[1], false);
   document.addEventListener("keydown", getKeyListenerFunction[0], false);
