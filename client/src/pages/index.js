@@ -36,6 +36,7 @@ import {
   getUser,
   getGhostitBlogs,
   getAccounts,
+  getNotifications,
   useAppropriateFunctionForEscapeKey
 } from "./util";
 
@@ -51,6 +52,7 @@ class Routes extends Component {
     const { location } = this.props; // Variables
 
     this.getUserDataAndCheckAuthorization();
+    getNotifications(context.handleChange);
 
     getGhostitBlogs(ghostitBlogs => {
       context.handleChange({ ghostitBlogs });

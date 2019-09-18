@@ -409,4 +409,8 @@ module.exports = app => {
   app.post("/api/calendar/leave", middleware, (req, res) =>
     calendarFunctions.leaveCalendar(req, res)
   );
+
+  app.post("/api/notifications", middleware, (req, res) =>
+    notificationFunctions.getNotifications(req, res)
+  );
 };

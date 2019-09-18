@@ -138,6 +138,14 @@ export const getCalendarInvites = callback => {
   });
 };
 
+export const getNotifications = callback => {
+  axios.get("/api/notifications").then(res => {
+    const { notifications, success } = res.data;
+    console.log(res.data);
+    if (success) callback({ notifications });
+  });
+};
+
 export const triggerSocketPeers = (
   type,
   extra,

@@ -248,7 +248,6 @@ export const getGraphVariables = line => {
     if (verticalTitleStringLength > paddingSideMultiplier)
       paddingSideMultiplier = verticalTitleStringLength;
   }
-  paddingSideMultiplier = -2;
   return { paddingSideMultiplier, verticalTitles, yMax, yMin, xMax };
 };
 
