@@ -36,6 +36,7 @@ import {
   getUser,
   getGhostitBlogs,
   getAccounts,
+  reviChatScript,
   useAppropriateFunctionForEscapeKey
 } from "./util";
 
@@ -48,6 +49,7 @@ class Routes extends Component {
 
   componentDidMount() {
     const { context } = this;
+    const { location } = this.props; // Variables
 
     this.getUserDataAndCheckAuthorization();
 
@@ -95,7 +97,7 @@ class Routes extends Component {
   render() {
     const { datebaseConnection } = this.state;
     const { getKeyListenerFunction, ghostitBlogs = [] } = this.props; // Variables
-    const { user } = this.props; // Functions
+    const { location, user } = this.props; // Functions
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
@@ -105,6 +107,7 @@ class Routes extends Component {
       <Consumer>
         {context => (
           <GIContainer className="main-wrapper">
+            <script type="text/javascript"></script>
             <Switch>
               <Route path="/dashboard/" component={DashboardPage} />
               <Route path="/calendar/" component={CalendarPage} />

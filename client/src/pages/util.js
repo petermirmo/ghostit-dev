@@ -66,7 +66,7 @@ export const getGhostitBlogs = callback => {
 
 export const getUser = callback => {
   if (process.env.NODE_ENV === "development") {
-    //  return callback(testingUser);
+    return callback(testingUser);
   }
   axios.get("/api/user").then(res => {
     const { error, signedInAsUser, user } = res.data;
@@ -84,6 +84,26 @@ export const getUserEmail = user => {
     return user.signedInAsUser.fullName;
   else return user.email;
 };
+export const reviChatScript =
+  window.$_REVECHAT_API ||
+  (function(d, w) {
+    var r = function(c) {
+      r._.push(c);
+    };
+    w.__revechat_account = "2307055";
+    w.__revechat_version = 2;
+    r._ = [];
+    var rc = d.createElement("script");
+    rc.type = "text/javascript";
+    rc.async = true;
+    rc.setAttribute("charset", "utf-8");
+    rc.src =
+      ("https:" == document.location.protocol ? "https://" : "http://") +
+      "static.revechat.com/widget/scripts/new-livechat.js?" +
+      new Date().getTime();
+    var s = d.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(rc, s);
+  })(document, window);
 
 export const useAppropriateFunctionForEscapeKey = getKeyListenerFunction => {
   document.removeEventListener("keydown", getKeyListenerFunction[1], false);

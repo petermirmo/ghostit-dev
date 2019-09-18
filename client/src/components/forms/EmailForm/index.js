@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/pro-light-svg-icons";
+
 import GIInput from "../../views/GIInput";
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
@@ -25,7 +28,7 @@ class EmailForm extends Component {
           <GIInput
             autoCapitalize="off"
             autoCorrect="off"
-            className="merge-with-button purple-border"
+            className="merge-with-button px16 py8"
             name="EMAIL"
             onChange={e => {
               this.setState({ emailValue: e.target.value });
@@ -35,11 +38,12 @@ class EmailForm extends Component {
             value={emailValue}
           />
           <GIButton
-            type="submit"
-            text="Subscribe"
+            className="merge-with-input bg-blue-fade-5 shadow-blue-5 full-center"
             name="subscribe"
-            className="purple merge-with-input"
-          />
+            type="submit"
+          >
+            <FontAwesomeIcon className="white mx8" icon={faArrowRight} />
+          </GIButton>
         </GIContainer>
 
         <div

@@ -1,13 +1,10 @@
 .merge-with-button {
   border-right: none;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
 }
-.purple-border.merge-with-button:focus + .merge-with-input {
-  border-color: var(--two-purple-color);
-}
-.purple-border:focus {
-  border-color: var(--two-purple-color);
+.merge-with-button:focus + .merge-with-input {
+  border-color: var(--four-blue-color);
 }
 .no-border {
   border: none;

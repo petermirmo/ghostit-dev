@@ -64,11 +64,12 @@
   --light-grey-theme-color: #dedede;
   --light-light-grey-theme-color: #fafafa;
   --dark-grey-theme-color: #95a5a6;
+  --almost-black-color: #383838;
 
-  --campaign-color1: #a6fff2;
-  --campaign-color2: #74f9ff;
-  --campaign-color3: #00e0ff;
-  --campaign-color4: #e8ffe8;
+  --campaign-color1: #0360f0;
+  --campaign-color2: #14c7fa;
+  --campaign-color3: #3dd6b4;
+  --campaign-color4: #f5a623;
 
   --grey-shade-color: rgba(0, 0, 0, 0.8);
 
@@ -836,6 +837,9 @@
 }
 .shadow-blue-4 {
   box-shadow: 0 4px 11px 0 rgba(5, 175, 255, 0.29);
+}
+.shadow-blue-5 {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 }
 .shadow-left {
   box-shadow: -4px 0 6px 0 rgba(0, 0, 0, 0.2);
