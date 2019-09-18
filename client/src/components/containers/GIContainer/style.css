@@ -308,9 +308,6 @@
 .bg-orange-fade-2 {
   background: linear-gradient(285deg, #fd5642, #ff9464);
 }
-.bg-orange-fade-3 {
-  background-image: linear-gradient(285deg, #fd5642, #ff9464);
-}
 .bg-blue-fade {
   background: linear-gradient(99deg, #04f0fa, var(--five-blue-color));
 }
@@ -325,6 +322,9 @@
 }
 .bg-blue-fade-5 {
   background-image: linear-gradient(127deg, #04f0fa, var(--five-blue-color));
+}
+.bg-blue-fade-6 {
+  background-image: linear-gradient(112deg, #04dffa, var(--five-blue-color));
 }
 .bg-transparent {
   background-color: transparent;

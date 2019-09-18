@@ -1,0 +1,7 @@
+.test {
+  position: absolute;
+  top: -40px;
+  width: 80px;
+  height: 80px;
+  box-shadow: 0 4px 14px 0 rgba(4, 205, 250, 0.21);
+}

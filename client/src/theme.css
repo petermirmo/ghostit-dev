@@ -826,6 +826,9 @@
 .shadow-orange-2 {
   box-shadow: 0 8px 15px 0 rgba(248, 81, 61, 0.35);
 }
+.shadow-orange-3 {
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.15);
+}
 .shadow-blue {
   box-shadow: 0 7px 12px 0 rgba(5, 197, 253, 0.5);
 }

@@ -1,0 +1,29 @@
+#left-blob {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 20%;
+  height: 60%;
+  opacity: 0.78;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.91),
+    rgba(255, 255, 255, 0.05)
+  );
+  border-top-right-radius: 100%;
+}
+#right-blob {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 20%;
+  height: 60%;
+  opacity: 0.78;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.73),
+    rgba(255, 255, 255, 0.05)
+  );
+  border-bottom-left-radius: 100%;
+  box-shadow: 0 -8px 94px 0 rgba(5, 192, 254, 0.53);
+}
