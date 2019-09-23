@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import GIContainer from "../../containers/GIContainer";
 import GIButton from "../../views/GIButton";
 import GIText from "../../views/GIText";
+import Dropdown from "../../views/Dropdown";
 
 import DateTimePicker from "../../DateTimePicker";
 import SelectAccountDiv from "../SelectAccountDiv/";
@@ -236,22 +237,41 @@ class Post extends Component {
                     value={videoTitle}
                   />
                 )}
-                <Textarea
-                  className="posting-textarea light-scrollbar pa8"
-                  onChange={event => {
-                    findLink(
-                      this.handleChangeRegular,
-                      linkDescription,
-                      linkTitle,
-                      event.target.value
-                    );
-                    this.handleChange(event.target.value, "content");
-                  }}
-                  placeholder="Success doesn't write itself!"
-                  readOnly={!canEditPost}
-                  value={content}
-                />
-
+                <GIContainer className="relative">
+                  <Textarea
+                    className="posting-textarea light-scrollbar pa8"
+                    onChange={event => {
+                      if (socialType === "facebook")
+                        findTaggedPeople(
+                          this.handleChangeRegular,
+                          event.target.value
+                        );
+                      findLink(
+                        this.handleChangeRegular,
+                        linkDescription,
+                        linkTitle,
+                        event.target.value
+                      );
+                      this.handleChange(event.target.value, "content");
+                    }}
+                    placeholder="Success doesn't write itself!"
+                    readOnly={!canEditPost}
+                    value={content}
+                  />
+                  <Dropdown
+                    className="shadow-medium"
+                    dropdownActiveDisplayClassName=""
+                    dropdownClassName=""
+                    dropdownItems={[]}
+                    handleParentChange={dropdownClickedItemObj =>
+                      this.handleChangeRegular({
+                        something: dropdownClickedItemObj.item
+                      })
+                    }
+                    noTitle={true}
+                    search
+                  />
+                </GIContainer>
                 <GIContainer className="common-border bg-light-grey pa16">
                   {(canUploadPhoto || canUploadVideo) && (
                     <FileUpload

@@ -20,7 +20,13 @@ class MyForm extends Component {
       <form
         action="https://ghostit.us14.list-manage.com/subscribe/post?u=6295bbe9fa9b4ee614df357c4&amp;id=af1c511e3c"
         className="flex column fill-flex full-center bg-blue-fade-6 relative pa64 mt32"
+        id="agency-form"
         method="POST"
+        onSubmit={e => {
+          e.preventDefault();
+          if (email) document.getElementById("agency-form").submit();
+          else alert("Please fill out the email form field! :)");
+        }}
         noValidate
       >
         <GIContainer className="column">

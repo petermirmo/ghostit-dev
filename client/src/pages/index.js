@@ -108,7 +108,6 @@ class Routes extends Component {
       <Consumer>
         {context => (
           <GIContainer className="main-wrapper">
-            <script type="text/javascript"></script>
             <Switch>
               <Route path="/dashboard/" component={DashboardPage} />
               <Route path="/calendar/" component={CalendarPage} />

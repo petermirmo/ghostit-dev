@@ -1,5 +1,7 @@
 const getNotifications = (req, res) => {
-  res.send({ success: true });
+  Notification.find({ userID: req.user._id }, (err, notifications) => {
+    res.send(notifications);
+  });
 };
 module.exports = {
   getNotifications

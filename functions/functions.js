@@ -10,7 +10,7 @@ module.exports = {
 
     Post.findOne({ _id: postID }, (err, post) => {
       if (post) {
-        let notification = new Notification();
+        let notification = new Notification({ seen: false });
         notification.userID = post.userID;
         notification.title =
           "Oh no! Your " +
@@ -30,7 +30,7 @@ module.exports = {
               " Post socialType: " +
               post.socialType;
 
-            let notificationToPeter = new Notification();
+            let notificationToPeter = new Notification({ seen: false });
             notificationToPeter.message = notification.message;
             notificationToPeter.title = notification.title;
             notificationToPeter.userID = "5acfa9409f3e9e06ac173d26";

@@ -114,7 +114,6 @@ class AnalyticsPage extends Component {
       analyticsInformationList,
       dataPointArrays
     } = getDataLinesFromAnalytics(activePageAnalyticsObj);
-
     const { analyticsDropdownYears } = calculateNumberOfYearsForGraphDropdown(
       activePageAnalyticsObj
     );

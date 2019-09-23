@@ -162,6 +162,14 @@ export const findLink = (
     });
 };
 
+export const findTaggedPeople = (callback, text) => {
+  // Find last @som string
+  return sendTextToBackEndToGetListOfNames(text);
+};
+const sendTextToBackEndToGetListOfNames = text => {
+  return ["james", "paul", "allen"];
+};
+
 const getDataFromURL = (
   handleChangeRegular,
   linkDescription1,

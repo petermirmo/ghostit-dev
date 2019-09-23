@@ -4,12 +4,13 @@ const Schema = mongoose.Schema;
 
 const notificationSchema = new Schema(
   {
+    message: String,
+    read: Boolean,
+    title: String,
     userID: {
       type: Schema.Types.ObjectId,
       required: true
-    },
-    title: String,
-    message: String
+    }
   },
   {
     timestamps: true
