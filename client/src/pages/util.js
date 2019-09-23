@@ -66,7 +66,7 @@ export const getGhostitBlogs = callback => {
 
 export const getUser = callback => {
   if (process.env.NODE_ENV === "development") {
-    return callback(undefined, testingUser);
+    //  return callback(undefined, testingUser);
   }
   axios.get("/api/user").then(res => {
     const { error, signedInAsUser, user } = res.data;
@@ -141,7 +141,6 @@ export const getCalendarInvites = callback => {
 export const getNotifications = callback => {
   axios.get("/api/notifications").then(res => {
     const { notifications, success } = res.data;
-    console.log(res.data);
     if (success) callback({ notifications });
   });
 };

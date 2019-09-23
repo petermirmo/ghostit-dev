@@ -241,11 +241,11 @@ class Post extends Component {
                   <Textarea
                     className="posting-textarea light-scrollbar pa8"
                     onChange={event => {
-                      if (socialType === "facebook")
-                        findTaggedPeople(
+                      /*  if (socialType === "facebook")
+                      findTaggedPeople(
                           this.handleChangeRegular,
                           event.target.value
-                        );
+                        );*/
                       findLink(
                         this.handleChangeRegular,
                         linkDescription,
@@ -258,19 +258,21 @@ class Post extends Component {
                     readOnly={!canEditPost}
                     value={content}
                   />
-                  <Dropdown
-                    className="shadow-medium"
-                    dropdownActiveDisplayClassName=""
-                    dropdownClassName=""
-                    dropdownItems={[]}
-                    handleParentChange={dropdownClickedItemObj =>
-                      this.handleChangeRegular({
-                        something: dropdownClickedItemObj.item
-                      })
-                    }
-                    noTitle={true}
-                    search
-                  />
+                  {false && (
+                    <Dropdown
+                      className="shadow-medium"
+                      dropdownActiveDisplayClassName=""
+                      dropdownClassName=""
+                      dropdownItems={[]}
+                      handleParentChange={dropdownClickedItemObj =>
+                        this.handleChangeRegular({
+                          something: dropdownClickedItemObj.item
+                        })
+                      }
+                      noTitle={true}
+                      search
+                    />
+                  )}
                 </GIContainer>
                 <GIContainer className="common-border bg-light-grey pa16">
                   {(canUploadPhoto || canUploadVideo) && (
