@@ -30,7 +30,7 @@ module.exports = {
           ) {
             requestAllFacebookPageAnalytics(
               account,
-              fbAccountRequest + "last_90d"
+              fbAccountRequest + "last_3d"
             );
           } else if (
             account.socialType === "instagram" &&
