@@ -333,7 +333,7 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
       }
     }
   }
-  if (analyticsDbObject.analytics.length !== 0) analyticsDbObject.save();
+  if (analyticsDbObject.analytics.length > 1) analyticsDbObject.save();
 };
 
 module.exports = {
