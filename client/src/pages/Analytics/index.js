@@ -65,7 +65,11 @@ class AnalyticsPage extends Component {
 
     getAccountAnalytics((stateObj, success) => {
       console.log(stateObj.pageAnalyticsObjects);
-      if (success)
+      if (
+        success &&
+        stateObj.pageAnalyticsObjects &&
+        stateObj.pageAnalyticsObjects[0]
+      )
         this.handleChange({
           activeAnalyticsSocialType: getSocialTypeNumber(
             stateObj.pageAnalyticsObjects[0].socialType
