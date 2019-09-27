@@ -309,32 +309,30 @@ class AnalyticsPage extends Component {
                 </GIContainer>
               </GIContainer>
               <GIContainer className="mt16 column px32">
-                {analyticsInformationList[activeAnalyticIndex] && (
-                  <Dropdown
-                    activeItem={activeAnalyticIndex}
-                    className="common-border shadow-6 br8 py16 px32"
-                    dropdownActiveDisplayClassName="no-bottom-br five-blue"
-                    dropdownClassName="common-border five-blue no-top-br br8"
-                    dropdownItems={analyticsInformationList.map(obj =>
-                      makeAnalyticTitle(obj)
-                    )}
-                    handleParentChange={dropdownClickedItemObj =>
-                      this.handleChange({
-                        activeAnalyticIndex: dropdownClickedItemObj.index
-                      })
-                    }
-                    search
-                    title={
-                      <GIText
-                        className="tac muli bold fill-flex"
-                        text={makeAnalyticTitle(
-                          analyticsInformationList[activeAnalyticIndex]
-                        )}
-                        type="h3"
-                      />
-                    }
-                  />
-                )}
+                <Dropdown
+                  activeItem={activeAnalyticIndex}
+                  className="common-border shadow-6 br8 py16 px32"
+                  dropdownActiveDisplayClassName="no-bottom-br five-blue"
+                  dropdownClassName="common-border five-blue no-top-br br8"
+                  dropdownItems={analyticsInformationList.map(obj =>
+                    makeAnalyticTitle(obj)
+                  )}
+                  handleParentChange={dropdownClickedItemObj =>
+                    this.handleChange({
+                      activeAnalyticIndex: dropdownClickedItemObj.index
+                    })
+                  }
+                  search
+                  title={
+                    <GIText
+                      className="tac muli bold fill-flex"
+                      text={makeAnalyticTitle(
+                        analyticsInformationList[activeAnalyticIndex]
+                      )}
+                      type="h3"
+                    />
+                  }
+                />
                 {
                   <GIContainer className="py16">
                     {accounts
