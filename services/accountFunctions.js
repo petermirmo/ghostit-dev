@@ -146,7 +146,7 @@ module.exports = {
       if (err) generalFunctions.handleError(res, err);
       else if (!accounts)
         generalFunctions.handleError(res, "Accounts not found");
-      else res.send({ success: true, accounts: accounts });
+      else res.send({ success: true, accounts });
     });
   }
 };
