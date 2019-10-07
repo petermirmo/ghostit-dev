@@ -1,117 +1,82 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/pro-light-svg-icons";
-import { faCheck } from "@fortawesome/pro-solid-svg-icons";
+import { faAngleDown, faAngleUp } from "@fortawesome/pro-light-svg-icons";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../GIText";
+import Dropdown from "../Dropdown";
 
-import { isActiveItem } from "./util";
-
-import "./style.css";
-
-class Dropdown extends Component {
+class CollapsibleMenu extends Component {
   state = {
-    showDropdown: false,
-    localStateActiveIndex: undefined,
-    localStateActiveItem: undefined
-  };
-
-  componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
-  }
-  setWrapperRef = node => {
-    this.wrapperRef = node;
-  };
-
-  handleClickOutside = event => {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      this.setState({ showDropdown: false });
-    }
+    showMenu: true
   };
   render() {
+    const { showMenu } = this.state;
     const {
-      localStateActiveIndex,
-      localStateActiveItem,
-      showDropdown
-    } = this.state;
-    const {
-      activeItem,
-      dropdownActiveDisplayClassName,
-      className,
-      dropdownClassName,
-      dropdownItems,
-      search,
-      size,
+      activeIcon,
+      activeIndex,
+      list,
+      listObjKey,
+      options,
       testMode,
-      title
+      title,
+      titleIcon
     } = this.props; // Variables
     const { handleParentChange } = this.props; // Functions
 
     return (
-      <GIContainer
-        className={`button ${className}  ${
-          showDropdown ? dropdownActiveDisplayClassName : ""
-        }`}
-        onClick={() => {
-          this.setState({ showDropdown: !showDropdown });
-
-          window.setTimeout(() => {
-            if (
-              document.getElementById(
-                localStateActiveIndex + localStateActiveItem
-              )
-            )
-              document
-                .getElementById(localStateActiveIndex + localStateActiveItem)
-                .scrollIntoView();
-          }, 10);
-        }}
-        forwardedRef={this.setWrapperRef}
-        testMode={testMode}
-      >
-        <GIContainer className="dropdown-title-container align-center pr8">
-          {title}
+      <GIContainer className="column" testMode={testMode}>
+        <GIContainer
+          className="x-fill align-center justify-between clickable bg-blue-grey px16 py8"
+          onClick={() => {
+            this.setState({ showMenu: !showMenu });
+          }}
+        >
+          <GIContainer className="align-center mr16">
+            <FontAwesomeIcon className="white mr8" icon={titleIcon} />
+            <GIText className="white" text={title} type="h6" />
+          </GIContainer>
           <FontAwesomeIcon
-            className="five-blue mx8"
-            icon={faAngleDown}
-            size={size}
+            className="white"
+            icon={showMenu ? faAngleDown : faAngleUp}
+            size="2x"
           />
         </GIContainer>
-        {showDropdown && (
-          <GIContainer className={`dropdown ${dropdownClassName}`}>
-            {dropdownItems.map((item, index) => (
-              <GIText
-                className={`flex align-center border-top px16 py8 ${isActiveItem(
-                  activeItem,
-                  index
-                )}`}
-                id={index + item}
+        {showMenu && (
+          <GIContainer className="column">
+            {list.map((obj, index) => (
+              <GIContainer
+                className={`${
+                  activeIndex === index ? "bg-blue-fade-2" : ""
+                } justify-between align-center px16 py8`}
                 key={index}
-                onClick={() => {
-                  handleParentChange({ item, index });
-                  this.setState({
-                    localStateActiveItem: item,
-                    localStateActiveIndex: index
-                  });
-                }}
-                type="h4"
               >
-                {item}
-                {isActiveItem(activeItem, index) && (
-                  <GIContainer className="fill-flex justify-end">
-                    <FontAwesomeIcon
-                      className="round-icon-medium round bg-five-blue white pa4"
-                      icon={faCheck}
+                <GIText
+                  className={activeIndex === index ? "white" : ""}
+                  text={listObjKey ? list[index][listObjKey] : list[index]}
+                  type="p"
+                />
+                <GIContainer>
+                  {activeIndex === index && activeIcon && (
+                    <FontAwesomeIcon className="white mr8" icon={activeIcon} />
+                  )}
+                  {options && (
+                    <Dropdown
+                      className=""
+                      dontShowFaAngleDown={true}
+                      dropdownActiveDisplayClassName=""
+                      dropdownClassName="right common-border five-blue br8"
+                      dropdownItems={options.map((obj, index) => obj.name)}
+                      dropdownTextClassName="fs-13"
+                      handleParentChange={dropdownClickedItemObj => {}}
+                      noTopBorder={true}
+                      title={<FontAwesomeIcon icon={faEllipsisV} />}
                     />
-                  </GIContainer>
-                )}
-              </GIText>
+                  )}
+                </GIContainer>
+              </GIContainer>
             ))}
           </GIContainer>
         )}
@@ -119,5 +84,4 @@ class Dropdown extends Component {
     );
   }
 }
-
-export default Dropdown;
+export default CollapsibleMenu;

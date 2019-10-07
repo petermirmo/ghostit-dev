@@ -26,7 +26,6 @@
   color: var(--seven-blue-color);
   fill: var(--seven-blue-color);
 }
-
 .green {
   color: #3dd6b4;
   fill: #3dd6b4;
@@ -76,6 +75,9 @@
 }
 .fs-13 {
   font-size: var(--thirteen-font-size);
+}
+.fs-14 {
+  font-size: var(--fourteen-font-size);
 }
 .fs-20 {
   font-size: var(--twenty-font-size);

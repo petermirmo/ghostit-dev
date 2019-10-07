@@ -27,6 +27,10 @@
 .dropdown.left {
   left: 0;
 }
+.dropdown.right {
+  right: 0;
+  left: auto;
+}
 .dropdown.center {
   left: 50%;
 }

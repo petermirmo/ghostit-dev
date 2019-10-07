@@ -1,5 +1,47 @@
-export const inviteUser = (index, context) => {
-  const { inviteEmail, calendars } = this.state;
+export const createNewCalendar = (
+  context,
+  handleChange,
+  index,
+  name,
+  updateActiveCalendar
+) => {
+  axios.post("/api/calendars/new", { name }).then(res => {
+    const { success, newCalendar, message } = res.data;
+    if (success) {
+      handleChange(
+        prevState => {
+          return {
+            calendars: [...prevState.calendars, newCalendar]
+          };
+        },
+        () => updateActiveCalendar(index)
+      );
+    } else {
+      context.notify({ type: "danger", title: "", message });
+    }
+  });
+};
+export const deleteCalendarClicked = (
+  activeCalendarIndex,
+  calendars,
+  handleChange
+) => {
+  if (calendars[activeCalendarIndex].userIDs.length > 1) {
+    alert(
+      `You must remove all other users from the calendar before you can delete it.`
+    );
+  } else {
+    handleChange({ deleteCalendarPrompt: true });
+  }
+};
+
+export const inviteUser = (
+  calendars,
+  context,
+  handleChange,
+  index,
+  inviteEmail
+) => {
   const calendar = calendars[index];
 
   if (!/\S/.test(inviteEmail)) {
@@ -7,14 +49,14 @@ export const inviteUser = (index, context) => {
     alert("Please type a valid email into the invite text box.");
     return;
   }
-  this.setState({ saving: true });
+  handleChange({ saving: true });
   axios
     .post("/api/calendar/invite", {
       email: inviteEmail.toLowerCase(),
       calendarID: calendar._id
     })
     .then(res => {
-      this.setState({ saving: false });
+      handleChange({ saving: false });
       const { success, err, message, emailsInvited } = res.data;
       if (!success || err) {
         console.log(err);
@@ -26,7 +68,7 @@ export const inviteUser = (index, context) => {
           title: "Invite Successful",
           message: `${inviteEmail} has been invited to join calendar ${calendar.calendarName}.`
         });
-        this.setState(prevState => {
+        handleChange(prevState => {
           return {
             inviteEmail: "",
             calendars: [
@@ -40,23 +82,13 @@ export const inviteUser = (index, context) => {
     });
 };
 
-export const createNewCalendar = (name, context) => {
-  axios.post("/api/calendars/new", { name }).then(res => {
-    const { success, newCalendar, message } = res.data;
-    if (success) {
-      this.setState(prevState => {
-        return {
-          calendars: [...prevState.calendars, newCalendar]
-        };
-      });
-    } else {
-      context.notify({ type: "danger", title: "", message });
-    }
-  });
-};
-
-export const promoteUser = (userIndex, calendarIndex, context) => {
-  const { calendars } = this.state;
+export const promoteUser = (
+  calendarIndex,
+  calendars,
+  context,
+  handleChange,
+  userIndex
+) => {
   const calendar = calendars[calendarIndex];
   const userID = calendar.users[userIndex]._id;
 
@@ -72,7 +104,7 @@ export const promoteUser = (userIndex, calendarIndex, context) => {
           message
         });
       } else {
-        this.setState(
+        handleChange(
           prevState => {
             return {
               calendars: [
@@ -82,15 +114,19 @@ export const promoteUser = (userIndex, calendarIndex, context) => {
               ]
             };
           },
-          () => this.getCalendarUsers(calendarIndex)
+          () => getCalendarUsers(calendarIndex)
         );
         context.notify({ type: "success", title: "User Promoted", message });
       }
     });
 };
 
-export const removeUserFromCalendar = (userIndex, calendarIndex, context) => {
-  const { calendars } = this.state;
+export const removeUserFromCalendar = (
+  calendarIndex,
+  calendars,
+  context,
+  userIndex
+) => {
   const calendar = calendars[calendarIndex];
   const calendarID = calendar._id;
   const userID = calendar.users[userIndex]._id;
@@ -110,7 +146,7 @@ export const removeUserFromCalendar = (userIndex, calendarIndex, context) => {
           message
         });
       } else {
-        this.getCalendarUsers(calendarIndex);
+        getCalendarUsers(calendarIndex);
         context.notify({
           type: "success",
           title: "User Removed",
@@ -120,8 +156,7 @@ export const removeUserFromCalendar = (userIndex, calendarIndex, context) => {
     });
 };
 
-export const saveCalendarName = (index, name) => {
-  const { calendars } = this.state;
+export const saveCalendarName = (calendars, handleChange, index, name) => {
   if (!/\S/.test(name)) {
     alert("Name must not be empty.");
     return;
@@ -138,7 +173,7 @@ export const saveCalendarName = (index, name) => {
           console.log(err);
           console.log(message);
         } else {
-          this.setState(prevState => {
+          handleChange(prevState => {
             return {
               unsavedChange: false,
               calendars: [
@@ -156,17 +191,18 @@ export const saveCalendarName = (index, name) => {
   }
 };
 
-export const leaveCalendarClicked = () => {
-  this.setState({ leaveCalendarPrompt: true });
-};
-
-export const leaveCalendar = (index, context) => {
-  const { calendars } = this.state;
-  this.setState({ saving: true });
+export const leaveCalendar = (
+  calendars,
+  context,
+  handleChange,
+  index,
+  updateActiveCalendar
+) => {
+  handleChange({ saving: true });
   axios
     .post("/api/calendar/leave", { calendarID: calendars[index]._id })
     .then(res => {
-      this.setState({ saving: false });
+      handleChange({ saving: true });
       const { success, err, message, newCalendar } = res.data;
       if (!success) {
         console.log(err);
@@ -179,15 +215,15 @@ export const leaveCalendar = (index, context) => {
         context.notify({ type: "success", title: "Calendar Left", message });
         if (newCalendar) {
           // deleted last calendar so the backend created a new one for the user
-          this.setState(
+          handleChange(
             { activeCalendarIndex: 0, calendars: [newCalendar] },
-            () => this.updateActiveCalendar(0)
+            () => updateActiveCalendar(0)
           );
         } else {
           let new_index = index;
           if (calendars.length - 1 <= index) new_index = index - 1;
 
-          this.setState(
+          handleChange(
             prevState => {
               return {
                 activeCalendarIndex: new_index,
@@ -198,7 +234,7 @@ export const leaveCalendar = (index, context) => {
               };
             },
             () => {
-              this.updateActiveCalendar(new_index);
+              updateActiveCalendar(new_index);
             }
           );
         }
@@ -206,24 +242,18 @@ export const leaveCalendar = (index, context) => {
     });
 };
 
-export const deleteCalendarClicked = () => {
-  const { calendars, activeCalendarIndex } = this.state;
-  if (calendars[activeCalendarIndex].userIDs.length > 1) {
-    alert(
-      `You must remove all other users from the calendar before you can delete it.`
-    );
-  } else {
-    this.setState({ deleteCalendarPrompt: true });
-  }
-};
-
-export const deleteCalendar = (index, context) => {
-  const { calendars } = this.state;
-  this.setState({ saving: true });
+export const deleteCalendar = (
+  calendars,
+  context,
+  handleChange,
+  index,
+  updateActiveCalendar
+) => {
+  handleChange({ saving: true });
   axios
     .post("/api/calendar/delete", { calendarID: calendars[index]._id })
     .then(res => {
-      this.setState({ saving: false });
+      handleChange({ saving: false });
       const { success, err, message, newCalendar } = res.data;
       if (!success) {
         console.log(err);
@@ -240,15 +270,15 @@ export const deleteCalendar = (index, context) => {
         });
         if (newCalendar) {
           // deleted last calendar so the backend created a new one for the user
-          this.setState(
+          handleChange(
             { activeCalendarIndex: 0, calendars: [newCalendar] },
-            () => this.updateActiveCalendar(0)
+            () => updateActiveCalendar(0)
           );
         } else {
           let new_index = index;
           if (calendars.length - 1 <= index) new_index = index - 1;
 
-          this.setState(
+          handleChange(
             prevState => {
               return {
                 activeCalendarIndex: new_index,
@@ -259,7 +289,7 @@ export const deleteCalendar = (index, context) => {
               };
             },
             () => {
-              this.updateActiveCalendar(new_index);
+              updateActiveCalendar(new_index);
             }
           );
         }
@@ -267,11 +297,10 @@ export const deleteCalendar = (index, context) => {
     });
 };
 
-export const setDefaultCalendar = (calendarIndex, context) => {
-  const { calendars } = this.state;
+export const setDefaultCalendar = (calendarID, context, handleChange) => {
   axios
     .post("/api/calendar/setDefault", {
-      calendarID: calendars[calendarIndex]._id
+      calendarID
     })
     .then(res => {
       const { success, err, message } = res.data;
@@ -285,22 +314,17 @@ export const setDefaultCalendar = (calendarIndex, context) => {
         });
       } else {
         context.notify({ type: "success", title: "Success", message });
-        this.setState({ defaultCalendarID: calendars[calendarIndex]._id });
+        handleChange({ defaultCalendarID: calendarID });
       }
     });
 };
-
-export const updateActiveCalendar = index => {
-  const { calendars } = this.state;
-  this.setState({ activeCalendarIndex: index, unsavedChange: false }, () => {
-    this.handleCalendarChange("tempName", calendars[index].calendarName, index);
-    this.getCalendarUsers(index);
-    this.getCalendarAccounts(index);
-  });
-};
-
-export const unlinkSocialAccount = (accountID, context) => {
-  const { calendars, activeCalendarIndex } = this.state;
+export const unlinkSocialAccount = (
+  accountID,
+  activeCalendarIndex,
+  calendars,
+  context,
+  handleChange
+) => {
   const calendarID = calendars[activeCalendarIndex]._id;
   axios
     .post("/api/calendar/account/delete", { accountID, calendarID })
@@ -330,7 +354,7 @@ export const unlinkSocialAccount = (accountID, context) => {
             title: "Successfully Removed Account",
             message
           });
-          this.setState(prevState => {
+          handleChange(prevState => {
             return {
               calendars: [
                 ...prevState.calendars.slice(0, activeCalendarIndex),
@@ -353,187 +377,4 @@ export const unlinkSocialAccount = (accountID, context) => {
         }
       }
     });
-};
-
-export const presentActiveCalendar = (
-  isDefaultCalendar,
-  isAdmin,
-  calendar,
-  context
-) => {
-  const { activeCalendarIndex, unsavedChange, inviteEmail } = this.state;
-
-  let userID = this.props.user._id;
-  if (this.props.user.signedInAsUser) {
-    userID = this.props.user.signedInAsUser.id;
-  }
-
-  let userDivs;
-  if (calendar.users) {
-    userDivs = calendar.users.map((userObj, index) => {
-      return (
-        <div className="list-item" key={`user${index}`}>
-          <div className="list-info">
-            <div className="flex column fill-flex">
-              <div className="fill-flex">
-                {capitolizeWordsInString(userObj.fullName)}
-                {userObj._id.toString() === userID.toString() ? " (Admin)" : ""}
-              </div>
-              <div className="fill-flex">{userObj.email}</div>
-            </div>
-            {isAdmin && userObj._id.toString() !== userID.toString() && (
-              <div className="flex hc vc">
-                <div title="Remove User">
-                  <FontAwesomeIcon
-                    className="color-red button"
-                    icon={faTrash}
-                    onClick={e => {
-                      e.stopPropagation();
-                      this.setState({
-                        removeUserPrompt: true,
-                        removeUserObj: {
-                          userIndex: index,
-                          calendarIndex: activeCalendarIndex
-                        }
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    });
-  }
-
-  let accountDivs = undefined;
-  if (calendar.accounts) {
-    accountDivs = calendar.accounts.map((account, index) => {
-      let title = account.username;
-      if (!title) {
-        if (account.givenName && account.familyName)
-          title = `${account.givenName} ${account.familyName}`;
-        else title = account.givenName;
-      }
-      return (
-        <div className="list-item" key={`account${index}`}>
-          <div className="list-info">
-            <FontAwesomeIcon
-              icon={getPostIcon(account.socialType)}
-              size="3x"
-              color={getPostColor(account.socialType)}
-            />
-            <div className="flex column fill-flex ml8">
-              <div className="fill-flex">{capitolizeWordsInString(title)}</div>
-              <div className="fill-flex">
-                {capitolizeFirstChar(account.accountType)}
-              </div>
-            </div>
-            {(isAdmin || account.userID.toString() === userID.toString()) && (
-              <div title="Remove Account From Calendar" className="flex hc vc">
-                <FontAwesomeIcon
-                  className="color-red button"
-                  icon={faTrash}
-                  onClick={e => {
-                    e.stopPropagation();
-                    this.setState({
-                      unlinkAccountPrompt: true,
-                      unLinkAccountID: account._id
-                    });
-                  }}
-                />
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    });
-  }
-
-  return (
-    <div className="flex column fill-flex vc">
-      <div className="grid-two-columns py8 border-bottom x-fill">
-        <div className="flex vc hc mx16">
-          <div className="label">Rename Calendar: </div>
-          <input
-            type="text"
-            className="regular-input ml16"
-            placeholder="Calendar Name"
-            onChange={event => {
-              this.setState({ unsavedChange: true });
-              this.handleCalendarChange(
-                "tempName",
-                event.target.value,
-                activeCalendarIndex
-              );
-            }}
-            value={calendar.tempName ? calendar.tempName : ""}
-          />
-          {unsavedChange && (
-            <button
-              className="regular-button ml16"
-              onClick={e => {
-                e.preventDefault();
-                this.saveCalendarName(activeCalendarIndex, calendar.tempName);
-              }}
-            >
-              Save
-            </button>
-          )}
-        </div>
-        <div className="flex hc vc">
-          <input
-            type="text"
-            className="regular-input mx16"
-            placeholder="Invite user to calendar"
-            onChange={event => {
-              this.handleChange("inviteEmail", event.target.value);
-            }}
-            value={inviteEmail}
-          />
-          {inviteEmail !== "" && (
-            <button
-              className="regular-button mr16"
-              onClick={e => {
-                e.preventDefault();
-                this.inviteUser(activeCalendarIndex, context);
-              }}
-            >
-              Invite
-            </button>
-          )}
-        </div>
-      </div>
-      <div className="flex fill-flex x-fill">
-        <div className="list-container fill-flex pa16 light-scrollbar border-right">
-          <div className="flex row">
-            <h4 className="mx16">Social Accounts Linked To Calendar</h4>
-            <div
-              className="add-accounts-tooltip"
-              title="To link social accounts from your user account to a calendar, create a new post and click on the account you want to link."
-            >
-              <FontAwesomeIcon icon={faQuestionCircle} size="1x" />
-            </div>
-          </div>
-          {accountDivs}
-        </div>
-        <div className="list-container fill-flex pa16 light-scrollbar">
-          <h4 className="mx16">Calendar Users</h4>
-          {userDivs}
-        </div>
-      </div>
-      {!isDefaultCalendar && (
-        <button
-          className="regular-button my8"
-          onClick={e => {
-            e.preventDefault();
-            this.setDefaultCalendar(activeCalendarIndex, context);
-          }}
-        >
-          Set As Default Calendar
-        </button>
-      )}
-    </div>
-  );
 };

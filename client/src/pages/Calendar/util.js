@@ -2,30 +2,6 @@ import React from "react";
 import axios from "axios";
 import { getPostIcon, getPostColor } from "../../componentFunctions";
 
-export const createNewCalendar = (
-  context,
-  handleChange,
-  index,
-  name,
-  updateActiveCalendar
-) => {
-  axios.post("/api/calendars/new", { name }).then(res => {
-    const { success, newCalendar, message } = res.data;
-    if (success) {
-      handleChange(
-        prevState => {
-          return {
-            calendars: [...prevState.calendars, newCalendar]
-          };
-        },
-        () => updateActiveCalendar(index)
-      );
-    } else {
-      context.notify({ type: "danger", title: "", message });
-    }
-  });
-};
-
 export const deleteCalendar = (
   calendars,
   context,
@@ -209,9 +185,7 @@ export const getPosts = (
     });
 };
 
-export const getCalendarAccounts = index => {
-  const { calendars } = this.state;
-
+export const getCalendarAccounts = (calendars, handleCalendarChange, index) => {
   axios
     .get("/api/calendar/accounts/extra/" + calendars[index]._id)
     .then(res => {
@@ -223,7 +197,7 @@ export const getCalendarAccounts = index => {
         console.log(err);
         console.log(message);
       } else {
-        this.handleCalendarChange("accounts", accounts, index);
+        handleCalendarChange("accounts", accounts, index);
       }
     });
 };

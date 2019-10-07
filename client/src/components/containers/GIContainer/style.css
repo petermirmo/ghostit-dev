@@ -188,7 +188,8 @@
   flex-direction: row-reverse;
 }
 .common-border {
-  border: 1px solid var(--grey-theme-color);
+  border: 1px solid !important;
+  border-color: var(--grey-theme-color);
 }
 .common-border.light {
   border: 1px solid var(--light-grey-theme-color);
@@ -284,6 +285,11 @@
 .bg-grey {
   background-color: var(--light-grey-theme-color);
 }
+
+.bg-blue-grey {
+  background-color: var(--blue-grey-color);
+}
+
 .bg-light-grey {
   background-color: var(--light-light-grey-theme-color);
 }

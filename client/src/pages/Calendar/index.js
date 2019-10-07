@@ -225,41 +225,6 @@ class CalendarPage extends Component {
       });
   };
 
-  getCalendars = () => {
-    axios.get("/api/calendars").then(res => {
-      const { success, calendars } = res.data;
-      if (!success || !calendars || calendars.length === 0) {
-        console.log(res.data.err);
-        console.log(res.data.message);
-        console.log(calendars);
-      } else {
-        calendars.sort((a, b) => {
-          if (a.calendarName > b.calendarName) return 1;
-          else return -1;
-        });
-
-        if (calendars.length - 1 < this.state.activeCalendarIndex) {
-          moment.tz.setDefault(calendars[calendars.length - 1].timezone);
-          this.setState(
-            {
-              activeCalendarIndex: calendars.length - 1,
-              calendars,
-              calendarDate: new moment()
-            },
-            this.fillCalendar
-          );
-        } else {
-          this.setState(
-            {
-              calendars
-            },
-            this.fillCalendar
-          );
-        }
-      }
-    });
-  };
-
   fillCalendar = () => {
     const { activeCalendarIndex, calendarDate, calendars } = this.state;
 
@@ -349,7 +314,7 @@ class CalendarPage extends Component {
         {context => (
           <Page className="x-fill relative" title="Calendar">
             {loading && <Loader />}
-            <GIContainer className="column fill-flex">
+            <GIContainer className="column bg-light-grey fill-flex">
               {calendarInvites &&
                 calendarInvites.length > 0 &&
                 calendarInvites.map((obj, index) =>
@@ -409,8 +374,8 @@ class CalendarPage extends Component {
                     type="h4"
                   />
 
-                  <GIContainer className="justify-between x-fill pl32 pr16 my16">
-                    <GIContainer className="full-center">
+                  <GIContainer className="justify-between x-fill x-wrap pl32 pr16">
+                    <GIContainer className="full-center my16">
                       <GIContainer
                         className="round-icon button round common-border five-blue full-center pa4"
                         onClick={() =>
@@ -458,7 +423,7 @@ class CalendarPage extends Component {
                         />
                       </GIContainer>
                     </GIContainer>
-                    <GIContainer className="full-center">
+                    <GIContainer className="full-center mb16">
                       <GIButton
                         className="common-border py16 px32 mr8 br4"
                         onClick={() =>
@@ -543,7 +508,13 @@ class CalendarPage extends Component {
                 </GIContainer>
               )}
             </GIContainer>
-            <CalendarSideBar calendars={calendars} />
+            {!isNaN(activeCalendarIndex) && !modalsOpen && (
+              <CalendarSideBar
+                calendars={calendars}
+                activeCalendarIndex={activeCalendarIndex}
+                defaultCalendarID={defaultCalendarID}
+              />
+            )}
             {false && <CalendarChat calendars={calendars} />}
 
             {contentModal && calendars[activeCalendarIndex] && (
