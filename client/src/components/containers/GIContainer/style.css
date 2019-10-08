@@ -188,8 +188,8 @@
   flex-direction: row-reverse;
 }
 .common-border {
-  border: 1px solid !important;
-  border-color: var(--grey-theme-color);
+  border: 1px solid var(--grey-theme-color);
+  border-style: solid !important;
 }
 .common-border.light {
   border: 1px solid var(--light-grey-theme-color);
@@ -219,6 +219,9 @@
 }
 .common-border.white {
   border-color: var(--white-theme-color);
+}
+.common-border.green {
+  border-color: var(--green-theme-color);
 }
 
 .border.small {
@@ -313,7 +316,7 @@
 }
 
 .bg-green-fade {
-  background: linear-gradient(320deg, #3dd6b4, #48def7);
+  background: linear-gradient(320deg, var(--green-theme-color), #48def7);
 }
 .bg-purple-fade {
   background: linear-gradient(320deg, #6163ff, #9c9dff);

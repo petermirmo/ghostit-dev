@@ -219,17 +219,13 @@ module.exports = {
         res.send({
           success: false,
           err,
-          message: `Error occurred when attempting to fetch calendar with id ${
-            req.params.calendarID
-          }`
+          message: `Error occurred when attempting to fetch calendar with id ${req.params.calendarID}`
         });
       } else {
         if (!mongoIdArrayIncludes(foundCalendar.userIDs, userID)) {
           res.send({
             success: false,
-            message: `Calendar with id ${
-              req.params.calendarID
-            } does not have user id ${userID} as one of its authorized users.`
+            message: `Calendar with id ${req.params.calendarID} does not have user id ${userID} as one of its authorized users.`
           });
         } else {
           // calendar is found and associated with correct userID
@@ -276,9 +272,7 @@ module.exports = {
                 res.send({
                   success: false,
                   err,
-                  message: `Calendar with id ${
-                    req.params.calendarID
-                  } found and user with id ${userID} is subscribed to it. However, an error occurred when fetching all posts associated with the calendar.`
+                  message: `Calendar with id ${req.params.calendarID} found and user with id ${userID} is subscribed to it. However, an error occurred when fetching all posts associated with the calendar.`
                 });
               } else {
                 res.send({
@@ -306,17 +300,13 @@ module.exports = {
         res.send({
           success: false,
           err,
-          message: `Error occurred when attempting to fetch calendar with id ${
-            req.params.calendarID
-          }`
+          message: `Error occurred when attempting to fetch calendar with id ${req.params.calendarID}`
         });
       } else {
         if (!mongoIdArrayIncludes(foundCalendar.userIDs, userID)) {
           res.send({
             success: false,
-            message: `Calendar with id ${
-              req.params.calendarID
-            } does not have user id ${userID} as one of its authorized users.`
+            message: `Calendar with id ${req.params.calendarID} does not have user id ${userID} as one of its authorized users.`
           });
         }
       }
@@ -336,17 +326,13 @@ module.exports = {
         res.send({
           success: false,
           err,
-          message: `Error occurred when attempting to fetch calendar with id ${
-            req.params.calendarID
-          }`
+          message: `Error occurred when attempting to fetch calendar with id ${req.params.calendarID}`
         });
       } else {
         if (!mongoIdArrayIncludes(foundCalendar.userIDs, userID)) {
           res.send({
             success: false,
-            message: `Calendar with id ${
-              req.params.calendarID
-            } does not have user id ${userID} as one of its authorized users.`
+            message: `Calendar with id ${req.params.calendarID} does not have user id ${userID} as one of its authorized users.`
           });
         } else {
           Campaign.find(
@@ -356,9 +342,7 @@ module.exports = {
                 res.send({
                   success: false,
                   err,
-                  message: `Calendar with id ${
-                    req.params.calendarID
-                  } found and user with id ${userID} is subscribed to it. However, an error occurred when fetching all campaigns associated with the calendar.`
+                  message: `Calendar with id ${req.params.calendarID} found and user with id ${userID} is subscribed to it. However, an error occurred when fetching all campaigns associated with the calendar.`
                 });
               } else {
                 // foundCampaigns is all campaigns associated with the calendar
@@ -427,20 +411,24 @@ module.exports = {
         const userIDList = foundCalendar.userIDs.map(userID => {
           return { _id: userID };
         });
-        User.find({ $or: userIDList }, "fullName email", (err, foundUsers) => {
-          if (err || !foundUsers) {
-            res.send({
-              success: false,
-              err,
-              message: `Unable to find users subscribed to calendar with id ${id}`
-            });
-          } else {
-            res.send({
-              success: true,
-              users: foundUsers
-            });
+        User.find(
+          { $or: userIDList },
+          "fullName email signedInAsUser",
+          (err, foundUsers) => {
+            if (err || !foundUsers) {
+              res.send({
+                success: false,
+                err,
+                message: `Unable to find users subscribed to calendar with id ${id}`
+              });
+            } else {
+              res.send({
+                success: true,
+                users: foundUsers
+              });
+            }
           }
-        });
+        );
       }
     });
   },

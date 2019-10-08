@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarCheck } from "@fortawesome/pro-light-svg-icons";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarCheck, faUsers } from "@fortawesome/pro-light-svg-icons";
+import {
+  faBars,
+  faCalendar,
+  faEllipsisV,
+  faPlus
+} from "@fortawesome/free-solid-svg-icons";
 
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import Loader from "../../../components/notifications/Loader";
 import ConfirmAlert from "../../../components/notifications/ConfirmAlert";
@@ -21,13 +24,16 @@ import GIContainer from "../../../components/containers/GIContainer";
 import Consumer from "../../../context";
 
 import {
+  capitolizeFirstChar,
+  capitolizeWordsInString,
   getPostIcon,
   getPostColor,
-  capitolizeFirstChar,
-  capitolizeWordsInString
+  getPostIconRound
 } from "../../../componentFunctions";
 
 import {
+  createNewCalendar,
+  didUserConnectAccount,
   deleteCalendar,
   deleteCalendarClicked,
   inviteUser,
@@ -39,24 +45,22 @@ import {
   unlinkSocialAccount
 } from "./util";
 
-import { getCalendarUsers, getCalendarAccounts } from "../util";
+import { getCalendarAccounts, isUserAdminOfCalendar } from "../util";
+
+import { getCalendarOptions } from "./getSideBarOptionFunctions";
+import { createName } from "../../../components/postingFiles/SelectAccountDiv/util";
 
 import "./style.css";
 
-class CalendarManager extends Component {
+class CalendarSideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      calendars: props.calendars.map(calObj => {
-        return { ...calObj, tempName: calObj.calendarName };
-      }),
-      activeCalendarIndex: props.activeCalendarIndex,
-      calendarUsers: [],
       confirmAlert: {},
-      defaultCalendarID: props.defaultCalendarID,
       deleteCalendarPrompt: false,
       inviteEmail: "",
       leaveCalendarPrompt: false,
+      open: true,
       removeUserPrompt: false,
       promoteUserPrompt: false,
       saving: false,
@@ -65,77 +69,27 @@ class CalendarManager extends Component {
     };
   }
   componentDidMount() {
-    const {
-      calendars,
-      close,
-      getKeyListenerFunction,
-      setKeyListenerFunction
-    } = this.props;
-    const { activeCalendarIndex } = this.state;
+    const { activeCalendarIndex, calendars, handleCalendarChange } = this.props;
     this._ismounted = true;
 
-    setKeyListenerFunction([
-      event => {
-        if (!this._ismounted) return;
-        if (event.keyCode === 27) {
-          this.props.close(); // escape button pushed
-        }
-      },
-      getKeyListenerFunction[0]
-    ]);
-
-    getCalendarUsers(calendars, this.handleChange, activeCalendarIndex);
-    getCalendarAccounts(
-      calendars,
-      this.handleCalendarChange,
-      activeCalendarIndex
-    );
+    getCalendarAccounts(calendars, handleCalendarChange, activeCalendarIndex);
   }
 
   componentWillUnmount() {
     this._ismounted = false;
   }
 
-  handleCalendarChange = (key, value, calendarIndex) => {
-    if (!this._ismounted) return;
-    this.setState(prevState => {
-      return {
-        calendars: [
-          ...prevState.calendars.slice(0, calendarIndex),
-          { ...prevState.calendars[calendarIndex], [key]: value },
-          ...prevState.calendars.slice(calendarIndex + 1)
-        ]
-      };
-    });
-  };
-
   handleChange = (stateObject, callback) => {
     if (this._ismounted) this.setState(stateObject);
     if (callback) callback();
   };
 
-  updateActiveCalendar = index => {
-    const { calendars } = this.state;
-    this.setState({ activeCalendarIndex: index, unsavedChange: false }, () => {
-      this.handleCalendarChange(
-        "tempName",
-        calendars[index].calendarName,
-        index
-      );
-      getCalendarUsers(index);
-      getCalendarAccounts(calendars, this.handleCalendarChange, index);
-    });
-  };
-
   render() {
     const {
-      activeCalendarIndex,
-      calendars,
-      calendarUsers,
-      defaultCalendarID,
       deleteCalendarPrompt,
       inviteEmail,
       leaveCalendarPrompt,
+      open,
       promoteUserObj,
       promoteUserPrompt,
       removeUserObj,
@@ -145,6 +99,16 @@ class CalendarManager extends Component {
       unlinkAccountPrompt,
       unsavedChange
     } = this.state;
+
+    const {
+      activeCalendarIndex,
+      calendars,
+      calendarUsers,
+      defaultCalendarID,
+      handleParentChange,
+      updateActiveCalendar
+    } = this.props;
+
     let userID = this.props.user._id;
     if (this.props.user.signedInAsUser) {
       userID = this.props.user.signedInAsUser.id;
@@ -154,39 +118,128 @@ class CalendarManager extends Component {
     const isDefaultCalendar =
       calendar._id.toString() === defaultCalendarID.toString();
     const isAdmin = calendars[activeCalendarIndex].adminID === userID;
+    if (!open)
+      return (
+        <GIContainer
+          className="absolute top-0 right-0 clickable shadow-7 five-blue px8 py8"
+          onClick={() => this.handleChange({ open: true })}
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </GIContainer>
+      );
     return (
       <Consumer>
         {context => (
           <GIContainer className="column shadow-7" style={{ width: "20%" }}>
+            <GIContainer
+              className="full-center x-fill clickable shadow-7 five-blue px8 py8"
+              onClick={() => this.handleChange({ open: false })}
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </GIContainer>
             {calendars && (
               <CollapsibleMenu
                 activeIcon={faCalendarCheck}
                 activeIndex={activeCalendarIndex}
+                firstButton={
+                  <GIText
+                    className="x-fill flex full-center clickable orange px16 py8"
+                    onClick={() =>
+                      createNewCalendar(
+                        context,
+                        handleParentChange,
+                        calendars.length,
+                        "Calendar " + calendars.length,
+                        updateActiveCalendar
+                      )
+                    }
+                    text="Make a New Calendar"
+                    type="p"
+                  />
+                }
                 list={calendars}
                 listObjKey="calendarName"
-                options={[
-                  {
-                    name: "Set as Default",
-                    onClick: index =>
-                      setDefaultCalendar(
-                        calendars[index]._id,
-                        context,
-                        this.handleChange
-                      )
-                  },
-                  {
-                    className: "",
-                    name: "Delete",
-                    onClick: index =>
-                      setDefaultCalendar(
-                        calendars[index]._id,
-                        context,
-                        this.handleChange
-                      )
-                  }
-                ]}
+                listOnClick={updateActiveCalendar}
+                options={getCalendarOptions(
+                  calendar,
+                  context,
+                  deleteCalendarClicked,
+                  this.handleChange,
+                  isUserAdminOfCalendar,
+                  setDefaultCalendar
+                )}
                 title="Calendars"
                 titleIcon={faCalendar}
+              />
+            )}
+            {calendar.accounts && (
+              <CollapsibleMenu
+                list={calendar.accounts.map((account, index) => (
+                  <GIContainer className="x-fill align-center">
+                    <FontAwesomeIcon
+                      className="full-center common-border font-color primary-font round round-icon pa8 mr8"
+                      icon={getPostIconRound(account.socialType)}
+                    />
+                    <GIContainer className="x-85">
+                      <GIText
+                        className="ellipsis"
+                        text={createName(account)}
+                        type="p"
+                      />
+                    </GIContainer>
+                  </GIContainer>
+                ))}
+                options={[
+                  {
+                    className: "red",
+                    name: "Disconnect From Calendar",
+                    onClick: index =>
+                      this.handleChange({
+                        unlinkAccountPrompt: true,
+                        unLinkAccountID: calendar.accounts[index]._id
+                      })
+                  }
+                ]}
+                showOptionFunction={index =>
+                  isUserAdminOfCalendar(calendar, context.user) ||
+                  didUserConnectAccount(calendar.accounts[index], context.user)
+                }
+                title="Social Accounts"
+                titleIcon={faPlus}
+              />
+            )}
+            {calendarUsers && (
+              <CollapsibleMenu
+                list={calendarUsers.map((obj, index) => (
+                  <GIContainer className="x-fill align-center">
+                    <GIContainer className="x-85 column mr16">
+                      <GIText className="ellipsis" type="h6">
+                        {obj.fullName}{" "}
+                        {isUserAdminOfCalendar(calendar, obj) && (
+                          <GIText
+                            className="green fw-normal"
+                            text="(Admin)"
+                            type="span"
+                          />
+                        )}
+                      </GIText>
+                      <GIText className="grey" text={obj.email} type="p" />
+                    </GIContainer>
+                    <FontAwesomeIcon icon={faEllipsisV} />
+                  </GIContainer>
+                ))}
+                options={[
+                  {
+                    name: "Remove User",
+                    onClick: index =>
+                      this.handleChange({
+                        unlinkAccountPrompt: true,
+                        unLinkAccountID: calendar.accounts[index]._id
+                      })
+                  }
+                ]}
+                title="Calendar Users"
+                titleIcon={faUsers}
               />
             )}
             {leaveCalendarPrompt && (
@@ -200,9 +253,9 @@ class CalendarManager extends Component {
                     leaveCalendar(
                       calendars,
                       context,
-                      this.handleChange,
+                      handleParentChange,
                       activeCalendarIndex,
-                      this.updateActiveCalendar
+                      updateActiveCalendar
                     );
                 }}
                 firstButton="Leave"
@@ -222,9 +275,9 @@ class CalendarManager extends Component {
                     deleteCalendar(
                       calendars,
                       context,
-                      this.handleChange,
+                      handleParentChange,
                       activeCalendarIndex,
-                      this.updateActiveCalendar
+                      updateActiveCalendar
                     );
                 }}
                 type="delete-calendar"
@@ -251,7 +304,7 @@ class CalendarManager extends Component {
                       activeCalendarIndex,
                       calendars,
                       context,
-                      this.handleChange
+                      handleParentChange
                     );
                 }}
                 type="delete-calendar"
@@ -321,21 +374,9 @@ class CalendarManager extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      setKeyListenerFunction
-    },
-    dispatch
-  );
-}
 function mapStateToProps(state) {
   return {
-    user: state.user,
-    getKeyListenerFunction: state.getKeyListenerFunction
+    user: state.user
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CalendarManager);
+export default connect(mapStateToProps)(CalendarSideBar);

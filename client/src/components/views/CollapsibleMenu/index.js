@@ -15,28 +15,34 @@ class CollapsibleMenu extends Component {
   render() {
     const { showMenu } = this.state;
     const {
-      activeIcon,
       activeIndex,
+      firstButton,
       list,
       listObjKey,
+      listOnClick,
       options,
+      showOptionFunction,
       testMode,
       title,
       titleIcon
     } = this.props; // Variables
-    const { handleParentChange } = this.props; // Functions
 
     return (
-      <GIContainer className="column" testMode={testMode}>
+      <GIContainer className="column clickable" testMode={testMode}>
         <GIContainer
           className="x-fill align-center justify-between clickable bg-blue-grey px16 py8"
           onClick={() => {
             this.setState({ showMenu: !showMenu });
           }}
         >
-          <GIContainer className="align-center mr16">
+          <GIContainer className="x-85 align-center mr16">
             <FontAwesomeIcon className="white mr8" icon={titleIcon} />
-            <GIText className="white" text={title} type="h6" />
+            <GIText
+              className="fill-flex white ellipsis"
+              style={{ userSelect: "none" }}
+              text={title}
+              type="h6"
+            />
           </GIContainer>
           <FontAwesomeIcon
             className="white"
@@ -45,37 +51,35 @@ class CollapsibleMenu extends Component {
           />
         </GIContainer>
         {showMenu && (
-          <GIContainer className="column">
+          <GIContainer className="column x-fill">
+            {firstButton}
             {list.map((obj, index) => (
               <GIContainer
                 className={`${
                   activeIndex === index ? "bg-blue-fade-2" : ""
-                } justify-between align-center px16 py8`}
+                } x-fill justify-between align-center px16 py8`}
                 key={index}
+                onClick={listOnClick ? () => listOnClick(index) : () => {}}
               >
-                <GIText
-                  className={activeIndex === index ? "white" : ""}
-                  text={listObjKey ? list[index][listObjKey] : list[index]}
-                  type="p"
-                />
-                <GIContainer>
-                  {activeIndex === index && activeIcon && (
-                    <FontAwesomeIcon className="white mr8" icon={activeIcon} />
-                  )}
-                  {options && (
-                    <Dropdown
-                      className=""
-                      dontShowFaAngleDown={true}
-                      dropdownActiveDisplayClassName=""
-                      dropdownClassName="right common-border five-blue br8"
-                      dropdownItems={options.map((obj, index) => obj.name)}
-                      dropdownTextClassName="fs-13"
-                      handleParentChange={dropdownClickedItemObj => {}}
-                      noTopBorder={true}
-                      title={<FontAwesomeIcon icon={faEllipsisV} />}
-                    />
-                  )}
+                <GIContainer
+                  className={`${activeIndex === index ? "white" : ""}`}
+                >
+                  {listObjKey ? list[index][listObjKey] : list[index]}
                 </GIContainer>
+                {options && (
+                  <Dropdown
+                    className=""
+                    dontShowFaAngleDown={true}
+                    dropdownActiveDisplayClassName=""
+                    dropdownClassName="right common-border five-blue br8"
+                    dropdownItems={options.map((obj, index) => (
+                      <GIText className="fs-13" text={obj.name} type="p" />
+                    ))}
+                    handleParentChange={dropdownClickedItemObj => {}}
+                    noTopBorder={true}
+                    title={<FontAwesomeIcon icon={faEllipsisV} />}
+                  />
+                )}
               </GIContainer>
             ))}
           </GIContainer>

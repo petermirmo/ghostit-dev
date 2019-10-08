@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const createNewCalendar = (
   context,
   handleChange,
@@ -33,6 +35,11 @@ export const deleteCalendarClicked = (
   } else {
     handleChange({ deleteCalendarPrompt: true });
   }
+};
+
+export const didUserConnectAccount = (account, user) => {
+  if (user._id === account.userID) return true;
+  else return false;
 };
 
 export const inviteUser = (

@@ -237,6 +237,19 @@ class CalendarPage extends Component {
     if (callback) callback();
   };
 
+  handleCalendarChange = (key, value, calendarIndex) => {
+    if (!this._ismounted) return;
+    this.setState(prevState => {
+      return {
+        calendars: [
+          ...prevState.calendars.slice(0, calendarIndex),
+          { ...prevState.calendars[calendarIndex], [key]: value },
+          ...prevState.calendars.slice(calendarIndex + 1)
+        ]
+      };
+    });
+  };
+
   updateActiveCalendar = index => {
     const { calendarDate, calendars } = this.state;
     if (calendars)
@@ -351,28 +364,26 @@ class CalendarPage extends Component {
                 )}
               {!modalsOpen && (
                 <GIContainer className="column x-fill">
-                  {calendarEditing && (
-                    <GIInput
-                      className="fs-20 shadow-medium px32"
-                      onChange={event =>
-                        this.handleChange({
-                          calendarName: event.target.value
-                        })
+                  <GIContainer className="fill-flex align-center">
+                    <GIText
+                      className="muli px32 py16"
+                      text={
+                        calendars[activeCalendarIndex]
+                          ? calendars[activeCalendarIndex].calendarName
+                          : ""
                       }
-                      placeholder="Calendar Name..."
-                      type="text"
-                      value={calendarName}
+                      type="h4"
                     />
-                  )}
-                  <GIText
-                    className="muli fill-flex pl32 py16"
-                    text={
-                      calendars[activeCalendarIndex]
-                        ? calendars[activeCalendarIndex].calendarName
-                        : ""
-                    }
-                    type="h4"
-                  />
+                    {calendars[activeCalendarIndex] &&
+                      defaultCalendarID ===
+                        calendars[activeCalendarIndex]._id && (
+                        <GIText
+                          className="common-border green px8 py4 br4"
+                          text="Default"
+                          type="p"
+                        />
+                      )}
+                  </GIContainer>
 
                   <GIContainer className="justify-between x-fill x-wrap pl32 pr16">
                     <GIContainer className="full-center my16">
@@ -452,7 +463,7 @@ class CalendarPage extends Component {
                         size="2x"
                         title={
                           <GIText
-                            className="tac muli fill-flex pl32 pr48 py16"
+                            className="tac muli fill-flex px32 py16"
                             text="Filter Calendar"
                             type="h6"
                           />
@@ -510,9 +521,13 @@ class CalendarPage extends Component {
             </GIContainer>
             {!isNaN(activeCalendarIndex) && !modalsOpen && (
               <CalendarSideBar
-                calendars={calendars}
                 activeCalendarIndex={activeCalendarIndex}
+                calendars={calendars}
+                calendarUsers={calendarUsers}
                 defaultCalendarID={defaultCalendarID}
+                handleCalendarChange={this.handleCalendarChange}
+                handleParentChange={this.handleChange}
+                updateActiveCalendar={this.updateActiveCalendar}
               />
             )}
             {false && <CalendarChat calendars={calendars} />}

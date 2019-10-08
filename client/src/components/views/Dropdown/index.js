@@ -47,7 +47,6 @@ class Dropdown extends Component {
       dontShowFaAngleDown,
       dropdownClassName,
       dropdownItems,
-      dropdownTextClassName,
       noTopBorder,
       search,
       size,
@@ -82,7 +81,7 @@ class Dropdown extends Component {
           {title}
           {!dontShowFaAngleDown && (
             <FontAwesomeIcon
-              className="five-blue mx16"
+              className="five-blue mr16"
               icon={faAngleDown}
               size={size}
             />
@@ -94,7 +93,7 @@ class Dropdown extends Component {
               <GIText
                 className={`flex align-center px16 py8 ${
                   noTopBorder && index === 0 ? "" : "border-top"
-                }${isActiveItem(activeItem, index)} ${dropdownTextClassName}`}
+                } ${isActiveItem(activeItem, index)}`}
                 id={index + item}
                 key={index}
                 onClick={() => {
