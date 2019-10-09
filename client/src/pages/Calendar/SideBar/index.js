@@ -45,9 +45,18 @@ import {
   unlinkSocialAccount
 } from "./util";
 
-import { getCalendarAccounts, isUserAdminOfCalendar } from "../util";
+import {
+  getCalendarAccounts,
+  getCalendarUsers,
+  isUserAdminOfCalendar
+} from "../util";
 
-import { getCalendarOptions } from "./getSideBarOptionFunctions";
+import {
+  getAccountOptions,
+  getCalendarOptions,
+  getUserOptions
+} from "./getSideBarOptionFunctions";
+
 import { createName } from "../../../components/postingFiles/SelectAccountDiv/util";
 
 import "./style.css";
@@ -160,16 +169,18 @@ class CalendarSideBar extends Component {
                 list={calendars}
                 listObjKey="calendarName"
                 listOnClick={updateActiveCalendar}
-                options={getCalendarOptions(
-                  calendar,
-                  calendars,
-                  context,
-                  deleteCalendarClicked,
-                  this.handleChange,
-                  handleParentChange,
-                  isUserAdminOfCalendar,
-                  setDefaultCalendar
-                )}
+                options={index =>
+                  getCalendarOptions(
+                    calendars[index],
+                    calendars,
+                    context,
+                    deleteCalendarClicked,
+                    this.handleChange,
+                    handleParentChange,
+                    isUserAdminOfCalendar,
+                    setDefaultCalendar
+                  )
+                }
                 title="Calendars"
                 titleIcon={faCalendar}
               />
@@ -177,7 +188,7 @@ class CalendarSideBar extends Component {
             {calendar.accounts && (
               <CollapsibleMenu
                 list={calendar.accounts.map((account, index) => (
-                  <GIContainer className="x-fill align-center">
+                  <GIContainer className="x-70 align-center">
                     <FontAwesomeIcon
                       className="full-center common-border font-color primary-font round round-icon pa8 mr8"
                       icon={getPostIconRound(account.socialType)}
@@ -191,17 +202,9 @@ class CalendarSideBar extends Component {
                     </GIContainer>
                   </GIContainer>
                 ))}
-                options={[
-                  {
-                    className: "red",
-                    name: "Disconnect From Calendar",
-                    onClick: index =>
-                      this.handleChange({
-                        unlinkAccountPrompt: true,
-                        unLinkAccountID: calendar.accounts[index]._id
-                      })
-                  }
-                ]}
+                options={index =>
+                  getAccountOptions(calendar.accounts[index], this.handleChange)
+                }
                 showOptionFunction={index =>
                   isUserAdminOfCalendar(calendar, context.user) ||
                   didUserConnectAccount(calendar.accounts[index], context.user)
@@ -213,10 +216,12 @@ class CalendarSideBar extends Component {
             {calendarUsers && (
               <CollapsibleMenu
                 list={calendarUsers.map((obj, index) => (
-                  <GIContainer className="x-fill align-center">
-                    <GIContainer className="x-85 column mr16">
-                      <GIText className="ellipsis" type="h6">
-                        {obj.fullName}{" "}
+                  <GIContainer className="x-85 align-center">
+                    <GIContainer className="x-fill column mr16">
+                      <GIContainer className="x-fill x-wrap">
+                        <GIText className="ellipsis" type="h6">
+                          {obj.fullName}{" "}
+                        </GIText>
                         {isUserAdminOfCalendar(calendar, obj) && (
                           <GIText
                             className="green fw-normal"
@@ -224,22 +229,21 @@ class CalendarSideBar extends Component {
                             type="span"
                           />
                         )}
-                      </GIText>
+                      </GIContainer>
                       <GIText className="grey" text={obj.email} type="p" />
                     </GIContainer>
-                    <FontAwesomeIcon icon={faEllipsisV} />
                   </GIContainer>
                 ))}
-                options={[
-                  {
-                    name: "Remove User",
-                    onClick: index =>
-                      this.handleChange({
-                        unlinkAccountPrompt: true,
-                        unLinkAccountID: calendar.accounts[index]._id
-                      })
-                  }
-                ]}
+                options={index =>
+                  getUserOptions(
+                    activeCalendarIndex,
+                    calendar,
+                    context,
+                    this.handleChange,
+                    isUserAdminOfCalendar,
+                    calendarUsers[index]
+                  )
+                }
                 title="Calendar Users"
                 titleIcon={faUsers}
               />
@@ -333,7 +337,10 @@ class CalendarSideBar extends Component {
                     removeUserFromCalendar(
                       removeUserObj.calendarIndex,
                       calendars,
+                      calendarUsers,
                       context,
+                      getCalendarUsers,
+                      handleParentChange,
                       removeUserObj.userIndex
                     );
                 }}

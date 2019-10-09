@@ -1,3 +1,16 @@
+export const getAccountOptions = (account, handleChange) => {
+  [
+    {
+      className: "red",
+      name: "Disconnect From Calendar",
+      onClick: index =>
+        handleChange({
+          unlinkAccountPrompt: true,
+          unLinkAccountID: calendar.accounts[index]._id
+        })
+    }
+  ];
+};
 export const getCalendarOptions = (
   calendar,
   calendars,
@@ -24,4 +37,32 @@ export const getCalendarOptions = (
         : () => handleChange({ leaveCalendarPrompt: true })
     }
   ];
+};
+
+export const getUserOptions = (
+  activeCalendarIndex,
+  calendar,
+  context,
+  handleChange,
+  isUserAdminOfCalendar,
+  user
+) => {
+  if (isUserAdminOfCalendar(calendar, context.user)) {
+    if (context.user._id === user._id) return undefined;
+    else
+      return [
+        {
+          name: "Remove User",
+          onClick: index => {
+            handleChange({
+              removeUserPrompt: true,
+              removeUserObj: {
+                userIndex: index,
+                calendarIndex: activeCalendarIndex
+              }
+            });
+          }
+        }
+      ];
+  } else return undefined;
 };

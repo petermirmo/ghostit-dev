@@ -83,14 +83,14 @@ class Page extends Component {
               <GIContainer
                 className={
                   isUserInPlatform(activePage)
-                    ? `page-container bg-white ${className}`
+                    ? `page-container bg-white column ${className}`
                     : className
                 }
               >
                 {shouldShowSignedInAsDiv(activePage, user) && (
                   <SignedInAs user={user} />
                 )}
-                {children}
+                <GIContainer>{children}</GIContainer>
               </GIContainer>
 
               {!isUserInPlatform(activePage) && <WebsiteFooter />}

@@ -20,12 +20,12 @@ class CollapsibleMenu extends Component {
       list,
       listObjKey,
       listOnClick,
-      options,
       showOptionFunction,
       testMode,
       title,
       titleIcon
     } = this.props; // Variables
+    const { options } = this.props; // Functions
 
     return (
       <GIContainer className="column clickable" testMode={testMode}>
@@ -56,24 +56,20 @@ class CollapsibleMenu extends Component {
             {list.map((obj, index) => (
               <GIContainer
                 className={`${
-                  activeIndex === index ? "bg-blue-fade-2" : ""
+                  activeIndex === index ? "bg-blue-fade-2 white" : ""
                 } x-fill justify-between align-center pl16 py8`}
                 key={index}
                 onClick={listOnClick ? () => listOnClick(index) : () => {}}
               >
-                <GIContainer
-                  className={`${activeIndex === index ? "white" : ""}`}
-                >
-                  {listObjKey ? list[index][listObjKey] : list[index]}
-                </GIContainer>
-                {options && (
+                {listObjKey ? list[index][listObjKey] : list[index]}
+                {options && options(index) && (
                   <GIContainer onClick={e => e.stopPropagation()}>
                     <Dropdown
                       className="px16"
                       dontShowFaAngleDown={true}
                       dropdownActiveDisplayClassName=""
                       dropdownClassName="right common-border five-blue br8"
-                      dropdownItems={options.map(obj => (
+                      dropdownItems={options(index).map(obj => (
                         <GIText
                           className="fs-13"
                           onClick={() => obj.onClick(index)}

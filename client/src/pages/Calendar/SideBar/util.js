@@ -131,12 +131,15 @@ export const promoteUser = (
 export const removeUserFromCalendar = (
   calendarIndex,
   calendars,
+  calendarUsers,
   context,
+  getCalendarUsers,
+  handleParentChange,
   userIndex
 ) => {
   const calendar = calendars[calendarIndex];
   const calendarID = calendar._id;
-  const userID = calendar.users[userIndex]._id;
+  const userID = calendarUsers[userIndex]._id;
 
   axios
     .post("/api/calendar/user/remove", {
@@ -153,7 +156,7 @@ export const removeUserFromCalendar = (
           message
         });
       } else {
-        getCalendarUsers(calendarIndex);
+        getCalendarUsers(calendars, handleParentChange, calendarIndex);
         context.notify({
           type: "success",
           title: "User Removed",
