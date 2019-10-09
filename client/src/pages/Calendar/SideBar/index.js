@@ -162,9 +162,11 @@ class CalendarSideBar extends Component {
                 listOnClick={updateActiveCalendar}
                 options={getCalendarOptions(
                   calendar,
+                  calendars,
                   context,
                   deleteCalendarClicked,
                   this.handleChange,
+                  handleParentChange,
                   isUserAdminOfCalendar,
                   setDefaultCalendar
                 )}

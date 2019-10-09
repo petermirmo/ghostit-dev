@@ -1,8 +1,10 @@
 export const getCalendarOptions = (
   calendar,
+  calendars,
   context,
   deleteCalendarClicked,
   handleChange,
+  handleParentChange,
   isUserAdminOfCalendar,
   setDefaultCalendar
 ) => {

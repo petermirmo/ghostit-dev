@@ -57,7 +57,7 @@ class CollapsibleMenu extends Component {
               <GIContainer
                 className={`${
                   activeIndex === index ? "bg-blue-fade-2" : ""
-                } x-fill justify-between align-center px16 py8`}
+                } x-fill justify-between align-center pl16 py8`}
                 key={index}
                 onClick={listOnClick ? () => listOnClick(index) : () => {}}
               >
@@ -67,18 +67,25 @@ class CollapsibleMenu extends Component {
                   {listObjKey ? list[index][listObjKey] : list[index]}
                 </GIContainer>
                 {options && (
-                  <Dropdown
-                    className=""
-                    dontShowFaAngleDown={true}
-                    dropdownActiveDisplayClassName=""
-                    dropdownClassName="right common-border five-blue br8"
-                    dropdownItems={options.map((obj, index) => (
-                      <GIText className="fs-13" text={obj.name} type="p" />
-                    ))}
-                    handleParentChange={dropdownClickedItemObj => {}}
-                    noTopBorder={true}
-                    title={<FontAwesomeIcon icon={faEllipsisV} />}
-                  />
+                  <GIContainer onClick={e => e.stopPropagation()}>
+                    <Dropdown
+                      className="px16"
+                      dontShowFaAngleDown={true}
+                      dropdownActiveDisplayClassName=""
+                      dropdownClassName="right common-border five-blue br8"
+                      dropdownItems={options.map(obj => (
+                        <GIText
+                          className="fs-13"
+                          onClick={() => obj.onClick(index)}
+                          text={obj.name}
+                          type="p"
+                        />
+                      ))}
+                      handleParentChange={dropdownClickedItemObj => {}}
+                      noTopBorder={true}
+                      title={<FontAwesomeIcon icon={faEllipsisV} />}
+                    />
+                  </GIContainer>
                 )}
               </GIContainer>
             ))}
