@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp } from "@fortawesome/pro-light-svg-icons";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faAngleUp,
+  faEllipsisV
+} from "@fortawesome/pro-light-svg-icons";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../GIText";
@@ -79,7 +82,13 @@ class CollapsibleMenu extends Component {
                       ))}
                       handleParentChange={dropdownClickedItemObj => {}}
                       noTopBorder={true}
-                      title={<FontAwesomeIcon icon={faEllipsisV} />}
+                      title={
+                        <FontAwesomeIcon
+                          className="silver"
+                          icon={faEllipsisV}
+                          size="2x"
+                        />
+                      }
                     />
                   </GIContainer>
                 )}

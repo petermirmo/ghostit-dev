@@ -306,6 +306,7 @@ export const deleteCalendar = (
       }
     });
 };
+export const removePendingEmail = () => {};
 
 export const setDefaultCalendar = (calendarID, context, handleChange) => {
   axios

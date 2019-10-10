@@ -89,10 +89,10 @@ class MyForm extends Component {
           />
         </GIContainer>
         <GIButton
-          type="submit"
-          text="Book Call"
-          name="subscribe"
           className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
+          name="subscribe"
+          text="Book Call"
+          type="submit"
         />
         {hiddenFormPortion}
         <GIContainer id="left-blob" />

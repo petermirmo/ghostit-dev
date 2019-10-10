@@ -1,5 +1,5 @@
 export const getAccountOptions = (account, handleChange) => {
-  [
+  return [
     {
       className: "red",
       name: "Disconnect From Calendar",
@@ -29,10 +29,10 @@ export const getCalendarOptions = (
     },
     {
       className: "red",
-      name: isUserAdminOfCalendar(calendar, context.user)
+      name: isUserAdminOfCalendar(calendar, context.getUser())
         ? "Delete"
         : "Leave Calendar",
-      onClick: isUserAdminOfCalendar(calendar, context.user)
+      onClick: isUserAdminOfCalendar(calendar, context.getUser())
         ? index => deleteCalendarClicked(index, calendars, handleChange)
         : () => handleChange({ leaveCalendarPrompt: true })
     }
@@ -43,26 +43,39 @@ export const getUserOptions = (
   activeCalendarIndex,
   calendar,
   context,
+  email,
   handleChange,
   isUserAdminOfCalendar,
+  removePendingEmail,
   user
 ) => {
-  if (isUserAdminOfCalendar(calendar, context.user)) {
-    if (context.user._id === user._id) return undefined;
-    else
+  if (user) {
+    if (isUserAdminOfCalendar(calendar, context.getUser())) {
+      if (context.getUser()._id === user._id) return undefined;
+      else
+        return [
+          {
+            name: "Remove User",
+            onClick: index => {
+              handleChange({
+                removeUserPrompt: true,
+                removeUserObj: {
+                  userIndex: index,
+                  calendarIndex: activeCalendarIndex
+                }
+              });
+            }
+          }
+        ];
+    } else return undefined;
+  } else {
+    if (isUserAdminOfCalendar(calendar, context.getUser())) {
       return [
         {
-          name: "Remove User",
-          onClick: index => {
-            handleChange({
-              removeUserPrompt: true,
-              removeUserObj: {
-                userIndex: index,
-                calendarIndex: activeCalendarIndex
-              }
-            });
-          }
+          name: "Delete Invitation",
+          onClick: () => removePendingEmail(email)
         }
       ];
-  } else return undefined;
+    } else return undefined;
+  }
 };

@@ -327,209 +327,213 @@ class CalendarPage extends Component {
         {context => (
           <Page className="x-fill relative" title="Calendar">
             {loading && <Loader />}
-            <GIContainer className="column bg-light-grey fill-flex">
-              {calendarInvites &&
-                calendarInvites.length > 0 &&
-                calendarInvites.map((obj, index) =>
-                  calendarInvites.map((calendar, index) => {
-                    return (
-                      <GIContainer
-                        className="x-fill full-center py8"
-                        key={`invite ${index}`}
-                      >
-                        {`You have been invited to ${calendar.calendarName}.`}
-                        <GIContainer>
-                          <button
-                            className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 px16 py8 ml8"
-                            onClick={e => {
-                              e.preventDefault();
-                              this.inviteResponse(index, true);
-                            }}
-                          >
-                            Accept
-                          </button>
-                          <button
-                            className="x-fill common-border five-blue br4 px16 py8 ml8"
-                            onClick={e => {
-                              e.preventDefault();
-                              this.inviteResponse(index, false);
-                            }}
-                          >
-                            Reject
-                          </button>
+            <GIContainer className="x-fill">
+              <GIContainer className="column bg-light-grey fill-flex">
+                {calendarInvites &&
+                  calendarInvites.length > 0 &&
+                  calendarInvites.map((obj, index) =>
+                    calendarInvites.map((calendar, index) => {
+                      return (
+                        <GIContainer
+                          className="x-fill full-center py8"
+                          key={`invite ${index}`}
+                        >
+                          {`You have been invited to ${calendar.calendarName}.`}
+                          <GIContainer>
+                            <button
+                              className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 px16 py8 ml8"
+                              onClick={e => {
+                                e.preventDefault();
+                                this.inviteResponse(index, true);
+                              }}
+                            >
+                              Accept
+                            </button>
+                            <button
+                              className="x-fill common-border five-blue br4 px16 py8 ml8"
+                              onClick={e => {
+                                e.preventDefault();
+                                this.inviteResponse(index, false);
+                              }}
+                            >
+                              Reject
+                            </button>
+                          </GIContainer>
+                        </GIContainer>
+                      );
+                    })
+                  )}
+                {!modalsOpen && (
+                  <GIContainer className="column x-fill">
+                    <GIContainer className="fill-flex align-center">
+                      <GIText
+                        className="muli px32 py16"
+                        text={
+                          calendars[activeCalendarIndex]
+                            ? calendars[activeCalendarIndex].calendarName
+                            : ""
+                        }
+                        type="h4"
+                      />
+                      {calendars[activeCalendarIndex] &&
+                        defaultCalendarID ===
+                          calendars[activeCalendarIndex]._id && (
+                          <GIText
+                            className="common-border green px8 py4 br4"
+                            text="Default"
+                            type="p"
+                          />
+                        )}
+                    </GIContainer>
+
+                    <GIContainer className="justify-between x-fill x-wrap pl32 pr16">
+                      <GIContainer className="full-center my16">
+                        <GIContainer
+                          className="round-icon button round common-border five-blue full-center pa4"
+                          onClick={() =>
+                            subtractMonth(calendarDate, date => {
+                              this.handleChange({ calendarDate: date });
+                              getPosts(
+                                calendars,
+                                activeCalendarIndex,
+                                calendarDate,
+                                this.handleChange
+                              );
+                            })
+                          }
+                        >
+                          <FontAwesomeIcon
+                            className="five-blue"
+                            icon={faAngleLeft}
+                            size="2x"
+                          />
+                        </GIContainer>
+                        <GIText
+                          className="tac muli mx64"
+                          text={calendarDate.format("MMMM YYYY")}
+                          type="h3"
+                        />
+
+                        <GIContainer
+                          className="round-icon button round common-border five-blue full-center pa4"
+                          onClick={() =>
+                            addMonth(calendarDate, date => {
+                              this.handleChange({ calendarDate: date });
+                              getPosts(
+                                calendars,
+                                activeCalendarIndex,
+                                calendarDate,
+                                this.handleChange
+                              );
+                            })
+                          }
+                        >
+                          <FontAwesomeIcon
+                            className="five-blue"
+                            icon={faAngleRight}
+                            size="2x"
+                          />
                         </GIContainer>
                       </GIContainer>
-                    );
-                  })
-                )}
-              {!modalsOpen && (
-                <GIContainer className="column x-fill">
-                  <GIContainer className="fill-flex align-center">
-                    <GIText
-                      className="muli px32 py16"
-                      text={
-                        calendars[activeCalendarIndex]
-                          ? calendars[activeCalendarIndex].calendarName
-                          : ""
-                      }
-                      type="h4"
-                    />
-                    {calendars[activeCalendarIndex] &&
-                      defaultCalendarID ===
-                        calendars[activeCalendarIndex]._id && (
-                        <GIText
-                          className="common-border green px8 py4 br4"
-                          text="Default"
-                          type="p"
+                      <GIContainer className="full-center mb16">
+                        <GIButton
+                          className="common-border py16 px32 mr8 br4"
+                          onClick={() =>
+                            this.handleChange({ queuePreview: !queuePreview })
+                          }
+                          text={queuePreview ? "Calendar" : "Queue Preview"}
+                        />
+                        <Dropdown
+                          activeItem={getActiveCategoriesInArray(
+                            calendarEventCategories
+                          )}
+                          className="common-border shadow-light br4"
+                          dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
+                          dropdownClassName="common-border five-blue no-top-br br4"
+                          dropdownItems={Object.keys(
+                            calendarEventCategories
+                          ).map((key, index) => key)}
+                          handleParentChange={dropdownClickedItemObj =>
+                            updateActiveCategory(
+                              calendarEventCategories,
+                              this.handleChange,
+                              dropdownClickedItemObj.item
+                            )
+                          }
+                          search
+                          size="2x"
+                          title={
+                            <GIText
+                              className="tac muli fill-flex px32 py16"
+                              text="Filter Calendar"
+                              type="h6"
+                            />
+                          }
+                        />
+                      </GIContainer>
+                    </GIContainer>
+
+                    <GIContainer className="pl32 pr16 pb32">
+                      {queuePreview && (
+                        <QueuePreview
+                          calendarDate={calendarDate}
+                          calendarEvents={calendarEvents}
+                          onSelectPost={clickedEvent =>
+                            this.handleChange({
+                              postEdittingModal: true,
+                              clickedEvent
+                            })
+                          }
                         />
                       )}
-                  </GIContainer>
-
-                  <GIContainer className="justify-between x-fill x-wrap pl32 pr16">
-                    <GIContainer className="full-center my16">
-                      <GIContainer
-                        className="round-icon button round common-border five-blue full-center pa4"
-                        onClick={() =>
-                          subtractMonth(calendarDate, date => {
-                            this.handleChange({ calendarDate: date });
-                            getPosts(
-                              calendars,
-                              activeCalendarIndex,
-                              calendarDate,
-                              this.handleChange
-                            );
-                          })
-                        }
-                      >
-                        <FontAwesomeIcon
-                          className="five-blue"
-                          icon={faAngleLeft}
-                          size="2x"
+                      {!queuePreview && (
+                        <Calendar
+                          activeCalendarIndex={activeCalendarIndex}
+                          calendars={calendars}
+                          calendarDate={calendarDate}
+                          calendarEvents={calendarEvents}
+                          onSelectCampaign={() =>
+                            this.handleChange({
+                              clickedEvent: campaign,
+                              clickedEventIsRecipe: false,
+                              recipeEditing: false,
+                              campaignModal: true
+                            })
+                          }
+                          onSelectDay={date =>
+                            this.handleChange({
+                              clickedDate: date,
+                              dashboardModal: true
+                            })
+                          }
+                          onSelectPost={clickedEvent =>
+                            this.handleChange({
+                              postEdittingModal: true,
+                              clickedEvent
+                            })
+                          }
+                          updateActiveCalendar={this.updateActiveCalendar}
+                          userList={userList}
                         />
-                      </GIContainer>
-                      <GIText
-                        className="tac muli mx64"
-                        text={calendarDate.format("MMMM YYYY")}
-                        type="h3"
-                      />
-
-                      <GIContainer
-                        className="round-icon button round common-border five-blue full-center pa4"
-                        onClick={() =>
-                          addMonth(calendarDate, date => {
-                            this.handleChange({ calendarDate: date });
-                            getPosts(
-                              calendars,
-                              activeCalendarIndex,
-                              calendarDate,
-                              this.handleChange
-                            );
-                          })
-                        }
-                      >
-                        <FontAwesomeIcon
-                          className="five-blue"
-                          icon={faAngleRight}
-                          size="2x"
-                        />
-                      </GIContainer>
-                    </GIContainer>
-                    <GIContainer className="full-center mb16">
-                      <GIButton
-                        className="common-border py16 px32 mr8 br4"
-                        onClick={() =>
-                          this.handleChange({ queuePreview: !queuePreview })
-                        }
-                        text={queuePreview ? "Calendar" : "Queue Preview"}
-                      />
-                      <Dropdown
-                        activeItem={getActiveCategoriesInArray(
-                          calendarEventCategories
-                        )}
-                        className="common-border shadow-light br4"
-                        dropdownActiveDisplayClassName="no-bottom-br common-border five-blue"
-                        dropdownClassName="common-border five-blue no-top-br br4"
-                        dropdownItems={Object.keys(calendarEventCategories).map(
-                          (key, index) => key
-                        )}
-                        handleParentChange={dropdownClickedItemObj =>
-                          updateActiveCategory(
-                            calendarEventCategories,
-                            this.handleChange,
-                            dropdownClickedItemObj.item
-                          )
-                        }
-                        search
-                        size="2x"
-                        title={
-                          <GIText
-                            className="tac muli fill-flex px32 py16"
-                            text="Filter Calendar"
-                            type="h6"
-                          />
-                        }
-                      />
+                      )}
                     </GIContainer>
                   </GIContainer>
-
-                  <GIContainer className="pl32 pr16 pb32">
-                    {queuePreview && (
-                      <QueuePreview
-                        calendarDate={calendarDate}
-                        calendarEvents={calendarEvents}
-                        onSelectPost={clickedEvent =>
-                          this.handleChange({
-                            postEdittingModal: true,
-                            clickedEvent
-                          })
-                        }
-                      />
-                    )}
-                    {!queuePreview && (
-                      <Calendar
-                        activeCalendarIndex={activeCalendarIndex}
-                        calendars={calendars}
-                        calendarDate={calendarDate}
-                        calendarEvents={calendarEvents}
-                        onSelectCampaign={() =>
-                          this.handleChange({
-                            clickedEvent: campaign,
-                            clickedEventIsRecipe: false,
-                            recipeEditing: false,
-                            campaignModal: true
-                          })
-                        }
-                        onSelectDay={date =>
-                          this.handleChange({
-                            clickedDate: date,
-                            dashboardModal: true
-                          })
-                        }
-                        onSelectPost={clickedEvent =>
-                          this.handleChange({
-                            postEdittingModal: true,
-                            clickedEvent
-                          })
-                        }
-                        updateActiveCalendar={this.updateActiveCalendar}
-                        userList={userList}
-                      />
-                    )}
-                  </GIContainer>
+                )}
+              </GIContainer>
+              {!isNaN(activeCalendarIndex) && !modalsOpen && (
+                <GIContainer style={{ width: "20%" }}>
+                  <CalendarSideBar
+                    activeCalendarIndex={activeCalendarIndex}
+                    calendars={calendars}
+                    calendarUsers={calendarUsers}
+                    defaultCalendarID={defaultCalendarID}
+                    handleCalendarChange={this.handleCalendarChange}
+                    handleParentChange={this.handleChange}
+                    updateActiveCalendar={this.updateActiveCalendar}
+                  />
                 </GIContainer>
               )}
             </GIContainer>
-            {!isNaN(activeCalendarIndex) && !modalsOpen && (
-              <CalendarSideBar
-                activeCalendarIndex={activeCalendarIndex}
-                calendars={calendars}
-                calendarUsers={calendarUsers}
-                defaultCalendarID={defaultCalendarID}
-                handleCalendarChange={this.handleCalendarChange}
-                handleParentChange={this.handleChange}
-                updateActiveCalendar={this.updateActiveCalendar}
-              />
-            )}
             {false && <CalendarChat calendars={calendars} />}
 
             {contentModal && calendars[activeCalendarIndex] && (

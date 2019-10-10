@@ -60,12 +60,10 @@
 
 .manage-navigation {
   width: 100%;
-  
 }
 
 .manage-navigation button {
   background-color: transparent;
   color: var(--primary-font-color);
   font-size: var(--sixteen-font-size);
-  
 }

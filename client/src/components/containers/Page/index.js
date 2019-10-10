@@ -90,7 +90,7 @@ class Page extends Component {
                 {shouldShowSignedInAsDiv(activePage, user) && (
                   <SignedInAs user={user} />
                 )}
-                <GIContainer>{children}</GIContainer>
+                {children}
               </GIContainer>
 
               {!isUserInPlatform(activePage) && <WebsiteFooter />}

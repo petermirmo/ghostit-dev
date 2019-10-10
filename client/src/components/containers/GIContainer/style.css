@@ -285,6 +285,9 @@
   background-color: hsla(0, 0%, 0%, 0.4);
 }
 
+.bg-queen-blue {
+  background-color: var(--queen-blue-color);
+}
 .bg-grey {
   background-color: var(--light-grey-theme-color);
 }
@@ -417,5 +420,5 @@
 }
 
 .test-mode {
-  background-color: red;
+  background-color: red !important;
 }

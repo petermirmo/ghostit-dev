@@ -39,6 +39,7 @@ import {
   inviteUser,
   leaveCalendar,
   promoteUser,
+  removePendingEmail,
   removeUserFromCalendar,
   saveCalendarName,
   setDefaultCalendar,
@@ -68,6 +69,8 @@ class CalendarSideBar extends Component {
       confirmAlert: {},
       deleteCalendarPrompt: false,
       inviteEmail: "",
+      inviteEmailString: "",
+      inviteUsersInputBoolean: false,
       leaveCalendarPrompt: false,
       open: true,
       removeUserPrompt: false,
@@ -97,6 +100,8 @@ class CalendarSideBar extends Component {
     const {
       deleteCalendarPrompt,
       inviteEmail,
+      inviteUsersInputBoolean,
+      inviteEmailString,
       leaveCalendarPrompt,
       open,
       promoteUserObj,
@@ -139,7 +144,7 @@ class CalendarSideBar extends Component {
     return (
       <Consumer>
         {context => (
-          <GIContainer className="column shadow-7" style={{ width: "20%" }}>
+          <GIContainer className="x-fill column shadow-7">
             <GIContainer
               className="full-center x-fill clickable shadow-7 five-blue px8 py8"
               onClick={() => this.handleChange({ open: false })}
@@ -152,7 +157,7 @@ class CalendarSideBar extends Component {
                 activeIndex={activeCalendarIndex}
                 firstButton={
                   <GIText
-                    className="x-fill flex full-center clickable orange px16 py8"
+                    className="x-fill flex full-center clickable orange bg-queen-blue px16 py8"
                     onClick={() =>
                       createNewCalendar(
                         context,
@@ -205,42 +210,92 @@ class CalendarSideBar extends Component {
                 options={index =>
                   getAccountOptions(calendar.accounts[index], this.handleChange)
                 }
-                showOptionFunction={index =>
-                  isUserAdminOfCalendar(calendar, context.user) ||
-                  didUserConnectAccount(calendar.accounts[index], context.user)
-                }
                 title="Social Accounts"
                 titleIcon={faPlus}
               />
             )}
             {calendarUsers && (
               <CollapsibleMenu
-                list={calendarUsers.map((obj, index) => (
-                  <GIContainer className="x-85 align-center">
-                    <GIContainer className="x-fill column mr16">
-                      <GIContainer className="x-fill x-wrap">
-                        <GIText className="ellipsis" type="h6">
-                          {obj.fullName}{" "}
-                        </GIText>
-                        {isUserAdminOfCalendar(calendar, obj) && (
-                          <GIText
-                            className="green fw-normal"
-                            text="(Admin)"
-                            type="span"
-                          />
-                        )}
+                firstButton={
+                  <GIContainer className="x-fill column bg-queen-blue px16">
+                    <GIText
+                      className={`x-fill flex full-center clickable orange mb8 ${
+                        inviteUsersInputBoolean ? "mt16" : "mt8"
+                      }`}
+                      onClick={() =>
+                        this.handleChange({ inviteUsersInputBoolean: true })
+                      }
+                      text="Invite New Users"
+                      type="p"
+                    />
+                    {inviteUsersInputBoolean && (
+                      <GIContainer className="x-fill column">
+                        <GIInput
+                          className="x-fill mb8 br4"
+                          onChange={e =>
+                            this.handleChange({
+                              inviteEmailString: e.target.value
+                            })
+                          }
+                          placeholder="brucewayne@ghostit.co"
+                          value={inviteEmailString}
+                        />
+                        <GIButton
+                          className="fs-14 white bg-blue-fade-2 px16 py8 mb16 br4"
+                          onClick={() =>
+                            inviteUser(
+                              calendars,
+                              context,
+                              handleParentChange,
+                              activeCalendarIndex,
+                              inviteEmailString
+                            )
+                          }
+                          text="Invite User"
+                        />
                       </GIContainer>
-                      <GIText className="grey" text={obj.email} type="p" />
-                    </GIContainer>
+                    )}
                   </GIContainer>
-                ))}
+                }
+                list={[
+                  ...calendarUsers.map((user, index) => (
+                    <GIContainer className="x-85 align-center" key={index}>
+                      <GIContainer className="x-fill column mr16">
+                        <GIContainer className="x-fill x-wrap">
+                          <GIText className="ellipsis" type="h6">
+                            {user.fullName}{" "}
+                          </GIText>
+                          {isUserAdminOfCalendar(calendar, user) && (
+                            <GIText
+                              className="green fw-normal"
+                              text="(Admin)"
+                              type="span"
+                            />
+                          )}
+                        </GIContainer>
+                        <GIText className="grey" text={user.email} type="p" />
+                      </GIContainer>
+                    </GIContainer>
+                  )),
+                  ...calendar.emailsInvited.map((email, index) => (
+                    <GIContainer className="x-85 align-center" key={index}>
+                      <GIContainer className="x-fill column mr16">
+                        <GIContainer className="x-fill x-wrap">
+                          <GIText className="ellipsis" text={email} type="h6" />
+                        </GIContainer>
+                      </GIContainer>
+                    </GIContainer>
+                  ))
+                ]}
                 options={index =>
                   getUserOptions(
                     activeCalendarIndex,
                     calendar,
                     context,
+                    calendar.emailsInvited[index],
                     this.handleChange,
                     isUserAdminOfCalendar,
+                    removePendingEmail,
                     calendarUsers[index]
                   )
                 }
