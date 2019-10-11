@@ -1187,10 +1187,6 @@ module.exports = {
     });
   },
   promoteUser: (req, res) => {
-    // removing the ability for a calendar to change its admin so this function will now just return false
-    res.send({ success: false });
-    return;
-
     const { userID, calendarID } = req.body;
     let thisUserID = req.user._id;
     if (req.user.signedInAsUser) {
@@ -1232,6 +1228,48 @@ module.exports = {
             res.send({
               success: true,
               message: "User successfully promoted to new calendar admin."
+            });
+          }
+        }
+      }
+    });
+  },
+
+  removePendingEmail: (req, res) => {
+    const { calendarID, email } = req.body;
+
+    let userID = req.user._id;
+    if (req.user.signedInAsUser) {
+      if (req.user.signedInAsUser.id) {
+        userID = req.user.signedInAsUser.id;
+      }
+    }
+
+    Calendar.findOne({ _id: calendarID }, (err, foundCalendar) => {
+      if (err || !foundCalendar) {
+        res.send({
+          success: false,
+          err,
+          message: `Error while looking up calendar in database. Reload page and try again.`
+        });
+      } else {
+        const emailIndex = foundCalendar.emailsInvited.findIndex(
+          emailLoop => emailLoop.toString() === email.toString()
+        );
+        if (emailIndex === -1) {
+          res.send({
+            success: false,
+            message: `Unable to find email in the calendar's email list. Reload page and try again.`
+          });
+        } else {
+          if (foundCalendar.adminID.toString() === userID.toString()) {
+            foundCalendar.emailsInvited.splice(emailIndex, 1);
+            foundCalendar.save();
+            res.send({ success: true });
+          } else {
+            res.send({
+              success: false,
+              message: `Only admins can remove users from a calendar. Reload your page if you are the admin of this calendar.`
             });
           }
         }

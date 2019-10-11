@@ -51,19 +51,14 @@ export const inviteUser = (
 ) => {
   const calendar = calendars[index];
 
-  if (!/\S/.test(inviteEmail)) {
-    // inviteEmail is only whitespace so don't allow this to be invited
-    alert("Please type a valid email into the invite text box.");
-    return;
-  }
-  handleChange({ saving: true });
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/invite", {
       email: inviteEmail.toLowerCase(),
       calendarID: calendar._id
     })
     .then(res => {
-      handleChange({ saving: false });
+      context.handleChange({ saving: false });
       const { success, err, message, emailsInvited } = res.data;
       if (!success || err) {
         console.log(err);
@@ -89,6 +84,15 @@ export const inviteUser = (
     });
 };
 
+export const isUserOnline = (calendar, user, userList) => {
+  if (
+    userList.findIndex(
+      userLoop => userLoop.email.toString() === user.email.toString()
+    ) > -1
+  )
+    return true;
+  else return false;
+};
 export const promoteUser = (
   calendarIndex,
   calendars,
@@ -111,18 +115,15 @@ export const promoteUser = (
           message
         });
       } else {
-        handleChange(
-          prevState => {
-            return {
-              calendars: [
-                ...prevState.calendars.slice(0, calendarIndex),
-                { ...prevState.calendars[calendarIndex], adminID: userID },
-                ...prevState.calendars.slice(calendarIndex + 1)
-              ]
-            };
-          },
-          () => getCalendarUsers(calendarIndex)
-        );
+        handleChange(prevState => {
+          return {
+            calendars: [
+              ...prevState.calendars.slice(0, calendarIndex),
+              { ...prevState.calendars[calendarIndex], adminID: userID },
+              ...prevState.calendars.slice(calendarIndex + 1)
+            ]
+          };
+        });
         context.notify({ type: "success", title: "User Promoted", message });
       }
     });
@@ -131,15 +132,14 @@ export const promoteUser = (
 export const removeUserFromCalendar = (
   calendarIndex,
   calendars,
-  calendarUsers,
   context,
   getCalendarUsers,
-  handleParentChange,
+  handleCalendarChange,
   userIndex
 ) => {
   const calendar = calendars[calendarIndex];
   const calendarID = calendar._id;
-  const userID = calendarUsers[userIndex]._id;
+  const userID = calendar.users[userIndex]._id;
 
   axios
     .post("/api/calendar/user/remove", {
@@ -156,7 +156,7 @@ export const removeUserFromCalendar = (
           message
         });
       } else {
-        getCalendarUsers(calendars, handleParentChange, calendarIndex);
+        getCalendarUsers(calendars, handleCalendarChange, calendarIndex);
         context.notify({
           type: "success",
           title: "User Removed",
@@ -208,11 +208,11 @@ export const leaveCalendar = (
   index,
   updateActiveCalendar
 ) => {
-  handleChange({ saving: true });
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/leave", { calendarID: calendars[index]._id })
     .then(res => {
-      handleChange({ saving: true });
+      context.handleChange({ saving: false });
       const { success, err, message, newCalendar } = res.data;
       if (!success) {
         console.log(err);
@@ -259,11 +259,11 @@ export const deleteCalendar = (
   index,
   updateActiveCalendar
 ) => {
-  handleChange({ saving: true });
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/delete", { calendarID: calendars[index]._id })
     .then(res => {
-      handleChange({ saving: false });
+      context.handleChange({ saving: false });
       const { success, err, message, newCalendar } = res.data;
       if (!success) {
         console.log(err);
@@ -306,7 +306,56 @@ export const deleteCalendar = (
       }
     });
 };
-export const removePendingEmail = () => {};
+export const removePendingEmail = (
+  activeCalendarIndex,
+  calendar,
+  context,
+  handleChange,
+  listIndex
+) => {
+  const inviteEmailIndex = listIndex - calendar.users.length;
+  const calendarID = calendar._id;
+  const email = calendar.emailsInvited[inviteEmailIndex];
+
+  axios
+    .post("/api/calendar/remove/invitation", {
+      calendarID,
+      email
+    })
+    .then(res => {
+      const { success, err, message } = res.data;
+      if (!success) {
+        console.log(err);
+        console.log(message);
+        context.notify({
+          type: "danger",
+          title: "Remove Invitation Failed",
+          message
+        });
+      } else {
+        context.notify({ type: "success", title: "Success", message });
+        handleChange(prevState => {
+          return {
+            calendars: [
+              ...prevState.calendars.slice(0, activeCalendarIndex),
+              {
+                ...prevState.calendars[activeCalendarIndex],
+                emailsInvited: [
+                  ...prevState.calendars[
+                    activeCalendarIndex
+                  ].emailsInvited.slice(0, inviteEmailIndex),
+                  ...prevState.calendars[
+                    activeCalendarIndex
+                  ].emailsInvited.slice(inviteEmailIndex + 1)
+                ]
+              },
+              ...prevState.calendars.slice(activeCalendarIndex + 1)
+            ]
+          };
+        });
+      }
+    });
+};
 
 export const setDefaultCalendar = (calendarID, context, handleChange) => {
   axios

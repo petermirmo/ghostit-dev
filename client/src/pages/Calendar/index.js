@@ -48,22 +48,18 @@ import {
   getCalendarInvites,
   triggerSocketPeers,
   initSocket,
-  getCampaigns,
-  getUserEmail
+  getCampaigns
 } from "../util";
 
 import { validateEmail } from "../../componentFunctions";
 
 import {
   addMonth,
-  deleteCalendar,
   getActiveCategoriesInArray,
+  getCalendarAccounts,
   getCalendarEvents,
   getCalendarUsers,
   getPosts,
-  inviteUserToCalendar,
-  isUserAdminOfCalendar,
-  saveCalendarName,
   subtractMonth,
   updateActiveCategory
 } from "./util";
@@ -73,10 +69,8 @@ import "./style.css";
 class CalendarPage extends Component {
   state = {
     activeCalendarIndex: undefined,
-
     calendars: [],
     calendarInvites: [],
-    calendarUsers: [],
     clickedDate: new moment(),
     calendarDate: new moment(),
     calendarEditing: false,
@@ -147,7 +141,7 @@ class CalendarPage extends Component {
       );
       getCalendarUsers(
         stateObject.calendars,
-        this.handleChange,
+        this.handleCalendarChange,
         stateObject.activeCalendarIndex
       );
     });
@@ -264,7 +258,10 @@ class CalendarPage extends Component {
       () => {
         this.fillCalendar();
         this.updateSocketCalendar();
-        getCalendarUsers(calendars, this.handleChange, index);
+        if (!calendars[index].accounts)
+          getCalendarAccounts(calendars, this.handleCalendarChange, index);
+        if (!calendars[index].users)
+          getCalendarUsers(calendars, this.handleCalendarChange, index);
       }
     );
   };
@@ -277,7 +274,6 @@ class CalendarPage extends Component {
       calendarInvites,
       calendarName,
       calendars,
-      calendarUsers,
       campaignModal,
       campaigns,
       clickedDate,
@@ -325,7 +321,7 @@ class CalendarPage extends Component {
     return (
       <Consumer>
         {context => (
-          <Page className="x-fill relative" title="Calendar">
+          <Page className="fill-software-screen relative" title="Calendar">
             {loading && <Loader />}
             <GIContainer className="x-fill">
               <GIContainer className="column bg-light-grey fill-flex">
@@ -521,17 +517,15 @@ class CalendarPage extends Component {
                 )}
               </GIContainer>
               {!isNaN(activeCalendarIndex) && !modalsOpen && (
-                <GIContainer style={{ width: "20%" }}>
-                  <CalendarSideBar
-                    activeCalendarIndex={activeCalendarIndex}
-                    calendars={calendars}
-                    calendarUsers={calendarUsers}
-                    defaultCalendarID={defaultCalendarID}
-                    handleCalendarChange={this.handleCalendarChange}
-                    handleParentChange={this.handleChange}
-                    updateActiveCalendar={this.updateActiveCalendar}
-                  />
-                </GIContainer>
+                <CalendarSideBar
+                  activeCalendarIndex={activeCalendarIndex}
+                  calendars={calendars}
+                  defaultCalendarID={defaultCalendarID}
+                  handleCalendarChange={this.handleCalendarChange}
+                  handleParentChange={this.handleChange}
+                  updateActiveCalendar={this.updateActiveCalendar}
+                  userList={userList}
+                />
               )}
             </GIContainer>
             {false && <CalendarChat calendars={calendars} />}

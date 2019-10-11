@@ -1,15 +1,23 @@
-export const getAccountOptions = (account, handleChange) => {
-  return [
-    {
-      className: "red",
-      name: "Disconnect From Calendar",
-      onClick: index =>
-        handleChange({
-          unlinkAccountPrompt: true,
-          unLinkAccountID: calendar.accounts[index]._id
-        })
-    }
-  ];
+export const getAccountOptions = (
+  account,
+  calendar,
+  context,
+  handleChange,
+  isUserAdminOfCalendar
+) => {
+  if (isUserAdminOfCalendar(calendar, context.getUser()))
+    return [
+      {
+        className: "red",
+        name: "Disconnect From Calendar",
+        onClick: index =>
+          handleChange({
+            unlinkAccountPrompt: true,
+            unLinkAccountID: calendar.accounts[index]._id
+          })
+      }
+    ];
+  else return undefined;
 };
 export const getCalendarOptions = (
   calendar,
@@ -34,7 +42,11 @@ export const getCalendarOptions = (
         : "Leave Calendar",
       onClick: isUserAdminOfCalendar(calendar, context.getUser())
         ? index => deleteCalendarClicked(index, calendars, handleChange)
-        : () => handleChange({ leaveCalendarPrompt: true })
+        : index =>
+            handleChange({
+              leaveCalendarIndex: index,
+              leaveCalendarPrompt: true
+            })
     }
   ];
 };
@@ -43,8 +55,9 @@ export const getUserOptions = (
   activeCalendarIndex,
   calendar,
   context,
-  email,
   handleChange,
+  handleParentChange,
+  inviteEmailIndex,
   isUserAdminOfCalendar,
   removePendingEmail,
   user
@@ -54,6 +67,18 @@ export const getUserOptions = (
       if (context.getUser()._id === user._id) return undefined;
       else
         return [
+          {
+            name: "Make Admin",
+            onClick: index => {
+              handleChange({
+                promoteUserPrompt: true,
+                promoteUserObj: {
+                  userIndex: index,
+                  calendarIndex: activeCalendarIndex
+                }
+              });
+            }
+          },
           {
             name: "Remove User",
             onClick: index => {
@@ -73,7 +98,14 @@ export const getUserOptions = (
       return [
         {
           name: "Delete Invitation",
-          onClick: () => removePendingEmail(email)
+          onClick: () =>
+            removePendingEmail(
+              activeCalendarIndex,
+              calendar,
+              context,
+              handleParentChange,
+              inviteEmailIndex
+            )
         }
       ];
     } else return undefined;

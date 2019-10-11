@@ -28,7 +28,8 @@ import {
   capitolizeWordsInString,
   getPostIcon,
   getPostColor,
-  getPostIconRound
+  getPostIconRound,
+  validateEmail
 } from "../../../componentFunctions";
 
 import {
@@ -37,6 +38,7 @@ import {
   deleteCalendar,
   deleteCalendarClicked,
   inviteUser,
+  isUserOnline,
   leaveCalendar,
   promoteUser,
   removePendingEmail,
@@ -71,6 +73,7 @@ class CalendarSideBar extends Component {
       inviteEmail: "",
       inviteEmailString: "",
       inviteUsersInputBoolean: false,
+      leaveCalendarIndex: undefined,
       leaveCalendarPrompt: false,
       open: true,
       removeUserPrompt: false,
@@ -102,6 +105,7 @@ class CalendarSideBar extends Component {
       inviteEmail,
       inviteUsersInputBoolean,
       inviteEmailString,
+      leaveCalendarIndex,
       leaveCalendarPrompt,
       open,
       promoteUserObj,
@@ -117,10 +121,11 @@ class CalendarSideBar extends Component {
     const {
       activeCalendarIndex,
       calendars,
-      calendarUsers,
       defaultCalendarID,
+      handleCalendarChange,
       handleParentChange,
-      updateActiveCalendar
+      updateActiveCalendar,
+      userList
     } = this.props;
 
     let userID = this.props.user._id;
@@ -144,7 +149,10 @@ class CalendarSideBar extends Component {
     return (
       <Consumer>
         {context => (
-          <GIContainer className="x-fill column shadow-7">
+          <GIContainer
+            className="x-fill column shadow-7"
+            style={{ width: "20%" }}
+          >
             <GIContainer
               className="full-center x-fill clickable shadow-7 five-blue px8 py8"
               onClick={() => this.handleChange({ open: false })}
@@ -208,60 +216,73 @@ class CalendarSideBar extends Component {
                   </GIContainer>
                 ))}
                 options={index =>
-                  getAccountOptions(calendar.accounts[index], this.handleChange)
+                  getAccountOptions(
+                    calendar.accounts[index],
+                    calendar,
+                    context,
+                    this.handleChange,
+                    isUserAdminOfCalendar
+                  )
                 }
                 title="Social Accounts"
                 titleIcon={faPlus}
               />
             )}
-            {calendarUsers && (
+            {calendar.users && (
               <CollapsibleMenu
                 firstButton={
-                  <GIContainer className="x-fill column bg-queen-blue px16">
-                    <GIText
-                      className={`x-fill flex full-center clickable orange mb8 ${
-                        inviteUsersInputBoolean ? "mt16" : "mt8"
-                      }`}
-                      onClick={() =>
-                        this.handleChange({ inviteUsersInputBoolean: true })
-                      }
-                      text="Invite New Users"
-                      type="p"
-                    />
-                    {inviteUsersInputBoolean && (
-                      <GIContainer className="x-fill column">
-                        <GIInput
-                          className="x-fill mb8 br4"
-                          onChange={e =>
-                            this.handleChange({
-                              inviteEmailString: e.target.value
-                            })
-                          }
-                          placeholder="brucewayne@ghostit.co"
-                          value={inviteEmailString}
-                        />
-                        <GIButton
-                          className="fs-14 white bg-blue-fade-2 px16 py8 mb16 br4"
-                          onClick={() =>
-                            inviteUser(
-                              calendars,
-                              context,
-                              handleParentChange,
-                              activeCalendarIndex,
-                              inviteEmailString
-                            )
-                          }
-                          text="Invite User"
-                        />
-                      </GIContainer>
-                    )}
-                  </GIContainer>
+                  isUserAdminOfCalendar(calendar, context.getUser()) ? (
+                    <GIContainer className="x-fill column bg-queen-blue px16">
+                      <GIText
+                        className={`x-fill flex full-center clickable orange mb8 ${
+                          inviteUsersInputBoolean ? "mt16" : "mt8"
+                        }`}
+                        onClick={() =>
+                          this.handleChange({ inviteUsersInputBoolean: true })
+                        }
+                        text="Invite New Users"
+                        type="p"
+                      />
+                      {inviteUsersInputBoolean && (
+                        <GIContainer className="x-fill column">
+                          <GIInput
+                            className="x-fill mb8 br4"
+                            onChange={e =>
+                              this.handleChange({
+                                inviteEmailString: e.target.value
+                              })
+                            }
+                            placeholder="brucewayne@ghostit.co"
+                            value={inviteEmailString}
+                          />
+                          <GIButton
+                            className="fs-14 white bg-blue-fade-2 px16 py8 mb16 br4"
+                            onClick={() => {
+                              if (validateEmail(inviteEmailString)) {
+                                inviteUser(
+                                  calendars,
+                                  context,
+                                  handleParentChange,
+                                  activeCalendarIndex,
+                                  inviteEmailString
+                                );
+                                this.handleChange({ inviteEmailString: "" });
+                              } else alert("Not a real email address!");
+                            }}
+                            text="Invite User"
+                          />
+                        </GIContainer>
+                      )}
+                    </GIContainer>
+                  ) : (
+                    ""
+                  )
                 }
                 list={[
-                  ...calendarUsers.map((user, index) => (
+                  ...calendar.users.map((user, index) => (
                     <GIContainer className="x-85 align-center" key={index}>
                       <GIContainer className="x-fill column mr16">
-                        <GIContainer className="x-fill x-wrap">
+                        <GIContainer className="x-fill x-wrap align-center">
                           <GIText className="ellipsis" type="h6">
                             {user.fullName}{" "}
                           </GIText>
@@ -271,6 +292,9 @@ class CalendarSideBar extends Component {
                               text="(Admin)"
                               type="span"
                             />
+                          )}
+                          {isUserOnline(calendar, user, userList) && (
+                            <GIContainer className="dot small bg-green ml4" />
                           )}
                         </GIContainer>
                         <GIText className="grey" text={user.email} type="p" />
@@ -292,11 +316,12 @@ class CalendarSideBar extends Component {
                     activeCalendarIndex,
                     calendar,
                     context,
-                    calendar.emailsInvited[index],
                     this.handleChange,
+                    handleParentChange,
+                    index,
                     isUserAdminOfCalendar,
                     removePendingEmail,
-                    calendarUsers[index]
+                    calendar.users[index]
                   )
                 }
                 title="Calendar Users"
@@ -315,7 +340,7 @@ class CalendarSideBar extends Component {
                       calendars,
                       context,
                       handleParentChange,
-                      activeCalendarIndex,
+                      leaveCalendarIndex,
                       updateActiveCalendar
                     );
                 }}
@@ -392,10 +417,9 @@ class CalendarSideBar extends Component {
                     removeUserFromCalendar(
                       removeUserObj.calendarIndex,
                       calendars,
-                      calendarUsers,
                       context,
                       getCalendarUsers,
-                      handleParentChange,
+                      handleCalendarChange,
                       removeUserObj.userIndex
                     );
                 }}
@@ -423,7 +447,7 @@ class CalendarSideBar extends Component {
                       promoteUserObj.calendarIndex,
                       calendars,
                       context,
-                      this.handleChange,
+                      handleParentChange,
                       promoteUserObj.userIndex
                     );
                 }}

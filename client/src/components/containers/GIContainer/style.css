@@ -166,6 +166,12 @@
   width: 75vw;
   max-width: 1400px;
 }
+.fill-full-screen {
+  width: 100vw;
+}
+.fill-software-screen {
+  width: calc(100vw - 133px);
+}
 
 .container-box.y-30vw {
   height: 30vw;
@@ -287,6 +293,10 @@
 
 .bg-queen-blue {
   background-color: var(--queen-blue-color);
+}
+
+.bg-green {
+  background-color: var(--green-theme-color);
 }
 .bg-grey {
   background-color: var(--light-grey-theme-color);
@@ -417,6 +427,10 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
+}
+.dot.small {
+  width: 8px;
+  height: 8px;
 }
 
 .test-mode {
