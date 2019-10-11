@@ -5,6 +5,7 @@ export const createBlogDivs = contentImagesArray => {
   const blogDivs = [];
   for (let index = 0; index < contentImagesArray.length; index++) {
     const contentOrImage = contentImagesArray[index];
+    if (!contentOrImage) continue;
     if (!contentOrImage.html) {
       if (contentOrImage.size === "small") {
         blogDivs.push(createSmallDiv(contentImagesArray, index));

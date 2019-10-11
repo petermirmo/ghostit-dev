@@ -131,7 +131,9 @@ button {
   pointer-events: auto;
   box-sizing: border-box;
 }
-
+.blog a {
+  text-decoration: underline !important;
+}
 a {
   color: var(--four-blue-color);
   font-weight: bold;

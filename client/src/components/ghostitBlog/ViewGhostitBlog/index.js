@@ -67,7 +67,7 @@ divs[image.location] = this.createRelevantImageDiv(image, index);
       >
         <GIContainer>
           <GIContainer
-            className={`block ${
+            className={`blog block ${
               isMobileOrTablet() ? "x-fill px16" : "container-box large"
             }`}
           >
