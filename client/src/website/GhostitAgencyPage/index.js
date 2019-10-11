@@ -41,6 +41,7 @@ class GhostitAgency extends Component {
         className="website-page align-center mt32"
         description="Increase the amount of qualified traffic to your site."
         keywords="content, ghostit, marketing, agency"
+        style={{ width: "100%" }}
         title="Agency"
       >
         <GIText className="tac mb8" type="h1">

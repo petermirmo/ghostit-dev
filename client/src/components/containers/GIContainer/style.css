@@ -166,6 +166,12 @@
   width: 75vw;
   max-width: 1400px;
 }
+.fill-full-screen {
+  width: 100vw;
+}
+.fill-software-screen {
+  width: calc(100vw - 133px);
+}
 
 .container-box.y-30vw {
   height: 30vw;
@@ -189,6 +195,7 @@
 }
 .common-border {
   border: 1px solid var(--grey-theme-color);
+  border-style: solid !important;
 }
 .common-border.light {
   border: 1px solid var(--light-grey-theme-color);
@@ -218,6 +225,9 @@
 }
 .common-border.white {
   border-color: var(--white-theme-color);
+}
+.common-border.green {
+  border-color: var(--green-theme-color);
 }
 
 .border.small {
@@ -281,9 +291,21 @@
   background-color: hsla(0, 0%, 0%, 0.4);
 }
 
+.bg-queen-blue {
+  background-color: var(--queen-blue-color);
+}
+
+.bg-green {
+  background-color: var(--green-theme-color);
+}
 .bg-grey {
   background-color: var(--light-grey-theme-color);
 }
+
+.bg-blue-grey {
+  background-color: var(--blue-grey-color);
+}
+
 .bg-light-grey {
   background-color: var(--light-light-grey-theme-color);
 }
@@ -307,7 +329,7 @@
 }
 
 .bg-green-fade {
-  background: linear-gradient(320deg, #3dd6b4, #48def7);
+  background: linear-gradient(320deg, var(--green-theme-color), #48def7);
 }
 .bg-purple-fade {
   background: linear-gradient(320deg, #6163ff, #9c9dff);
@@ -406,7 +428,11 @@
   height: 12px;
   border-radius: 50%;
 }
+.dot.small {
+  width: 8px;
+  height: 8px;
+}
 
 .test-mode {
-  background-color: red;
+  background-color: red !important;
 }

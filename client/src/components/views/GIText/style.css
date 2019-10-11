@@ -10,6 +10,18 @@
   color: var(--white-theme-color);
   fill: var(--white-theme-color);
 }
+.silver {
+  color: var(--silver-color);
+  fill: var(--silver-color);
+}
+.red {
+  color: var(--red-theme-color);
+  fill: var(--red-theme-color);
+}
+.orange {
+  color: var(--orange-theme-color);
+  fill: var(--orange-theme-color);
+}
 .grey {
   color: var(--grey-font-color);
   fill: var(--grey-font-color);
@@ -26,10 +38,9 @@
   color: var(--seven-blue-color);
   fill: var(--seven-blue-color);
 }
-
 .green {
-  color: #3dd6b4;
-  fill: #3dd6b4;
+  color: var(--green-theme-color);
+  fill: var(--green-theme-color);
 }
 .clickable {
   cursor: pointer;
@@ -60,6 +71,9 @@
 .taj {
   text-align: justify;
 }
+.fw-normal {
+  font-weight: normal;
+}
 .bold {
   font-weight: bold;
 }
@@ -76,6 +90,9 @@
 }
 .fs-13 {
   font-size: var(--thirteen-font-size);
+}
+.fs-14 {
+  font-size: var(--fourteen-font-size);
 }
 .fs-20 {
   font-size: var(--twenty-font-size);

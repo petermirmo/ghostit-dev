@@ -44,8 +44,10 @@ class Dropdown extends Component {
       activeItem,
       dropdownActiveDisplayClassName,
       className,
+      dontShowFaAngleDown,
       dropdownClassName,
       dropdownItems,
+      noTopBorder,
       search,
       size,
       testMode,
@@ -75,22 +77,23 @@ class Dropdown extends Component {
         forwardedRef={this.setWrapperRef}
         testMode={testMode}
       >
-        <GIContainer className="dropdown-title-container align-center pr8">
+        <GIContainer className="dropdown-title-container align-center">
           {title}
-          <FontAwesomeIcon
-            className="five-blue mx8"
-            icon={faAngleDown}
-            size={size}
-          />
+          {!dontShowFaAngleDown && (
+            <FontAwesomeIcon
+              className="five-blue mr16"
+              icon={faAngleDown}
+              size={size}
+            />
+          )}
         </GIContainer>
         {showDropdown && (
           <GIContainer className={`dropdown ${dropdownClassName}`}>
             {dropdownItems.map((item, index) => (
               <GIText
-                className={`flex align-center border-top px16 py8 ${isActiveItem(
-                  activeItem,
-                  index
-                )}`}
+                className={`flex align-center px16 py8 ${
+                  noTopBorder && index === 0 ? "" : "border-top"
+                } ${isActiveItem(activeItem, index)}`}
                 id={index + item}
                 key={index}
                 onClick={() => {

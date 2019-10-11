@@ -83,7 +83,7 @@ class Page extends Component {
               <GIContainer
                 className={
                   isUserInPlatform(activePage)
-                    ? `page-container bg-white ${className}`
+                    ? `page-container bg-white column ${className}`
                     : className
                 }
               >

@@ -4,12 +4,13 @@
   width: 100%;
 }
 .calendar-day-heading-container {
-  background-image: linear-gradient(274deg, #3dd6b4, #48def7);
+  background-image: linear-gradient(274deg, var(--green-theme-color), #48def7);
 
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
 .calendar-weeks-container {
+  overflow: hidden;
   border: 1px var(--light-grey-theme-color) solid;
   border-top: none;
   border-bottom-left-radius: 8px;
@@ -35,6 +36,7 @@
   min-height: 16vh;
   border-right: 1px solid var(--light-grey-theme-color);
   cursor: pointer;
+  background-color: var(--white-theme-color);
 }
 
 .calendar-day-heading,

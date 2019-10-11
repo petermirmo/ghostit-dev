@@ -410,6 +410,10 @@ module.exports = app => {
     calendarFunctions.leaveCalendar(req, res)
   );
 
+  app.post("/api/calendar/remove/invitation", middleware, (req, res) =>
+    calendarFunctions.removePendingEmail(req, res)
+  );
+
   app.post("/api/notifications", middleware, (req, res) =>
     notificationFunctions.getNotifications(req, res)
   );

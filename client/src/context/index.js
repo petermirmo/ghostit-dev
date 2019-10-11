@@ -41,6 +41,11 @@ class GIProvider extends Component {
   handleChange = stateObject => {
     if (this._ismounted) this.setState(stateObject);
   };
+  getUser = () => {
+    const { signedInAsUser, user } = this.state;
+    if (signedInAsUser) return signedInAsUser;
+    else return user;
+  };
   render() {
     const {
       clientSideBar,
@@ -55,6 +60,7 @@ class GIProvider extends Component {
       <Provider
         value={{
           clientSideBar,
+          getUser: this.getUser,
           ghostitBlogs,
           handleChange: this.handleChange,
           notify: this.notify,

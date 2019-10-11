@@ -2,84 +2,6 @@ import React from "react";
 import axios from "axios";
 import { getPostIcon, getPostColor } from "../../componentFunctions";
 
-export const createNewCalendar = (
-  context,
-  handleChange,
-  index,
-  name,
-  updateActiveCalendar
-) => {
-  axios.post("/api/calendars/new", { name }).then(res => {
-    const { success, newCalendar, message } = res.data;
-    if (success) {
-      handleChange(
-        prevState => {
-          return {
-            calendars: [...prevState.calendars, newCalendar]
-          };
-        },
-        () => updateActiveCalendar(index)
-      );
-    } else {
-      context.notify({ type: "danger", title: "", message });
-    }
-  });
-};
-
-export const deleteCalendar = (
-  calendars,
-  context,
-  handleChange,
-  index,
-  updateActiveCalendar
-) => {
-  handleChange({ loading: true });
-  axios
-    .post("/api/calendar/delete", { calendarID: calendars[index]._id })
-    .then(res => {
-      handleChange({ loading: false });
-      const { success, err, message, newCalendar } = res.data;
-
-      if (!success) {
-        console.log(err);
-        context.notify({
-          type: "danger",
-          title: "Delete Calendar Failed",
-          message
-        });
-      } else {
-        context.notify({
-          type: "success",
-          title: "Calendar Deleted",
-          message: message ? message : "Calendar successfully deleted."
-        });
-        if (newCalendar) {
-          // deleted last calendar so the backend created a new one for the user
-          handleChange(
-            { activeCalendarIndex: 0, calendars: [newCalendar] },
-            () => updateActiveCalendar(0)
-          );
-        } else {
-          let new_index = index;
-          if (calendars.length - 1 <= index) new_index = index - 1;
-
-          handleChange(
-            prevState => {
-              return {
-                activeCalendarIndex: new_index,
-                calendars: [
-                  ...prevState.calendars.slice(0, index),
-                  ...prevState.calendars.slice(index + 1)
-                ]
-              };
-            },
-            () => updateActiveCalendar(new_index)
-          );
-        }
-      }
-    });
-};
-
 export const getCalendarEvents = (
   calendarEventCategories,
   campaigns,
@@ -209,9 +131,7 @@ export const getPosts = (
     });
 };
 
-export const getCalendarAccounts = index => {
-  const { calendars } = this.state;
-
+export const getCalendarAccounts = (calendars, handleCalendarChange, index) => {
   axios
     .get("/api/calendar/accounts/extra/" + calendars[index]._id)
     .then(res => {
@@ -223,12 +143,12 @@ export const getCalendarAccounts = index => {
         console.log(err);
         console.log(message);
       } else {
-        this.handleCalendarChange("accounts", accounts, index);
+        handleCalendarChange("accounts", accounts, index);
       }
     });
 };
 
-export const getCalendarUsers = (calendars, handleChange, index) => {
+export const getCalendarUsers = (calendars, handleCalendarChange, index) => {
   axios.get("/api/calendar/users/" + calendars[index]._id).then(res => {
     const { success, err, message, users } = res.data;
     if (!success || err || !users) {
@@ -246,7 +166,7 @@ export const getCalendarUsers = (calendars, handleChange, index) => {
         users[adminIndex] = temp;
       }
 
-      handleChange({ calendarUsers: users });
+      handleCalendarChange("users", users, index);
     }
   });
 };
@@ -305,8 +225,6 @@ export const getActiveCategoriesInArray = calendarEventCategories => {
 export const isUserAdminOfCalendar = (calendar, user) => {
   if (!calendar || !user) return false;
   else if (calendar.adminID === user._id) return true;
-  else if (user.signedInAsUser && calendar.adminID === user.signedInAsUser.id)
-    return true;
   else return false;
 };
 export const updateActiveCategory = (
@@ -331,76 +249,6 @@ export const updateActiveCategory = (
     });
   } else {
     handleChange({ calendarEventCategories });
-  }
-};
-
-export const removeUserFromCalendar = (
-  calendarIndex,
-  calendars,
-  context,
-  handleChange,
-  userIndex
-) => {
-  const calendar = calendars[calendarIndex];
-  const calendarID = calendar._id;
-  const userID = calendar.userIDs[userIndex];
-
-  axios
-    .post("/api/calendar/user/remove", {
-      userID,
-      calendarID
-    })
-    .then(res => {
-      const { success, err, message } = res.data;
-      if (!success) {
-        console.log(err);
-        context.notify({
-          type: "danger",
-          title: "Remove User Failed",
-          message
-        });
-      } else {
-        getCalendarUsers(calendars, handleChange, calendarIndex);
-        context.notify({
-          type: "success",
-          title: "User Removed",
-          message: `User successfully removed from calendar.`
-        });
-      }
-    });
-};
-export const saveCalendarName = (calendars, handleChange, index, name) => {
-  if (!/\S/.test(name)) {
-    alert("Name must not be empty.");
-    return;
-  }
-  if (name && name.length > 0) {
-    axios
-      .post("/api/calendar/rename", {
-        calendarID: calendars[index]._id,
-        name
-      })
-      .then(res => {
-        const { success, err, message, calendar } = res.data;
-        if (!success) {
-          console.log(err);
-          console.log(message);
-        } else {
-          handleChange(prevState => {
-            return {
-              calendarEditing: false,
-              calendars: [
-                ...prevState.calendars.slice(0, index),
-                {
-                  ...prevState.calendars[index],
-                  calendarName: calendar.calendarName
-                },
-                ...prevState.calendars.slice(index + 1)
-              ]
-            };
-          });
-        }
-      });
   }
 };
 
