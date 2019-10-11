@@ -323,7 +323,7 @@ class CalendarPage extends Component {
         {context => (
           <Page className="fill-software-screen relative" title="Calendar">
             {loading && <Loader />}
-            <GIContainer className="x-fill">
+            <GIContainer className="fill-parent">
               <GIContainer className="column bg-light-grey fill-flex">
                 {calendarInvites &&
                   calendarInvites.length > 0 &&

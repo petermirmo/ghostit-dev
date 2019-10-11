@@ -325,7 +325,7 @@
   background-color: var(--seven-blue-color);
 }
 .bg-white {
-  background-color: var(--white-theme-color) !important;
+  background-color: var(--white-theme-color);
 }
 
 .bg-green-fade {

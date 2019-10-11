@@ -71,8 +71,8 @@ class Profile extends Component {
     return (
       <Consumer>
         {context => (
-          <Page title="Profile">
-            <GIContainer className="column bg-light-grey x-fill align-center">
+          <Page className="bg-light-grey" title="Profile">
+            <GIContainer className="column x-fill align-center">
               <GIContainer className="full-center border-bottom x-fill py16">
                 <GIText className="muli" text="Profile" type="h2" />
                 <Link to="/sign-in">
