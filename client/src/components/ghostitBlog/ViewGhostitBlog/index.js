@@ -17,6 +17,14 @@ import { createBlogDivs, createContentImagesArray } from "./util";
 import "./style.css";
 
 class ViewWebsiteBlog extends Component {
+  findFirstImage = images => {
+    let location = images[0].location;
+    let indexOfSmallestLocation = 0;
+    for (let index in images) {
+      if (images[index].location < location) indexOfSmallestLocation = index;
+    }
+    return indexOfSmallestLocation;
+  };
   render() {
     const { contentArray = [], featuredBlogs = [], images = [] } = this.props;
 
@@ -94,7 +102,11 @@ divs[image.location] = this.createRelevantImageDiv(image, index);
                           ghostitBlog.images[0]
                             ? {
                                 backgroundImage:
-                                  "url(" + ghostitBlog.images[0].url + ")"
+                                  "url(" +
+                                  ghostitBlog.images[
+                                    this.findFirstImage(ghostitBlog.images)
+                                  ].url +
+                                  ")"
                               }
                             : {}
                         }
