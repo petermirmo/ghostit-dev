@@ -21,8 +21,6 @@ import Consumer from "../../context";
 
 import { logout, saveUser } from "./util";
 
-import "./style.css";
-
 class Profile extends Component {
   state = { saving: false };
 
@@ -44,7 +42,8 @@ class Profile extends Component {
       fullName,
       image,
       newPassword: "",
-      password: "",
+      newPassword2: "",
+      currentPassword: "",
       website
     };
   };
@@ -62,7 +61,8 @@ class Profile extends Component {
       fullName,
       image,
       newPassword,
-      password,
+      newPassword2,
+      currentPassword,
       website
     } = userFields;
 
@@ -102,80 +102,89 @@ class Profile extends Component {
                 )}
               </GIContainer>
               <GIContainer className="bg-white column common-border x-70 br8 my64">
-                <GIContainer className="x-fill align-center border-bottom-dashed pa32">
-                  <GIContainer className="column x-50">
-                    <GIText
-                      className="label mx8 mb4"
-                      text="Company Name"
-                      type="p"
-                    />
-                    <input
-                      type="text"
-                      className="regular-input x-fill pa8 mb16 round"
-                      placeholder="Company Name"
-                      onChange={event =>
-                        this.handleChange("fullName", event.target.value)
-                      }
-                      value={fullName}
-                    />
+                <GIContainer className="column x-fill border-bottom-dashed pa32">
+                  <GIContainer className="x-fill align-center">
+                    <GIContainer className="column x-50 pr4">
+                      <GIText
+                        className="label mx8 mb4"
+                        text="Company Name"
+                        type="p"
+                      />
+                      <input
+                        type="text"
+                        className="regular-input x-fill pa8 mb16 round"
+                        placeholder="Company Name"
+                        onChange={event =>
+                          this.handleChange("fullName", event.target.value)
+                        }
+                        value={fullName}
+                      />
+                    </GIContainer>
+                    <GIContainer className="justify-end x-50">
+                      <GIContainer>
+                        <FileUpload
+                          canEdit={true}
+                          className="xy-128px round x-fill full-center"
+                          currentFiles={image ? [image] : []}
+                          fileLimit={1}
+                          filesToDelete={[]}
+                          handleParentChange={parentStateChangeObject => {
+                            if (parentStateChangeObject.files)
+                              this.handleChange(
+                                "image",
+                                parentStateChangeObject.files[0]
+                              );
+                            else this.handleChange("image", undefined);
+                          }}
+                          id="hjqgf"
+                          imageClassName="flex x-128px"
+                          imageContainerClassName="xy-128px ov-hidden align-start round"
+                          imageOnly={true}
+                        />
+                      </GIContainer>
+                    </GIContainer>
                   </GIContainer>
-                  <GIContainer className="justify-end x-50">
-                    <GIContainer>
-                      <FileUpload
-                        canEdit={true}
-                        className="xy-128px round x-fill full-center"
-                        currentFiles={image ? [image] : []}
-                        handleParentChange={parentStateChangeObject => {
-                          if (parentStateChangeObject.files)
-                            this.handleChange(
-                              "image",
-                              parentStateChangeObject.files[0]
-                            );
-                          else this.handleChange("image", undefined);
-                        }}
-                        fileLimit={1}
-                        filesToDelete={[]}
-                        id="hjqgf"
-                        imageClassName="xy-128px round"
-                        imageContainerClassName=""
-                        imageOnly={true}
+                  <GIContainer className="x-fill pt32">
+                    <GIContainer className="column fill-flex">
+                      <GIText className="label mx8 mb4" text="Email" type="p" />
+                      <input
+                        type="text"
+                        className="regular-input x-fill pa8 mb16 round"
+                        placeholder="Email"
+                        onChange={event =>
+                          this.handleChange("email", event.target.value)
+                        }
+                        value={email}
+                      />
+                    </GIContainer>
+                    <GIContainer className="column fill-flex ml8">
+                      <GIText
+                        className="label mx8 mb4"
+                        text="Website"
+                        type="p"
+                      />
+                      <input
+                        type="text"
+                        className="regular-input x-fill pa8 mb16 round"
+                        placeholder="Website"
+                        onChange={event =>
+                          this.handleChange("website", event.target.value)
+                        }
+                        value={website}
                       />
                     </GIContainer>
                   </GIContainer>
                 </GIContainer>
 
-                <GIContainer className="x-fill px32 pt32">
-                  <GIContainer className="column fill-flex">
-                    <GIText className="label mx8 mb4" text="Email" type="p" />
-                    <input
-                      type="text"
-                      className="regular-input x-fill pa8 mb16 round"
-                      placeholder="Email"
-                      onChange={event =>
-                        this.handleChange("email", event.target.value)
-                      }
-                      value={email}
-                    />
-                  </GIContainer>
-                  <GIContainer className="column fill-flex ml8">
-                    <GIText className="label mx8 mb4" text="Website" type="p" />
-                    <input
-                      type="text"
-                      className="regular-input x-fill pa8 mb16 round"
-                      placeholder="Website"
-                      onChange={event =>
-                        this.handleChange("website", event.target.value)
-                      }
-                      value={website}
-                    />
-                  </GIContainer>
+                <GIContainer className="x-fill px32 pb16 mt32">
+                  <GIText text="Change Password" type="h4" />
                 </GIContainer>
 
                 <GIContainer className="x-fill px32 pb16">
-                  <GIContainer className="column fill-flex">
+                  <GIContainer className="column x-50 pr4">
                     <GIText
                       className="label mx8 mb4"
-                      text="Password"
+                      text="Current Password"
                       type="p"
                     />
 
@@ -184,12 +193,14 @@ class Profile extends Component {
                       className="regular-input x-fill pa8 mb16 round"
                       placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
                       onChange={event =>
-                        this.handleChange("password", event.target.value)
+                        this.handleChange("currentPassword", event.target.value)
                       }
-                      value={password}
+                      value={currentPassword}
                     />
                   </GIContainer>
-                  <GIContainer className="column fill-flex ml8">
+                </GIContainer>
+                <GIContainer className="x-fill px32 pb16">
+                  <GIContainer className="column fill-flex">
                     <GIText
                       className="label mx8 mb4"
                       text="New Password"
@@ -205,26 +216,55 @@ class Profile extends Component {
                       value={newPassword}
                     />
                   </GIContainer>
+                  <GIContainer className="column fill-flex ml8">
+                    <GIText
+                      className="label mx8 mb4"
+                      text="New Password Confirm"
+                      type="p"
+                    />
+
+                    <input
+                      type="password"
+                      className="regular-input x-fill pa8 mb16 round"
+                      placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+                      onChange={event =>
+                        this.handleChange("newPassword2", event.target.value)
+                      }
+                      value={newPassword2}
+                    />
+                  </GIContainer>
                 </GIContainer>
                 <GIContainer className="full-center pb32">
                   <GIButton
                     className="blue-fade white full-center"
                     onClick={event => {
-                      this.setState({ saving: true });
                       const { userFields } = this.state;
-                      const { user } = this.props;
-
+                      const { history, user } = this.props; // Variables
+                      const { setUser } = this.props; // Functions
+                      if (userFields.newPassword || userFields.newPassword2) {
+                        if (userFields.newPassword !== userFields.newPassword2)
+                          return alert("New passwords do not match!");
+                        else if (
+                          userFields.newPassword === userFields.newPassword2 &&
+                          !userFields.currentPassword
+                        )
+                          return alert(
+                            "You must enter your current password to change passwords."
+                          );
+                      }
+                      this.setState({ saving: true });
                       saveUser(
                         userFields,
                         user._id,
                         updatedUser => {
-                          this.props.setUser(updatedUser);
+                          setUser(updatedUser);
+                          context.handleChange({ user: updatedUser });
                           this.setState({
                             userFields: this.setUserToState(updatedUser),
                             saving: false
                           });
                         },
-                        this.props
+                        history
                       );
                     }}
                   >

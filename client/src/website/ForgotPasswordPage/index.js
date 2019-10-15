@@ -33,45 +33,51 @@ class ForgotPasswordPage extends Component {
       <Consumer>
         {context => (
           <Page
-            className="login-background website-page align-center"
+            className="login-background website-page align-center pt64"
             keywords="content, ghostit, marketing"
             title="Forgot Password"
           >
-            <GIText className="pb16 tac" text="Forgot Password" type="h1" />
+            <GIContainer className="column x-fill full-center pb64">
+              <GIText className="tac mb8" text="Password!" type="h2">
+                <GIText className="four-blue" text="Forgot&nbsp;" type="span" />
+              </GIText>
+              <GIContainer className="container-box large bg-white shadow pa32 br16">
+                <form
+                  className="common-container"
+                  onSubmit={event => event.preventDefault()}
+                >
+                  <GIInput
+                    className="regular-input mb8"
+                    value={email}
+                    onChange={event =>
+                      this.handleChange("email", event.target.value)
+                    }
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    required
+                  />
+                  <GIButton
+                    className="bg-blue-fade white py8 px16 br4"
+                    onClick={() =>
+                      sendResetEmail(email, notification =>
+                        context.notify(notification)
+                      )
+                    }
+                    text="Send Password Reset"
+                  />
 
-            <GIContainer className="basic-box shadow pa32 br16">
-              <form
-                className="common-container"
-                onSubmit={event => event.preventDefault()}
-              >
-                <GIInput
-                  className="regular-input mb8"
-                  value={email}
-                  onChange={event =>
-                    this.handleChange("email", event.target.value)
-                  }
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  required
-                />
-                <GIButton
-                  className="regular-button mb8"
-                  onClick={() =>
-                    sendResetEmail(email, notification =>
-                      context.notify(notification)
-                    )
-                  }
-                  text="Send Password Reset"
-                />
-
-                <Link to="/sign-in">
-                  <GIContainer className="full-center">
-                    <GIText text="Back to" type="h6" />
-                    <GIButton className="underline-button ml4" text="Sign In" />
-                  </GIContainer>
-                </Link>
-              </form>
+                  <Link to="/sign-in">
+                    <GIContainer className="full-center mt8">
+                      <GIText text="Back to" type="h6" />
+                      <GIButton
+                        className="underline-button ml4"
+                        text="Sign In"
+                      />
+                    </GIContainer>
+                  </Link>
+                </form>
+              </GIContainer>{" "}
             </GIContainer>
           </Page>
         )}

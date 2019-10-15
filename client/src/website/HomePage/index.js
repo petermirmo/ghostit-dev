@@ -296,7 +296,7 @@ class RegularVersion extends Component {
                 <GIContainer className="xy-128px ov-hidden round">
                   <img
                     alt=""
-                    className="x-125px"
+                    className="x-128px"
                     src="https://res.cloudinary.com/ghostit-co/image/upload/v1566407434/home-testimony-1.png"
                   />
                 </GIContainer>

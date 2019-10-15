@@ -88,62 +88,69 @@ class LoginPage extends Component {
       <Consumer>
         {context => (
           <Page
-            title="Sign In"
+            className="login-background website-page align-center pt64"
             description="Ghostit sign in :)"
             keywords="content, ghostit, marketing"
-            className="login-background website-page align-center"
+            title="Sign In"
           >
-            <GIText className="pb16 tac" text="Sign in to Ghostit!" type="h1" />
+            <GIContainer className="column x-fill full-center pb64">
+              <GIText className="tac mb8" text="In!" type="h2">
+                <GIText className="four-blue" text="Sign&nbsp;" type="span" />
+              </GIText>
 
-            <GIContainer className="basic-box shadow pa32 br16">
-              <form
-                className="common-container"
-                onSubmit={event => event.preventDefault()}
-              >
-                <GIInput
-                  className="regular-input mb8"
-                  value={email}
-                  onChange={event =>
-                    this.handleChange("email", event.target.value)
-                  }
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  required
-                />
-                <GIInput
-                  className="regular-input mb8"
-                  value={password}
-                  onChange={event =>
-                    this.handleChange("password", event.target.value)
-                  }
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                />
-                <GIButton
-                  className="regular-button mb8"
-                  onClick={event => this.login(event, context)}
-                  text="Sign In"
-                />
-                <Link to="/sign-up">
-                  <GIContainer className="full-center">
-                    <GIText text="New to Ghostit?" type="h6" />
+              <GIContainer className="container-box large bg-white shadow pa32 br16">
+                <form
+                  className="common-container"
+                  onSubmit={event => event.preventDefault()}
+                >
+                  <GIInput
+                    className="regular-input mb8"
+                    value={email}
+                    onChange={event =>
+                      this.handleChange("email", event.target.value)
+                    }
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    required
+                  />
+                  <GIInput
+                    className="regular-input mb8"
+                    value={password}
+                    onChange={event =>
+                      this.handleChange("password", event.target.value)
+                    }
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    required
+                  />
+                  <GIButton
+                    className="bg-blue-fade white py8 px16 br4"
+                    onClick={event => this.login(event, context)}
+                    text="Sign In"
+                  />
+                  <Link to="/sign-up">
+                    <GIContainer className="full-center mt8">
+                      <GIText text="New to Ghostit?" type="h6" />
 
-                    <GIButton className="underline-button ml4" text="Sign Up" />
-                  </GIContainer>
+                      <GIButton
+                        className="underline-button ml4"
+                        text="Sign Up"
+                      />
+                    </GIContainer>
+                  </Link>
+                </form>
+              </GIContainer>
+
+              <GIContainer className="full-center mt16">
+                <Link to="/forgot-password">
+                  <GIButton
+                    className="underline-button white"
+                    text="Forgot password?"
+                  />
                 </Link>
-              </form>
-            </GIContainer>
-
-            <GIContainer className="full-center mt16">
-              <Link to="/forgot-password">
-                <GIButton
-                  className="underline-button white"
-                  text="Forgot password?"
-                />
-              </Link>
+              </GIContainer>
             </GIContainer>
           </Page>
         )}

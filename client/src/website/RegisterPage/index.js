@@ -109,104 +109,107 @@ class RegisterPage extends Component {
       <Consumer>
         {context => (
           <Page
-            className="login-background simple-container website-page"
-            title="Sign Up"
+            className="login-background website-page align-center pt64"
             description="What are you waiting for!? Sign up today!"
             keywords="content, ghostit, marketing"
+            title="Sign Up"
           >
-            <GIText
-              className="pb16 tac"
-              text="Sign up for Ghostit!"
-              type="h1"
-            />
+            <GIContainer className="column x-fill full-center pb64">
+              <GIText className="tac mb8" text="Up!" type="h2">
+                <GIText className="four-blue" text="Sign&nbsp;" type="span" />
+              </GIText>
 
-            <div className="basic-box shadow pa32 br16 margin-hc">
-              <form className="common-container">
-                <input
-                  className="regular-input mb8"
-                  value={fullName}
-                  onChange={event =>
-                    this.handleChange("fullName", event.target.value)
-                  }
-                  type="text"
-                  name="fullName"
-                  placeholder="Company Name"
-                  required
-                />
+              <div className="container-box large bg-white shadow pa32 br16">
+                <form className="common-container">
+                  <input
+                    className="regular-input mb8"
+                    value={fullName}
+                    onChange={event =>
+                      this.handleChange("fullName", event.target.value)
+                    }
+                    type="text"
+                    name="fullName"
+                    placeholder="Company Name"
+                    required
+                  />
 
-                <input
-                  className="regular-input mb8"
-                  value={email}
-                  onChange={event =>
-                    this.handleChange("email", event.target.value)
-                  }
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  required
-                />
+                  <input
+                    className="regular-input mb8"
+                    value={email}
+                    onChange={event =>
+                      this.handleChange("email", event.target.value)
+                    }
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    required
+                  />
 
-                <input
-                  className="regular-input mb8"
-                  value={website}
-                  onChange={event =>
-                    this.handleChange("website", event.target.value)
-                  }
-                  type="text"
-                  name="website"
-                  placeholder="Website"
-                  required
-                />
+                  <input
+                    className="regular-input mb8"
+                    value={website}
+                    onChange={event =>
+                      this.handleChange("website", event.target.value)
+                    }
+                    type="text"
+                    name="website"
+                    placeholder="Website"
+                    required
+                  />
 
-                <input
-                  className="regular-input mb8"
-                  value={password}
-                  onChange={event =>
-                    this.handleChange("password", event.target.value)
-                  }
-                  name="password"
-                  placeholder="Password"
-                  type="password"
-                  required
-                />
+                  <input
+                    className="regular-input mb8"
+                    value={password}
+                    onChange={event =>
+                      this.handleChange("password", event.target.value)
+                    }
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    required
+                  />
 
-                <input
-                  className="regular-input mb8"
-                  value={passwordConfirm}
-                  onChange={event =>
-                    this.handleChange("passwordConfirm", event.target.value)
-                  }
-                  name="passwordConfirm"
-                  placeholder="Confirm Password"
-                  type="password"
-                  required
-                />
+                  <input
+                    className="regular-input mb8"
+                    value={passwordConfirm}
+                    onChange={event =>
+                      this.handleChange("passwordConfirm", event.target.value)
+                    }
+                    name="passwordConfirm"
+                    placeholder="Confirm Password"
+                    type="password"
+                    required
+                  />
 
-                <button
-                  className="regular-button mb8"
-                  onClick={event => this.register(event, context)}
-                  type="submit"
-                >
-                  Register
-                </button>
+                  <button
+                    className="bg-blue-fade white py8 px16 br4"
+                    onClick={event => this.register(event, context)}
+                    type="submit"
+                  >
+                    Register
+                  </button>
 
-                <Link to="/sign-in">
-                  <GIContainer className="full-center">
-                    <GIText text="Have an account?" type="h6" />
+                  <Link to="/sign-in">
+                    <GIContainer className="full-center mt8">
+                      <GIText text="Have an account?" type="h6" />
 
-                    <GIButton className="underline-button ml4" text="Sign In" />
-                  </GIContainer>
+                      <GIButton
+                        className="underline-button ml4"
+                        text="Sign In"
+                      />
+                    </GIContainer>
+                  </Link>
+                </form>
+              </div>
+
+              <GIContainer className="full-center mt16">
+                <Link to="/forgot-password">
+                  <GIButton
+                    className="underline-button white"
+                    text="Forgot password?"
+                  />
                 </Link>
-              </form>
-            </div>
-
-            <GIContainer className="full-center mt16">
-              <Link to="/forgot-password">
-                <GIButton
-                  className="underline-button white"
-                  text="Forgot password?"
-                />
-              </Link>
+              </GIContainer>
             </GIContainer>
           </Page>
         )}

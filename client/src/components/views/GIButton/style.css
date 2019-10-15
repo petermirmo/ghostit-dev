@@ -79,8 +79,8 @@
 }
 
 .underline-button {
-  border-bottom: 1px solid var(--five-blue-color);
-  color: var(--five-blue-color);
+  border-bottom: 1px solid var(--four-blue-color);
+  color: var(--four-blue-color);
   background-color: transparent;
 }
 

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const saveUser = (userUpdates, userID, callback, props) => {
+export const saveUser = (userUpdates, userID, callback, history) => {
   axios.post("/api/user/" + userID, userUpdates).then(res => {
     const { loggedIn, success, result, message } = res.data;
-    if (loggedIn === false) props.history.push("/sign-in");
+    if (loggedIn === false) history.push("/sign-in");
 
     if (success) {
       const user = result;

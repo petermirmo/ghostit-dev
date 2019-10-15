@@ -57,29 +57,28 @@ class FileUpload extends Component {
         <GIContainer className="fill-flex justify-end">
           {currentFiles.map((file, index) => {
             return (
-              <GIContainer
-                className={`relative uploaded-file ${imageContainerClassName} ma2`}
-                key={index}
-              >
-                {isImage(file) && (
-                  <img
-                    alt="error"
-                    className={imageClassName}
-                    src={file.file ? file.file : file.url}
-                  />
-                )}
-                {isVideo(file) &&
-                  (file.url ? (
-                    <video
+              <GIContainer className="uploaded-file relative" key={index}>
+                <GIContainer className={`${imageContainerClassName} ma2`}>
+                  {isImage(file) && (
+                    <img
                       alt="error"
                       className={imageClassName}
-                      src={file.url}
+                      src={file.file ? file.file : file.url}
                     />
-                  ) : (
-                    <video alt="error" className={imageClassName}>
-                      <source src={file.file} type="video/mp4" />
-                    </video>
-                  ))}
+                  )}
+                  {isVideo(file) &&
+                    (file.url ? (
+                      <video
+                        alt="error"
+                        className={imageClassName}
+                        src={file.url}
+                      />
+                    ) : (
+                      <video alt="error" className={imageClassName}>
+                        <source src={file.file} type="video/mp4" />
+                      </video>
+                    ))}
+                </GIContainer>
                 {canEdit && (
                   <FontAwesomeIcon
                     className="bg-white primary-font shadow-left icon-x-hover round-icon-small small clickable round"

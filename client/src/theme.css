@@ -165,17 +165,6 @@
 .simple-container.large {
   max-width: 600px;
 }
-.basic-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  width: 40%;
-  min-width: 250px;
-
-  background-color: var(--white-theme-color);
-}
-
 .no-text-wrap {
   text-overflow: ellipsis;
   white-space: nowrap;
