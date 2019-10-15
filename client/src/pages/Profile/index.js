@@ -259,6 +259,11 @@ class Profile extends Component {
                         updatedUser => {
                           setUser(updatedUser);
                           context.handleChange({ user: updatedUser });
+                          context.notify({
+                            type: "success",
+                            title: "Profile Saved",
+                            message: ""
+                          });
                           this.setState({
                             userFields: this.setUserToState(updatedUser),
                             saving: false
