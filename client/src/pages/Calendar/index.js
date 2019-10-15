@@ -64,8 +64,6 @@ import {
   updateActiveCategory
 } from "./util";
 
-import "./style.css";
-
 class CalendarPage extends Component {
   state = {
     activeCalendarIndex: undefined,
