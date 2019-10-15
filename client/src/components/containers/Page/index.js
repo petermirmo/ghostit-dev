@@ -49,7 +49,8 @@ class Page extends Component {
     if (isUserInPlatform(activePage))
       style.backgroundImage = "linear-gradient(320deg, #246afb, #17bef8)";
 
-    if (isMobileOrTablet()) style.width = "100%";
+    if (isMobileOrTablet() && !isUserInPlatform(activePage))
+      style.width = "100%";
 
     return { style, title, description, image };
   };
