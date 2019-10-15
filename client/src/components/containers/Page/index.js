@@ -14,6 +14,7 @@ import WebsiteFooter from "../../navigations/WebsiteFooter";
 import GIContainer from "../GIContainer";
 
 import { isUserInPlatform, shouldShowSignedInAsDiv } from "./util";
+import { isMobileOrTablet } from "../../../util";
 
 import "./style.css";
 
@@ -47,6 +48,8 @@ class Page extends Component {
     if (testMode) style.backgroundColor = "blue";
     if (isUserInPlatform(activePage))
       style.backgroundImage = "linear-gradient(320deg, #246afb, #17bef8)";
+
+    if (isMobileOrTablet()) style.width = "100%";
 
     return { style, title, description, image };
   };
