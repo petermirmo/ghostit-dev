@@ -102,7 +102,7 @@ class WebsiteHeader extends Component {
                     }
                   : () => {}
               }
-              style={{ width: "10vw", minWidth: "100px" }}
+              style={{ width: "10vw", minWidth: "110px" }}
             />
           </Link>
         </GIContainer>
