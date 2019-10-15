@@ -46,11 +46,10 @@ class Page extends Component {
       image =
         "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png";
     if (testMode) style.backgroundColor = "blue";
-    if (isUserInPlatform(activePage))
+    if (isUserInPlatform(activePage)) {
       style.backgroundImage = "linear-gradient(320deg, #246afb, #17bef8)";
-
-    if (isMobileOrTablet() && !isUserInPlatform(activePage))
-      style.width = "100%";
+      style.minWidth = "1000px";
+    }
 
     return { style, title, description, image };
   };

@@ -71,7 +71,7 @@ class DashboardPage extends Component {
         {context => (
           <Page className="column" title="Dashboard">
             {!modalsOpen && (
-              <GIContainer className="x-fill column align-center py32 px64">
+              <GIContainer className="x-fill column align-center py32 px32">
                 <GIText className="mb32 mx8" type="h1" text="Dashboard" />
                 <Dashboard handleParentChange={this.handleChange} />
               </GIContainer>

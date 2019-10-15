@@ -33,12 +33,12 @@ class ForgotPasswordPage extends Component {
       <Consumer>
         {context => (
           <Page
-            className="login-background website-page align-center pt64"
+            className="login-background website-page align-center pt32"
             keywords="content, ghostit, marketing"
             title="Forgot Password"
           >
             <GIContainer className="column x-fill full-center pb64">
-              <GIText className="tac mb8" text="Password!" type="h2">
+              <GIText className="tac mb16" text="Password" type="h2">
                 <GIText className="four-blue" text="Forgot&nbsp;" type="span" />
               </GIText>
               <GIContainer className="container-box large bg-white shadow pa32 br16">

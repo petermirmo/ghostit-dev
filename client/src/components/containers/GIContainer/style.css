@@ -169,9 +169,6 @@
 .fill-full-screen {
   width: 100vw;
 }
-.fill-software-screen {
-  width: calc(100vw - 133px);
-}
 
 .container-box.y-30vw {
   height: 30vw;

@@ -153,7 +153,7 @@ class AnalyticsPage extends Component {
     );
 
     return (
-      <Page className="fill-software-screen column" title="Analytics">
+      <Page className="column" title="Analytics">
         <NavigationLayout
           activeIndex={activeAnalyticsSocialType}
           className="x-fill"

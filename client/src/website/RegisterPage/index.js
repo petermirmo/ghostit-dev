@@ -109,14 +109,18 @@ class RegisterPage extends Component {
       <Consumer>
         {context => (
           <Page
-            className="login-background website-page align-center pt64"
+            className="login-background website-page align-center pt32"
             description="What are you waiting for!? Sign up today!"
             keywords="content, ghostit, marketing"
             title="Sign Up"
           >
             <GIContainer className="column x-fill full-center pb64">
-              <GIText className="tac mb8" text="Up!" type="h2">
-                <GIText className="four-blue" text="Sign&nbsp;" type="span" />
+              <GIText className="tac mb16" text="Sign Up!" type="h2">
+                <GIText
+                  className="four-blue"
+                  text="Ghostit&nbsp;"
+                  type="span"
+                />
               </GIText>
 
               <div className="container-box large bg-white shadow pa32 br16">

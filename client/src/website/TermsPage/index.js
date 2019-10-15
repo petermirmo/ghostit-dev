@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Page from "../../components/containers/Page";
 
 class TermsPage extends Component {
-  componentDidMount() {}
   render() {
     return (
       <Page

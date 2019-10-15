@@ -319,7 +319,7 @@ class CalendarPage extends Component {
     return (
       <Consumer>
         {context => (
-          <Page className="fill-software-screen relative" title="Calendar">
+          <Page className="relative" title="Calendar">
             {loading && <Loader />}
             {!modalsOpen && (
               <GIContainer className="fill-parent">

@@ -88,14 +88,18 @@ class LoginPage extends Component {
       <Consumer>
         {context => (
           <Page
-            className="login-background website-page align-center pt64"
+            className="login-background website-page align-center pt32"
             description="Ghostit sign in :)"
             keywords="content, ghostit, marketing"
             title="Sign In"
           >
             <GIContainer className="column x-fill full-center pb64">
-              <GIText className="tac mb8" text="In!" type="h2">
-                <GIText className="four-blue" text="Sign&nbsp;" type="span" />
+              <GIText className="tac mb16" text="Sign In!" type="h2">
+                <GIText
+                  className="four-blue"
+                  text="Ghostit&nbsp;"
+                  type="span"
+                />
               </GIText>
 
               <GIContainer className="container-box large bg-white shadow pa32 br16">
