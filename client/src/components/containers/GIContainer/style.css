@@ -145,24 +145,24 @@
   min-width: 250px;
 }
 .container-box.twentyvw {
-  min-width: 250px;
+  min-width: 340px;
   width: 20vw;
 }
 .container-box.small {
-  min-width: 250px;
+  min-width: 340px;
   width: 25vw;
 }
 .container-box.medium {
-  min-width: 250px;
+  min-width: 340px;
   width: 35vw;
   flex-basis: auto;
 }
 .container-box.large {
-  min-width: 250px;
+  min-width: 340px;
   width: 50vw;
 }
 .container-box.extra-large {
-  min-width: 250px;
+  min-width: 340px;
   width: 75vw;
   max-width: 1400px;
 }

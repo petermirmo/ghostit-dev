@@ -41,9 +41,9 @@ class MyForm extends Component {
             type="h6"
           />
         </GIContainer>
-        <GIContainer className="x-wrap">
+        <GIContainer className="x-wrap full-center">
           <input
-            className="x-300px px16 py8 mb16 mr16 br20"
+            className="x-300px px16 py8 mb16 mx8 br20"
             onChange={e => {
               this.setState({ fName: e.target.value });
             }}
@@ -56,7 +56,7 @@ class MyForm extends Component {
           <input
             autoCapitalize="off"
             autoCorrect="off"
-            className="x-300px px16 py8 mb16 br20"
+            className="x-300px px16 py8 mb16 mx8 br20"
             onChange={e => {
               this.setState({ email: e.target.value });
             }}
@@ -66,9 +66,9 @@ class MyForm extends Component {
             type="email"
           />
         </GIContainer>
-        <GIContainer className="x-wrap">
+        <GIContainer className="x-wrap full-center">
           <input
-            className="x-300px px16 py8 mb16 mr16 br20"
+            className="x-300px px16 py8 mb16 mx8 br20"
             onChange={e => {
               this.setState({ cName: e.target.value });
             }}
@@ -78,7 +78,7 @@ class MyForm extends Component {
             type="text"
           />
           <input
-            className="x-300px px16 py8 mb16 br20"
+            className="x-300px px16 py8 mb16 mx8 br20"
             onChange={e => {
               this.setState({ phoneNumber: e.target.value });
             }}
