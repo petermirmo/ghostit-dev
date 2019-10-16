@@ -134,6 +134,13 @@ button {
 .blog a {
   text-decoration: underline !important;
 }
+
+.blog span,
+.blog p,
+.blog h4,
+.blog h6 {
+  font-size: var(--sixteen-font-size);
+}
 a {
   color: var(--four-blue-color);
   font-weight: bold;

@@ -150,7 +150,7 @@ p {
   margin: 0;
   color: var(--primary-font-color);
   text-align: left;
-  font-size: var(--fourteen-font-size);
+  font-size: var(--sixteen-font-size);
   font-weight: 100;
 }
 ul {
@@ -159,6 +159,6 @@ ul {
 }
 
 text {
-  font-size: var(--fourteen-font-size);
+  font-size: var(--sixteen-font-size);
   fill: var(--primary-font-color);
 }

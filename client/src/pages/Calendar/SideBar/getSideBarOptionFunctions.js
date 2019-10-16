@@ -29,26 +29,37 @@ export const getCalendarOptions = (
   isUserAdminOfCalendar,
   setDefaultCalendar
 ) => {
-  return [
-    {
-      name: "Set as Default",
-      onClick: index =>
-        setDefaultCalendar(calendars[index]._id, context, handleParentChange)
-    },
-    {
-      className: "red",
-      name: isUserAdminOfCalendar(calendar, context.getUser())
-        ? "Delete"
-        : "Leave Calendar",
-      onClick: isUserAdminOfCalendar(calendar, context.getUser())
-        ? index => deleteCalendarClicked(index, calendars, handleChange)
-        : index =>
-            handleChange({
-              leaveCalendarIndex: index,
-              leaveCalendarPrompt: true
-            })
-    }
-  ];
+  if (isUserAdminOfCalendar(calendar, context.getUser()))
+    return [
+      { name: "Rename Calendar", onClick: () => {} },
+      {
+        name: "Set as Default",
+        onClick: index =>
+          setDefaultCalendar(calendars[index]._id, context, handleParentChange)
+      },
+      {
+        className: "red",
+        name: "Delete",
+        onClick: index => deleteCalendarClicked(index, calendars, handleChange)
+      }
+    ];
+  else
+    return [
+      {
+        name: "Set as Default",
+        onClick: index =>
+          setDefaultCalendar(calendars[index]._id, context, handleParentChange)
+      },
+      {
+        className: "red",
+        name: "Leave Calendar",
+        onClick: index =>
+          handleChange({
+            leaveCalendarIndex: index,
+            leaveCalendarPrompt: true
+          })
+      }
+    ];
 };
 
 export const getUserOptions = (
