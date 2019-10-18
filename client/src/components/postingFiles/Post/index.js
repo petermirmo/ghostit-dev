@@ -35,7 +35,6 @@ import {
   createState,
   createActiveAccounts,
   findLink,
-  getCalendarAccounts,
   getDefaultAccount,
   getMaxCharacters,
   linkAccountToCalendar,
@@ -59,7 +58,6 @@ class Post extends Component {
     const { calendarID, content, linkDescription, linkTitle } = this.state;
 
     findLink(this.handleChangeRegular, linkDescription, linkTitle, content);
-    getCalendarAccounts(calendarID, this.handleChangeRegular, this.props);
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -84,7 +82,6 @@ class Post extends Component {
     const {
       accountID,
       date,
-      calendarAccounts,
       calendarID,
       content,
       files,
@@ -107,13 +104,13 @@ class Post extends Component {
 
     const {
       accounts,
+      calendarAccounts,
       canEditPost,
-      close,
       deletePost,
       recipeEditing,
       saveButtons
     } = this.props; // Variables
-    const { modifyCampaignDates, switchTabState } = this.props; // Functions
+    const { close, modifyCampaignDates, switchTabState } = this.props; // Functions
 
     const {
       canAddFilesToLink,

@@ -6,7 +6,6 @@ import GIContainer from "../../../../containers/GIContainer";
 import GIText from "../../../../views/GIText";
 
 import DateTimePicker from "../../../../DateTimePicker";
-import SocketUserList from "../../../../SocketUserList";
 
 import { createColorDivs } from "./util";
 
@@ -35,7 +34,7 @@ class CampaignRecipeHeader extends Component {
 
   render() {
     const { colors } = this.state;
-    const { campaign, userList } = this.props; // variables
+    const { campaign } = this.props; // variables
     const { handleChange, tryChangingDates } = this.props; // functions
 
     const colorDivs = createColorDivs(campaign, colors, handleChange);

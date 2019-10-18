@@ -4,16 +4,7 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faCheck,
-  faPencilAlt,
-  faPlus,
-  faTimes
-} from "@fortawesome/pro-light-svg-icons";
-
-import { faTrash } from "@fortawesome/pro-solid-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/pro-light-svg-icons";
 
 import PostCreation from "../../components/postingFiles/PostCreation";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
@@ -227,8 +218,8 @@ class CalendarPage extends Component {
         () => {
           this.fillCalendar();
           this.updateSocketCalendar(socket);
-          if (!calendars[index].accounts) getCalendarAccounts(context);
-          if (!calendars[index].users) getCalendarUsers(context);
+          if (!calendars[index].accounts) getCalendarAccounts(this.context);
+          if (!calendars[index].users) getCalendarUsers(this.context);
         }
       )
     );
@@ -453,7 +444,7 @@ class CalendarPage extends Component {
                             calendars={calendars}
                             calendarDate={calendarDate}
                             calendarEvents={calendarEvents}
-                            onSelectCampaign={() =>
+                            onSelectCampaign={campaign =>
                               this.handleChange({
                                 clickedEvent: campaign,
                                 clickedEventIsRecipe: false,
@@ -495,6 +486,7 @@ class CalendarPage extends Component {
               <Modal0
                 body={
                   <PostCreation
+                    calendarAccounts={calendars[activeCalendarIndex].accounts}
                     calendarID={calendars[activeCalendarIndex]._id}
                     clickedCalendarDate={clickedDate}
                     handleParentChange={this.handleChange}
@@ -522,6 +514,7 @@ class CalendarPage extends Component {
             )}
             {postEdittingModal && (
               <PostEdittingModal
+                calendarAccounts={calendars[activeCalendarIndex].accounts}
                 calendarID={calendars[activeCalendarIndex]._id}
                 clickedEvent={clickedEvent}
                 close={() =>
@@ -572,6 +565,7 @@ class CalendarPage extends Component {
               <Modal0
                 body={
                   <Campaign
+                    calendarAccounts={calendars[activeCalendarIndex].accounts}
                     calendarID={calendars[activeCalendarIndex]._id}
                     campaign={clickedEvent}
                     clickedCalendarDate={clickedDate}

@@ -14,8 +14,6 @@ import GIText from "../views/GIText";
 import GIButton from "../views/GIButton";
 import Dropdown from "../views/Dropdown";
 
-import SocketUserList from "../SocketUserList/";
-
 export const compareCampaigns = (a, b) => {
   if (new moment(a.startDate) < new moment(b.startDate)) return -1;
   else if (new moment(a.startDate) > new moment(b.startDate)) return 1;

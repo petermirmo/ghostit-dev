@@ -6,7 +6,6 @@ import { faAngleDown } from "@fortawesome/pro-solid-svg-icons";
 
 import Logo from "../WebsiteHeader/Logo";
 
-import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
 
 import Consumer, { ExtraContext } from "../../../context";

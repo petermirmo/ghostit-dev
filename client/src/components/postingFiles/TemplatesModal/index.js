@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import LoaderSimpleCircle from "../../notifications/LoaderSimpleCircle";
 import DateTimePicker from "../../DateTimePicker";

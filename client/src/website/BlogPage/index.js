@@ -11,7 +11,6 @@ import GIContainer from "../../components/containers/GIContainer";
 import NavigationLayout from "../../components/navigations/NavigationLayout";
 
 import GIText from "../../components/views/GIText";
-import GIButton from "../../components/views/GIButton";
 
 import Blog from "./Blog";
 

@@ -845,6 +845,7 @@ class Campaign extends Component {
       socket
     } = this.state;
     const { context } = this;
+    const { calendarAccounts } = this.props;
 
     const post_obj = posts[activePostIndex];
 
@@ -922,6 +923,7 @@ class Campaign extends Component {
       return (
         <Post
           backupChanges={this.backupPostChanges}
+          calendarAccounts={calendarAccounts}
           calendarID={this.props.calendarID}
           campaignEndDate={campaign.endDate}
           campaignStartDate={campaign.startDate}

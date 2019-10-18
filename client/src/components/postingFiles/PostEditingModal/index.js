@@ -97,6 +97,7 @@ class PostEdittingModal extends Component {
     const { confirmDelete, saving } = this.state;
     const {
       accounts,
+      calendarAccounts,
       calendarID,
       clickedEvent,
       close,
@@ -127,6 +128,7 @@ class PostEdittingModal extends Component {
               ) : (
                 <Post
                   accounts={accounts}
+                  calendarAccounts={calendarAccounts}
                   calendarID={calendarID}
                   canEditPost={canEditPost}
                   deletePost={() => this.handleChange({ confirmDelete: true })}

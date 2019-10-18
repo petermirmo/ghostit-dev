@@ -99,28 +99,6 @@ export const createActiveAccounts = (
   return activePageAccountsArray;
 };
 
-export const getCalendarAccounts = (calendarID, handleChangeRegular, props) => {
-  axios.get("/api/calendar/accounts/" + calendarID).then(res => {
-    const { success, err, message, accounts } = res.data;
-
-    if (!success) {
-      console.log(err);
-      console.log(message);
-      console.log("error while fetching calendar social accounts");
-    } else {
-      handleChangeRegular({ calendarAccounts: accounts }, () => {
-        const result = getDefaultAccount(accounts, props);
-        if (result && result.id && result.type) {
-          handleChangeRegular({
-            accountID: result.id,
-            accountType: result.type
-          });
-        }
-      });
-    }
-  });
-};
-
 export const getMaxCharacters = (link, socialType) => {
   if (socialType) {
     if (socialType === "linkedin") return 700;
@@ -230,9 +208,9 @@ export const linkAccountToCalendar = (
 
   handleChangeRegular({
     promptLinkAccountToCalendar: false,
-    linkAccountToCalendarID: undefined,
-    saving: true
+    linkAccountToCalendarID: undefined
   });
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/account", {
       accountID: linkAccountToCalendarID,
@@ -240,7 +218,7 @@ export const linkAccountToCalendar = (
     })
     .then(res => {
       const { success, err, message, account } = res.data;
-      handleChangeRegular({ saving: false });
+      context.handleChange({ saving: false });
       if (!success) {
         console.log(err);
         context.notify({
@@ -255,9 +233,12 @@ export const linkAccountToCalendar = (
           message
         });
 
-        handleChangeRegular(prevState => {
+        context.handleChange(prevState => {
+          prevState.calendars[prevState.activeCalendarIndex].accounts.push(
+            account
+          );
           return {
-            calendarAccounts: [...prevState.calendarAccounts, account]
+            calendars: prevState.calendars
           };
         });
       }

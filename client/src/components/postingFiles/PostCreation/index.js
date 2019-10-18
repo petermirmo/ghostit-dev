@@ -97,8 +97,8 @@ class ContentModal extends Component {
 
   render() {
     const { activeTab, listOfPostChanges, saving } = this.state;
-    const { calendarID, clickedCalendarDate } = this.props; // Variables
-    const { handleParentChange, savePostCallback, notify } = this.props; // Functions
+    const { calendarAccounts, calendarID, clickedCalendarDate } = this.props; // Variables
+    const { handleParentChange, notify, savePostCallback } = this.props; // Functions
 
     let body;
 
@@ -134,6 +134,7 @@ class ContentModal extends Component {
       body = (
         <Post
           backupChanges={this.backupPostChanges}
+          calendarAccounts={calendarAccounts}
           calendarID={calendarID}
           canEditPost={true}
           listOfChanges={

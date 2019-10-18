@@ -6,7 +6,7 @@ import GIText from "../../components/views/GIText";
 
 import { teamMembers } from "./teamMembers";
 
-import { correctOverflow, teamMemberDiv } from "./util";
+import { teamMemberDiv } from "./util";
 
 import { isMobileOrTablet } from "../../util";
 

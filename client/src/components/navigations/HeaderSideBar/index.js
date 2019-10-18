@@ -4,14 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThLarge,
   faChartLine,
-  faHistory,
-  faStar,
   faPlus,
   faCogs,
   faCalendar,
   faUser,
-  faUsers,
-  faSignOutAlt
+  faUsers
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, withRouter } from "react-router-dom";
 
