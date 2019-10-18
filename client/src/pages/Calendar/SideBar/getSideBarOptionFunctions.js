@@ -31,7 +31,15 @@ export const getCalendarOptions = (
 ) => {
   if (isUserAdminOfCalendar(calendar, context.getUser()))
     return [
-      { name: "Rename Calendar", onClick: () => {} },
+      {
+        name: "Rename Calendar",
+        onClick: index =>
+          handleChange({
+            editingCalendarIndex: index,
+            renameCalendarBoolean: true,
+            renameCalendarString: calendar.calendarName
+          })
+      },
       {
         name: "Set as Default",
         onClick: index =>

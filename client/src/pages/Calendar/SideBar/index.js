@@ -70,13 +70,15 @@ class CalendarSideBar extends Component {
     this.state = {
       confirmAlert: {},
       deleteCalendarPrompt: false,
-      inviteEmail: "",
+      editingCalendarIndex: 0,
       inviteEmailString: "",
       inviteUsersInputBoolean: false,
       leaveCalendarIndex: undefined,
       leaveCalendarPrompt: false,
       open: true,
       removeUserPrompt: false,
+      renameCalendarString: "",
+      renameCalendarBoolean: false,
       promoteUserPrompt: false,
       saving: false,
       unlinkAccountPrompt: false,
@@ -102,7 +104,7 @@ class CalendarSideBar extends Component {
   render() {
     const {
       deleteCalendarPrompt,
-      inviteEmail,
+      editingCalendarIndex,
       inviteUsersInputBoolean,
       inviteEmailString,
       leaveCalendarIndex,
@@ -112,6 +114,8 @@ class CalendarSideBar extends Component {
       promoteUserPrompt,
       removeUserObj,
       removeUserPrompt,
+      renameCalendarBoolean,
+      renameCalendarString,
       saving,
       unLinkAccountID,
       unlinkAccountPrompt,
@@ -164,20 +168,49 @@ class CalendarSideBar extends Component {
                 activeIcon={faCalendarCheck}
                 activeIndex={activeCalendarIndex}
                 firstButton={
-                  <GIText
-                    className="x-fill flex full-center clickable orange bg-queen-blue px16 py8"
-                    onClick={() =>
-                      createNewCalendar(
-                        context,
-                        handleParentChange,
-                        calendars.length,
-                        "Calendar " + calendars.length,
-                        updateActiveCalendar
-                      )
-                    }
-                    text="Make a New Calendar"
-                    type="p"
-                  />
+                  <GIContainer className="x-fill column bg-queen-blue px16">
+                    <GIText
+                      className="x-fill flex full-center clickable orange bg-queen-blue px16 py8"
+                      onClick={() =>
+                        createNewCalendar(
+                          context,
+                          handleParentChange,
+                          calendars.length,
+                          "Calendar " + calendars.length,
+                          updateActiveCalendar
+                        )
+                      }
+                      text="Make a New Calendar"
+                      type="p"
+                    />
+                    {renameCalendarBoolean && (
+                      <GIContainer className="x-fill column">
+                        <GIInput
+                          className="x-fill mb8 br4"
+                          onChange={e =>
+                            this.handleChange({
+                              renameCalendarString: e.target.value
+                            })
+                          }
+                          placeholder="My Awesome Calendar"
+                          value={renameCalendarString}
+                        />
+                        <GIButton
+                          className="fs-14 white bg-blue-fade-2 px16 py8 mb16 br4"
+                          onClick={index => {
+                            saveCalendarName(
+                              calendars,
+                              context,
+                              handleParentChange,
+                              editingCalendarIndex,
+                              renameCalendarString
+                            );
+                          }}
+                          text="Save Name"
+                        />
+                      </GIContainer>
+                    )}
+                  </GIContainer>
                 }
                 list={calendars}
                 listObjKey="calendarName"

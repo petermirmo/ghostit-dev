@@ -166,12 +166,19 @@ export const removeUserFromCalendar = (
     });
 };
 
-export const saveCalendarName = (calendars, handleChange, index, name) => {
+export const saveCalendarName = (
+  calendars,
+  context,
+  handleChange,
+  index,
+  name
+) => {
   if (!/\S/.test(name)) {
     alert("Name must not be empty.");
     return;
   }
   if (name && name.length > 0) {
+    context.handleChange({ saving: true });
     axios
       .post("/api/calendar/rename", {
         calendarID: calendars[index]._id,
@@ -179,10 +186,21 @@ export const saveCalendarName = (calendars, handleChange, index, name) => {
       })
       .then(res => {
         const { success, err, message, calendar } = res.data;
+        context.handleChange({ saving: false });
+
         if (!success) {
           console.log(err);
           console.log(message);
+          context.notify({
+            type: "danger",
+            title: "Failed to Save Calendar Name",
+            message
+          });
         } else {
+          context.notify({
+            type: "success",
+            title: "Saved Successfully"
+          });
           handleChange(prevState => {
             return {
               unsavedChange: false,

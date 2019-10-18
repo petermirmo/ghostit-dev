@@ -22,6 +22,11 @@ module.exports = (env, argv) => {
     ];
   }
   return {
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
+    },
     context: path.join(__dirname, ""),
 
     entry: ["babel-polyfill", "./src/index.js"],
