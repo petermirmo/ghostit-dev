@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment-timezone";
 
-import { NotificationContext } from "../../context";
+import { ExtraContext } from "../../context";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
@@ -525,7 +525,7 @@ class AnalyticsPage extends Component {
   }
 }
 
-AnalyticsPage.contextType = NotificationContext;
+AnalyticsPage.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {

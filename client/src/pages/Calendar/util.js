@@ -131,9 +131,12 @@ export const getPosts = (
     });
 };
 
-export const getCalendarAccounts = (calendars, handleCalendarChange, index) => {
+export const getCalendarAccounts = context => {
   axios
-    .get("/api/calendar/accounts/extra/" + calendars[index]._id)
+    .get(
+      "/api/calendar/accounts/extra/" +
+        context.calendars[context.activeCalendarIndex]._id
+    )
     .then(res => {
       const { success, err, message, accounts } = res.data;
       if (!success || err || !accounts) {
@@ -143,32 +146,49 @@ export const getCalendarAccounts = (calendars, handleCalendarChange, index) => {
         console.log(err);
         console.log(message);
       } else {
-        handleCalendarChange("accounts", accounts, index);
+        context.handleCalendarChange(
+          "accounts",
+          accounts,
+          context.activeCalendarIndex
+        );
       }
     });
 };
 
-export const getCalendarUsers = (calendars, handleCalendarChange, index) => {
-  axios.get("/api/calendar/users/" + calendars[index]._id).then(res => {
-    const { success, err, message, users } = res.data;
-    if (!success || err || !users) {
-      console.log("Retrieving calendar users from database was unsuccessful.");
-      console.log(err);
-      console.log(message);
-    } else {
-      const adminIndex = users.findIndex(
-        userObj => userObj._id === calendars[index].adminID
-      );
-      if (adminIndex !== -1 && adminIndex !== 0) {
-        // swap admin to the top of the array so it always gets displayed first
-        let temp = users[0];
-        users[0] = users[adminIndex];
-        users[adminIndex] = temp;
-      }
+export const getCalendarUsers = context => {
+  axios
+    .get(
+      "/api/calendar/users/" +
+        context.calendars[context.activeCalendarIndex]._id
+    )
+    .then(res => {
+      const { success, err, message, users } = res.data;
+      if (!success || err || !users) {
+        console.log(
+          "Retrieving calendar users from database was unsuccessful."
+        );
+        console.log(err);
+        console.log(message);
+      } else {
+        const adminIndex = users.findIndex(
+          userObj =>
+            userObj._id ===
+            context.calendars[context.activeCalendarIndex].adminID
+        );
+        if (adminIndex !== -1 && adminIndex !== 0) {
+          // swap admin to the top of the array so it always gets displayed first
+          let temp = users[0];
+          users[0] = users[adminIndex];
+          users[adminIndex] = temp;
+        }
 
-      handleCalendarChange("users", users, index);
-    }
-  });
+        context.handleCalendarChange(
+          "users",
+          users,
+          context.activeCalendarIndex
+        );
+      }
+    });
 };
 
 export const inviteUserToCalendar = (

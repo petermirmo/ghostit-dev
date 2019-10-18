@@ -25,7 +25,6 @@ export const getCalendarOptions = (
   context,
   deleteCalendarClicked,
   handleChange,
-  handleParentChange,
   isUserAdminOfCalendar,
   setDefaultCalendar
 ) => {
@@ -42,8 +41,7 @@ export const getCalendarOptions = (
       },
       {
         name: "Set as Default",
-        onClick: index =>
-          setDefaultCalendar(calendars[index]._id, context, handleParentChange)
+        onClick: index => setDefaultCalendar(calendars[index]._id, context)
       },
       {
         className: "red",
@@ -55,8 +53,7 @@ export const getCalendarOptions = (
     return [
       {
         name: "Set as Default",
-        onClick: index =>
-          setDefaultCalendar(calendars[index]._id, context, handleParentChange)
+        onClick: index => setDefaultCalendar(calendars[index]._id, context)
       },
       {
         className: "red",
@@ -75,7 +72,6 @@ export const getUserOptions = (
   calendar,
   context,
   handleChange,
-  handleParentChange,
   inviteEmailIndex,
   isUserAdminOfCalendar,
   removePendingEmail,
@@ -122,7 +118,6 @@ export const getUserOptions = (
               activeCalendarIndex,
               calendar,
               context,
-              handleParentChange,
               inviteEmailIndex
             )
         }

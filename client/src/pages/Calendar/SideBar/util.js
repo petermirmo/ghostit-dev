@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const createNewCalendar = (
   context,
-  handleChange,
   index,
   name,
   updateActiveCalendar
@@ -10,7 +9,7 @@ export const createNewCalendar = (
   axios.post("/api/calendars/new", { name }).then(res => {
     const { success, newCalendar, message } = res.data;
     if (success) {
-      handleChange(
+      context.handleChange(
         prevState => {
           return {
             calendars: [...prevState.calendars, newCalendar]
@@ -42,13 +41,7 @@ export const didUserConnectAccount = (account, user) => {
   else return false;
 };
 
-export const inviteUser = (
-  calendars,
-  context,
-  handleChange,
-  index,
-  inviteEmail
-) => {
+export const inviteUser = (calendars, context, index, inviteEmail) => {
   const calendar = calendars[index];
 
   context.handleChange({ saving: true });
@@ -70,7 +63,7 @@ export const inviteUser = (
           title: "Invite Successful",
           message: `${inviteEmail} has been invited to join calendar ${calendar.calendarName}.`
         });
-        handleChange(prevState => {
+        context.handleChange(prevState => {
           return {
             inviteEmail: "",
             calendars: [
@@ -93,20 +86,17 @@ export const isUserOnline = (calendar, user, userList) => {
     return true;
   else return false;
 };
-export const promoteUser = (
-  calendarIndex,
-  calendars,
-  context,
-  handleChange,
-  userIndex
-) => {
+export const promoteUser = (calendarIndex, calendars, context, userIndex) => {
   const calendar = calendars[calendarIndex];
   const userID = calendar.users[userIndex]._id;
+  context.handleChange({ saving: true });
 
   axios
     .post("/api/calendar/user/promote", { userID, calendarID: calendar._id })
     .then(res => {
       const { success, err, message } = res.data;
+      context.handleChange({ saving: false });
+
       if (!success) {
         console.log(err);
         context.notify({
@@ -115,7 +105,7 @@ export const promoteUser = (
           message
         });
       } else {
-        handleChange(prevState => {
+        context.handleChange(prevState => {
           return {
             calendars: [
               ...prevState.calendars.slice(0, calendarIndex),
@@ -141,6 +131,7 @@ export const removeUserFromCalendar = (
   const calendarID = calendar._id;
   const userID = calendar.users[userIndex]._id;
 
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/user/remove", {
       userID,
@@ -148,6 +139,8 @@ export const removeUserFromCalendar = (
     })
     .then(res => {
       const { success, err, message } = res.data;
+      context.handleChange({ saving: false });
+
       if (!success) {
         console.log(err);
         context.notify({
@@ -156,7 +149,7 @@ export const removeUserFromCalendar = (
           message
         });
       } else {
-        getCalendarUsers(calendars, handleCalendarChange, calendarIndex);
+        getCalendarUsers(context);
         context.notify({
           type: "success",
           title: "User Removed",
@@ -166,13 +159,7 @@ export const removeUserFromCalendar = (
     });
 };
 
-export const saveCalendarName = (
-  calendars,
-  context,
-  handleChange,
-  index,
-  name
-) => {
+export const saveCalendarName = (calendars, context, index, name) => {
   if (!/\S/.test(name)) {
     alert("Name must not be empty.");
     return;
@@ -201,7 +188,7 @@ export const saveCalendarName = (
             type: "success",
             title: "Saved Successfully"
           });
-          handleChange(prevState => {
+          context.handleChange(prevState => {
             return {
               unsavedChange: false,
               calendars: [
@@ -222,7 +209,6 @@ export const saveCalendarName = (
 export const leaveCalendar = (
   calendars,
   context,
-  handleChange,
   index,
   updateActiveCalendar
 ) => {
@@ -243,7 +229,7 @@ export const leaveCalendar = (
         context.notify({ type: "success", title: "Calendar Left", message });
         if (newCalendar) {
           // deleted last calendar so the backend created a new one for the user
-          handleChange(
+          context.handleChange(
             { activeCalendarIndex: 0, calendars: [newCalendar] },
             () => updateActiveCalendar(0)
           );
@@ -251,7 +237,7 @@ export const leaveCalendar = (
           let new_index = index;
           if (calendars.length - 1 <= index) new_index = index - 1;
 
-          handleChange(
+          context.handleChange(
             prevState => {
               return {
                 activeCalendarIndex: new_index,
@@ -273,7 +259,6 @@ export const leaveCalendar = (
 export const deleteCalendar = (
   calendars,
   context,
-  handleChange,
   index,
   updateActiveCalendar
 ) => {
@@ -298,7 +283,7 @@ export const deleteCalendar = (
         });
         if (newCalendar) {
           // deleted last calendar so the backend created a new one for the user
-          handleChange(
+          context.handleChange(
             { activeCalendarIndex: 0, calendars: [newCalendar] },
             () => updateActiveCalendar(0)
           );
@@ -306,7 +291,7 @@ export const deleteCalendar = (
           let new_index = index;
           if (calendars.length - 1 <= index) new_index = index - 1;
 
-          handleChange(
+          context.handleChange(
             prevState => {
               return {
                 activeCalendarIndex: new_index,
@@ -328,13 +313,13 @@ export const removePendingEmail = (
   activeCalendarIndex,
   calendar,
   context,
-  handleChange,
   listIndex
 ) => {
   const inviteEmailIndex = listIndex - calendar.users.length;
   const calendarID = calendar._id;
   const email = calendar.emailsInvited[inviteEmailIndex];
 
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/remove/invitation", {
       calendarID,
@@ -342,6 +327,8 @@ export const removePendingEmail = (
     })
     .then(res => {
       const { success, err, message } = res.data;
+      context.handleChange({ saving: false });
+
       if (!success) {
         console.log(err);
         console.log(message);
@@ -352,7 +339,7 @@ export const removePendingEmail = (
         });
       } else {
         context.notify({ type: "success", title: "Success", message });
-        handleChange(prevState => {
+        context.handleChange(prevState => {
           return {
             calendars: [
               ...prevState.calendars.slice(0, activeCalendarIndex),
@@ -375,13 +362,16 @@ export const removePendingEmail = (
     });
 };
 
-export const setDefaultCalendar = (calendarID, context, handleChange) => {
+export const setDefaultCalendar = (calendarID, context) => {
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/setDefault", {
       calendarID
     })
     .then(res => {
       const { success, err, message } = res.data;
+      context.handleChange({ saving: false });
+
       if (!success) {
         console.log(err);
         console.log(message);
@@ -392,7 +382,7 @@ export const setDefaultCalendar = (calendarID, context, handleChange) => {
         });
       } else {
         context.notify({ type: "success", title: "Success", message });
-        handleChange({ defaultCalendarID: calendarID });
+        context.handleChange({ defaultCalendarID: calendarID });
       }
     });
 };
@@ -400,14 +390,16 @@ export const unlinkSocialAccount = (
   accountID,
   activeCalendarIndex,
   calendars,
-  context,
-  handleChange
+  context
 ) => {
   const calendarID = calendars[activeCalendarIndex]._id;
+  context.handleChange({ saving: true });
   axios
     .post("/api/calendar/account/delete", { accountID, calendarID })
     .then(res => {
       const { success, err, message } = res.data;
+      context.handleChange({ saving: false });
+
       if (!success) {
         console.log(err);
         context.notify({
@@ -432,7 +424,7 @@ export const unlinkSocialAccount = (
             title: "Successfully Removed Account",
             message
           });
-          handleChange(prevState => {
+          context.handleChange(prevState => {
             return {
               calendars: [
                 ...prevState.calendars.slice(0, activeCalendarIndex),

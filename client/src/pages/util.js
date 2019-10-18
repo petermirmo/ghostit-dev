@@ -415,7 +415,6 @@ export const initSocket = (
       };
     });
   });
-
   socket.on("socket_user_list", reqObj => {
     const { roomID, userList } = reqObj;
 
@@ -424,9 +423,8 @@ export const initSocket = (
 
     callback({ userList });
   });
-
   callback({ socket });
-  if (updateSocketCalendar) updateSocketCalendar();
+  if (updateSocketCalendar) updateSocketCalendar(socket);
 };
 
 export const isStillLoading = (page, user) => {

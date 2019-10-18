@@ -124,9 +124,7 @@ module.exports = io => {
       if (socket.request.user.signedInAsUser) {
         if (socket.request.user.signedInAsUser.id) {
           userID = socket.request.user.signedInAsUser.id;
-          name = `"${name}" signed in as "${
-            socket.request.user.signedInAsUser.fullName
-          }"`;
+          name = `"${name}" signed in as "${socket.request.user.signedInAsUser.fullName}"`;
         }
       }
 
@@ -267,9 +265,7 @@ module.exports = io => {
       if (socket.request.user.signedInAsUser) {
         if (socket.request.user.signedInAsUser.id) {
           userID = socket.request.user.signedInAsUser.id;
-          name = `"${name}" signed in as "${
-            socket.request.user.signedInAsUser.fullName
-          }"`;
+          name = `"${name}" signed in as "${socket.request.user.signedInAsUser.fullName}"`;
         }
       }
 
@@ -353,9 +349,7 @@ module.exports = io => {
       if (socket.request.user.signedInAsUser) {
         if (socket.request.user.signedInAsUser.id) {
           userID = socket.request.user.signedInAsUser.id;
-          name = `"${name}" signed in as "${
-            socket.request.user.signedInAsUser.fullName
-          }"`;
+          name = `"${name}" signed in as "${socket.request.user.signedInAsUser.fullName}"`;
         }
       }
 

@@ -2,12 +2,15 @@ import React, { Component, createContext } from "react";
 import Notification from "../components/notifications/Notification/";
 import Loader from "../components/notifications/Loader";
 
-const NotificationContext = createContext();
-const { Provider, Consumer } = NotificationContext;
+const ExtraContext = createContext();
+const { Provider, Consumer } = ExtraContext;
 
 class GIProvider extends Component {
   state = {
+    activeCalendarIndex: undefined,
+    calendars: [],
     clientSideBar: false,
+    defaultCalendarID: undefined,
     ghostitBlogs: [],
     notification: {
       on: false,
@@ -38,8 +41,22 @@ class GIProvider extends Component {
       }, 5000);
     }
   };
-  handleChange = stateObject => {
+  handleChange = (stateObject, callback) => {
     if (this._ismounted) this.setState(stateObject);
+    if (callback) callback();
+  };
+
+  handleCalendarChange = (key, value, calendarIndex) => {
+    if (!this._ismounted) return;
+    this.setState(prevState => {
+      return {
+        calendars: [
+          ...prevState.calendars.slice(0, calendarIndex),
+          { ...prevState.calendars[calendarIndex], [key]: value },
+          ...prevState.calendars.slice(calendarIndex + 1)
+        ]
+      };
+    });
   };
   getUser = () => {
     const { signedInAsUser, user } = this.state;
@@ -48,7 +65,10 @@ class GIProvider extends Component {
   };
   render() {
     const {
+      activeCalendarIndex,
+      calendars,
       clientSideBar,
+      defaultCalendarID,
       ghostitBlogs,
       notification,
       saving,
@@ -59,9 +79,13 @@ class GIProvider extends Component {
     return (
       <Provider
         value={{
+          activeCalendarIndex,
+          calendars,
           clientSideBar,
+          defaultCalendarID,
           getUser: this.getUser,
           ghostitBlogs,
+          handleCalendarChange: this.handleCalendarChange,
           handleChange: this.handleChange,
           notify: this.notify,
           saving,
@@ -82,6 +106,6 @@ class GIProvider extends Component {
   }
 }
 
-export { GIProvider, NotificationContext };
+export { GIProvider, ExtraContext };
 
 export default Consumer;

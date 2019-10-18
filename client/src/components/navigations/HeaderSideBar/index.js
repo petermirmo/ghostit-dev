@@ -19,7 +19,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser } from "../../../redux/actions/";
 
-import Consumer, { NotificationContext } from "../../../context";
+import Consumer, { ExtraContext } from "../../../context";
 
 import SideBarClients from "../../SideBarClients/";
 import FileUpload from "../../views/FileUpload/";
@@ -130,7 +130,7 @@ class HeaderSideBar extends Component {
     );
   }
 }
-HeaderSideBar.contextType = NotificationContext;
+HeaderSideBar.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {

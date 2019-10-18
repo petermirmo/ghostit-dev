@@ -9,7 +9,7 @@ import Logo from "../WebsiteHeader/Logo";
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
 
-import Consumer, { NotificationContext } from "../../../context";
+import Consumer, { ExtraContext } from "../../../context";
 
 class HeaderTopBar extends Component {
   render() {

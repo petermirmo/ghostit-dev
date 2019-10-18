@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setUser, setAccounts } from "../redux/actions";
 
-import Consumer, { NotificationContext } from "../context";
+import Consumer, { ExtraContext } from "../context";
 
 import LoaderWedge from "../components/notifications/LoaderWedge";
 import GIContainer from "../components/containers/GIContainer";
@@ -33,12 +33,15 @@ import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
 
 import {
+  getCalendars,
   getUser,
   getGhostitBlogs,
   getAccounts,
   getNotifications,
   useAppropriateFunctionForEscapeKey
 } from "./util";
+
+import { getCalendarAccounts, getCalendarUsers } from "./Calendar/util";
 
 import { isUserInPlatform } from "../components/containers/Page/util";
 
@@ -53,6 +56,13 @@ class Routes extends Component {
 
     this.getUserDataAndCheckAuthorization();
     getNotifications(context.handleChange);
+
+    getCalendars(stateObject => {
+      context.handleChange(stateObject, () => {
+        getCalendarAccounts(this.context);
+        getCalendarUsers(this.context);
+      });
+    });
 
     getGhostitBlogs(ghostitBlogs => {
       context.handleChange({ ghostitBlogs });
@@ -99,10 +109,13 @@ class Routes extends Component {
     const { datebaseConnection } = this.state;
     const { getKeyListenerFunction, ghostitBlogs = [] } = this.props; // Variables
     const { location, user } = this.props; // Functions
+    const { calendars } = this.context;
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
     if (!datebaseConnection) return <LoaderWedge />;
+    if (isUserInPlatform(location.pathname) && calendars.length === 0)
+      return <LoaderWedge />;
 
     return (
       <Consumer>
@@ -139,7 +152,7 @@ class Routes extends Component {
     );
   }
 }
-Routes.contextType = NotificationContext;
+Routes.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {

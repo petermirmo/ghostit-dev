@@ -21,7 +21,7 @@ import GIInput from "../../../components/views/GIInput";
 import GIText from "../../../components/views/GIText";
 import GIContainer from "../../../components/containers/GIContainer";
 
-import Consumer from "../../../context";
+import Consumer, { ExtraContext } from "../../../context";
 
 import {
   capitolizeFirstChar,
@@ -48,11 +48,7 @@ import {
   unlinkSocialAccount
 } from "./util";
 
-import {
-  getCalendarAccounts,
-  getCalendarUsers,
-  isUserAdminOfCalendar
-} from "../util";
+import { getCalendarUsers, isUserAdminOfCalendar } from "../util";
 
 import {
   getAccountOptions,
@@ -80,16 +76,12 @@ class CalendarSideBar extends Component {
       renameCalendarString: "",
       renameCalendarBoolean: false,
       promoteUserPrompt: false,
-      saving: false,
       unlinkAccountPrompt: false,
       unsavedChange: false
     };
   }
   componentDidMount() {
-    const { activeCalendarIndex, calendars, handleCalendarChange } = this.props;
     this._ismounted = true;
-
-    getCalendarAccounts(calendars, handleCalendarChange, activeCalendarIndex);
   }
 
   componentWillUnmount() {
@@ -116,21 +108,12 @@ class CalendarSideBar extends Component {
       removeUserPrompt,
       renameCalendarBoolean,
       renameCalendarString,
-      saving,
       unLinkAccountID,
       unlinkAccountPrompt,
       unsavedChange
     } = this.state;
-
-    const {
-      activeCalendarIndex,
-      calendars,
-      defaultCalendarID,
-      handleCalendarChange,
-      handleParentChange,
-      updateActiveCalendar,
-      userList
-    } = this.props;
+    const { handleParentChange, updateActiveCalendar, userList } = this.props;
+    const { activeCalendarIndex, calendars, defaultCalendarID } = this.context;
 
     let userID = this.props.user._id;
     if (this.props.user.signedInAsUser) {
@@ -174,7 +157,6 @@ class CalendarSideBar extends Component {
                       onClick={() =>
                         createNewCalendar(
                           context,
-                          handleParentChange,
                           calendars.length,
                           "Calendar " + calendars.length,
                           updateActiveCalendar
@@ -201,10 +183,10 @@ class CalendarSideBar extends Component {
                             saveCalendarName(
                               calendars,
                               context,
-                              handleParentChange,
                               editingCalendarIndex,
                               renameCalendarString
                             );
+                            this.handleChange({ renameCalendarBoolean: false });
                           }}
                           text="Save Name"
                         />
@@ -222,7 +204,6 @@ class CalendarSideBar extends Component {
                     context,
                     deleteCalendarClicked,
                     this.handleChange,
-                    handleParentChange,
                     isUserAdminOfCalendar,
                     setDefaultCalendar
                   )
@@ -295,11 +276,13 @@ class CalendarSideBar extends Component {
                                 inviteUser(
                                   calendars,
                                   context,
-                                  handleParentChange,
                                   activeCalendarIndex,
                                   inviteEmailString
                                 );
-                                this.handleChange({ inviteEmailString: "" });
+                                this.handleChange({
+                                  inviteEmailString: "",
+                                  inviteUsersInputBoolean: false
+                                });
                               } else alert("Not a real email address!");
                             }}
                             text="Invite User"
@@ -350,7 +333,6 @@ class CalendarSideBar extends Component {
                     calendar,
                     context,
                     this.handleChange,
-                    handleParentChange,
                     index,
                     isUserAdminOfCalendar,
                     removePendingEmail,
@@ -372,7 +354,6 @@ class CalendarSideBar extends Component {
                     leaveCalendar(
                       calendars,
                       context,
-                      handleParentChange,
                       leaveCalendarIndex,
                       updateActiveCalendar
                     );
@@ -394,7 +375,6 @@ class CalendarSideBar extends Component {
                     deleteCalendar(
                       calendars,
                       context,
-                      handleParentChange,
                       activeCalendarIndex,
                       updateActiveCalendar
                     );
@@ -422,8 +402,7 @@ class CalendarSideBar extends Component {
                       unLinkAccountID,
                       activeCalendarIndex,
                       calendars,
-                      context,
-                      handleParentChange
+                      context
                     );
                 }}
                 type="delete-calendar"
@@ -452,7 +431,7 @@ class CalendarSideBar extends Component {
                       calendars,
                       context,
                       getCalendarUsers,
-                      handleCalendarChange,
+                      context.handleCalendarChange,
                       removeUserObj.userIndex
                     );
                 }}
@@ -480,20 +459,20 @@ class CalendarSideBar extends Component {
                       promoteUserObj.calendarIndex,
                       calendars,
                       context,
-                      handleParentChange,
                       promoteUserObj.userIndex
                     );
                 }}
                 type="delete-calendar"
               />
             )}
-            {saving && <Loader />}
           </GIContainer>
         )}
       </Consumer>
     );
   }
 }
+
+CalendarSideBar.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {

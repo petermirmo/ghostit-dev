@@ -26,7 +26,7 @@ import CampaignRecipeHeader from "../CommonComponents/CampaignRecipeHeader";
 import GIContainer from "../../../containers/GIContainer";
 import GIText from "../../../views/GIText";
 
-import Consumer, { NotificationContext } from "../../../../context";
+import Consumer, { ExtraContext } from "../../../../context";
 
 import "./style.css";
 
@@ -1386,7 +1386,7 @@ class Campaign extends Component {
   }
 }
 
-Campaign.contextType = NotificationContext;
+Campaign.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {

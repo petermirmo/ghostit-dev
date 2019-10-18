@@ -15,8 +15,6 @@ import {
 
 import { faTrash } from "@fortawesome/pro-solid-svg-icons";
 
-import { connect } from "react-redux";
-
 import PostCreation from "../../components/postingFiles/PostCreation";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar";
@@ -39,12 +37,11 @@ import GIContainer from "../../components/containers/GIContainer";
 
 import CalendarSideBar from "./SideBar";
 
-import Consumer from "../../context";
+import Consumer, { ExtraContext } from "../../context";
 
 import { isAdmin } from "../../util";
 
 import {
-  getCalendars,
   getCalendarInvites,
   triggerSocketPeers,
   initSocket,
@@ -66,8 +63,6 @@ import {
 
 class CalendarPage extends Component {
   state = {
-    activeCalendarIndex: undefined,
-    calendars: [],
     calendarInvites: [],
     clickedDate: new moment(),
     calendarDate: new moment(),
@@ -75,7 +70,6 @@ class CalendarPage extends Component {
     calendarName: "",
     clickedEvent: undefined,
     clickedEventIsRecipe: false,
-    defaultCalendarID: undefined,
     inviteUserActivated: false,
     inviteUserEmail: "",
 
@@ -112,41 +106,31 @@ class CalendarPage extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    getCalendars(stateObject => {
-      if (this._ismounted) this.setState(stateObject);
-      this.fillCalendar();
-
-      const {
-        calendars,
-        activeCalendarIndex,
-        campaigns,
-        facebookPosts,
-        twitterPosts,
-        linkedinPosts,
-        customPosts
-      } = this.state;
-
-      initSocket(
-        stateObject => this.handleChange(stateObject),
-        calendars,
-        activeCalendarIndex,
-        campaigns,
-        facebookPosts,
-        twitterPosts,
-        linkedinPosts,
-        customPosts,
-        this.updateSocketCalendar
-      );
-      getCalendarUsers(
-        stateObject.calendars,
-        this.handleCalendarChange,
-        stateObject.activeCalendarIndex
-      );
-    });
+    const { activeCalendarIndex, calendars } = this.context;
+    const {
+      campaigns,
+      facebookPosts,
+      twitterPosts,
+      linkedinPosts,
+      customPosts
+    } = this.state;
 
     getCalendarInvites(stateObject => {
-      if (this._ismounted) this.setState(stateObject);
+      this.handleChange(stateObject);
     });
+    this.fillCalendar();
+
+    initSocket(
+      stateObject => this.handleChange(stateObject),
+      calendars,
+      activeCalendarIndex,
+      campaigns,
+      facebookPosts,
+      twitterPosts,
+      linkedinPosts,
+      customPosts,
+      this.updateSocketCalendar
+    );
 
     window.addEventListener("beforeunload", this.notifySocketUsersOnPageClose);
   }
@@ -166,12 +150,10 @@ class CalendarPage extends Component {
     if (socket) socket.emit("unmounting_socket_component");
   };
 
-  updateSocketCalendar = () => {
-    const { calendars, activeCalendarIndex, socket } = this.state;
-    const { user } = this.props;
+  updateSocketCalendar = socket => {
+    const { activeCalendarIndex, calendars, user } = this.context;
 
     if (!calendars || activeCalendarIndex === undefined || !socket) return;
-
     socket.emit("calendar_connect", {
       calendarID: calendars[activeCalendarIndex]._id,
       email: user.email,
@@ -179,7 +161,7 @@ class CalendarPage extends Component {
     });
   };
 
-  inviteResponse = (index, response) => {
+  inviteResponse = (context, index, response) => {
     // function that gets called when the user clicks Accept or Reject on one of their calendar invites
     // repsonse is whether they clicked accept or reject (true or false)
     // index is the index of the calendar in calendarInvites
@@ -207,7 +189,7 @@ class CalendarPage extends Component {
           console.log(message);
         } else {
           if (response === true) {
-            this.setState(prevState => {
+            context.handleChange(prevState => {
               return {
                 calendars: [...prevState.calendars, calendar]
               };
@@ -218,7 +200,8 @@ class CalendarPage extends Component {
   };
 
   fillCalendar = () => {
-    const { activeCalendarIndex, calendarDate, calendars } = this.state;
+    const { activeCalendarIndex, calendars } = this.context;
+    const { calendarDate } = this.state;
 
     getPosts(calendars, activeCalendarIndex, calendarDate, this.handleChange);
     getCampaigns(calendars, activeCalendarIndex, this.handleChange);
@@ -229,49 +212,34 @@ class CalendarPage extends Component {
     if (callback) callback();
   };
 
-  handleCalendarChange = (key, value, calendarIndex) => {
-    if (!this._ismounted) return;
-    this.setState(prevState => {
-      return {
-        calendars: [
-          ...prevState.calendars.slice(0, calendarIndex),
-          { ...prevState.calendars[calendarIndex], [key]: value },
-          ...prevState.calendars.slice(calendarIndex + 1)
-        ]
-      };
-    });
-  };
-
   updateActiveCalendar = index => {
-    const { calendarDate, calendars } = this.state;
+    const { calendarDate, socket } = this.state;
+    const { calendars } = this.context;
     if (calendars)
       if (calendars[index]) moment.tz.setDefault(calendars[index].timezone);
-
-    this.setState(
-      {
-        activeCalendarIndex: index,
-        calendarDate: new moment(calendarDate),
-        calendarEditing: false
-      },
-      () => {
-        this.fillCalendar();
-        this.updateSocketCalendar();
-        if (!calendars[index].accounts)
-          getCalendarAccounts(calendars, this.handleCalendarChange, index);
-        if (!calendars[index].users)
-          getCalendarUsers(calendars, this.handleCalendarChange, index);
-      }
+    this.context.handleChange(
+      { activeCalendarIndex: index },
+      this.setState(
+        {
+          calendarDate: new moment(calendarDate),
+          calendarEditing: false
+        },
+        () => {
+          this.fillCalendar();
+          this.updateSocketCalendar(socket);
+          if (!calendars[index].accounts) getCalendarAccounts(context);
+          if (!calendars[index].users) getCalendarUsers(context);
+        }
+      )
     );
   };
 
   render() {
     const {
-      activeCalendarIndex,
       calendarDate,
       calendarEditing,
       calendarInvites,
       calendarName,
-      calendars,
       campaignModal,
       campaigns,
       clickedDate,
@@ -281,7 +249,6 @@ class CalendarPage extends Component {
       contentModal,
       customPosts,
       dashboardModal,
-      defaultCalendarID,
       facebookPosts,
       instagramPosts,
       inviteUserActivated,
@@ -296,8 +263,7 @@ class CalendarPage extends Component {
       twitterPosts,
       userList
     } = this.state;
-
-    const { user } = this.props;
+    const { activeCalendarIndex, calendars, defaultCalendarID } = this.context;
 
     const calendarEvents = getCalendarEvents(
       calendarEventCategories,
@@ -339,7 +305,7 @@ class CalendarPage extends Component {
                                 className="x-fill shadow-blue-3 bg-blue-fade-2 white br4 px16 py8 ml8"
                                 onClick={e => {
                                   e.preventDefault();
-                                  this.inviteResponse(index, true);
+                                  this.inviteResponse(context, index, true);
                                 }}
                               >
                                 Accept
@@ -348,7 +314,7 @@ class CalendarPage extends Component {
                                 className="x-fill common-border five-blue br4 px16 py8 ml8"
                                 onClick={e => {
                                   e.preventDefault();
-                                  this.inviteResponse(index, false);
+                                  this.inviteResponse(context, index, false);
                                 }}
                               >
                                 Reject
@@ -517,11 +483,6 @@ class CalendarPage extends Component {
                 </GIContainer>
                 {!isNaN(activeCalendarIndex) && !modalsOpen && (
                   <CalendarSideBar
-                    activeCalendarIndex={activeCalendarIndex}
-                    calendars={calendars}
-                    defaultCalendarID={defaultCalendarID}
-                    handleCalendarChange={this.handleCalendarChange}
-                    handleParentChange={this.handleChange}
                     updateActiveCalendar={this.updateActiveCalendar}
                     userList={userList}
                   />
@@ -672,10 +633,6 @@ class CalendarPage extends Component {
     );
   }
 }
+CalendarPage.contextType = ExtraContext;
 
-function mapStateToProps(state) {
-  return {
-    user: state.user
-  };
-}
-export default connect(mapStateToProps)(CalendarPage);
+export default CalendarPage;
