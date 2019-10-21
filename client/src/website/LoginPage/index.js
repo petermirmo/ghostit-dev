@@ -17,6 +17,8 @@ import GIButton from "../../components/views/GIButton";
 import GIInput from "../../components/views/GIInput";
 import Consumer from "../../context";
 
+import { getCalendars } from "../../pages/util";
+
 class LoginPage extends Component {
   state = {
     email: "",
@@ -36,7 +38,13 @@ class LoginPage extends Component {
         category: "User",
         action: "Register"
       });
+    this.loginFinal(accounts, context, user);
+  };
+  loginFinal = (accounts, context, user) => {
     context.handleChange({ user });
+    getCalendars(stateObject => {
+      context.handleChange(stateObject);
+    });
     this.props.setUser(user);
     this.props.setAccounts(accounts);
     this.props.history.push("/dashboard");
@@ -64,10 +72,7 @@ class LoginPage extends Component {
               if (user.role === "demo")
                 this.activateDemoUserLogin(accounts, context, user);
               else {
-                context.handleChange({ user });
-                this.props.setUser(user);
-                this.props.setAccounts(accounts);
-                this.props.history.push("/dashboard");
+                this.loginFinal(accounts, context, user);
               }
             });
           } else {

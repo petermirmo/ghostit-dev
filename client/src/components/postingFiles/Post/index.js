@@ -350,7 +350,13 @@ class Post extends Component {
                     className="bg-orange-fade shadow-orange-2 white py8 px16 br4"
                     onClick={() =>
                       this.handleChangeRegular(
-                        trySavePost(this.state, this.props)
+                        trySavePost(
+                          this.state,
+                          this.props,
+                          undefined,
+                          undefined,
+                          context
+                        )
                       )
                     }
                   >
@@ -370,7 +376,8 @@ class Post extends Component {
                     modifyCampaignDates,
                     this.props,
                     response,
-                    this.state
+                    this.state,
+                    context
                   )
                 }
                 close={() => {

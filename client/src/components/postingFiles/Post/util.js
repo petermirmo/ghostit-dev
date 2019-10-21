@@ -246,6 +246,7 @@ export const linkAccountToCalendar = (
 };
 
 export const modifyCampaignDate = (
+  context,
   date,
   handleChangeRegular,
   modifyCampaignDates,
@@ -257,6 +258,6 @@ export const modifyCampaignDate = (
     return handleChangeRegular({ promptModifyCampaignDates: false });
 
   handleChangeRegular({ promptModifyCampaignDates: false });
-  handleChangeRegular(trySavePost(state, props, true));
+  handleChangeRegular(trySavePost(state, props, true, undefined, context));
   modifyCampaignDates(date);
 };

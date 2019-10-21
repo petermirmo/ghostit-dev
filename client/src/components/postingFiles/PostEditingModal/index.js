@@ -64,8 +64,10 @@ class PostEdittingModal extends Component {
       return;
     }
     if (deletePost) {
+      context.handleChange({ saving: true });
       axios.delete("/api/post/delete/" + clickedEvent._id).then(res => {
         const { loggedIn, message, success } = res.data;
+        context.handleChange({ saving: false });
 
         if (loggedIn === false) history.push("/sign-in");
 

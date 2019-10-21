@@ -19,6 +19,8 @@ import GIButton from "../../components/views/GIButton";
 
 import Consumer from "../../context";
 
+import { getCalendars } from "../../pages/util";
+
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 class RegisterPage extends Component {
@@ -45,6 +47,9 @@ class RegisterPage extends Component {
         action: "Register"
       });
     context.handleChange({ user });
+    getCalendars(stateObject => {
+      context.handleChange(stateObject);
+    });
     this.props.setUser(user);
     this.props.setAccounts(accounts);
     this.props.history.push("/dashboard");

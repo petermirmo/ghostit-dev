@@ -759,7 +759,7 @@ class Campaign extends Component {
               context.handleChange({ saving: false });
             }
           };
-          trySavePost(post_state, post_props, true, true);
+          trySavePost(post_state, post_props, true, true, context);
         } else {
           // post doesn't need to be updated in the DB so just update in this.state.posts
           let new_post = {

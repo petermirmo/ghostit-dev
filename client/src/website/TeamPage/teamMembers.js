@@ -72,15 +72,6 @@ export const teamMembers = [
   },
   {
     color: "var(--five-purple-color)",
-    description: "",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/ahmad.jpg",
-    location: "Afghanistan",
-    name: "Ahmadullah Ehmad",
-    title: "UI/UX Designer"
-  },
-  {
-    color: "var(--five-purple-color)",
     description:
       "Some call me a wizard.. I call myself the css wizard. Although I love programming I do have a social life, meet my bestfriends keyboard and mouse.",
     image:

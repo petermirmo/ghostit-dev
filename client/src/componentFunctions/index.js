@@ -105,7 +105,8 @@ export const trySavePost = (
   post_state,
   post_props,
   skip_dates,
-  skip_checks
+  skip_checks,
+  context
 ) => {
   if (post_props.recipeEditing) {
     return trySavePostInRecipe(post_state, post_props, skip_dates);
@@ -185,7 +186,12 @@ export const trySavePost = (
       instructions,
       name,
       calendarID,
-      sendEmailReminder
+      sendEmailReminder,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      context
     );
   } else {
     savePost(
@@ -208,7 +214,8 @@ export const trySavePost = (
       linkTitle,
       linkDescription,
       linkCustomFiles,
-      videoTitle
+      videoTitle,
+      context
     );
   }
   setStateObj.somethingChanged = false;
@@ -295,7 +302,8 @@ export async function savePost(
   linkTitle,
   linkDescription,
   linkCustomFiles,
-  videoTitle
+  videoTitle,
+  context
 ) {
   if (filesToDelete) {
     if (filesToDelete.length !== 0) {
@@ -311,6 +319,7 @@ export async function savePost(
     }
 
   // Everything seems okay, save post to database!
+  if (context) context.handleChange({ saving: true });
   axios
     .post("/api/post", {
       _id,
@@ -336,6 +345,7 @@ export async function savePost(
       // Becuse they are handled so differently in the database
       // Text and images do not go well together
       const { post, success, message } = res.data;
+      if (context) context.handleChange({ saving: false });
 
       if (success) {
         if (post._id && filesToSave.length !== 0) {
