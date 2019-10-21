@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
+import { ExtraContext } from "../../context";
+
 import Modal from "../containers/Modal";
 import GIContainer from "../containers/GIContainer";
 import GIButton from "../views/GIButton";
@@ -28,6 +30,7 @@ class AddPagesOrGroupsModal extends Component {
     if (pagesToAdd.length === 0 || !pagesToAdd) {
       alert("You have not selected any pages to add!");
     } else {
+      this.context.handleChange({ saving: true });
       for (let index in pagesToAdd) {
         let page = pagesToAdd[index];
         // Add accountType and socialType
@@ -35,6 +38,12 @@ class AddPagesOrGroupsModal extends Component {
         page.socialType = this.props.socialType;
         axios.post("/api/account", page).then(res => {
           let { loggedIn } = res.data;
+          this.context.handleChange({ saving: false });
+          this.context.notify({
+            title: "Account successfully connected!",
+            type: "success"
+          });
+
           if (loggedIn === false) this.props.history.push("/sign-in");
 
           // Check to see if accounts were successfully saved
@@ -116,5 +125,6 @@ class AddPagesOrGroupsModal extends Component {
     );
   }
 }
+AddPagesOrGroupsModal.contextType = ExtraContext;
 
 export default AddPagesOrGroupsModal;

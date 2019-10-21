@@ -6,6 +6,8 @@ import moment from "moment-timezone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/pro-light-svg-icons";
 
+import Consumer, { ExtraContext } from "../../context";
+
 import PostCreation from "../../components/postingFiles/PostCreation";
 import PostEdittingModal from "../../components/postingFiles/PostEditingModal";
 import Calendar from "../../components/Calendar";
@@ -27,8 +29,6 @@ import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
 
 import CalendarSideBar from "./SideBar";
-
-import Consumer, { ExtraContext } from "../../context";
 
 import { isAdmin } from "../../util";
 
