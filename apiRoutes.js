@@ -134,7 +134,7 @@ module.exports = app => {
     "/api/facebook/callback",
     passport.authenticate("facebook", {
       successRedirect: "/social-accounts/connected",
-      failureRedirect: "/social-accounts"
+      failureRedirect: "/social-accounts/failed"
     })
   );
 
@@ -152,8 +152,8 @@ module.exports = app => {
   app.get(
     "/api/twitter/callback",
     passport.authenticate("twitter", {
-      successRedirect: "/social-accounts",
-      failureRedirect: "/social-accounts"
+      successRedirect: "/social-accounts/connected",
+      failureRedirect: "/social-accounts/failed"
     })
   );
 

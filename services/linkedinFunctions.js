@@ -158,7 +158,7 @@ module.exports = {
 
                     newAccount.save((err, result) => {
                       if (err) generalFunctions.handleError(res, err);
-                      else res.redirect("/social-accounts");
+                      else res.redirect("/social-accounts/connected");
                     });
                   };
 
@@ -184,26 +184,26 @@ module.exports = {
                         if (asyncCounter === 0) {
                           console.log(accountFoundUser);
                           if (!accountFoundUser) createNewAccount();
-                          else res.redirect("/social-accounts");
+                          else res.redirect("/social-accounts/connected");
                         }
                       });
                     }
-                  } else res.redirect("/social-accounts");
+                  } else res.redirect("/social-accounts/connected");
                 }
               );
             })
             .catch(linkedinProfileErrorResonse => {
               console.log(linkedinProfileErrorResonse);
-              res.redirect("/social-accounts");
+              res.redirect("/social-accounts/failed");
             });
         })
         .catch(linkedinTokenErrorResponse => {
           console.log(linkedinTokenErrorResponse);
-          res.redirect("/social-accounts");
+          res.redirect("/social-accounts/failed");
         });
     } else {
       console.log("No code received");
-      res.redirect("/social-accounts");
+      res.redirect("/social-accounts/failed");
     }
   }
 };

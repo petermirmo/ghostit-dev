@@ -59,6 +59,18 @@ class AccountsPage extends Component {
     ) {
       this.context.notify({ title: "Account Connected!", type: "success" });
       history.push("/social-accounts");
+    } else if (
+      location.pathname.substring(
+        location.pathname.length - 10,
+        location.pathname.length
+      ) === "/connected"
+    ) {
+      this.context.notify({
+        message: "Please reload the page and try again or contact support.",
+        title: "Connection failed",
+        type: "danger"
+      });
+      history.push("/social-accounts");
     }
   }
   componentWillUnmount() {
