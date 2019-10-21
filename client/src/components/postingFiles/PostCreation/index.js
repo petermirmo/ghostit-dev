@@ -99,7 +99,6 @@ class ContentModal extends Component {
     const { activeTab, listOfPostChanges, saving } = this.state;
     const { calendarAccounts, calendarID, clickedCalendarDate } = this.props; // Variables
     const { handleParentChange, notify, savePostCallback } = this.props; // Functions
-
     let body;
 
     if (activeTab.name === "custom") {

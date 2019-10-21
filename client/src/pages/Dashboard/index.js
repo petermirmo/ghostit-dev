@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
+
+import Consumer, { ExtraContext } from "../../context";
+
 import Page from "../../components/containers/Page";
 import Modal0 from "../../components/containers/Modal0";
 
@@ -13,13 +16,11 @@ import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
 
 import { getCalendars, triggerSocketPeers, initSocket } from "../util";
-import Consumer from "../../context";
 
 class DashboardPage extends Component {
   state = {
     activeCalendarIndex: 0,
     calendarDate: new moment(),
-    calendars: [],
     defaultCalendarID: "",
     timezone: "America/Vancouver",
 
@@ -33,18 +34,15 @@ class DashboardPage extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
-    const { calendars, activeCalendarIndex } = this.state;
+    const { calendars, activeCalendarIndex } = this.context;
 
-    getCalendars(stateObject => {
-      if (this._ismounted) this.setState(stateObject);
-      initSocket(
-        stateObject => {
-          if (this._ismounted) this.setState(stateObject);
-        },
-        calendars,
-        activeCalendarIndex
-      );
-    });
+    initSocket(
+      stateObject => {
+        if (this._ismounted) this.setState(stateObject);
+      },
+      calendars,
+      activeCalendarIndex
+    );
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -54,8 +52,6 @@ class DashboardPage extends Component {
   };
   render() {
     const {
-      activeCalendarIndex,
-      calendars,
       calendarDate,
       campaignModal,
       clickedEvent,
@@ -64,6 +60,8 @@ class DashboardPage extends Component {
       recipeEditing,
       templatesModal
     } = this.state;
+    const { activeCalendarIndex, calendars } = this.context;
+
     const modalsOpen = campaignModal || contentModal || templatesModal;
 
     return (
@@ -88,6 +86,7 @@ class DashboardPage extends Component {
               <Modal0
                 body={
                   <PostCreation
+                    calendarAccounts={calendars[activeCalendarIndex].accounts}
                     calendarID={calendars[activeCalendarIndex]._id}
                     clickedCalendarDate={calendarDate}
                     handleParentChange={this.handleChange}
@@ -109,6 +108,7 @@ class DashboardPage extends Component {
               <Modal0
                 body={
                   <Campaign
+                    calendarAccounts={calendars[activeCalendarIndex].accounts}
                     calendarID={calendars[activeCalendarIndex]._id}
                     campaign={clickedEvent}
                     clickedCalendarDate={calendarDate}
@@ -128,5 +128,6 @@ class DashboardPage extends Component {
     );
   }
 }
+DashboardPage.contextType = ExtraContext;
 
 export default DashboardPage;

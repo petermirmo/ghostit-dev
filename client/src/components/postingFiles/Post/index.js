@@ -149,8 +149,6 @@ class Post extends Component {
       activePageAccountsArray.length === 0 &&
       inactivePageAccountsArray.length === 0
     ) {
-      let tempMessage = socialType;
-      if (socialType === "facebook") tempMessage += " group/page";
       return (
         <GIContainer className="bg-light-grey column x-fill pa32">
           <GIContainer className="bg-white common-border x-fill full-center column relative pa32 br8">
@@ -164,7 +162,7 @@ class Post extends Component {
             )}
             <GIText
               className="bold tac fs-26"
-              text={`Connect ${tempMessage} account!`}
+              text={`You don't have any social accounts connected!`}
               type="h4"
             />
             <Link to="/social-accounts">Go to Social Accounts Page</Link>
