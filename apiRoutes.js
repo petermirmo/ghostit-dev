@@ -133,7 +133,7 @@ module.exports = app => {
   app.get(
     "/api/facebook/callback",
     passport.authenticate("facebook", {
-      successRedirect: "/social-accounts",
+      successRedirect: "/social-accounts/connected",
       failureRedirect: "/social-accounts"
     })
   );

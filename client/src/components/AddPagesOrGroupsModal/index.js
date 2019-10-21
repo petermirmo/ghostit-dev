@@ -7,6 +7,7 @@ import Modal from "../containers/Modal";
 import GIContainer from "../containers/GIContainer";
 import GIButton from "../views/GIButton";
 import GIText from "../views/GIText";
+import LoaderSimpleCircle from "../notifications/LoaderSimpleCircle";
 
 import SocialMediaDiv from "./SocialMediaDiv";
 
@@ -50,28 +51,34 @@ class AddPagesOrGroupsModal extends Component {
   };
 
   render() {
-    const { socialType, accountType, errorMessage } = this.props;
+    const { accountType, errorMessage, loading, socialType } = this.props;
     let { pageOrGroupArray } = this.props;
     if (!pageOrGroupArray) pageOrGroupArray = [];
 
     return (
       <Modal
         body={
-          <GIContainer className="column x-fill y-fill">
-            {!errorMessage && (
-              <SocialMediaDiv
-                updateParentAccounts={this.setPagesToAdd}
-                accounts={pageOrGroupArray}
-                errorMessage={errorMessage}
-              />
-            )}
+          loading ? (
+            <GIContainer className="fill-parent full-center">
+              <LoaderSimpleCircle />
+            </GIContainer>
+          ) : (
+            <GIContainer className="column x-fill y-fill">
+              {!errorMessage && (
+                <SocialMediaDiv
+                  updateParentAccounts={this.setPagesToAdd}
+                  accounts={pageOrGroupArray}
+                  errorMessage={errorMessage}
+                />
+              )}
 
-            {errorMessage && (
-              <GIContainer className="pa16">
-                <div>{errorMessage}</div>
-              </GIContainer>
-            )}
-          </GIContainer>
+              {errorMessage && (
+                <GIContainer className="pa16">
+                  <div>{errorMessage}</div>
+                </GIContainer>
+              )}
+            </GIContainer>
+          )
         }
         className="br8"
         footer={

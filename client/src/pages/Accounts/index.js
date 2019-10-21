@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -7,6 +8,8 @@ import { faPlus, faTrash } from "@fortawesome/pro-solid-svg-icons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { setAccounts } from "../../redux/actions";
+
+import { ExtraContext } from "../../context";
 
 import AddPageOrGroupModal from "../../components/AddPagesOrGroupsModal";
 import ConfirmAlert from "../../components/notifications/ConfirmAlert";
@@ -45,6 +48,18 @@ class AccountsPage extends Component {
   };
   componentDidMount() {
     this._ismounted = true;
+
+    const { history, location } = this.props; // Variables
+
+    if (
+      location.pathname.substring(
+        location.pathname.length - 10,
+        location.pathname.length
+      ) === "/connected"
+    ) {
+      this.context.notify({ title: "Account Connected!", type: "success" });
+      history.push("/social-accounts");
+    }
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -54,6 +69,7 @@ class AccountsPage extends Component {
   };
   openModal = (socialType, accountType) => {
     this.setState({
+      loading: true,
       socialType,
       accountType,
       addPageOrGroupModal: true
@@ -63,23 +79,23 @@ class AccountsPage extends Component {
     if (socialType === "facebook") {
       if (accountType === "page") {
         getFacebookPages((pageOrGroupArray, errorMessage) =>
-          this.setState({ pageOrGroupArray, errorMessage })
+          this.setState({ loading: false, pageOrGroupArray, errorMessage })
         );
       } else if (accountType === "group") {
         getFacebookGroups((pageOrGroupArray, errorMessage) =>
-          this.setState({ pageOrGroupArray, errorMessage })
+          this.setState({ loading: false, pageOrGroupArray, errorMessage })
         );
       }
     } else if (socialType === "linkedin") {
       if (accountType === "page") {
         getLinkedinPages((pageOrGroupArray, errorMessage) =>
-          this.setState({ pageOrGroupArray, errorMessage })
+          this.setState({ loading: false, pageOrGroupArray, errorMessage })
         );
       }
     } else if (socialType === "instagram") {
       if (accountType === "page") {
         getInstagramPages((pageOrGroupArray, errorMessage) =>
-          this.setState({ pageOrGroupArray, errorMessage })
+          this.setState({ loading: false, pageOrGroupArray, errorMessage })
         );
       }
     }
@@ -125,6 +141,7 @@ class AccountsPage extends Component {
       addPageOrGroupModal,
       deleteAccount,
       errorMessage,
+      loading,
       pageOrGroupArray,
       socialType
     } = this.state;
@@ -385,14 +402,15 @@ class AccountsPage extends Component {
 
           {addPageOrGroupModal && (
             <AddPageOrGroupModal
+              accountType={accountType}
+              close={() => this.setState({ addPageOrGroupModal: false })}
+              errorMessage={errorMessage}
               getUserAccounts={() =>
                 getUserAccounts(accounts => setAccounts(accounts))
               }
+              loading={loading}
               pageOrGroupArray={pageOrGroupArray}
-              accountType={accountType}
               socialType={socialType}
-              errorMessage={errorMessage}
-              close={() => this.setState({ addPageOrGroupModal: false })}
             />
           )}
           {deleteAccount && (
@@ -417,6 +435,7 @@ class AccountsPage extends Component {
     );
   }
 }
+AccountsPage.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {
@@ -427,7 +446,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ setAccounts }, dispatch);
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AccountsPage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AccountsPage)
+);
