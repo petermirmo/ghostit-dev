@@ -98,6 +98,7 @@ class Routes extends Component {
           <ViewWebsiteBlog
             contentArray={ghostitBlog.contentArray}
             featuredBlogs={ghostitBlogs.slice(0, 3)}
+            id={ghostitBlog._id}
             images={ghostitBlog.images}
           />
         )}

@@ -26,7 +26,12 @@ class ViewWebsiteBlog extends Component {
     return indexOfSmallestLocation;
   };
   render() {
-    const { contentArray = [], featuredBlogs = [], images = [] } = this.props;
+    const {
+      contentArray = [],
+      featuredBlogs = [],
+      images = [],
+      id
+    } = this.props;
 
     const contentImagesArray = createContentImagesArray(contentArray, images);
     const divs = createBlogDivs(contentImagesArray);
@@ -78,6 +83,8 @@ divs[image.location] = this.createRelevantImageDiv(image, index);
               {featuredBlogs.map((ghostitBlog, index) => {
                 const { contentArray, createdAt } = ghostitBlog;
                 const ghostitBlogDate = new moment(createdAt);
+
+                if (ghostitBlog._id === id) return undefined;
 
                 let temp = document.createElement("div");
                 if (contentArray[1])
