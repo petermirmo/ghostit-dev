@@ -79,7 +79,7 @@ class RegularVersion extends Component {
                 <Link to="/sign-up">
                   <GIButton
                     className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                    text="Get Your Free Trial"
+                    text="Get Started Now"
                   />
                 </Link>
               </GIContainer>
@@ -132,7 +132,7 @@ class RegularVersion extends Component {
                 <Link to="/sign-up">
                   <GIButton
                     className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                    text="Get Your Free Trial"
+                    text="Get Started Now"
                   />
                 </Link>
               </GIContainer>
@@ -185,7 +185,7 @@ class RegularVersion extends Component {
                 <Link to="/sign-up">
                   <GIButton
                     className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                    text="Get Your Free Trial"
+                    text="Get Started Now"
                   />
                 </Link>
               </GIContainer>
@@ -277,7 +277,7 @@ class RegularVersion extends Component {
               <Link to="/sign-up">
                 <GIButton
                   className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32"
-                  text="Get Your Free Trial"
+                  text="Get Started Now"
                 />
               </Link>
             </GIContainer>
