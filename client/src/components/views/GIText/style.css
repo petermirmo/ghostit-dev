@@ -157,6 +157,9 @@ ul {
   width: auto;
   overflow: hidden;
 }
+span {
+  font-size: inherit !important;
+}
 
 text {
   font-size: var(--sixteen-font-size);
