@@ -50,25 +50,7 @@ class Blog extends Component {
                       }
                     : {}
                 }
-              >
-                <GIContainer
-                  className="absolute top-0 left-0 bg-white full-center shadow-4 px16 py8"
-                  style={{ borderBottomRightRadius: "4px" }}
-                >
-                  <GIText
-                    className="quicksand four-blue mr8"
-                    text={ghostitBlogDate.format("DD")}
-                    type="h4"
-                  />
-                  <GIText
-                    className="bold"
-                    text={`${ghostitBlogDate
-                      .format("MMMM")
-                      .substring(0, 3)}, ${ghostitBlogDate.year()}`}
-                    type="p"
-                  />
-                </GIContainer>
-              </GIContainer>
+              ></GIContainer>
               {ghostitBlog.contentArray[0] && (
                 <GIContainer className="column pt16">
                   <GIText
