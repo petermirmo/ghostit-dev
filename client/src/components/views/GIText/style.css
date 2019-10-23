@@ -136,23 +136,24 @@ h5 {
   margin: 0;
   font-weight: 100;
 
-  font-size: var(--sixteen-font-size);
+  font-size: var(--eighteen-font-size);
 }
 h6 {
   color: var(--primary-font-color);
   margin: 0;
   font-weight: 100;
 
-  font-size: var(--sixteen-font-size);
+  font-size: var(--eighteen-font-size);
 }
 
 p {
   margin: 0;
   color: var(--primary-font-color);
   text-align: left;
-  font-size: var(--sixteen-font-size);
+  font-size: var(--eighteen-font-size);
   font-weight: 100;
 }
+
 ul {
   width: auto;
   overflow: hidden;
@@ -162,6 +163,6 @@ span {
 }
 
 text {
-  font-size: var(--sixteen-font-size);
+  font-size: var(--eighteen-font-size);
   fill: var(--primary-font-color);
 }

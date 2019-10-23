@@ -872,14 +872,14 @@ body {
 
   font-family: var(--regular-font);
   color: var(--primary-font-color);
-  font-size: var(--sixteen-font-size);
+  font-size: var(--eighteen-font-size);
 
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
 div {
   font-family: inherit;
-  font-size: var(--sixteen-font-size);
+  font-size: var(--eighteen-font-size);
   color: var(--primary-font-color);
 }
 img {
