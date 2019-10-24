@@ -54,10 +54,14 @@ class TeamPage extends Component {
           type="h6"
         />
 
-        <GIContainer className="x-wrap x-fill px64">{firstTeamRow}</GIContainer>
+        <GIContainer
+          className={"x-fill " + (isMobileOrTablet() ? "column px16" : "px64")}
+        >
+          {firstTeamRow}
+        </GIContainer>
         <GIContainer
           className={
-            "x-wrap x-fill relative " + (isMobileOrTablet() ? "px64" : "")
+            "x-fill relative " + (isMobileOrTablet() ? "column px16" : "pr64")
           }
         >
           {!isMobileOrTablet() && (
@@ -78,7 +82,12 @@ class TeamPage extends Component {
           {secondTeamRow}
         </GIContainer>
 
-        <GIContainer className="x-wrap x-fill justify-end pl64">
+        <GIContainer
+          className={
+            "x-fill justify-end " +
+            (isMobileOrTablet() ? "column px16" : "pl64")
+          }
+        >
           {thirdTeamRow}
           {!isMobileOrTablet() && (
             <GIContainer className="relative justify-end">
@@ -95,7 +104,11 @@ class TeamPage extends Component {
             </GIContainer>
           )}
         </GIContainer>
-        <GIContainer className="x-wrap x-fill relative px64">
+        <GIContainer
+          className={
+            "x-fill relative " + (isMobileOrTablet() ? "column px16" : "px64")
+          }
+        >
           {fourthTeamRow}
         </GIContainer>
       </Page>
