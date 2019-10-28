@@ -103,8 +103,8 @@ const accountDiv = (account, className, color, icon, index, name, onClick) => (
       icon={icon}
     />
     <GIContainer className="column">
-      <GIText className="white" text={name} type="h6" />
-      <GIText className="white" text={account.accountType} type="p" />
+      <GIText className="white fs-16" text={name} type="h6" />
+      <GIText className="white fs-16" text={account.accountType} type="p" />
     </GIContainer>
   </GIContainer>
 );

@@ -113,7 +113,8 @@ export const findLink = (
   handleChangeRegular,
   linkDescription,
   linkTitle,
-  textAreaString
+  textAreaString,
+  link2
 ) => {
   // Url regular expression
   let urlRegularExpression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
@@ -121,7 +122,8 @@ export const findLink = (
   let regex = new RegExp(urlRegularExpression);
 
   // Finds url
-  let match = textAreaString.match(regex);
+  let match;
+  if (textAreaString) match = textAreaString.match(regex);
 
   let link;
   // Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
@@ -131,13 +133,32 @@ export const findLink = (
       link
     });
     getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link);
-  } else
-    handleChangeRegular({
-      link: "",
-      linkTitle: "",
-      linkImage: "",
-      linkDescription: ""
-    });
+  } else if (link2) {
+    getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
+  }
+};
+
+export const findCurrentTypingStringInTextarea = (newContent, oldContent) => {
+  // First get index of where the user is typing by comparing two strings
+  let indexOfChange = 0;
+  for (let index in newContent) {
+    if (newContent[index] !== oldContent[index]) {
+      indexOfChange = index;
+      break;
+    }
+  }
+  let currentTypingString = "";
+  for (let index = indexOfChange; index < newContent.length; index++) {
+    if (newContent[index] === " ") break;
+    else currentTypingString += newContent[index];
+  }
+  for (let index = indexOfChange - 1; index >= 0; index--) {
+    if (newContent[index] === " ") break;
+    else currentTypingString = newContent[index] + currentTypingString;
+  }
+  console.log(currentTypingString);
+
+  return currentTypingString;
 };
 
 export const findTaggedPeople = (callback, text) => {

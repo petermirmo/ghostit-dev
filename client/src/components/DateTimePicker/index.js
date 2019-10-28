@@ -137,7 +137,7 @@ class DatePicker extends Component {
             this.setState({ anchorDates: false });
           }}
         >
-          <GIText className="bold-600" type="p">
+          <GIText className="bold-600 fs-16" type="p">
             {date.format("DD MMMM, YYYY")}&nbsp;
             <GIText
               className="green"

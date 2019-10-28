@@ -34,6 +34,7 @@ import {
   anyVideos,
   createState,
   createActiveAccounts,
+  findCurrentTypingStringInTextarea,
   findLink,
   getDefaultAccount,
   getMaxCharacters,
@@ -55,9 +56,15 @@ class Post extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    const { calendarID, content, linkDescription, linkTitle } = this.state;
+    const { calendarID, linkDescription, link, linkTitle } = this.state;
 
-    findLink(this.handleChangeRegular, linkDescription, linkTitle, content);
+    findLink(
+      this.handleChangeRegular,
+      linkDescription,
+      linkTitle,
+      undefined,
+      link
+    );
   }
   componentWillUnmount() {
     this._ismounted = false;
@@ -207,7 +214,7 @@ class Post extends Component {
                   />
                 )}
                 <GIContainer className="align-center justify-start">
-                  <GIText className="pr8" text="Post Date:" type="p" />
+                  <GIText className="fs-16 pr8" text="Post Date:" type="p" />
                   <GIContainer>
                     <DateTimePicker
                       canEdit={canEditPost}
@@ -235,17 +242,17 @@ class Post extends Component {
                 <GIContainer className="relative">
                   <Textarea
                     className="posting-textarea light-scrollbar pa8"
+                    id="myTextArea"
                     onChange={event => {
-                      /*  if (socialType === "facebook")
-                      findTaggedPeople(
-                          this.handleChangeRegular,
-                          event.target.value
-                        );*/
+                      const currentTypingString = findCurrentTypingStringInTextarea(
+                        event.target.value,
+                        content
+                      );
                       findLink(
                         this.handleChangeRegular,
                         linkDescription,
                         linkTitle,
-                        event.target.value
+                        currentTypingString
                       );
                       this.handleChange(event.target.value, "content");
                     }}
@@ -294,11 +301,12 @@ class Post extends Component {
                 )}
 
                 {linkPreviewCanShow && link && (
-                  <GIContainer className="container-box column medium mx16 mt16">
+                  <GIContainer className="x-300px column mx16 mt16">
                     <LinkPreview
                       canAddFilesToLink={canAddFilesToLink && canEditPost}
                       canEdit={canEditPost}
                       handleChange={this.handleChange}
+                      handleChangeRegular={this.handleChangeRegular}
                       link={link}
                       linkCustomFiles={linkCustomFiles}
                       linkDescription={linkDescription}

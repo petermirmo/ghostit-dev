@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLongArrowAltLeft,
-  faLongArrowAltRight
+  faLongArrowAltRight,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
 import ContentEditable from "react-contenteditable";
@@ -62,7 +63,7 @@ class LinkPreview extends Component {
       linkPreviewCanEdit,
       linkTitle
     } = this.props; // Variables
-    const { handleChange, setCustomImages } = this.props; // Functions
+    const { handleChange, handleChangeRegular, setCustomImages } = this.props; // Functions
 
     const linkImagesToDisplay = linkCustomFiles.concat(linkImagesArray);
 
@@ -73,7 +74,19 @@ class LinkPreview extends Component {
     if (urlImageToDisplay)
       if (urlImageToDisplay.url) urlImageToDisplay = urlImageToDisplay.url;
     return (
-      <div className={className}>
+      <div className={className + " relative"}>
+        <FontAwesomeIcon
+          className="flex bg-white primary-font shadow-left icon-x-hover round-icon-small clickable round"
+          icon={faTimes}
+          onClick={() =>
+            handleChangeRegular({
+              link: "",
+              linkTitle: "",
+              linkImage: "",
+              linkDescription: ""
+            })
+          }
+        />
         <div
           id="link-preview-container"
           className="shadow"
