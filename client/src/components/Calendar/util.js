@@ -2,12 +2,10 @@ import React from "react";
 import moment from "moment-timezone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/pro-light-svg-icons";
-import {
-  faFacebookF,
-  faTwitter,
-  faLinkedinIn
-} from "@fortawesome/free-brands-svg-icons";
+import { faPlus } from "@fortawesome/pro-light-svg-icons/faPlus";
+import {faFacebookF} from "@fortawesome/free-brands-svg-icons/faFacebookF";
+import {faTwitter} from "@fortawesome/free-brands-svg-icons/faTwitter";
+import {faLinkedinIn} from "@fortawesome/free-brands-svg-icons/faLinkedinIn";
 
 import GIContainer from "../containers/GIContainer";
 import GIText from "../views/GIText";

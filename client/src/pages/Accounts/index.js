@@ -3,7 +3,8 @@ import { withRouter } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faPlus, faTrash } from "@fortawesome/pro-solid-svg-icons";
+import {faPlus} from "@fortawesome/pro-solid-svg-icons/faPlus";
+import {faTrash} from "@fortawesome/pro-solid-svg-icons/faTrash";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

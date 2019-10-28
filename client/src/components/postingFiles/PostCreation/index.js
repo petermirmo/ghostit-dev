@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

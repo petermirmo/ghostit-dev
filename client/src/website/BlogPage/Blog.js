@@ -3,7 +3,8 @@ import moment from "moment-timezone";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons/faAngleRight"
 
 import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";

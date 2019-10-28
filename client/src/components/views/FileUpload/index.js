@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/pro-light-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
+import { faPlus } from "@fortawesome/pro-light-svg-icons/faPlus";
 
 import GIContainer from "../../containers/GIContainer";
 

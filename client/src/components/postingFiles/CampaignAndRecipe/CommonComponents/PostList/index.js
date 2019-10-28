@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import moment from "moment-timezone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowDown,
-  faCopy,
-  faPlus,
-  faTrash
-} from "@fortawesome/free-solid-svg-icons";
-import { faPencilAlt } from "@fortawesome/pro-light-svg-icons";
+import {faArrowDown}  from "@fortawesome/free-solid-svg-icons/faArrowDown";
+import {faCopy}  from "@fortawesome/free-solid-svg-icons/faCopy";
+import {faPlus}  from "@fortawesome/free-solid-svg-icons/faPlus";
+import {faTrash}  from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faPencilAlt } from "@fortawesome/pro-light-svg-icons/faPencilAlt";
 
 import PostTypePicker from "../PostTypePicker";
 import GIContainer from "../../../../containers/GIContainer";

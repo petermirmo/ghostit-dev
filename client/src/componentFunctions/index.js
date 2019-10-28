@@ -1,15 +1,13 @@
 import moment from "moment-timezone";
 import axios from "axios";
 
-import {
-  faFacebookSquare,
-  faInstagram,
-  faLinkedin,
-  faTwitterSquare,
-  faFacebookF,
-  faTwitter,
-  faLinkedinIn
-} from "@fortawesome/free-brands-svg-icons";
+import {faFacebookSquare} from "@fortawesome/free-brands-svg-icons/faFacebookSquare";
+import {faInstagram} from "@fortawesome/free-brands-svg-icons/faInstagram";
+import {faLinkedin} from "@fortawesome/free-brands-svg-icons/faLinkedin";
+import {faTwitterSquare} from "@fortawesome/free-brands-svg-icons/faTwitterSquare";
+import {faFacebookF} from "@fortawesome/free-brands-svg-icons/faFacebookF";
+import {faTwitter} from "@fortawesome/free-brands-svg-icons/faTwitter";
+import {faLinkedinIn} from "@fortawesome/free-brands-svg-icons/faLinkedinIn";
 
 export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
   // function called when a user clicks on an existing recipe to edit

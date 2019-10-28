@@ -4,7 +4,8 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {faBars}  from "@fortawesome/free-solid-svg-icons/faBars";
+import {faTimes}  from "@fortawesome/free-solid-svg-icons/faTimes";
 import { isMobileOrTablet } from "../../../util";
 
 import Logo from "./Logo";

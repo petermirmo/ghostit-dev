@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/pro-light-svg-icons";
+import { faCheck } from "@fortawesome/pro-light-svg-icons/faCheck";
 
 import { Link, withRouter } from "react-router-dom";
 

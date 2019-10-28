@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faThLarge,
-  faChartLine,
-  faPlus,
-  faCogs,
-  faCalendar,
-  faUser,
-  faUsers
-} from "@fortawesome/free-solid-svg-icons";
+import {faThLarge}  from "@fortawesome/free-solid-svg-icons/faThLarge";
+import {faChartLine}  from "@fortawesome/free-solid-svg-icons/faChartLine";
+import {faPlus}  from "@fortawesome/free-solid-svg-icons/faPlus";
+import {faCogs}  from "@fortawesome/free-solid-svg-icons/faCogs";
+import {faCalendar}  from "@fortawesome/free-solid-svg-icons/faCalendar";
+import {faUser}  from "@fortawesome/free-solid-svg-icons/faUser";
+import {faUsers}  from "@fortawesome/free-solid-svg-icons/faUsers";
 import { Link, withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";

@@ -6,12 +6,10 @@ import moment from "moment-timezone";
 import TextArea from "react-textarea-autosize";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleDown,
-  faAngleRight,
-  faCircle,
-  faTimes
-} from "@fortawesome/free-solid-svg-icons";
+import {faTimes} from "@fortawesome/free-solid-svg-icons/faTimes";
+import {faAngleDown} from "@fortawesome/free-solid-svg-icons/faAngleDown";
+import {faAngleRight} from "@fortawesome/free-solid-svg-icons/faAngleRight";
+import {faCircle} from "@fortawesome/free-solid-svg-icons/faCircle";
 import "./style.css";
 
 class CalendarChat extends Component {

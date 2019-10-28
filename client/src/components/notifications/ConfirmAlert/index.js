@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { setKeyListenerFunction } from "../../../redux/actions/";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCircle";
 
 import GIContainer from "../../containers/GIContainer";
 
