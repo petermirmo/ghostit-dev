@@ -156,7 +156,6 @@ export const findCurrentTypingStringInTextarea = (newContent, oldContent) => {
     if (newContent[index] === " ") break;
     else currentTypingString = newContent[index] + currentTypingString;
   }
-  console.log(currentTypingString);
 
   return currentTypingString;
 };
@@ -178,7 +177,7 @@ const getDataFromURL = (
   axios.post("/api/link", { link: newLink }).then(res => {
     const { loggedIn } = res.data;
 
-    const { imgSrc, linkDescription, linkTitle } = res.data;
+    const { imgSrc = "", linkDescription = "", linkTitle = "" } = res.data;
 
     if (!linkTitle1) linkTitle1 = linkTitle;
     if (!linkDescription1) linkDescription1 = linkDescription;
@@ -189,8 +188,8 @@ const getDataFromURL = (
       handleChangeRegular({
         linkImagesArray: imgSrc,
         linkImage,
-        linkTitle: linkTitle1,
-        linkDescription: linkDescription1
+        linkTitle,
+        linkDescription
       });
     }
   });
