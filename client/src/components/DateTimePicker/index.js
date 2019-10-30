@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faCaretDown
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons/faAngleLeft";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons/faAngleRight";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons/faCaretDown";
 
 import GIContainer from "../containers/GIContainer";
 import GIText from "../views/GIText";

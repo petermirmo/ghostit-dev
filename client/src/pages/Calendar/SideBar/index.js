@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarCheck, faUsers } from "@fortawesome/pro-light-svg-icons";
-import {
-  faBars,
-  faCalendar,
-  faEllipsisV,
-  faPlus
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarCheck } from "@fortawesome/pro-light-svg-icons/faCalendarCheck";
+import { faUsers } from "@fortawesome/pro-light-svg-icons/faUsers";
+import {faBars}  from "@fortawesome/free-solid-svg-icons/faBars";
+import {faCalendar}  from "@fortawesome/free-solid-svg-icons/faCalendar";
+import {faEllipsisV}  from "@fortawesome/free-solid-svg-icons/faEllipsisV";
+import {faPlus}  from "@fortawesome/free-solid-svg-icons/faPlus";
 
 import { connect } from "react-redux";
 

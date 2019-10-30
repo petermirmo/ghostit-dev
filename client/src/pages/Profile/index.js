@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { faSignOut } from "@fortawesome/pro-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import { faSignOut } from "@fortawesome/pro-solid-svg-icons/faSignOut";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

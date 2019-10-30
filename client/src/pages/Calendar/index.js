@@ -4,7 +4,8 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/pro-light-svg-icons";
+import {faAngleLeft} from "@fortawesome/pro-light-svg-icons/faAngleLeft";
+import {faAngleRight} from "@fortawesome/pro-light-svg-icons/faAngleRight";
 
 import Consumer, { ExtraContext } from "../../context";
 

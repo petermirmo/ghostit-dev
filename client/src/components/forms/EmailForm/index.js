@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/pro-light-svg-icons";
+import { faArrowRight } from "@fortawesome/pro-light-svg-icons/faArrowRight";
 
 import GIInput from "../../views/GIInput";
 import GIButton from "../../views/GIButton";

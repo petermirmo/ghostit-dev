@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleDown,
-  faAngleUp,
-  faEllipsisV
-} from "@fortawesome/pro-light-svg-icons";
+import {faAngleDown} from "@fortawesome/pro-light-svg-icons/faAngleDown";
+import {faAngleUp} from "@fortawesome/pro-light-svg-icons/faAngleUp";
+import {faEllipsisV} from "@fortawesome/pro-light-svg-icons/faEllipsisV";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../GIText";

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faImage, faFont } from "@fortawesome/free-solid-svg-icons";
+import { faTrashFont } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faImage } from "@fortawesome/free-solid-svg-icons/faImage";
+import { faFont } from "@fortawesome/free-solid-svg-icons/faFont";
 
 import ContentEditable from "react-contenteditable";
 
