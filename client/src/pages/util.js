@@ -172,10 +172,7 @@ export const initSocket = (
   calendars,
   activeCalendarIndex,
   campaigns = [],
-  facebookPosts = [],
-  twitterPosts = [],
-  linkedinPosts = [],
-  customPosts = [],
+  getPostArrays,
   updateSocketCalendar
 ) => {
   let socket;
@@ -195,14 +192,13 @@ export const initSocket = (
       return;
     } else {
       let targetListName;
-      if (post.socialType === "facebook") targetListName = facebookPosts;
-      else if (post.socialType === "twitter") targetListName = twitterPosts;
-      else if (post.socialType === "linkedin") targetListName = linkedinPosts;
-      else if (post.socialType === "custom") targetListName = customPosts;
+      if (post.socialType === "facebook") targetListName = "facebookPosts";
+      else if (post.socialType === "twitter") targetListName = "twitterPosts";
+      else if (post.socialType === "linkedin") targetListName = "linkedinPosts";
+      else if (post.socialType === "custom") targetListName = "customPosts";
       else console.log(`unhandled post socialType: ${post.socialType}`);
-
       if (targetListName) {
-        const index = targetListName.findIndex(
+        const index = getPostArrays()[targetListName].findIndex(
           postObj => postObj._id.toString() === post._id.toString()
         );
         if (index === -1) {
@@ -233,15 +229,15 @@ export const initSocket = (
     if (!postID || !socialType) return;
 
     let targetListName;
-    if (socialType === "facebook") targetListName = facebookPosts;
-    else if (socialType === "twitter") targetListName = twitterPosts;
-    else if (socialType === "linkedin") targetListName = linkedinPosts;
-    else if (socialType === "custom") targetListName = customPosts;
+    if (socialType === "facebook") targetListName = "facebookPosts";
+    else if (socialType === "twitter") targetListName = "twitterPosts";
+    else if (socialType === "linkedin") targetListName = "linkedinPosts";
+    else if (socialType === "custom") targetListName = "customPosts";
     else console.log(`unhandled post socialType: ${socialType}`);
 
-    const index = targetListName.findIndex(
-      post => post._id.toString() === postID.toString()
-    );
+    const index = getPostArrays()[targetListName].findIndex(post => {
+      return post._id.toString() === postID.toString();
+    });
     if (index === -1) return;
     callback(prevState => {
       return {

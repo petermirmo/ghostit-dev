@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faTimes}  from "@fortawesome/free-solid-svg-icons/faTimes";
-import {faTrash}  from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 
 import axios from "axios";
 

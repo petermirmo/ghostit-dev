@@ -4,8 +4,8 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faAngleLeft} from "@fortawesome/pro-light-svg-icons/faAngleLeft";
-import {faAngleRight} from "@fortawesome/pro-light-svg-icons/faAngleRight";
+import { faAngleLeft } from "@fortawesome/pro-light-svg-icons/faAngleLeft";
+import { faAngleRight } from "@fortawesome/pro-light-svg-icons/faAngleRight";
 
 import Consumer, { ExtraContext } from "../../context";
 
@@ -99,13 +99,7 @@ class CalendarPage extends Component {
     this._ismounted = true;
 
     const { activeCalendarIndex, calendars } = this.context;
-    const {
-      campaigns,
-      facebookPosts,
-      twitterPosts,
-      linkedinPosts,
-      customPosts
-    } = this.state;
+    const { campaigns } = this.state;
 
     getCalendarInvites(stateObject => {
       this.handleChange(stateObject);
@@ -117,10 +111,7 @@ class CalendarPage extends Component {
       calendars,
       activeCalendarIndex,
       campaigns,
-      facebookPosts,
-      twitterPosts,
-      linkedinPosts,
-      customPosts,
+      this.getPostArrays,
       this.updateSocketCalendar
     );
 
@@ -136,6 +127,20 @@ class CalendarPage extends Component {
     );
     if (socket) socket.emit("unmounting_socket_component");
   }
+  getPostArrays = () => {
+    const {
+      facebookPosts,
+      twitterPosts,
+      linkedinPosts,
+      customPosts
+    } = this.state;
+    return {
+      facebookPosts,
+      twitterPosts,
+      linkedinPosts,
+      customPosts
+    };
+  };
 
   notifySocketUsersOnPageClose = () => {
     const { socket } = this.state;
