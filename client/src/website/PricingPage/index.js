@@ -35,64 +35,13 @@ class PricingPage extends Component {
           Have questions? Give us a call:
           <GIText className="four-blue" text="&nbsp;250-415-3093" type="span" />
         </GIText>
-        <GIContainer className="x-wrap justify-center align-end mt16 mb32">
-          <GIContainer className="container-box small column shadow-3 common-border one-blue mb32 mx16 br16">
-            <GIContainer className="x-wrap x-fill full-center py32 px16">
-              <GIText
-                className="fill-flex muli tac mb4"
-                text="Starter"
-                type="h2"
-              />
-              <GIContainer className="fill-flex full-center">
-                <GIContainer className="xy-128px full-center round common-border four-blue">
-                  <GIText className="muli" text="FREE" type="h1" />
-                </GIContainer>
-              </GIContainer>
-            </GIContainer>
-
-            <GIContainer className="align-center border-top-dashed px32 py16">
-              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText
-                text="Marketing campaign templates (custom or pre-built)"
-                type="p"
-              />
-            </GIContainer>
-            <GIContainer className="align-center border-top-dashed px32 py16">
-              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText text="Custom workflows" type="p" />
-            </GIContainer>
-            <GIContainer className="align-center border-top-dashed px32 py16">
-              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText text="Social scheduling" type="p" />
-            </GIContainer>
-            <GIContainer className="align-center border-top-dashed px32 py16">
-              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText text="Task manager" type="p" />
-            </GIContainer>
-            <GIContainer className="align-center border-top-dashed px32 py16">
-              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText text="Real-time multi-user" type="p" />
-            </GIContainer>
-            <GIContainer className="align-center border-top-dashed border-bottom-dashed px32 py16">
-              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText text="Advanced analytics" type="p" />
-            </GIContainer>
-            <GIContainer className="x-fill full-center py16">
-              <Link to="/sign-up">
-                <GIButton
-                  className="bg-blue-fade white shadow-blue py16 px32 br32"
-                  text="Get Started Now!"
-                />
-              </Link>
-            </GIContainer>
-          </GIContainer>
-
-          <GIContainer className="container-box small column shadow-3 common-border one-blue mb32 mx16 br16">
+        <GIContainer className="column x-wrap justify-center align-end mt16 mb32">
+          <GIContainer className="container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
             <GIContainer className="x-wrap x-fill full-center py32 px16">
               <GIContainer className="column">
                 <GIText
                   className="fill-flex muli tac mb4"
-                  text="Agency"
+                  text="Marketing Plans"
                   type="h2"
                 />
                 <GIText
@@ -103,7 +52,7 @@ class PricingPage extends Component {
               </GIContainer>
               <GIContainer className="fill-flex full-center">
                 <GIContainer className="xy-128px full-center column round bg-four-blue">
-                  <GIText className="quicksand white" text="$300" type="h2" />
+                  <GIText className="quicksand white" text="$540" type="h2" />
                   <GIText className="white" text="Per Month" type="h6" />
                 </GIContainer>
               </GIContainer>
@@ -148,6 +97,29 @@ class PricingPage extends Component {
                 }}
                 text="Get Started Now!"
               />
+            </GIContainer>
+          </GIContainer>
+          <GIContainer className="container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
+            <GIContainer className="column x-wrap x-fill full-center pt32 px16">
+              <GIText
+                className="fill-flex muli tac mb16"
+                text="Use Our Software"
+                type="h2"
+              />
+              <GIContainer className="fill-flex full-center mb16">
+                <GIContainer className="xy-128px full-center round common-border four-blue">
+                  <GIText className="muli" text="FREE" type="h1" />
+                </GIContainer>
+              </GIContainer>
+            </GIContainer>
+
+            <GIContainer className="x-fill full-center py16">
+              <Link to="/sign-up">
+                <GIButton
+                  className="bg-blue-fade white shadow-blue py16 px32 br32"
+                  text="Get Started Now!"
+                />
+              </Link>
             </GIContainer>
           </GIContainer>
         </GIContainer>
