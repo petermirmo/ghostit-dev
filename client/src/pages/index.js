@@ -56,11 +56,18 @@ class Routes extends Component {
 
     this.getUserDataAndCheckAuthorization();
     getNotifications(context.handleChange);
-
     getCalendars(stateObject => {
       context.handleChange(stateObject, () => {
-        getCalendarAccounts(this.context);
-        getCalendarUsers(this.context);
+        getCalendarAccounts(
+          stateObject.activeCalendarIndex,
+          stateObject.calendars,
+          context.handleCalendarChange
+        );
+        getCalendarUsers(
+          stateObject.activeCalendarIndex,
+          stateObject.calendars,
+          context.handleCalendarChange
+        );
       });
     });
 

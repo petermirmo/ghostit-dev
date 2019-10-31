@@ -131,12 +131,13 @@ export const getPosts = (
     });
 };
 
-export const getCalendarAccounts = context => {
+export const getCalendarAccounts = (
+  activeCalendarIndex,
+  calendars,
+  handleCalendarChange
+) => {
   axios
-    .get(
-      "/api/calendar/accounts/extra/" +
-        context.calendars[context.activeCalendarIndex]._id
-    )
+    .get("/api/calendar/accounts/extra/" + calendars[activeCalendarIndex]._id)
     .then(res => {
       const { success, err, message, accounts } = res.data;
       if (!success || err || !accounts) {
@@ -146,21 +147,18 @@ export const getCalendarAccounts = context => {
         console.log(err);
         console.log(message);
       } else {
-        context.handleCalendarChange(
-          "accounts",
-          accounts,
-          context.activeCalendarIndex
-        );
+        handleCalendarChange("accounts", accounts, activeCalendarIndex);
       }
     });
 };
 
-export const getCalendarUsers = context => {
+export const getCalendarUsers = (
+  activeCalendarIndex,
+  calendars,
+  handleCalendarChange
+) => {
   axios
-    .get(
-      "/api/calendar/users/" +
-        context.calendars[context.activeCalendarIndex]._id
-    )
+    .get("/api/calendar/users/" + calendars[activeCalendarIndex]._id)
     .then(res => {
       const { success, err, message, users } = res.data;
       if (!success || err || !users) {
@@ -171,9 +169,7 @@ export const getCalendarUsers = context => {
         console.log(message);
       } else {
         const adminIndex = users.findIndex(
-          userObj =>
-            userObj._id ===
-            context.calendars[context.activeCalendarIndex].adminID
+          userObj => userObj._id === calendars[activeCalendarIndex].adminID
         );
         if (adminIndex !== -1 && adminIndex !== 0) {
           // swap admin to the top of the array so it always gets displayed first
@@ -182,11 +178,7 @@ export const getCalendarUsers = context => {
           users[adminIndex] = temp;
         }
 
-        context.handleCalendarChange(
-          "users",
-          users,
-          context.activeCalendarIndex
-        );
+        handleCalendarChange("users", users, activeCalendarIndex);
       }
     });
 };

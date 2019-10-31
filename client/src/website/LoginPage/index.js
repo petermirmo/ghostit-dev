@@ -15,9 +15,13 @@ import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
 import GIButton from "../../components/views/GIButton";
 import GIInput from "../../components/views/GIInput";
-import Consumer from "../../context";
+import Consumer, { ExtraContext } from "../../context";
 
 import { getCalendars } from "../../pages/util";
+import {
+  getCalendarAccounts,
+  getCalendarUsers
+} from "../../pages/Calendar/util";
 
 class LoginPage extends Component {
   state = {
@@ -42,9 +46,22 @@ class LoginPage extends Component {
   };
   loginFinal = (accounts, context, user) => {
     context.handleChange({ user });
+
     getCalendars(stateObject => {
-      context.handleChange(stateObject);
+      context.handleChange(stateObject, () => {
+        getCalendarAccounts(
+          stateObject.activeCalendarIndex,
+          stateObject.calendars,
+          context.handleCalendarChange
+        );
+        getCalendarUsers(
+          stateObject.activeCalendarIndex,
+          stateObject.calendars,
+          context.handleCalendarChange
+        );
+      });
     });
+
     this.props.setUser(user);
     this.props.setAccounts(accounts);
     this.props.history.push("/dashboard");
@@ -167,6 +184,7 @@ class LoginPage extends Component {
     );
   }
 }
+LoginPage.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {

@@ -20,6 +20,10 @@ import GIButton from "../../components/views/GIButton";
 import Consumer from "../../context";
 
 import { getCalendars } from "../../pages/util";
+import {
+  getCalendarAccounts,
+  getCalendarUsers
+} from "../../pages/Calendar/util";
 
 let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -47,9 +51,22 @@ class RegisterPage extends Component {
         action: "Register"
       });
     context.handleChange({ user });
+
     getCalendars(stateObject => {
-      context.handleChange(stateObject);
+      context.handleChange(stateObject, () => {
+        getCalendarAccounts(
+          stateObject.activeCalendarIndex,
+          stateObject.calendars,
+          context.handleCalendarChange
+        );
+        getCalendarUsers(
+          stateObject.activeCalendarIndex,
+          stateObject.calendars,
+          context.handleCalendarChange
+        );
+      });
     });
+
     this.props.setUser(user);
     this.props.setAccounts(accounts);
     this.props.history.push("/dashboard");
