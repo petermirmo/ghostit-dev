@@ -10,27 +10,85 @@ import Consumer, { ExtraContext } from "../context";
 
 import LoaderWedge from "../components/notifications/LoaderWedge";
 import GIContainer from "../components/containers/GIContainer";
+import Loadable from 'react-loadable';
 
-import DashboardPage from "./Dashboard";
-import CalendarPage from "./Calendar";
-import AccountsPage from "./Accounts";
-import ManagePage from "./Manage";
-import ProfilePage from "./Profile";
-import MySubscriptionPage from "./MySubscription";
-import AnalyticsPage from "./Analytics";
-import SubscribePage from "./Subscribe";
-import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
+const DashboardPage =  Loadable({
+  loader: () => import("./Dashboard"),
+  loading: LoaderWedge,
+});
+const CalendarPage =  Loadable({
+  loader: () => import("./Calendar"),
+  loading: LoaderWedge,
+});
+const AccountsPage =  Loadable({
+  loader: () => import("./Accounts"),
+  loading: LoaderWedge,
+});
+const ManagePage =  Loadable({
+  loader: () => import("./Manage"),
+  loading: LoaderWedge,
+});
+const ProfilePage =  Loadable({
+  loader: () => import("./Profile"),
+  loading: LoaderWedge,
+});
+const MySubscriptionPage =  Loadable({
+  loader: () => import("./MySubscription"),
+  loading: LoaderWedge,
+});
+const AnalyticsPage =  Loadable({
+  loader: () => import("./Analytics"),
+  loading: LoaderWedge,
+});
+const SubscribePage =  Loadable({
+  loader: () => import("./Subscribe"),
+  loading: LoaderWedge,
+});
+const ViewWebsiteBlog =  Loadable({
+  loader: () => import("../components/ghostitBlog/ViewGhostitBlog"),
+  loading: LoaderWedge,
+});
 
-import HomePage from "../website/HomePage";
-import PricingPage from "../website/PricingPage";
-import TeamPage from "../website/TeamPage";
-import BlogPage from "../website/BlogPage";
-import GhostitAgencyPage from "../website/GhostitAgencyPage";
-import LoginPage from "../website/LoginPage";
-import RegisterPage from "../website/RegisterPage";
-import ForgotPasswordPage from "../website/ForgotPasswordPage";
-import TermsPage from "../website/TermsPage";
-import PrivacyPage from "../website/PrivacyPage";
+const HomePage =  Loadable({
+  loader: () => import("../website/HomePage"),
+  loading: LoaderWedge,
+});
+const PricingPage =  Loadable({
+  loader: () => import("../website/PricingPage"),
+  loading: LoaderWedge,
+});
+const TeamPage =  Loadable({
+  loader: () => import("../website/TeamPage"),
+  loading: LoaderWedge,
+});
+const BlogPage =  Loadable({
+  loader: () => import("../website/BlogPage"),
+  loading: LoaderWedge,
+});
+const GhostitAgencyPage =  Loadable({
+  loader: () => import("../website/GhostitAgencyPage"),
+  loading: LoaderWedge,
+});
+const PrivacyPage =  Loadable({
+  loader: () => import("../website/PrivacyPage"),
+  loading: LoaderWedge,
+});
+const LoginPage =  Loadable({
+  loader: () => import("../website/LoginPage"),
+  loading: LoaderWedge,
+});
+const RegisterPage =  Loadable({
+  loader: () => import("../website/RegisterPage"),
+  loading: LoaderWedge,
+});
+const ForgotPasswordPage =  Loadable({
+  loader: () => import("../website/ForgotPasswordPage"),
+  loading: LoaderWedge,
+});
+const TermsPage =  Loadable({
+  loader: () => import("../website/TermsPage"),
+  loading: LoaderWedge,
+});
 
 import {
   getCalendars,
