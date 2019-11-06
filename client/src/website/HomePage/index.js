@@ -21,10 +21,10 @@ class RegularVersion extends Component {
         {context => (
           <Page
             className="column"
-            description="Organize your marketing process with an all-in-one solution for unified content promotion."
+            description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
             homePage={true}
-            keywords="content, ghostit, marketing"
-            title="Home"
+            keywords="content creators"
+            title="Ghostit Marketing Solution and Agency"
           >
             <GIContainer
               className={`justify-center x-fill ${

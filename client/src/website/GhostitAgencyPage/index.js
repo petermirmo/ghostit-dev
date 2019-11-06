@@ -39,10 +39,10 @@ class GhostitAgency extends Component {
     return (
       <Page
         className="website-page align-center mt32"
-        description="Increase the amount of qualified traffic to your site."
-        keywords="content, ghostit, marketing, agency"
+        description="Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process."
+        keywords="content creators"
         style={{ width: "100%" }}
-        title="Agency"
+        title="Content Creation Marketing Agency"
       >
         <GIText className="tac mb8" type="h1">
           Content

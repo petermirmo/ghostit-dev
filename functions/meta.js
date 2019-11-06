@@ -4,10 +4,10 @@ const { JSDOM } = jsdom;
 
 const getMetaInformation = (url, callback) => {
   const defaultMetaDescription =
-    "Organize your marketing process with an all-in-one solution for unified content promotion.";
+    "Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion.";
   const defaultMetaImage =
     "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png";
-  const defaultMetaTitle = "All In One Marketing Solution | Ghostit";
+  const defaultMetaTitle = "Ghostit Marketing Solution and Agency";
   const defaultObject = {
     metaDescription: defaultMetaDescription,
     metaImage: defaultMetaImage,
@@ -52,62 +52,58 @@ const getMetaInformation = (url, callback) => {
       case "/":
         return callback({
           metaDescription:
-            "Organize your marketing process with an all-in-one solution for unified content promotion.",
+            "Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Home | Ghostit"
-        });
-      case "/home":
-        return callback({
-          metaDescription:
-            "Organize your marketing process with an all-in-one solution for unified content promotion.",
-          metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Home | Ghostit"
+          metaTitle: "Ghostit Marketing Solution and Agency"
         });
       case "/pricing":
         return callback({
-          metaDescription: "Have questions? Email us at hello@ghostit.co!",
+          metaDescription:
+            "Check out pricing for Ghostit marketing plans that all include dedicated content creators, competitive analysis, keyword research, and much more.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Pricing | Ghostit"
+          metaTitle: "All-in-One Marketing Solution & Agency Pricing | Ghostit"
         });
       case "/team":
         return callback({
-          metaDescription: "Meet the Ghostit Team!",
+          metaDescription:
+            "Bring your marketing concept to life with Ghostit’s team of content creators. From content development to SEO services, we can do it all.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Team | Ghostit"
+          metaTitle: "Content Creation Team | Ghostit"
         });
       case "/blog":
         return callback({
           metaDescription:
-            "Welcome to the Ghostit Blog! Enjoy awesome marketing guides, social media marketing tips and tricks, and how to create a motivating company culture!",
+            "Ghostit’s marketing blog shares insights into all facets of marketing including social media marketing, content marketing, and marketing automation.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Blog | Ghostit"
+          metaTitle: "Ghostit Blog | Sharing the Importance of Marketing"
         });
       case "/agency":
         return callback({
           metaDescription:
-            "Increase the amount of qualified traffic to your site!",
+            "Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Agency | Ghostit"
+          metaTitle: "Content Creation Marketing Agency | Ghostit"
         });
       case "/sign-in":
         return callback({
-          metaDescription: "Sign in to your Ghostit account.",
+          metaDescription:
+            "Sign in to the Ghostit platform to access your content calendar, campaigns, and templates.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Sign In | Ghostit"
+          metaTitle: "Sign In to Ghostit"
         });
       case "/sign-up":
         return callback({
-          metaDescription: "Sign up and start using Ghostit today!",
+          metaDescription:
+            "Ready to simplify your marketing process? Sign up to Ghostit’s all-in-one marketing solution and put a voice to your marketing concept today.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
-          metaTitle: "Sign Up | Ghostit"
+          metaTitle: "Sign Up to Ghostit"
         });
       case "/forgot-password":
         return callback({

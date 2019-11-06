@@ -24,9 +24,9 @@ class PricingPage extends Component {
     return (
       <Page
         className="website-page align-center mt32"
-        title="Pricing"
-        description="Have questions? Give us a call: 250-415-3093"
-        keywords="ghostit, pricing"
+        title="All-in-One Marketing Solution & Agency Pricing"
+        description="Check out pricing for Ghostit marketing plans that all include dedicated content creators, competitive analysis, keyword research, and much more."
+        keywords="content creators"
       >
         <GIText className="tac mb8" text="Pricing" type="h2">
           <GIText className="four-blue" text="Ghostit&nbsp;" type="span" />

@@ -111,9 +111,9 @@ class LoginPage extends Component {
         {context => (
           <Page
             className="login-background website-page align-center pt32"
-            description="Ghostit sign in :)"
-            keywords="content, ghostit, marketing"
-            title="Sign In"
+            description="Sign in to the Ghostit platform to access your content calendar, campaigns, and analytics."
+            keywords="content creators"
+            title="Sign In to Ghostit"
           >
             <GIContainer className="column x-fill full-center pb64">
               <GIText className="tac mb16" text="Sign In!" type="h2">

@@ -35,9 +35,9 @@ class TeamPage extends Component {
     return (
       <Page
         className="website-page align-center mt32"
-        description="Have fun, make money!"
-        keywords="ghostit, team"
-        title="Team"
+        description="Bring your marketing concept to life with Ghostit’s team of content creators. From content development to SEO services, we can do it all."
+        keywords="content creators"
+        title="Content Creation Team"
       >
         <GIText className="tac full-center pb8 mx32" type="h2">
           Meet the

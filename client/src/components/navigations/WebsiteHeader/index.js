@@ -4,8 +4,8 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBars}  from "@fortawesome/free-solid-svg-icons/faBars";
-import {faTimes}  from "@fortawesome/free-solid-svg-icons/faTimes";
+import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
+import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 import { isMobileOrTablet } from "../../../util";
 
 import Logo from "./Logo";
@@ -184,7 +184,7 @@ class WebsiteHeader extends Component {
                 className={`common-border br20 px16 py8 ${
                   isMobileOrTablet() ? "four-blue" : "white"
                 }`}
-                text="login"
+                text="Sign In"
               />
             </Link>
           )}

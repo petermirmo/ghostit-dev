@@ -132,9 +132,9 @@ class RegisterPage extends Component {
         {context => (
           <Page
             className="login-background website-page align-center pt32"
-            description="What are you waiting for!? Sign up today!"
-            keywords="content, ghostit, marketing"
-            title="Sign Up"
+            description="Ready to simplify your marketing process? Sign up to Ghostit’s all-in-one marketing solution and put a voice to your marketing concept today."
+            keywords="content creators"
+            title="Sign Up to Ghostit"
           >
             <GIContainer className="column x-fill full-center pb64">
               <GIText className="tac mb16" text="Sign Up!" type="h2">
