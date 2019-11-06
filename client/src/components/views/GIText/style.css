@@ -139,21 +139,21 @@ h5 {
   margin: 0;
   font-weight: 100;
 
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
 }
 h6 {
   color: var(--primary-font-color);
   margin: 0;
   font-weight: 100;
 
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
 }
 
 p {
   margin: 0;
   color: var(--primary-font-color);
   text-align: left;
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
   font-weight: 100;
 }
 
@@ -166,6 +166,6 @@ span {
 }
 
 text {
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
   fill: var(--primary-font-color);
 }

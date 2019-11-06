@@ -172,7 +172,7 @@ class LoginPage extends Component {
               <GIContainer className="full-center mt16">
                 <Link to="/forgot-password">
                   <GIButton
-                    className="underline-button white"
+                    className="underline-button"
                     text="Forgot password?"
                   />
                 </Link>

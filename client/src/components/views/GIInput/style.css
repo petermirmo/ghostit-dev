@@ -15,7 +15,7 @@ input {
   outline: none;
   resize: vertical;
 
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
   font-family: var(--regular-font);
   border: 1px solid var(--light-grey-theme-color);
   color: var(--primary-font-color);

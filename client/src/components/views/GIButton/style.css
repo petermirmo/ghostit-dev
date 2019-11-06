@@ -62,7 +62,7 @@
 }
 
 .regular-button.large {
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
 }
 
 .regular-button.small {
@@ -79,8 +79,7 @@
 }
 
 .underline-button {
-  border-bottom: 1px solid var(--four-blue-color);
-  color: var(--four-blue-color);
+  border-bottom: 1px solid var(--primary-font-color);
   background-color: transparent;
 }
 
@@ -121,7 +120,7 @@ button.purple:hover {
 button {
   color: var(--primary-font-color);
   font-family: var(--regular-font);
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
 
   cursor: pointer;
   outline: 0;
@@ -137,7 +136,7 @@ button {
 
 a {
   color: var(--four-blue-color);
-  font-size: var(--eighteen-font-size);
+  font-size: var(--sixteen-font-size);
   font-weight: bold;
   text-decoration: none;
 }
