@@ -224,8 +224,18 @@ class CalendarPage extends Component {
         () => {
           this.fillCalendar();
           this.updateSocketCalendar(socket);
-          if (!calendars[index].accounts) getCalendarAccounts(this.context);
-          if (!calendars[index].users) getCalendarUsers(this.context);
+          if (!calendars[index].accounts)
+            getCalendarAccounts(
+              this.context.activeCalendarIndex,
+              this.context.calendars,
+              this.context.handleCalendarChange
+            );
+          if (!calendars[index].users)
+            getCalendarUsers(
+              this.context.activeCalendarIndex,
+              this.context.calendars,
+              this.context.handleCalendarChange
+            );
         }
       )
     );

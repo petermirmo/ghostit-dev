@@ -149,7 +149,11 @@ export const removeUserFromCalendar = (
           message
         });
       } else {
-        getCalendarUsers(context);
+        getCalendarUsers(
+          context.activeCalendarIndex,
+          context.calendars,
+          context.handleCalendarChange
+        );
         context.notify({
           type: "success",
           title: "User Removed",
