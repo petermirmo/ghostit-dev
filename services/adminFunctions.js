@@ -23,6 +23,7 @@ module.exports = {
       generalFunctions.handleError(res, "HACKER ALERT!!!!");
     else {
       let user = req.body;
+      if (user.password) user.password = new User().generateHash(user.password);
       User.findOneAndUpdate({ _id: user._id }, user, (err, oldUser) => {
         if (err) generalFunctions.handleError(res, err);
         else res.send(true);

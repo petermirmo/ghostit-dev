@@ -1,7 +1,6 @@
 export const nonEditableUserFields = [
   "_id",
   "__v",
-  "password",
   "tempID",
   "stripeCustomerID",
   "stripeSubscriptionID",
@@ -11,7 +10,6 @@ export const nonEditableUserFields = [
 ];
 export const cantShowUserFields = [
   "__v",
-  "password",
   "country",
   "signedInAsUser",
   "defaultCalendarID",
