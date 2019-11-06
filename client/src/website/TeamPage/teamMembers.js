@@ -27,7 +27,7 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164234/stephanie.jpg",
     location: "Victoria",
     name: "Stephanie B",
-    title: "Content Manager"
+    title: "Content Creator"
   },
   {
     color: "var(--five-blue-color)",
@@ -37,7 +37,7 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544163966/erika.jpg",
     location: "Victoria",
     name: "Erika Palmer",
-    title: "Content Manager"
+    title: "Content Creator"
   },
   {
     color: "var(--five-orange-color)",
@@ -47,7 +47,7 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164140/patrick.jpg",
     location: "Victoria",
     name: "Patrick Cwiklinski",
-    title: "Content Manager"
+    title: "Content Creator"
   },
 
   {
@@ -58,7 +58,7 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164253/tori.png",
     location: "Victoria",
     name: "Tori Dudys",
-    title: "Content Manager"
+    title: "Content Creator"
   },
   {
     color: "var(--five-purple-color)",
@@ -68,7 +68,7 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1568659558/Emily_Kennaley.png",
     location: "toronto",
     name: "Emily Kennaley",
-    title: "Content Manager"
+    title: "Content Creator"
   },
   {
     color: "var(--five-purple-color)",
