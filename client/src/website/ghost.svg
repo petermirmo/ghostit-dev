@@ -4,7 +4,7 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
-
+   xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
@@ -14,7 +14,7 @@
    preserveAspectRatio="xMidYMid meet"
    id="svg4563"
    sodipodi:docname="ghost.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <defs
      id="defs4567" />
   <sodipodi:namedview
@@ -72,14 +72,14 @@ Created by potrace 1.15, written by Peter Selinger 2001-2017
        id="path835"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cssccssssscssssssssccscsssssssssc" />
-    <circle
+    <ellipse
        style="opacity:1;fill:#000000;fill-opacity:1;stroke-width:1.75221503;stroke-miterlimit:4;stroke-dasharray:none"
        id="path5114-3"
        cx="3006.7722"
        cy="-1392.0128"
        transform="scale(1,-1)"
        r="225" />
-    <circle
+    <ellipse
        style="opacity:1;fill:#000000;fill-opacity:1;stroke-width:1.75221503;stroke-miterlimit:4;stroke-dasharray:none"
        id="path5114"
        cx="1881.7723"

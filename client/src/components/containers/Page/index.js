@@ -44,7 +44,7 @@ class Page extends Component {
         "Organize your marketing process with an all-in-one solution for unified content promotion.";
     if (!image)
       image =
-        "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png";
+        "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png";
     if (testMode) style.backgroundColor = "blue";
     if (isUserInPlatform(activePage)) {
       style.backgroundImage = "linear-gradient(320deg, #246afb, #17bef8)";

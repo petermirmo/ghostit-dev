@@ -6,7 +6,7 @@ const getMetaInformation = (url, callback) => {
   const defaultMetaDescription =
     "Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion.";
   const defaultMetaImage =
-    "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png";
+    "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png";
   const defaultMetaTitle = "Ghostit Marketing Solution and Agency";
   const defaultObject = {
     metaDescription: defaultMetaDescription,
@@ -54,7 +54,7 @@ const getMetaInformation = (url, callback) => {
           metaDescription:
             "Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Ghostit Marketing Solution and Agency"
         });
       case "/pricing":
@@ -62,7 +62,7 @@ const getMetaInformation = (url, callback) => {
           metaDescription:
             "Check out pricing for Ghostit marketing plans that all include dedicated content creators, competitive analysis, keyword research, and much more.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "All-in-One Marketing Solution & Agency Pricing | Ghostit"
         });
       case "/team":
@@ -70,7 +70,7 @@ const getMetaInformation = (url, callback) => {
           metaDescription:
             "Bring your marketing concept to life with Ghostit’s team of content creators. From content development to SEO services, we can do it all.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Content Creation Team | Ghostit"
         });
       case "/blog":
@@ -78,7 +78,7 @@ const getMetaInformation = (url, callback) => {
           metaDescription:
             "Ghostit’s marketing blog shares insights into all facets of marketing including social media marketing, content marketing, and marketing automation.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Ghostit Blog | Sharing the Importance of Marketing"
         });
       case "/agency":
@@ -86,7 +86,7 @@ const getMetaInformation = (url, callback) => {
           metaDescription:
             "Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Content Creation Marketing Agency | Ghostit"
         });
       case "/sign-in":
@@ -94,7 +94,7 @@ const getMetaInformation = (url, callback) => {
           metaDescription:
             "Sign in to the Ghostit platform to access your content calendar, campaigns, and templates.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Sign In to Ghostit"
         });
       case "/sign-up":
@@ -102,28 +102,28 @@ const getMetaInformation = (url, callback) => {
           metaDescription:
             "Ready to simplify your marketing process? Sign up to Ghostit’s all-in-one marketing solution and put a voice to your marketing concept today.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Sign Up to Ghostit"
         });
       case "/forgot-password":
         return callback({
           metaDescription: "Forgot password.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Forgot Password | Ghostit"
         });
       case "/terms-of-service":
         return callback({
           metaDescription: "Terms of service.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Terms of Service | Ghostit"
         });
       case "/privacy-policy":
         return callback({
           metaDescription: "Privacy policy.",
           metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1544991863/ghost.png",
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Privacy Policy | Ghostit"
         });
       default:
