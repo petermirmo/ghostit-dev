@@ -26,7 +26,7 @@ export const teamMembers = [
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164234/stephanie.jpg",
     location: "Victoria",
-    name: "Stephanie B",
+    name: "Stephanie Brown",
     title: "Content Creator"
   },
   {
