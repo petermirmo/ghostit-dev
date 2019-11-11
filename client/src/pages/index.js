@@ -33,6 +33,7 @@ import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
 
 import {
+  getAllAccountsFromAllCalendars,
   getCalendars,
   getUser,
   getGhostitBlogs,
@@ -70,6 +71,7 @@ class Routes extends Component {
         );
       });
     });
+    getAllAccountsFromAllCalendars(context.handleChange);
 
     getGhostitBlogs(ghostitBlogs => {
       context.handleChange({ ghostitBlogs });

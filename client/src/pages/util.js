@@ -11,6 +11,14 @@ try {
   console.log("live");
 }
 
+export const getAllAccountsFromAllCalendars = handleContextChange => {
+  axios.get("/api/accounts/all").then(res => {
+    const { allAccounts, success } = res.data;
+
+    handleContextChange({ allAccounts });
+  });
+};
+
 export const getCampaigns = (calendars, activeCalendarIndex, callback) => {
   if (!calendars || !calendars[activeCalendarIndex]) {
     console.log(calendars);
