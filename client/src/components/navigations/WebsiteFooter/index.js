@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getPostColor, getPostIconRound } from "../../../componentFunctions";
+import { isMobileOrTablet } from "../../../util";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../../views/GIText";
@@ -16,14 +17,16 @@ class WebsiteFooter extends Component {
   };
   render() {
     return (
-      <GIContainer className="column x-fill bg-almost-black pa64">
+      <GIContainer
+        className={
+          "column x-fill bg-almost-black " +
+          (isMobileOrTablet() ? "py32" : "pa64")
+        }
+      >
         <GIContainer className="x-wrap px32">
           <div className="container-box column tiny my16">
             <Link to="/home">
-              <GIContainer
-                className="full-center mb16"
-                style={{ width: "100px" }}
-              >
+              <GIContainer className="mb16" style={{ width: "100px" }}>
                 <Logo
                   className="x-40"
                   displayText={false}

@@ -40,7 +40,7 @@ class SelectAccountDiv extends Component {
           {accountsListDiv}
         </GIContainer>
         {inactiveAccountsDiv.length !== 0 && (
-          <GIContainer className="mb8">
+          <GIContainer className="fs-16 mb8">
             Accounts not yet linked to calendar
           </GIContainer>
         )}
