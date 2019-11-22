@@ -412,50 +412,20 @@ module.exports = {
   },
 
   getAllAccountAnalytics: (req, res) => {
-    const userID = getUserID(req);
-
-    // get from our DB
-    Account.find(
-      { userID, analyticsID: { $ne: null } },
-      (err, foundAccounts) => {
-        // fetch all social account that are 'owned' with this user
-        if (err || !foundAccounts) {
-          return generalFunctions.handleError(
-            res,
+    Analytics.findOne(
+      { associatedID: req.params.accountSocialID },
+      (err, pageAnalyticsObject) => {
+        // fetch all analytics objects that belong to one of those accounts
+        if (err || !pageAnalyticsObject) {
+          console.log(err);
+          res.send({
+            success: false,
             err,
-            undefined,
-            "Unable to find any social accounts associated with this user account."
-          );
-        }
-
-        // make an array to be used with an 'or' operator for the analytics object request
-        const analyticsIDList = foundAccounts.map(obj => {
-          return { associatedID: obj.socialID };
-        });
-
-        if (analyticsIDList.length !== 0) {
-          Analytics.find(
-            { $or: analyticsIDList },
-            (err, pageAnalyticsObjects) => {
-              // fetch all analytics objects that belong to one of those accounts
-              if (err || !pageAnalyticsObjects) {
-                console.log(err);
-                res.send({
-                  success: false,
-                  err,
-                  message:
-                    "Unable to find any social accounts associated with this user account."
-                });
-              } else {
-                res.send({ success: true, pageAnalyticsObjects });
-              }
-            }
-          );
+            message:
+              "Unable to find any social accounts associated with this user account."
+          });
         } else {
-          return generalFunctions.handleError(
-            res,
-            "Unable to find any social accounts associated with this user account."
-          );
+          res.send({ success: true, pageAnalyticsObject });
         }
       }
     );

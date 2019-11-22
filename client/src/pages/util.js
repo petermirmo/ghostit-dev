@@ -11,11 +11,10 @@ try {
   console.log("live");
 }
 
-export const getAllAccountsFromAllCalendars = handleContextChange => {
+export const getAllAccountsFromAllCalendars = callback => {
   axios.get("/api/accounts/all").then(res => {
     const { allAccounts, success } = res.data;
-
-    handleContextChange({ allAccounts });
+    callback(allAccounts);
   });
 };
 

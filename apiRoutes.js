@@ -114,6 +114,10 @@ module.exports = app => {
   app.get("/api/accounts", middleware, (req, res) =>
     accountFunctions.getAccounts(req, res)
   );
+  // Get all accounts that a user has access to through calendars
+  app.get("/api/accounts/all", middleware, (req, res) =>
+    calendarFunctions.getAllAccounts(req, res)
+  );
 
   // Add Facebook profile
   app.get(
@@ -137,10 +141,6 @@ module.exports = app => {
       failureRedirect: "/social-accounts/failed"
     })
   );
-
-  app.get("/api/facebook/page/analytics/:accountID", middleware, (req, res) => {
-    analyticsFunctions.getPageAnalytics(req, res);
-  });
 
   app.get("/api/facebook/post/analytics/:postID", middleware, (req, res) => {
     analyticsFunctions.getPostAnalytics(req, res);
@@ -330,7 +330,7 @@ module.exports = app => {
     adminFunctions.getPlans(req, res)
   );
 
-  app.get("/api/analytics/accounts", middleware, (req, res) => {
+  app.get("/api/analytics/:accountSocialID", middleware, (req, res) => {
     analyticsFunctions.getAllAccountAnalytics(req, res);
   });
 

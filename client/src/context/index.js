@@ -8,6 +8,7 @@ const { Provider, Consumer } = ExtraContext;
 class GIProvider extends Component {
   state = {
     activeCalendarIndex: undefined,
+    allAccounts: [],
     calendars: [],
     clientSideBar: false,
     defaultCalendarID: undefined,
@@ -66,6 +67,7 @@ class GIProvider extends Component {
   render() {
     const {
       activeCalendarIndex,
+      allAccounts,
       calendars,
       clientSideBar,
       defaultCalendarID,
@@ -80,6 +82,7 @@ class GIProvider extends Component {
       <Provider
         value={{
           activeCalendarIndex,
+          allAccounts,
           calendars,
           clientSideBar,
           defaultCalendarID,

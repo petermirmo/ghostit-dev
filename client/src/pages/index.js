@@ -46,6 +46,8 @@ import { getCalendarAccounts, getCalendarUsers } from "./Calendar/util";
 
 import { isUserInPlatform } from "../components/containers/Page/util";
 
+import { getAccountAnalytics } from "./Analytics/util";
+
 class Routes extends Component {
   state = {
     datebaseConnection: false
@@ -71,7 +73,21 @@ class Routes extends Component {
         );
       });
     });
-    getAllAccountsFromAllCalendars(context.handleChange);
+    getAllAccountsFromAllCalendars(allAccounts => {
+      context.handleChange({ allAccounts });
+
+      for (let index in allAccounts) {
+        const account = allAccounts[index];
+
+        getAccountAnalytics(account, pageAnalyticsObjects => {
+          allAccounts.find(
+            account2 => String(account2._id) === String(account._id)
+          ).analytics = pageAnalyticsObjects;
+
+          context.handleChange({ allAccounts });
+        });
+      }
+    });
 
     getGhostitBlogs(ghostitBlogs => {
       context.handleChange({ ghostitBlogs });

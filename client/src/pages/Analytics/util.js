@@ -48,12 +48,12 @@ export const getAnalytic = (
   return findAnalytic(analyticObject, analyticTitleString);
 };
 
-export const getAccountAnalytics = callback => {
-  axios.get("/api/analytics/accounts").then(res => {
-    const { message, pageAnalyticsObjects, success } = res.data;
-    if (success) callback({ pageAnalyticsObjects }, success);
+export const getAccountAnalytics = (account, callback) => {
+  axios.get("/api/analytics/" + account.socialID).then(res => {
+    const { message, pageAnalyticsObject, success } = res.data;
+    if (!success) alert("Cannot get analytics at this time.");
     else {
-      callback({ pageAnalyticsObjects }, success);
+      callback(pageAnalyticsObject);
     }
   });
 };

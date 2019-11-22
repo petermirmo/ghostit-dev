@@ -17,6 +17,55 @@ const demoCalendarMaximumPosts = 10;
 // (number must be negative to signify you want the last elements in the array)
 const chatHistoryMessagesToLoadAtFirst = -20;
 
+getAllAccounts = (req, res) => {
+  let userID = req.user._id;
+  if (req.user.signedInAsUser) {
+    if (req.user.signedInAsUser.id) {
+      userID = req.user.signedInAsUser.id;
+    }
+  }
+  Calendar.find({ userIDs: userID }, (err, foundCalendars) => {
+    if (err || !foundCalendars) {
+      res.send({
+        success: false,
+        err,
+        message: `error occurred when trying to fetch calendars associated with user id ${userID}`
+      });
+    } else {
+      const allAccountIDs = [];
+
+      for (let index in foundCalendars) {
+        const calendar = foundCalendars[index];
+        calendar.accountIDs.sort();
+        if (calendar.accountIDs)
+          for (let i = calendar.accountIDs.length - 1; i >= 0; i--) {
+            if (
+              String(calendar.accountIDs[i]) ===
+              String(calendar.accountIDs[i - 1])
+            )
+              calendar.accountIDs.splice(i, 1);
+            else allAccountIDs.push({ _id: calendar.accountIDs[i] });
+          }
+      }
+
+      Account.find(
+        {
+          $and: [
+            { $or: allAccountIDs },
+            {
+              $or: [{ socialType: "facebook" }, { socialType: "instagram" }]
+            }
+          ],
+          accountType: "page"
+        },
+        (err, accounts) => {
+          res.send({ success: true, allAccounts: accounts });
+        }
+      );
+    }
+  });
+};
+
 mongoIdArrayIncludes = (array, id) => {
   for (let i = 0; i < array.length; i++) {
     if (array[i].toString() === id.toString()) {
@@ -54,6 +103,7 @@ fillCampaignPosts = async (res, campaigns) => {
 };
 
 module.exports = {
+  getAllAccounts,
   getCalendars: (req, res) => {
     // get all calendars that the user is subscribed to
     // res.send({ success: true, calendars, defaultCalendarID });
