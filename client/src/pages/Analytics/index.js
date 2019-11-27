@@ -87,8 +87,10 @@ class AnalyticsPage extends Component {
       postAnalyticsObjects = [],
       graphType
     } = this.state;
+
     const { user } = this.props;
     const { allAccounts } = this.context;
+
     if (!allAccounts)
       return (
         <Page className="column" title="Analytics">
