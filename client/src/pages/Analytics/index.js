@@ -67,10 +67,29 @@ class AnalyticsPage extends Component {
   }
   changeAnalytic = account => {
     const { allAccounts, handleChange } = this.context;
+    handleChange({ saving: true });
 
-    this.handleChange({
-      activeAnalyticsAccountSocialID: account.socialID
-    });
+    if (!account.analytics) {
+      getAccountAnalytics(account, pageAnalyticsObjects => {
+        if (pageAnalyticsObjects) {
+          allAccounts.find(
+            account2 => String(account2._id) === String(account._id)
+          ).analytics = pageAnalyticsObjects;
+
+          handleChange({ allAccounts, saving: false });
+          this.handleChange({
+            activeAnalyticsAccountSocialID: account.socialID
+          });
+        } else {
+          handleChange({ saving: false });
+          alert("Cannot get analytics");
+        }
+      });
+    } else {
+      this.handleChange({
+        activeAnalyticsAccountSocialID: account.socialID
+      });
+    }
   };
   handleChange = stateObj => {
     if (this._ismounted) this.setState(stateObj);

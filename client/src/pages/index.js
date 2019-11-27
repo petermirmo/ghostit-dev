@@ -75,18 +75,6 @@ class Routes extends Component {
     });
     getAllAccountsFromAllCalendars(allAccounts => {
       context.handleChange({ allAccounts });
-
-      for (let index in allAccounts) {
-        const account = allAccounts[index];
-
-        getAccountAnalytics(account, pageAnalyticsObjects => {
-          allAccounts.find(
-            account2 => String(account2._id) === String(account._id)
-          ).analytics = pageAnalyticsObjects;
-
-          context.handleChange({ allAccounts });
-        });
-      }
     });
 
     getGhostitBlogs(ghostitBlogs => {

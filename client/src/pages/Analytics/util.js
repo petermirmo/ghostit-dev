@@ -51,7 +51,7 @@ export const getAnalytic = (
 export const getAccountAnalytics = (account, callback) => {
   axios.get("/api/analytics/" + account.socialID).then(res => {
     const { message, pageAnalyticsObject, success } = res.data;
-    if (!success) console.log("No internet connection");
+    if (!success) callback(false);
     else {
       callback(pageAnalyticsObject);
     }
