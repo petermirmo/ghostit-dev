@@ -60,7 +60,7 @@ class AnalyticsPage extends Component {
     const { allAccounts, handleChange } = this.context;
 
     this._ismounted = true;
-    if (allAccounts[0]) this.changeAnalytic(allAccounts[0]);
+    if (allAccounts && allAccounts[0]) this.changeAnalytic(allAccounts[0]);
   }
   componentWillUnmount() {
     this._ismounted = false;
