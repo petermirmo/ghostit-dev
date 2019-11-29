@@ -506,9 +506,13 @@ module.exports = {
 
               analyticsDbObject.accountName = account.givenName;
             }
-            console.log(analyticsDbObject);
-            console.log(foundObj);
-            return;
+            console.log("starting");
+            if (true) {
+              console.log(analyticsDbObject);
+              console.log("\n\n\n\n");
+              console.log(foundObj);
+            }
+            console.log("ending");
             fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
           }
         );

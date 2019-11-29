@@ -28,6 +28,7 @@ module.exports = {
             account.socialType === "facebook" &&
             account.accountType === "page"
           ) {
+            console.log(account);
             requestAllFacebookPageAnalytics(
               account,
               fbAccountRequest + "last_90d"
