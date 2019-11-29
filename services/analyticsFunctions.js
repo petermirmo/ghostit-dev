@@ -503,8 +503,12 @@ module.exports = {
               createNewAnalytics();
             } else {
               analyticsDbObject = foundObj;
+
               analyticsDbObject.accountName = account.givenName;
             }
+            console.log(analyticsDbObject);
+            console.log(foundObj);
+            return;
             fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
           }
         );
