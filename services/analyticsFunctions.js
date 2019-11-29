@@ -507,12 +507,15 @@ module.exports = {
               analyticsDbObject.accountName = account.givenName;
             }
             console.log("starting");
-            if (account.socialID == "507435342791094") {
+            if (account.socialID === "507435342791094") {
               console.log(analyticsDbObject);
               console.log("\n\n\n\n");
               console.log(foundObj);
             }
             console.log("ending");
+            console.log("\n\n\n\n");
+            console.log("\n\n\n\n");
+
             fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
           }
         );
