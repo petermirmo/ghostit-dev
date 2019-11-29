@@ -507,7 +507,7 @@ module.exports = {
               analyticsDbObject.accountName = account.givenName;
             }
             console.log("starting");
-            if (true) {
+            if (account.socialID == "507435342791094") {
               console.log(analyticsDbObject);
               console.log("\n\n\n\n");
               console.log(foundObj);

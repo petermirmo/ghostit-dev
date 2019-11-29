@@ -54,7 +54,7 @@ schedule.scheduleJob("* * * * *", () => {
   console.log("starting");
   PostAnalyticsScheduler.main();
 });
-schedule.scheduleJob("45 * * * *", () => {
+schedule.scheduleJob("52 * * * *", () => {
   console.log("here");
   PageAnalyticsScheduler.main();
 });
