@@ -315,6 +315,7 @@ fill_and_save_fb_post_db_object = (analyticsDbObject, data) => {
 fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
   for (let j = 0; j < data.length; j++) {
     let analyticObj = data[j];
+    console.log();
     if (analyticObj.period === "day" || analyticObj.period === "lifetime") {
       const metric_index = analyticsDbObject.analytics.findIndex(
         obj => analyticObj.name === obj.name
@@ -325,6 +326,28 @@ fill_and_save_fb_page_db_object = (analyticsDbObject, data) => {
           process_fb_page_analytics(analyticObj)
         );
       } else {
+        if (metric_index === 23) {
+          console.log(
+            JSON.stringify(analyticsDbObject.analytics[metric_index])
+          );
+          console.log("\n\n\n");
+        }
+
+        continue;
+        if (j === 0) {
+          console.log(
+            JSON.stringify(analyticsDbObject.analytics[metric_index])
+          );
+          console.log("\n\n\n");
+          console.log(
+            JSON.stringify(
+              process_fb_page_analytics(
+                analyticObj,
+                analyticsDbObject.analytics[metric_index]
+              )
+            )
+          );
+        }
         // metric already exists in db object so we just need to update it
         analyticsDbObject.analytics[metric_index] = process_fb_page_analytics(
           analyticObj,
@@ -506,15 +529,6 @@ module.exports = {
 
               analyticsDbObject.accountName = account.givenName;
             }
-            console.log("starting");
-            if (account.socialID === "507435342791094") {
-              console.log(analyticsDbObject);
-              console.log("\n\n\n\n");
-              console.log(foundObj);
-            }
-            console.log("ending");
-            console.log("\n\n\n\n");
-            console.log("\n\n\n\n");
 
             fill_and_save_fb_page_db_object(analyticsDbObject, response.data);
           }

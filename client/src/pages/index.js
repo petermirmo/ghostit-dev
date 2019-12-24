@@ -22,6 +22,7 @@ import SubscribePage from "./Subscribe";
 import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
 
 import HomePage from "../website/HomePage";
+import LandingPage1 from "../website/LandingPage1";
 import PricingPage from "../website/PricingPage";
 import TeamPage from "../website/TeamPage";
 import BlogPage from "../website/BlogPage";
@@ -147,6 +148,7 @@ class Routes extends Component {
               <Route path="/subscription/" component={MySubscriptionPage} />
 
               <Route path="/home/" component={HomePage} />
+              <Route path="/landing-page/" component={LandingPage1} />
               <Route path="/pricing/" component={PricingPage} />
               <Route path="/team/" component={TeamPage} />
               <Route path="/blog/" component={BlogPage} exact />

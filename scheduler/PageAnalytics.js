@@ -28,10 +28,11 @@ module.exports = {
             account.socialType === "facebook" &&
             account.accountType === "page"
           ) {
-            requestAllFacebookPageAnalytics(
-              account,
-              fbAccountRequest + "last_90d"
-            );
+            if (String(account._id) === "5dadb83667cee84248768d5c")
+              requestAllFacebookPageAnalytics(
+                account,
+                fbAccountRequest + "last_90d"
+              );
           } else if (
             account.socialType === "instagram" &&
             account.accountType === "page"
