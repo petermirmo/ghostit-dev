@@ -11,6 +11,9 @@ import { isMobileOrTablet } from "../../../util";
 import Logo from "./Logo";
 import GIContainer from "../../containers/GIContainer";
 import GIButton from "../../views/GIButton";
+import GIText from "../../views/GIText";
+
+import { getPostColor, getPostIconRound } from "../../../componentFunctions";
 
 import "./styles";
 
@@ -175,9 +178,72 @@ class WebsiteHeader extends Component {
         </GIContainer>
         <GIContainer
           className={`justify-end align-center ${
-            isMobileOrTablet() ? "" : "mr32"
+            isMobileOrTablet() ? "column" : "mr32"
           }`}
         >
+          <GIContainer className="x-wrap align-center my4">
+            <a
+              href="https://www.facebook.com/ghostitcontent/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                className="clickable common-border white round-icon round pa8 ml16"
+                icon={getPostIconRound("facebook")}
+                style={{
+                  backgroundColor: isMobileOrTablet()
+                    ? getPostColor("facebook")
+                    : "transparent"
+                }}
+              />
+            </a>
+
+            <a
+              href="https://twitter.com/ghostitcontent"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                className="clickable common-border white round-icon round pa8 ml16"
+                icon={getPostIconRound("twitter")}
+                style={{
+                  backgroundColor: isMobileOrTablet()
+                    ? getPostColor("twitter")
+                    : "transparent"
+                }}
+              />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/ghostit-content/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                className="clickable common-border white round-icon round pa8 ml16"
+                icon={getPostIconRound("linkedin")}
+                style={{
+                  backgroundColor: isMobileOrTablet()
+                    ? getPostColor("linkedin")
+                    : "transparent"
+                }}
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/ghostitcontent/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                className="clickable common-border white round-icon round pa8 mx16"
+                icon={getPostIconRound("instagram")}
+                style={{
+                  backgroundColor: isMobileOrTablet()
+                    ? getPostColor("instagram")
+                    : "transparent"
+                }}
+              />
+            </a>
+          </GIContainer>
           {!user && (
             <Link to="/sign-in">
               <GIButton
