@@ -26,6 +26,11 @@
   color: var(--grey-font-color);
   fill: var(--grey-font-color);
 }
+
+.grey-2 {
+  color: var(--grey-theme-color);
+  fill: var(--grey-theme-color);
+}
 .four-blue {
   color: var(--four-blue-color);
   fill: var(--four-blue-color);
@@ -80,7 +85,9 @@
 .bold-600 {
   font-weight: 600;
 }
-
+.italic {
+  font-style: italic;
+}
 .seven-blue {
   color: var(--seven-blue-color);
 }

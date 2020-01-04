@@ -37,6 +37,7 @@
   --one-half-orange-color: #fce9e6;
 
   --blue-grey-color: #4f576c;
+  --deep-blue-color: #175ff5;
 
   --primary-font-color: #4a4a4a;
   --secondary-font-color: #567183;
@@ -837,6 +838,9 @@
 .shadow-blue-5 {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 }
+.shadow-deep-blue {
+  box-shadow: 0 8px 15px 0 rgba(3, 96, 240, 0.25);
+}
 .shadow-left {
   box-shadow: -4px 0 6px 0 rgba(0, 0, 0, 0.2);
 }
@@ -863,6 +867,9 @@
 }
 .shadow-7 {
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.07);
+}
+.shadow-8 {
+  box-shadow: 0 23px 41px 0 rgba(13, 13, 14, 0.12);
 }
 body {
   min-height: 100%;

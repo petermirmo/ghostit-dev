@@ -299,10 +299,12 @@
   background-color: var(--light-grey-theme-color);
 }
 
+.bg-deep-blue {
+  background-color: var(--deep-blue-color);
+}
 .bg-blue-grey {
   background-color: var(--blue-grey-color);
 }
-
 .bg-light-grey {
   background-color: var(--light-light-grey-theme-color);
 }
@@ -337,6 +339,12 @@
 .bg-orange-fade-2 {
   background: linear-gradient(285deg, #fd5642, #ff9464);
 }
+.bg-orange-fade-3 {
+  background-image: linear-gradient(279deg, #fd5642 80%, #ff9464 8%);
+}
+.bg-orange-fade-4 {
+  background-image: linear-gradient(284deg, #fd5642 91%, #ff9464 11%);
+}
 .bg-blue-fade {
   background: linear-gradient(99deg, #04f0fa, var(--five-blue-color));
 }
@@ -354,6 +362,9 @@
 }
 .bg-blue-fade-6 {
   background-image: linear-gradient(112deg, #04dffa, var(--five-blue-color));
+}
+.bg-blue-fade-7 {
+  background-image: linear-gradient(146deg, #04f0fa -4%, #05a4ff 81%);
 }
 .bg-transparent {
   background-color: transparent;
