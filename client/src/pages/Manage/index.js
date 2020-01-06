@@ -27,6 +27,7 @@ class ManagePage extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
+
   deleteNotification = id => {
     axios.delete("/api/notification/" + id).then(res => {
       console.log(res);

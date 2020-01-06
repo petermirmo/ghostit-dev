@@ -37,6 +37,23 @@ class UsersTable extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
+  downloadUserData = users => {
+    const test = [];
+    for (let index in users) {
+      test.push(users[index].fullName);
+      test.push(users[index].email);
+    }
+    var a = window.document.createElement("a");
+    a.href = window.URL.createObjectURL(new Blob(test, { type: "text/csv" }));
+    a.download = "user_data.csv";
+
+    // Append anchor to body.
+    document.body.appendChild(a);
+    a.click();
+
+    // Remove anchor from body
+    document.body.removeChild(a);
+  };
   getUsers = () => {
     const { userCategories } = this.state;
     axios.get("/api/users").then(res => {
@@ -216,6 +233,14 @@ class UsersTable extends Component {
     }
     return (
       <div>
+        {activeUsers.length > 0 && (
+          <button
+            className="regular-button my16 ml8"
+            onClick={() => this.downloadUserData(activeUsers)}
+          >
+            Download User Data
+          </button>
+        )}
         <NavigationBar
           updateParentState={this.updateUsers}
           categories={userCategories}
