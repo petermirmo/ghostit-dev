@@ -40,8 +40,8 @@ class UsersTable extends Component {
   downloadUserData = users => {
     const test = [];
     for (let index in users) {
-      test.push(users[index].fullName);
-      test.push(users[index].email);
+      test.push(users[index].fullName + ",");
+      test.push(users[index].email + "\n");
     }
     var a = window.document.createElement("a");
     a.href = window.URL.createObjectURL(new Blob(test, { type: "text/csv" }));
