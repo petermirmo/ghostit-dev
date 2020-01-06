@@ -132,7 +132,13 @@ export const findLink = (
     handleChangeRegular({
       link
     });
-    getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link);
+    getDataFromURL(
+      handleChangeRegular,
+      linkDescription,
+      linkTitle,
+      link,
+      link2
+    );
   } else if (link2) {
     getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
   }
@@ -172,25 +178,26 @@ const getDataFromURL = (
   handleChangeRegular,
   linkDescription1,
   linkTitle1,
-  newLink
+  link1,
+  link2
 ) => {
-  axios.post("/api/link", { link: newLink }).then(res => {
+  axios.post("/api/link", { link: link1 }).then(res => {
     const { loggedIn } = res.data;
 
     const { imgSrc = "", linkDescription = "", linkTitle = "" } = res.data;
-
-    if (!linkTitle1) linkTitle1 = linkTitle;
-    if (!linkDescription1) linkDescription1 = linkDescription;
 
     if (res.data && imgSrc[0]) {
       const linkImage = imgSrc[0];
 
       handleChangeRegular({
         linkImagesArray: imgSrc,
-        linkImage,
-        linkTitle,
-        linkDescription
+        linkImage
       });
+      if (link1 !== link2 && (link2 || !linkTitle1))
+        handleChangeRegular({
+          linkTitle,
+          linkDescription
+        });
     }
   });
 };

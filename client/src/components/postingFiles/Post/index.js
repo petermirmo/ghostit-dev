@@ -4,9 +4,9 @@ import axios from "axios";
 import Textarea from "react-textarea-autosize";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCheck} from "@fortawesome/pro-light-svg-icons/faCheck";
-import {faCommentAltLines} from "@fortawesome/pro-light-svg-icons/faCommentAltLines";
-import {faTimes} from "@fortawesome/pro-light-svg-icons/faTimes";
+import { faCheck } from "@fortawesome/pro-light-svg-icons/faCheck";
+import { faCommentAltLines } from "@fortawesome/pro-light-svg-icons/faCommentAltLines";
+import { faTimes } from "@fortawesome/pro-light-svg-icons/faTimes";
 
 import { connect } from "react-redux";
 
@@ -250,7 +250,8 @@ class Post extends Component {
                         this.handleChangeRegular,
                         linkDescription,
                         linkTitle,
-                        currentTypingString
+                        currentTypingString,
+                        link
                       );
                       this.handleChange(event.target.value, "content");
                     }}
