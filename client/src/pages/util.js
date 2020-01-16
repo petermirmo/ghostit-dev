@@ -14,6 +14,7 @@ try {
 export const getAllAccountsFromAllCalendars = callback => {
   axios.get("/api/accounts/all").then(res => {
     const { allAccounts, success } = res.data;
+    console.log(res.data);
     callback(allAccounts);
   });
 };

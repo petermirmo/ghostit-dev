@@ -397,9 +397,9 @@ class AnalyticsPage extends Component {
                       dropdownActiveDisplayClassName="no-bottom-br five-blue"
                       dropdownClassName="common-border five-blue no-top-br br8"
                       dropdownItems={getDropdownMonths(
-                        activeGraphYear,
+                        activePageAnalyticsObj,
                         months,
-                        activePageAnalyticsObj
+                        activeGraphYear
                       )}
                       handleParentChange={dropdownClickedItemObj => {
                         this.handleChange({
