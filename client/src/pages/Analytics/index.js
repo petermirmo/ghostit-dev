@@ -114,7 +114,7 @@ class AnalyticsPage extends Component {
       return (
         <Page className="column" title="Analytics">
           <GIContainer className="x-fill full-center mt32">
-            <LoaderSimpleCircle />
+            No Facebook Pages connected.
           </GIContainer>
         </Page>
       );

@@ -50,11 +50,16 @@ getAllAccounts = (req, res) => {
 
       Account.find(
         {
-          $and: [
-            { $or: allAccountIDs },
+          $or: [
             {
-              $or: [{ socialType: "facebook" }, { socialType: "instagram" }]
-            }
+              $and: [
+                { $or: allAccountIDs },
+                {
+                  $or: [{ socialType: "facebook" }, { socialType: "instagram" }]
+                }
+              ]
+            },
+            { userID }
           ],
           accountType: "page"
         },
