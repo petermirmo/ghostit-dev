@@ -89,7 +89,7 @@ class GhostitAgency extends Component {
             <GIText
               text={something(
                 showMore2,
-                "We create social content a little different than other companies. We create them with the goal in mind toget your customers excited about what you are promoting. We do this because we don't want we createfor our customers to just add to the noise. When it comes to social media, consistency is key, but not allplatforms are created equal. The tone you use on Facebook shouldn't be the same on LinkedIn, but yourbrand's voice should. The social posts we create keep your messaging voice at the forefront whilereformulating it for each platform. Your posts will always be on-point and designed to resonate with youraudience, whether you're on Facebook, Twitter, LinkedIn or Instagram."
+                "We create social content a little different than other companies. We create them with the goal in mind to get your customers excited about what you are promoting. We do this because we don't want we createfor our customers to just add to the noise. When it comes to social media, consistency is key, but not allplatforms are created equal. The tone you use on Facebook shouldn't be the same on LinkedIn, but yourbrand's voice should. The social posts we create keep your messaging voice at the forefront whilereformulating it for each platform. Your posts will always be on-point and designed to resonate with youraudience, whether you're on Facebook, Twitter, LinkedIn or Instagram."
               )}
               type="p"
             />
