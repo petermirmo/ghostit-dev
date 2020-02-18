@@ -39,27 +39,7 @@ export const teamMembers = [
     name: "Erika Palmer",
     title: "Content Creator"
   },
-  {
-    color: "var(--five-orange-color)",
-    description:
-      "When he’s not busy obsessing over creating ‘90s R&B playlists (yes plural, there are many) on Spotify, Patrick really likes writing. So much so that this wide-eyed whippersnapper from Salt Spring Island moved to Toronto to get a master’s degree in journalism and parlayed it into working as a sports writer (Google your boy). Now he’s back on the west coast… with a vengeance.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164140/patrick.jpg",
-    location: "Victoria",
-    name: "Patrick Cwiklinski",
-    title: "Content Creator"
-  },
 
-  {
-    color: "var(--five-purple-color)",
-    description:
-      "Tori likes short walks to the fridge and believes the Oxford comma is seriously underrated. On weekends you may find her going for hikes somewhere green, slaying at Scrabble games or writing run-on sentences in posts for her travel blog.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164253/tori.png",
-    location: "Victoria",
-    name: "Tori Dudys",
-    title: "Content Creator"
-  },
   {
     color: "var(--five-purple-color)",
     description:

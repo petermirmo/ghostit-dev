@@ -114,7 +114,8 @@ export const findLink = (
   linkDescription,
   linkTitle,
   textAreaString,
-  link2
+  link2,
+  socialType
 ) => {
   // Url regular expression
   let urlRegularExpression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
@@ -124,7 +125,8 @@ export const findLink = (
   // Finds url
   let match;
   if (textAreaString) match = textAreaString.match(regex);
-
+  console.log(match);
+  console.log(socialType);
   let link;
   // Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
   if (match) {
@@ -141,6 +143,14 @@ export const findLink = (
     );
   } else if (link2) {
     getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
+  } else if (!match && socialType === "twitter") {
+    console.log("here");
+    handleChangeRegular({
+      link: "",
+      linkTitle: "",
+      linkImage: "",
+      linkDescription: ""
+    });
   }
 };
 

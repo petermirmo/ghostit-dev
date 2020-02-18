@@ -69,6 +69,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+schedule.scheduleJob("* * * * *", () => {});
+
 // Connect to database
 mongoose.connect(keys.mongoDevelopmentURI, {
   useNewUrlParser: true,

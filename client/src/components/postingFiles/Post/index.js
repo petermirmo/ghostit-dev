@@ -54,14 +54,21 @@ class Post extends Component {
   componentDidMount() {
     this._ismounted = true;
 
-    const { calendarID, linkDescription, link, linkTitle } = this.state;
+    const {
+      calendarID,
+      linkDescription,
+      link,
+      linkTitle,
+      socialType
+    } = this.state;
 
     findLink(
       this.handleChangeRegular,
       linkDescription,
       linkTitle,
       undefined,
-      link
+      link,
+      socialType
     );
   }
   componentWillUnmount() {
@@ -251,7 +258,8 @@ class Post extends Component {
                         linkDescription,
                         linkTitle,
                         currentTypingString,
-                        link
+                        link,
+                        socialType
                       );
                       this.handleChange(event.target.value, "content");
                     }}
@@ -366,7 +374,7 @@ class Post extends Component {
                     }
                   >
                     <FontAwesomeIcon className="mr8" icon={faCheck} />
-                    {recipeEditing ? "Save Post" : "Schedule Post!"}
+                    {recipeEditing ? "Save Post" : "Save & Schedule Post!"}
                   </GIButton>
                 )}
               </GIContainer>

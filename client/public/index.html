@@ -42,30 +42,31 @@
       fbq("track", "PageView");
     </script>
     <script type="text/javascript">
-        (function() {
-          var capterra_vkey = '6327fe0ea6e5cd7a2e2565cfeed7becd',
-          capterra_vid = '2135271',
-          capterra_prefix = (('https:' == document.location.protocol)
-            ? 'https://ct.capterra.com(43 B)
-      https://ct.capterra.com/
-      ' : 'http://ct.capterra.com(43 B)
-      http://ct.capterra.com/
-      ');
-          var ct = document.createElement('script');
-          ct.type = 'text/javascript';
-          ct.async = true;
-          ct.src = capterra_prefix + '/capterra_tracker.js?vid='
-            + capterra_vid + '&vkey=' + capterra_vkey;
-          var s = document.getElementsByTagName('script')[0];
-          s.parentNode.insertBefore(ct, s);
-        })();
+      (function() {
+        var capterra_vkey = "6327fe0ea6e5cd7a2e2565cfeed7becd",
+          capterra_vid = "2135271",
+          capterra_prefix =
+            "https:" == document.location.protocol
+              ? "https://ct.capterra.com(43 B)https://ct.capterra.com/"
+              : "http://ct.capterra.com(43 B)http://ct.capterra.com/";
+        var ct = document.createElement("script");
+        ct.type = "text/javascript";
+        ct.async = true;
+        ct.src =
+          capterra_prefix +
+          "/capterra_tracker.js?vid=" +
+          capterra_vid +
+          "&vkey=" +
+          capterra_vkey;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(ct, s);
+      })();
     </script>
     <noscript>
       <img
         height="1"
         width="1"
-        src="https://www.facebook.com/tr?id=331605847504957&ev=PageView
-&noscript=1"
+        src="https://www.facebook.com/tr?id=331605847504957&ev=PageView&noscript=1"
       />
     </noscript>
     <!-- End Facebook Pixel Code -->
