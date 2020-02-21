@@ -29,6 +29,12 @@ var imageSchema = new Schema({
 
 const ghostitBlogSchema = new Schema(
   {
+    authorID: {
+      type: Number
+    },
+    category: Number,
+    contentArray: [contentSchema],
+    images: [imageSchema],
     userID: {
       type: Schema.Types.ObjectId,
       required: true
@@ -36,10 +42,7 @@ const ghostitBlogSchema = new Schema(
     url: {
       type: String,
       required: true
-    },
-    category: Number,
-    contentArray: [contentSchema],
-    images: [imageSchema]
+    }
   },
   {
     timestamps: true

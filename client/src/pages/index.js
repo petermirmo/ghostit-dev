@@ -110,6 +110,7 @@ class Routes extends Component {
         key={index}
         render={props => (
           <ViewWebsiteBlog
+            authorID={ghostitBlog.authorID}
             contentArray={ghostitBlog.contentArray}
             featuredBlogs={ghostitBlogs.slice(0, 3)}
             id={ghostitBlog._id}

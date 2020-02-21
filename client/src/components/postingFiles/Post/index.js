@@ -257,7 +257,7 @@ class Post extends Component {
                         this.handleChangeRegular,
                         linkDescription,
                         linkTitle,
-                        currentTypingString,
+                        event.target.value,
                         link,
                         socialType
                       );

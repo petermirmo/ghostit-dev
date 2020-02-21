@@ -191,9 +191,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("facebook")}
                 style={{
-                  backgroundColor: isMobileOrTablet()
-                    ? getPostColor("facebook")
-                    : "transparent"
+                  backgroundColor: getPostColor("facebook")
                 }}
               />
             </a>
@@ -207,9 +205,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("twitter")}
                 style={{
-                  backgroundColor: isMobileOrTablet()
-                    ? getPostColor("twitter")
-                    : "transparent"
+                  backgroundColor: getPostColor("twitter")
                 }}
               />
             </a>
@@ -222,9 +218,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("linkedin")}
                 style={{
-                  backgroundColor: isMobileOrTablet()
-                    ? getPostColor("linkedin")
-                    : "transparent"
+                  backgroundColor: getPostColor("linkedin")
                 }}
               />
             </a>
@@ -237,9 +231,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 mx16"
                 icon={getPostIconRound("instagram")}
                 style={{
-                  backgroundColor: isMobileOrTablet()
-                    ? getPostColor("instagram")
-                    : "transparent"
+                  backgroundColor: getPostColor("instagram")
                 }}
               />
             </a>

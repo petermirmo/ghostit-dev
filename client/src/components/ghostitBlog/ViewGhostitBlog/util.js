@@ -1,9 +1,46 @@
 import React from "react";
-import GIContainer from "../../containers/GIContainer";
+import { Link } from "react-router-dom";
 
-export const createBlogDivs = contentImagesArray => {
+import GIContainer from "../../containers/GIContainer";
+import GIText from "../../views/GIText";
+
+import { teamMembers } from "../../../website/TeamPage/teamMembers";
+
+const createLinkFromNameAndJob = (title, name) => {
+  return (
+    "/" +
+    (title.replace(/[^a-zA-Z ]/g, "") + "/" + name.replace(/[^a-zA-Z ]/g, ""))
+      .replace(/ /g, "-")
+      .toLowerCase()
+  );
+};
+const getEmployee = authorID => {
+  const foundMember = teamMembers.find(something => something._id === authorID);
+
+  return { title: foundMember.title, name: foundMember.name };
+};
+
+export const createBlogDivs = (authorID, contentImagesArray) => {
   const blogDivs = [];
   for (let index = 0; index < contentImagesArray.length; index++) {
+    if (index === 1 && authorID)
+      blogDivs.push(
+        <GIContainer className="mb8" key="1ts">
+          <GIText className="grey" text="By&nbsp;" type="p" />
+          <Link
+            to={createLinkFromNameAndJob(
+              getEmployee(authorID).title,
+              getEmployee(authorID).name
+            )}
+          >
+            <GIText
+              className="five-blue"
+              text={getEmployee(authorID).name}
+              type="p"
+            />
+          </Link>
+        </GIContainer>
+      );
     const contentOrImage = contentImagesArray[index];
     if (!contentOrImage) continue;
     if (!contentOrImage.html) {

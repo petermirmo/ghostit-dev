@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link, withRouter } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
@@ -8,16 +9,17 @@ import { faFont } from "@fortawesome/free-solid-svg-icons/faFont";
 
 import ContentEditable from "react-contenteditable";
 
-import { withRouter } from "react-router-dom";
-
 import { getFileType } from "../../views/FileUpload/util";
 
 import GIContainer from "../../containers/GIContainer";
+
+import { teamMembers } from "../../../website/TeamPage/teamMembers";
 
 import "./style.css";
 
 class CreateWebsiteBlog extends Component {
   state = {
+    authorID: undefined,
     url: "",
     id: undefined,
     category: 0,
@@ -31,6 +33,7 @@ class CreateWebsiteBlog extends Component {
       axios.get("/api/ghostit/blog/" + this.props.id).then(res => {
         const { ghostitBlog } = res.data;
         const { contentArray, images } = ghostitBlog;
+        console.log(ghostitBlog);
 
         if (ghostitBlog) {
           const mixedContentArray = [];
@@ -51,10 +54,11 @@ class CreateWebsiteBlog extends Component {
 
           if (this._ismounted) {
             this.setState({
-              id: ghostitBlog._id,
-              url: ghostitBlog.url,
+              authorID: ghostitBlog.authorID,
               category: ghostitBlog.category,
-              contentArray: mixedContentArray
+              contentArray: mixedContentArray,
+              id: ghostitBlog._id,
+              url: ghostitBlog.url
             });
           }
         }
@@ -70,6 +74,9 @@ class CreateWebsiteBlog extends Component {
     let { contentArray } = this.state;
     contentArray[index][index2] = value;
     this.setState({ contentArray });
+  };
+  handleChange = stateObj => {
+    if (this._ismounted) this.setState(stateObj);
   };
 
   removeIndex = index => {
@@ -114,7 +121,14 @@ class CreateWebsiteBlog extends Component {
     }
   };
   saveGhostitBlog = () => {
-    let { contentArray, url, id, category, deleteImageArray } = this.state;
+    let {
+      authorID,
+      category,
+      contentArray,
+      deleteImageArray,
+      id,
+      url
+    } = this.state;
 
     if (!url) {
       alert("Add url!");
@@ -123,11 +137,12 @@ class CreateWebsiteBlog extends Component {
     alert("saving");
     axios
       .post("/api/ghostit/blog", {
-        contentArray,
-        url,
-        id,
+        authorID,
         category,
-        deleteImageArray
+        contentArray,
+        deleteImageArray,
+        id,
+        url
       })
       .then(res => {
         const { success, ghostitBlog } = res.data;
@@ -263,7 +278,7 @@ class CreateWebsiteBlog extends Component {
   };
 
   render() {
-    const { url, category, hyperlink, contentArray } = this.state;
+    const { authorID, category, contentArray, hyperlink, url } = this.state;
 
     const blogDivs = [];
 
@@ -280,6 +295,22 @@ class CreateWebsiteBlog extends Component {
     return (
       <GIContainer className="x-fill justify-center">
         <GIContainer className="container-box large ov-visible block mb64">
+          <Link to="/blog">Go to Blog</Link>
+          <GIContainer className="wrap my8">
+            <p className="label mr8">Choose Author :</p>
+            {teamMembers.map((teamMember, index) => (
+              <GIContainer
+                className={
+                  "button-1 pa8 mr8 mb8 br4 " +
+                  (teamMember._id === authorID ? "active" : "")
+                }
+                key={index}
+                onClick={() => this.handleChange({ authorID: teamMember._id })}
+              >
+                {teamMember.name}
+              </GIContainer>
+            ))}
+          </GIContainer>
           <div className="flex my8">
             <p className="label mr8">Blog URL:</p>
             <input

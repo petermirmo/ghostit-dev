@@ -21,7 +21,6 @@ export const createState = (calendarAccounts, props) => {
     files: [],
     filesToDelete: [],
     instructions: "",
-    link: "",
     linkCustomFiles: [],
     linkDescription: "",
     linkImage: "",
@@ -75,7 +74,6 @@ export const createState = (calendarAccounts, props) => {
       : props.campaignStartDate
       ? new moment(props.campaignStartDate)
       : new moment(props.clickedCalendarDate);
-
   return stateVariable;
 };
 
@@ -125,8 +123,6 @@ export const findLink = (
   // Finds url
   let match;
   if (textAreaString) match = textAreaString.match(regex);
-  console.log(match);
-  console.log(socialType);
   let link;
   // Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
   if (match) {
@@ -141,16 +137,15 @@ export const findLink = (
       link,
       link2
     );
-  } else if (link2) {
-    getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
-  } else if (!match && socialType === "twitter") {
-    console.log("here");
+  } else if (match == undefined && socialType == "twitter") {
     handleChangeRegular({
       link: "",
       linkTitle: "",
       linkImage: "",
       linkDescription: ""
     });
+  } else if (link2) {
+    getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
   }
 };
 

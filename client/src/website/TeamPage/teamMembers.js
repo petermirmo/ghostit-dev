@@ -7,7 +7,8 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164208/rahul.jpg",
     location: "Victoria",
     name: "Rahul Bhatia",
-    title: "TCB Specialist"
+    title: "TCB Specialist",
+    _id: 1
   },
   {
     color: "var(--five-orange-color)",
@@ -17,7 +18,8 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164096/mishar.jpg",
     location: "Paris",
     name: "Mishar Briones",
-    title: "SheEO"
+    title: "SheEO",
+    _id: 2
   },
   {
     color: "var(--five-purple-color)",
@@ -27,7 +29,8 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164234/stephanie.jpg",
     location: "Victoria",
     name: "Stephanie Brown",
-    title: "Content Creator"
+    title: "Content Creator",
+    _id: 3
   },
   {
     color: "var(--five-blue-color)",
@@ -37,7 +40,8 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544163966/erika.jpg",
     location: "Victoria",
     name: "Erika Palmer",
-    title: "Content Creator"
+    title: "Content Creator",
+    _id: 4
   },
 
   {
@@ -48,7 +52,8 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1568659558/Emily_Kennaley.png",
     location: "toronto",
     name: "Emily Kennaley",
-    title: "Content Creator"
+    title: "Content Creator",
+    _id: 5
   },
   {
     color: "var(--five-purple-color)",
@@ -58,6 +63,7 @@ export const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",
     location: "Victoria",
     name: "Peter Mirmotahari",
-    title: "CSS Wizard"
+    title: "CSS Wizard",
+    _id: 6
   }
 ];

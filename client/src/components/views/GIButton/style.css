@@ -1,3 +1,14 @@
+.button-1 {
+  background-color: var(--white-theme-color);
+  border: 1px solid var(--five-blue-color);
+  cursor: pointer;
+}
+.button-1.active,
+.button-1:hover {
+  background-color: var(--five-blue-color);
+  color: var(--white-theme-color);
+}
+
 .navigation-button.border:first-child {
   border-left: none !important;
 }
@@ -131,7 +142,7 @@ button {
   box-sizing: border-box;
 }
 .blog a {
-  text-decoration: underline !important;
+  text-decoration: underline;
 }
 
 a {

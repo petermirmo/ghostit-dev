@@ -14,7 +14,6 @@ try {
 export const getAllAccountsFromAllCalendars = callback => {
   axios.get("/api/accounts/all").then(res => {
     const { allAccounts, success } = res.data;
-    console.log(res.data);
     callback(allAccounts);
   });
 };
@@ -101,9 +100,6 @@ export const getCalendars = callback => {
   axios.get("/api/calendars").then(res => {
     const { success, calendars, defaultCalendarID } = res.data;
     if (!success || !calendars || calendars.length === 0) {
-      console.log(res.data.err);
-      console.log(res.data.message);
-      console.log(calendars);
     } else {
       calendars.sort((a, b) => {
         if (a.calendarName > b.calendarName) return 1;

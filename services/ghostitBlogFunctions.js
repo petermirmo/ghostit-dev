@@ -27,7 +27,7 @@ module.exports = {
     }
     const images = [];
     const pureContentArray = [];
-    const { category, contentArray, url } = ghostitBlog;
+    const { authorID, category, contentArray, url } = ghostitBlog;
 
     for (let index = 0; index < contentArray.length; index++) {
       const content = contentArray[index];
@@ -41,6 +41,7 @@ module.exports = {
     let newGhostitBlog = {};
     if (!ghostitBlog.id) newGhostitBlog = new GhostitBlog(ghostitBlog);
 
+    newGhostitBlog.authorID = authorID;
     newGhostitBlog.images = [];
     newGhostitBlog.userID = user._id;
     newGhostitBlog.url = url;

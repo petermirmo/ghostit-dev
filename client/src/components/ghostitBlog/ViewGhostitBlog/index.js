@@ -27,6 +27,7 @@ class ViewWebsiteBlog extends Component {
   };
   render() {
     const {
+      authorID,
       contentArray = [],
       featuredBlogs = [],
       images = [],
@@ -34,15 +35,7 @@ class ViewWebsiteBlog extends Component {
     } = this.props;
 
     const contentImagesArray = createContentImagesArray(contentArray, images);
-    const divs = createBlogDivs(contentImagesArray);
-
-    /*
-divs[image.location] = this.createRelevantImageDiv(image, index);
-
-
-    divs[content.location] = (
-      <div key={index} dangerouslySetInnerHTML={{ __html: content.html }} />
-    );*/
+    const divs = createBlogDivs(authorID, contentImagesArray);
 
     let metaTitle = "";
     let temp = document.createElement("div");
@@ -61,7 +54,7 @@ divs[image.location] = this.createRelevantImageDiv(image, index);
     metaDescription = temp2.textContent || temp2.innerText || "";
     return (
       <Page
-        className="website-page align-center mt32"
+        className="website-page align-center mt64 mb32"
         title={metaTitle ? metaTitle : "Blog Post"}
         description={
           metaDescription
@@ -79,7 +72,11 @@ divs[image.location] = this.createRelevantImageDiv(image, index);
             {divs}
           </GIContainer>
           {!isMobileOrTablet() && (
-            <GIContainer className="column ml32 x-300px">
+            <GIContainer
+              className="column ml64 x-300px"
+              style={{ marginTop: "74px" }}
+            >
+              <GIText className="fs-26 mb16" text="Featured Blogs" type="h4" />
               {featuredBlogs.map((ghostitBlog, index) => {
                 const { contentArray, createdAt } = ghostitBlog;
                 const ghostitBlogDate = new moment(createdAt);
@@ -98,7 +95,7 @@ divs[image.location] = this.createRelevantImageDiv(image, index);
 
                 return (
                   <Link
-                    className="x-fill column common-border one-blue shadow-3 button relative mb32 br16"
+                    className="x-fill column common-border one-blue bg-white shadow-3 button relative mb32 br16"
                     key={index}
                     to={ghostitBlog.url}
                   >
