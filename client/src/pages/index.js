@@ -32,6 +32,7 @@ import RegisterPage from "../website/RegisterPage";
 import ForgotPasswordPage from "../website/ForgotPasswordPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
+import Logo from "../components/navigations/WebsiteHeader/Logo";
 
 import {
   getAllAccountsFromAllCalendars,
@@ -129,7 +130,19 @@ class Routes extends Component {
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
-    if (!datebaseConnection) return <LoaderWedge />;
+    if (!datebaseConnection)
+      return (
+        <GIContainer className="screen-container full-center pr32">
+          <Logo
+            displayText={false}
+            style={{
+              animation: "loading-animation 2s infinite linear",
+              width: "10vw",
+              minWidth: "115px"
+            }}
+          />
+        </GIContainer>
+      );
     if (isUserInPlatform(location.pathname) && calendars.length === 0)
       return <LoaderWedge />;
 
