@@ -1,4 +1,4 @@
-export const teamMembers = [
+const teamMembers = [
   {
     color: "var(--five-blue-color)",
     description:
@@ -67,3 +67,6 @@ export const teamMembers = [
     _id: 6
   }
 ];
+module.exports = {
+  teamMembers
+};

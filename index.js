@@ -12,7 +12,7 @@ const secure = require("express-force-https"); // force https so http does not w
 const path = require("path");
 const fs = require("fs");
 
-const { getMetaInformation } = require("./functions/meta");
+const { createSiteMap, getMetaInformation } = require("./functions/meta");
 
 const allowCrossDomain = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -68,7 +68,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-schedule.scheduleJob("* * * * *", () => {});
+schedule.scheduleJob("0 0 * * *", createSiteMap);
+createSiteMap();
 
 // Connect to database
 mongoose.connect(keys.mongoDevelopmentURI, {
@@ -128,13 +129,13 @@ if (process.env.NODE_ENV === "production") {
   };
 
   app.get("/", (req, res) => {
-    injectMetaData(req, res);
+    if (req.originalUrl !== "/sitemap.xml") injectMetaData(req, res);
   });
 
   app.use(express.static(path.resolve(__dirname, "./client", "build")));
 
   app.get("*", (req, res) => {
-    injectMetaData(req, res);
+    if (req.originalUrl !== "/sitemap.xml") injectMetaData(req, res);
   });
 }
 

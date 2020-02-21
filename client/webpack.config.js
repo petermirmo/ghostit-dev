@@ -9,10 +9,7 @@ module.exports = (env, argv) => {
   if (argv.mode === "development")
     plugins = [
       new HtmlWebpackPlugin({ template: "./public/index.html" }),
-      new webpack.ContextReplacementPlugin(
-        /moment[\/\\]locale$/,
-        /de|en/
-      ),
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|en/),
       new webpack.DefinePlugin({
         "process.env": {
           NODE_ENV: '"development"'
@@ -22,10 +19,7 @@ module.exports = (env, argv) => {
   else {
     plugins = [
       new HtmlWebpackPlugin({ template: "./public/index.html" }),
-      new webpack.ContextReplacementPlugin(
-        /moment[\/\\]locale$/,
-        /de|en/
-      ),
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|en/),
       new CopyWebpackPlugin([{ from: "./static" }])
     ];
   }
@@ -66,7 +60,8 @@ module.exports = (env, argv) => {
     plugins: plugins,
     devServer: {
       proxy: {
-        "/api/*": "http://localhost:5000"
+        "/api/*": "http://localhost:5000",
+        "/sitemap.xml": "http://localhost:5000"
       },
       disableHostCheck: true,
       historyApiFallback: true

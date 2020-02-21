@@ -1,10 +1,12 @@
 const passport = require("passport");
+const FB = require("fb");
+const s3Proxy = require("s3-proxy");
+const multipart = require("connect-multiparty");
+
 const User = require("./models/User");
 const Account = require("./models/Account");
-const FB = require("fb");
 const Post = require("./models/Post");
 
-const multipart = require("connect-multiparty");
 const fileParser = multipart();
 
 const facebookFunctions = require("./services/facebookFunctions");
@@ -22,6 +24,12 @@ const analyticsFunctions = require("./services/analyticsFunctions");
 const calendarFunctions = require("./services/calendarFunctions");
 const ghostitBlogFunctions = require("./services/ghostitBlogFunctions");
 
+const {
+  amazonAccessKeyID,
+  amazonSecretAccessKey,
+  amazonBucket
+} = require("./config/keys");
+
 module.exports = app => {
   const middleware = (req, res, next) => {
     if (!req.user) {
@@ -30,6 +38,17 @@ module.exports = app => {
     }
     next();
   };
+
+  app.get(
+    "/sitemap.xml",
+    s3Proxy({
+      bucket: amazonBucket,
+      accessKeyId: amazonAccessKeyID,
+      secretAccessKey: amazonSecretAccessKey,
+      overrideCacheControl: "max-age=100000",
+      defaultKey: "sitemap.xml"
+    })
+  );
 
   // Login user
   app.post("/api/login", (req, res, next) => {

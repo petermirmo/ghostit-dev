@@ -242,7 +242,7 @@ class GhostitAgency extends Component {
             </GIContainer>
             <img
               alt=""
-              className=""
+              className="mt8"
               src="https://res.cloudinary.com/ghostit-co/image/upload/v1568821295/agency-img-1.jpg"
             />
           </GIContainer>
@@ -272,7 +272,7 @@ class GhostitAgency extends Component {
             </GIContainer>
             <img
               alt=""
-              className=""
+              className="mt8"
               src="https://res.cloudinary.com/ghostit-co/image/upload/v1568821217/agency-img-2.jpg"
             />
           </GIContainer>
@@ -303,7 +303,7 @@ class GhostitAgency extends Component {
             </GIContainer>
             <img
               alt=""
-              className=""
+              className="mt8"
               src="https://res.cloudinary.com/ghostit-co/image/upload/v1568821296/agency-img-3.jpg"
             />
           </GIContainer>

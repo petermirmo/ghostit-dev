@@ -1,6 +1,83 @@
-const GhostitBlog = require("../models/GhostitBlog");
+const AWS = require("aws-sdk");
+const moment = require("moment-timezone");
 const jsdom = require("jsdom");
+const GhostitBlog = require("../models/GhostitBlog");
+const { teamMembers } = require("../client/src/website/TeamPage/teamMembers");
+
 const { JSDOM } = jsdom;
+
+const {
+  amazonAccessKeyID,
+  amazonSecretAccessKey,
+  amazonBucket
+} = require("../config/keys");
+
+const s3 = new AWS.S3({
+  accessKeyId: amazonAccessKeyID,
+  secretAccessKey: amazonSecretAccessKey
+});
+const createSiteMap = () => {
+  GhostitBlog.find({}, { title: 1, updatedAt: 1, url: 1 }, (err, blogs) => {
+    let siteMapString =
+      '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n\n';
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>1</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/agency</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/blog</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/pricing</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/privacy-policy</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/sign-up</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/sign-in</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/team</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n  <loc>https://www.ghostit.co/terms-of-service</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0</priority>\n</url>\n\n";
+
+    for (let index in blogs) {
+      const blog = blogs[index];
+      siteMapString +=
+        "<url>\n  <loc>" +
+        "https://www.ghostit.co/blog/" +
+        blog.url +
+        "</loc>\n  <lastmod>" +
+        new moment(blog.updatedAt).format("YYYY-MM-DD") +
+        "</lastmod>\n  <changefreq>daily\n</changefreq>  <priority>0.4</priority>\n</url>\n\n";
+    }
+
+    for (let index in teamMembers) {
+      const teamMember = teamMembers[index];
+      siteMapString +=
+        "<url>\n  <loc>" +
+        "https://www.ghostit.co/blog/" +
+        (
+          teamMember.title.replace(/[^a-zA-Z ]/g, "") +
+          "/" +
+          teamMember.name.replace(/[^a-zA-Z ]/g, "")
+        )
+          .replace(/ /g, "-")
+          .toLowerCase() +
+        "</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily\n</changefreq>  <priority>0.4</priority>\n</url>\n\n";
+    }
+    siteMapString += "</urlset>";
+
+    const file = new Buffer.from(siteMapString);
+    const params = {
+      Bucket: amazonBucket,
+      Key: "sitemap.xml",
+      Body: siteMapString
+    };
+
+    s3.putObject(params, (err, data) => {
+      if (err) console.log(err);
+    });
+  });
+};
 
 const getMetaInformation = (url, callback) => {
   const defaultMetaDescription =
@@ -132,5 +209,6 @@ const getMetaInformation = (url, callback) => {
 };
 
 module.exports = {
+  createSiteMap,
   getMetaInformation
 };
