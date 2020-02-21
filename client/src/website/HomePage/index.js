@@ -204,7 +204,7 @@ class RegularVersion extends Component {
                 />
               </GIText>
 
-              <GIContainer className="x-wrap full-center">
+              <GIContainer className="wrap full-center">
                 <GIContainer className="container-box small column mb32">
                   <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img

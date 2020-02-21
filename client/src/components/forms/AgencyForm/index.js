@@ -41,7 +41,7 @@ class MyForm extends Component {
             type="h6"
           />
         </GIContainer>
-        <GIContainer className="x-wrap full-center">
+        <GIContainer className="wrap full-center">
           <input
             className="x-300px px16 py8 mb16 mx8 br20"
             onChange={e => {
@@ -66,7 +66,7 @@ class MyForm extends Component {
             type="email"
           />
         </GIContainer>
-        <GIContainer className="x-wrap full-center">
+        <GIContainer className="wrap full-center">
           <input
             className="x-300px px16 py8 mb16 mx8 br20"
             onChange={e => {

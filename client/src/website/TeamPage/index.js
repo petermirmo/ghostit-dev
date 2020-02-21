@@ -14,24 +14,6 @@ import "./style.css";
 
 class TeamPage extends Component {
   render() {
-    const firstTeamRow = [];
-    const secondTeamRow = [];
-    const thirdTeamRow = [];
-    const fourthTeamRow = [];
-
-    for (let index in teamMembers) {
-      const teamMember = teamMembers[index];
-
-      if (index < 3) {
-        firstTeamRow.push(teamMemberDiv(index, teamMember));
-      } else if (index < 5) {
-        secondTeamRow.push(teamMemberDiv(index, teamMember));
-      } else if (index < 7) {
-        thirdTeamRow.push(teamMemberDiv(index, teamMember));
-      } else {
-        fourthTeamRow.push(teamMemberDiv(index, teamMember));
-      }
-    }
     return (
       <Page
         className="website-page align-center mt32"
@@ -55,61 +37,14 @@ class TeamPage extends Component {
         />
 
         <GIContainer
-          className={"x-fill " + (isMobileOrTablet() ? "column px16" : "px64")}
-        >
-          {firstTeamRow}
-        </GIContainer>
-        <GIContainer
           className={
-            "x-fill relative " + (isMobileOrTablet() ? "column px16" : "pr64")
+            "container full wrap " +
+            (isMobileOrTablet() ? "column px16" : "px64")
           }
         >
-          {!isMobileOrTablet() && (
-            <GIContainer className="relative">
-              <img
-                alt=""
-                className="container-box y-30vw"
-                src="https://res.cloudinary.com/ghostit-co/image/upload/v1566407446/team-page-1.png"
-              />
-              <img
-                alt="blob"
-                id="circle-love"
-                src={require("../../svgs/circle-love.svg")}
-              />
-            </GIContainer>
+          {teamMembers.map((teamMember, index) =>
+            teamMemberDiv(index, teamMember)
           )}
-
-          {secondTeamRow}
-        </GIContainer>
-
-        <GIContainer
-          className={
-            "x-fill justify-end " +
-            (isMobileOrTablet() ? "column px16" : "pl64")
-          }
-        >
-          {thirdTeamRow}
-          {!isMobileOrTablet() && (
-            <GIContainer className="relative justify-end">
-              <img
-                alt=""
-                className="container-box y-30vw"
-                src="https://res.cloudinary.com/ghostit-co/image/upload/v1566407452/team-page-2.png"
-              />
-              <img
-                alt="blob"
-                id="circle-likes-2"
-                src={require("../../svgs/circle-likes-2.svg")}
-              />
-            </GIContainer>
-          )}
-        </GIContainer>
-        <GIContainer
-          className={
-            "x-fill relative " + (isMobileOrTablet() ? "column px16" : "px64")
-          }
-        >
-          {fourthTeamRow}
         </GIContainer>
       </Page>
     );

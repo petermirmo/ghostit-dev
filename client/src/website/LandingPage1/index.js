@@ -228,7 +228,7 @@ class LandingPage1 extends Component {
               <form
                 action="https://ghostit.us14.list-manage.com/subscribe/post?u=6295bbe9fa9b4ee614df357c4&amp;id=aab772526a"
                 className={`flex full-center container-box extra-large px16 ${
-                  isMobileOrTablet() ? "x-wrap" : ""
+                  isMobileOrTablet() ? "wrap" : ""
                 }`}
                 method="post"
                 name="m"
@@ -291,7 +291,7 @@ class LandingPage1 extends Component {
               >
                 <GIContainer
                   className={`relative x-fill full-center ${
-                    isMobileOrTablet() ? "x-wrap" : ""
+                    isMobileOrTablet() ? "wrap" : ""
                   }`}
                 >
                   <img

@@ -53,8 +53,8 @@ class GhostitAgency extends Component {
           text="Increase the amount of qualified traffic to your site."
           type="h4"
         />
-        <GIContainer className="x-fill x-wrap justify-center px32">
-          <GIContainer className="relative column container-box small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+        <GIContainer className="container full wrap justify-center px32">
+          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText
               className="muli mb8"
               text="Optimized Blog Posts"
@@ -84,7 +84,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container-box small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText className="muli mb8" text="Social Media Post" type="h4" />
 
             <GIText
@@ -111,7 +111,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container-box small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText
               className="muli mb8"
               text="Lead Generation E-Book"
@@ -141,7 +141,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container-box small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText className="muli mb8" text="Email Newsletter" type="h4" />
             <GIText
               text={something(
@@ -167,7 +167,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container-box small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText className="muli mb8" text="Web Content" type="h4" />
             <GIText
               text={something(
@@ -217,7 +217,7 @@ class GhostitAgency extends Component {
           </GIText>
         </GIContainer>
         <GIContainer className="column full-center">
-          <GIContainer className="container-box extra-large justify-center x-wrap mb32">
+          <GIContainer className="container extra-large justify-center wrap mb32">
             <GIContainer className="full-center xy-96px common-border one-blue mr16 mb16 round">
               <GIContainer className="full-center xy-64px common-border four-blue round">
                 <GIText text="1" type="h1" />
@@ -246,7 +246,7 @@ class GhostitAgency extends Component {
               src="https://res.cloudinary.com/ghostit-co/image/upload/v1568821295/agency-img-1.jpg"
             />
           </GIContainer>
-          <GIContainer className="container-box extra-large justify-center x-wrap mb32">
+          <GIContainer className="container-box extra-large justify-center wrap mb32">
             <GIContainer className="full-center xy-96px common-border one-blue mr16 mb16 round">
               <GIContainer className="full-center xy-64px common-border four-blue round">
                 <GIText text="2" type="h1" />
@@ -276,7 +276,7 @@ class GhostitAgency extends Component {
               src="https://res.cloudinary.com/ghostit-co/image/upload/v1568821217/agency-img-2.jpg"
             />
           </GIContainer>
-          <GIContainer className="container-box extra-large justify-center x-wrap mb32">
+          <GIContainer className="container-box extra-large justify-center wrap mb32">
             <GIContainer className="full-center xy-96px common-border one-blue mr16 mb16 round">
               <GIContainer className="full-center xy-64px common-border four-blue round">
                 <GIText text="3" type="h1" />

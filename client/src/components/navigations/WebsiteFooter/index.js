@@ -23,7 +23,7 @@ class WebsiteFooter extends Component {
           (isMobileOrTablet() ? "py32" : "pa64")
         }
       >
-        <GIContainer className="x-wrap px32">
+        <GIContainer className="wrap px32">
           <div className="container-box column tiny my16">
             <Link to="/home">
               <GIContainer className="mb16" style={{ width: "100px" }}>
@@ -120,7 +120,7 @@ class WebsiteFooter extends Component {
               text="Subscribe To Our Newsletter"
             />
             <EmailForm />
-            <GIContainer className="x-wrap align-center mt16">
+            <GIContainer className="wrap align-center mt16">
               <GIText className="white" text="Follow Us:" type="h6" />
               <a
                 href="https://www.facebook.com/ghostitcontent/"

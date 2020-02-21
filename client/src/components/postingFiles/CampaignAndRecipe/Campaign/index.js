@@ -1103,7 +1103,7 @@ class Campaign extends Component {
     let firstPostChosen = Array.isArray(posts) && posts.length > 0;
 
     const saveButtons = (
-      <GIContainer className="x-wrap">
+      <GIContainer className="wrap">
         {!recipeEditing && (
           <button
             className="common-border five-blue bg-white px16 py8 mr8 br4"

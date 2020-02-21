@@ -57,7 +57,7 @@ class BlogPage extends Component {
               />
               <GIContainer className="full-center x-fill mb32">
                 <NavigationLayout
-                  className="x-wrap full-center common-border one-blue px16 br4"
+                  className="wrap full-center common-border one-blue px16 br4"
                   data={categories.map((category, index) => (
                     <GIText
                       className="transparent-button tac button hover-blue relative py8 mx8"
@@ -80,7 +80,7 @@ class BlogPage extends Component {
               className={`${
                 isMobileOrTablet()
                   ? "x-fill px32 pb32"
-                  : "container-box extra-large x-wrap px64 ob64"
+                  : "container-box extra-large wrap px64 ob64"
               }`}
             >
               {context.ghostitBlogs.length === 0 && (

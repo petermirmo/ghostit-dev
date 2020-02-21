@@ -297,7 +297,7 @@ class CalendarSideBar extends Component {
                   ...calendar.users.map((user, index) => (
                     <GIContainer className="x-85 align-center" key={index}>
                       <GIContainer className="x-fill column mr16">
-                        <GIContainer className="x-fill x-wrap align-center">
+                        <GIContainer className="x-fill wrap align-center">
                           <GIText className="ellipsis" type="h6">
                             {user.fullName}{" "}
                           </GIText>
@@ -319,7 +319,7 @@ class CalendarSideBar extends Component {
                   ...calendar.emailsInvited.map((email, index) => (
                     <GIContainer className="x-85 align-center" key={index}>
                       <GIContainer className="x-fill column mr16">
-                        <GIContainer className="x-fill x-wrap">
+                        <GIContainer className="x-fill wrap">
                           <GIText className="ellipsis" text={email} type="h6" />
                         </GIContainer>
                       </GIContainer>

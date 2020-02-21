@@ -384,9 +384,6 @@
   align-items: center;
   justify-content: center;
 }
-.wrap {
-  flex-wrap: wrap;
-}
 .flex .end {
   justify-content: flex-end;
 }

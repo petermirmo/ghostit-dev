@@ -10,7 +10,7 @@ class PostTypePicker extends Component {
   render() {
     const { newPost } = this.props;
     return (
-      <GIContainer className="x-fill x-wrap justify-center pb64">
+      <GIContainer className="x-fill wrap justify-center pb64">
         <GIContainer className="grid-4-columns">
           <button
             className="flex column fill-flex full-center white py16 px32 mt8 mx4 br4"

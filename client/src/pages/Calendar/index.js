@@ -354,7 +354,7 @@ class CalendarPage extends Component {
                           )}
                       </GIContainer>
 
-                      <GIContainer className="justify-between x-fill x-wrap pl32 pr16">
+                      <GIContainer className="justify-between x-fill wrap pl32 pr16">
                         <GIContainer className="full-center my16">
                           <GIContainer
                             className="round-icon button round common-border five-blue full-center pa4"

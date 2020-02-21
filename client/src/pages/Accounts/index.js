@@ -206,7 +206,7 @@ class AccountsPage extends Component {
 
     return (
       <Page title="Social Accounts">
-        <GIContainer className="x-wrap py16 px32 align-start">
+        <GIContainer className="wrap py16 px32 align-start">
           <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
             <GIContainer className="align-center mb16">
               <FontAwesomeIcon

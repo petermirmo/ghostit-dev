@@ -19,7 +19,7 @@
 .float-right {
   float: right;
 }
-.x-wrap {
+.wrap {
   flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
@@ -132,6 +132,50 @@
   align-items: space-between;
 }
 
+.container {
+  position: relative;
+}
+.container.tinier {
+  min-width: 150px;
+  max-height: 150px;
+}
+.container.tiny {
+  min-width: 280px;
+}
+.container.twentyvw {
+  min-width: 280px;
+  width: 20vw;
+}
+.container.small {
+  min-width: 280px;
+  width: 25vw;
+  max-width: 400px;
+}
+.container.medium {
+  min-width: 280px;
+  width: 35vw;
+  flex-basis: auto;
+}
+.container.large {
+  min-width: 280px;
+  width: 50vw;
+  max-width: 1000px;
+}
+.container.extra-large {
+  min-width: 280px;
+  width: 75vw;
+  max-width: 1400px;
+}
+.container.full {
+  min-width: 280px;
+  width: 100%;
+  max-width: 1400px;
+}
+.container.mobile-full {
+  min-width: 280px;
+  width: 100%;
+  max-width: 800px;
+}
 .container-box {
   position: relative;
   overflow: hidden;
@@ -435,6 +479,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
+  cursor: pointer;
 }
 .dot.small {
   width: 8px;
