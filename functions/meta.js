@@ -63,8 +63,8 @@ const createSiteMap = () => {
           .replace(/ /g, "-")
           .toLowerCase() +
         "/" +
-        teamMember._id;
-      ("</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily\n</changefreq>  <priority>0.4</priority>\n</url>\n\n");
+        teamMember._id +
+        "</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily\n</changefreq>  <priority>0.4</priority>\n</url>\n\n";
     }
     siteMapString += "</urlset>";
 
