@@ -9,6 +9,14 @@
   color: var(--white-theme-color);
 }
 
+.button-2 {
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.button-2:hover {
+  border-color: var(--four-blue-color);
+}
+
 .navigation-button.border:first-child {
   border-left: none !important;
 }

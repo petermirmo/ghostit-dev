@@ -6,15 +6,17 @@ import GIText from "../../views/GIText";
 
 import { teamMembers } from "../../../website/TeamPage/teamMembers";
 
-const createLinkFromNameAndJob = (title, name) => {
+export const createLinkFromNameAndJob = (id, name, title) => {
   return (
-    "/" +
+    "/team-member/" +
     (title.replace(/[^a-zA-Z ]/g, "") + "/" + name.replace(/[^a-zA-Z ]/g, ""))
       .replace(/ /g, "-")
-      .toLowerCase()
+      .toLowerCase() +
+    "/" +
+    id
   );
 };
-const getEmployee = authorID => {
+const getTeamMember = authorID => {
   const foundMember = teamMembers.find(something => something._id === authorID);
 
   return { title: foundMember.title, name: foundMember.name };
@@ -29,13 +31,14 @@ export const createBlogDivs = (authorID, contentImagesArray) => {
           <GIText className="grey" text="By&nbsp;" type="p" />
           <Link
             to={createLinkFromNameAndJob(
-              getEmployee(authorID).title,
-              getEmployee(authorID).name
+              getTeamMember(authorID).name,
+              getTeamMember(authorID).title,
+              authorID
             )}
           >
             <GIText
               className="five-blue"
-              text={getEmployee(authorID).name}
+              text={getTeamMember(authorID).name}
               type="p"
             />
           </Link>

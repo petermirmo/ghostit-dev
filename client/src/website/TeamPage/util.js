@@ -1,22 +1,33 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import GIText from "../../components/views/GIText";
 import GIContainer from "../../components/containers/GIContainer";
 
 import { isMobileOrTablet } from "../../util";
+import { createLinkFromNameAndJob } from "../../components/ghostitBlog/ViewGhostitBlog/util";
 
 export const teamMemberDiv = (index, teamMember) => (
-  <GIContainer key={index} className="fill-flex mb64">
-    <div
-      className={`container ${
-        isMobileOrTablet() ? "x-fill" : "small"
-      } pa16 br8 common-transition`}
-    >
-      <div className="container-box xy-200px round blue-shadow-fade mb32">
-        <img alt="" className="x-200px" src={teamMember.image} />
-      </div>
-      <GIText className="muli ellipsis mb4" text={teamMember.name} type="h3" />
-      <GIText className="bold ellipsis mb8" text={teamMember.title} type="p" />
-      <GIText text={teamMember.description} type="p" />
+  <Link
+    className={
+      "flex container column button-2 fill-flex pa16 mx16 mb64 br16 common-transition " +
+      (isMobileOrTablet() ? "x-fill" : "small")
+    }
+    key={index}
+    to={createLinkFromNameAndJob(
+      teamMember._id,
+      teamMember.name,
+      teamMember.title
+    )}
+  >
+    <div className="container-box xy-200px round blue-shadow-fade mb32">
+      <img alt="" className="x-200px" src={teamMember.image} />
     </div>
-  </GIContainer>
+    <GIText className="muli ellipsis mb4" text={teamMember.name} type="h3" />
+    <GIText className="bold ellipsis mb8" text={teamMember.title} type="p" />
+    <GIText
+      text={teamMember.description.substring(0, 100) + "... Read More"}
+      type="p"
+    />
+  </Link>
 );

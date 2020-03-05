@@ -54,7 +54,7 @@ const createSiteMap = () => {
       const teamMember = teamMembers[index];
       siteMapString +=
         "<url>\n  <loc>" +
-        "https://www.ghostit.co/blog/" +
+        "https://www.ghostit.co/team-member/" +
         (
           teamMember.title.replace(/[^a-zA-Z ]/g, "") +
           "/" +
@@ -127,13 +127,7 @@ const getMetaInformation = (url, callback) => {
   } else
     switch (url) {
       case "/":
-        return callback({
-          metaDescription:
-            "Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion.",
-          metaImage:
-            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Ghostit Marketing Solution and Agency"
-        });
+        return callback(defaultObject);
       case "/pricing":
         return callback({
           metaDescription:

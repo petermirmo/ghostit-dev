@@ -25,6 +25,7 @@ import HomePage from "../website/HomePage";
 import LandingPage1 from "../website/LandingPage1";
 import PricingPage from "../website/PricingPage";
 import TeamPage from "../website/TeamPage";
+import TeamMemberPage from "../website/TeamMemberPage";
 import BlogPage from "../website/BlogPage";
 import GhostitAgencyPage from "../website/GhostitAgencyPage";
 import LoginPage from "../website/LoginPage";
@@ -40,7 +41,6 @@ import {
   getUser,
   getGhostitBlogs,
   getAccounts,
-  getNotifications,
   useAppropriateFunctionForEscapeKey
 } from "./util";
 
@@ -60,7 +60,6 @@ class Routes extends Component {
     const { location } = this.props; // Variables
 
     this.getUserDataAndCheckAuthorization();
-    getNotifications(context.handleChange);
     getCalendars(stateObject => {
       context.handleChange(stateObject, () => {
         getCalendarAccounts(
@@ -164,7 +163,7 @@ class Routes extends Component {
               <Route path="/home/" component={HomePage} />
               <Route path="/landing-page/" component={LandingPage1} />
               <Route path="/pricing/" component={PricingPage} />
-              <Route path="/team/" component={TeamPage} />
+              <Route path="/team/" component={TeamPage} exact />
               <Route path="/blog/" component={BlogPage} exact />
               <Route path="/agency/" component={GhostitAgencyPage} />
               <Route path="/sign-in/" component={LoginPage} />
@@ -173,6 +172,7 @@ class Routes extends Component {
 
               <Route path="/terms-of-service/" component={TermsPage} />
               <Route path="/privacy-policy/" component={PrivacyPage} />
+              <Route path="/team-member/" component={TeamMemberPage} />
               {this.createBlogPages(context.ghostitBlogs)}
               <Route component={HomePage} />
             </Switch>

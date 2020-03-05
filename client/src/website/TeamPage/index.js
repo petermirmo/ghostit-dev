@@ -38,8 +38,10 @@ class TeamPage extends Component {
 
         <GIContainer
           className={
-            "container full wrap " +
-            (isMobileOrTablet() ? "column px16" : "px64")
+            "wrap " +
+            (isMobileOrTablet()
+              ? "container mobile-full column px16"
+              : "container full px64")
           }
         >
           {teamMembers.map((teamMember, index) =>
