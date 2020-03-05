@@ -62,9 +62,11 @@ class Blog extends Component {
                   {ghostitBlog.contentArray[1] && (
                     <GIText
                       className="pt8"
-                      text={getTextFromHtmlTag(
-                        ghostitBlog.contentArray[1].html
-                      ).substring(0, 150)}
+                      text={
+                        getTextFromHtmlTag(
+                          ghostitBlog.contentArray[1].html
+                        ).substring(0, 150) + "... Read More"
+                      }
                       type="p"
                     />
                   )}

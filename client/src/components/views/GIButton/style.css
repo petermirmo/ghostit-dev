@@ -152,6 +152,9 @@ button {
 .blog a {
   text-decoration: underline;
 }
+.blog h1 {
+  color: var(--primary-font-color);
+}
 
 a {
   color: var(--four-blue-color);

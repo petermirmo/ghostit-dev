@@ -93,7 +93,7 @@ class TeamPage extends Component {
                       ghostitBlog.authorID === teamMember._id
                   ) && (
                     <GIText className="py32" type="h4">
-                      Articles have written by{" "}
+                      Articles written by{" "}
                       <GIText
                         className="four-blue"
                         text={teamMember.name}
