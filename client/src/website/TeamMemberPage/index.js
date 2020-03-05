@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import Consumer from "../../context";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 import GIText from "../../components/views/GIText";
+
+import LoaderSimpleCircle from "../../components/notifications/LoaderSimpleCircle";
+
+import Blog from "../BlogPage/Blog";
 
 import { teamMembers } from "../TeamPage/teamMembers";
 
@@ -34,50 +39,94 @@ class TeamPage extends Component {
   render() {
     const { teamMember } = this.state;
     return (
-      <Page
-        className={
-          "website-page align-center " + (isMobileOrTablet() ? "mt32" : "mt64")
-        }
-        description="Bring your marketing concept to life with Ghostit’s team of content creators. From content development to SEO services, we can do it all."
-        keywords="content creators"
-        title="Content Creation Team"
-      >
-        {teamMember && (
-          <GIContainer
+      <Consumer>
+        {context => (
+          <Page
             className={
-              "column " +
-              (isMobileOrTablet()
-                ? "container mobile-full px16"
-                : "container extra-large px64")
+              "website-page align-center " +
+              (isMobileOrTablet() ? "mt32" : "mt64")
             }
+            description="Bring your marketing concept to life with Ghostit’s team of content creators. From content development to SEO services, we can do it all."
+            keywords="content creators"
+            title="Content Creation Team"
           >
-            <GIContainer>
-              <div className="container-box xy-200px round blue-shadow-fade mr32 mb32">
-                <img alt="" className="x-200px" src={teamMember.image} />
-              </div>
-              <GIContainer className="column justify-center">
+            {teamMember && (
+              <GIContainer
+                className={
+                  "column " +
+                  (isMobileOrTablet()
+                    ? "container mobile-full px16"
+                    : "container extra-large px64")
+                }
+              >
+                <GIContainer className="x-fill wrap">
+                  <div className="container-box xy-200px round blue-shadow-fade mr32 mb32">
+                    <img alt="" className="x-200px" src={teamMember.image} />
+                  </div>
+                  <GIContainer className="column justify-center">
+                    <GIText
+                      className="muli ellipsis mb4"
+                      text={teamMember.name}
+                      type="h1"
+                    />
+                    <GIText
+                      className="bold ellipsis mb8"
+                      text={teamMember.title}
+                      type="p"
+                    />
+                  </GIContainer>
+                </GIContainer>
                 <GIText
-                  className="muli ellipsis mb4"
-                  text={teamMember.name}
-                  type="h1"
-                />
-                <GIText
-                  className="bold ellipsis mb8"
-                  text={teamMember.title}
+                  className=""
+                  style={{ lineHeight: 1.6 }}
+                  text={teamMember.description}
                   type="p"
                 />
+                {context.ghostitBlogs.length === 0 && (
+                  <GIContainer className="fill-parent full-center mt32">
+                    <LoaderSimpleCircle />
+                  </GIContainer>
+                )}
+                {context.ghostitBlogs.length !== 0 &&
+                  context.ghostitBlogs.find(
+                    (ghostitBlog, index) =>
+                      ghostitBlog.authorID === teamMember._id
+                  ) && (
+                    <GIText className="py32" type="h4">
+                      Articles have written by{" "}
+                      <GIText
+                        className="four-blue"
+                        text={teamMember.name}
+                        type="span"
+                      />
+                    </GIText>
+                  )}
+                {context.ghostitBlogs.length !== 0 && (
+                  <GIContainer
+                    className={
+                      "container mb32 " +
+                      (isMobileOrTablet() ? "mobile-full" : "medium")
+                    }
+                  >
+                    {context.ghostitBlogs.map((ghostitBlog, index) => {
+                      if (ghostitBlog.authorID === teamMember._id)
+                        return (
+                          <Blog
+                            activeBlogCategory={0}
+                            ghostitBlog={ghostitBlog}
+                            key={index}
+                            user={context.user}
+                          />
+                        );
+                    })}
+                  </GIContainer>
+                )}
               </GIContainer>
-            </GIContainer>
-            <GIText
-              className=""
-              style={{ lineHeight: 1.6 }}
-              text={teamMember.description}
-              type="p"
-            />
-          </GIContainer>
+            )}
+            {!teamMember && <GIContainer>Team Member not found :(</GIContainer>}
+          </Page>
         )}
-        {!teamMember && <GIContainer>Team Member not found :(</GIContainer>}
-      </Page>
+      </Consumer>
     );
   }
 }

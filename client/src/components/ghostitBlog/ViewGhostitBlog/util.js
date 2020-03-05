@@ -31,9 +31,9 @@ export const createBlogDivs = (authorID, contentImagesArray) => {
           <GIText className="grey" text="By&nbsp;" type="p" />
           <Link
             to={createLinkFromNameAndJob(
+              authorID,
               getTeamMember(authorID).name,
-              getTeamMember(authorID).title,
-              authorID
+              getTeamMember(authorID).title
             )}
           >
             <GIText
