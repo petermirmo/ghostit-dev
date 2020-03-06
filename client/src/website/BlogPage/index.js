@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import moment from "moment-timezone";
 import Consumer, { ExtraContext } from "../../context";
 
 import LoaderSimpleCircle from "../../components/notifications/LoaderSimpleCircle";
@@ -17,10 +17,7 @@ import { getTextFromHtmlTag, isMobileOrTablet } from "../../util";
 import "./style.css";
 
 class BlogPage extends Component {
-  state = {
-    activeBlogCategory: 0,
-    categories: ["Recent Posts", "Sort A-Z"]
-  };
+  state = { activeBlogCategory: 0, categories: ["Recent Posts", "Sort A-Z"] };
   componentDidMount() {
     this._ismounted = true;
   }
@@ -30,8 +27,7 @@ class BlogPage extends Component {
   render() {
     const { activeBlogCategory, categories } = this.state;
     const { ghostitBlogs } = this.context;
-
-    if (activeBlogCategory === 1) {
+    if (activeBlogCategory === 1)
       ghostitBlogs.sort((a, b) => {
         if (
           a.contentArray[0] &&
@@ -45,7 +41,13 @@ class BlogPage extends Component {
           return -1;
         }
       });
-    }
+    else
+      ghostitBlogs.sort((a, b) => {
+        if (moment(a.createdAt) < moment(b.createdAt)) {
+        } else {
+          return -1;
+        }
+      });
     return (
       <Consumer>
         {context => (
@@ -75,9 +77,9 @@ class BlogPage extends Component {
                     <GIText
                       className="transparent-button tac button hover-blue relative py8 mx8"
                       key={index}
-                      onClick={() =>
-                        this.setState({ activeBlogCategory: index })
-                      }
+                      onClick={() => {
+                        this.setState({ activeBlogCategory: index });
+                      }}
                       text={category}
                       type="h6"
                     >
