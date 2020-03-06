@@ -21,7 +21,7 @@ class Blog extends Component {
     return indexOfSmallestLocation;
   };
   render() {
-    const { activeBlogCategory = 0, ghostitBlog, user } = this.props; // Variables
+    const { ghostitBlog, user } = this.props; // Variables
 
     const { contentArray, createdAt, images } = ghostitBlog;
     const ghostitBlogDate = new moment(createdAt);
@@ -33,61 +33,59 @@ class Blog extends Component {
 
     const metaDescription = temp.textContent || temp.innerText || "";
 
-    if (activeBlogCategory === ghostitBlog.category || !activeBlogCategory)
-      return (
-        <GIContainer className="x-fill relative">
-          <Link
-            className="x-fill column common-border one-blue shadow-3 button relative br16"
-            to={"/blog/" + ghostitBlog.url}
-          >
-            <GIContainer className="column pa32">
-              <GIContainer
-                className="image-cover x-fill relative br8"
-                style={
-                  images[0]
-                    ? {
-                        backgroundImage:
-                          "url(" + images[this.findFirstImage(images)].url + ")"
-                      }
-                    : {}
-                }
-              ></GIContainer>
-              {ghostitBlog.contentArray[0] && (
-                <GIContainer className="column pt16">
+    return (
+      <GIContainer className="x-fill relative">
+        <Link
+          className="x-fill column common-border one-blue shadow-3 button relative br16"
+          to={"/blog/" + ghostitBlog.url}
+        >
+          <GIContainer className="column pa32">
+            <GIContainer
+              className="image-cover x-fill relative br8"
+              style={
+                images[0]
+                  ? {
+                      backgroundImage:
+                        "url(" + images[this.findFirstImage(images)].url + ")"
+                    }
+                  : {}
+              }
+            ></GIContainer>
+            {ghostitBlog.contentArray[0] && (
+              <GIContainer className="column pt16">
+                <GIText
+                  className="muli"
+                  text={getTextFromHtmlTag(ghostitBlog.contentArray[0].html)}
+                  type="h4"
+                />
+                {ghostitBlog.contentArray[1] && (
                   <GIText
-                    className="muli"
-                    text={getTextFromHtmlTag(ghostitBlog.contentArray[0].html)}
-                    type="h4"
+                    className="pt8"
+                    text={
+                      getTextFromHtmlTag(
+                        ghostitBlog.contentArray[1].html
+                      ).substring(0, 150) + "... Read More"
+                    }
+                    type="p"
                   />
-                  {ghostitBlog.contentArray[1] && (
-                    <GIText
-                      className="pt8"
-                      text={
-                        getTextFromHtmlTag(
-                          ghostitBlog.contentArray[1].html
-                        ).substring(0, 150) + "... Read More"
-                      }
-                      type="p"
-                    />
-                  )}
-                </GIContainer>
-              )}
-            </GIContainer>
-            <GIContainer className="absolute bottom--16 left-0 right-0 round-icon common-border four-blue margin-hc round bg-white shadow-blue-2 full-center">
-              <FontAwesomeIcon icon={faAngleRight} />
-            </GIContainer>
+                )}
+              </GIContainer>
+            )}
+          </GIContainer>
+          <GIContainer className="absolute bottom--16 left-0 right-0 round-icon common-border four-blue margin-hc round bg-white shadow-blue-2 full-center">
+            <FontAwesomeIcon icon={faAngleRight} />
+          </GIContainer>
+        </Link>
+        {isAdmin(user) && (
+          <Link to={"/manage/" + ghostitBlog._id}>
+            <FontAwesomeIcon
+              className="icon-regular-button absolute bottom right"
+              icon={faEdit}
+            />
           </Link>
-          {isAdmin(user) && (
-            <Link to={"/manage/" + ghostitBlog._id}>
-              <FontAwesomeIcon
-                className="icon-regular-button absolute bottom right"
-                icon={faEdit}
-              />
-            </Link>
-          )}
-        </GIContainer>
-      );
-    else return null;
+        )}
+      </GIContainer>
+    );
   }
 }
 

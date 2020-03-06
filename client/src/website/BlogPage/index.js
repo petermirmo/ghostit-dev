@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 
-import { connect } from "react-redux";
-
-import Consumer from "../../context";
+import Consumer, { ExtraContext } from "../../context";
 
 import LoaderSimpleCircle from "../../components/notifications/LoaderSimpleCircle";
 
@@ -14,14 +12,14 @@ import GIText from "../../components/views/GIText";
 
 import Blog from "./Blog";
 
-import { isMobileOrTablet } from "../../util";
+import { getTextFromHtmlTag, isMobileOrTablet } from "../../util";
 
 import "./style.css";
 
 class BlogPage extends Component {
   state = {
     activeBlogCategory: 0,
-    categories: ["Recent Posts", "Most Popular", "Social Marketing"]
+    categories: ["Recent Posts", "Sort A-Z"]
   };
   componentDidMount() {
     this._ismounted = true;
@@ -31,8 +29,23 @@ class BlogPage extends Component {
   }
   render() {
     const { activeBlogCategory, categories } = this.state;
-    const { user } = this.props;
+    const { ghostitBlogs } = this.context;
 
+    if (activeBlogCategory === 1) {
+      ghostitBlogs.sort((a, b) => {
+        if (
+          a.contentArray[0] &&
+          b.contentArray[0] &&
+          a.contentArray[0].html &&
+          b.contentArray[0].html &&
+          getTextFromHtmlTag(a.contentArray[0].html) >
+            getTextFromHtmlTag(b.contentArray[0].html)
+        ) {
+        } else {
+          return -1;
+        }
+      });
+    }
     return (
       <Consumer>
         {context => (
@@ -83,19 +96,18 @@ class BlogPage extends Component {
                   : "container-box extra-large wrap px64 ob64"
               }`}
             >
-              {context.ghostitBlogs.length === 0 && (
+              {ghostitBlogs.length === 0 && (
                 <GIContainer className="fill-parent full-center">
                   <LoaderSimpleCircle />
                 </GIContainer>
               )}
-              {context.ghostitBlogs.length !== 0 && (
+              {ghostitBlogs.length !== 0 && (
                 <GIContainer className="grid-300px grid-gap-32 x-fill mb32">
-                  {context.ghostitBlogs.map((ghostitBlog, index) => (
+                  {ghostitBlogs.map((ghostitBlog, index) => (
                     <Blog
-                      activeBlogCategory={activeBlogCategory}
                       ghostitBlog={ghostitBlog}
                       key={index}
-                      user={user}
+                      user={context.user}
                     />
                   ))}
                 </GIContainer>
@@ -107,10 +119,6 @@ class BlogPage extends Component {
     );
   }
 }
+BlogPage.contextType = ExtraContext;
 
-function mapStateToProps(state) {
-  return {
-    user: state.user
-  };
-}
-export default connect(mapStateToProps)(BlogPage);
+export default BlogPage;
