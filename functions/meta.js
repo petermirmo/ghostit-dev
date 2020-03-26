@@ -21,39 +21,39 @@ const createSiteMap = () => {
     let siteMapString =
       '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n\n';
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>1</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>1</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/agency</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/agency</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/blog</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/blog</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/pricing</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/pricing</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/privacy-policy</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/privacy-policy</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/sign-up</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/sign-up</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/sign-in</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/sign-in</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/team</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0.8</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/team</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n  <loc>https://www.ghostit.co/terms-of-service</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily</changefreq>\n  <priority>0</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/terms-of-service</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0</priority>\n</url>\n\n";
 
     for (let index in blogs) {
       const blog = blogs[index];
       siteMapString +=
-        "<url>\n  <loc>" +
+        "<url>\n<loc>" +
         "https://www.ghostit.co/blog/" +
         blog.url +
-        "</loc>\n  <lastmod>" +
+        "</loc>\n<lastmod>" +
         new moment(blog.updatedAt).format("YYYY-MM-DD") +
-        "</lastmod>\n  <changefreq>daily\n</changefreq>  <priority>0.4</priority>\n</url>\n\n";
+        "</lastmod>\n<changefreq>yearly\n</changefreq>\n</url>\n\n";
     }
 
     for (let index in teamMembers) {
       const teamMember = teamMembers[index];
       siteMapString +=
-        "<url>\n  <loc>" +
+        "<url>\n<loc>" +
         "https://www.ghostit.co/team-member/" +
         (
           teamMember.title.replace(/[^a-zA-Z ]/g, "") +
@@ -64,7 +64,7 @@ const createSiteMap = () => {
           .toLowerCase() +
         "/" +
         teamMember._id +
-        "</loc>\n  <lastmod>2020-02-04</lastmod>\n  <changefreq>daily\n</changefreq>  <priority>0.4</priority>\n</url>\n\n";
+        "</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly\n</changefreq>\n</url>\n\n";
     }
     siteMapString += "</urlset>";
 
@@ -110,7 +110,9 @@ const getMetaInformation = (url, callback) => {
 
             let metaDescription = defaultMetaDescription;
             if (temp2.firstChild)
-              metaDescription = temp2.firstChild.textContent;
+              metaDescription = temp2.firstChild.textContent
+                ? temp2.firstChild.textContent.substring(0, 200)
+                : defaultMetaDescription;
 
             let metaImage = defaultMetaImage;
             if (images[0]) metaImage = images[0].url;
@@ -126,6 +128,11 @@ const getMetaInformation = (url, callback) => {
 
       return callback(defaultObject);
     });
+  } else if (url.substring(0, 13) === "/team-member/") {
+    const teamMember = teamMembers.find(
+      (teamMember, index) => teamMember.id === url[url.length - 1]
+    );
+    return callback(defaultObject);
   } else
     switch (url) {
       case "/":

@@ -110,7 +110,7 @@ module.exports = {
         keys.linkedinCallbackURLASCII +
         "&state=" +
         keys.linkedinState +
-        "&scope=r_ads%20r_basicprofile%20r_emailaddress%20rw_company_admin%20w_organization_social%20r_ads_reporting%20r_organization_social%20rw_organization_admin%20w_share%20r_basicprofile%20rw_ads%20w_member_social"
+        "&scope=r_ads%20r_basicprofile%20r_emailaddress%20w_organization_social%20r_ads_reporting%20r_organization_social%20rw_organization_admin%20r_basicprofile%20rw_ads%20w_member_social"
     );
   },
   getLinkedinAccessToken: (req, res) => {
@@ -155,7 +155,7 @@ module.exports = {
                     newAccount.socialID = linkedinProfile.id;
                     newAccount.givenName = linkedinProfile.localizedFirstName;
                     newAccount.familyName = linkedinProfile.localizedLastName;
-
+                    //console.log(newAccount);
                     newAccount.save((err, result) => {
                       if (err) generalFunctions.handleError(res, err);
                       else res.redirect("/social-accounts/connected");
