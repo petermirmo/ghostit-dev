@@ -76,6 +76,20 @@ class ViewWebsiteBlog extends Component {
               className="column ml64 x-300px"
               style={{ marginTop: "74px" }}
             >
+              <a href="mailto:hello@ghostit.co?Subject=Hello%20Ghostit!">
+                <GIContainer className="column bg-white shadow-3 common-border thick five-blue pa16 mb32 br8">
+                  <GIText
+                    className="tac"
+                    text="Put your Content Marketing on auto pilot!"
+                    type="h4"
+                  />
+                  <GIText
+                    className="tac bold"
+                    text="Email us now at hello@ghostit.co"
+                    type="h4"
+                  />
+                </GIContainer>
+              </a>
               <GIText className="fs-26 mb16" text="Featured Blogs" type="h4" />
               {featuredBlogs.map((ghostitBlog, index) => {
                 const { contentArray, createdAt } = ghostitBlog;

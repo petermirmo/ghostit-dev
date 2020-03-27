@@ -102,12 +102,7 @@ class TeamPage extends Component {
                     </GIText>
                   )}
                 {context.ghostitBlogs.length !== 0 && (
-                  <GIContainer
-                    className={
-                      "container mb32 " +
-                      (isMobileOrTablet() ? "mobile-full" : "medium")
-                    }
-                  >
+                  <GIContainer className="grid-300px grid-gap-32 x-fill mb32">
                     {context.ghostitBlogs.map((ghostitBlog, index) => {
                       if (ghostitBlog.authorID === teamMember._id)
                         return (
