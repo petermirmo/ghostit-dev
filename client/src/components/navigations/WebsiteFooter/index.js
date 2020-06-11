@@ -20,10 +20,10 @@ class WebsiteFooter extends Component {
       <GIContainer
         className={
           "column x-fill bg-almost-black " +
-          (isMobileOrTablet() ? "py32" : "pa64")
+          (isMobileOrTablet() ? "pa32" : "pa64")
         }
       >
-        <GIContainer className="wrap px32">
+        <GIContainer className="wrap">
           <div className="flex column container-box tiny my16">
             <Link to="/home">
               <GIContainer className="mb16" style={{ width: "100px" }}>
@@ -113,7 +113,12 @@ class WebsiteFooter extends Component {
             </Link>
           </div>
 
-          <div className="flex column container-box tiny my16">
+          <div
+            className={
+              "flex column container-box tiny my16 " +
+              (isMobileOrTablet() ? "" : "pr48")
+            }
+          >
             <GIText
               className="white mb16"
               type="h6"
@@ -169,7 +174,7 @@ class WebsiteFooter extends Component {
               </a>
             </GIContainer>
           </div>
-          <div className="flex column container-box tiny my16 pl16">
+          <div className="flex column container-box tiny my16">
             <img
               alt=""
               className="mb16"
