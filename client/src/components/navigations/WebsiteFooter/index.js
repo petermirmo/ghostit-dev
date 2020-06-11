@@ -169,7 +169,7 @@ class WebsiteFooter extends Component {
               </a>
             </GIContainer>
           </div>
-          <div className="flex column align-center container-box tiny my16">
+          <div className="flex column container-box tiny my16 pl16">
             <img
               alt=""
               className="mb16"
