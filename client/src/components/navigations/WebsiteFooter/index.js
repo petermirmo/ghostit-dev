@@ -169,6 +169,18 @@ class WebsiteFooter extends Component {
               </a>
             </GIContainer>
           </div>
+          <div className="container-box column tiny align-center my16">
+            <img
+              alt=""
+              className="x-fill"
+              src={require("../../../images/bus_award.png")}
+            />
+            <img
+              alt=""
+              className="x-fill"
+              src={require("../../../images/douglas_10.png")}
+            />
+          </div>
         </GIContainer>
       </GIContainer>
     );
