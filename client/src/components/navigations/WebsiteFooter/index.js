@@ -24,7 +24,7 @@ class WebsiteFooter extends Component {
         }
       >
         <GIContainer className="wrap px32">
-          <div className="container-box column tiny my16">
+          <div className="flex column container-box tiny my16">
             <Link to="/home">
               <GIContainer className="mb16" style={{ width: "100px" }}>
                 <Logo
@@ -51,7 +51,7 @@ class WebsiteFooter extends Component {
               />
             </GIText>
           </div>
-          <div className="container-box column tiny my16">
+          <div className="flex column container-box tiny my16">
             <GIText className="white mb16" type="h6" text="Resources" />
             <Link to="/home">
               <GIText
@@ -90,7 +90,7 @@ class WebsiteFooter extends Component {
               />
             </Link>
           </div>
-          <div className="container-box column tiny my16">
+          <div className="flex column container-box tiny my16">
             <GIText className="white mb16" type="h6" text="Terms & Privacy" />
 
             <Link to="/terms-of-service">
@@ -113,7 +113,7 @@ class WebsiteFooter extends Component {
             </Link>
           </div>
 
-          <div className="container-box column tiny align-center my16">
+          <div className="flex column container-box tiny my16">
             <GIText
               className="white mb16"
               type="h6"
@@ -169,16 +169,17 @@ class WebsiteFooter extends Component {
               </a>
             </GIContainer>
           </div>
-          <div className="container-box column tiny align-center my16">
+          <div className="flex column align-center container-box tiny my16">
             <img
               alt=""
-              className="x-fill"
+              className="mb16"
               src={require("../../../images/bus_award.png")}
+              style={{ width: "100px" }}
             />
             <img
               alt=""
-              className="x-fill"
               src={require("../../../images/douglas_10.png")}
+              style={{ width: "100px" }}
             />
           </div>
         </GIContainer>
