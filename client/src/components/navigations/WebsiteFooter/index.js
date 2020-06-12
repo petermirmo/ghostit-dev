@@ -175,17 +175,24 @@ class WebsiteFooter extends Component {
             </GIContainer>
           </div>
           <div className="flex column container-box tiny my16">
-            <img
-              alt=""
-              className="mb16"
-              src={require("../../../images/bus_award.png")}
-              style={{ width: "100px" }}
-            />
-            <img
-              alt=""
-              src={require("../../../images/douglas_10.png")}
-              style={{ width: "100px" }}
-            />
+            <a href="https://www.victoriachamber.ca/" target="_blank">
+              <img
+                alt=""
+                className="mb16"
+                src={require("../../../images/bus_award.png")}
+                style={{ width: "100px" }}
+              />
+            </a>
+            <a
+              href="https://douglasmagazine.com/10-to-watch-2018-ghostit/"
+              target="_blank"
+            >
+              <img
+                alt=""
+                src={require("../../../images/douglas_10.png")}
+                style={{ width: "100px" }}
+              />
+            </a>
           </div>
         </GIContainer>
       </GIContainer>
