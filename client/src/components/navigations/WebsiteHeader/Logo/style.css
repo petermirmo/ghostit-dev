@@ -33,4 +33,5 @@
   fill: var(--primary-font-color);
   font-weight: bold;
   shape-rendering: geometricPrecision;
+  font-family: "Quicksand";
 }
