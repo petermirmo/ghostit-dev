@@ -24,7 +24,11 @@ class TeamPage extends Component {
     const teamMemberID = Number(this.getIDFromURL(pathname));
 
     if (Number.isInteger(teamMemberID))
-      this.state = { teamMember: teamMembers[teamMemberID - 1] };
+      this.state = {
+        teamMember: teamMembers.find(
+          (teamMember, index) => teamMember._id === teamMemberID
+        )
+      };
     else this.state = { teamMember: undefined };
   }
   getIDFromURL = pathname => {

@@ -28,7 +28,6 @@ export const createBlogDivs = (authorID, contentImagesArray) => {
   const blogDivs = [];
   for (let index = 0; index < contentImagesArray.length; index++) {
     if (index === 1 && authorID && getTeamMember(authorID)) {
-      console.log(getTeamMember(authorID));
       blogDivs.push(
         <GIContainer className="mb8" key="1ts">
           <GIText className="grey" text="By&nbsp;" type="p" />
