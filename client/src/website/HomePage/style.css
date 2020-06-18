@@ -4,3 +4,26 @@
   top: -96px;
   z-index: -1;
 }
+
+.right {
+  animation: ease right 0.4s;
+}
+.left {
+  animation: ease left 0.4s;
+}
+@-webkit-keyframes right {
+  0% {
+    left: 80%;
+  }
+  100% {
+    left: 0;
+  }
+}
+@-webkit-keyframes left {
+  0% {
+    right: 80%;
+  }
+  100% {
+    right: 0;
+  }
+}
