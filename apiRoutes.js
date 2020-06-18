@@ -100,6 +100,8 @@ module.exports = app => {
     userFunctions.currentUser(req, res)
   );
 
+  app.post("/api/book-a-call", SendMailFunctions.bookCall);
+
   // Get user invoices
   app.get("/api/user/invoices", middleware, (req, res) =>
     userFunctions.userInvoices(req, res)

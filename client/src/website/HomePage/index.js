@@ -63,13 +63,18 @@ class RegularVersion extends Component {
                 />
 
                 <GIButton
-                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
+                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb8"
                   onClick={() => {
                     document
                       .getElementById("home-page-sign-up-form")
                       .scrollIntoView();
                   }}
                   text="Get Started Now"
+                />
+                <GIText
+                  className="fs-13 italic mb32"
+                  text="It only takes 30 seconds!"
+                  type="p"
                 />
               </GIContainer>
             </GIContainer>

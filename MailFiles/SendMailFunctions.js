@@ -2,6 +2,25 @@ const User = require("../models/User");
 const { sendEmail } = require("./sendEmail");
 
 module.exports = {
+  bookCall: (req, res) => {
+    const { company, email, name, phoneNumber } = req.body;
+
+    return sendEmail(
+      { email: "hello@ghostit.co" },
+      "Ghostit Lead ",
+      "\nName: " +
+        name +
+        "\nEmail: " +
+        email +
+        "\nPhone Number: " +
+        phoneNumber +
+        "\nCompany: " +
+        company,
+      results => {
+        res.send(results);
+      }
+    );
+  },
   sendPasswordReset: async (req, res) => {
     let { email } = req.body;
 

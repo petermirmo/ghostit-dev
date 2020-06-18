@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import GIText from "../../views/GIText";
 import GIButton from "../../views/GIButton";
@@ -20,14 +21,43 @@ class MyForm extends Component {
 
     return (
       <form
-        action="https://ghostit.us14.list-manage.com/subscribe/post?u=6295bbe9fa9b4ee614df357c4&amp;id=af1c511e3c"
         className="flex column fill-flex full-center bg-blue-fade-6 relative pa64 mt32"
         id="agency-form"
         method="POST"
         onSubmit={e => {
           e.preventDefault();
-          if (email) document.getElementById("agency-form").submit();
-          else alert("Please fill out the email form field! :)");
+          const { email, fName, cName, phoneNumber } = this.state;
+
+          if (email) {
+            axios
+              .post("/api/book-a-call", {
+                company: cName,
+                email,
+                name: fName,
+                phoneNumber
+              })
+              .then(res => {
+                const { success } = res.data;
+
+                if (success) {
+                  alert(
+                    "Thank you for getting in touch. We will email you within 24 hours to book that call!"
+                  );
+
+                  this.setState({
+                    email: "",
+                    fName: "",
+                    cName: "",
+                    phoneNumber: ""
+                  });
+                } else {
+                  alert(
+                    "Error - Your request was not successful, please email us directly at hello@ghostit.co."
+                  );
+                }
+                console.log(success);
+              });
+          } else alert("Please fill out the email form field! :)");
         }}
         noValidate
       >
@@ -53,7 +83,7 @@ class MyForm extends Component {
               this.setState({ fName: e.target.value });
             }}
             name="FNAME"
-            placeholder="First Name"
+            placeholder="Full Name"
             value={fName}
             type="text"
           />
