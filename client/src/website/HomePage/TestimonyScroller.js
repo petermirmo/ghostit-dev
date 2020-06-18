@@ -23,7 +23,7 @@ class TestimonyScroller extends Component {
         photo:
           "https://res.cloudinary.com/ghostit-co/image/upload/v1592513270/pasted_image_0_1.png",
         review:
-          "Repeatedly running digital campaigns for multiple clients can get both cumbersome and at times confusing. Ghostit's platform lets me schedule all of my client's marketing initiatives unlike any other platform and keep them all organized."
+          "\"Repeatedly running digital campaigns for multiple clients can get both cumbersome and at times confusing. Ghostit's platform lets me schedule all of my client's marketing initiatives unlike any other platform and keep them all organized.\""
       },
       {
         companyName: "Dodd's Furniture",
@@ -31,7 +31,7 @@ class TestimonyScroller extends Component {
         photo:
           "https://res.cloudinary.com/ghostit-co/image/upload/v1592513270/pasted_image_0.png",
         review:
-          "Since we started working with you and your team the blog posts and social content have improved tremendously. We are proud of our content and extremely pleased that Ghostit was able to produce everything so quickly."
+          '"Since we started working with you and your team the blog posts and social content have improved tremendously. We are proud of our content and extremely pleased that Ghostit was able to produce everything so quickly."'
       },
       {
         companyName: "Bennefield Construction",
@@ -39,7 +39,7 @@ class TestimonyScroller extends Component {
         photo:
           "https://res.cloudinary.com/ghostit-co/image/upload/v1592513270/Bennefield-Construction-Social-Profile_rectangle.png",
         review:
-          "Ghostit has been an incredible company to deal with! They’re super flexible, accessible, and they REALLY know the ins and outs of content strategy! It’s incredible how many leads we’ve gained who then converted to customers since they started doing our content."
+          '"Ghostit has been an incredible company to deal with! They’re super flexible, accessible, and they REALLY know the ins and outs of content strategy! It’s incredible how many leads we’ve gained who then converted to customers since they started doing our content."'
       }
     ]
   };
@@ -101,11 +101,13 @@ class TestimonyScroller extends Component {
                 />
                 <GIContainer className="bg-white pa8 mt32">
                   <GIContainer className=" ov-hidden">
-                    <img
-                      alt=""
-                      src={activeTestimony.photo}
-                      style={{ maxWidth: "200px" }}
-                    />
+                    <a href={activeTestimony.link} target="_blank">
+                      <img
+                        alt=""
+                        src={activeTestimony.photo}
+                        style={{ maxWidth: "200px" }}
+                      />
+                    </a>
                   </GIContainer>
                 </GIContainer>
                 <GIText
@@ -115,11 +117,17 @@ class TestimonyScroller extends Component {
                   text={activeTestimony.review}
                   type="p"
                 />
-                <GIText
-                  className="bold white tac mt8 mb32"
-                  text={activeTestimony.companyName}
-                  type="p"
-                />
+                <a
+                  href={activeTestimony.link}
+                  style={{ zIndex: 2 }}
+                  target="_blank"
+                >
+                  <GIText
+                    className="bold white tac mt8 mb32"
+                    text={activeTestimony.companyName}
+                    type="p"
+                  />
+                </a>
               </GIContainer>
             );
         })}
