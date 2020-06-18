@@ -181,7 +181,10 @@ class WebsiteHeader extends Component {
             isMobileOrTablet() ? "column" : "mr32"
           }`}
         >
-          <GIContainer className="wrap align-center my4">
+          <GIContainer
+            className="wrap align-center my4"
+            style={{ zIndex: 101 }}
+          >
             <a
               href="https://www.facebook.com/ghostitcontent/"
               rel="noopener noreferrer"

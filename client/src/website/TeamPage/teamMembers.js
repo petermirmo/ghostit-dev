@@ -62,7 +62,7 @@ const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",
     location: "Victoria",
     name: "Peter Mirmotahari",
-    title: "CSS Wizard",
+    title: "Wizard",
     _id: 6
   }
 ];
