@@ -17,7 +17,7 @@ import { isMobileOrTablet } from "../../util";
 
 class PricingPage extends Component {
   state = {
-    displayForm: false
+    displayForm: true
   };
   render() {
     const { displayForm } = this.state;
@@ -28,13 +28,30 @@ class PricingPage extends Component {
         description="Check out pricing for Ghostit marketing plans that all include dedicated content creators, competitive analysis, keyword research, and much more."
         keywords="content creators"
       >
-        <GIText className="tac mb8" text="Pricing" type="h2">
-          <GIText className="four-blue" text="Ghostit&nbsp;" type="span" />
-        </GIText>
-        <GIText className="tac mx16 mb32" type="h6">
-          Have questions? Give us a call:
-          <GIText className="four-blue" text="&nbsp;250-415-3093" type="span" />
-        </GIText>
+        <GIContainer
+          className={
+            "column " + (isMobileOrTablet() ? "x-fill" : "container-box large")
+          }
+        >
+          <GIText className="tac mb8" text="Pricing" type="h2">
+            <GIText className="four-blue" text="Ghostit&nbsp;" type="span" />
+          </GIText>
+          <GIText className="tac mx16 mb32" type="h4">
+            Have questions? Give us a call:
+            <GIText
+              className="four-blue"
+              text="&nbsp;250-415-3093&nbsp;"
+              type="span"
+            />
+            or email us at
+            <a
+              className="fs-20 no-bold"
+              href="mailto:hello@ghostit.co?Subject=Hello%20Ghostit!"
+            >
+              &nbsp; hello@ghostit.co
+            </a>
+          </GIText>
+        </GIContainer>
         <GIContainer className="column wrap justify-center align-end mt16 mb32">
           <GIContainer className="container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
             <GIContainer className="wrap x-fill full-center pa32">
@@ -91,9 +108,10 @@ class PricingPage extends Component {
                 className="bg-orange-fade-2 white shadow-orange-2 py16 px32 br32"
                 onClick={() => {
                   this.setState({ displayForm: true });
-                  window.setTimeout(() => {
-                    document.getElementById("sign-up-form").scrollIntoView();
-                  }, 10);
+                  //window.setTimeout(() => {
+                  document.getElementById("sign-up-form").scrollIntoView();
+
+                  //  }, 10);
                 }}
                 text="Get Started Now!"
               />

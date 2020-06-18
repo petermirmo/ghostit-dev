@@ -9,6 +9,8 @@ import GIButton from "../../components/views/GIButton";
 import GIText from "../../components/views/GIText";
 
 import Blog from "../BlogPage/Blog";
+import AgencyForm from "../../components/forms/AgencyForm";
+import TestimonyScroller from "./TestimonyScroller";
 
 import { isMobileOrTablet } from "../../util";
 
@@ -20,7 +22,7 @@ class RegularVersion extends Component {
       <Consumer>
         {context => (
           <Page
-            className="column"
+            className="ov-hidden column"
             description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
             homePage={true}
             keywords="content creators"
@@ -42,9 +44,43 @@ class RegularVersion extends Component {
               )}
 
               <GIContainer
+                className={`column full-center px32 ${
+                  isMobileOrTablet() ? "x-fill " : "container-box extra-large"
+                }`}
+              >
+                <GIText className="tac muli mb16" type="h2">
+                  Powered by
+                  <GIText className="bold" text=" People" type="span" />
+                  , Supported by
+                  <GIText className="bold" text=" Software" type="span" />
+                </GIText>
+                <GIText
+                  className="fs-18 tac mb32"
+                  text="Ghostit is an all-in-one content marketing solution that blends the benefits of real people with strategy-based technology. Our goal: to create compelling digital content that increases your web traffic and converts visitors into customers."
+                  type="h4"
+                />
+
+                <GIButton
+                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
+                  onClick={() => {
+                    document
+                      .getElementById("home-page-sign-up-form")
+                      .scrollIntoView();
+                  }}
+                  text="Get Started Now"
+                />
+              </GIContainer>
+            </GIContainer>
+
+            <GIContainer
+              className={`full-center x-fill  ${
+                isMobileOrTablet() ? "column" : "mt64"
+              }`}
+            >
+              <GIContainer
                 className={`${
                   isMobileOrTablet()
-                    ? "x-fill full-center px32 mt64"
+                    ? "x-fill full-center px32"
                     : "container-box medium"
                 }`}
               >
@@ -55,39 +91,46 @@ class RegularVersion extends Component {
                 />
               </GIContainer>
               <GIContainer
-                className={`column full-center px32 ${
+                className={`column px32 ${
                   isMobileOrTablet()
-                    ? "x-fill "
+                    ? "x-fill full-center"
                     : "container-box medium align-start"
                 }`}
               >
                 <GIText
-                  className="muli"
-                  text="  Create. Customize."
+                  className={`muli mb16 ${
+                    isMobileOrTablet() ? "x-fill tac" : ""
+                  }`}
                   type="h2"
-                />
+                >
+                  Customized Creative
+                  <GIText
+                    className="four-blue2 bold"
+                    text="&nbsp;Content&nbsp;"
+                    type="span"
+                  />
+                </GIText>
                 <GIText
-                  className="muli four-blue mb16"
-                  text="Convert."
-                  type="h2"
-                />
-                <GIText
-                  className="mb32"
-                  text="Organize your marketing process with an all-in-one solution for unified content promotion."
+                  className={"mb32 " + (isMobileOrTablet() ? "x-fill tac" : "")}
+                  text="Ghostit is your end-to-end solution for digital content marketing. From content strategy to creation to distribution and promotion. Waste less time and accomplish more with the right team behind you creating content that is tailored and created specifically for you."
                   type="p"
                 />
-                <Link to="/sign-up">
-                  <GIButton
-                    className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                    text="Get Started Now"
-                  />
-                </Link>
+
+                <GIButton
+                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
+                  onClick={() => {
+                    document
+                      .getElementById("home-page-sign-up-form")
+                      .scrollIntoView();
+                  }}
+                  text="Get Started Now"
+                />
               </GIContainer>
             </GIContainer>
 
             <GIContainer
-              className={`full-center x-fill  ${
-                isMobileOrTablet() ? "column" : "mt64"
+              className={`full-center x-fill my64 ${
+                isMobileOrTablet() ? "column" : "reverse"
               }`}
             >
               <GIContainer
@@ -107,7 +150,7 @@ class RegularVersion extends Component {
                 className={`column px32 ${
                   isMobileOrTablet()
                     ? "x-fill full-center"
-                    : "container-box medium align-start"
+                    : "container-box medium align-start "
                 }`}
               >
                 <GIText
@@ -116,31 +159,35 @@ class RegularVersion extends Component {
                   }`}
                   type="h2"
                 >
-                  Improve Your
+                  Increase Traffic &
                   <GIText
-                    className="four-blue"
-                    text="&nbsp;Traffic&nbsp;"
+                    className="four-blue2 bold"
+                    text="&nbsp;Conversions"
                     type="span"
                   />
-                  and Conversions
                 </GIText>
+
                 <GIText
-                  className="mb32"
-                  text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
+                  className={"mb32 " + (isMobileOrTablet() ? "x-fill tac" : "")}
+                  text="Great content does nothing if no one reads it. Successful digital marketing requires a strong understanding of data, SEO, and content marketing. The Ghostit team uses the power of data and software, along with engaging and creative content, to find and convert new customers."
                   type="p"
                 />
-                <Link to="/sign-up">
-                  <GIButton
-                    className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                    text="Get Started Now"
-                  />
-                </Link>
+
+                <GIButton
+                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
+                  onClick={() => {
+                    document
+                      .getElementById("home-page-sign-up-form")
+                      .scrollIntoView();
+                  }}
+                  text="Get Started Now"
+                />
               </GIContainer>
             </GIContainer>
 
             <GIContainer
               className={`full-center x-fill my64 ${
-                isMobileOrTablet() ? "column" : "reverse"
+                isMobileOrTablet() ? "column" : ""
               }`}
             >
               <GIContainer
@@ -169,42 +216,99 @@ class RegularVersion extends Component {
                   }`}
                   type="h2"
                 >
-                  Machine
+                  Real
                   <GIText
-                    className="four-blue"
-                    text="&nbsp;Learning"
+                    className="four-blue2 bold"
+                    text="&nbsp;People&nbsp;"
+                    type="span"
+                  />
+                  means Real
+                  <GIText
+                    className="four-blue2 bold"
+                    text="&nbsp;Results"
                     type="span"
                   />
                 </GIText>
 
                 <GIText
-                  className="mb32"
-                  text="Use the power of artificial intelligence to target the right marketing channels."
+                  className={"mb32 " + (isMobileOrTablet() ? "x-fill tac" : "")}
+                  text="We’re all about connection. Connect with our Ghostit Team of experienced writers to grow your digital marketing presence quickly and easily. We pride ourselves on being a collaborative team with all of our clients. Connect with us to connect with your ideal customers."
                   type="p"
                 />
-                <Link to="/sign-up">
-                  <GIButton
-                    className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                    text="Get Started Now"
+
+                <GIButton
+                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
+                  onClick={() => {
+                    document
+                      .getElementById("home-page-sign-up-form")
+                      .scrollIntoView();
+                  }}
+                  text="Get Started Now"
+                />
+              </GIContainer>
+            </GIContainer>
+            <GIContainer
+              className={`full-center x-fill my64 ${
+                isMobileOrTablet() ? "column" : ""
+              }`}
+            >
+              <GIContainer className="container-box extra-large column">
+                <GIText className="tac muli mb16" type="h2">
+                  Customized Creative
+                  <GIText
+                    className="four-blue2 bold"
+                    text="&nbsp;Content&nbsp;"
+                    type="span"
                   />
-                </Link>
+                  Created, Scheduled, and Promoted Without You Lifting a Finger
+                </GIText>
               </GIContainer>
             </GIContainer>
 
             <GIContainer className="full-center column my64">
-              <GIText
-                className="muli white tac relative mb32"
-                text="More Features"
-                type="h2"
-              >
+              <GIContainer className="column relative mb32">
+                <GIText
+                  className="muli white tac  "
+                  text="Powered by People,"
+                  type="h2"
+                />
+                <GIText
+                  className="muli white tac"
+                  text="Scheduled by Software"
+                  type="h2"
+                />
+
                 <img
                   alt=""
                   id="blob-behind-more-features"
                   src={require("../../svgs/home-4.svg")}
                 />
-              </GIText>
+              </GIContainer>
 
               <GIContainer className="wrap full-center">
+                <GIContainer className="container-box small column mb32">
+                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
+                    <img
+                      alt=""
+                      className="fill-parent"
+                      src={require("../../svgs/home-7.svg")}
+                    />
+                  </GIContainer>
+                  <GIText className="muli tac mb8" type="h4">
+                    Social
+                    <GIText
+                      className="four-blue2 bold"
+                      text="&nbsp;Scheduling"
+                      type="span"
+                    />
+                  </GIText>
+                  <GIText
+                    className="tac"
+                    text="Sync all your social sharing accounts and post directly from our platform."
+                    type="p"
+                  />
+                </GIContainer>
+
                 <GIContainer className="container-box small column mb32">
                   <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img
@@ -216,7 +320,7 @@ class RegularVersion extends Component {
                   <GIText className="muli tac mb8" type="h4">
                     Custom
                     <GIText
-                      className="four-blue"
+                      className="four-blue2 bold"
                       text="&nbsp;Workflows"
                       type="span"
                     />
@@ -239,7 +343,7 @@ class RegularVersion extends Component {
                   <GIText className="muli tac mb8" type="h4">
                     Post
                     <GIText
-                      className="four-blue"
+                      className="four-blue2 bold"
                       text="&nbsp;Instructions"
                       type="span"
                     />
@@ -250,86 +354,25 @@ class RegularVersion extends Component {
                     type="p"
                   />
                 </GIContainer>
+              </GIContainer>
 
-                <GIContainer className="container-box small column mb32">
-                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
-                    <img
-                      alt=""
-                      className="fill-parent"
-                      src={require("../../svgs/home-7.svg")}
-                    />
-                  </GIContainer>
-                  <GIText className="muli tac mb8" type="h4">
-                    Social
-                    <GIText
-                      className="four-blue"
-                      text="&nbsp;Scheduling"
-                      type="span"
-                    />
-                  </GIText>
-                  <GIText
-                    className="tac"
-                    text="Sync all your social sharing accounts and post directly from our platform."
-                    type="p"
-                  />
-                </GIContainer>
-              </GIContainer>
-              <Link to="/sign-up">
-                <GIButton
-                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32"
-                  text="Get Started Now"
-                />
-              </Link>
-            </GIContainer>
-            <GIContainer className="bg-blue-fade-2 x-fill column full-center relative">
-              <GIText
-                className="white muli fs-26 mt32"
-                text="Here's What"
-                type="h2"
-              />
-              <GIText
-                className="white muli"
-                text="Our Customers Are Saying"
-                type="h2"
-              />
-              <GIContainer className="bg-white round pa8 mt32">
-                <GIContainer className="xy-128px ov-hidden round">
-                  <img
-                    alt=""
-                    className="x-128px"
-                    src="https://res.cloudinary.com/ghostit-co/image/upload/v1566407434/home-testimony-1.png"
-                  />
-                </GIContainer>
-              </GIContainer>
-              <GIText
-                className={`white tac mt32 ${
-                  isMobileOrTablet() ? "x-fill px32" : "container-box large "
-                }`}
-                text="Repeatedly running digital campaigns for multiple clients can get both cumbersome and at times confusing. Ghostit's platform lets me schedule all of my client's marketing initiatives unlike any other platform and keep them all organized."
-                type="p"
-              />
-              <GIText
-                className="bold white tac mt32 mb8"
-                text="Sean Wiggins"
-                type="p"
-              />
-              <GIText
-                className="white fs-13 tac mb32"
-                text="North Digital Founder"
-                type="p"
-              />
-              <img
-                alt=""
-                className="absolute bottom-0 x-fill"
-                src={require("../../svgs/home-8.svg")}
+              <GIButton
+                className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32"
+                onClick={() => {
+                  document
+                    .getElementById("home-page-sign-up-form")
+                    .scrollIntoView();
+                }}
+                text="Get Started Now"
               />
             </GIContainer>
+            <TestimonyScroller />
             {context.ghostitBlogs.length !== 0 && (
               <GIContainer className="column full-center">
                 <GIText className="muli x-fill tac mt64" type="h2">
                   Latest
                   <GIText
-                    className="four-blue"
+                    className="four-blue2 bold"
                     text="&nbsp;Blog Posts"
                     type="span"
                   />
@@ -345,12 +388,15 @@ class RegularVersion extends Component {
                 )}
                 <Link to="/blog">
                   <GIButton
-                    className="bg-white common-border four-blue shadow-blue-2 br32 py16 px32 my64"
+                    className="bold bg-white common-border four-blue shadow-blue-2 br32 py16 px32 mt64"
                     text="View All Posts"
                   />
                 </Link>
               </GIContainer>
             )}
+            <GIContainer className="x-fill" id="home-page-sign-up-form">
+              <AgencyForm />
+            </GIContainer>
           </Page>
         )}
       </Consumer>

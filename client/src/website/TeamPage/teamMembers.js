@@ -46,14 +46,13 @@ const teamMembers = [
 
   {
     color: "var(--five-purple-color)",
-    description:
-      "Emily is captivated by storytelling in its every shape and form. Powered by lattes, Netflix binges, and the thrill of finding her next great read, Emily has written her way across Australia, England, America, and back. Nowadays, she’s a versatile writer dedicated to creatively weaving stories into the heart of every project — from blogs and news articles to social media posts and marketing campaigns.",
+    description: "",
     image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1568659558/Emily_Kennaley.png",
+      "https://res.cloudinary.com/ghostit-co/image/upload/v1592510564/Screen_Shot_2020-06-09_at_2.54.19_PM.png",
     location: "toronto",
-    name: "Emily Kennaley",
+    name: "Sophie Van Bastelaer",
     title: "Content Creator",
-    _id: 5
+    _id: 7
   },
   {
     color: "var(--five-purple-color)",

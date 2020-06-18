@@ -57,7 +57,7 @@ class GhostitAgency extends Component {
           <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText
               className="muli mb8"
-              text="Optimized Blog Posts"
+              text="SEO Optimized Blog Posts"
               type="h4"
             />
             <GIText
@@ -85,7 +85,7 @@ class GhostitAgency extends Component {
             </GIContainer>
           </GIContainer>
           <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
-            <GIText className="muli mb8" text="Social Media Post" type="h4" />
+            <GIText className="muli mb8" text="Social Media Posts" type="h4" />
 
             <GIText
               text={something(

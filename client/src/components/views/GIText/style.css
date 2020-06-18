@@ -35,6 +35,10 @@
   color: var(--four-blue-color);
   fill: var(--four-blue-color);
 }
+.four-blue2 {
+  color: #00aeff;
+  fill: #00aeff;
+}
 .five-blue {
   color: var(--five-blue-color);
   fill: var(--five-blue-color);
@@ -79,6 +83,9 @@
 .fw-normal {
   font-weight: normal;
 }
+.no-bold {
+  font-weight: normal;
+}
 .bold {
   font-weight: bold;
 }
@@ -103,6 +110,9 @@
 }
 .fs-16 {
   font-size: var(--sixteen-font-size) !important;
+}
+.fs-18 {
+  font-size: var(--eighteen-font-size) !important;
 }
 .fs-20 {
   font-size: var(--twenty-font-size);

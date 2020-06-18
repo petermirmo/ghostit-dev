@@ -155,7 +155,7 @@ class WebsiteHeader extends Component {
               }
             >
               {this.isActive("agency") && <div className="border-bottom-50" />}
-              Ghostit Agency
+              Services
             </button>
           </Link>
           <Link to="/blog">
