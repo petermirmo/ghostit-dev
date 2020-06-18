@@ -6,6 +6,8 @@ import GIContainer from "../../containers/GIContainer";
 
 import { hiddenFormPortion } from "./util";
 
+import { isMobileOrTablet } from "../../../util";
+
 import "./style.css";
 
 // This is a MailChimp form and adds directly to a list for our mailchimp!
@@ -43,7 +45,10 @@ class MyForm extends Component {
         </GIContainer>
         <GIContainer className="wrap full-center">
           <input
-            className="x-300px px16 py8 mb16 mx8 br20"
+            className={
+              "px16 py8 mb16 mx8 br20 " +
+              (isMobileOrTablet() ? "x-fill" : "x-300px")
+            }
             onChange={e => {
               this.setState({ fName: e.target.value });
             }}
@@ -56,7 +61,10 @@ class MyForm extends Component {
           <input
             autoCapitalize="off"
             autoCorrect="off"
-            className="x-300px px16 py8 mb16 mx8 br20"
+            className={
+              "px16 py8 mb16 mx8 br20 " +
+              (isMobileOrTablet() ? "x-fill" : "x-300px")
+            }
             onChange={e => {
               this.setState({ email: e.target.value });
             }}
@@ -68,7 +76,10 @@ class MyForm extends Component {
         </GIContainer>
         <GIContainer className="wrap full-center">
           <input
-            className="x-300px px16 py8 mb16 mx8 br20"
+            className={
+              "px16 py8 mb16 mx8 br20 " +
+              (isMobileOrTablet() ? "x-fill" : "x-300px")
+            }
             onChange={e => {
               this.setState({ cName: e.target.value });
             }}
@@ -78,7 +89,10 @@ class MyForm extends Component {
             type="text"
           />
           <input
-            className="x-300px px16 py8 mb16 mx8 br20"
+            className={
+              "px16 py8 mb16 mx8 br20 " +
+              (isMobileOrTablet() ? "x-fill" : "x-300px")
+            }
             onChange={e => {
               this.setState({ phoneNumber: e.target.value });
             }}

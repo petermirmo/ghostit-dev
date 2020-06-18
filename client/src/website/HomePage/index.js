@@ -45,7 +45,9 @@ class RegularVersion extends Component {
 
               <GIContainer
                 className={`column full-center px32 ${
-                  isMobileOrTablet() ? "x-fill " : "container-box extra-large"
+                  isMobileOrTablet()
+                    ? "x-fill pt64 "
+                    : "container-box extra-large"
                 }`}
               >
                 <GIText className="tac muli mb16" type="h2">
@@ -367,8 +369,13 @@ class RegularVersion extends Component {
               />
             </GIContainer>
             <TestimonyScroller />
+
             {context.ghostitBlogs.length !== 0 && (
-              <GIContainer className="column full-center">
+              <GIContainer
+                className={
+                  "column full-center " + (isMobileOrTablet() ? "px16" : "px64")
+                }
+              >
                 <GIText className="muli x-fill tac mt64" type="h2">
                   Latest
                   <GIText
@@ -378,7 +385,7 @@ class RegularVersion extends Component {
                   />
                 </GIText>
                 {context.ghostitBlogs.length !== 0 && (
-                  <GIContainer className="grid-300px grid-gap-32 x-fill px64 mt64">
+                  <GIContainer className="grid-300px grid-gap-32 x-fill mt64">
                     {context.ghostitBlogs.map((ghostitBlog, index) => {
                       if (index > 2) return;
                       else
@@ -394,6 +401,7 @@ class RegularVersion extends Component {
                 </Link>
               </GIContainer>
             )}
+
             <GIContainer className="x-fill" id="home-page-sign-up-form">
               <AgencyForm />
             </GIContainer>
