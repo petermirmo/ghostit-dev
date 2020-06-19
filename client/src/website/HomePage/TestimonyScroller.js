@@ -76,7 +76,7 @@ class TestimonyScroller extends Component {
       <GIContainer className="bg-blue-fade-2 x-fill relative">
         <GIContainer
           className={
-            "clickable full-center " + (isMobileOrTablet() ? "px16" : "px64")
+            "clickable full-center " + (isMobileOrTablet() ? "px4" : "px64")
           }
           onClick={() => this.moveTestimony(-1, "left")}
         >
@@ -99,20 +99,21 @@ class TestimonyScroller extends Component {
                   text="Our Customers Are Saying"
                   type="h2"
                 />
-                <GIContainer className="bg-white pa8 mt32">
-                  <GIContainer className=" ov-hidden">
-                    <a href={activeTestimony.link} target="_blank">
-                      <img
-                        alt=""
-                        src={activeTestimony.photo}
-                        style={{ maxWidth: "200px" }}
-                      />
-                    </a>
-                  </GIContainer>
+                <GIContainer
+                  className="ov-hidden bg-white mt32"
+                  style={{ width: "180px" }}
+                >
+                  <a href={activeTestimony.link} target="_blank">
+                    <img
+                      alt=""
+                      className="x-fill"
+                      src={activeTestimony.photo}
+                    />
+                  </a>
                 </GIContainer>
                 <GIText
                   className={`white tac mt32 ${
-                    isMobileOrTablet() ? "x-fill px32" : "container-box large "
+                    isMobileOrTablet() ? "x-fill px8" : "container-box large "
                   }`}
                   text={activeTestimony.review}
                   type="p"
@@ -133,7 +134,7 @@ class TestimonyScroller extends Component {
         })}
         <GIContainer
           className={
-            "clickable full-center " + (isMobileOrTablet() ? "px16" : "px64")
+            "clickable full-center " + (isMobileOrTablet() ? "px4" : "px64")
           }
         >
           <FontAwesomeIcon

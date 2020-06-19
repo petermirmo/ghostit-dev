@@ -104,7 +104,14 @@ class BlogPage extends Component {
                 </GIContainer>
               )}
               {ghostitBlogs.length !== 0 && (
-                <GIContainer className="grid-300px grid-gap-32 x-fill mb32">
+                <GIContainer
+                  className={
+                    "x-fill mb32 " +
+                    (isMobileOrTablet()
+                      ? "grid-200px grid-gap-16"
+                      : "grid-300px grid-gap-32")
+                  }
+                >
                   {ghostitBlogs.map((ghostitBlog, index) => (
                     <Blog
                       ghostitBlog={ghostitBlog}

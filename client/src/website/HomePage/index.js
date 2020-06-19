@@ -22,7 +22,7 @@ class RegularVersion extends Component {
       <Consumer>
         {context => (
           <Page
-            className="ov-hidden column"
+            className="website-page"
             description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
             homePage={true}
             keywords="content creators"
@@ -30,7 +30,7 @@ class RegularVersion extends Component {
           >
             <GIContainer
               className={`justify-center x-fill ${
-                isMobileOrTablet() ? "column" : "reverse"
+                isMobileOrTablet() ? "column mb32 " : "reverse"
               }`}
               style={{ minHeight: "90vh" }}
             >
@@ -113,7 +113,7 @@ class RegularVersion extends Component {
                   Customized Creative
                   <GIText
                     className="four-blue2 bold"
-                    text="&nbsp;Content&nbsp;"
+                    text=" Content "
                     type="span"
                   />
                 </GIText>
@@ -136,8 +136,8 @@ class RegularVersion extends Component {
             </GIContainer>
 
             <GIContainer
-              className={`full-center x-fill my64 ${
-                isMobileOrTablet() ? "column" : "reverse"
+              className={`full-center x-fill  ${
+                isMobileOrTablet() ? "column my32" : "reverse my64"
               }`}
             >
               <GIContainer
@@ -169,7 +169,7 @@ class RegularVersion extends Component {
                   Increase Traffic &
                   <GIText
                     className="four-blue2 bold"
-                    text="&nbsp;Conversions"
+                    text=" Conversions"
                     type="span"
                   />
                 </GIText>
@@ -193,8 +193,8 @@ class RegularVersion extends Component {
             </GIContainer>
 
             <GIContainer
-              className={`full-center x-fill my64 ${
-                isMobileOrTablet() ? "column" : ""
+              className={`full-center x-fill ${
+                isMobileOrTablet() ? "column my32" : "my64"
               }`}
             >
               <GIContainer
@@ -226,13 +226,13 @@ class RegularVersion extends Component {
                   Real
                   <GIText
                     className="four-blue2 bold"
-                    text="&nbsp;People&nbsp;"
+                    text=" People "
                     type="span"
                   />
                   means Real
                   <GIText
                     className="four-blue2 bold"
-                    text="&nbsp;Results"
+                    text=" Results"
                     type="span"
                   />
                 </GIText>
@@ -255,16 +255,21 @@ class RegularVersion extends Component {
               </GIContainer>
             </GIContainer>
             <GIContainer
-              className={`full-center x-fill my64 ${
-                isMobileOrTablet() ? "column" : ""
+              className={`full-center x-fill ${
+                isMobileOrTablet() ? "column my32" : "my64"
               }`}
             >
-              <GIContainer className="container-box extra-large column">
+              <GIContainer
+                className={
+                  "column px32 " +
+                  (isMobileOrTablet() ? "x-fill" : "container-box extra-large")
+                }
+              >
                 <GIText className="tac muli mb16" type="h2">
                   Customized Creative
                   <GIText
                     className="four-blue2 bold"
-                    text="&nbsp;Content&nbsp;"
+                    text=" Content "
                     type="span"
                   />
                   Created, Scheduled, and Promoted Without You Lifting a Finger
@@ -272,7 +277,11 @@ class RegularVersion extends Component {
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="full-center column my64">
+            <GIContainer
+              className={
+                "full-center column " + (isMobileOrTablet() ? "my32" : "my64")
+              }
+            >
               <GIContainer className="column relative mb32">
                 <GIText
                   className="muli white tac  "
@@ -293,7 +302,12 @@ class RegularVersion extends Component {
               </GIContainer>
 
               <GIContainer className="wrap full-center">
-                <GIContainer className="container-box small column mb32">
+                <GIContainer
+                  className={
+                    "column mb32 " +
+                    (isMobileOrTablet() ? "x-fill" : "container-box small")
+                  }
+                >
                   <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img
                       alt=""
@@ -305,7 +319,7 @@ class RegularVersion extends Component {
                     Social
                     <GIText
                       className="four-blue2 bold"
-                      text="&nbsp;Scheduling"
+                      text=" Scheduling"
                       type="span"
                     />
                   </GIText>
@@ -316,7 +330,12 @@ class RegularVersion extends Component {
                   />
                 </GIContainer>
 
-                <GIContainer className="container-box small column mb32">
+                <GIContainer
+                  className={
+                    "column mb32 " +
+                    (isMobileOrTablet() ? "x-fill" : "container-box small")
+                  }
+                >
                   <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img
                       alt=""
@@ -328,7 +347,7 @@ class RegularVersion extends Component {
                     Custom
                     <GIText
                       className="four-blue2 bold"
-                      text="&nbsp;Workflows"
+                      text=" Workflows"
                       type="span"
                     />
                   </GIText>
@@ -339,7 +358,12 @@ class RegularVersion extends Component {
                   />
                 </GIContainer>
 
-                <GIContainer className="container-box small column mb32">
+                <GIContainer
+                  className={
+                    "column mb32 " +
+                    (isMobileOrTablet() ? "x-fill" : "container-box small")
+                  }
+                >
                   <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
                     <img
                       alt=""
@@ -351,7 +375,7 @@ class RegularVersion extends Component {
                     Post
                     <GIText
                       className="four-blue2 bold"
-                      text="&nbsp;Instructions"
+                      text=" Instructions"
                       type="span"
                     />
                   </GIText>
@@ -385,12 +409,19 @@ class RegularVersion extends Component {
                   Latest
                   <GIText
                     className="four-blue2 bold"
-                    text="&nbsp;Blog Posts"
+                    text=" Blog Posts"
                     type="span"
                   />
                 </GIText>
                 {context.ghostitBlogs.length !== 0 && (
-                  <GIContainer className="grid-300px grid-gap-32 x-fill mt64">
+                  <GIContainer
+                    className={
+                      "x-fill mt64 " +
+                      (isMobileOrTablet()
+                        ? "grid-200px grid-gap-16"
+                        : "grid-300px grid-gap-32")
+                    }
+                  >
                     {context.ghostitBlogs.map((ghostitBlog, index) => {
                       if (index > 2) return;
                       else

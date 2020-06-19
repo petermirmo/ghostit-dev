@@ -187,6 +187,7 @@
 }
 .container-box.tiny {
   min-width: 200px;
+  max-width: 100%;
 }
 .container-box.twentyvw {
   min-width: 340px;
@@ -459,6 +460,15 @@
   grid-row-gap: 32px;
 }
 
+.grid-200px {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.grid-gap-16 {
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+}
+
 .grid-3-column {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -488,4 +498,6 @@
 
 .test-mode {
   background-color: red !important;
+}
+.test {
 }

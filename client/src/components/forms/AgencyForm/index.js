@@ -21,7 +21,10 @@ class MyForm extends Component {
 
     return (
       <form
-        className="flex column fill-flex full-center bg-blue-fade-6 relative pa64 mt32"
+        className={
+          "flex column fill-flex full-center bg-blue-fade-6 relative mt32 " +
+          (isMobileOrTablet() ? "py32 px16" : "pa64")
+        }
         id="agency-form"
         method="POST"
         onSubmit={e => {
