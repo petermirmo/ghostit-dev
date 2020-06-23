@@ -46,7 +46,8 @@ const teamMembers = [
 
   {
     color: "var(--five-purple-color)",
-    description: "",
+    description:
+      "Sophie is a Belgian-American now based out of Toronto who grew up being super annoying with her friends about their grammar, spelling, and syntax. That landed her gigs as a lifestyle and entertainment journalist, and ultimately led her to GhostIt! She also works in the film industry, as a screenwriter and a casting assistant, and, in whatever off-time she can find, loves to read and bake.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1592510564/Screen_Shot_2020-06-09_at_2.54.19_PM.png",
     location: "toronto",
