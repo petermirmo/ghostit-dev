@@ -65,9 +65,7 @@ class RegularVersion extends Component {
                 <GIButton
                   className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb8"
                   onClick={() => {
-                    document
-                      .getElementById("home-page-sign-up-form")
-                      .scrollIntoView();
+                    document.getElementById("contact-us-form").scrollIntoView();
                   }}
                   text="Get Started Now"
                 />
@@ -126,9 +124,7 @@ class RegularVersion extends Component {
                 <GIButton
                   className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
                   onClick={() => {
-                    document
-                      .getElementById("home-page-sign-up-form")
-                      .scrollIntoView();
+                    document.getElementById("contact-us-form").scrollIntoView();
                   }}
                   text="Get Started Now"
                 />
@@ -183,9 +179,7 @@ class RegularVersion extends Component {
                 <GIButton
                   className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
                   onClick={() => {
-                    document
-                      .getElementById("home-page-sign-up-form")
-                      .scrollIntoView();
+                    document.getElementById("contact-us-form").scrollIntoView();
                   }}
                   text="Get Started Now"
                 />
@@ -246,9 +240,7 @@ class RegularVersion extends Component {
                 <GIButton
                   className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
                   onClick={() => {
-                    document
-                      .getElementById("home-page-sign-up-form")
-                      .scrollIntoView();
+                    document.getElementById("contact-us-form").scrollIntoView();
                   }}
                   text="Get Started Now"
                 />
@@ -390,9 +382,7 @@ class RegularVersion extends Component {
               <GIButton
                 className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32"
                 onClick={() => {
-                  document
-                    .getElementById("home-page-sign-up-form")
-                    .scrollIntoView();
+                  document.getElementById("contact-us-form").scrollIntoView();
                 }}
                 text="Get Started Now"
               />
@@ -437,10 +427,6 @@ class RegularVersion extends Component {
                 </Link>
               </GIContainer>
             )}
-
-            <GIContainer className="x-fill" id="home-page-sign-up-form">
-              <AgencyForm />
-            </GIContainer>
           </Page>
         )}
       </Consumer>

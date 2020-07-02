@@ -5,8 +5,6 @@ import { faCheck } from "@fortawesome/pro-light-svg-icons/faCheck";
 
 import { Link, withRouter } from "react-router-dom";
 
-import AgencyForm from "../../components/forms/AgencyForm";
-
 import GIContainer from "../../components/containers/GIContainer";
 import GIButton from "../../components/views/GIButton";
 import GIText from "../../components/views/GIText";
@@ -16,11 +14,7 @@ import Page from "../../components/containers/Page";
 import { isMobileOrTablet } from "../../util";
 
 class PricingPage extends Component {
-  state = {
-    displayForm: true
-  };
   render() {
-    const { displayForm } = this.state;
     return (
       <Page
         className="website-page align-center mt32"
@@ -95,7 +89,7 @@ class PricingPage extends Component {
               <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
               <GIText text="Keyword research" type="p" />
             </GIContainer>
-            <GIContainer className="align-center border-top-dashed border-bottom-dashed px32 py16">
+            <GIContainer className="align-center border-top-dashed px32 py16">
               <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
               <GIText text="Competitive analysis" type="p" />
             </GIContainer>
@@ -106,23 +100,14 @@ class PricingPage extends Component {
             <GIContainer className="x-fill full-center py16">
               <GIButton
                 className="bg-orange-fade-2 white shadow-orange-2 py16 px32 br32"
-                onClick={() => {
-                  this.setState({ displayForm: true });
-                  //window.setTimeout(() => {
-                  document.getElementById("sign-up-form").scrollIntoView();
-
-                  //  }, 10);
-                }}
+                onClick={() =>
+                  document.getElementById("contact-us-form").scrollIntoView()
+                }
                 text="Get Started Now!"
               />
             </GIContainer>
           </GIContainer>
         </GIContainer>
-        {displayForm && (
-          <GIContainer className="x-fill" id="sign-up-form">
-            <AgencyForm />
-          </GIContainer>
-        )}
       </Page>
     );
   }

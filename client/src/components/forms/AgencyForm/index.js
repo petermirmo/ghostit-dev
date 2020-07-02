@@ -25,7 +25,7 @@ class MyForm extends Component {
           "flex column fill-flex full-center bg-blue-fade-6 relative mt32 " +
           (isMobileOrTablet() ? "py32 px16" : "pa64")
         }
-        id="agency-form"
+        id="contact-us-form"
         method="POST"
         onSubmit={e => {
           e.preventDefault();

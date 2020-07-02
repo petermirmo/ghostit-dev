@@ -308,10 +308,6 @@ class GhostitAgency extends Component {
             />
           </GIContainer>
         </GIContainer>
-
-        <GIContainer className="x-fill">
-          <AgencyForm />
-        </GIContainer>
       </Page>
     );
   }
