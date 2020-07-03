@@ -21,20 +21,14 @@ class TeamPage extends Component {
         keywords="content creators"
         title="Content Creation Team"
       >
-        <GIText className="tac full-center pb8 mx32" type="h2">
-          Meet the
-          <GIText
-            className="four-blue tac"
-            text="&nbsp;Ghostit Team!"
-            type="span"
-          />
-        </GIText>
-
         <GIText
-          className="tac mb32 mx32"
-          text="Have fun, make money!"
-          type="h6"
-        />
+          className={
+            "tac full-center mx32 " + (isMobileOrTablet() ? "mb32" : "mb32")
+          }
+          type="h2"
+        >
+          Meet the Ghostit Team!
+        </GIText>
 
         <GIContainer
           className={

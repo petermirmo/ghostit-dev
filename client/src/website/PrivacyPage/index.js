@@ -6,7 +6,6 @@ class PrivacyPage extends Component {
     return (
       <Page
         className="mx32 website-page"
-        title="Pricing"
         description="Ghostit privacy policy."
         keywords="ghostit, privacy"
       >

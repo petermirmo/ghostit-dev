@@ -36,7 +36,7 @@ class Blog extends Component {
     return (
       <GIContainer className="x-fill relative">
         <Link
-          className="x-fill column common-border one-blue shadow-3 button relative br16"
+          className="bg-white x-fill column common-border one-blue shadow-3 button relative br16"
           to={"/blog/" + ghostitBlog.url}
         >
           <GIContainer className="column pa32">

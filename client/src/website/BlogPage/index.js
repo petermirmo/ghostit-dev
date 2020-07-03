@@ -72,7 +72,7 @@ class BlogPage extends Component {
               />
               <GIContainer className="full-center x-fill mb32">
                 <NavigationLayout
-                  className="wrap full-center common-border one-blue px16 br4"
+                  className="bg-white shadow-3 wrap full-center common-border one-blue px16 br4"
                   data={categories.map((category, index) => (
                     <GIText
                       className="transparent-button tac button hover-blue relative py8 mx8"

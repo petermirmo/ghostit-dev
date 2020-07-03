@@ -54,7 +54,7 @@ class GhostitAgency extends Component {
           type="h4"
         />
         <GIContainer className="container full wrap justify-center px32">
-          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText
               className="muli mb8"
               text="SEO Optimized Blog Posts"
@@ -84,7 +84,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText className="muli mb8" text="Social Media Posts" type="h4" />
 
             <GIText
@@ -111,7 +111,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText
               className="muli mb8"
               text="Lead Generation E-Book"
@@ -141,7 +141,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText className="muli mb8" text="Email Newsletter" type="h4" />
             <GIText
               text={something(
@@ -167,7 +167,7 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
             <GIText className="muli mb8" text="Web Content" type="h4" />
             <GIText
               text={something(

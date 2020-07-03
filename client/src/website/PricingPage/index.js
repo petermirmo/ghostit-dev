@@ -27,27 +27,16 @@ class PricingPage extends Component {
             "column " + (isMobileOrTablet() ? "x-fill" : "container-box large")
           }
         >
-          <GIText className="tac mb8" text="Pricing" type="h2">
+          <GIText
+            className={"tac " + (isMobileOrTablet() ? "mb16" : "mb32")}
+            text="Pricing"
+            type="h2"
+          >
             <GIText className="four-blue" text="Ghostit&nbsp;" type="span" />
           </GIText>
-          <GIText className="tac mx16 mb32" type="h4">
-            Have questions? Give us a call:
-            <GIText
-              className="four-blue"
-              text="&nbsp;250-415-3093&nbsp;"
-              type="span"
-            />
-            or email us at
-            <a
-              className="fs-20 no-bold"
-              href="mailto:hello@ghostit.co?Subject=Hello%20Ghostit!"
-            >
-              &nbsp; hello@ghostit.co
-            </a>
-          </GIText>
         </GIContainer>
-        <GIContainer className="column wrap justify-center align-end mt16 mb32">
-          <GIContainer className="container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
+        <GIContainer className="column wrap justify-center align-end mb32">
+          <GIContainer className="bg-white container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
             <GIContainer className="wrap x-fill full-center pa32">
               <GIContainer className="column">
                 <GIText
