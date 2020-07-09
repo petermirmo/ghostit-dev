@@ -65,7 +65,7 @@ class Page extends Component {
       <GIContainer className="screen-container" style={style}>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{`${title} | Ghostit`}</title>
+          <title>{`${title}`}</title>
           <meta name="title" content={`${title}`} />
           <meta name="og:title" content={`${title}`} />
           <meta name="description" content={description} />
