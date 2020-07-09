@@ -50,12 +50,12 @@ class BlogPage extends Component {
       });
     return (
       <Consumer>
-        {context => (
+        {(context) => (
           <Page
             className="website-page align-center"
             description="Ghostit’s marketing blog shares insights into all facets of marketing including social media marketing, content marketing, and marketing automation."
             keywords="content creators"
-            title="Sharing the Importance of Marketing"
+            title="Ghostit Blog"
           >
             <GIContainer
               className={

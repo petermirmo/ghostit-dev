@@ -22,7 +22,7 @@ class GhostitAgency extends Component {
     showMore2: false,
     showMore3: false,
     showMore4: false,
-    showMore5: false
+    showMore5: false,
   };
   render() {
     const {
@@ -31,7 +31,7 @@ class GhostitAgency extends Component {
       showMore2,
       showMore3,
       showMore4,
-      showMore5
+      showMore5,
     } = this.state;
     let textAlignClassName = "taj";
 
@@ -42,7 +42,7 @@ class GhostitAgency extends Component {
         description="Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process."
         keywords="content creators"
         style={{ width: "100%" }}
-        title="Content Creation Marketing Agency"
+        title="Ghostit Services"
       >
         <GIText className="tac mb8" type="h1">
           Content
