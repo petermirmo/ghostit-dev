@@ -33,7 +33,7 @@ class Page extends Component {
     window.scrollTo(0, 0);
   }
 
-  checkPropsVariables = activePage => {
+  checkPropsVariables = (activePage) => {
     const { testMode } = this.props; // Variables
     let { title, description, image, style } = this.props; // Variables
 
@@ -66,8 +66,8 @@ class Page extends Component {
         <Helmet>
           <meta charSet="utf-8" />
           <title>{`${title} | Ghostit`}</title>
-          <meta name="title" content={`${title} | Ghostit`} />
-          <meta name="og:title" content={`${title} | Ghostit`} />
+          <meta name="title" content={`${title}`} />
+          <meta name="og:title" content={`${title}`} />
           <meta name="description" content={description} />
           <meta name="og:description" content={description} />
           <meta property="image" content={image} />
@@ -107,7 +107,7 @@ class Page extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
   };
 }
 export default withRouter(connect(mapStateToProps)(Page));
