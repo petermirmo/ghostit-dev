@@ -32,11 +32,10 @@ class MyForm extends Component {
         >
           Book a Call
         </a>
-        <GIText
-          className="white italic"
-          text="Or email us at hello@ghostit.co"
-          type="p"
-        />
+        <a className="no-bold white italic" href="mailto: hello@ghostit.co">
+          Or email us at hello@ghostit.co
+        </a>
+
         <GIContainer id="left-blob" />
         <GIContainer id="right-blob" />
       </GIContainer>
