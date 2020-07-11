@@ -9,7 +9,7 @@ import { hiddenFormPortion } from "./util";
 
 import { isMobileOrTablet } from "../../../util";
 
-import "./style.css";
+import "../style.css";
 
 // This is a MailChimp form and adds directly to a list for our mailchimp!
 // The absolute div is to protect sign ups from bots
@@ -27,7 +27,7 @@ class MyForm extends Component {
         }
         id="contact-us-form"
         method="POST"
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           const { email, fName, cName, phoneNumber } = this.state;
 
@@ -37,9 +37,9 @@ class MyForm extends Component {
                 company: cName,
                 email,
                 name: fName,
-                phoneNumber
+                phoneNumber,
               })
-              .then(res => {
+              .then((res) => {
                 const { success } = res.data;
 
                 if (success) {
@@ -51,7 +51,7 @@ class MyForm extends Component {
                     email: "",
                     fName: "",
                     cName: "",
-                    phoneNumber: ""
+                    phoneNumber: "",
                   });
                 } else {
                   alert(
@@ -82,7 +82,7 @@ class MyForm extends Component {
               "px16 py8 mb16 mx8 br20 " +
               (isMobileOrTablet() ? "x-fill" : "x-300px")
             }
-            onChange={e => {
+            onChange={(e) => {
               this.setState({ fName: e.target.value });
             }}
             name="FNAME"
@@ -98,7 +98,7 @@ class MyForm extends Component {
               "px16 py8 mb16 mx8 br20 " +
               (isMobileOrTablet() ? "x-fill" : "x-300px")
             }
-            onChange={e => {
+            onChange={(e) => {
               this.setState({ email: e.target.value });
             }}
             name="EMAIL"
@@ -113,7 +113,7 @@ class MyForm extends Component {
               "px16 py8 mb16 mx8 br20 " +
               (isMobileOrTablet() ? "x-fill" : "x-300px")
             }
-            onChange={e => {
+            onChange={(e) => {
               this.setState({ cName: e.target.value });
             }}
             name="CNAME"
@@ -126,7 +126,7 @@ class MyForm extends Component {
               "px16 py8 mb16 mx8 br20 " +
               (isMobileOrTablet() ? "x-fill" : "x-300px")
             }
-            onChange={e => {
+            onChange={(e) => {
               this.setState({ phoneNumber: e.target.value });
             }}
             name="PHONE"

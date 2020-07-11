@@ -10,16 +10,18 @@ import GIText from "../../views/GIText";
 import EmailForm from "../../forms/EmailForm";
 import Logo from "../WebsiteHeader/Logo";
 import AgencyForm from "../../forms/AgencyForm";
+import CalendlyForm from "../../forms/Calendly";
 
 class WebsiteFooter extends Component {
-  isActive = activePage => {
+  isActive = (activePage) => {
     if ("/" + activePage === this.props.location.pathname) return " active";
     else return "";
   };
   render() {
     return (
       <GIContainer className="column x-fill">
-        <AgencyForm />
+        <CalendlyForm />
+
         <GIContainer
           className={
             "column x-fill bg-almost-black " +
