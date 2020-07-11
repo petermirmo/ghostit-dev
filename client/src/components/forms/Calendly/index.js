@@ -26,7 +26,7 @@ class MyForm extends Component {
         id="contact-us-form"
       >
         <a
-          className="white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
+          className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
           href="https://calendly.com/ghostitcm"
           target="_blank"
         >
