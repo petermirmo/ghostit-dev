@@ -23,6 +23,7 @@ class GhostitAgency extends Component {
     showMore3: false,
     showMore4: false,
     showMore5: false,
+    showMore6: false,
   };
   render() {
     const {
@@ -32,6 +33,7 @@ class GhostitAgency extends Component {
       showMore3,
       showMore4,
       showMore5,
+      showMore6,
     } = this.state;
     let textAlignClassName = "taj";
 
@@ -54,7 +56,10 @@ class GhostitAgency extends Component {
           type="h4"
         />
         <GIContainer className="container full wrap justify-center px32">
-          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer
+            className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
+            onClick={() => this.setState({ showMore1: !showMore1 })}
+          >
             <GIText
               className="muli mb8"
               text="SEO Optimized Blog Posts"
@@ -67,10 +72,7 @@ class GhostitAgency extends Component {
               )}
               type="p"
             />
-            <GIContainer
-              className="x-fill mt16"
-              onClick={() => this.setState({ showMore1: !showMore1 })}
-            >
+            <GIContainer className="pt8">
               <GIContainer className="dot bg-three-blue" />
               <GIContainer className="dot bg-five-blue ml4" />
               <GIContainer className="dot bg-seven-blue ml4" />
@@ -84,7 +86,10 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer
+            className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
+            onClick={() => this.setState({ showMore2: !showMore2 })}
+          >
             <GIText className="muli mb8" text="Social Media Posts" type="h4" />
 
             <GIText
@@ -94,10 +99,7 @@ class GhostitAgency extends Component {
               )}
               type="p"
             />
-            <GIContainer
-              className="x-fill mt16"
-              onClick={() => this.setState({ showMore2: !showMore2 })}
-            >
+            <GIContainer className="pt8">
               <GIContainer className="dot bg-three-blue" />
               <GIContainer className="dot bg-five-blue ml4" />
               <GIContainer className="dot bg-seven-blue ml4" />
@@ -111,7 +113,10 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer
+            className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
+            onClick={() => this.setState({ showMore3: !showMore3 })}
+          >
             <GIText
               className="muli mb8"
               text="Lead Generation E-Book"
@@ -124,10 +129,7 @@ class GhostitAgency extends Component {
               )}
               type="p"
             />
-            <GIContainer
-              className="x-fill mt16"
-              onClick={() => this.setState({ showMore3: !showMore3 })}
-            >
+            <GIContainer className="pt8">
               <GIContainer className="dot bg-three-blue" />
               <GIContainer className="dot bg-five-blue ml4" />
               <GIContainer className="dot bg-seven-blue ml4" />
@@ -141,7 +143,10 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer
+            className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
+            onClick={() => this.setState({ showMore4: !showMore4 })}
+          >
             <GIText className="muli mb8" text="Email Newsletter" type="h4" />
             <GIText
               text={something(
@@ -150,10 +155,7 @@ class GhostitAgency extends Component {
               )}
               type="p"
             />
-            <GIContainer
-              className="x-fill mt16"
-              onClick={() => this.setState({ showMore4: !showMore4 })}
-            >
+            <GIContainer className="pt8">
               <GIContainer className="dot bg-three-blue" />
               <GIContainer className="dot bg-five-blue ml4" />
               <GIContainer className="dot bg-seven-blue ml4" />
@@ -167,7 +169,10 @@ class GhostitAgency extends Component {
               />
             </GIContainer>
           </GIContainer>
-          <GIContainer className="bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20">
+          <GIContainer
+            className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
+            onClick={() => this.setState({ showMore5: !showMore5 })}
+          >
             <GIText className="muli mb8" text="Web Content" type="h4" />
             <GIText
               text={something(
@@ -176,10 +181,34 @@ class GhostitAgency extends Component {
               )}
               type="p"
             />
-            <GIContainer
-              className="x-fill mt16"
-              onClick={() => this.setState({ showMore5: !showMore5 })}
-            >
+            <GIContainer className="x-fill mt16">
+              <GIContainer className="dot bg-three-blue" />
+              <GIContainer className="dot bg-five-blue ml4" />
+              <GIContainer className="dot bg-seven-blue ml4" />
+            </GIContainer>
+
+            <GIContainer className="agency-img-absolute-container full-center common-border four-blue bg-white round">
+              <img
+                alt=""
+                className="x-50"
+                src={require("../../svgs/agency-web.svg")}
+              />
+            </GIContainer>
+          </GIContainer>
+
+          <GIContainer
+            className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
+            onClick={() => this.setState({ showMore6: !showMore6 })}
+          >
+            <GIText className="muli mb8" text="Paid Advertising" type="h4" />
+            <GIText
+              text={something(
+                showMore6,
+                "In today's fast-paced online world, organic content and social media aren't going to cut it anymore. To see real results now, you're going to have to invest. The problem with paid advertising online is that anyone can do it, but most people are doing it wrong. Paid advertising online involves a lot of research, custom URL tracking, and management to be effective. Otherwise, you may as well be advertising in a newspaper that no one reads. Our team has the time, experience, and passion needed to see results. We can help you set up the right paid ad campaigns for your business on the relevant social platforms and search engines like Google so that your business is seen by the right people at the right time."
+              )}
+              type="p"
+            />
+            <GIContainer className="pt8">
               <GIContainer className="dot bg-three-blue" />
               <GIContainer className="dot bg-five-blue ml4" />
               <GIContainer className="dot bg-seven-blue ml4" />

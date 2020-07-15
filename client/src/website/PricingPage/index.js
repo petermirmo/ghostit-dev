@@ -87,13 +87,13 @@ class PricingPage extends Component {
               <GIText text="Custom graphics" type="p" />
             </GIContainer>
             <GIContainer className="x-fill full-center py16">
-              <GIButton
-                className="bg-orange-fade-2 white shadow-orange-2 py16 px32 br32"
-                onClick={() =>
-                  document.getElementById("contact-us-form").scrollIntoView()
-                }
-                text="Get Started Now!"
-              />
+              <a
+                className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
+                href="https://calendly.com/ghostitcm"
+                target="_blank"
+              >
+                Book a Call
+              </a>
             </GIContainer>
           </GIContainer>
         </GIContainer>

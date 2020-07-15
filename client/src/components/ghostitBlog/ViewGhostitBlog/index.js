@@ -17,7 +17,7 @@ import { createBlogDivs, createContentImagesArray } from "./util";
 import "./style.css";
 
 class ViewWebsiteBlog extends Component {
-  findFirstImage = images => {
+  findFirstImage = (images) => {
     let location = images[0].location;
     let indexOfSmallestLocation = 0;
     for (let index in images) {
@@ -31,7 +31,7 @@ class ViewWebsiteBlog extends Component {
       contentArray = [],
       featuredBlogs = [],
       images = [],
-      id
+      id,
     } = this.props;
 
     const contentImagesArray = createContentImagesArray(contentArray, images);
@@ -76,20 +76,15 @@ class ViewWebsiteBlog extends Component {
               className="column ml64 x-300px"
               style={{ marginTop: "74px" }}
             >
-              <a href="mailto:hello@ghostit.co?Subject=Hello%20Ghostit!">
-                <GIContainer className="column bg-white shadow-3 common-border thick five-blue pa16 mb32 br8">
-                  <GIText
-                    className="tac"
-                    text="Put your Content Marketing on auto pilot!"
-                    type="h4"
-                  />
-                  <GIText
-                    className="tac bold"
-                    text="Email us now at hello@ghostit.co"
-                    type="h4"
-                  />
-                </GIContainer>
-              </a>
+              <GIContainer className="full-center">
+                <a
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
+                  href="https://calendly.com/ghostitcm"
+                  target="_blank"
+                >
+                  Book a Call
+                </a>
+              </GIContainer>
               <GIText className="fs-26 mb16" text="Featured Blogs" type="h4" />
               {featuredBlogs.map((ghostitBlog, index) => {
                 const { contentArray, createdAt } = ghostitBlog;
@@ -124,7 +119,7 @@ class ViewWebsiteBlog extends Component {
                                   ghostitBlog.images[
                                     this.findFirstImage(ghostitBlog.images)
                                   ].url +
-                                  ")"
+                                  ")",
                               }
                             : {}
                         }

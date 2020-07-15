@@ -20,7 +20,7 @@ class RegularVersion extends Component {
   render() {
     return (
       <Consumer>
-        {context => (
+        {(context) => (
           <Page
             className="website-page"
             description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
@@ -62,13 +62,13 @@ class RegularVersion extends Component {
                   type="h4"
                 />
 
-                <GIButton
-                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb8"
-                  onClick={() => {
-                    document.getElementById("contact-us-form").scrollIntoView();
-                  }}
-                  text="Get Started Now"
-                />
+                <a
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb8 br32"
+                  href="https://calendly.com/ghostitcm"
+                  target="_blank"
+                >
+                  Book a Call
+                </a>
                 <GIText
                   className="fs-13 italic mb32"
                   text="It only takes 30 seconds!"
@@ -121,13 +121,13 @@ class RegularVersion extends Component {
                   type="p"
                 />
 
-                <GIButton
-                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                  onClick={() => {
-                    document.getElementById("contact-us-form").scrollIntoView();
-                  }}
-                  text="Get Started Now"
-                />
+                <a
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
+                  href="https://calendly.com/ghostitcm"
+                  target="_blank"
+                >
+                  Book a Call
+                </a>
               </GIContainer>
             </GIContainer>
 
@@ -176,13 +176,13 @@ class RegularVersion extends Component {
                   type="p"
                 />
 
-                <GIButton
-                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                  onClick={() => {
-                    document.getElementById("contact-us-form").scrollIntoView();
-                  }}
-                  text="Get Started Now"
-                />
+                <a
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
+                  href="https://calendly.com/ghostitcm"
+                  target="_blank"
+                >
+                  Book a Call
+                </a>
               </GIContainer>
             </GIContainer>
 
@@ -237,13 +237,13 @@ class RegularVersion extends Component {
                   type="p"
                 />
 
-                <GIButton
-                  className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32 mb32"
-                  onClick={() => {
-                    document.getElementById("contact-us-form").scrollIntoView();
-                  }}
-                  text="Get Started Now"
-                />
+                <a
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
+                  href="https://calendly.com/ghostitcm"
+                  target="_blank"
+                >
+                  Book a Call
+                </a>
               </GIContainer>
             </GIContainer>
             <GIContainer
@@ -293,7 +293,7 @@ class RegularVersion extends Component {
                 />
               </GIContainer>
 
-              <GIContainer className="wrap full-center">
+              <GIContainer className="wrap full-center px16">
                 <GIContainer
                   className={
                     "column mb32 " +
@@ -379,13 +379,13 @@ class RegularVersion extends Component {
                 </GIContainer>
               </GIContainer>
 
-              <GIButton
-                className="bg-orange-fade-2 shadow-orange-2 white br32 py16 px32"
-                onClick={() => {
-                  document.getElementById("contact-us-form").scrollIntoView();
-                }}
-                text="Get Started Now"
-              />
+              <a
+                className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
+                href="https://calendly.com/ghostitcm"
+                target="_blank"
+              >
+                Book a Call
+              </a>
             </GIContainer>
             <TestimonyScroller />
 
