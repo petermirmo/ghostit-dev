@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDollarSign } from "@fortawesome/pro-solid-svg-icons/faDollarSign";
+
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 
@@ -132,11 +135,7 @@ class GhostitAgency extends Component {
             </GIContainer>
 
             <GIContainer className="agency-img-absolute-container full-center common-border four-blue bg-white round">
-              <img
-                alt=""
-                className="x-50"
-                src={require("../../svgs/agency-web.svg")}
-              />
+              <FontAwesomeIcon className="" icon={faDollarSign} size="2x" />
             </GIContainer>
           </GIContainer>
 

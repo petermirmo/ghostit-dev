@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {faPlus} from "@fortawesome/pro-solid-svg-icons/faPlus";
-import {faTrash} from "@fortawesome/pro-solid-svg-icons/faTrash";
+import { faPlus } from "@fortawesome/pro-solid-svg-icons/faPlus";
+import { faTrash } from "@fortawesome/pro-solid-svg-icons/faTrash";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -25,13 +24,13 @@ import {
   getUserAccounts,
   getFacebookPages,
   getFacebookGroups,
-  getLinkedinPages
+  getLinkedinPages,
 } from "./util";
 
 import {
   getPostIcon,
   getPostColor,
-  getSocialDisplayName
+  getSocialDisplayName,
 } from "../../componentFunctions";
 
 import "./style.css";
@@ -45,7 +44,7 @@ class AccountsPage extends Component {
       "You either have no accounts to connect or you need to re-authenticate your profile account by re-adding it!",
     addPageOrGroupModal: false,
     accountToDelete: undefined,
-    deleteAccount: false
+    deleteAccount: false,
   };
   componentDidMount() {
     this._ismounted = true;
@@ -69,7 +68,7 @@ class AccountsPage extends Component {
       this.context.notify({
         message: "Please reload the page and try again or contact support.",
         title: "Connection failed",
-        type: "danger"
+        type: "danger",
       });
       history.push("/social-accounts");
     }
@@ -77,7 +76,7 @@ class AccountsPage extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
-  handleChange = stateObject => {
+  handleChange = (stateObject) => {
     if (this._ismounted) this.setState(stateObject);
   };
   openModal = (socialType, accountType) => {
@@ -85,7 +84,7 @@ class AccountsPage extends Component {
       loading: true,
       socialType,
       accountType,
-      addPageOrGroupModal: true
+      addPageOrGroupModal: true,
     });
     const { errorMessage } = this.state;
 
@@ -137,7 +136,7 @@ class AccountsPage extends Component {
         <GIContainer className="full-center">
           <FontAwesomeIcon
             icon={faTrash}
-            onClick={event =>
+            onClick={(event) =>
               this.setState({ accountToDelete: account, deleteAccount: true })
             }
             className="button delete"
@@ -156,7 +155,7 @@ class AccountsPage extends Component {
       errorMessage,
       loading,
       pageOrGroupArray,
-      socialType
+      socialType,
     } = this.state;
 
     const { setAccounts, accounts = [] } = this.props; // Functions
@@ -419,7 +418,7 @@ class AccountsPage extends Component {
               close={() => this.setState({ addPageOrGroupModal: false })}
               errorMessage={errorMessage}
               getUserAccounts={() =>
-                getUserAccounts(accounts => setAccounts(accounts))
+                getUserAccounts((accounts) => setAccounts(accounts))
               }
               loading={loading}
               pageOrGroupArray={pageOrGroupArray}
@@ -431,13 +430,13 @@ class AccountsPage extends Component {
               close={() => this.setState({ confirmDelete: false })}
               title="Delete Account"
               message="Are you sure you want to delete this social account from our software?"
-              callback={confirmDelete =>
+              callback={(confirmDelete) =>
                 disconnectAccount(
                   confirmDelete,
                   accountToDelete,
-                  stateObject => {
+                  (stateObject) => {
                     this.handleChange(stateObject);
-                    getUserAccounts(accounts => setAccounts(accounts));
+                    getUserAccounts((accounts) => setAccounts(accounts));
                   }
                 )
               }
@@ -453,15 +452,12 @@ AccountsPage.contextType = ExtraContext;
 function mapStateToProps(state) {
   return {
     accounts: state.accounts,
-    user: state.user
+    user: state.user,
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ setAccounts }, dispatch);
 }
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AccountsPage)
+  connect(mapStateToProps, mapDispatchToProps)(AccountsPage)
 );
