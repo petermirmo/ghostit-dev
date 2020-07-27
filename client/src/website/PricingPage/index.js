@@ -12,6 +12,12 @@ import GIText from "../../components/views/GIText";
 import Page from "../../components/containers/Page";
 
 import { isMobileOrTablet } from "../../util";
+/*
+<GIText
+  className={"tac px32 " + (isMobileOrTablet() ? "mb32" : "mb64")}
+  text="Increase the amount of qualified traffic to your site."
+  type="h4"
+/>*/
 
 class PricingPage extends Component {
   render() {
@@ -28,20 +34,19 @@ class PricingPage extends Component {
           }
         >
           <GIText
-            className={"tac " + (isMobileOrTablet() ? "mb16" : "mb32")}
-            text="Pricing"
+            className={"tac px32 " + (isMobileOrTablet() ? "mb32" : "mb64")}
             type="h2"
           >
-            <GIText className="four-blue" text="Ghostit&nbsp;" type="span" />
+            Content Marketing Plans For
           </GIText>
         </GIContainer>
-        <GIContainer className="column wrap justify-center align-end mb32">
+        <GIContainer className="wrap justify-center mb32">
           <GIContainer className="bg-white container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
-            <GIContainer className="wrap x-fill full-center pa32">
-              <GIContainer className="column">
+            <GIContainer className="fill-flex wrap x-fill full-center pa32">
+              <GIContainer className="column fill-flex">
                 <GIText
                   className="fill-flex muli tac mb4"
-                  text="Marketing Plans"
+                  text="Small to Medium-Sized Businesses"
                   type="h2"
                 />
                 <GIText
@@ -50,7 +55,7 @@ class PricingPage extends Component {
                   type="h6"
                 />
               </GIContainer>
-              <GIContainer className="fill-flex full-center">
+              <GIContainer className="full-center">
                 <GIContainer className="xy-128px full-center column round bg-four-blue">
                   <GIText className="quicksand white" text="$540" type="h2" />
                   <GIText className="white" text="Per Month" type="h6" />
@@ -64,7 +69,7 @@ class PricingPage extends Component {
             </GIContainer>
             <GIContainer className="align-center border-top-dashed px32 py16">
               <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText text="Blog posts" type="p" />
+              <GIText text="SEO Blog posts" type="p" />
             </GIContainer>
             <GIContainer className="align-center border-top-dashed px32 py16">
               <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
@@ -84,8 +89,65 @@ class PricingPage extends Component {
             </GIContainer>
             <GIContainer className="align-center border-top-dashed border-bottom-dashed px32 py16">
               <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
-              <GIText text="Custom graphics" type="p" />
+              <GIText
+                text="Ad Spend Management across all ad networks"
+                type="p"
+              />
             </GIContainer>
+            <GIContainer className="x-fill full-center py16">
+              <a
+                className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
+                href="https://calendly.com/ghostitcm"
+                target="_blank"
+              >
+                Book a Call
+              </a>
+            </GIContainer>
+          </GIContainer>
+          <GIContainer className="bg-white container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
+            <GIContainer className="fill-flex fill-flex wrap x-fill full-center pa32">
+              <GIContainer className="column fill-flex">
+                <GIText
+                  className="fill-flex muli tac mb4"
+                  text="Enterprise & Large Businesses"
+                  type="h2"
+                />
+                <GIText
+                  className="fill-flex muli tac mb4"
+                  text="Prices based on requirements"
+                  type="h6"
+                />
+              </GIContainer>
+            </GIContainer>
+
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Same features as SMB plans, and" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Existing content auditing/editing" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Coordination w/ your internal teams" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText
+                text="Integration with any specific or proprietary technologies"
+                type="p"
+              />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Lead nurturing" type="p" />
+            </GIContainer>
+            <GIContainer className="align-center border-top-dashed border-bottom-dashed px32 py16">
+              <FontAwesomeIcon className="four-blue mr16" icon={faCheck} />
+              <GIText text="Custom web and software development" type="p" />
+            </GIContainer>
+
             <GIContainer className="x-fill full-center py16">
               <a
                 className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"

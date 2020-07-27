@@ -23,7 +23,7 @@ class TeamPage extends Component {
       >
         <GIText
           className={
-            "tac full-center mx32 " + (isMobileOrTablet() ? "mb32" : "mb32")
+            "tac full-center mx32 " + (isMobileOrTablet() ? "mb32" : "mb64")
           }
           type="h2"
         >
