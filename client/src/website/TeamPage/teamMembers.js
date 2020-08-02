@@ -8,7 +8,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Rahul Bhatia",
     title: "TCB Specialist",
-    _id: 1
+    _id: 1,
   },
   {
     color: "var(--five-orange-color)",
@@ -19,7 +19,7 @@ const teamMembers = [
     location: "Paris",
     name: "Mishar Briones",
     title: "SheEO",
-    _id: 2
+    _id: 2,
   },
   {
     color: "var(--five-purple-color)",
@@ -30,7 +30,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Stephanie Brown",
     title: "Content Creator",
-    _id: 10
+    _id: 10,
   },
   {
     color: "var(--five-blue-color)",
@@ -41,7 +41,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Erika Palmer",
     title: "Content Creator",
-    _id: 4
+    _id: 4,
   },
 
   {
@@ -53,20 +53,9 @@ const teamMembers = [
     location: "toronto",
     name: "Sophie Van Bastelaer",
     title: "Content Creator",
-    _id: 7
+    _id: 7,
   },
-  {
-    color: "var(--five-purple-color)",
-    description:
-      "Some call me a wizard.. I call myself the css wizard. Although I love programming I do have a social life, meet my bestfriends keyboard and mouse.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",
-    location: "Victoria",
-    name: "Peter Mirmotahari",
-    title: "Wizard",
-    _id: 6
-  }
 ];
 module.exports = {
-  teamMembers
+  teamMembers,
 };
