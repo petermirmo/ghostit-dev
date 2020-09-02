@@ -9,12 +9,12 @@ const { JSDOM } = jsdom;
 const {
   amazonAccessKeyID,
   amazonSecretAccessKey,
-  amazonBucket
+  amazonBucket,
 } = require("../config/keys");
 
 const s3 = new AWS.S3({
   accessKeyId: amazonAccessKeyID,
-  secretAccessKey: amazonSecretAccessKey
+  secretAccessKey: amazonSecretAccessKey,
 });
 const createSiteMap = () => {
   GhostitBlog.find({}, { title: 1, updatedAt: 1, url: 1 }, (err, blogs) => {
@@ -72,7 +72,7 @@ const createSiteMap = () => {
     const params = {
       Bucket: amazonBucket,
       Key: "sitemap.xml",
-      Body: siteMapString
+      Body: siteMapString,
     };
 
     s3.putObject(params, (err, data) => {
@@ -90,7 +90,7 @@ const getMetaInformation = (url, callback) => {
   const defaultObject = {
     metaDescription: defaultMetaDescription,
     metaImage: defaultMetaImage,
-    metaTitle: defaultMetaTitle
+    metaTitle: defaultMetaTitle,
   };
   if (url.substring(0, 6) === "/blog/") {
     GhostitBlog.find({}, (err, ghostitBlogs) => {
@@ -103,7 +103,8 @@ const getMetaInformation = (url, callback) => {
             if (contentArray[0]) temp = JSDOM.fragment(contentArray[0].html);
 
             let metaTitle = defaultMetaTitle;
-            if (temp.firstChild) metaTitle = temp.firstChild.textContent;
+            if (temp.firstChild && temp.firstChild.textContent)
+              metaTitle = temp.firstChild.textContent;
 
             let temp2 = {};
             if (contentArray[1]) temp2 = JSDOM.fragment(contentArray[1].html);
@@ -120,7 +121,7 @@ const getMetaInformation = (url, callback) => {
             return callback({
               metaDescription,
               metaImage,
-              metaTitle: metaTitle + " | Ghostit"
+              metaTitle: metaTitle + " | Ghostit",
             });
           }
         }
@@ -143,7 +144,7 @@ const getMetaInformation = (url, callback) => {
             "Check out pricing for Ghostit marketing plans that all include dedicated content creators, competitive analysis, keyword research, and much more.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "All-in-One Marketing Solution & Agency Pricing | Ghostit"
+          metaTitle: "All-in-One Marketing Solution & Agency Pricing | Ghostit",
         });
       case "/team":
         return callback({
@@ -151,7 +152,7 @@ const getMetaInformation = (url, callback) => {
             "Bring your marketing concept to life with Ghostit’s team of content creators. From content development to SEO services, we can do it all.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Content Creation Team | Ghostit"
+          metaTitle: "Content Creation Team | Ghostit",
         });
       case "/blog":
         return callback({
@@ -159,7 +160,7 @@ const getMetaInformation = (url, callback) => {
             "Ghostit’s marketing blog shares insights into all facets of marketing including social media marketing, content marketing, and marketing automation.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Ghostit Blog | Sharing the Importance of Marketing"
+          metaTitle: "Ghostit Blog | Sharing the Importance of Marketing",
         });
       case "/agency":
         return callback({
@@ -167,7 +168,7 @@ const getMetaInformation = (url, callback) => {
             "Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Content Creation Marketing Agency | Ghostit"
+          metaTitle: "Content Creation Marketing Agency | Ghostit",
         });
       case "/sign-in":
         return callback({
@@ -175,7 +176,7 @@ const getMetaInformation = (url, callback) => {
             "Sign in to the Ghostit platform to access your content calendar, campaigns, and templates.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Sign In to Ghostit"
+          metaTitle: "Sign In to Ghostit",
         });
       case "/sign-up":
         return callback({
@@ -183,28 +184,28 @@ const getMetaInformation = (url, callback) => {
             "Ready to simplify your marketing process? Sign up to Ghostit’s all-in-one marketing solution and put a voice to your marketing concept today.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Sign Up to Ghostit"
+          metaTitle: "Sign Up to Ghostit",
         });
       case "/forgot-password":
         return callback({
           metaDescription: "Forgot password.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Forgot Password | Ghostit"
+          metaTitle: "Forgot Password | Ghostit",
         });
       case "/terms-of-service":
         return callback({
           metaDescription: "Terms of service.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Terms of Service | Ghostit"
+          metaTitle: "Terms of Service | Ghostit",
         });
       case "/privacy-policy":
         return callback({
           metaDescription: "Privacy policy.",
           metaImage:
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
-          metaTitle: "Privacy Policy | Ghostit"
+          metaTitle: "Privacy Policy | Ghostit",
         });
       default:
         return callback(defaultObject);
@@ -213,5 +214,5 @@ const getMetaInformation = (url, callback) => {
 
 module.exports = {
   createSiteMap,
-  getMetaInformation
+  getMetaInformation,
 };
