@@ -55,7 +55,11 @@ class ViewWebsiteBlog extends Component {
 
     if (this.context.ghostitBlogs.length === 0) {
       getGhostitBlogs((ghostitBlogs) => {
-        if (ghostitBlogs && ghostitBlogs.length > 0)
+        if (
+          ghostitBlogs &&
+          ghostitBlogs.length > 0 &&
+          this.context.ghostitBlogs.length === 0
+        )
           this.context.handleChange({
             ghostitBlogs: this.context.ghostitBlogs.concat(ghostitBlogs),
           });
