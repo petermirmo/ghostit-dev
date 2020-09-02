@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { withRouter } from "react-router-dom";
 import Consumer from "../../context";
 
@@ -16,22 +17,39 @@ import { isMobileOrTablet } from "../../util";
 import { capitolizeWordsInString } from "../../componentFunctions";
 
 class TeamPage extends Component {
-  constructor(props) {
-    super(props);
+  state = { ghostitBlogs: undefined };
+  componentDidMount() {
+    this.ismounted = true;
+
     const { location } = this.props;
     const { pathname } = location;
 
     const teamMemberID = Number(this.getIDFromURL(pathname));
 
-    if (Number.isInteger(teamMemberID))
-      this.state = {
+    axios.get("/api/ghostit-blogs-team/" + teamMemberID).then((res) => {
+      const { ghostitBlogs, success } = res.data;
+
+      this.handleChange({ ghostitBlogs });
+    });
+
+    if (Number.isInteger(teamMemberID)) {
+      console.log(
+        teamMembers.find((teamMember, index) => teamMember._id === teamMemberID)
+      );
+      this.handleChange({
         teamMember: teamMembers.find(
           (teamMember, index) => teamMember._id === teamMemberID
-        )
-      };
-    else this.state = { teamMember: undefined };
+        ),
+      });
+    } else this.handleChange({ teamMember: undefined });
   }
-  getIDFromURL = pathname => {
+  componentWillUnmount() {
+    this.ismounted = false;
+  }
+  handleChange = (stateObj) => {
+    if (this.ismounted) this.setState(stateObj);
+  };
+  getIDFromURL = (pathname) => {
     let teamMemberID = "";
     for (let i = pathname.length - 1; i >= 0; i--) {
       if (pathname[i] === "/") return teamMemberID;
@@ -41,10 +59,11 @@ class TeamPage extends Component {
     return teamMemberID;
   };
   render() {
-    const { teamMember } = this.state;
+    const { ghostitBlogs, teamMember } = this.state;
+
     return (
       <Consumer>
-        {context => (
+        {(context) => (
           <Page
             className={
               "website-page align-center " +
@@ -86,13 +105,14 @@ class TeamPage extends Component {
                   text={teamMember.description}
                   type="p"
                 />
-                {context.ghostitBlogs.length === 0 && (
+                {!ghostitBlogs && (
                   <GIContainer className="fill-parent full-center mt32">
                     <LoaderSimpleCircle />
                   </GIContainer>
                 )}
-                {context.ghostitBlogs.length !== 0 &&
-                  context.ghostitBlogs.find(
+                {ghostitBlogs &&
+                  ghostitBlogs.length !== 0 &&
+                  ghostitBlogs.find(
                     (ghostitBlog, index) =>
                       ghostitBlog.authorID === teamMember._id
                   ) && (
@@ -105,7 +125,7 @@ class TeamPage extends Component {
                       />
                     </GIText>
                   )}
-                {context.ghostitBlogs.length !== 0 && (
+                {ghostitBlogs && ghostitBlogs.length !== 0 && (
                   <GIContainer
                     className={
                       "x-fill mb32 " +

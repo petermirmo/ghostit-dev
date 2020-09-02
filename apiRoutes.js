@@ -302,6 +302,9 @@ module.exports = (app) => {
   app.post("/api/ghostit/blogs", (req, res) =>
     ghostitBlogFunctions.getGhostitBlogs(req, res)
   );
+  app.get("/api/ghostit-blogs-team/:authorID", (req, res) =>
+    ghostitBlogFunctions.getTeamMemberGhostitBlogs(req, res)
+  );
 
   app.get("/api/ghostit/blog/:url", (req, res) =>
     ghostitBlogFunctions.getGhostitBlog(req, res)

@@ -146,6 +146,12 @@ module.exports = {
       .skip(skip)
       .limit(10);
   },
+  getTeamMemberGhostitBlogs: (req, res) => {
+    GhostitBlog.find({ authorID: req.params.authorID }, (err, ghostitBlogs) => {
+      if (!err && ghostitBlogs) res.send({ success: true, ghostitBlogs });
+      else handleError(res, err);
+    });
+  },
   getGhostitBlog: (req, res) => {
     GhostitBlog.findOne({ url: req.params.url }, (err, ghostitBlog) => {
       if (!err && ghostitBlog) res.send({ success: true, ghostitBlog });
