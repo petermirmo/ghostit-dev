@@ -102,18 +102,13 @@ const getMetaInformation = (url, callback) => {
           if (ghostitBlog.url === url.substring(6, url.length)) {
             let metaTitle = defaultMetaTitle;
             if (contentArray[0] && contentArray[0].html)
-              metaTitle = htmlToText.fromString(contentArray[0].html, {
-                wordwrap: 130,
-              });
-
-            let temp2 = {};
-            if (contentArray[1]) temp2 = JSDOM.fragment(contentArray[1].html);
+              metaTitle = htmlToText.fromString(contentArray[0].html, {});
 
             let metaDescription = defaultMetaDescription;
-            if (temp2.firstChild)
-              metaDescription = temp2.firstChild.textContent
-                ? temp2.firstChild.textContent.substring(0, 200)
-                : defaultMetaDescription;
+            if (contentArray[1] && contentArray[1].html)
+              metaDescription = htmlToText
+                .fromString(contentArray[1].html, {})
+                .substring(0, 200);
 
             let metaImage = defaultMetaImage;
             if (images[0]) metaImage = images[0].url;

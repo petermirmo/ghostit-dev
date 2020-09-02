@@ -1,3 +1,5 @@
+import imageCompression from "browser-image-compression";
+
 export const removeFile = (
   currentFiles,
   filesToDelete,
@@ -20,58 +22,84 @@ export const removeFile = (
   handleParentChange(parentStateChangeObject);
 };
 
-export const showFiles = (
+export const showFiles = async (
   event,
   currentFiles,
   fileLimit,
   callback,
   imageOnly
 ) => {
-  let newFiles = event.target.files;
+  let newFiles = [];
 
-  // Check to make sure there are not more than the fileLimit
-  if (newFiles.length + currentFiles.length > fileLimit) {
-    return alert(
-      "You have selected more than " + fileLimit + " files! Please try again"
-    );
-  }
-  for (let index in currentFiles) {
-    if (isVideo(currentFiles[index])) {
-      return alert(
-        "You can't upload anymore because you have already uploaded a video"
-      );
-    }
-  }
+  const options = {
+    maxSizeMB: 5,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+  let imageCompressionCounter = 0;
 
-  for (let index in newFiles) {
-    if (isNaN(index)) continue;
-    if (isVideo(newFiles[index]) && newFiles.length > 1) {
-      return alert(
-        "You can't upload any photos with a video and you can only upload 1 video max with a post."
-      );
-    }
-  }
-  if (currentFiles.length > 0 && isVideo(newFiles[0])) {
-    return alert(
-      "You can't upload any photos with a video and you can only upload 1 video max with a post."
-    );
-  }
+  for (let index = 0; index < event.target.files.length; index++) {
+    imageCompressionCounter++;
+    imageCompression(event.target.files[index], options)
+      .then((compressedFile) => {
+        imageCompressionCounter--;
 
-  // Check to make sure each file is under 5MB
-  for (let index = 0; index < newFiles.length; index++) {
-    let fileToCheck = newFiles[index];
-    if (!isImage(fileToCheck) && imageOnly) {
-      return alert("This file is not an image.");
-    }
-    if (isFileOverSize(fileToCheck)) {
-      return true;
-      /*alert(
-        "Please contact peterm@ghostit.co for technical support. We do not currently support this file format, but we may do a software update if you contact us."
-      );*/
-    }
-  }
+        newFiles.push(compressedFile);
+        if (imageCompressionCounter === 0) {
+          // Check to make sure there are not more than the fileLimit
+          if (newFiles.length + currentFiles.length > fileLimit) {
+            return alert(
+              "You have selected more than " +
+                fileLimit +
+                " files! Please try again"
+            );
+          }
+          for (let index in currentFiles) {
+            if (isVideo(currentFiles[index])) {
+              return alert(
+                "You can't upload anymore because you have already uploaded a video"
+              );
+            }
+          }
 
-  setFilesToParentState(newFiles, currentFiles, callback);
+          for (let index in newFiles) {
+            if (isNaN(index)) continue;
+            if (isVideo(newFiles[index]) && newFiles.length > 1) {
+              return alert(
+                "You can't upload any photos with a video and you can only upload 1 video max with a post."
+              );
+            }
+          }
+          if (currentFiles.length > 0 && isVideo(newFiles[0])) {
+            return alert(
+              "You can't upload any photos with a video and you can only upload 1 video max with a post."
+            );
+          }
+
+          // Check to make sure each file is under 5MB
+          for (let index = 0; index < newFiles.length; index++) {
+            let fileToCheck = newFiles[index];
+            if (!isImage(fileToCheck) && imageOnly) {
+              return alert("This file is not an image.");
+            }
+            if (isFileOverSize(fileToCheck)) {
+              return true;
+              /*alert(
+                    "Please contact peterm@ghostit.co for technical support. We do not currently support this file format, but we may do a software update if you contact us."
+                  );*/
+            }
+          }
+
+          setFilesToParentState(newFiles, currentFiles, callback);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        alert(
+          "One or more images could not be uploaded, please contact support."
+        );
+      });
+  }
 };
 
 export const setFilesToParentState = (newFiles, currentFiles, callback) => {
@@ -92,12 +120,7 @@ export const setFilesToParentState = (newFiles, currentFiles, callback) => {
 };
 
 const isFileOverSize = (fileToCheck) => {
-  if (isImage(fileToCheck)) {
-    if (fileToCheck.size > 2017152) {
-      alert("File size on one or more photos is over 2MB.");
-      return true;
-    }
-  } else if (isVideo(fileToCheck)) {
+  if (isVideo(fileToCheck)) {
     //  if (fileToCheck.size > 1750000000) {
     if (fileToCheck.size > 10000000) {
       alert("File size on one or more videos is over 10MB.");
