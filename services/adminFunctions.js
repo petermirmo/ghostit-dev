@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Account = require("../models/Account");
 const Plan = require("../models/Plan");
+const Post = require("../models/Post");
 const Notification = require("../models/Notification");
 const cloudinary = require("cloudinary");
 const generalFunctions = require("./generalFunctions");
@@ -58,31 +59,35 @@ module.exports = {
       //if (String(currentUser._id) === clientUser.writer.id) {
       currentUser.signedInAsUser = {
         id: clientUser._id,
-        fullName: clientUser.fullName
+        fullName: clientUser.fullName,
       };
       Account.find({ userID: clientUser._id }, (err, accounts) => {
         currentUser
           .save()
-          .then(result => res.send({ success: true, user: result, accounts }));
+          .then((result) =>
+            res.send({ success: true, user: result, accounts })
+          );
       }); /*} else {
 				handleError(res, "User is a manager, but the client is not a client of this manager!");
 		}*/
     } else if (currentUser.role === "admin") {
       currentUser.signedInAsUser = {
         id: clientUser._id,
-        fullName: clientUser.fullName
+        fullName: clientUser.fullName,
       };
       Account.find({ userID: clientUser._id }, (err, accounts) => {
         currentUser
           .save()
-          .then(result => res.send({ success: true, user: result, accounts }));
+          .then((result) =>
+            res.send({ success: true, user: result, accounts })
+          );
       });
     } else generalFunctions.handleError(res, "HACKER ALERT!!!!");
   },
   signOutOfUserAccount: (req, res) => {
     let currentUser = req.user;
     currentUser.signedInAsUser = undefined;
-    currentUser.save().then(result => {
+    currentUser.save().then((result) => {
       res.send({ success: true, user: result });
     });
   },
@@ -94,9 +99,11 @@ module.exports = {
 
       // Check if we are editting a plan or creating a new plan!
       if (newPlan._id) {
-        Plan.updateOne({ _id: newPlan._id }, { $set: newPlan }).then(result => {
-          res.send({ success: true });
-        });
+        Plan.updateOne({ _id: newPlan._id }, { $set: newPlan }).then(
+          (result) => {
+            res.send({ success: true });
+          }
+        );
       } else {
         Plan.find({ name: newPlan.name }, (err, plans) => {
           if (err) generalFunctions.handleError(res, err);
@@ -107,7 +114,7 @@ module.exports = {
             let plan = new Plan(newPlan);
             plan.createdBy = req.user._id;
             plan.private = true;
-            plan.save().then(result => {
+            plan.save().then((result) => {
               res.send({ success: true });
             });
           }
@@ -128,7 +135,9 @@ module.exports = {
   },
   getNotifications: (req, res) => {
     Notification.find({ userID: req.user._id }, (err, notifications) => {
-      res.send(notifications);
+      Post.find({ status: "working" }, (err, posts) => {
+        res.send({ notifications, posts });
+      });
     });
   },
   deleteNotification: (req, res) => {
@@ -142,5 +151,5 @@ module.exports = {
           });
       }
     );
-  }
+  },
 };

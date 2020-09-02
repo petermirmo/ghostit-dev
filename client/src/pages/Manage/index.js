@@ -14,26 +14,27 @@ class ManagePage extends Component {
     categories: {
       createBlog: { value: "Create a Blog", active: true },
       users: { value: "Users", active: false },
-      notifications: { value: "Notifications", active: false }
+      notifications: { value: "Notifications", active: false },
     },
-    notifications: []
+    notifications: [],
   };
   componentDidMount() {
     this._ismounted = true;
-    axios.get("/api/notifications").then(res => {
-      if (this._ismounted) this.setState({ notifications: res.data });
+    axios.get("/api/notifications").then((res) => {
+      const { notifications, posts } = res.data;
+      if (this._ismounted) this.setState({ notifications, posts });
     });
   }
   componentWillUnmount() {
     this._ismounted = false;
   }
 
-  deleteNotification = id => {
-    axios.delete("/api/notification/" + id).then(res => {
+  deleteNotification = (id) => {
+    axios.delete("/api/notification/" + id).then((res) => {
       console.log(res);
     });
   };
-  switchDivs = activeCategory => {
+  switchDivs = (activeCategory) => {
     let { categories } = this.state;
     for (let index in categories) {
       categories[index].active = false;
@@ -43,7 +44,7 @@ class ManagePage extends Component {
   };
 
   render() {
-    const { categories, notifications, ghostitBlog } = this.state;
+    const { categories, notifications, ghostitBlog, posts } = this.state;
 
     return (
       <Page className="column" title="Manage">
@@ -87,6 +88,15 @@ class ManagePage extends Component {
                 </div>
               );
             })}
+          {categories.notifications.active &&
+            posts.map((post, index) => {
+              return (
+                <div className="flex column" key={"notification" + index}>
+                  <div>{post.content}</div>
+                  <div>{post.userID}</div>
+                </div>
+              );
+            })}
         </div>
       </Page>
     );
@@ -95,7 +105,7 @@ class ManagePage extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
   };
 }
 
