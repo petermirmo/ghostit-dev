@@ -39,7 +39,10 @@ class BlogPage extends Component {
       let canLoadMoreBlogs = true;
       if (ghostitBlogs && ghostitBlogs.length < 10) canLoadMoreBlogs = false;
 
-      this.handleChange({ canLoadMoreBlogs });
+      this.handleChange({ canLoadMoreBlogs: false });
+      window.setTimeout(() => {
+        this.handleChange({ canLoadMoreBlogs });
+      }, 10);
     }, this.context.ghostitBlogs.length);
   };
   componentWillUnmount() {
