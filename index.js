@@ -34,7 +34,7 @@ const cloudinary = require("cloudinary");
 cloudinary.config({
   cloud_name: keys.cloudinaryName,
   api_key: keys.cloudinaryApiKey,
-  api_secret: keys.cloudinaryApiSecret
+  api_secret: keys.cloudinaryApiSecret,
 });
 
 // Schedulers
@@ -55,6 +55,7 @@ schedule.scheduleJob("* * * * *", () => {
   PostAnalyticsScheduler.main();
 });
 schedule.scheduleJob("5 0 * * *", () => {
+  return;
   PageAnalyticsScheduler.main();
 });
 
@@ -74,7 +75,7 @@ createSiteMap();
 // Connect to database
 mongoose.connect(keys.mongoDevelopmentURI, {
   useNewUrlParser: true,
-  useCreateIndex: true
+  useCreateIndex: true,
 });
 var db = mongoose.connection;
 
@@ -94,7 +95,7 @@ app.use(
     secret: keys.cookieKey,
     resave: true,
     saveUninitialized: true,
-    store: sessionStore
+    store: sessionStore,
   })
 );
 
@@ -116,7 +117,7 @@ if (process.env.NODE_ENV === "production") {
         return console.log(err);
       }
 
-      getMetaInformation(req.originalUrl, metaObj => {
+      getMetaInformation(req.originalUrl, (metaObj) => {
         const { metaDescription, metaImage, metaTitle } = metaObj;
 
         data = data.replace(/\$OG_TITLE/g, metaTitle);
@@ -150,7 +151,7 @@ io.use(
     secret: keys.cookieKey,
     store: sessionStore,
     success: onAuthorizeSuccess,
-    fail: onAuthorizeFail
+    fail: onAuthorizeFail,
   })
 );
 
