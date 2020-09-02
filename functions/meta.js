@@ -3,6 +3,7 @@ const moment = require("moment-timezone");
 const jsdom = require("jsdom");
 const GhostitBlog = require("../models/GhostitBlog");
 const { teamMembers } = require("../client/src/website/TeamPage/teamMembers");
+const htmlToText = require("html-to-text");
 
 const { JSDOM } = jsdom;
 
@@ -99,18 +100,11 @@ const getMetaInformation = (url, callback) => {
         const { contentArray = [], images = [] } = ghostitBlog;
         if (ghostitBlog.url) {
           if (ghostitBlog.url === url.substring(6, url.length)) {
-            let temp = {};
-            if (contentArray[0]) temp = JSDOM.fragment(contentArray[0].html);
-
             let metaTitle = defaultMetaTitle;
-            if (temp.firstChild && temp.firstChild.textContent)
-              metaTitle = temp.firstChild.textContent;
-            if (temp.firstChild) {
-              console.log(JSDOM.fragment(contentArray[0].html));
-              console.log(temp.firstChild.textContent);
-              console.log(temp.firstChild);
-              console.log(temp.innerText);
-            }
+            if (contentArray[0] && contentArray[0].html)
+              metaTitle = htmlToText.fromString(contentArray[0].html, {
+                wordwrap: 130,
+              });
 
             let temp2 = {};
             if (contentArray[1]) temp2 = JSDOM.fragment(contentArray[1].html);
