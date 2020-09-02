@@ -39,9 +39,8 @@ import {
   getAllAccountsFromAllCalendars,
   getCalendars,
   getUser,
-  getGhostitBlogs,
   getAccounts,
-  useAppropriateFunctionForEscapeKey
+  useAppropriateFunctionForEscapeKey,
 } from "./util";
 
 import { getCalendarAccounts, getCalendarUsers } from "./Calendar/util";
@@ -52,7 +51,7 @@ import { getAccountAnalytics } from "./Analytics/util";
 
 class Routes extends Component {
   state = {
-    datebaseConnection: false
+    datebaseConnection: false,
   };
 
   componentDidMount() {
@@ -60,7 +59,7 @@ class Routes extends Component {
     const { location } = this.props; // Variables
 
     this.getUserDataAndCheckAuthorization();
-    getCalendars(stateObject => {
+    getCalendars((stateObject) => {
       context.handleChange(stateObject, () => {
         getCalendarAccounts(
           stateObject.activeCalendarIndex,
@@ -74,12 +73,8 @@ class Routes extends Component {
         );
       });
     });
-    getAllAccountsFromAllCalendars(allAccounts => {
+    getAllAccountsFromAllCalendars((allAccounts) => {
       context.handleChange({ allAccounts });
-    });
-
-    getGhostitBlogs(ghostitBlogs => {
-      context.handleChange({ ghostitBlogs });
     });
   }
   getUserDataAndCheckAuthorization = () => {
@@ -92,7 +87,7 @@ class Routes extends Component {
         if (signedInAsUser) context.handleChange({ signedInAsUser });
         context.handleChange({ user });
         setUser(user);
-        getAccounts(accounts => {
+        getAccounts((accounts) => {
           this.setState({ datebaseConnection: true });
           setAccounts(accounts);
         });
@@ -103,27 +98,9 @@ class Routes extends Component {
     });
   };
 
-  createBlogPages = ghostitBlogs => {
-    return ghostitBlogs.map((ghostitBlog, index) => (
-      <Route
-        path={"/blog/" + ghostitBlog.url + "/"}
-        key={index}
-        render={props => (
-          <ViewWebsiteBlog
-            authorID={ghostitBlog.authorID}
-            contentArray={ghostitBlog.contentArray}
-            featuredBlogs={ghostitBlogs.slice(0, 3)}
-            id={ghostitBlog._id}
-            images={ghostitBlog.images}
-          />
-        )}
-      />
-    ));
-  };
-
   render() {
     const { datebaseConnection } = this.state;
-    const { getKeyListenerFunction, ghostitBlogs = [] } = this.props; // Variables
+    const { getKeyListenerFunction } = this.props; // Variables
     const { location, user } = this.props; // Functions
     const { calendars } = this.context;
 
@@ -137,7 +114,7 @@ class Routes extends Component {
             style={{
               animation: "loading-animation 2s infinite linear",
               width: "10vw",
-              minWidth: "115px"
+              minWidth: "115px",
             }}
           />
         </GIContainer>
@@ -147,7 +124,7 @@ class Routes extends Component {
 
     return (
       <Consumer>
-        {context => (
+        {(context) => (
           <GIContainer>
             <Switch>
               <Route path="/dashboard/" component={DashboardPage} />
@@ -173,7 +150,7 @@ class Routes extends Component {
               <Route path="/terms-of-service/" component={TermsPage} />
               <Route path="/privacy-policy/" component={PrivacyPage} />
               <Route path="/team-member/" component={TeamMemberPage} />
-              {this.createBlogPages(context.ghostitBlogs)}
+              <Route path="/blog/" component={ViewWebsiteBlog} />
               <Route component={HomePage} />
             </Switch>
           </GIContainer>
@@ -188,21 +165,16 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     getKeyListenerFunction: state.getKeyListenerFunction,
-    accounts: state.accounts
+    accounts: state.accounts,
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setAccounts
+      setAccounts,
     },
     dispatch
   );
 }
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Routes)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Routes));

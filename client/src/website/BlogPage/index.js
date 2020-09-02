@@ -8,24 +8,50 @@ import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 import NavigationLayout from "../../components/navigations/NavigationLayout";
 
+import GIButton from "../../components/views/GIButton";
 import GIText from "../../components/views/GIText";
 
 import Blog from "./Blog";
 
 import { getTextFromHtmlTag, isMobileOrTablet } from "../../util";
 
+import { getGhostitBlogs } from "./util";
+
 import "./style.css";
 
 class BlogPage extends Component {
-  state = { activeBlogCategory: 0, categories: ["Recent Posts", "Sort A-Z"] };
+  state = {
+    activeBlogCategory: 0,
+    canLoadMoreBlogs: false,
+    categories: ["Recent Posts", "Sort A-Z"],
+  };
   componentDidMount() {
     this._ismounted = true;
+    this.getGhostitBlogs();
   }
+
+  getGhostitBlogs = () => {
+    getGhostitBlogs((ghostitBlogs) => {
+      if (ghostitBlogs && ghostitBlogs.length > 0)
+        this.context.handleChange({
+          ghostitBlogs: this.context.ghostitBlogs.concat(ghostitBlogs),
+        });
+      let canLoadMoreBlogs = true;
+      if (ghostitBlogs && ghostitBlogs.length < 10) canLoadMoreBlogs = false;
+
+      this.handleChange({ canLoadMoreBlogs });
+    }, this.context.ghostitBlogs.length);
+  };
   componentWillUnmount() {
     this._ismounted = false;
   }
+  handleChange = (stateObj) => {
+    if (this._ismounted) this.setState(stateObj);
+  };
+
   render() {
-    const { activeBlogCategory, categories } = this.state;
+    const { activeBlogCategory, canLoadMoreBlogs, categories } = this.state;
+
     const { ghostitBlogs } = this.context;
     if (activeBlogCategory === 1)
       ghostitBlogs.sort((a, b) => {
@@ -48,6 +74,7 @@ class BlogPage extends Component {
           return -1;
         }
       });
+
     return (
       <Consumer>
         {(context) => (
@@ -103,6 +130,7 @@ class BlogPage extends Component {
                   <LoaderSimpleCircle />
                 </GIContainer>
               )}
+
               {ghostitBlogs.length !== 0 && (
                 <GIContainer
                   className={
@@ -121,6 +149,15 @@ class BlogPage extends Component {
                   ))}
                 </GIContainer>
               )}
+              {canLoadMoreBlogs && (
+                <GIContainer className="x-fill full-center py16">
+                  <GIButton
+                    className="shadow-blue common-border four-blue px16 py8 br32"
+                    onClick={() => this.getGhostitBlogs()}
+                    text="Load More"
+                  />
+                </GIContainer>
+              )}
             </GIContainer>
           </Page>
         )}
@@ -128,6 +165,7 @@ class BlogPage extends Component {
     );
   }
 }
+
 BlogPage.contextType = ExtraContext;
 
 export default BlogPage;

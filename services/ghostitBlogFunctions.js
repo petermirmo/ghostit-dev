@@ -21,7 +21,7 @@ module.exports = {
       for (let index in ghostitBlog.deleteImageArray) {
         cloudinary.uploader.destroy(
           ghostitBlog.deleteImageArray[index],
-          cloudinaryResult => {}
+          (cloudinaryResult) => {}
         );
       }
     }
@@ -48,18 +48,18 @@ module.exports = {
     newGhostitBlog.category = category;
     newGhostitBlog.contentArray = pureContentArray;
 
-    let saveBlog = blog => {
+    let saveBlog = (blog) => {
       let unsuccessfulSave = (blog, error) => {
         // Make sure images are deleted from cloudinary if save was not successful
         let asyncCounter = 0;
 
         if (blog.images) {
-          blog.images.forEach(image => {
+          blog.images.forEach((image) => {
             asyncCounter++;
 
             cloudinary.uploader.destroy(
               image.publicID,
-              cloudinaryResult => {
+              (cloudinaryResult) => {
                 asyncCounter--;
 
                 if (asyncCounter === 0) handleError(res, error);
@@ -122,7 +122,7 @@ module.exports = {
                   publicID: result.public_id,
                   size: image.size,
                   location: image.location,
-                  alt: image.alt
+                  alt: image.alt,
                 });
 
                 if (asyncCounter === 0) saveBlog(newGhostitBlog);
@@ -136,15 +136,20 @@ module.exports = {
     }
   },
   getGhostitBlogs: (req, res) => {
+    const { skip } = req.body;
+
     GhostitBlog.find({}, (err, ghostitBlogs) => {
       if (!err && ghostitBlogs) res.send({ success: true, ghostitBlogs });
       else handleError(res, err);
-    }).sort({ createdAt: -1 });
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(10);
   },
   getGhostitBlog: (req, res) => {
-    GhostitBlog.findOne({ _id: req.params.blogID }, (err, ghostitBlog) => {
+    GhostitBlog.findOne({ url: req.params.url }, (err, ghostitBlog) => {
       if (!err && ghostitBlog) res.send({ success: true, ghostitBlog });
       else handleError(res, err);
     });
-  }
+  },
 };

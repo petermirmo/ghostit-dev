@@ -27,10 +27,10 @@ const ghostitBlogFunctions = require("./services/ghostitBlogFunctions");
 const {
   amazonAccessKeyID,
   amazonSecretAccessKey,
-  amazonBucket
+  amazonBucket,
 } = require("./config/keys");
 
-module.exports = app => {
+module.exports = (app) => {
   const middleware = (req, res, next) => {
     if (!req.user) {
       res.send({ success: false, loggedIn: false });
@@ -46,7 +46,7 @@ module.exports = app => {
       accessKeyId: amazonAccessKeyID,
       secretAccessKey: amazonSecretAccessKey,
       overrideCacheControl: "max-age=100000",
-      defaultKey: "sitemap.xml"
+      defaultKey: "sitemap.xml",
     })
   );
 
@@ -59,7 +59,7 @@ module.exports = app => {
       if (!user) success = false;
 
       if (success) {
-        req.logIn(user, err => {
+        req.logIn(user, (err) => {
           if (err) {
             success = false;
             message =
@@ -78,7 +78,7 @@ module.exports = app => {
       let success = true;
       if (!user) success = false;
       if (success) {
-        req.logIn(user, err => {
+        req.logIn(user, (err) => {
           if (err) {
             success = false;
             message =
@@ -151,15 +151,15 @@ module.exports = app => {
         "manage_pages",
         "read_insights",
         "instagram_basic",
-        "instagram_manage_insights"
-      ]
+        "instagram_manage_insights",
+      ],
     })
   );
   app.get(
     "/api/facebook/callback",
     passport.authenticate("facebook", {
       successRedirect: "/social-accounts/connected",
-      failureRedirect: "/social-accounts/failed"
+      failureRedirect: "/social-accounts/failed",
     })
   );
 
@@ -174,7 +174,7 @@ module.exports = app => {
     "/api/twitter/callback",
     passport.authenticate("twitter", {
       successRedirect: "/social-accounts/connected",
-      failureRedirect: "/social-accounts/failed"
+      failureRedirect: "/social-accounts/failed",
     })
   );
 
@@ -299,11 +299,11 @@ module.exports = app => {
     SendMailFunctions.sendPasswordReset(req, res)
   );
 
-  app.get("/api/ghostit/blogs", (req, res) =>
+  app.post("/api/ghostit/blogs", (req, res) =>
     ghostitBlogFunctions.getGhostitBlogs(req, res)
   );
 
-  app.get("/api/ghostit/blog/:blogID", (req, res) =>
+  app.get("/api/ghostit/blog/:url", (req, res) =>
     ghostitBlogFunctions.getGhostitBlog(req, res)
   );
   // Admin routes!!!!!
