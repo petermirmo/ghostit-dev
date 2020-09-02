@@ -105,6 +105,12 @@ const getMetaInformation = (url, callback) => {
             let metaTitle = defaultMetaTitle;
             if (temp.firstChild && temp.firstChild.textContent)
               metaTitle = temp.firstChild.textContent;
+            if (temp.firstChild) {
+              console.log(JSDOM.fragment(contentArray[0].html));
+              console.log(temp.firstChild.textContent);
+              console.log(temp.firstChild);
+              console.log(temp.innerText);
+            }
 
             let temp2 = {};
             if (contentArray[1]) temp2 = JSDOM.fragment(contentArray[1].html);
