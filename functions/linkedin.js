@@ -11,6 +11,7 @@ const fs = require("fs");
 const { whatFileTypeIsString, isUrlImage, isUrlVideo } = require("../util");
 
 const ImagePost = (postdata, account, post) => {
+  console.log(postdata);
   axios
     .post(
       "https://api.linkedin.com/v2/assets?action=registerUpload",
@@ -83,13 +84,25 @@ const ImagePost = (postdata, account, post) => {
                   "Content-Type": "application/json",
                 },
               })
-              .then((data) => {
-                console.log(data);
+              .then((linkedinPostResult) => {
+                if (linkedinPostResult.data.message)
+                  savePostError(post._id, linkedinPostResult.data.message);
+                else savePostSuccessfully(post._id, linkedinPostResult.data.id);
               })
-              .catch((error) => {
-                console.log(error);
+              .catch((linkedinPostError) => {
+                let errorCatch = linkedinPostError.response;
+
+                if (errorCatch)
+                  if (linkedinPostError.response.data)
+                    errorCatch = linkedinPostError.response.data;
+
+                savePostError(post._id, errorCatch);
               });
-            fs.unlinkSync("image.jpg");
+            try {
+              fs.unlinkSync("image.jpg");
+            } catch (e) {
+              console.log(e);
+            }
           });
       }
     })
@@ -163,19 +176,8 @@ module.exports = {
 
             linkedinPost.content = content;
           }
-          uploadLinkedinPost(linkedinPost, account, post);
-          /*if (post.files) {
-            uploadLinkedinFiles(post.files, account, urnList => {
-              for (let index in urnList) contentEntities.push(urnList[index]);
-              content.contentEntities = contentEntities;
-              linkedinPost.content = content;
 
-              uploadLinkedinPost(linkedinPost, account, post);
-            });
-          } else {*/
-
-          //}
-          if (post.files) {
+          if (post.files && post.files.length > 0) {
             for (let i = 0; i < post.files.length; i++) {
               const file = post.files[i];
               if (isUrlVideo(file.url)) {
@@ -220,7 +222,7 @@ module.exports = {
                 ImagePost(linkedinPost, account, post);
               }
             }
-          }
+          } else uploadLinkedinPost(linkedinPost, account, post);
         } else {
           savePostError(post._id, "Cannot find your account!");
         }
@@ -228,3 +230,15 @@ module.exports = {
     );
   },
 };
+
+/*if (post.files) {
+  uploadLinkedinFiles(post.files, account, urnList => {
+    for (let index in urnList) contentEntities.push(urnList[index]);
+    content.contentEntities = contentEntities;
+    linkedinPost.content = content;
+
+    uploadLinkedinPost(linkedinPost, account, post);
+  });
+} else {*/
+
+//}

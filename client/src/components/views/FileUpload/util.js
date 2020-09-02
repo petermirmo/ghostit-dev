@@ -79,10 +79,10 @@ export const setFilesToParentState = (newFiles, currentFiles, callback) => {
   for (let index = 0; index < newFiles.length; index++) {
     let reader = new FileReader();
     let file = newFiles[index];
-    reader.onloadend = file => {
+    reader.onloadend = (file) => {
       currentFiles.push({
         file: reader.result,
-        type: getFileType(file)
+        type: getFileType(file),
       });
 
       callback({ files: currentFiles, somethingChanged: true });
@@ -91,10 +91,10 @@ export const setFilesToParentState = (newFiles, currentFiles, callback) => {
   }
 };
 
-const isFileOverSize = fileToCheck => {
+const isFileOverSize = (fileToCheck) => {
   if (isImage(fileToCheck)) {
-    if (fileToCheck.size > 5000000) {
-      alert("File size on one or more photos is over 5MB.");
+    if (fileToCheck.size > 2017152) {
+      alert("File size on one or more photos is over 2MB.");
       return true;
     }
   } else if (isVideo(fileToCheck)) {
@@ -112,14 +112,14 @@ const isFileOverSize = fileToCheck => {
     return false;
 };
 
-export const isImage = fileToCheck => {
+export const isImage = (fileToCheck) => {
   const fileExtension = getFileExtension(fileToCheck);
   return fileExtension.match(
     /(\.|\/)(jpe?g|ico|png|svg|woff|ttf|wav|mp3)($|;)/i
   );
 };
 
-export const isVideo = fileToCheck => {
+export const isVideo = (fileToCheck) => {
   const fileExtension = String(getFileExtension(fileToCheck));
   return (
     fileExtension.match(/(\.|\/)(avi|flv|wmv|mov|mp4|video)($|;)/i) ||
@@ -127,11 +127,11 @@ export const isVideo = fileToCheck => {
   );
 };
 
-export const isGif = fileToCheck => {
+export const isGif = (fileToCheck) => {
   const fileExtension = getFileExtension(fileToCheck);
   return fileExtension.match(/(\.|\/)(gif)($|;)/i);
 };
-export const getFileType = file => {
+export const getFileType = (file) => {
   if (isImage(file)) return "image";
   else if (isVideo(file)) return "video";
   else if (isGif(file)) return "gif";
@@ -141,7 +141,7 @@ export const getFileType = file => {
     );
   }
 };
-const getFileExtension = file => {
+const getFileExtension = (file) => {
   if (file.name) return file.name;
   else if (file.file) return file.file;
   else if (file.url) return file.url;

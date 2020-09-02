@@ -60,7 +60,7 @@ schedule.scheduleJob("5 0 * * *", () => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  schedule.scheduleJob("* * * * *", () => {
+  schedule.scheduleJob("* * * * * *", () => {
     PostScheduler.main();
   });
 

@@ -361,7 +361,7 @@ class AccountsPage extends Component {
             )}
           </GIContainer>
 
-          {user && (user.role === "admin" || user.role === "tester") && (
+          {false && user && (user.role === "admin" || user.role === "tester") && (
             <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
               <GIContainer className="align-center mb16">
                 <FontAwesomeIcon
