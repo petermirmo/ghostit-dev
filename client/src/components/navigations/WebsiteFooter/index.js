@@ -18,9 +18,11 @@ class WebsiteFooter extends Component {
     else return "";
   };
   render() {
+    const { hideForm = false } = this.props;
+
     return (
       <GIContainer className="column x-fill">
-        <CalendlyForm />
+        {!hideForm && <CalendlyForm />}
 
         <GIContainer
           className={

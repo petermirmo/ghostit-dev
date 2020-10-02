@@ -54,7 +54,14 @@ class Page extends Component {
     return { style, title, description, image };
   };
   render() {
-    const { children, className, homePage = true, location, user } = this.props; // Variables
+    const {
+      children,
+      className,
+      hideForm = false,
+      homePage = true,
+      location,
+      user,
+    } = this.props; // Variables
     const activePage = location.pathname;
 
     const { style, title, description, image } = this.checkPropsVariables(
@@ -96,7 +103,9 @@ class Page extends Component {
                 {children}
               </GIContainer>
 
-              {!isUserInPlatform(activePage) && <WebsiteFooter />}
+              {!isUserInPlatform(activePage) && (
+                <WebsiteFooter hideForm={hideForm} />
+              )}
             </GIContainer>
           </GIContainer>
         </GIContainer>

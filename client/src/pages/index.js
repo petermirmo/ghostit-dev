@@ -33,6 +33,8 @@ import RegisterPage from "../website/RegisterPage";
 import ForgotPasswordPage from "../website/ForgotPasswordPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
+import ThankYouPage from "../website/ThankYou";
+
 import Logo from "../components/navigations/WebsiteHeader/Logo";
 
 import {
@@ -151,6 +153,7 @@ class Routes extends Component {
               <Route path="/privacy-policy/" component={PrivacyPage} />
               <Route path="/team-member/" component={TeamMemberPage} />
               <Route path="/blog/" component={ViewWebsiteBlog} />
+              <Route path="/thank-you/" component={ThankYouPage} />
               <Route component={HomePage} />
             </Switch>
           </GIContainer>

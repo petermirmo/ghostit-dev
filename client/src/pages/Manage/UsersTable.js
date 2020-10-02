@@ -24,8 +24,8 @@ class UsersTable extends Component {
       tester: false,
       manager: false,
       client: true,
-      demo: false
-    }
+      demo: false,
+    },
   };
 
   componentDidMount() {
@@ -37,7 +37,7 @@ class UsersTable extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
-  downloadUserData = users => {
+  downloadUserData = (users) => {
     const test = [];
     for (let index in users) {
       test.push(users[index].fullName + ",");
@@ -56,7 +56,7 @@ class UsersTable extends Component {
   };
   getUsers = () => {
     const { userCategories } = this.state;
-    axios.get("/api/users").then(res => {
+    axios.get("/api/users").then((res) => {
       let { loggedIn } = res.data;
       if (loggedIn === false) this.props.history.push("/sign-in");
 
@@ -111,21 +111,21 @@ class UsersTable extends Component {
             testerUsers,
             adminUsers,
             activeUsers,
-            untouchedUsers: activeUsers
+            untouchedUsers: activeUsers,
           });
         }
       }
     });
   };
   getPlans = () => {
-    axios.get("/api/plans").then(res => {
+    axios.get("/api/plans").then((res) => {
       let { loggedIn } = res.data;
       if (loggedIn === false) this.props.history.push("/sign-in");
 
       this.setState({ plans: res.data });
     });
   };
-  updateUsers = event => {
+  updateUsers = (event) => {
     // Remove active class from last tab
     let { userCategories } = this.state;
     for (let index in userCategories) {
@@ -148,12 +148,12 @@ class UsersTable extends Component {
 
     this.setState({ activeUsers: users, userCategories: userCategories });
   };
-  handleClickedUser = user => {
+  handleClickedUser = (user) => {
     // ID of clicked event is the index of in activeUsers of the clicked user
     this.setState({ clickedUser: user, editting: false });
   };
-  saveUser = user => {
-    axios.post("/api/updateUser", user).then(res => {
+  saveUser = (user) => {
+    axios.post("/api/updateUser", user).then((res) => {
       let { loggedIn } = res.data;
       if (loggedIn === false) this.props.history.push("/sign-in");
 
@@ -162,7 +162,7 @@ class UsersTable extends Component {
         this.getUsers();
       } else {
         alert(
-          "There has been an error! :( Contact your local dev team immediately! If you do not have a local dev team, you can contact me at peter.mirmotahari@gmail.com!"
+          "There has been an error! :( Contact your local dev team immediately! If you do not have a local dev team, you can contact me at peterm@ghostit.co!"
         );
       }
     });
@@ -177,7 +177,7 @@ class UsersTable extends Component {
       plans,
       editting,
       activeUsers,
-      userCategories
+      userCategories,
     } = this.state;
     let objectArry = [];
 
@@ -203,14 +203,14 @@ class UsersTable extends Component {
           for (let j in managerUsers) {
             dropdownList.push({
               id: managerUsers[j]._id,
-              value: managerUsers[j].fullName
+              value: managerUsers[j].fullName,
             });
           }
         } else if (index === "plan") {
           for (let j in plans) {
             dropdownList.push({
               id: plans[j]._id,
-              value: plans[j].name
+              value: plans[j].name,
             });
           }
         }
@@ -227,7 +227,7 @@ class UsersTable extends Component {
               : clickedUser[index],
           dropdown,
           dropdownList,
-          index
+          index,
         });
       }
     }
