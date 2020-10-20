@@ -34,6 +34,7 @@ import ForgotPasswordPage from "../website/ForgotPasswordPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
 import ThankYouPage from "../website/ThankYou";
+import Demo from "../website/Demo";
 
 import Logo from "../components/navigations/WebsiteHeader/Logo";
 
@@ -154,6 +155,7 @@ class Routes extends Component {
               <Route path="/team-member/" component={TeamMemberPage} />
               <Route path="/blog/" component={ViewWebsiteBlog} />
               <Route path="/thank-you/" component={ThankYouPage} />
+              <Route path="/demo/" component={Demo} />
               <Route component={HomePage} />
             </Switch>
           </GIContainer>
