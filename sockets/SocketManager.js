@@ -48,12 +48,12 @@ emitSocketUsersToRooms = (roomsToEmit, io, rooms, connections) => {
     if (!userList) continue; // this happens when the user just left a room and was the only user in the room (so the room no longer exists)
     io.in(roomsToEmit[i]).emit("socket_user_list", {
       roomID: roomsToEmit[i],
-      userList
+      userList,
     });
   }
 };
 
-module.exports = io => {
+module.exports = (io) => {
   /*
     Sockets used by the ContentPage will be used as follows:
       Each socket will be connected to ONE room.
@@ -79,8 +79,8 @@ module.exports = io => {
   */
   const connections = {};
 
-  return socket => {
-    socket.on("calendar_chat_connect", reqObj => {
+  return (socket) => {
+    socket.on("calendar_chat_connect", (reqObj) => {
       // need to make sure user is authorized for all the calendars in their list
       // and then add the socket.id to all those calendars' chat rooms
       const { calendarIDList } = reqObj;
@@ -100,7 +100,7 @@ module.exports = io => {
             socket.emit("calendar_chat_connect_error", {
               err,
               message:
-                "Error occurred while connecting to your calendar's chat rooms. Reload the page to try connecting again."
+                "Error occurred while connecting to your calendar's chat rooms. Reload the page to try connecting again.",
             });
           } else {
             socket.leaveAll();
@@ -113,7 +113,7 @@ module.exports = io => {
       );
     });
 
-    socket.on("calendar_chat_message_send", reqObj => {
+    socket.on("calendar_chat_message_send", (reqObj) => {
       // user is sending a new chat message to the designated calendar
       // we need to store the message in the DB
       // then notify all users that are subscribed to this calendar's chat
@@ -142,7 +142,7 @@ module.exports = io => {
               username: name,
               userEmail: socket.request.user.email,
               content: inputText,
-              edited: false
+              edited: false,
             };
             foundCalendar.chatHistory.push(msgObj);
             foundCalendar.save((err, savedCalendar) => {
@@ -155,7 +155,7 @@ module.exports = io => {
                 const socketRoom = `${calendarID.toString()}-chat`;
                 socket.to(socketRoom).emit("calendar_chat_message_broadcast", {
                   calendarID,
-                  savedMsgObj
+                  savedMsgObj,
                 });
               }
             });
@@ -164,7 +164,7 @@ module.exports = io => {
       );
     });
 
-    socket.on("calendar_chat_opened", reqObj => {
+    socket.on("calendar_chat_opened", (reqObj) => {
       const { calendarID, timestamp } = reqObj;
 
       let userID = socket.request.user._id;
@@ -185,7 +185,7 @@ module.exports = io => {
             );
           } else {
             const index = foundCalendar.chatLastOpened.findIndex(
-              obj => obj.userID.toString() === userID.toString()
+              (obj) => obj.userID.toString() === userID.toString()
             );
 
             if (index === -1) {
@@ -206,7 +206,7 @@ module.exports = io => {
       );
     });
 
-    socket.on("calendar_chat_request_more_messages", reqObj => {
+    socket.on("calendar_chat_request_more_messages", (reqObj) => {
       const { calendarID, clientChatHistoryLength } = reqObj;
 
       let userID = socket.request.user._id;
@@ -247,14 +247,14 @@ module.exports = io => {
           } else {
             socket.emit("calendar_chat_send_more_messages", {
               calendarID: foundCalendar._id,
-              newMessages: foundCalendar.chatHistory
+              newMessages: foundCalendar.chatHistory,
             });
           }
         }
       );
     });
 
-    socket.on("calendar_connect", reqObj => {
+    socket.on("calendar_connect", (reqObj) => {
       let { calendarID, name, email } = reqObj;
 
       if (!calendarID) return;
@@ -326,7 +326,7 @@ module.exports = io => {
       );
     });
 
-    socket.on("trigger_socket_peers", reqObj => {
+    socket.on("trigger_socket_peers", (reqObj) => {
       const { calendarID, campaignID, type } = reqObj;
       let extra = reqObj.extra;
       if (campaignID) extra = { calendarID, campaignID, extra };
@@ -335,7 +335,7 @@ module.exports = io => {
       }
     });
 
-    socket.on("campaign_connect", reqObj => {
+    socket.on("campaign_connect", (reqObj) => {
       /*
         maintain "rooms" for campaignIDs so that if 2 or more users are working on the same
         campaign at the same time, they will get real-time updates from each other's work
@@ -397,14 +397,14 @@ module.exports = io => {
       });
     });
 
-    socket.on("trigger_campaign_peers", reqObj => {
+    socket.on("trigger_campaign_peers", (reqObj) => {
       const { campaignID, type, extra } = reqObj;
       if (campaignID && type) {
         socket.to(campaignID.toString()).emit(type, extra);
       }
     });
 
-    socket.on("new_campaign", campaign => {
+    socket.on("new_campaign", (campaign) => {
       if (campaign) delete campaign._id;
       new Campaign(campaign).save((err, result) => {
         if (!err) {
@@ -430,11 +430,11 @@ module.exports = io => {
       });
     });
 
-    socket.on("new_post", emitObject => {
+    socket.on("new_post", (emitObject) => {
       let { campaign, post } = emitObject;
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
         if (foundCampaign) {
-          let index = foundCampaign.posts.findIndex(post_obj => {
+          let index = foundCampaign.posts.findIndex((post_obj) => {
             return post_obj._id == post._id;
           });
           if (index === -1) {
@@ -448,7 +448,7 @@ module.exports = io => {
       });
     });
 
-    socket.on("campaign_editted", campaign => {
+    socket.on("campaign_editted", (campaign) => {
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
         if (foundCampaign) {
           foundCampaign.name = campaign.name;
@@ -464,7 +464,7 @@ module.exports = io => {
       });
     });
 
-    socket.on("close", campaign => {
+    socket.on("close", (campaign) => {
       if (campaign.posts) {
         if (campaign.posts.length === 0) {
           Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
@@ -513,7 +513,7 @@ module.exports = io => {
       socket.disconnect();
     });
 
-    socket.on("delete", campaign => {
+    socket.on("delete", (campaign) => {
       Campaign.findOne({ _id: campaign._id }, (err, foundCampaign) => {
         if (foundCampaign) {
           if (foundCampaign.posts) {
@@ -524,7 +524,7 @@ module.exports = io => {
                 let post = foundCampaign.posts[index];
                 postFunctions.deletePostStandalone(
                   { postID: post._id, skipUserCheck: true },
-                  response => {
+                  (response) => {
                     const { success } = response;
                     if (success) deletedCount++;
                     else failedCount++;
@@ -572,7 +572,7 @@ module.exports = io => {
       });
     });
 
-    socket.on("delete-post", emitObject => {
+    socket.on("delete-post", (emitObject) => {
       // listener that will delete the post id from its campaign and then delete the actual post
       // does not delete single posts that aren't tied to a campaign.
       const { post, campaign } = emitObject;
@@ -583,14 +583,14 @@ module.exports = io => {
         if (foundCampaign) {
           if (foundCampaign.posts) {
             while (
-              (index = foundCampaign.posts.findIndex(post_obj => {
+              (index = foundCampaign.posts.findIndex((post_obj) => {
                 if (!post_obj) return false;
                 return post_obj._id == post._id;
               })) !== -1
             ) {
               foundCampaign.posts = [
                 ...foundCampaign.posts.slice(0, index),
-                ...foundCampaign.posts.slice(index + 1)
+                ...foundCampaign.posts.slice(index + 1),
               ];
             }
             foundCampaign.save((err, savedCampaign) => {
@@ -598,7 +598,7 @@ module.exports = io => {
                 socket.emit("post-deleted", {
                   removedFromCampaign,
                   removedPost,
-                  newCampaign
+                  newCampaign,
                 });
               } else {
                 removedFromCampaign = true;
@@ -609,7 +609,7 @@ module.exports = io => {
                       for (let i = 0; i < foundpost.files.length; i++) {
                         await cloudinary.uploader.destroy(
                           foundpost.files[i].publicID,
-                          function(result) {
+                          function (result) {
                             // TO DO: handle error here
                           }
                         );
@@ -620,13 +620,13 @@ module.exports = io => {
                     socket.emit("post-deleted", {
                       removedFromCampaign,
                       removedPost,
-                      newCampaign
+                      newCampaign,
                     });
                   } else {
                     socket.emit("post-deleted", {
                       removedFromCampaign,
                       removedPost,
-                      newCampaign
+                      newCampaign,
                     });
                   }
                 });
@@ -636,14 +636,14 @@ module.exports = io => {
             socket.emit("post-deleted", {
               removedFromCampaign,
               removedPost,
-              newCampaign
+              newCampaign,
             });
           }
         } else {
           socket.emit("post-deleted", {
             removedFromCampaign,
             removedPost,
-            newCampaign
+            newCampaign,
           });
         }
       });
