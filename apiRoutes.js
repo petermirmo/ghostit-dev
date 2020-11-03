@@ -309,6 +309,9 @@ module.exports = (app) => {
   app.get("/api/ghostit/blog/:url", (req, res) =>
     ghostitBlogFunctions.getGhostitBlog(req, res)
   );
+  app.get("/api/ghostit/blog/edit/:id", (req, res) =>
+    ghostitBlogFunctions.getGhostitBlogEdit(req, res)
+  );
   // Admin routes!!!!!
 
   app.post("/api/ghostit/blog", (req, res) =>

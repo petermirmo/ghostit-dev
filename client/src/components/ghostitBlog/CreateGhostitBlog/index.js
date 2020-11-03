@@ -25,15 +25,14 @@ class CreateWebsiteBlog extends Component {
     category: 0,
     deleteImageArray: [],
     contentArray: [],
-    hyperlink: ""
+    hyperlink: "",
   };
   componentDidMount() {
     this._ismounted = true;
     if (this.props.id) {
-      axios.get("/api/ghostit/blog/" + this.props.id).then(res => {
+      axios.get("/api/ghostit/blog/edit/" + this.props.id).then((res) => {
         const { ghostitBlog } = res.data;
         const { contentArray, images } = ghostitBlog;
-        console.log(ghostitBlog);
 
         if (ghostitBlog) {
           const mixedContentArray = [];
@@ -58,7 +57,7 @@ class CreateWebsiteBlog extends Component {
               category: ghostitBlog.category,
               contentArray: mixedContentArray,
               id: ghostitBlog._id,
-              url: ghostitBlog.url
+              url: ghostitBlog.url,
             });
           }
         }
@@ -80,23 +79,23 @@ class CreateWebsiteBlog extends Component {
       );
     this.setState({ contentArray });
   };
-  handleChange = stateObj => {
+  handleChange = (stateObj) => {
     if (this._ismounted) this.setState(stateObj);
   };
 
-  removeIndex = index => {
+  removeIndex = (index) => {
     const { contentArray, deleteImageArray } = this.state;
     if (contentArray[index].url)
       deleteImageArray.push(contentArray[index].publicID);
     contentArray.splice(index, 1);
     this.setState({ contentArray, deleteImageArray });
   };
-  insertTextbox = location => {
+  insertTextbox = (location) => {
     location += 1;
     let { contentArray } = this.state;
 
     contentArray.splice(location, 0, {
-      html: "<p>Start Writing!</p>"
+      html: "<p>Start Writing!</p>",
     });
 
     this.setState({ contentArray });
@@ -111,13 +110,13 @@ class CreateWebsiteBlog extends Component {
       let reader = new FileReader();
       let image = newImages[index];
 
-      reader.onloadend = image => {
+      reader.onloadend = (image) => {
         contentArray.splice(location + index, 0, {
           alt: "",
           file: reader.result,
           image,
           size: "small",
-          type: getFileType(image)
+          type: getFileType(image),
         });
 
         this.setState({ contentArray });
@@ -132,7 +131,7 @@ class CreateWebsiteBlog extends Component {
       contentArray,
       deleteImageArray,
       id,
-      url
+      url,
     } = this.state;
 
     if (!url) {
@@ -147,9 +146,9 @@ class CreateWebsiteBlog extends Component {
         contentArray,
         deleteImageArray,
         id,
-        url
+        url,
       })
-      .then(res => {
+      .then((res) => {
         const { success, ghostitBlog } = res.data;
         if (success) {
           if (!id) {
@@ -173,7 +172,7 @@ class CreateWebsiteBlog extends Component {
         <div
           className="hover-options-container"
           style={{
-            backgroundColor: "var(--five-blue-color)"
+            backgroundColor: "var(--five-blue-color)",
           }}
         >
           <button
@@ -217,7 +216,7 @@ class CreateWebsiteBlog extends Component {
           <input
             id={"image-file-upload" + index}
             type="file"
-            onChange={event => {
+            onChange={(event) => {
               this.insertImage(event, index);
             }}
           />
@@ -233,7 +232,9 @@ class CreateWebsiteBlog extends Component {
           className="regular-input x-fill border-box"
           value={image.alt ? image.alt : ""}
           placeholder="alt"
-          onChange={e => this.handleContentChange(e.target.value, index, "alt")}
+          onChange={(e) =>
+            this.handleContentChange(e.target.value, index, "alt")
+          }
         />
       </GIContainer>
     );
@@ -261,7 +262,7 @@ class CreateWebsiteBlog extends Component {
           <input
             id={"text-file-upload" + index}
             type="file"
-            onChange={event => this.insertImage(event, index)}
+            onChange={(event) => this.insertImage(event, index)}
           />
           <FontAwesomeIcon
             icon={faFont}
@@ -274,7 +275,7 @@ class CreateWebsiteBlog extends Component {
           disabled={false}
           html={content.html}
           innerRef={this.contentEditable}
-          onChange={e =>
+          onChange={(e) =>
             this.handleContentChange(e.target.value, index, "html")
           }
         />
@@ -320,7 +321,7 @@ class CreateWebsiteBlog extends Component {
             <p className="label mr8">Blog URL:</p>
             <input
               type="text"
-              onChange={e => this.setState({ url: e.target.value })}
+              onChange={(e) => this.setState({ url: e.target.value })}
               value={url || ""}
               className="regular-input"
               placeholder="10-marketing-strategies"
@@ -330,7 +331,7 @@ class CreateWebsiteBlog extends Component {
               className="regular-input"
               type="number"
               value={category || ""}
-              onChange={e => this.setState({ category: e.target.value })}
+              onChange={(e) => this.setState({ category: e.target.value })}
             />
           </div>
 
@@ -358,7 +359,7 @@ class CreateWebsiteBlog extends Component {
             <EditButton cmd="createLink" arg={hyperlink} name="Link" />
             <input
               type="text"
-              onChange={e => this.setState({ hyperlink: e.target.value })}
+              onChange={(e) => this.setState({ hyperlink: e.target.value })}
               value={hyperlink || ""}
               className="regular-input br0"
               placeholder="Type your hyperlink value here"
@@ -374,7 +375,7 @@ class CreateWebsiteBlog extends Component {
             <input
               id="file-upload3"
               type="file"
-              onChange={event =>
+              onChange={(event) =>
                 this.insertImage(event, contentArray.length - 1)
               }
             />
@@ -400,7 +401,7 @@ function EditButton(props) {
   return (
     <button
       key={props.cmd}
-      onMouseDown={e => {
+      onMouseDown={(e) => {
         e.preventDefault(); // Avoids loosing focus from the editable area
         document.execCommand(props.cmd, false, props.arg); // Send the command to the browser
       }}

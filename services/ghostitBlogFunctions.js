@@ -158,4 +158,10 @@ module.exports = {
       else handleError(res, err);
     });
   },
+  getGhostitBlogEdit: (req, res) => {
+    GhostitBlog.findOne({ _id: req.params.id }, (err, ghostitBlog) => {
+      if (!err && ghostitBlog) res.send({ success: true, ghostitBlog });
+      else handleError(res, err);
+    });
+  },
 };

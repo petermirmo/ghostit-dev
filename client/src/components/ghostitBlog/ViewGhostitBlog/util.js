@@ -16,8 +16,10 @@ export const createLinkFromNameAndJob = (id, name, title) => {
     id
   );
 };
-const getTeamMember = authorID => {
-  const foundMember = teamMembers.find(something => something._id === authorID);
+const getTeamMember = (authorID) => {
+  const foundMember = teamMembers.find(
+    (something) => something._id === authorID
+  );
 
   if (!foundMember) return undefined;
 
@@ -88,16 +90,17 @@ export const createContentImagesArray = (contentArray, images) => {
 
 const createRelevantImageDiv = (image, index) => {
   return (
-    <img
-      alt="Blog"
-      className={
-        "float-left ov-hidden image mb8 br8 " +
-        image.size +
-        (image.size === "medium" ? "" : " mr16")
-      }
-      key={index + "image"}
-      src={image.file || image.url}
-    />
+    <div className="flex full-center x-fill" key={index + "image"}>
+      <img
+        alt="Blog"
+        className={
+          "float-left ov-hidden image mb8 br8 " +
+          image.size +
+          (image.size === "medium" ? "" : " mr16")
+        }
+        src={image.file || image.url}
+      />
+    </div>
   );
 };
 
@@ -113,7 +116,7 @@ const createSmallDiv = (contentImagesArray, index) => {
         className="mb8"
         key={index}
         dangerouslySetInnerHTML={{
-          __html: contentImagesArray[Number(index) + 1].html
+          __html: contentImagesArray[Number(index) + 1].html,
         }}
       />
     );

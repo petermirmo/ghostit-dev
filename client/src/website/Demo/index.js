@@ -54,7 +54,7 @@ class Demo extends Component {
       src =
         "https://res.cloudinary.com/ghostit-co/image/upload/v1603907837/Revised-homepage-V1.jpg";
 
-    if (!lastUrlPart) return <div>hello world</div>;
+    if (!src) return <div>hello world</div>;
     return <img className="x-fill" src={src} />;
   }
 }

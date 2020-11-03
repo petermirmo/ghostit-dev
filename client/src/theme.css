@@ -1,6 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-@import url(https://fonts.googleapis.com/css?family=Quicksand);
-@import url(https://fonts.googleapis.com/css?family=Muli);
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url("https://fonts.googleapis.com/css?family=Quicksand");
+@import url("https://fonts.googleapis.com/css?family=Muli");
 
 :root {
   --nine-blue-color: #1b3a7a;
@@ -1004,7 +1004,7 @@ img {
   max-height: 70px;
 }
 .image.small {
-  width: 50%;
+  width: 66%;
 }
 .image.medium {
   width: 100%;
