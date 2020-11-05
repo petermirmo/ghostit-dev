@@ -147,17 +147,6 @@ class WebsiteFooter extends Component {
                 </a>
 
                 <a
-                  href="https://twitter.com/ghostitcontent"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <FontAwesomeIcon
-                    className="clickable ml16 white round-icon round pa8"
-                    icon={getPostIconRound("twitter")}
-                    style={{ backgroundColor: getPostColor("twitter") }}
-                  />
-                </a>
-                <a
                   href="https://www.linkedin.com/company/ghostit-content/"
                   rel="noopener noreferrer"
                   target="_blank"

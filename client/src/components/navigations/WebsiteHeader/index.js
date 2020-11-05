@@ -19,7 +19,7 @@ import "./styles";
 
 class WebsiteHeader extends Component {
   state = {
-    showHeader: !isMobileOrTablet()
+    showHeader: !isMobileOrTablet(),
   };
   componentDidMount() {
     // This is for header to blend with background when at top of home page
@@ -33,11 +33,11 @@ class WebsiteHeader extends Component {
     if (this._ismounted) this.setState({ [index]: value });
   };
 
-  isActive = page => {
+  isActive = (page) => {
     if ("/" + page === this.props.location.pathname) return " four-blue";
     else return "";
   };
-  isRootActive = page => {
+  isRootActive = (page) => {
     if (
       "/" + page ===
       this.props.location.pathname.substring(0, page.length + 1)
@@ -194,24 +194,11 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("facebook")}
                 style={{
-                  backgroundColor: getPostColor("facebook")
+                  backgroundColor: getPostColor("facebook"),
                 }}
               />
             </a>
 
-            <a
-              href="https://twitter.com/ghostitcontent"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <FontAwesomeIcon
-                className="clickable common-border white round-icon round pa8 ml16"
-                icon={getPostIconRound("twitter")}
-                style={{
-                  backgroundColor: getPostColor("twitter")
-                }}
-              />
-            </a>
             <a
               href="https://www.linkedin.com/company/ghostit-content/"
               rel="noopener noreferrer"
@@ -221,7 +208,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("linkedin")}
                 style={{
-                  backgroundColor: getPostColor("linkedin")
+                  backgroundColor: getPostColor("linkedin"),
                 }}
               />
             </a>
@@ -234,7 +221,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 mx16"
                 icon={getPostIconRound("instagram")}
                 style={{
-                  backgroundColor: getPostColor("instagram")
+                  backgroundColor: getPostColor("instagram"),
                 }}
               />
             </a>
@@ -268,7 +255,7 @@ class WebsiteHeader extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
   };
 }
 export default withRouter(connect(mapStateToProps)(WebsiteHeader));
