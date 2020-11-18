@@ -40,65 +40,68 @@ export const showFiles = async (
 
   for (let index = 0; index < event.target.files.length; index++) {
     imageCompressionCounter++;
-    imageCompression(event.target.files[index], options)
-      .then((compressedFile) => {
-        imageCompressionCounter--;
 
-        newFiles.push(compressedFile);
-        if (imageCompressionCounter === 0) {
-          // Check to make sure there are not more than the fileLimit
-          if (newFiles.length + currentFiles.length > fileLimit) {
+    const filesCheckAndReturn = (compressedFile) => {
+      imageCompressionCounter--;
+
+      newFiles.push(compressedFile);
+      if (imageCompressionCounter === 0) {
+        // Check to make sure there are not more than the fileLimit
+        if (newFiles.length + currentFiles.length > fileLimit) {
+          return alert(
+            "You have selected more than " +
+              fileLimit +
+              " files! Please try again"
+          );
+        }
+        for (let index in currentFiles) {
+          if (isVideo(currentFiles[index])) {
             return alert(
-              "You have selected more than " +
-                fileLimit +
-                " files! Please try again"
+              "You can't upload anymore because you have already uploaded a video"
             );
           }
-          for (let index in currentFiles) {
-            if (isVideo(currentFiles[index])) {
-              return alert(
-                "You can't upload anymore because you have already uploaded a video"
-              );
-            }
-          }
+        }
 
-          for (let index in newFiles) {
-            if (isNaN(index)) continue;
-            if (isVideo(newFiles[index]) && newFiles.length > 1) {
-              return alert(
-                "You can't upload any photos with a video and you can only upload 1 video max with a post."
-              );
-            }
-          }
-          if (currentFiles.length > 0 && isVideo(newFiles[0])) {
+        for (let index in newFiles) {
+          if (isNaN(index)) continue;
+          if (isVideo(newFiles[index]) && newFiles.length > 1) {
             return alert(
               "You can't upload any photos with a video and you can only upload 1 video max with a post."
             );
           }
-
-          // Check to make sure each file is under 5MB
-          for (let index = 0; index < newFiles.length; index++) {
-            let fileToCheck = newFiles[index];
-            if (!isImage(fileToCheck) && imageOnly) {
-              return alert("This file is not an image.");
-            }
-            if (isFileOverSize(fileToCheck)) {
-              return true;
-              /*alert(
-                    "Please contact peterm@ghostit.co for technical support. We do not currently support this file format, but we may do a software update if you contact us."
-                  );*/
-            }
-          }
-
-          setFilesToParentState(newFiles, currentFiles, callback);
         }
-      })
-      .catch((e) => {
-        console.log(e);
-        alert(
-          "One or more images could not be uploaded, please contact support."
-        );
-      });
+        if (currentFiles.length > 0 && isVideo(newFiles[0])) {
+          return alert(
+            "You can't upload any photos with a video and you can only upload 1 video max with a post."
+          );
+        }
+
+        // Check to make sure each file is under 5MB
+        for (let index = 0; index < newFiles.length; index++) {
+          let fileToCheck = newFiles[index];
+          if (!isImage(fileToCheck) && imageOnly) {
+            return alert("This file is not an image.");
+          }
+          if (isFileOverSize(fileToCheck)) {
+            return true;
+          }
+        }
+
+        setFilesToParentState(newFiles, currentFiles, callback);
+      }
+    };
+    if (!isVideo(event.target.files[index]))
+      imageCompression(event.target.files[index], options)
+        .then((compressedFile) => filesCheckAndReturn(compressedFile))
+        .catch((e) => {
+          console.log(e);
+          alert(
+            "One or more images could not be uploaded, please contact support."
+          );
+        });
+    else {
+      filesCheckAndReturn(event.target.files[index]);
+    }
   }
 };
 
