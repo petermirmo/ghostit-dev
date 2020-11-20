@@ -91,9 +91,13 @@ class ManagePage extends Component {
           {categories.notifications.active &&
             posts.map((post, index) => {
               return (
-                <div className="flex column" key={"notification" + index}>
+                <div className="flex column" key={"test" + index}>
                   <div>{post.content}</div>
-                  <div>{post.userID}</div>
+                  <div>userID {post.userID}</div>
+                  <div>postID {post._id}</div>
+                  <div>{post.postingDate}</div>
+                  <div>{post.socialType}</div>
+                  <div>""</div>
                 </div>
               );
             })}

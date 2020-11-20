@@ -64,7 +64,7 @@ class RegularVersion extends Component {
 
                 <a
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb8 br32"
-                  href="https://calendly.com/ghostitcm"
+                  href="https://calendly.com/ghostitcm/intro-call"
                   target="_blank"
                 >
                   Book a Call
@@ -123,7 +123,7 @@ class RegularVersion extends Component {
 
                 <a
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm"
+                  href="https://calendly.com/ghostitcm/intro-call"
                   target="_blank"
                 >
                   Book a Call
@@ -178,7 +178,7 @@ class RegularVersion extends Component {
 
                 <a
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm"
+                  href="https://calendly.com/ghostitcm/intro-call"
                   target="_blank"
                 >
                   Book a Call
@@ -239,7 +239,7 @@ class RegularVersion extends Component {
 
                 <a
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm"
+                  href="https://calendly.com/ghostitcm/intro-call"
                   target="_blank"
                 >
                   Book a Call
@@ -381,7 +381,7 @@ class RegularVersion extends Component {
 
               <a
                 className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
-                href="https://calendly.com/ghostitcm"
+                href="https://calendly.com/ghostitcm/intro-call"
                 target="_blank"
               >
                 Book a Call

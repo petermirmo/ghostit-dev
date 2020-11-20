@@ -11,7 +11,6 @@ const fs = require("fs");
 const { whatFileTypeIsString, isUrlImage, isUrlVideo } = require("../util");
 
 const ImagePost = (postdata, account, post) => {
-  console.log(postdata);
   axios
     .post(
       "https://api.linkedin.com/v2/assets?action=registerUpload",
