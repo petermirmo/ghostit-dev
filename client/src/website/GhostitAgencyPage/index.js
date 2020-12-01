@@ -28,6 +28,7 @@ class GhostitAgency extends Component {
     showMore4: false,
     showMore5: false,
     showMore6: false,
+    showMore7: false,
   };
   render() {
     const {
@@ -38,6 +39,7 @@ class GhostitAgency extends Component {
       showMore4,
       showMore5,
       showMore6,
+      showMore7,
     } = this.state;
     let textAlignClassName = "taj";
 
@@ -224,7 +226,7 @@ class GhostitAgency extends Component {
           </GIContainer>
           <GIContainer
             className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
-            onClick={() => this.setState({ showMore3: !showMore3 })}
+            onClick={() => this.setState({ showMore7: !showMore7 })}
           >
             <GIText
               className="muli mb8"
@@ -233,7 +235,7 @@ class GhostitAgency extends Component {
             />
             <GIText
               text={shortenText(
-                showMore3,
+                showMore7,
                 "We don't just build websites. Nowadays, anyone can build a website. At Ghostit, our team thinks of your website as your online business persona. When you have a business, you don't just put time into what your storefront looks like. You also need to network in your community, advertise, and provide quality service. This is how we approach website design. Sure, we think it's important to have an attractive and well-designed site, but we do more than that. We focus on creating compelling content that converts, and that ranks well with Google, Bing, and other search engines. When it comes to functionality, there's no set of features or complexity we can't handle. We've helped businesses create well-ranking, beautiful, and functional eCommerce sites, online communities, and basic informational websites. Don't settle for any old website. Get the site that works for you and get's you noticed."
               )}
               type="p"
