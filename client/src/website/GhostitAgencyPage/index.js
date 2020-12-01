@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign } from "@fortawesome/pro-solid-svg-icons/faDollarSign";
+import { faBrowser } from "@fortawesome/pro-solid-svg-icons/faBrowser";
 
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
@@ -14,7 +15,7 @@ import NavigationLayout from "../../components/navigations/NavigationLayout";
 import AgencyForm from "../../components/forms/AgencyForm";
 
 import { isMobileOrTablet } from "../../util";
-import { something } from "./util";
+import { shortenText } from "./util";
 
 import "./style.css";
 
@@ -69,7 +70,7 @@ class GhostitAgency extends Component {
               type="h4"
             />
             <GIText
-              text={something(
+              text={shortenText(
                 showMore1,
                 "How often are you posting on your blog? Can you track the effectiveness of your efforts? Is each post performing the way you need it to? A relevant blog post is more than just 500 to 1000 random words. We make your company's blog into a powerful tool that helps your website rank higher in Google and converts visitors into paying customers. Our posts turn your blog into a growth machine. Coupled with an in-depth content marketing strategy that looks into your company's brand and voice, we create unique blog posts that your new and existing customers will come back for."
               )}
@@ -96,7 +97,7 @@ class GhostitAgency extends Component {
             <GIText className="muli mb8" text="Social Media Posts" type="h4" />
 
             <GIText
-              text={something(
+              text={shortenText(
                 showMore2,
                 "Quality social media does two things: educates and engages your audience. You know that person in the group who monopolizes the conversation, never asks anyone about themselves, and generally has lousy timing? Yeah, no one wants to be that person, especially on social media. We create quality social posts to get your customers excited about what you're promoting. We add value to the conversation online — we don't just add to the noise. We help you create strong customer relationships by posting engaging, relevant, and consistent content that is uniquely formatted for each specific social platform. Your posts will always be on-point and designed to resonate with your audience, whether you're on Facebook, Twitter, LinkedIn or Instagram."
               )}
@@ -122,7 +123,7 @@ class GhostitAgency extends Component {
           >
             <GIText className="muli mb8" text="Paid Advertising" type="h4" />
             <GIText
-              text={something(
+              text={shortenText(
                 showMore6,
                 "In today's fast-paced online world, organic content and social media aren't going to cut it anymore. To see real results now, you're going to have to invest. The problem with paid advertising online is that anyone can do it, but most people are doing it wrong. Paid advertising online involves a lot of research, custom URL tracking, and management to be effective. Otherwise, you may as well be advertising in a newspaper that no one reads. Our team has the time, experience, and passion needed to see results. We can help you set up the right paid ad campaigns for your business on the relevant social platforms and search engines like Google so that your business is seen by the right people at the right time."
               )}
@@ -145,9 +146,9 @@ class GhostitAgency extends Component {
           >
             <GIText className="muli mb8" text="Email Newsletter" type="h4" />
             <GIText
-              text={something(
+              text={shortenText(
                 showMore4,
-                "\"Not another one.\" That's not something your customers should be saying about your email newsletters. Your email campaigns should be part and parcel of a strong marketing strategy. When done right, you'll notice an increase in leads, website traffic, open rates, and customer engagement. Every business and entrepreneur out there is sending newsletters, your job is to be the one that your customer opens and enjoys reading. We can help."
+                "\"Not another one.\" That's not shortenText your customers should be saying about your email newsletters. Your email campaigns should be part and parcel of a strong marketing strategy. When done right, you'll notice an increase in leads, website traffic, open rates, and customer engagement. Every business and entrepreneur out there is sending newsletters, your job is to be the one that your customer opens and enjoys reading. We can help."
               )}
               type="p"
             />
@@ -171,7 +172,7 @@ class GhostitAgency extends Component {
           >
             <GIText className="muli mb8" text="Web Content" type="h4" />
             <GIText
-              text={something(
+              text={shortenText(
                 showMore5,
                 "Your website is the most powerful marketing vehicle you can leverage. You can't afford to have a less than inspiring website in today's world. Even if you're equipped with a beautiful design and stunning photographs, content is still the most effective conversion tool in your arsenal. Your website must be esthetically pleasing, easy to read, answer your target customers' concerns, have a quick load time, and rank for the relevant keywords in your industry. That's just what it needs to do to be found. Your copy needs to be compelling and relevant enough to convert. This is where we come in. We will search engine optimize your website with in-depth keyword research and competitor analysis to generate organic traffic from Google. We will create content that will engage and convert visitors into lifelong customers. From your homepage to the contact page and everything in-between, we want your website to be a comprehensive content experience that turns visitors into loyal customers."
               )}
@@ -201,7 +202,7 @@ class GhostitAgency extends Component {
               type="h4"
             />
             <GIText
-              text={something(
+              text={shortenText(
                 showMore3,
                 "You'll see how easy it is to push your goals with a well-written, commercially-driven ebook that caters to your targeted audience. Our ghostwriters and content specialists will pair intense research and creative writing abilities to tell a story that'll appeal to your demographic. Don't believe an ebook could be a powerful conversion tool? Don't take our word for it. Hubspot's main driver of email signups is their powerful ebook strategy, driving 6000 leads per day!"
               )}
@@ -219,6 +220,32 @@ class GhostitAgency extends Component {
                 className="x-50"
                 src={require("../../svgs/agency-book.svg")}
               />
+            </GIContainer>
+          </GIContainer>
+          <GIContainer
+            className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
+            onClick={() => this.setState({ showMore3: !showMore3 })}
+          >
+            <GIText
+              className="muli mb8"
+              text="Website Design & Development"
+              type="h4"
+            />
+            <GIText
+              text={shortenText(
+                showMore3,
+                "We don't just build websites. Nowadays, anyone can build a website. At Ghostit, our team thinks of your website as your online business persona. When you have a business, you don't just put time into what your storefront looks like. You also need to network in your community, advertise, and provide quality service. This is how we approach website design. Sure, we think it's important to have an attractive and well-designed site, but we do more than that. We focus on creating compelling content that converts, and that ranks well with Google, Bing, and other search engines. When it comes to functionality, there's no set of features or complexity we can't handle. We've helped businesses create well-ranking, beautiful, and functional eCommerce sites, online communities, and basic informational websites. Don't settle for any old website. Get the site that works for you and get's you noticed."
+              )}
+              type="p"
+            />
+            <GIContainer className="pt8">
+              <GIContainer className="dot bg-three-blue" />
+              <GIContainer className="dot bg-five-blue ml4" />
+              <GIContainer className="dot bg-seven-blue ml4" />
+            </GIContainer>
+
+            <GIContainer className="agency-img-absolute-container full-center common-border four-blue bg-white round">
+              <FontAwesomeIcon icon={faBrowser} size="2x" />
             </GIContainer>
           </GIContainer>
         </GIContainer>
