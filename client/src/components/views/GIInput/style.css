@@ -17,7 +17,7 @@ input {
 
   font-size: var(--sixteen-font-size);
   font-family: var(--regular-font);
-  border: 1px solid var(--light-grey-theme-color);
+  border: 2px solid var(--light-grey-theme-color);
   color: var(--primary-font-color);
   background-color: var(--white-theme-color);
 
@@ -26,6 +26,7 @@ input {
   padding-bottom: 4px;
   padding-left: 8px;
   width: 100%;
+  min-width: 140px;
 }
 textarea:focus,
 input:focus {

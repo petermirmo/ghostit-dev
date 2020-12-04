@@ -41,7 +41,7 @@ class CampaignRecipeHeader extends Component {
 
     return (
       <GIContainer className="pt32">
-        <GIContainer className="fill-flex column px32">
+        <GIContainer className="flex-fill column px32">
           <input
             className="campaign-title bg-transparent pa8"
             onChange={event => handleChange(event.target.value, "name")}
@@ -57,7 +57,7 @@ class CampaignRecipeHeader extends Component {
             value={campaign.description}
           />
         </GIContainer>
-        <GIContainer className="fill-flex">
+        <GIContainer className="flex-fill">
           <GIContainer className="column">
             <GIText className="mb8" text="Start Date:" type="p" />
             <DateTimePicker

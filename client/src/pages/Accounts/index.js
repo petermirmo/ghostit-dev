@@ -206,7 +206,7 @@ class AccountsPage extends Component {
     return (
       <Page title="Social Accounts">
         <GIContainer className="wrap py16 px32 align-start">
-          <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+          <GIContainer className="column align-center flex-fill common-border br8 py32 px16 mx4">
             <GIContainer className="align-center mb16">
               <FontAwesomeIcon
                 className="mr8"
@@ -283,7 +283,7 @@ class AccountsPage extends Component {
               )}
           </GIContainer>
 
-          <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+          <GIContainer className="column align-center flex-fill common-border br8 py32 px16 mx4">
             <GIContainer className="align-center mb16">
               <FontAwesomeIcon
                 className="mr8"
@@ -310,7 +310,7 @@ class AccountsPage extends Component {
             {connectedTwitterAccountDivs}
           </GIContainer>
 
-          <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+          <GIContainer className="column align-center flex-fill common-border br8 py32 px16 mx4">
             <GIContainer className="align-center mb16">
               <FontAwesomeIcon
                 className="mr8"
@@ -362,7 +362,7 @@ class AccountsPage extends Component {
           </GIContainer>
 
           {false && user && (user.role === "admin" || user.role === "tester") && (
-            <GIContainer className="column align-center fill-flex common-border br8 py32 px16 mx4">
+            <GIContainer className="column align-center flex-fill common-border br8 py32 px16 mx4">
               <GIContainer className="align-center mb16">
                 <FontAwesomeIcon
                   className="mr8"

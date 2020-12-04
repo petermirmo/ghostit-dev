@@ -42,15 +42,15 @@ class PricingPage extends Component {
         </GIContainer>
         <GIContainer className="wrap justify-center mb32">
           <GIContainer className="bg-white container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
-            <GIContainer className="fill-flex wrap x-fill full-center pa32">
-              <GIContainer className="column fill-flex">
+            <GIContainer className="flex-fill wrap x-fill full-center pa32">
+              <GIContainer className="column flex-fill">
                 <GIText
-                  className="fill-flex muli tac mb4"
+                  className="flex-fill muli tac mb4"
                   text="Small to Medium-Sized Businesses"
                   type="h2"
                 />
                 <GIText
-                  className="fill-flex muli tac mb4"
+                  className="flex-fill muli tac mb4"
                   text="Starting at"
                   type="h6"
                 />
@@ -105,15 +105,15 @@ class PricingPage extends Component {
             </GIContainer>
           </GIContainer>
           <GIContainer className="bg-white container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
-            <GIContainer className="fill-flex fill-flex wrap x-fill full-center pa32">
-              <GIContainer className="column fill-flex">
+            <GIContainer className="flex-fill flex-fill wrap x-fill full-center pa32">
+              <GIContainer className="column flex-fill">
                 <GIText
-                  className="fill-flex muli tac mb4"
+                  className="flex-fill muli tac mb4"
                   text="Enterprise & Large Businesses"
                   type="h2"
                 />
                 <GIText
-                  className="fill-flex muli tac mb4"
+                  className="flex-fill muli tac mb4"
                   text="Prices based on requirements"
                   type="h6"
                 />

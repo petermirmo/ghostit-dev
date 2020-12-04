@@ -54,7 +54,7 @@ class FileUpload extends Component {
             />
           </GIContainer>
         )}
-        <GIContainer className="fill-flex justify-end">
+        <GIContainer className="flex-fill justify-end">
           {currentFiles.map((file, index) => {
             return (
               <GIContainer className="uploaded-file relative" key={index}>

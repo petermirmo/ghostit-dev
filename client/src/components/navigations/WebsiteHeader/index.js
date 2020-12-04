@@ -253,6 +253,24 @@ class WebsiteHeader extends Component {
   }
 }
 
+/*<Link to="/contact-us">
+  <button
+    className={"relative pb8 mx8" + this.isRootActive("contact-us")}
+    onClick={
+      isMobileOrTablet()
+        ? () => {
+            this.setState({ showHeader: false });
+          }
+        : () => {}
+    }
+  >
+    {this.isRootActive("contact-us") && (
+      <div className="border-bottom-50" />
+    )}
+    Contact Us
+  </button>
+</Link>*/
+
 function mapStateToProps(state) {
   return {
     user: state.user,

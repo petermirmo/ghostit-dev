@@ -43,7 +43,7 @@ class socialMediaDiv extends Component {
         key={index}
       >
         <GIContainer
-          className="align-center justify-between fill-flex pa16"
+          className="align-center justify-between flex-fill pa16"
           onClick={event => this.handleParentClick(index)}
         >
           <GIContainer className="column">

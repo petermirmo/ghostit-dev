@@ -229,9 +229,6 @@
 .ov-visible {
   overflow: visible;
 }
-.fill-flex {
-  flex: 1;
-}
 .reverse {
   flex-direction: row-reverse;
 }

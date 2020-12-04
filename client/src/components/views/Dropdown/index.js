@@ -107,7 +107,7 @@ class Dropdown extends Component {
               >
                 {item}
                 {isActiveItem(activeItem, index) && (
-                  <GIContainer className="fill-flex justify-end">
+                  <GIContainer className="flex-fill justify-end">
                     <FontAwesomeIcon
                       className="round-icon-medium round bg-five-blue white pa4"
                       icon={faCheck}

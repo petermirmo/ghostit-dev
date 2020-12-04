@@ -13,7 +13,7 @@ class PostTypePicker extends Component {
       <GIContainer className="x-fill wrap justify-center pb64">
         <GIContainer className="grid-4-columns">
           <button
-            className="flex column fill-flex full-center white py16 px32 mt8 mx4 br4"
+            className="flex column flex-fill full-center white py16 px32 mt8 mx4 br4"
             onClick={() => newPost("facebook")}
             style={{
               backgroundColor: getPostColor("facebook")
@@ -23,7 +23,7 @@ class PostTypePicker extends Component {
             Facebook
           </button>
           <button
-            className="flex column fill-flex full-center white py16 px32 mt8 mx4 br4"
+            className="flex column flex-fill full-center white py16 px32 mt8 mx4 br4"
             onClick={() => newPost("twitter")}
             style={{
               backgroundColor: getPostColor("twitter")
@@ -33,7 +33,7 @@ class PostTypePicker extends Component {
             Twitter
           </button>
           <button
-            className="flex column fill-flex full-center white py16 px32 mt8 mx4 br4"
+            className="flex column flex-fill full-center white py16 px32 mt8 mx4 br4"
             onClick={() => newPost("linkedin")}
             style={{
               backgroundColor: getPostColor("linkedin")
@@ -43,7 +43,7 @@ class PostTypePicker extends Component {
             LinkedIn
           </button>
           <button
-            className="flex column fill-flex full-center white py16 px32 mt8 mx4 br4"
+            className="flex column flex-fill full-center white py16 px32 mt8 mx4 br4"
             onClick={() => newPost("custom")}
             style={{
               backgroundColor: getPostColor("custom")

@@ -170,7 +170,7 @@ class AnalyticsPage extends Component {
           data={postingTypes.map((category, index) => {
             return (
               <GIContainer
-                className="navigation-button border full-center fill-flex clickable py16"
+                className="navigation-button border full-center flex-fill clickable py16"
                 onClick={() => {
                   let potentialFoundAccountAssociatedID = allAccounts.find(
                     account => account.socialType === getSocialTypeString(index)
@@ -227,7 +227,7 @@ class AnalyticsPage extends Component {
           activeAnalyticsSocialType === 3) && (
           <GIContainer className="x-fill column mt32">
             <GIContainer>
-              <GIContainer className="fill-flex full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
+              <GIContainer className="flex-fill full-center column shadow-green bg-green-fade br8 pa16 ml32 mr8">
                 <GIContainer className="round-icon mb8">
                   <img
                     alt=""
@@ -247,7 +247,7 @@ class AnalyticsPage extends Component {
                   type="p"
                 />
               </GIContainer>
-              <GIContainer className="fill-flex full-center column shadow-purple bg-purple-fade br8 pa16 mx8">
+              <GIContainer className="flex-fill full-center column shadow-purple bg-purple-fade br8 pa16 mx8">
                 <GIContainer className="round-icon mb8">
                   <img
                     alt=""
@@ -268,7 +268,7 @@ class AnalyticsPage extends Component {
                 />
               </GIContainer>
               {false && (
-                <GIContainer className="fill-flex full-center column shadow-light common-border br8 pa16 mx8">
+                <GIContainer className="flex-fill full-center column shadow-light common-border br8 pa16 mx8">
                   <GIContainer className="round-icon mb8">
                     <img
                       alt=""
@@ -286,7 +286,7 @@ class AnalyticsPage extends Component {
                 </GIContainer>
               )}
 
-              <GIContainer className="fill-flex full-center column shadow-orange bg-orange-fade br8 pa16 ml8 mr32">
+              <GIContainer className="flex-fill full-center column shadow-orange bg-orange-fade br8 pa16 ml8 mr32">
                 <GIContainer className="full-center">
                   <GIText
                     className="tac white quicksand"
@@ -314,7 +314,7 @@ class AnalyticsPage extends Component {
                 search
                 title={
                   <GIText
-                    className="tac muli bold fill-flex"
+                    className="tac muli bold flex-fill"
                     text={makeAnalyticTitle(
                       analyticsInformationList[activeAnalyticIndex]
                     )}
@@ -410,7 +410,7 @@ class AnalyticsPage extends Component {
                       }}
                       title={
                         <GIText
-                          className="tac nine-blue bold fill-flex"
+                          className="tac nine-blue bold flex-fill"
                           text={capitolizeFirstChar(
                             months[activeGraphMonthIndex]
                           )}
@@ -435,12 +435,12 @@ class AnalyticsPage extends Component {
                       title={
                         <GIContainer>
                           <GIText
-                            className="tac nine-blue bold fill-flex mr8"
+                            className="tac nine-blue bold flex-fill mr8"
                             text="year:"
                             type="h6"
                           />
                           <GIText
-                            className="tac bold fill-flex"
+                            className="tac bold flex-fill"
                             text={activeGraphYear}
                             type="h5"
                           />
@@ -479,14 +479,14 @@ class AnalyticsPage extends Component {
             )}
             {false && (
               <GIContainer className="ma32">
-                <GIContainer className="column common-border fill-flex br16 pa16 mr16">
+                <GIContainer className="column common-border flex-fill br16 pa16 mr16">
                   <GIText text="Best Posts" type="h4" />
                   <GIText
                     text="The most active posts in the last 30 days."
                     type="h6"
                   />
                 </GIContainer>
-                <GIContainer className="column common-border fill-flex br16 pa16 ml16">
+                <GIContainer className="column common-border flex-fill br16 pa16 ml16">
                   <GIText text="Top Countries" type="h4" />
                   <GIContainer>
                     <PieGraph

@@ -20,7 +20,7 @@ class MyForm extends Component {
     return (
       <GIContainer
         className={
-          "flex column fill-flex full-center bg-blue-fade-6 relative mt32 " +
+          "flex column flex-fill full-center bg-blue-fade-6 relative mt32 " +
           (isMobileOrTablet() ? "py32 px16" : "pa64")
         }
         id="contact-us-form"

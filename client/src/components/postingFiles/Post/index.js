@@ -333,7 +333,7 @@ class Post extends Component {
                 )}
               </GIContainer>
 
-              <GIContainer className="fill-flex column">
+              <GIContainer className="flex-fill column">
                 <GIContainer className="align-center mb16">
                   <FontAwesomeIcon
                     className="primary-font mr8"
@@ -342,7 +342,7 @@ class Post extends Component {
                   <GIText className="bold" text="Comments" type="p" />
                 </GIContainer>
                 <Textarea
-                  className="fill-flex light-scrollbar common-border pa8 br8"
+                  className="flex-fill light-scrollbar common-border pa8 br8"
                   onChange={(event) => {
                     this.handleChange(event.target.value, "instructions");
                   }}
@@ -354,7 +354,7 @@ class Post extends Component {
             </GIContainer>
             <GIContainer className="x-fill py8">
               {saveButtons}
-              <GIContainer className="fill-flex justify-end">
+              <GIContainer className="flex-fill justify-end">
                 {deletePost && (
                   <GIButton
                     className="common-border dark bg-white shadow-6 primary-font py8 px16 mr8 br4"

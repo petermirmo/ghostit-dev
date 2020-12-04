@@ -101,7 +101,7 @@ class AddPagesOrGroupsModal extends Component {
         }
         header={
           <GIContainer className="bg-seven-blue x-fill full-center py16">
-            <GIContainer className="fill-flex" />
+            <GIContainer className="flex-fill" />
             <GIText
               className="white"
               text={`Connect ${socialType
@@ -111,7 +111,7 @@ class AddPagesOrGroupsModal extends Component {
                 .toUpperCase()}${accountType.slice(1)}`}
               type="h2"
             />
-            <GIContainer className="justify-end fill-flex px16">
+            <GIContainer className="justify-end flex-fill px16">
               <FontAwesomeIcon
                 icon={faTimes}
                 className="opposite-button-colors clickable br4 round-icon-small"

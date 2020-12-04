@@ -355,7 +355,7 @@
   color: var(--seven-blue-color);
 }
 
-.fill-flex {
+.flex-fill {
   flex: 1;
 }
 .flex {

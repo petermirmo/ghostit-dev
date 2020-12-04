@@ -86,7 +86,7 @@ class TestimonyScroller extends Component {
           if (activeTestimonyIndex === index)
             return (
               <GIContainer
-                className={"fill-flex column full-center " + direction}
+                className={"flex-fill column full-center " + direction}
                 key={index}
               >
                 <GIText

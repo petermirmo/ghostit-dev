@@ -10,7 +10,7 @@ import { createLinkFromNameAndJob } from "../../components/ghostitBlog/ViewGhost
 export const teamMemberDiv = (index, teamMember) => (
   <Link
     className={
-      "flex container column bg-white shadow-3 common-border button-2 fill-flex pa16 mb64 br16 common-transition " +
+      "flex container column bg-white shadow-3 common-border button-2 flex-fill pa16 mb64 br16 common-transition " +
       (isMobileOrTablet() ? "x-fill" : "mx16 small")
     }
     key={index}

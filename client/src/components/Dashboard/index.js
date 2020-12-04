@@ -12,7 +12,7 @@ class Dashboard extends Component {
     return (
       <GIContainer className={`wrap x-fill justify-center`}>
         <GIContainer className="container-box small bg-white column justify-between common-border pt32 pb16 px16 mb32 mx8 br8">
-          <GIContainer className="full-center x-fill fill-flex">
+          <GIContainer className="full-center x-fill flex-fill">
             <GIContainer className="full-center x-50">
               <img
                 alt=""
@@ -39,7 +39,7 @@ class Dashboard extends Component {
           </GIContainer>
         </GIContainer>
         <GIContainer className="container-box small bg-white column justify-between common-border pt32 pb16 px16 mb32 mx8 br8">
-          <GIContainer className="full-center x-fill fill-flex">
+          <GIContainer className="full-center x-fill flex-fill">
             <GIContainer className="full-center x-50">
               <img
                 alt=""
@@ -66,7 +66,7 @@ class Dashboard extends Component {
           </GIContainer>
         </GIContainer>
         <GIContainer className="container-box small bg-white column justify-between common-border pt32 pb16 px16 mb32 mx8 br8">
-          <GIContainer className="full-center x-fill fill-flex">
+          <GIContainer className="full-center x-fill flex-fill">
             <GIContainer className="full-center x-50">
               <img
                 alt=""

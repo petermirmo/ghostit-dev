@@ -145,7 +145,7 @@ class Profile extends Component {
                     </GIContainer>
                   </GIContainer>
                   <GIContainer className="x-fill pt32">
-                    <GIContainer className="column fill-flex">
+                    <GIContainer className="column flex-fill">
                       <GIText className="label mx8 mb4" text="Email" type="p" />
                       <input
                         type="text"
@@ -157,7 +157,7 @@ class Profile extends Component {
                         value={email}
                       />
                     </GIContainer>
-                    <GIContainer className="column fill-flex ml8">
+                    <GIContainer className="column flex-fill ml8">
                       <GIText
                         className="label mx8 mb4"
                         text="Website"
@@ -200,7 +200,7 @@ class Profile extends Component {
                   </GIContainer>
                 </GIContainer>
                 <GIContainer className="x-fill px32 pb16">
-                  <GIContainer className="column fill-flex">
+                  <GIContainer className="column flex-fill">
                     <GIText
                       className="label mx8 mb4"
                       text="New Password"
@@ -216,7 +216,7 @@ class Profile extends Component {
                       value={newPassword}
                     />
                   </GIContainer>
-                  <GIContainer className="column fill-flex ml8">
+                  <GIContainer className="column flex-fill ml8">
                     <GIText
                       className="label mx8 mb4"
                       text="New Password Confirm"

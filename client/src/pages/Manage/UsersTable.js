@@ -254,7 +254,7 @@ class UsersTable extends Component {
               indexSearch2="email"
             />
           </div>
-          <div className="fill-flex">
+          <div className="flex-fill">
             <ObjectEditTable
               objectArray={objectArry}
               updateList={this.getUsers}

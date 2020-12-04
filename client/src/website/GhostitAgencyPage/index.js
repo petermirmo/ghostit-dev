@@ -280,7 +280,7 @@ class GhostitAgency extends Component {
                 <GIText text="1" type="h1" />
               </GIContainer>
             </GIContainer>
-            <GIContainer className="column justify-center fill-flex x-min-250px mr16">
+            <GIContainer className="column justify-center flex-fill x-min-250px mr16">
               <GIText className="muli mb16" type="h4">
                 Understanding Your{" "}
                 <GIText className="four-blue" text="Business" type="span" />
@@ -309,7 +309,7 @@ class GhostitAgency extends Component {
                 <GIText text="2" type="h1" />
               </GIContainer>
             </GIContainer>
-            <GIContainer className="column justify-center fill-flex x-min-250px mr16">
+            <GIContainer className="column justify-center flex-fill x-min-250px mr16">
               <GIText className="muli mb16" type="h4">
                 Content Marketing{" "}
                 <GIText className="four-blue" text="Strategy" type="span" />
@@ -339,7 +339,7 @@ class GhostitAgency extends Component {
                 <GIText text="3" type="h1" />
               </GIContainer>
             </GIContainer>
-            <GIContainer className="column justify-center fill-flex x-min-250px mr16">
+            <GIContainer className="column justify-center flex-fill x-min-250px mr16">
               <GIText className="muli mb16" type="h4">
                 Content Creation &{" "}
                 <GIText className="four-blue" text="Refinement" type="span" />

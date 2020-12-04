@@ -39,7 +39,7 @@ class CollapsibleMenu extends Component {
           <GIContainer className="x-85 align-center mr16">
             <FontAwesomeIcon className="white mr8" icon={titleIcon} />
             <GIText
-              className="fill-flex white ellipsis"
+              className="flex-fill white ellipsis"
               style={{ userSelect: "none" }}
               text={title}
               type="h6"

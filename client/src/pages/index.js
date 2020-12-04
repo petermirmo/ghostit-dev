@@ -30,6 +30,7 @@ import BlogPage from "../website/BlogPage";
 import GhostitAgencyPage from "../website/GhostitAgencyPage";
 import LoginPage from "../website/LoginPage";
 import RegisterPage from "../website/RegisterPage";
+import ContactUsPage from "../website/ContactUs";
 import ForgotPasswordPage from "../website/ForgotPasswordPage";
 import TermsPage from "../website/TermsPage";
 import PrivacyPage from "../website/PrivacyPage";
@@ -149,6 +150,7 @@ class Routes extends Component {
               <Route path="/sign-in/" component={LoginPage} />
               <Route path="/sign-up/" component={RegisterPage} />
               <Route path="/forgot-password/" component={ForgotPasswordPage} />
+              <Route path="/contact-us/" component={ContactUsPage} />
 
               <Route path="/terms-of-service/" component={TermsPage} />
               <Route path="/privacy-policy/" component={PrivacyPage} />

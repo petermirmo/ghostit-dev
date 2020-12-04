@@ -23,7 +23,7 @@ class HeaderTopBar extends Component {
                 style={{ minWidth: "40px" }}
               />
             </GIContainer>
-            <GIContainer className="fill-flex justify-end">
+            <GIContainer className="flex-fill justify-end">
               {context.user && context.user.image && context.user.image.url && (
                 <Link
                   to="/profile"

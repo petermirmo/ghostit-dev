@@ -99,7 +99,7 @@ class LinkPreview extends Component {
         >
           <GIContainer className="absolute x-fill y-fill column">
             {canAddFilesToLink && (
-              <GIContainer className="full-center fill-flex file-upload-on-file">
+              <GIContainer className="full-center flex-fill file-upload-on-file">
                 <FileUpload
                   canEdit={canEdit}
                   className="x-fill full-center"
@@ -128,7 +128,7 @@ class LinkPreview extends Component {
                   className="icon-regular-button"
                   onClick={() => this.changeImage(-1)}
                 />
-                <div className="fill-flex" />
+                <div className="flex-fill" />
                 <FontAwesomeIcon
                   icon={faLongArrowAltRight}
                   size="2x"

@@ -197,4 +197,12 @@ class WebsiteFooter extends Component {
   }
 }
 
+/*<Link to="/contact-us">
+  <GIText
+    className={"grey clickable my4" + this.isActive("contact-us")}
+    text="Contact Us"
+    type="p"
+  />
+</Link>*/
+
 export default withRouter(WebsiteFooter);

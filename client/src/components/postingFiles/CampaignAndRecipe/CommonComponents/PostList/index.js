@@ -78,7 +78,7 @@ class PostList extends Component {
             return (
               <GIContainer className="border-bottom-dashed" key={index}>
                 <GIContainer
-                  className="fill-flex border-right-dashed clickable px16 py8"
+                  className="flex-fill border-right-dashed clickable px16 py8"
                   onClick={() => this.selectPost(index)}
                 >
                   <GIContainer className="bg-light-grey align-center common-border br16">

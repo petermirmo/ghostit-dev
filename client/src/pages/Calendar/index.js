@@ -296,7 +296,7 @@ class CalendarPage extends Component {
             {loading && <Loader />}
             {!modalsOpen && (
               <GIContainer className="fill-parent">
-                <GIContainer className="column bg-light-grey fill-flex">
+                <GIContainer className="column bg-light-grey flex-fill">
                   {calendarInvites &&
                     calendarInvites.length > 0 &&
                     calendarInvites.map((obj, index) =>
@@ -333,7 +333,7 @@ class CalendarPage extends Component {
                     )}
                   {!modalsOpen && (
                     <GIContainer className="column x-fill">
-                      <GIContainer className="fill-flex align-center">
+                      <GIContainer className="flex-fill align-center">
                         <GIText
                           className="muli px32 py16"
                           text={
@@ -432,7 +432,7 @@ class CalendarPage extends Component {
                             size="2x"
                             title={
                               <GIText
-                                className="tac muli fill-flex px32 py16"
+                                className="tac muli flex-fill px32 py16"
                                 text="Filter Calendar"
                                 type="h6"
                               />

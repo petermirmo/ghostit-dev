@@ -58,6 +58,17 @@ const teamMembers = [
   {
     color: "var(--five-purple-color)",
     description:
+      "Dalal is an avid reader and writer. Nothing is more gratifying to her than getting comfortable on the couch with her cat and a good book to read. In between reading great literature and writing, she enjoys camping and exploring some of the greatest wilderness that Southern Ontario has to offer.",
+    image:
+      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",
+    location: "Victoria",
+    name: "Dalal Kheder",
+    title: "Content Creator",
+    _id: 6,
+  },
+  {
+    color: "var(--five-purple-color)",
+    description:
       "Some call me a wizard.. I call myself the css wizard. Although I love programming I do have a social life, meet my bestfriends keyboard and mouse.",
     image:
       "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",

@@ -85,7 +85,7 @@ class Page extends Component {
           <GIContainer className="x-fill">
             {isUserInPlatform(activePage) && <HeaderSideBar />}
 
-            <GIContainer className="column fill-flex">
+            <GIContainer className="column flex-fill">
               {!isUserInPlatform(activePage) && (
                 <WebsiteHeader homePage={homePage} />
               )}
