@@ -64,7 +64,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Dalal Kheder",
     title: "Content Creator",
-    _id: 6,
+    _id: 8,
   },
   {
     color: "var(--five-purple-color)",
