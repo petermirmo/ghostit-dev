@@ -60,7 +60,7 @@ const teamMembers = [
     description:
       "Dalal is an avid reader and writer. Nothing is more gratifying to her than getting comfortable on the couch with her cat and a good book to read. In between reading great literature and writing, she enjoys camping and exploring some of the greatest wilderness that Southern Ontario has to offer.",
     image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",
+      "https://res.cloudinary.com/ghostit-co/image/upload/v1607114745/Dalal_Kheder.jpg",
     location: "Victoria",
     name: "Dalal Kheder",
     title: "Content Creator",
