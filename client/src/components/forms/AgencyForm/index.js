@@ -244,50 +244,60 @@ class MyForm extends Component {
         <GIContainer className="x-fill pa16">
           <h3 className="flex-fill x-fill">When Can You Chat?</h3>
         </GIContainer>
-        <GIContainer className="wrap x-fill pb8 px8">
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (weekdays ? "four-blue" : "")
-            }
-            onClick={() =>
-              this.handleChange({ weekdays: !weekdays, weekends: weekdays })
-            }
-          >
-            Weekdays
-          </p>
-          <p>Or</p>
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (weekends ? "four-blue" : "")
-            }
-            onClick={() =>
-              this.handleChange({ weekends: !weekends, weekdays: weekends })
-            }
-          >
-            Weekends
-          </p>
-
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (mornings ? "four-blue" : "")
-            }
-            onClick={() => this.handleChange({ mornings: !mornings })}
-          >
-            Mornings
-          </p>
-          <p>Or</p>
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (afternoons ? "four-blue" : "")
-            }
-            onClick={() => this.handleChange({ afternoons: !afternoons })}
-          >
-            Afternoons
-          </p>
+        <GIContainer className="wrap x-fill align-center px8">
+          <GIContainer>
+            <p
+              className={
+                "clickable grey common-border thick pa8 mx4 mb8 br20 " +
+                (weekdays ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({ weekdays: !weekdays, weekends: weekdays })
+              }
+            >
+              Weekdays
+            </p>
+            <p className="mb8">Or</p>
+            <p
+              className={
+                "clickable grey common-border thick pa8 mx4 mb8 br20 " +
+                (weekends ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({ weekends: !weekends, weekdays: weekends })
+              }
+            >
+              Weekends
+            </p>
+          </GIContainer>
+          <GIContainer>
+            <p
+              className={
+                "clickable grey common-border thick pa8 mx4 mb8 br20 " +
+                (mornings ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({ mornings: !mornings, afternoons: mornings })
+              }
+            >
+              Mornings
+            </p>
+            <p className="mb8">Or</p>
+            <p
+              className={
+                "clickable grey common-border thick pa8 mx4 mb8 br20 " +
+                (afternoons ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({
+                  afternoons: !afternoons,
+                  mornings: afternoons,
+                })
+              }
+            >
+              Afternoons
+            </p>
+          </GIContainer>
         </GIContainer>
         <GIButton
           className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
