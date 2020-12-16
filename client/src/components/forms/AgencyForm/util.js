@@ -1,4 +1,43 @@
 import React from "react";
+import axios from "axios";
+
+export const formSubmit = (
+  { email, fName, message, phoneNumber },
+  handleChange
+) => {
+  e.preventDefault();
+
+  if (email || phoneNumber) {
+    axios
+      .post("/api/book-a-call", {
+        message,
+        email,
+        name: fName,
+        phoneNumber
+      })
+      .then(res => {
+        const { success } = res.data;
+
+        if (success) {
+          alert(
+            "Thank you for getting in touch. We will email you within 24 hours to book that call!"
+          );
+
+          handleChange({
+            email: "",
+            fName: "",
+            message: "",
+            phoneNumber: ""
+          });
+        } else {
+          alert(
+            "Error - Your request was not successful, please email us directly at hello@ghostit.co."
+          );
+        }
+        console.log(success);
+      });
+  } else alert("Please fill out the email form field! :)");
+};
 
 export const hiddenFormPortion = (
   <div

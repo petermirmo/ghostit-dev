@@ -19,7 +19,7 @@ import "./styles";
 
 class WebsiteHeader extends Component {
   state = {
-    showHeader: !isMobileOrTablet(),
+    showHeader: !isMobileOrTablet()
   };
   componentDidMount() {
     // This is for header to blend with background when at top of home page
@@ -33,11 +33,11 @@ class WebsiteHeader extends Component {
     if (this._ismounted) this.setState({ [index]: value });
   };
 
-  isActive = (page) => {
+  isActive = page => {
     if ("/" + page === this.props.location.pathname) return " four-blue";
     else return "";
   };
-  isRootActive = (page) => {
+  isRootActive = page => {
     if (
       "/" + page ===
       this.props.location.pathname.substring(0, page.length + 1)
@@ -115,7 +115,7 @@ class WebsiteHeader extends Component {
         >
           <Link to="/team">
             <button
-              className={"relative pb8 mx8" + this.isActive("team")}
+              className={"fs-18 relative pb8 mx8" + this.isActive("team")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -130,7 +130,7 @@ class WebsiteHeader extends Component {
           </Link>
           <Link to="/pricing">
             <button
-              className={"relative pb8 mx8" + this.isActive("pricing")}
+              className={"fs-18 relative pb8 mx8" + this.isActive("pricing")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -145,7 +145,7 @@ class WebsiteHeader extends Component {
           </Link>
           <Link to="/agency">
             <button
-              className={"relative pb8 mx8" + this.isActive("agency")}
+              className={"fs-18 relative pb8 mx8" + this.isActive("agency")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -160,7 +160,7 @@ class WebsiteHeader extends Component {
           </Link>
           <Link to="/blog">
             <button
-              className={"relative pb8 mx8" + this.isRootActive("blog")}
+              className={"fs-18 relative pb8 mx8" + this.isRootActive("blog")}
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -173,6 +173,25 @@ class WebsiteHeader extends Component {
                 <div className="border-bottom-50" />
               )}
               Blog
+            </button>
+          </Link>
+          <Link to="/contact-us">
+            <button
+              className={
+                "fs-18 relative pb8 mx8" + this.isRootActive("contact-us")
+              }
+              onClick={
+                isMobileOrTablet()
+                  ? () => {
+                      this.setState({ showHeader: false });
+                    }
+                  : () => {}
+              }
+            >
+              {this.isRootActive("contact-us") && (
+                <div className="border-bottom-50" />
+              )}
+              Contact Us
             </button>
           </Link>
         </GIContainer>
@@ -194,7 +213,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("facebook")}
                 style={{
-                  backgroundColor: getPostColor("facebook"),
+                  backgroundColor: getPostColor("facebook")
                 }}
               />
             </a>
@@ -208,7 +227,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("linkedin")}
                 style={{
-                  backgroundColor: getPostColor("linkedin"),
+                  backgroundColor: getPostColor("linkedin")
                 }}
               />
             </a>
@@ -221,7 +240,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 mx16"
                 icon={getPostIconRound("instagram")}
                 style={{
-                  backgroundColor: getPostColor("instagram"),
+                  backgroundColor: getPostColor("instagram")
                 }}
               />
             </a>
@@ -253,27 +272,9 @@ class WebsiteHeader extends Component {
   }
 }
 
-/*<Link to="/contact-us">
-  <button
-    className={"relative pb8 mx8" + this.isRootActive("contact-us")}
-    onClick={
-      isMobileOrTablet()
-        ? () => {
-            this.setState({ showHeader: false });
-          }
-        : () => {}
-    }
-  >
-    {this.isRootActive("contact-us") && (
-      <div className="border-bottom-50" />
-    )}
-    Contact Us
-  </button>
-</Link>*/
-
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user: state.user
   };
 }
 export default withRouter(connect(mapStateToProps)(WebsiteHeader));

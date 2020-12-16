@@ -235,7 +235,9 @@
 .hover-blue:hover {
   color: var(--four-blue-color);
 }
-
+.no-select {
+  user-select: none;
+}
 .copy,
 .delete {
   color: var(--secondary-font-color);
@@ -355,6 +357,9 @@
   color: var(--seven-blue-color);
 }
 
+.grid-fill {
+  grid-column: 1 / -1;
+}
 .flex-fill {
   flex: 1;
 }
@@ -764,6 +769,25 @@
 }
 .ml2 {
   margin-left: 2px;
+}
+
+.gap2 {
+  gap: 2px;
+}
+.gap4 {
+  gap: 4px;
+}
+.gap8 {
+  gap: 8px;
+}
+.gap16 {
+  gap: 16px;
+}
+.gap32 {
+  gap: 32px;
+}
+.gap64 {
+  gap: 64px;
 }
 
 .round-button {

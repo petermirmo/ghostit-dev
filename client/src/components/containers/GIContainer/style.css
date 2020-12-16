@@ -448,6 +448,12 @@
   transform: translate(0, 50%);
 }
 
+.main-grid {
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: repeat(auto-fit, minMax(min-content, 1fr));
+}
+
 .grid-300px {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

@@ -9,33 +9,34 @@ import Consumer, { UserContext } from "../../context";
 import Page from "../../components/containers/Page";
 import GIContainer from "../../components/containers/GIContainer";
 import AgencyForm from "../../components/forms/AgencyForm";
+import AgencyContactactInformation from "./AgencyContactactInformation";
 
 import { isMobileOrTablet } from "../../util";
 
 function ContactUsPage() {
   return (
     <Page
-      className="website-page align-center mt32"
+      className="website-page"
       description="Contact Ghostit."
       hideForm={true}
       keywords="contact"
       title="Ghostit Marketing Solution and Agency"
     >
-      <GIContainer
-        className={
-          "column " + (isMobileOrTablet() ? "x-fill" : "container-box large")
-        }
-      >
-        <h2 className={"tac px32 " + (isMobileOrTablet() ? "mb32" : "mb64")}>
-          Content Marketing Plans For
-        </h2>
-      </GIContainer>
-      <GIContainer
-        className={
-          "x-fill flex-fill full-center " + (isMobileOrTablet() ? "py32" : "")
-        }
-      >
-        <AgencyForm />
+      <GIContainer className="column align-center pa32">
+        <GIContainer className="column mb32">
+          <h1 className="primary-font tac mb8">Contact Us</h1>
+          <p className="tac">We can't wait to hear from you!</p>
+        </GIContainer>
+
+        <GIContainer
+          className={
+            "justify-center wrap reverse bg-white shadow pa16 br8 " +
+            (isMobileOrTablet() ? "" : "")
+          }
+        >
+          <AgencyForm />
+          <AgencyContactactInformation />
+        </GIContainer>
       </GIContainer>
     </Page>
   );

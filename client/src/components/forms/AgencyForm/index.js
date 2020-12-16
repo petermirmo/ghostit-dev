@@ -5,7 +5,7 @@ import GIText from "../../views/GIText";
 import GIButton from "../../views/GIButton";
 import GIContainer from "../../containers/GIContainer";
 
-import { hiddenFormPortion } from "./util";
+import { formSubmit, hiddenFormPortion } from "./util";
 
 import { isMobileOrTablet } from "../../../util";
 
@@ -28,7 +28,7 @@ class MyForm extends Component {
     socialMedia: false,
     webDev: false,
     weekends: false,
-    weekdays: false,
+    weekdays: false
   };
   componentDidMount() {
     this._ismounted = true;
@@ -36,7 +36,7 @@ class MyForm extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
-  handleChange = (stateObj) => {
+  handleChange = stateObj => {
     if (this._ismounted) this.setState(stateObj);
   };
   render() {
@@ -53,59 +53,26 @@ class MyForm extends Component {
       socialMedia,
       webDev,
       weekdays,
-      weekends,
+      weekends
     } = this.state;
 
     return (
       <form
         className={
-          "container large flex column full-center relative bg-white shadow pa16 br8 " +
+          "main-grid container large gap8 pa32 " +
           (isMobileOrTablet() ? "px16" : "")
         }
         id="contact-us-form"
         method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const { email, fName, message, phoneNumber } = this.state;
-
-          if (email || phoneNumber) {
-            axios
-              .post("/api/book-a-call", {
-                message,
-                email,
-                name: fName,
-                phoneNumber,
-              })
-              .then((res) => {
-                const { success } = res.data;
-
-                if (success) {
-                  alert(
-                    "Thank you for getting in touch. We will email you within 24 hours to book that call!"
-                  );
-
-                  this.setState({
-                    email: "",
-                    fName: "",
-                    message: "",
-                    phoneNumber: "",
-                  });
-                } else {
-                  alert(
-                    "Error - Your request was not successful, please email us directly at hello@ghostit.co."
-                  );
-                }
-                console.log(success);
-              });
-          } else alert("Please fill out the email form field! :)");
-        }}
+        onSubmit={e => formSubmit(this.state, handleChange)}
         noValidate
       >
-        <GIContainer className="flex-fill x-fill wrap">
-          <GIContainer className="flex-fill column px16">
+        <h3 className="grid-fill">Contact Form</h3>
+        <GIContainer className="wrap flex-fill gap8 mb16">
+          <GIContainer className="flex-fill column gap8">
             <input
-              className="px16 py8 mb16 br20"
-              onChange={(e) => {
+              className="px16 py8 br20"
+              onChange={e => {
                 this.setState({ fName: e.target.value });
               }}
               name="FNAME"
@@ -116,8 +83,8 @@ class MyForm extends Component {
             <input
               autoCapitalize="off"
               autoCorrect="off"
-              className="px16 py8 mb16 br20"
-              onChange={(e) => {
+              className="px16 py8 br20"
+              onChange={e => {
                 this.setState({ email: e.target.value });
               }}
               name="EMAIL"
@@ -127,8 +94,8 @@ class MyForm extends Component {
             />
 
             <input
-              className="px16 py8 mb16 br20"
-              onChange={(e) => {
+              className="px16 py8 br20"
+              onChange={e => {
                 this.setState({ phoneNumber: e.target.value });
               }}
               name="PHONE"
@@ -137,27 +104,26 @@ class MyForm extends Component {
               type="text"
             />
           </GIContainer>
-          <GIContainer className="flex-fill px8">
-            <textarea
-              className="x-fill px16 py8 mb16 mx8 br8"
-              onChange={(e) => {
-                this.setState({ message: e.target.value });
-              }}
-              name="CNAME"
-              placeholder="Message"
-              style={{ resize: "none", minHeight: "120px" }}
-              value={message}
-              type="text"
-            />
-          </GIContainer>
+          <textarea
+            className="flex-fill px16 py8 br8"
+            onChange={e => {
+              this.setState({ message: e.target.value });
+            }}
+            name="CNAME"
+            placeholder="Message"
+            style={{
+              resize: "none",
+              minHeight: "120px"
+            }}
+            value={message}
+            type="text"
+          />
         </GIContainer>
-        <GIContainer className="x-fill pa16">
-          <h3 className="flex-fill x-fill">Services You Are Looking For</h3>
-        </GIContainer>
-        <GIContainer className="wrap x-fill pb8 px8">
+        <h3 className="grid-fill">Services You Are Looking For</h3>
+        <GIContainer className="wrap gap8 mb16">
           <p
             className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
+              "no-select clickable grey common-border thick pa8 br20 " +
               (webDev ? "four-blue" : "")
             }
             onClick={() => this.handleChange({ webDev: !webDev })}
@@ -166,7 +132,7 @@ class MyForm extends Component {
           </p>
           <p
             className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
+              "no-select clickable grey common-border thick pa8 br20 " +
               (blogs ? "four-blue" : "")
             }
             onClick={() => this.handleChange({ blogs: !blogs })}
@@ -175,7 +141,7 @@ class MyForm extends Component {
           </p>
           <p
             className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
+              "no-select clickable grey common-border thick pa8 br20 " +
               (socialMedia ? "four-blue" : "")
             }
             onClick={() => this.handleChange({ socialMedia: !socialMedia })}
@@ -184,7 +150,7 @@ class MyForm extends Component {
           </p>
           <p
             className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
+              "no-select clickable grey common-border thick pa8 br20 " +
               (emailNewsletters ? "four-blue" : "")
             }
             onClick={() =>
@@ -195,7 +161,7 @@ class MyForm extends Component {
           </p>
           <p
             className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
+              "no-select clickable grey common-border thick pa8 br20 " +
               (ads ? "four-blue" : "")
             }
             onClick={() => this.handleChange({ ads: !ads })}
@@ -204,7 +170,7 @@ class MyForm extends Component {
           </p>
           <p
             className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
+              "no-select clickable grey common-border thick pa8 br20 " +
               (ads && blogs && emailNewsletters && socialMedia && webDev
                 ? "four-blue"
                 : "")
@@ -215,7 +181,7 @@ class MyForm extends Component {
                 blogs: true,
                 emailNewsletters: true,
                 socialMedia: true,
-                webDev: true,
+                webDev: true
               })
             }
           >
@@ -223,7 +189,7 @@ class MyForm extends Component {
           </p>
           <p
             className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
+              "no-select clickable grey common-border thick pa8 br20 " +
               (!ads && !blogs && !emailNewsletters && !socialMedia && !webDev
                 ? "four-blue"
                 : "")
@@ -234,67 +200,77 @@ class MyForm extends Component {
                 blogs: false,
                 emailNewsletters: false,
                 socialMedia: false,
-                webDev: false,
+                webDev: false
               })
             }
           >
             None Of The Above
           </p>
         </GIContainer>
-        <GIContainer className="x-fill pa16">
-          <h3 className="flex-fill x-fill">When Can You Chat?</h3>
+        <h3 className="grid-fill">When Can You Chat?</h3>
+        <GIContainer className="wrap gap8">
+          <GIContainer className="gap8">
+            <p
+              className={
+                "no-select clickable grey common-border thick pa8 br20 " +
+                (weekdays ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({ weekdays: !weekdays, weekends: weekdays })
+              }
+            >
+              Weekdays
+            </p>
+            <p className="flex full-center grey">Or</p>
+            <p
+              className={
+                "no-select clickable grey common-border thick pa8 br20 " +
+                (weekends ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({ weekends: !weekends, weekdays: weekends })
+              }
+            >
+              Weekends
+            </p>
+          </GIContainer>
+          <GIContainer className="gap8">
+            <p
+              className={
+                "no-select clickable grey common-border thick pa8 br20 " +
+                (mornings ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({ mornings: !mornings, afternoons: mornings })
+              }
+            >
+              Mornings
+            </p>
+            <p className="flex full-center grey">Or</p>
+            <p
+              className={
+                "no-select clickable grey common-border thick pa8 br20 " +
+                (afternoons ? "four-blue" : "")
+              }
+              onClick={() =>
+                this.handleChange({
+                  afternoons: !afternoons,
+                  mornings: afternoons
+                })
+              }
+            >
+              Afternoons
+            </p>
+          </GIContainer>
         </GIContainer>
-        <GIContainer className="wrap x-fill pb8 px8">
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (weekdays ? "four-blue" : "")
-            }
-            onClick={() =>
-              this.handleChange({ weekdays: !weekdays, weekends: weekdays })
-            }
-          >
-            Weekdays
-          </p>
-          <p>Or</p>
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (weekends ? "four-blue" : "")
-            }
-            onClick={() =>
-              this.handleChange({ weekends: !weekends, weekdays: weekends })
-            }
-          >
-            Weekends
-          </p>
-
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (mornings ? "four-blue" : "")
-            }
-            onClick={() => this.handleChange({ mornings: !mornings })}
-          >
-            Mornings
-          </p>
-          <p>Or</p>
-          <p
-            className={
-              "clickable grey common-border thick pa8 mr8 mb8 br20 " +
-              (afternoons ? "four-blue" : "")
-            }
-            onClick={() => this.handleChange({ afternoons: !afternoons })}
-          >
-            Afternoons
-          </p>
+        <GIContainer className="pt16">
+          <GIButton
+            className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
+            name="subscribe"
+            text="Send Message"
+            type="submit"
+          />
         </GIContainer>
-        <GIButton
-          className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
-          name="subscribe"
-          text="Send Message"
-          type="submit"
-        />
         {hiddenFormPortion}
       </form>
     );
