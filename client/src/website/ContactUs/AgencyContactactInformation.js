@@ -4,9 +4,9 @@ import GIContainer from "../../components/containers/GIContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 
-function test() {
+function AgencyContactInformation() {
   return (
-    <GIContainer className="flex-fill align-start column bg-five-blue pa32 br8">
+    <GIContainer className="flex-fill align-start column bg-four-blue pa32 br8">
       <h4 className="white mb16">Contact Information</h4>
       <a className="flex full-center gap8" href="mailto: hello@ghostit.co">
         <FontAwesomeIcon className="white" icon={faEnvelope} />
@@ -16,4 +16,4 @@ function test() {
   );
 }
 
-export default test;
+export default AgencyContactInformation;

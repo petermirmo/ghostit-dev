@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import GIText from "../../views/GIText";
 import GIButton from "../../views/GIButton";
@@ -9,29 +10,22 @@ import { isMobileOrTablet } from "../../../util";
 
 import "../style.css";
 
-// This is a MailChimp form and adds directly to a list for our mailchimp!
-// The absolute div is to protect sign ups from bots
-
 class MyForm extends Component {
-  state = { email: "", fName: "", cName: "", phoneNumber: "" };
   render() {
-    const { email, fName, cName, phoneNumber } = this.state;
-
     return (
       <GIContainer
         className={
-          "flex column flex-fill full-center bg-blue-fade-6 relative mt32 " +
+          "flex column flex-fill full-center bg-blue-fade-6 relative " +
           (isMobileOrTablet() ? "py32 px16" : "pa64")
         }
         id="contact-us-form"
       >
-        <a
+        <Link
           className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
-          href="https://calendly.com/ghostitcm/intro-call/intro-call"
-          target="_blank"
+          to="/contact-us"
         >
           Book a Call
-        </a>
+        </Link>
         <a className="no-bold white italic" href="mailto: hello@ghostit.co">
           Or email us at hello@ghostit.co
         </a>

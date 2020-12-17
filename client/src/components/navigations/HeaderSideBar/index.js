@@ -29,7 +29,7 @@ import "./style.css";
 
 class HeaderSideBar extends Component {
   signOutOfUsersAccount = () => {
-    axios.get("/api/signOutOfUserAccount").then((res) => {
+    axios.get("/api/signOutOfUserAccount").then(res => {
       const { success, loggedIn, user } = res.data;
       const { context } = this;
       if (success) {
@@ -42,7 +42,7 @@ class HeaderSideBar extends Component {
     });
   };
 
-  isActive = (activePage) => {
+  isActive = activePage => {
     if ("/" + activePage === this.props.location.pathname) return " active";
   };
   render() {
@@ -64,7 +64,7 @@ class HeaderSideBar extends Component {
               className="header-button"
               onClick={() =>
                 context.handleChange({
-                  clientSideBar: !context.clientSideBar,
+                  clientSideBar: !context.clientSideBar
                 })
               }
             >
@@ -133,13 +133,13 @@ HeaderSideBar.contextType = ExtraContext;
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user: state.user
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      setUser,
+      setUser
     },
     dispatch
   );

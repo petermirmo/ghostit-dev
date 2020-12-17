@@ -16,13 +16,13 @@ import { isMobileOrTablet } from "../../util";
 function ContactUsPage() {
   return (
     <Page
-      className="website-page"
+      className="website-page pb32"
       description="Contact Ghostit."
       hideForm={true}
       keywords="contact"
       title="Ghostit Marketing Solution and Agency"
     >
-      <GIContainer className="column align-center pa32">
+      <GIContainer className="column align-center px32 pt32 pb64">
         <GIContainer className="column mb32">
           <h1 className="primary-font tac mb8">Contact Us</h1>
           <p className="tac">We can't wait to hear from you!</p>
@@ -30,7 +30,7 @@ function ContactUsPage() {
 
         <GIContainer
           className={
-            "justify-center wrap reverse bg-white shadow pa16 br8 " +
+            "justify-center wrap reverse bg-white shadow br8 " +
             (isMobileOrTablet() ? "" : "")
           }
         >

@@ -95,13 +95,12 @@ class PricingPage extends Component {
               />
             </GIContainer>
             <GIContainer className="x-fill full-center py16">
-              <a
+              <Link
                 className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
-                href="https://calendly.com/ghostitcm/intro-call"
-                target="_blank"
+                to="/contact-us"
               >
                 Book a Call
-              </a>
+              </Link>
             </GIContainer>
           </GIContainer>
           <GIContainer className="bg-white container-box medium column shadow-3 common-border one-blue mb32 mx16 br16">
@@ -149,13 +148,12 @@ class PricingPage extends Component {
             </GIContainer>
 
             <GIContainer className="x-fill full-center py16">
-              <a
+              <Link
                 className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
-                href="https://calendly.com/ghostitcm/intro-call"
-                target="_blank"
+                to="/contact-us"
               >
                 Book a Call
-              </a>
+              </Link>
             </GIContainer>
           </GIContainer>
         </GIContainer>

@@ -20,7 +20,7 @@ import { getGhostitBlogs } from "../../../website/BlogPage/util";
 
 import "./style.css";
 
-const getTitleFromURL = (pathname) => {
+const getTitleFromURL = pathname => {
   // regular expression will not work due to catastrophic backtracing
   //pathname.match(/(?<=\/problem\/\s*).*?(?=\s*\/)/gs);
   if (pathname) {
@@ -54,20 +54,20 @@ class ViewWebsiteBlog extends Component {
     if (regexMatch) urlTitle = regexMatch;
 
     if (this.context.ghostitBlogs.length === 0) {
-      getGhostitBlogs((ghostitBlogs) => {
+      getGhostitBlogs(ghostitBlogs => {
         if (
           ghostitBlogs &&
           ghostitBlogs.length > 0 &&
           this.context.ghostitBlogs.length === 0
         )
           this.context.handleChange({
-            ghostitBlogs: this.context.ghostitBlogs.concat(ghostitBlogs),
+            ghostitBlogs: this.context.ghostitBlogs.concat(ghostitBlogs)
           });
       }, 0);
     }
 
     if (urlTitle) {
-      axios.get("/api/ghostit/blog/" + urlTitle).then((results) => {
+      axios.get("/api/ghostit/blog/" + urlTitle).then(results => {
         const { ghostitBlog, success } = results.data;
 
         if (ghostitBlog && success)
@@ -77,12 +77,12 @@ class ViewWebsiteBlog extends Component {
               contentArray: ghostitBlog.contentArray,
               id: ghostitBlog._id,
               images: ghostitBlog.images,
-              url: ghostitBlog.url,
+              url: ghostitBlog.url
             });
       });
     } else alert("Blog not found!");
   };
-  findFirstImage = (images) => {
+  findFirstImage = images => {
     let location = images[0].location;
     let indexOfSmallestLocation = 0;
     for (let index in images) {
@@ -146,13 +146,12 @@ class ViewWebsiteBlog extends Component {
               style={{ marginTop: "74px" }}
             >
               <GIContainer className="full-center">
-                <a
+                <Link
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
               </GIContainer>
               <GIText className="fs-26 mb16" text="Featured Blogs" type="h4" />
               {ghostitBlogs &&
@@ -189,7 +188,7 @@ class ViewWebsiteBlog extends Component {
                                     ghostitBlog.images[
                                       this.findFirstImage(ghostitBlog.images)
                                     ].url +
-                                    ")",
+                                    ")"
                                 }
                               : {}
                           }

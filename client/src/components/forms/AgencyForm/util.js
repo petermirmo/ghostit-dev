@@ -2,18 +2,39 @@ import React from "react";
 import axios from "axios";
 
 export const formSubmit = (
-  { email, fName, message, phoneNumber },
+  {
+    afternoons,
+    blogging,
+    email,
+    emailNewsletters,
+    fName,
+    message,
+    mornings,
+    paidAdvertisements,
+    phoneNumber,
+    socialMedia,
+    webDev,
+    weekdays,
+    weekends
+  },
   handleChange
 ) => {
-  e.preventDefault();
-
   if (email || phoneNumber) {
     axios
       .post("/api/book-a-call", {
-        message,
+        afternoons,
+        blogging,
         email,
+        emailNewsletters,
         name: fName,
-        phoneNumber
+        message,
+        mornings,
+        paidAdvertisements,
+        phoneNumber,
+        socialMedia,
+        webDev,
+        weekdays,
+        weekends
       })
       .then(res => {
         const { success } = res.data;

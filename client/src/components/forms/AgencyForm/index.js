@@ -16,19 +16,19 @@ import "../style.css";
 
 class MyForm extends Component {
   state = {
-    ads: false,
-    afternoons: false,
-    blogs: false,
+    afternoons: true,
+    blogging: false,
     email: "",
     emailNewsletters: false,
     fName: "",
     message: "",
     mornings: false,
+    paidAdvertisements: false,
     phoneNumber: "",
     socialMedia: false,
     webDev: false,
-    weekends: false,
-    weekdays: false
+    weekdays: true,
+    weekends: false
   };
   componentDidMount() {
     this._ismounted = true;
@@ -41,14 +41,14 @@ class MyForm extends Component {
   };
   render() {
     const {
-      ads,
       afternoons,
-      blogs,
+      blogging,
       email,
       emailNewsletters,
       fName,
       message,
       mornings,
+      paidAdvertisements,
       phoneNumber,
       socialMedia,
       webDev,
@@ -63,8 +63,10 @@ class MyForm extends Component {
           (isMobileOrTablet() ? "px16" : "")
         }
         id="contact-us-form"
-        method="POST"
-        onSubmit={e => formSubmit(this.state, handleChange)}
+        onSubmit={e => {
+          e.preventDefault();
+          formSubmit(this.state, this.handleChange);
+        }}
         noValidate
       >
         <h3 className="grid-fill">Contact Form</h3>
@@ -133,9 +135,9 @@ class MyForm extends Component {
           <p
             className={
               "no-select clickable grey common-border thick pa8 br20 " +
-              (blogs ? "four-blue" : "")
+              (blogging ? "four-blue" : "")
             }
-            onClick={() => this.handleChange({ blogs: !blogs })}
+            onClick={() => this.handleChange({ blogging: !blogging })}
           >
             Blogs
           </p>
@@ -162,23 +164,29 @@ class MyForm extends Component {
           <p
             className={
               "no-select clickable grey common-border thick pa8 br20 " +
-              (ads ? "four-blue" : "")
+              (paidAdvertisements ? "four-blue" : "")
             }
-            onClick={() => this.handleChange({ ads: !ads })}
+            onClick={() =>
+              this.handleChange({ paidAdvertisements: !paidAdvertisements })
+            }
           >
-            Ads
+            Paid Ads and Promotions
           </p>
           <p
             className={
               "no-select clickable grey common-border thick pa8 br20 " +
-              (ads && blogs && emailNewsletters && socialMedia && webDev
+              (paidAdvertisements &&
+              blogging &&
+              emailNewsletters &&
+              socialMedia &&
+              webDev
                 ? "four-blue"
                 : "")
             }
             onClick={() =>
               this.handleChange({
-                ads: true,
-                blogs: true,
+                paidAdvertisements: true,
+                blogging: true,
                 emailNewsletters: true,
                 socialMedia: true,
                 webDev: true
@@ -190,14 +198,18 @@ class MyForm extends Component {
           <p
             className={
               "no-select clickable grey common-border thick pa8 br20 " +
-              (!ads && !blogs && !emailNewsletters && !socialMedia && !webDev
+              (!paidAdvertisements &&
+              !blogging &&
+              !emailNewsletters &&
+              !socialMedia &&
+              !webDev
                 ? "four-blue"
                 : "")
             }
             onClick={() =>
               this.handleChange({
-                ads: false,
-                blogs: false,
+                paidAdvertisements: false,
+                blogging: false,
                 emailNewsletters: false,
                 socialMedia: false,
                 webDev: false
@@ -208,7 +220,7 @@ class MyForm extends Component {
           </p>
         </GIContainer>
         <h3 className="grid-fill">When Can You Chat?</h3>
-        <GIContainer className="wrap gap8">
+        <GIContainer className="column wrap gap8">
           <GIContainer className="gap8">
             <p
               className={
@@ -268,7 +280,6 @@ class MyForm extends Component {
             className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
             name="subscribe"
             text="Send Message"
-            type="submit"
           />
         </GIContainer>
         {hiddenFormPortion}

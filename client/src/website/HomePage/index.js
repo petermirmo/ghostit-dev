@@ -20,7 +20,7 @@ class RegularVersion extends Component {
   render() {
     return (
       <Consumer>
-        {(context) => (
+        {context => (
           <Page
             className="website-page"
             description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
@@ -62,13 +62,12 @@ class RegularVersion extends Component {
                   type="h4"
                 />
 
-                <a
+                <Link
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb8 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
                 <GIText
                   className="fs-13 italic mb32"
                   text="It only takes 30 seconds!"
@@ -121,13 +120,12 @@ class RegularVersion extends Component {
                   type="p"
                 />
 
-                <a
-                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                <Link
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
               </GIContainer>
             </GIContainer>
 
@@ -176,13 +174,12 @@ class RegularVersion extends Component {
                   type="p"
                 />
 
-                <a
-                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                <Link
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
               </GIContainer>
             </GIContainer>
 
@@ -237,13 +234,12 @@ class RegularVersion extends Component {
                   type="p"
                 />
 
-                <a
-                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                <Link
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
               </GIContainer>
             </GIContainer>
             <GIContainer
@@ -379,23 +375,23 @@ class RegularVersion extends Component {
                 </GIContainer>
               </GIContainer>
 
-              <a
+              <Link
                 className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
-                href="https://calendly.com/ghostitcm/intro-call"
-                target="_blank"
+                to="/contact-us"
               >
                 Book a Call
-              </a>
+              </Link>
             </GIContainer>
             <TestimonyScroller />
 
             {context.ghostitBlogs.length !== 0 && (
               <GIContainer
                 className={
-                  "column full-center " + (isMobileOrTablet() ? "px16" : "px64")
+                  "column full-center my64 " +
+                  (isMobileOrTablet() ? "px16" : "px64")
                 }
               >
-                <GIText className="muli x-fill tac mt64" type="h2">
+                <GIText className="muli x-fill tac " type="h2">
                   Latest
                   <GIText
                     className="four-blue2 bold"

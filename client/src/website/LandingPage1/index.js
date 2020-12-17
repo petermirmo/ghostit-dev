@@ -22,13 +22,13 @@ import "./style.css";
 class LandingPage1 extends Component {
   state = {
     email: "",
-    name: "",
+    name: ""
   };
   render() {
     const { email, name } = this.state;
     return (
       <Consumer>
-        {(context) => (
+        {context => (
           <Page
             className="column"
             description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
@@ -84,7 +84,7 @@ class LandingPage1 extends Component {
                         autoCorrect="off"
                         className="px16 py8 mb8 br20"
                         name="EMAIL"
-                        onChange={(e) => {
+                        onChange={e => {
                           this.setState({ email: e.target.value });
                         }}
                         placeholder="Email address"
@@ -93,7 +93,7 @@ class LandingPage1 extends Component {
                       />
                       <GIInput
                         className="px16 py8 mb8 br20"
-                        onChange={(e) => {
+                        onChange={e => {
                           this.setState({ name: e.target.value });
                         }}
                         placeholder="Name"
@@ -142,13 +142,12 @@ class LandingPage1 extends Component {
                   text="Organize your marketing process with an all-in-one solution for unified content promotion."
                   type="p"
                 />
-                <a
+                <Link
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
               </GIContainer>
             </GIContainer>
 
@@ -177,7 +176,7 @@ class LandingPage1 extends Component {
                     height: "150%",
                     top: "-35%",
                     right: "30%",
-                    zIndex: "-1",
+                    zIndex: "-1"
                   }}
                 />
               </GIContainer>
@@ -206,13 +205,12 @@ class LandingPage1 extends Component {
                   text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
                   type="p"
                 />
-                <a
+                <Link
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
               </GIContainer>
             </GIContainer>
 
@@ -242,7 +240,7 @@ class LandingPage1 extends Component {
                   autoCorrect="off"
                   className="px16 py8 mx8 mb8 br20"
                   name="EMAIL"
-                  onChange={(e) => {
+                  onChange={e => {
                     this.setState({ email: e.target.value });
                   }}
                   placeholder="Email address"
@@ -251,7 +249,7 @@ class LandingPage1 extends Component {
                 />
                 <GIInput
                   className="px16 py8 mx8 mb8 br20"
-                  onChange={(e) => {
+                  onChange={e => {
                     this.setState({ name: e.target.value });
                   }}
                   placeholder="Name"
@@ -304,7 +302,7 @@ class LandingPage1 extends Component {
                       height: "140%",
                       top: "0%",
                       right: "0%",
-                      zIndex: "-1",
+                      zIndex: "-1"
                     }}
                   />
                   <GIContainer className="column container-box small bg-blue-fade-7 px32 py64 mx8 mb16 br8">
@@ -373,13 +371,12 @@ class LandingPage1 extends Component {
                   text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
                   type="p"
                 />
-                <a
+                <Link
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  href="https://calendly.com/ghostitcm/intro-call"
-                  target="_blank"
+                  to="/contact-us"
                 >
                   Book a Call
-                </a>
+                </Link>
               </GIContainer>
             </GIContainer>
 
@@ -403,7 +400,7 @@ class LandingPage1 extends Component {
                     height: "150%",
                     top: "-35%",
                     right: "30%",
-                    zIndex: "-1",
+                    zIndex: "-1"
                   }}
                 />
               </GIContainer>
@@ -448,13 +445,12 @@ class LandingPage1 extends Component {
                 type="h6"
               />
 
-              <a
+              <Link
                 className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                href="https://calendly.com/ghostitcm/intro-call"
-                target="_blank"
+                to="/contact-us"
               >
                 Book a Call
-              </a>
+              </Link>
             </GIContainer>
           </Page>
         )}

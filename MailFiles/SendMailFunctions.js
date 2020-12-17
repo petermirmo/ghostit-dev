@@ -3,19 +3,66 @@ const { sendEmail } = require("./sendEmail");
 
 module.exports = {
   bookCall: (req, res) => {
-    const { company, email, name, phoneNumber } = req.body;
+    const {
+      afternoons,
+      blogging,
+      email,
+      emailNewsletters,
+      name,
+      message,
+      mornings,
+      paidAdvertisements,
+      phoneNumber,
+      socialMedia,
+      webDev,
+      weekdays,
+      weekends
+    } = req.body;
 
     return sendEmail(
-      { email: "hello@ghostit.co" },
-      "Ghostit Lead ",
-      "\nName: " +
+      { email: "rahul@ghostit.co" },
+      "Ghostit Lead",
+      "Name: " +
         name +
-        "\nEmail: " +
+        "\n" +
+        "Message: " +
+        message +
+        "\n" +
+        "Email Address: " +
         email +
-        "\nPhone Number: " +
+        "\n" +
+        "Phone Number: " +
         phoneNumber +
-        "\nCompany: " +
-        company,
+        "\n\n" +
+        "Times Available\n" +
+        "mornings: " +
+        mornings +
+        "\n" +
+        "afternoons: " +
+        afternoons +
+        "\n" +
+        "weekdays: " +
+        weekdays +
+        "\n" +
+        "weekends: " +
+        weekends +
+        "\n\n" +
+        "Services Required\n" +
+        "Blogs: " +
+        blogging +
+        "\n" +
+        "Social Media: " +
+        socialMedia +
+        "\n" +
+        "Email Newsletters: " +
+        emailNewsletters +
+        "\n" +
+        "Web Development and Design: " +
+        webDev +
+        "\n" +
+        "Paid Advertisements and Promotions: " +
+        paidAdvertisements,
+
       results => {
         res.send(results);
       }

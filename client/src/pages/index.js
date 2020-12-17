@@ -44,8 +44,9 @@ import {
   getCalendars,
   getUser,
   getAccounts,
-  useAppropriateFunctionForEscapeKey,
+  useAppropriateFunctionForEscapeKey
 } from "./util";
+import { getGhostitBlogs } from "../website/BlogPage/util";
 
 import { getCalendarAccounts, getCalendarUsers } from "./Calendar/util";
 
@@ -55,7 +56,7 @@ import { getAccountAnalytics } from "./Analytics/util";
 
 class Routes extends Component {
   state = {
-    datebaseConnection: false,
+    datebaseConnection: false
   };
 
   componentDidMount() {
@@ -63,7 +64,7 @@ class Routes extends Component {
     const { location } = this.props; // Variables
 
     this.getUserDataAndCheckAuthorization();
-    getCalendars((stateObject) => {
+    getCalendars(stateObject => {
       context.handleChange(stateObject, () => {
         getCalendarAccounts(
           stateObject.activeCalendarIndex,
@@ -77,9 +78,16 @@ class Routes extends Component {
         );
       });
     });
-    getAllAccountsFromAllCalendars((allAccounts) => {
+    getAllAccountsFromAllCalendars(allAccounts => {
       context.handleChange({ allAccounts });
     });
+
+    getGhostitBlogs(ghostitBlogs => {
+      if (ghostitBlogs && ghostitBlogs.length > 0)
+        context.handleChange({
+          ghostitBlogs: context.ghostitBlogs.concat(ghostitBlogs)
+        });
+    }, context.ghostitBlogs.length);
   }
   getUserDataAndCheckAuthorization = () => {
     const { setUser, setAccounts } = this.props; // Functions
@@ -91,7 +99,7 @@ class Routes extends Component {
         if (signedInAsUser) context.handleChange({ signedInAsUser });
         context.handleChange({ user });
         setUser(user);
-        getAccounts((accounts) => {
+        getAccounts(accounts => {
           this.setState({ datebaseConnection: true });
           setAccounts(accounts);
         });
@@ -118,7 +126,7 @@ class Routes extends Component {
             style={{
               animation: "loading-animation 2s infinite linear",
               width: "10vw",
-              minWidth: "115px",
+              minWidth: "115px"
             }}
           />
         </GIContainer>
@@ -128,7 +136,7 @@ class Routes extends Component {
 
     return (
       <Consumer>
-        {(context) => (
+        {context => (
           <GIContainer>
             <Switch>
               <Route path="/dashboard/" component={DashboardPage} />
@@ -172,14 +180,14 @@ function mapStateToProps(state) {
   return {
     user: state.user,
     getKeyListenerFunction: state.getKeyListenerFunction,
-    accounts: state.accounts,
+    accounts: state.accounts
   };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       setUser,
-      setAccounts,
+      setAccounts
     },
     dispatch
   );

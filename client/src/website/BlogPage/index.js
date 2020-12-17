@@ -22,19 +22,18 @@ import "./style.css";
 class BlogPage extends Component {
   state = {
     activeBlogCategory: 0,
-    canLoadMoreBlogs: false,
-    categories: ["Recent Posts", "Sort A-Z"],
+    canLoadMoreBlogs: true,
+    categories: ["Recent Posts", "Sort A-Z"]
   };
   componentDidMount() {
     this._ismounted = true;
-    this.getGhostitBlogs();
   }
 
   getGhostitBlogs = () => {
-    getGhostitBlogs((ghostitBlogs) => {
+    getGhostitBlogs(ghostitBlogs => {
       if (ghostitBlogs && ghostitBlogs.length > 0)
         this.context.handleChange({
-          ghostitBlogs: this.context.ghostitBlogs.concat(ghostitBlogs),
+          ghostitBlogs: this.context.ghostitBlogs.concat(ghostitBlogs)
         });
       let canLoadMoreBlogs = true;
       if (ghostitBlogs && ghostitBlogs.length < 10) canLoadMoreBlogs = false;
@@ -48,7 +47,7 @@ class BlogPage extends Component {
   componentWillUnmount() {
     this._ismounted = false;
   }
-  handleChange = (stateObj) => {
+  handleChange = stateObj => {
     if (this._ismounted) this.setState(stateObj);
   };
 
@@ -80,9 +79,9 @@ class BlogPage extends Component {
 
     return (
       <Consumer>
-        {(context) => (
+        {context => (
           <Page
-            className="website-page align-center"
+            className="website-page align-center pb32"
             description="Ghostit’s marketing blog shares insights into all facets of marketing including social media marketing, content marketing, and marketing automation."
             keywords="content creators"
             title="Ghostit Blog"
