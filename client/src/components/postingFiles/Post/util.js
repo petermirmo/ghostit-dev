@@ -127,6 +127,7 @@ export const findLink = (
   // Adjusts entered in url for consistent url starts. EX: "ghostit.co" would convert to "http://ghostit.co"
   if (match) {
     link = match[0];
+    if (link === link2) return;
     handleChangeRegular({
       link
     });
@@ -145,7 +146,7 @@ export const findLink = (
       linkDescription: ""
     });
   } else if (link2) {
-    getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
+    //getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
   }
 };
 
@@ -189,7 +190,8 @@ const getDataFromURL = (
   axios.post("/api/link", { link: link1 }).then(res => {
     const { loggedIn } = res.data;
 
-    const { imgSrc = "", linkDescription = "", linkTitle = "" } = res.data;
+    const { imgSrc = [], linkDescription = "", linkTitle = "" } = res.data;
+    console.log(imgSrc);
 
     if (res.data && imgSrc[0]) {
       const linkImage = imgSrc[0];

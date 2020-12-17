@@ -55,6 +55,7 @@ class MyForm extends Component {
       weekdays,
       weekends
     } = this.state;
+    const { history } = this.props;
 
     return (
       <form
@@ -65,7 +66,7 @@ class MyForm extends Component {
         id="contact-us-form"
         onSubmit={e => {
           e.preventDefault();
-          formSubmit(this.state, this.handleChange);
+          formSubmit(this.state, this.handleChange, history);
         }}
         noValidate
       >

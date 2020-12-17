@@ -13,7 +13,7 @@ import AgencyForm from "../../forms/AgencyForm";
 import CalendlyForm from "../../forms/Calendly";
 
 class WebsiteFooter extends Component {
-  isActive = (activePage) => {
+  isActive = activePage => {
     if ("/" + activePage === this.props.location.pathname) return " active";
     else return "";
   };
@@ -26,7 +26,7 @@ class WebsiteFooter extends Component {
 
         <GIContainer
           className={
-            "column x-fill bg-almost-black " +
+            "align-center column x-fill bg-almost-black " +
             (isMobileOrTablet() ? "pa32" : "pa64")
           }
         >

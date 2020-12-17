@@ -12,15 +12,16 @@ import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 
-import GIContainer from "../../containers/GIContainer";
-import GIButton from "../../views/GIButton";
-import GIText from "../../views/GIText";
 import Dropdown from "../../views/Dropdown";
+import GIButton from "../../views/GIButton";
+import GIContainer from "../../containers/GIContainer";
+import GIText from "../../views/GIText";
 
 import DateTimePicker from "../../DateTimePicker";
-import SelectAccountDiv from "../SelectAccountDiv/";
-import LinkPreview from "../../LinkPreview";
 import FileUpload from "../../views/FileUpload";
+import LinkPreview from "../../LinkPreview";
+import SelectAccountDiv from "../SelectAccountDiv/";
+
 import { postAttributeOptions } from "../../../componentFunctions";
 import { trySavePost } from "../../../componentFunctions";
 
@@ -30,14 +31,14 @@ import Consumer from "../../../context";
 
 import {
   anyVideos,
-  createState,
   createActiveAccounts,
+  createState,
   findCurrentTypingStringInTextarea,
   findLink,
   getDefaultAccount,
   getMaxCharacters,
   linkAccountToCalendar,
-  modifyCampaignDate,
+  modifyCampaignDate
 } from "./util";
 
 import "./style.css";
@@ -59,7 +60,7 @@ class Post extends Component {
       linkDescription,
       link,
       linkTitle,
-      socialType,
+      socialType
     } = this.state;
 
     findLink(
@@ -79,39 +80,39 @@ class Post extends Component {
     if (this._ismounted)
       this.setState({
         [index]: value,
-        somethingChanged: true,
+        somethingChanged: true
       });
     if (this.props.backupChanges) {
       this.props.backupChanges(value, index);
     }
   };
 
-  handleChangeRegular = (stateObject) => {
+  handleChangeRegular = stateObject => {
     if (this._ismounted) this.setState(stateObject);
   };
 
   render() {
     const {
+      _id,
       accountID,
-      date,
       calendarID,
       content,
+      date,
       files,
       filesToDelete,
       instructions,
       link,
       linkAccountToCalendarID,
       linkCustomFiles,
-      linkTitle,
       linkDescription,
       linkImagesArray,
+      linkTitle,
       name,
-      promptModifyCampaignDates,
       promptLinkAccountToCalendar,
+      promptModifyCampaignDates,
       socialType,
       somethingChanged,
-      videoTitle,
-      _id,
+      videoTitle
     } = this.state;
 
     const {
@@ -120,7 +121,7 @@ class Post extends Component {
       canEditPost,
       deletePost,
       recipeEditing,
-      saveButtons,
+      saveButtons
     } = this.props; // Variables
     const { close, modifyCampaignDates, switchTabState } = this.props; // Functions
 
@@ -129,7 +130,7 @@ class Post extends Component {
       canUploadPhoto,
       canUploadVideo,
       linkPreviewCanEdit,
-      linkPreviewCanShow,
+      linkPreviewCanShow
     } = postAttributeOptions(socialType);
 
     // Loop through all accounts
@@ -186,7 +187,7 @@ class Post extends Component {
 
     return (
       <Consumer>
-        {(context) => (
+        {context => (
           <GIContainer className="bg-light-grey column x-fill pa32">
             <GIContainer className="bg-white common-border x-fill relative pa32 br8">
               {close && (
@@ -203,16 +204,16 @@ class Post extends Component {
                     activeAccount={accountID}
                     activePageAccountsArray={activePageAccountsArray}
                     canEdit={canEditPost}
-                    handleChange={(account) => {
+                    handleChange={account => {
                       this.handleChange(account.socialID, "accountID");
                       this.handleChange(account.accountType, "accountType");
                       this.handleChange(account.socialType, "socialType");
                     }}
                     inactivePageAccountsArray={inactivePageAccountsArray}
-                    linkAccountToCalendarPrompt={(actID) =>
+                    linkAccountToCalendarPrompt={actID =>
                       this.handleChangeRegular({
                         promptLinkAccountToCalendar: true,
-                        linkAccountToCalendarID: actID,
+                        linkAccountToCalendarID: actID
                       })
                     }
                     switchTabState={switchTabState}
@@ -228,7 +229,7 @@ class Post extends Component {
                       dateFormat="MMMM Do YYYY hh:mm A"
                       dateLowerBound={new moment()}
                       dateUpperBound={undefined}
-                      handleChange={(date) => this.handleChange(date, "date")}
+                      handleChange={date => this.handleChange(date, "date")}
                     />
                   </GIContainer>
                 </GIContainer>
@@ -236,7 +237,7 @@ class Post extends Component {
                 {anyVideos(files) && (
                   <Textarea
                     className="mb8 pa8 br8"
-                    onChange={(event) =>
+                    onChange={event =>
                       this.handleChange(event.target.value, "videoTitle")
                     }
                     placeholder="Video Title"
@@ -248,7 +249,7 @@ class Post extends Component {
                   <Textarea
                     className="posting-textarea light-scrollbar pa8"
                     id="myTextArea"
-                    onChange={(event) => {
+                    onChange={event => {
                       const currentTypingString = findCurrentTypingStringInTextarea(
                         event.target.value,
                         content
@@ -273,9 +274,9 @@ class Post extends Component {
                       dropdownActiveDisplayClassName=""
                       dropdownClassName=""
                       dropdownItems={[]}
-                      handleParentChange={(dropdownClickedItemObj) =>
+                      handleParentChange={dropdownClickedItemObj =>
                         this.handleChangeRegular({
-                          something: dropdownClickedItemObj.item,
+                          something: dropdownClickedItemObj.item
                         })
                       }
                       noTitle={true}
@@ -296,7 +297,7 @@ class Post extends Component {
                       }
                       filesToDelete={filesToDelete}
                       id="pdm"
-                      handleParentChange={(parentStateChangeObject) =>
+                      handleParentChange={parentStateChangeObject =>
                         this.handleChangeRegular(parentStateChangeObject)
                       }
                       imageClassName="flex image tiny"
@@ -324,7 +325,7 @@ class Post extends Component {
                       linkImagesArray={linkImagesArray}
                       linkPreviewCanEdit={linkPreviewCanEdit && canEditPost}
                       linkTitle={linkTitle}
-                      setCustomImages={(linkImagesArray) => {
+                      setCustomImages={linkImagesArray => {
                         this.handleChange(linkImagesArray[0], "linkImage");
                         this.handleChange(linkImagesArray, "linkImagesArray");
                       }}
@@ -343,7 +344,7 @@ class Post extends Component {
                 </GIContainer>
                 <Textarea
                   className="flex-fill light-scrollbar common-border pa8 br8"
-                  onChange={(event) => {
+                  onChange={event => {
                     this.handleChange(event.target.value, "instructions");
                   }}
                   placeholder="Include any comments or instructions here."
@@ -386,7 +387,7 @@ class Post extends Component {
 
             {promptModifyCampaignDates && (
               <ConfirmAlert
-                callback={(response) =>
+                callback={response =>
                   modifyCampaignDate(
                     date,
                     this.handleChangeRegular,
@@ -408,7 +409,7 @@ class Post extends Component {
             )}
             {promptLinkAccountToCalendar && (
               <ConfirmAlert
-                callback={(response) =>
+                callback={response =>
                   linkAccountToCalendar(
                     calendarID,
                     context,
@@ -419,7 +420,7 @@ class Post extends Component {
                 }
                 close={() =>
                   this.handleChangeRegular({
-                    promptLinkAccountToCalendar: false,
+                    promptLinkAccountToCalendar: false
                   })
                 }
                 firstButton="Link"
@@ -440,7 +441,7 @@ class Post extends Component {
 
 function mapStateToProps(state) {
   return {
-    accounts: state.accounts,
+    accounts: state.accounts
   };
 }
 export default connect(mapStateToProps)(Post);

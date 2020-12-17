@@ -17,7 +17,8 @@ export const formSubmit = (
     weekdays,
     weekends
   },
-  handleChange
+  handleChange,
+  history
 ) => {
   if (email || phoneNumber) {
     axios
@@ -40,16 +41,7 @@ export const formSubmit = (
         const { success } = res.data;
 
         if (success) {
-          alert(
-            "Thank you for getting in touch. We will email you within 24 hours to book that call!"
-          );
-
-          handleChange({
-            email: "",
-            fName: "",
-            message: "",
-            phoneNumber: ""
-          });
+          history.push("/thank-you");
         } else {
           alert(
             "Error - Your request was not successful, please email us directly at hello@ghostit.co."

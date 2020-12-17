@@ -13,7 +13,7 @@ import AgencyContactactInformation from "./AgencyContactactInformation";
 
 import { isMobileOrTablet } from "../../util";
 
-function ContactUsPage() {
+function ContactUsPage({ history }) {
   return (
     <Page
       className="website-page pb32"
@@ -34,7 +34,7 @@ function ContactUsPage() {
             (isMobileOrTablet() ? "" : "")
           }
         >
-          <AgencyForm />
+          <AgencyForm history={history} />
           <AgencyContactactInformation />
         </GIContainer>
       </GIContainer>
