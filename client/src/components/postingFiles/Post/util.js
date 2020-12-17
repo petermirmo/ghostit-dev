@@ -146,7 +146,7 @@ export const findLink = (
       linkDescription: ""
     });
   } else if (link2) {
-    //getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
+    getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
   }
 };
 

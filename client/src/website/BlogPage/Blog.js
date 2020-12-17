@@ -79,7 +79,7 @@ class Blog extends Component {
         {isAdmin(user) && (
           <Link to={"/manage/" + ghostitBlog._id}>
             <FontAwesomeIcon
-              className="icon-regular-button absolute bottom right"
+              className="icon-regular-button absolute bottom"
               icon={faEdit}
             />
           </Link>
