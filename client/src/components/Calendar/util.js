@@ -3,9 +3,9 @@ import moment from "moment-timezone";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/pro-light-svg-icons/faPlus";
-import {faFacebookF} from "@fortawesome/free-brands-svg-icons/faFacebookF";
-import {faTwitter} from "@fortawesome/free-brands-svg-icons/faTwitter";
-import {faLinkedinIn} from "@fortawesome/free-brands-svg-icons/faLinkedinIn";
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter";
+import { faLinkedinIn } from "@fortawesome/free-brands-svg-icons/faLinkedinIn";
 
 import GIContainer from "../containers/GIContainer";
 import GIText from "../views/GIText";
@@ -326,7 +326,7 @@ const createCalendarPostDiv = (post, index, openEvent, needsCampaignCover) => {
           }}
         >
           {icon && <FontAwesomeIcon icon={icon} />}{" "}
-          {new moment(post.postingDate).format("h:mm")} {content}
+          {new moment(post.postingDate).format("h:mm A")} {content}
         </div>
       </div>
     );
@@ -342,7 +342,7 @@ const createCalendarPostDiv = (post, index, openEvent, needsCampaignCover) => {
         }}
       >
         {icon && <FontAwesomeIcon icon={icon} />}{" "}
-        {new moment(post.postingDate).format("h:mm")} {content}
+        {new moment(post.postingDate).format("h:mm A")} {content}
       </div>
     );
   }
