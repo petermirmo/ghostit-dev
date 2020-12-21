@@ -107,9 +107,9 @@ class LinkPreview extends Component {
                   handleParentChange={filesObject => {
                     if (filesObject.files)
                       if (filesObject.files[0]) {
-                        linkImagesArray.unshift(filesObject.files[0].file);
+                        linkCustomFiles.unshift(filesObject.files[0].file);
 
-                        setCustomImages(linkImagesArray);
+                        setCustomImages(linkCustomFiles);
                       }
                   }}
                   fileLimit={1}
