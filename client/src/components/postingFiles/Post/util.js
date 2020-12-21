@@ -113,7 +113,8 @@ export const findLink = (
   linkTitle,
   textAreaString,
   link2,
-  socialType
+  socialType,
+  linkCustomFiles
 ) => {
   // Url regular expression
   let urlRegularExpression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
@@ -131,6 +132,7 @@ export const findLink = (
     handleChangeRegular({
       link
     });
+    console.log("here");
     getDataFromURL(
       handleChangeRegular,
       linkDescription,
@@ -145,7 +147,7 @@ export const findLink = (
       linkImage: "",
       linkDescription: ""
     });
-  } else if (link2) {
+  } else if (link2 && linkCustomFiles.length === 0) {
     getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
   }
 };
@@ -191,7 +193,6 @@ const getDataFromURL = (
     const { loggedIn } = res.data;
 
     const { imgSrc = [], linkDescription = "", linkTitle = "" } = res.data;
-    console.log(imgSrc);
 
     if (res.data && imgSrc[0]) {
       const linkImage = imgSrc[0];
@@ -203,7 +204,8 @@ const getDataFromURL = (
       if (link1 !== link2 && (link2 || !linkTitle1))
         handleChangeRegular({
           linkTitle,
-          linkDescription
+          linkDescription,
+          linkCustomFiles: []
         });
     }
   });

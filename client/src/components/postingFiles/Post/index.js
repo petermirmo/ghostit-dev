@@ -57,8 +57,9 @@ class Post extends Component {
 
     const {
       calendarID,
-      linkDescription,
       link,
+      linkCustomFiles,
+      linkDescription,
       linkTitle,
       socialType
     } = this.state;
@@ -69,7 +70,8 @@ class Post extends Component {
       linkTitle,
       undefined,
       link,
-      socialType
+      socialType,
+      linkCustomFiles
     );
   }
   componentWillUnmount() {
@@ -260,7 +262,8 @@ class Post extends Component {
                         linkTitle,
                         event.target.value,
                         link,
-                        socialType
+                        socialType,
+                        linkCustomFiles
                       );
                       this.handleChange(event.target.value, "content");
                     }}

@@ -212,8 +212,11 @@ class CalendarPage extends Component {
   updateActiveCalendar = index => {
     const { calendarDate, socket } = this.state;
     const { calendars } = this.context;
+
     if (calendars)
-      if (calendars[index]) moment.tz.setDefault(calendars[index].timezone);
+      if (calendars[index]) {
+        moment.tz.setDefault(calendars[index].timezone);
+      }
     this.context.handleChange(
       { activeCalendarIndex: index },
       this.setState(
