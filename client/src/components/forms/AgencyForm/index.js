@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import GIText from "../../views/GIText";
 import GIButton from "../../views/GIButton";
@@ -276,6 +277,13 @@ class MyForm extends Component {
             </p>
           </GIContainer>
         </GIContainer>
+        <ReCAPTCHA
+          onChange={something => {
+            console.log(something);
+          }}
+          sitekey="6LeLcA8aAAAAAJRbLVHmuMTo-pT-frtf_klCoyyC"
+        />
+        ,
         <GIContainer className="pt16">
           <GIButton
             className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
