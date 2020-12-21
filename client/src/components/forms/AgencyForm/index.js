@@ -26,6 +26,7 @@ class MyForm extends Component {
     mornings: false,
     paidAdvertisements: false,
     phoneNumber: "",
+    recaptcha: false,
     socialMedia: false,
     webDev: false,
     weekdays: true,
@@ -66,8 +67,14 @@ class MyForm extends Component {
         }
         id="contact-us-form"
         onSubmit={e => {
+          const { recaptcha } = this.state;
+
           e.preventDefault();
-          formSubmit(this.state, this.handleChange, history);
+          if (recaptcha) {
+            formSubmit(this.state, this.handleChange, history);
+          } else {
+            alert("Please complete ReCAPTCHA");
+          }
         }}
         noValidate
       >
@@ -278,12 +285,10 @@ class MyForm extends Component {
           </GIContainer>
         </GIContainer>
         <ReCAPTCHA
-          onChange={something => {
-            console.log(something);
-          }}
+          onChange={value => this.handleChange({ recaptcha: true })}
           sitekey="6LeLcA8aAAAAAJRbLVHmuMTo-pT-frtf_klCoyyC"
         />
-        ,
+
         <GIContainer className="pt16">
           <GIButton
             className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"

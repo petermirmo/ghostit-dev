@@ -118,7 +118,7 @@ class Routes extends Component {
 
     useAppropriateFunctionForEscapeKey(getKeyListenerFunction);
 
-    if (!datebaseConnection)
+    if (!datebaseConnection && false)
       return (
         <GIContainer className="screen-container full-center pr32">
           <Logo

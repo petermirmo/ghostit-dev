@@ -51,6 +51,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --hot --port 3000",
+    "start-3": "webpack-dev-server --mode development --hot --port 3000 --host 0.0.0.0",
     "start-2": "react-scripts start",
     "build": "webpack --mode production",
     "test": "react-scripts test --env=jsdom",
