@@ -10,3 +10,7 @@
   background-size: cover;
   overflow: hidden;
 }
+[contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}

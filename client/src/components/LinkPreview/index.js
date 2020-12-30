@@ -35,6 +35,7 @@ class LinkPreview extends Component {
     this.setState({ activeImageIndex });
   };
   shortenLinkDescriptionIfNeeded = linkDescription => {
+    return linkDescription;
     if (linkDescription) {
       if (linkDescription.length > 100)
         return linkDescription.substring(0, 100) + "...";
@@ -153,8 +154,8 @@ class LinkPreview extends Component {
           <ContentEditable
             className="pa4"
             disabled={!linkPreviewCanEdit}
-            html={("<p>" + smartLinkDescription + "</p>").toString()}
-            innerRef={this.contentEditable}
+            html={("<p>" + linkDescription + "</p>").toString()}
+            innerRef={this.contentEditable2}
             onChange={e =>
               handleChange(
                 this.getTextFromHtml(e.target.value),
