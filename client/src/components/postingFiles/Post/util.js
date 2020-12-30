@@ -30,6 +30,9 @@ export const createState = (calendarAccounts, props) => {
     promptModifyCampaignDates: false,
     socialType: props.socialType,
     somethingChanged: false,
+    twitterLinkDescription: "",
+    twitterLinkImage: "",
+    twitterLinkTitle: "",
     videoTitle: ""
   };
 
@@ -132,13 +135,14 @@ export const findLink = (
     handleChangeRegular({
       link
     });
-    console.log("here");
+
     getDataFromURL(
       handleChangeRegular,
       linkDescription,
       linkTitle,
       link,
-      link2
+      link2,
+      socialType
     );
   } else if (match == undefined && socialType == "twitter") {
     handleChangeRegular({
@@ -148,7 +152,14 @@ export const findLink = (
       linkDescription: ""
     });
   } else if (link2 && linkCustomFiles.length === 0) {
-    getDataFromURL(handleChangeRegular, linkDescription, linkTitle, link2);
+    getDataFromURL(
+      handleChangeRegular,
+      linkDescription,
+      linkTitle,
+      link2,
+      undefined,
+      socialType
+    );
   }
 };
 
@@ -187,9 +198,10 @@ const getDataFromURL = (
   linkDescription1,
   linkTitle1,
   link1,
-  link2
+  link2,
+  socialType
 ) => {
-  axios.post("/api/link", { link: link1 }).then(res => {
+  axios.post("/api/link", { link: link1, socialType }).then(res => {
     const { loggedIn } = res.data;
 
     const { imgSrc = [], linkDescription = "", linkTitle = "" } = res.data;

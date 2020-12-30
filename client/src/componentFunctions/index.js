@@ -58,7 +58,7 @@ export const newPost = (
     // current post has unsaved changes
     return {
       pendingPostType: socialType,
-      promptChangeActivePost: true,
+      promptChangeActivePost: true
     };
   }
 
@@ -70,13 +70,13 @@ export const newPost = (
     name:
       socialType.charAt(0).toUpperCase() +
       socialType.slice(1) +
-      (socialType === "custom" ? " Task" : " Post"),
+      (socialType === "custom" ? " Task" : " Post")
   };
 
   return {
     posts: [...posts, post],
     activePostIndex: posts.length,
-    listOfPostChanges: {},
+    listOfPostChanges: {}
   };
 };
 
@@ -128,14 +128,14 @@ export const trySavePost = (
     sendEmailReminder,
     socialType,
     videoTitle,
-    _id,
+    _id
   } = post_state;
   const {
     campaignEndDate,
     campaignStartDate,
     maxCharacters,
     postFinishedSavingCallback,
-    setSaving,
+    setSaving
   } = post_props;
 
   const setStateObj = {};
@@ -270,7 +270,7 @@ export const getArrayIndexWithHint = (
 
 // Taken from stack overflow
 export function capitolizeWordsInString(str) {
-  return str.replace(/\b\w/g, (l) => l.toUpperCase());
+  return str.replace(/\b\w/g, l => l.toUpperCase());
 }
 export function capitolizeFirstChar(string) {
   if (string) return string.charAt(0).toUpperCase() + string.slice(1);
@@ -336,9 +336,9 @@ export async function savePost(
       linkTitle,
       linkDescription,
       linkCustomFiles,
-      videoTitle,
+      videoTitle
     })
-    .then((res) => {
+    .then(res => {
       // Now we need to save images for post, Images are saved after post
       // Becuse they are handled so differently in the database
       // Text and images do not go well together
@@ -353,7 +353,7 @@ export async function savePost(
           // Make post request for files
           axios
             .post("/api/post/files", { postID: post._id, files: filesToSave })
-            .then((response) => {
+            .then(response => {
               if (response.data.success) {
                 callback(response.data.savedPost, true);
               } else {
@@ -388,7 +388,9 @@ export function postChecks(
     alert("You can only post one image to LinkedIn!");
     return false;
   }
-  let currentUtcDate = moment().utcOffset(0).subtract("2", "minutes");
+  let currentUtcDate = moment()
+    .utcOffset(0)
+    .subtract("2", "minutes");
   // Make sure that the date is not in the past
   if (currentUtcDate > dateToPostInUtcTime) {
     alert(
@@ -412,13 +414,13 @@ export function postChecks(
   return true;
 }
 
-export const getSocialTypeNumber = (socialTypeString) => {
+export const getSocialTypeNumber = socialTypeString => {
   if (socialTypeString === "facebook") return 0;
   else if (socialTypeString === "twitter") return 1;
   else if (socialTypeString === "linkedin") return 2;
   else if (socialTypeString === "instagram") return 3;
 };
-export const getSocialTypeString = (socialTypeIndex) => {
+export const getSocialTypeString = socialTypeIndex => {
   if (socialTypeIndex === 0) return "facebook";
   else if (socialTypeIndex === 1) return "twitter";
   else if (socialTypeIndex === 2) return "linkedin";
@@ -432,7 +434,7 @@ export function postAttributeOptions(socialType) {
       canUploadPhoto: true,
       canUploadVideo: true,
       linkPreviewCanEdit: false,
-      linkPreviewCanShow: true,
+      linkPreviewCanShow: true
     };
   } else if (socialType === "twitter")
     return {
@@ -440,7 +442,7 @@ export function postAttributeOptions(socialType) {
       canUploadPhoto: true,
       canUploadVideo: false,
       linkPreviewCanEdit: false,
-      linkPreviewCanShow: false,
+      linkPreviewCanShow: true
     };
   else if (socialType === "linkedin")
     return {
@@ -448,7 +450,7 @@ export function postAttributeOptions(socialType) {
       canUploadPhoto: true,
       canUploadVideo: false,
       linkPreviewCanEdit: true,
-      linkPreviewCanShow: true,
+      linkPreviewCanShow: true
     };
   else if (socialType === "instagram")
     return {
@@ -456,7 +458,7 @@ export function postAttributeOptions(socialType) {
       canUploadPhoto: true,
       canUploadVideo: false,
       linkPreviewCanEdit: false,
-      linkPreviewCanShow: false,
+      linkPreviewCanShow: false
     };
   else if (socialType === "blog")
     return {
@@ -464,7 +466,7 @@ export function postAttributeOptions(socialType) {
       canUploadPhoto: true,
       canUploadVideo: false,
       linkPreviewCanEdit: false,
-      linkPreviewCanShow: false,
+      linkPreviewCanShow: false
     };
   else if (socialType === "newsletter")
     return {
@@ -472,7 +474,7 @@ export function postAttributeOptions(socialType) {
       canUploadPhoto: true,
       canUploadVideo: false,
       linkPreviewCanEdit: false,
-      linkPreviewCanShow: false,
+      linkPreviewCanShow: false
     };
   else
     return {
@@ -480,10 +482,10 @@ export function postAttributeOptions(socialType) {
       canUploadPhoto: true,
       canUploadVideo: false,
       linkPreviewCanEdit: false,
-      linkPreviewCanShow: false,
+      linkPreviewCanShow: false
     };
 }
-export const getPostColor = (socialType) => {
+export const getPostColor = socialType => {
   if (socialType === "facebook") {
     return "#4267b2";
   } else if (socialType === "twitter") {
@@ -502,21 +504,21 @@ export const getPostColor = (socialType) => {
     return "var(--five-purple-color)";
   }
 };
-export const getSocialCharacters = (post_type) => {
+export const getSocialCharacters = post_type => {
   if (post_type === "twitter") {
     return 280;
   } else if (post_type === "linkedin") {
     return 700;
   } else return undefined;
 };
-export const getPostIcon = (socialType) => {
+export const getPostIcon = socialType => {
   if (socialType === "facebook") return faFacebookSquare;
   else if (socialType === "twitter") return faTwitterSquare;
   else if (socialType === "linkedin") return faLinkedin;
   else if (socialType === "instagram") return faInstagram;
   else return false;
 };
-export const getPostIconRound = (socialType) => {
+export const getPostIconRound = socialType => {
   if (socialType === "facebook") return faFacebookF;
   else if (socialType === "twitter") return faTwitter;
   else if (socialType === "linkedin") return faLinkedinIn;
@@ -524,7 +526,7 @@ export const getPostIconRound = (socialType) => {
   else return false;
 };
 
-export const getSocialDisplayName = (account) => {
+export const getSocialDisplayName = account => {
   let name;
   if (account.givenName)
     name =

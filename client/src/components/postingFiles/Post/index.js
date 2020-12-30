@@ -332,6 +332,7 @@ class Post extends Component {
                         this.handleChange(linkImagesArray[0], "linkImage");
                         this.handleChange(linkImagesArray, "linkImagesArray");
                       }}
+                      socialType={socialType}
                     />
                   </GIContainer>
                 )}

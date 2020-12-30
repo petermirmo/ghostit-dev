@@ -81,7 +81,8 @@ module.exports = {
     });
   },
   getImagesFromUrl: (req, res) => {
-    let url = req.body.link;
+    const url = req.body.link;
+    const { socialType } = req.body.socialType;
 
     request(url, (err, result, body) => {
       let domain;
@@ -111,8 +112,18 @@ module.exports = {
 
       let foundMetaImage = false;
 
+      let twitterLinkTitle;
+      let twitterLinkDescription;
+      let twitterLinkImage;
+
       $("meta").each((index, meta) => {
         if (meta.attribs.property == "url") {
+        } else if (meta.attribs.name === "twitter:title") {
+          twitterLinkTitle = meta.attribs.content;
+        } else if (meta.attribs.name === "twitter:description") {
+          twitterLinkDescription = meta.attribs.content;
+        } else if (meta.attribs.name === "twitter:image") {
+          twitterLinkImage = meta.attribs.content;
         } else if (meta.attribs.property == "og:url") {
         } else if (meta.attribs.property == "og:image" && !foundMetaImage) {
           foundMetaImage = true;
@@ -154,7 +165,19 @@ module.exports = {
           }
         }
       }
-      res.send({ imgSrc, linkTitle, linkDescription });
+
+      if (socialType === "twitter")
+        res.send({
+          imgSrc: [twitterLinkImage],
+          linkDescription: twitterLinkDescription,
+          linkTitle: twitterLinkTitle
+        });
+      else
+        res.send({
+          imgSrc,
+          linkDescription,
+          linkTitle
+        });
     });
   },
   savePost: (req, res) => {

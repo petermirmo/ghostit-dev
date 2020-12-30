@@ -14,13 +14,13 @@ class ManagePage extends Component {
     categories: {
       createBlog: { value: "Create a Blog", active: true },
       users: { value: "Users", active: false },
-      notifications: { value: "Notifications", active: false },
+      notifications: { value: "Notifications", active: false }
     },
-    notifications: [],
+    notifications: []
   };
   componentDidMount() {
     this._ismounted = true;
-    axios.get("/api/notifications").then((res) => {
+    axios.get("/api/notifications").then(res => {
       const { notifications, posts } = res.data;
       if (this._ismounted) this.setState({ notifications, posts });
     });
@@ -29,12 +29,12 @@ class ManagePage extends Component {
     this._ismounted = false;
   }
 
-  deleteNotification = (id) => {
-    axios.delete("/api/notification/" + id).then((res) => {
+  deleteNotification = id => {
+    axios.delete("/api/notification/" + id).then(res => {
       console.log(res);
     });
   };
-  switchDivs = (activeCategory) => {
+  switchDivs = activeCategory => {
     let { categories } = this.state;
     for (let index in categories) {
       categories[index].active = false;
@@ -49,22 +49,23 @@ class ManagePage extends Component {
     return (
       <Page className="column" title="Manage">
         <div className="manage-navigation flex vc py8 px16 mb16">
-          {Object.keys(categories).map((categoryIndex, index) => {
-            let category = categories[categoryIndex];
+          {Object.keys(categories) &&
+            Object.keys(categories).map((categoryIndex, index) => {
+              let category = categories[categoryIndex];
 
-            let className = "px32 py8 mx8 moving-border";
-            if (category.active) className += " active";
+              let className = "px32 py8 mx8 moving-border";
+              if (category.active) className += " active";
 
-            return (
-              <button
-                className={className}
-                onClick={() => this.switchDivs(categoryIndex)}
-                key={"eun" + index}
-              >
-                {category.value}
-              </button>
-            );
-          })}
+              return (
+                <button
+                  className={className}
+                  onClick={() => this.switchDivs(categoryIndex)}
+                  key={"eun" + index}
+                >
+                  {category.value}
+                </button>
+              );
+            })}
         </div>
         <div className="x-fill">
           {categories.users.active && <UsersTable />}
@@ -75,6 +76,7 @@ class ManagePage extends Component {
             />
           )}
           {categories.notifications.active &&
+            notifications &&
             notifications.map((notification, index) => {
               return (
                 <div className="flex" key={"notification" + index}>
@@ -89,6 +91,7 @@ class ManagePage extends Component {
               );
             })}
           {categories.notifications.active &&
+            posts &&
             posts.map((post, index) => {
               return (
                 <div className="flex column" key={"test" + index}>
@@ -109,7 +112,7 @@ class ManagePage extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user: state.user
   };
 }
 
