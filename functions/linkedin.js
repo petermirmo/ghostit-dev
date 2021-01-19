@@ -18,11 +18,11 @@ const ImagePost = (postdata, account, post) => {
       {
         headers: {
           Authorization: "Bearer " + account.accessToken,
-          "Content-Type": "application/json",
-        },
+          "Content-Type": "application/json"
+        }
       }
     )
-    .then((linkedinImageResult) => {
+    .then(linkedinImageResult => {
       for (let i = 0; i < post.files.length; i++) {
         const file = post.files[i].url;
 
@@ -37,7 +37,7 @@ const ImagePost = (postdata, account, post) => {
         const asset_urn = linkedinImageResult.data.value.asset;
         request(file)
           .pipe(fs.createWriteStream("image.jpg"))
-          .on("finish", (data) => {
+          .on("finish", data => {
             const stream = fs.createReadStream("image.jpg");
             var formdata = new FormData();
             formdata.append("file", stream);
@@ -45,11 +45,11 @@ const ImagePost = (postdata, account, post) => {
               {
                 headers: {
                   Authorization: "Bearer " + account.accessToken,
-                  "media-type-family": header,
+                  "media-type-family": header
                 },
                 uri: uploadUrl,
                 body: stream,
-                method: "POST",
+                method: "POST"
               },
               (error, res, body) => {}
             );
@@ -57,21 +57,21 @@ const ImagePost = (postdata, account, post) => {
               content: {
                 contentEntities: [
                   {
-                    entity: "" + asset_urn,
-                  },
+                    entity: "" + asset_urn
+                  }
                 ],
                 description: "Test Description " + post.content,
                 title: "Test Share with Title",
-                shareMediaCategory: "IMAGE",
+                shareMediaCategory: "IMAGE"
               },
               distribution: {
-                linkedInDistributionTarget: {},
+                linkedInDistributionTarget: {}
               },
 
               subject: "Test Share Subject",
               text: {
-                text: post.content,
-              },
+                text: post.content
+              }
             };
             if (account.accountType === "page")
               post_data.owner = "urn:li:organization:" + account.socialID;
@@ -80,15 +80,15 @@ const ImagePost = (postdata, account, post) => {
               .post("https://api.linkedin.com/v2/shares", post_data, {
                 headers: {
                   Authorization: "Bearer " + account.accessToken,
-                  "Content-Type": "application/json",
-                },
+                  "Content-Type": "application/json"
+                }
               })
-              .then((linkedinPostResult) => {
+              .then(linkedinPostResult => {
                 if (linkedinPostResult.data.message)
                   savePostError(post._id, linkedinPostResult.data.message);
                 else savePostSuccessfully(post._id, linkedinPostResult.data.id);
               })
-              .catch((linkedinPostError) => {
+              .catch(linkedinPostError => {
                 let errorCatch = linkedinPostError.response;
 
                 if (errorCatch)
@@ -105,22 +105,26 @@ const ImagePost = (postdata, account, post) => {
           });
       }
     })
-    .catch((error) => {});
+    .catch(e => {
+      if (e.response && e.response.data)
+        savePostError(post._id, e.response.data.message);
+      else savePostError(post._id, "Unknown LinkedIn catch response");
+    });
 };
 
 const uploadLinkedinPost = (linkedinPost, account, post) => {
   axios
     .post("https://api.linkedin.com/v2/shares", linkedinPost, {
       headers: {
-        Authorization: "Bearer " + account.accessToken,
-      },
+        Authorization: "Bearer " + account.accessToken
+      }
     })
-    .then((linkedinPostResult) => {
+    .then(linkedinPostResult => {
       if (linkedinPostResult.data.message)
         savePostError(post._id, linkedinPostResult.data.message);
       else savePostSuccessfully(post._id, linkedinPostResult.data.id);
     })
-    .catch((linkedinPostError) => {
+    .catch(linkedinPostError => {
       let errorCatch = linkedinPostError.response;
 
       if (errorCatch)
@@ -132,10 +136,10 @@ const uploadLinkedinPost = (linkedinPost, account, post) => {
 };
 
 module.exports = {
-  postToLinkedIn: (post) => {
+  postToLinkedIn: post => {
     Account.findOne(
       {
-        socialID: post.accountID,
+        socialID: post.accountID
       },
       async (err, account) => {
         if (account) {
@@ -147,8 +151,8 @@ module.exports = {
 
           linkedinPost.distribution = {
             linkedInDistributionTarget: {
-              visibleToGuest: true,
-            },
+              visibleToGuest: true
+            }
           };
 
           if (post.content !== "") {
@@ -162,15 +166,15 @@ module.exports = {
               entityLocation: post.link,
               thumbnails: [
                 {
-                  resolvedUrl: post.linkImage,
-                },
-              ],
+                  resolvedUrl: post.linkImage
+                }
+              ]
             });
 
             content = {
               contentEntities,
               title: post.linkTitle,
-              description: post.linkDescription,
+              description: post.linkDescription
             };
 
             linkedinPost.content = content;
@@ -181,7 +185,7 @@ module.exports = {
               const file = post.files[i];
               if (isUrlVideo(file.url)) {
                 let linkedinPost = {
-                  registerUploadRequest: {},
+                  registerUploadRequest: {}
                 };
                 if (account.accountType === "page")
                   linkedinPost.registerUploadRequest.owner =
@@ -190,17 +194,17 @@ module.exports = {
                   linkedinPost.registerUploadRequest.owner =
                     "urn:li:person:" + account.socialID;
                 linkedinPost.registerUploadRequest.recipes = [
-                  "urn:li:digitalmediaRecipe:feedshare-video",
+                  "urn:li:digitalmediaRecipe:feedshare-video"
                 ];
                 linkedinPost.registerUploadRequest.serviceRelationships = [
                   {
                     identifier: "urn:li:userGeneratedContent",
-                    relationshipType: "OWNER",
-                  },
+                    relationshipType: "OWNER"
+                  }
                 ];
               } else {
                 let linkedinPost = {
-                  registerUploadRequest: {},
+                  registerUploadRequest: {}
                 };
                 if (account.accountType === "page")
                   linkedinPost.registerUploadRequest.owner =
@@ -209,25 +213,26 @@ module.exports = {
                   linkedinPost.registerUploadRequest.owner =
                     "urn:li:person:" + account.socialID;
                 linkedinPost.registerUploadRequest.recipes = [
-                  "urn:li:digitalmediaRecipe:feedshare-image",
+                  "urn:li:digitalmediaRecipe:feedshare-image"
                 ];
                 linkedinPost.registerUploadRequest.serviceRelationships = [
                   {
                     identifier: "urn:li:userGeneratedContent",
-                    relationshipType: "OWNER",
-                  },
+                    relationshipType: "OWNER"
+                  }
                 ];
-
                 ImagePost(linkedinPost, account, post);
               }
             }
-          } else uploadLinkedinPost(linkedinPost, account, post);
+          } else {
+            uploadLinkedinPost(linkedinPost, account, post);
+          }
         } else {
           savePostError(post._id, "Cannot find your account!");
         }
       }
     );
-  },
+  }
 };
 
 /*if (post.files) {

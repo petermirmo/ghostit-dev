@@ -6,6 +6,14 @@ let linkedin = require("../functions/linkedin");
 const generalFunctions = require("../services/generalFunctions");
 
 module.exports = {
+  test: () => {
+    Post.findById("5fff471369bd28001449aaa2", (err, post) => {
+      console.log(post);
+      if (post.status === "working") {
+        linkedin.postToLinkedIn(post);
+      }
+    });
+  },
   main: () => {
     Post.find({ status: "pending" }).then(result => {
       let postArray = result;

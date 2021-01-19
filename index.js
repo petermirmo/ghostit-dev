@@ -45,6 +45,12 @@ const PageAnalyticsScheduler = require("./scheduler/PageAnalytics");
 const PostAnalyticsScheduler = require("./scheduler/PostAnalytics");
 const schedule = require("node-schedule");
 
+schedule.scheduleJob("20 * * * * *", () => {
+  return;
+  console.log("starting");
+  PostScheduler.test();
+});
+
 if (process.env.NODE_ENV === "production") {
   schedule.scheduleJob("0 0 * * 0", () => {
     TokenScheduler.main();
@@ -75,7 +81,8 @@ createSiteMap();
 // Connect to database
 mongoose.connect(keys.mongoDevelopmentURI, {
   useNewUrlParser: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useUnifiedTopology: true
 });
 var db = mongoose.connection;
 
