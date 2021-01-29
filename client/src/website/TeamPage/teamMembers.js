@@ -8,7 +8,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Rahul Bhatia",
     title: "TCB Specialist",
-    _id: 1,
+    _id: 1
   },
   {
     color: "var(--five-orange-color)",
@@ -19,7 +19,7 @@ const teamMembers = [
     location: "Paris",
     name: "Mishar Briones",
     title: "SheEO",
-    _id: 2,
+    _id: 2
   },
   {
     color: "var(--five-purple-color)",
@@ -30,7 +30,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Stephanie Brown",
     title: "Content Creator",
-    _id: 10,
+    _id: 10
   },
   {
     color: "var(--five-blue-color)",
@@ -41,7 +41,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Erika Palmer",
     title: "Content Creator",
-    _id: 4,
+    _id: 4
   },
 
   {
@@ -53,7 +53,7 @@ const teamMembers = [
     location: "toronto",
     name: "Sophie Van Bastelaer",
     title: "Content Creator",
-    _id: 7,
+    _id: 7
   },
   {
     color: "var(--five-purple-color)",
@@ -63,8 +63,8 @@ const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1607114745/Dalal_Kheder.jpg",
     location: "Victoria",
     name: "Dalal Kheder",
-    title: "Content Creator",
-    _id: 8,
+    title: "Content Creator & Paid Ads Specialist",
+    _id: 8
   },
   {
     color: "var(--five-purple-color)",
@@ -75,9 +75,9 @@ const teamMembers = [
     location: "Victoria",
     name: "Peter Mirmotahari",
     title: "Wizard",
-    _id: 6,
-  },
+    _id: 6
+  }
 ];
 module.exports = {
-  teamMembers,
+  teamMembers
 };
