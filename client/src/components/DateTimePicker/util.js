@@ -137,8 +137,10 @@ export const hourDropdown = (date, handleChange) => {
 
   let hourDivs = [];
   let extraHours = 0;
-  let isPM = tempDate.format("HH") > 12;
+  let isPM = tempDate.format("HH") >= 12;
+
   if (isPM) extraHours = 12;
+
   for (let index = 0; index <= 11; index++) {
     let newDate = new moment(tempDate.hours(index + extraHours));
 

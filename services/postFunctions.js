@@ -154,6 +154,30 @@ module.exports = {
           !linkDescription
         ) {
           linkDescription = meta.attribs.content;
+        } else if (meta.attribs.name == "og:url") {
+        } else if (meta.attribs.name == "og:image" && !foundMetaImage) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (
+          meta.attribs.name == "og:image:secure_url" &&
+          !foundMetaImage
+        ) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (meta.attribs.name == "image" && !foundMetaImage) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (meta.attribs.name == "image:secure_url" && !foundMetaImage) {
+          foundMetaImage = true;
+          imgSrc.unshift(meta.attribs.content);
+        } else if (meta.attribs.name == "title" && !linkTitle) {
+          linkTitle = meta.attribs.content;
+        } else if (meta.attribs.name == "description" && !linkDescription) {
+          linkDescription = meta.attribs.content;
+        } else if (meta.attribs.name == "og:title" && !linkTitle) {
+          linkTitle = meta.attribs.content;
+        } else if (meta.attribs.name == "og:description" && !linkDescription) {
+          linkDescription = meta.attribs.content;
         }
       });
       for (let index in imgSrc) {

@@ -213,12 +213,13 @@ const getDataFromURL = (
         linkImagesArray: imgSrc,
         linkImage
       });
-      if (link1 !== link2 && (link2 || !linkTitle1))
+      if (link1 !== link2 && (link2 || !linkTitle1)) {
         handleChangeRegular({
           linkTitle,
           linkDescription,
           linkCustomFiles: []
         });
+      }
     }
   });
 };

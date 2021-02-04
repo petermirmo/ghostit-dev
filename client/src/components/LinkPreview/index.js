@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TextArea from "react-textarea-autosize";
 
 import { faLongArrowAltLeft } from "@fortawesome/free-solid-svg-icons/faLongArrowAltLeft";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons/faLongArrowAltRight";
 import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
-
-import ContentEditable from "react-contenteditable";
 
 import GIContainer from "../containers/GIContainer";
 
@@ -141,27 +140,25 @@ class LinkPreview extends Component {
           </GIContainer>
         </div>
         <div className="simple-container pa4">
-          <ContentEditable
-            className="pa4"
+          <TextArea
+            className="pa4 my8 br4"
             disabled={!linkPreviewCanEdit}
-            html={("<h4>" + linkTitle + "</h4>").toString()}
-            innerRef={this.contentEditable}
-            onChange={e =>
-              handleChange(this.getTextFromHtml(e.target.value), "linkTitle")
-            }
+            onChange={e => handleChange(e.target.value, "linkTitle")}
+            placeholder="Link preview title"
+            value={linkTitle}
           />
 
-          <ContentEditable
-            className="pa4"
+          <TextArea
+            className="pa4 br4"
             disabled={!linkPreviewCanEdit}
-            html={("<p>" + linkDescription + "</p>").toString()}
-            innerRef={this.contentEditable2}
             onChange={e =>
               handleChange(
                 this.getTextFromHtml(e.target.value),
                 "linkDescription"
               )
             }
+            placeholder="Link preview description"
+            value={linkDescription}
           />
         </div>
       </div>
