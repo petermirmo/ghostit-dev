@@ -64,43 +64,35 @@ module.exports = {
 
                 if (isUrlVideo(post.files[i].url)) {
                   const link = post.files[i].url;
-                  request(link)
-                    .on("error", err => {
-                      savePostError(post._id, e);
+
+                  const stream = fs.createReadStream(link);
+
+                  const VideoData = {
+                    token: account.accessToken,
+                    id: account.socialID,
+                    stream,
+                    title: post.videoTitle,
+                    description: post.content
+                  };
+
+                  FBVideoUpload(VideoData)
+                    .then(res => {
+                      asyncCounter--;
+
+                      if (!res || res.error) {
+                        savePostError(post._id, res.error);
+                      } else {
+                        //  facebookPhotoArray.push({ media_fbid: res.video_id });
+
+                        if (!res || res.error) {
+                          savePostError(post._id, res.error);
+                        } else {
+                          savePostSuccessfully(post._id, res.video_id);
+                        }
+                      }
                     })
-                    .pipe(fs.createWriteStream("../../video2xswxs.mp4"))
-                    .on("finish", () => {
-                      const stream = fs.createReadStream(
-                        "../../video2xswxs.mp4"
-                      );
-
-                      const VideoData = {
-                        token: account.accessToken,
-                        id: account.socialID,
-                        stream,
-                        title: post.videoTitle,
-                        description: post.content
-                      };
-
-                      FBVideoUpload(VideoData)
-                        .then(res => {
-                          asyncCounter--;
-
-                          if (!res || res.error) {
-                            savePostError(post._id, res.error);
-                          } else {
-                            //  facebookPhotoArray.push({ media_fbid: res.video_id });
-
-                            if (!res || res.error) {
-                              savePostError(post._id, res.error);
-                            } else {
-                              savePostSuccessfully(post._id, res.video_id);
-                            }
-                          }
-                        })
-                        .catch(e => savePostError(post._id, e));
-                      fs.unlinkSync("../../video2xswxs.mp4");
-                    });
+                    .catch(e => savePostError(post._id, e));
+                  fs.unlinkSync(link);
                 } else {
                   FB.setAccessToken(account.accessToken);
 
