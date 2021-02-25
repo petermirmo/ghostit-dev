@@ -43,18 +43,6 @@ const teamMembers = [
     title: "Content Creator",
     _id: 4
   },
-
-  {
-    color: "var(--five-purple-color)",
-    description:
-      "Sophie is a Belgian-American now based out of Toronto who grew up being super annoying with her friends about their grammar, spelling, and syntax. That landed her gigs as a lifestyle and entertainment journalist, and ultimately led her to GhostIt! She also works in the film industry, as a screenwriter and a casting assistant, and, in whatever off-time she can find, loves to read and bake.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1592510564/Screen_Shot_2020-06-09_at_2.54.19_PM.png",
-    location: "toronto",
-    name: "Sophie Van Bastelaer",
-    title: "Content Creator",
-    _id: 7
-  },
   {
     color: "var(--five-purple-color)",
     description:
@@ -63,8 +51,19 @@ const teamMembers = [
       "https://res.cloudinary.com/ghostit-co/image/upload/v1607114745/Dalal_Kheder.jpg",
     location: "Victoria",
     name: "Dalal Kheder",
-    title: "Content Creator & Paid Ads Specialist",
+    title: "Paid Ads Specialist",
     _id: 8
+  },
+  {
+    color: "var(--five-blue-color)",
+    description:
+      "Born in the prairies, but raised by the ocean, Laurissa spent four years in Montréal and abroad obtaining a BA in Psychology and Behavioural Science before returning home to the coast. Now, she can be found traveling, surfing, hiking, running, or sipping good beer or wine while cozied up out of the rain. Born out of a love for adventure, the written word, and human connection, Laurissa uses content creation as a way to play with words in an engaging way and tell captivating stories.",
+    image:
+      "https://res.cloudinary.com/dnc1t9z9o/image/upload/v1614232166/ZI1FQ2m4.jpg",
+    location: "Victoria",
+    name: "Laurissa Cebryk",
+    title: "Content Creator",
+    _id: 9
   },
   {
     color: "var(--five-purple-color)",

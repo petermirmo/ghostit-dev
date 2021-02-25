@@ -31,120 +31,125 @@ const deletePostFromFacebook = (post, account) => {
 };
 module.exports = {
   postToProfileOrPage: post => {
-    Account.findOne(
-      {
-        socialID: post.accountID
-      },
-      async (err, account) => {
-        if (err) {
-          console.log(err);
-          savePostError(post._id, err);
-          return;
-        }
-        if (account) {
-          // Use facebook profile access token to get account groups
+    try {
+      Account.findOne(
+        {
+          socialID: post.accountID
+        },
+        async (err, account) => {
+          if (err) {
+            console.log(err);
+            savePostError(post._id, err);
+            return;
+          }
+          if (account) {
+            // Use facebook profile access token to get account groups
 
-          if (post.files.length !== 0) {
-            let facebookPostWithFile = {};
-            // Set non-null information to facebook post
-            if (post.content !== "") {
-              facebookPostWithFile.message = post.content;
-            }
-
-            let asyncCounter = 0;
-            const facebookPhotoArray = [];
-            for (let i = 0; i < post.files.length; i++) {
-              if (!post.files[i].url) {
-                asyncCounter--;
-                continue;
+            if (post.files.length !== 0) {
+              let facebookPostWithFile = {};
+              // Set non-null information to facebook post
+              if (post.content !== "") {
+                facebookPostWithFile.message = post.content;
               }
 
-              asyncCounter++;
+              let asyncCounter = 0;
+              const facebookPhotoArray = [];
+              for (let i = 0; i < post.files.length; i++) {
+                if (!post.files[i].url) {
+                  asyncCounter--;
+                  continue;
+                }
 
-              if (isUrlVideo(post.files[i].url)) {
-                const link = post.files[i].url;
-                request(link)
-                  .pipe(fs.createWriteStream("../../video.mp4"))
-                  .on("finish", () => {
-                    const stream = fs.createReadStream("../../video.mp4");
+                asyncCounter++;
 
-                    const VideoData = {
-                      token: account.accessToken,
-                      id: account.socialID,
-                      stream,
-                      title: post.videoTitle,
-                      description: post.content
-                    };
+                if (isUrlVideo(post.files[i].url)) {
+                  const link = post.files[i].url;
+                  request(link)
+                    .pipe(fs.createWriteStream("../../video.mp4"))
+                    .on("finish", () => {
+                      const stream = fs.createReadStream("../../video.mp4");
 
-                    FBVideoUpload(VideoData)
-                      .then(res => {
-                        asyncCounter--;
+                      const VideoData = {
+                        token: account.accessToken,
+                        id: account.socialID,
+                        stream,
+                        title: post.videoTitle,
+                        description: post.content
+                      };
 
-                        if (!res || res.error) {
-                          savePostError(post._id, res.error);
-                        } else {
-                          //  facebookPhotoArray.push({ media_fbid: res.video_id });
+                      FBVideoUpload(VideoData)
+                        .then(res => {
+                          asyncCounter--;
 
                           if (!res || res.error) {
                             savePostError(post._id, res.error);
                           } else {
-                            savePostSuccessfully(post._id, res.video_id);
+                            //  facebookPhotoArray.push({ media_fbid: res.video_id });
+
+                            if (!res || res.error) {
+                              savePostError(post._id, res.error);
+                            } else {
+                              savePostSuccessfully(post._id, res.video_id);
+                            }
                           }
-                        }
-                      })
-                      .catch();
-                    fs.unlinkSync("../../video.mp4");
-                  });
-              } else {
-                FB.setAccessToken(account.accessToken);
+                        })
+                        .catch();
+                      fs.unlinkSync("../../video.mp4");
+                    });
+                } else {
+                  FB.setAccessToken(account.accessToken);
 
-                FB.api(
-                  "me/photos",
-                  "post",
-                  { url: post.files[i].url, published: false },
-                  res => {
-                    asyncCounter--;
+                  FB.api(
+                    "me/photos",
+                    "post",
+                    { url: post.files[i].url, published: false },
+                    res => {
+                      asyncCounter--;
 
-                    facebookPhotoArray.push({ media_fbid: res.id });
+                      facebookPhotoArray.push({ media_fbid: res.id });
 
-                    if (asyncCounter === 0) {
-                      facebookPostWithFile.attached_media = facebookPhotoArray;
-                      FB.setAccessToken(account.accessToken);
-                      FB.api("me/feed", "post", facebookPostWithFile, res => {
-                        if (!res || res.error) {
-                          savePostError(post._id, res.error);
-                        } else {
-                          savePostSuccessfully(post._id, res.id);
-                        }
-                      });
+                      if (asyncCounter === 0) {
+                        facebookPostWithFile.attached_media = facebookPhotoArray;
+                        FB.setAccessToken(account.accessToken);
+                        FB.api("me/feed", "post", facebookPostWithFile, res => {
+                          if (!res || res.error) {
+                            savePostError(post._id, res.error);
+                          } else {
+                            savePostSuccessfully(post._id, res.id);
+                          }
+                        });
+                      }
                     }
-                  }
-                );
+                  );
+                }
               }
+            } else {
+              let facebookPostNoFile = {};
+              // Set non-null information to facebook post
+              if (post.content !== "") {
+                facebookPostNoFile.message = post.content;
+              }
+              if (post.link !== "") {
+                facebookPostNoFile.link = post.link;
+              }
+              FB.setAccessToken(account.accessToken);
+              FB.api("me/feed", "post", facebookPostNoFile, res => {
+                if (!res || res.error) {
+                  savePostError(post._id, res.error);
+                } else {
+                  savePostSuccessfully(post._id, res.id);
+                }
+              });
             }
           } else {
-            let facebookPostNoFile = {};
-            // Set non-null information to facebook post
-            if (post.content !== "") {
-              facebookPostNoFile.message = post.content;
-            }
-            if (post.link !== "") {
-              facebookPostNoFile.link = post.link;
-            }
-            FB.setAccessToken(account.accessToken);
-            FB.api("me/feed", "post", facebookPostNoFile, res => {
-              if (!res || res.error) {
-                savePostError(post._id, res.error);
-              } else {
-                savePostSuccessfully(post._id, res.id);
-              }
-            });
+            savePostError(post._id, "Account not found!");
           }
-        } else {
-          savePostError(post._id, "Account not found!");
         }
-      }
-    );
+      );
+    } catch (e) {
+      console.log(e);
+      savePostError(post._id, e);
+    }
   },
   postToGroup: post => {
     Account.findOne(
