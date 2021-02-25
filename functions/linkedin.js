@@ -137,101 +137,105 @@ const uploadLinkedinPost = (linkedinPost, account, post) => {
 
 module.exports = {
   postToLinkedIn: post => {
-    Account.findOne(
-      {
-        socialID: post.accountID
-      },
-      async (err, account) => {
-        if (account) {
-          let linkedinPost = {};
+    try {
+      Account.findOne(
+        {
+          socialID: post.accountID
+        },
+        async (err, account) => {
+          if (account) {
+            let linkedinPost = {};
 
-          if (account.accountType === "page")
-            linkedinPost.owner = "urn:li:organization:" + account.socialID;
-          else linkedinPost.owner = "urn:li:person:" + account.socialID;
+            if (account.accountType === "page")
+              linkedinPost.owner = "urn:li:organization:" + account.socialID;
+            else linkedinPost.owner = "urn:li:person:" + account.socialID;
 
-          linkedinPost.distribution = {
-            linkedInDistributionTarget: {
-              visibleToGuest: true
-            }
-          };
-
-          if (post.content !== "") {
-            linkedinPost.text = { text: post.content };
-          }
-          const contentEntities = [];
-          let content = {};
-
-          if (post.link) {
-            contentEntities.push({
-              entityLocation: post.link,
-              thumbnails: [
-                {
-                  resolvedUrl: post.linkImage
-                }
-              ]
-            });
-
-            content = {
-              contentEntities,
-              title: post.linkTitle,
-              description: post.linkDescription
+            linkedinPost.distribution = {
+              linkedInDistributionTarget: {
+                visibleToGuest: true
+              }
             };
 
-            linkedinPost.content = content;
-          }
+            if (post.content !== "") {
+              linkedinPost.text = { text: post.content };
+            }
+            const contentEntities = [];
+            let content = {};
 
-          if (post.files && post.files.length > 0) {
-            for (let i = 0; i < post.files.length; i++) {
-              const file = post.files[i];
-              if (isUrlVideo(file.url)) {
-                let linkedinPost = {
-                  registerUploadRequest: {}
-                };
-                if (account.accountType === "page")
-                  linkedinPost.registerUploadRequest.owner =
-                    "urn:li:organization:" + account.socialID;
-                else
-                  linkedinPost.registerUploadRequest.owner =
-                    "urn:li:person:" + account.socialID;
-                linkedinPost.registerUploadRequest.recipes = [
-                  "urn:li:digitalmediaRecipe:feedshare-video"
-                ];
-                linkedinPost.registerUploadRequest.serviceRelationships = [
+            if (post.link) {
+              contentEntities.push({
+                entityLocation: post.link,
+                thumbnails: [
                   {
-                    identifier: "urn:li:userGeneratedContent",
-                    relationshipType: "OWNER"
+                    resolvedUrl: post.linkImage
                   }
-                ];
-              } else {
-                let linkedinPost = {
-                  registerUploadRequest: {}
-                };
-                if (account.accountType === "page")
-                  linkedinPost.registerUploadRequest.owner =
-                    "urn:li:organization:" + account.socialID;
-                else
-                  linkedinPost.registerUploadRequest.owner =
-                    "urn:li:person:" + account.socialID;
-                linkedinPost.registerUploadRequest.recipes = [
-                  "urn:li:digitalmediaRecipe:feedshare-image"
-                ];
-                linkedinPost.registerUploadRequest.serviceRelationships = [
-                  {
-                    identifier: "urn:li:userGeneratedContent",
-                    relationshipType: "OWNER"
-                  }
-                ];
-                ImagePost(linkedinPost, account, post);
+                ]
+              });
+
+              content = {
+                contentEntities,
+                title: post.linkTitle,
+                description: post.linkDescription
+              };
+
+              linkedinPost.content = content;
+            }
+
+            if (post.files && post.files.length > 0) {
+              for (let i = 0; i < post.files.length; i++) {
+                const file = post.files[i];
+                if (isUrlVideo(file.url)) {
+                  let linkedinPost = {
+                    registerUploadRequest: {}
+                  };
+                  if (account.accountType === "page")
+                    linkedinPost.registerUploadRequest.owner =
+                      "urn:li:organization:" + account.socialID;
+                  else
+                    linkedinPost.registerUploadRequest.owner =
+                      "urn:li:person:" + account.socialID;
+                  linkedinPost.registerUploadRequest.recipes = [
+                    "urn:li:digitalmediaRecipe:feedshare-video"
+                  ];
+                  linkedinPost.registerUploadRequest.serviceRelationships = [
+                    {
+                      identifier: "urn:li:userGeneratedContent",
+                      relationshipType: "OWNER"
+                    }
+                  ];
+                } else {
+                  let linkedinPost = {
+                    registerUploadRequest: {}
+                  };
+                  if (account.accountType === "page")
+                    linkedinPost.registerUploadRequest.owner =
+                      "urn:li:organization:" + account.socialID;
+                  else
+                    linkedinPost.registerUploadRequest.owner =
+                      "urn:li:person:" + account.socialID;
+                  linkedinPost.registerUploadRequest.recipes = [
+                    "urn:li:digitalmediaRecipe:feedshare-image"
+                  ];
+                  linkedinPost.registerUploadRequest.serviceRelationships = [
+                    {
+                      identifier: "urn:li:userGeneratedContent",
+                      relationshipType: "OWNER"
+                    }
+                  ];
+                  ImagePost(linkedinPost, account, post);
+                }
               }
+            } else {
+              uploadLinkedinPost(linkedinPost, account, post);
             }
           } else {
-            uploadLinkedinPost(linkedinPost, account, post);
+            savePostError(post._id, "Cannot find your account!");
           }
-        } else {
-          savePostError(post._id, "Cannot find your account!");
         }
-      }
-    );
+      );
+    } catch (e) {
+      savePostError(post._id, e);
+    }
   }
 };
 

@@ -93,7 +93,7 @@ module.exports = {
                             }
                           }
                         })
-                        .catch();
+                        .catch(e => savePostError(post._id, e));
                       fs.unlinkSync("../../video.mp4");
                     });
                 } else {
