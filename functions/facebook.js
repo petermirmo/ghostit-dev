@@ -65,9 +65,11 @@ module.exports = {
                 if (isUrlVideo(post.files[i].url)) {
                   const link = post.files[i].url;
                   request(link)
-                    .pipe(fs.createWriteStream("../../video.mp4"))
+                    .pipe(fs.createWriteStream("../../video2xswxs.mp4"))
                     .on("finish", () => {
-                      const stream = fs.createReadStream("../../video.mp4");
+                      const stream = fs.createReadStream(
+                        "../../video2xswxs.mp4"
+                      );
 
                       const VideoData = {
                         token: account.accessToken,
