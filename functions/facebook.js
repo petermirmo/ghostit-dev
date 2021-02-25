@@ -65,6 +65,9 @@ module.exports = {
                 if (isUrlVideo(post.files[i].url)) {
                   const link = post.files[i].url;
                   request(link)
+                    .on("error", err => {
+                      savePostError(post._id, e);
+                    })
                     .pipe(fs.createWriteStream("../../video2xswxs.mp4"))
                     .on("finish", () => {
                       const stream = fs.createReadStream(
@@ -96,7 +99,7 @@ module.exports = {
                           }
                         })
                         .catch(e => savePostError(post._id, e));
-                      fs.unlinkSync("../../video.mp4");
+                      fs.unlinkSync("../../video2xswxs.mp4");
                     });
                 } else {
                   FB.setAccessToken(account.accessToken);
