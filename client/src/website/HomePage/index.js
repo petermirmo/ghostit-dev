@@ -16,6 +16,8 @@ import { isMobileOrTablet } from "../../util";
 
 import "./style.css";
 
+//
+
 class RegularVersion extends Component {
   render() {
     return (
@@ -51,14 +53,15 @@ class RegularVersion extends Component {
                 }`}
               >
                 <GIText className="tac muli mb16" type="h2">
-                  Powered by
-                  <GIText className="bold" text=" People" type="span" />
-                  , Supported by
-                  <GIText className="bold" text=" Software" type="span" />
+                  Growth-Focused
+                  <GIText className="" text=" Digital Marketing " type="span" />
+                  &
+                  <GIText className="" text=" Web Development " type="span" />
+                  Agency
                 </GIText>
                 <GIText
                   className="fs-18 tac mb32"
-                  text="Ghostit is an all-in-one content marketing solution that blends the benefits of real people with strategy-based technology. Our goal: to create compelling digital content that increases your web traffic and converts visitors into customers."
+                  text="Increase your website traffic and turn visitors into paying customers with our audience-focused data-driven approach."
                   type="h4"
                 />
 

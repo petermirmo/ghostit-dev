@@ -44,17 +44,6 @@ const teamMembers = [
     _id: 4
   },
   {
-    color: "var(--five-purple-color)",
-    description:
-      "Dalal is an avid reader and writer. Nothing is more gratifying to her than getting comfortable on the couch with her cat and a good book to read. In between reading great literature and writing, she enjoys camping and exploring some of the greatest wilderness that Southern Ontario has to offer.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1607114745/Dalal_Kheder.jpg",
-    location: "Victoria",
-    name: "Dalal Kheder",
-    title: "Paid Ads Specialist",
-    _id: 8
-  },
-  {
     color: "var(--five-blue-color)",
     description:
       "Born in the prairies, but raised by the ocean, Laurissa spent four years in Montréal and abroad obtaining a BA in Psychology and Behavioural Science before returning home to the coast. Now, she can be found traveling, surfing, hiking, running, or sipping good beer or wine while cozied up out of the rain. Born out of a love for adventure, the written word, and human connection, Laurissa uses content creation as a way to play with words in an engaging way and tell captivating stories.",
