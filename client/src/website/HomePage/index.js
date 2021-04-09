@@ -53,15 +53,14 @@ class RegularVersion extends Component {
                 }`}
               >
                 <GIText className="tac muli mb16" type="h2">
-                  Growth-Focused
-                  <GIText className="" text=" Digital Marketing " type="span" />
-                  &
-                  <GIText className="" text=" Web Development " type="span" />
-                  Agency
+                  Powered by
+                  <GIText className="bold" text=" People" type="span" />
+                  , Supported by
+                  <GIText className="bold" text=" Software" type="span" />
                 </GIText>
                 <GIText
                   className="fs-18 tac mb32"
-                  text="Increase your website traffic and turn visitors into paying customers with our audience-focused data-driven approach."
+                  text="Ghostit is an all-in-one content marketing solution that blends the benefits of real people with strategy-based technology. Our goal: to create compelling digital content that increases your web traffic and converts visitors into customers."
                   type="h4"
                 />
 
