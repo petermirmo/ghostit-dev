@@ -815,6 +815,11 @@
   width: 16px !important;
   height: 16px;
 }
+
+.round-icon-large {
+  width: 64px !important;
+  height: 64px;
+}
 .shadow {
   box-shadow: 0 0 6px 4px rgba(0, 0, 0, 0.2);
 }

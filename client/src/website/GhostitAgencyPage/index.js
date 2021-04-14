@@ -28,7 +28,7 @@ class GhostitAgency extends Component {
     showMore4: false,
     showMore5: false,
     showMore6: false,
-    showMore7: false,
+    showMore7: false
   };
   render() {
     const {
@@ -39,7 +39,7 @@ class GhostitAgency extends Component {
       showMore4,
       showMore5,
       showMore6,
-      showMore7,
+      showMore7
     } = this.state;
     let textAlignClassName = "taj";
 

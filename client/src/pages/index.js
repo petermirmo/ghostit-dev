@@ -28,6 +28,7 @@ import TeamPage from "../website/TeamPage";
 import TeamMemberPage from "../website/TeamMemberPage";
 import BlogPage from "../website/BlogPage";
 import GhostitAgencyPage from "../website/GhostitAgencyPage";
+import ServiceBlogPage from "../website/GhostitAgencyPage/SEOBlogPosts";
 import LoginPage from "../website/LoginPage";
 import RegisterPage from "../website/RegisterPage";
 import ContactUsPage from "../website/ContactUs";
@@ -155,6 +156,20 @@ class Routes extends Component {
               <Route path="/team/" component={TeamPage} exact />
               <Route path="/blog/" component={BlogPage} exact />
               <Route path="/agency/" component={GhostitAgencyPage} />
+              <Route path="/seo-blog-posts/" component={ServiceBlogPage} />
+              <Route path="/social-media-posts/" component={ServiceBlogPage} />
+              <Route path="/paid-advertising/" component={ServiceBlogPage} />
+              <Route path="/email-newsletter/" component={ServiceBlogPage} />
+              <Route path="/web-content/" component={ServiceBlogPage} />
+              <Route
+                path="/website-design-and-development/"
+                component={ServiceBlogPage}
+              />
+              <Route
+                path="/lead-generation-e-book/"
+                component={ServiceBlogPage}
+              />
+
               <Route path="/sign-in/" component={LoginPage} />
               <Route path="/sign-up/" component={RegisterPage} />
               <Route path="/forgot-password/" component={ForgotPasswordPage} />
