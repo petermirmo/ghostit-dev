@@ -100,12 +100,18 @@ export const createActiveAccounts = (
   return activePageAccountsArray;
 };
 
-export const getMaxCharacters = (link, socialType) => {
+export const getMaxCharacters = (link, socialType, content) => {
+  let urlRegularExpression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
+  let regex = new RegExp(urlRegularExpression, "g");
+
   if (socialType) {
     if (socialType === "linkedin") return 700;
     else if (socialType === "twitter") {
-      if (link) return 280 - 23 + link.length;
-      else return 280;
+      const match = content.match(regex);
+      let test = 280;
+      for (let index in match) test = test - 23 + match[0].length;
+
+      return test;
     } else return undefined;
   } else return undefined;
 };

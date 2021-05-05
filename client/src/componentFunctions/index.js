@@ -9,6 +9,8 @@ import { faFacebookF } from "@fortawesome/free-brands-svg-icons/faFacebookF";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter";
 import { faLinkedinIn } from "@fortawesome/free-brands-svg-icons/faLinkedinIn";
 
+import { getMaxCharacters } from "../components/postingFiles/Post/util";
+
 export const fillPosts = (campaign, isFromRecipe, recipeEditing) => {
   // function called when a user clicks on an existing recipe to edit
   let posts = [];
@@ -133,7 +135,6 @@ export const trySavePost = (
   const {
     campaignEndDate,
     campaignStartDate,
-    maxCharacters,
     postFinishedSavingCallback,
     setSaving
   } = post_props;
@@ -144,15 +145,7 @@ export const trySavePost = (
   if (
     !skip_checks &&
     socialType !== "custom" &&
-    !postChecks(
-      accountID,
-      newDate,
-      link,
-      files,
-      content,
-      maxCharacters,
-      socialType
-    )
+    !postChecks(accountID, newDate, link, files, content, socialType)
   ) {
     return setStateObj;
   }
@@ -374,13 +367,16 @@ export function postChecks(
   link,
   currentFiles,
   content,
-  maxCharacters,
   socialType
 ) {
+  const maxCharacters = getMaxCharacters(link, socialType, content);
   let remainingCharacters = maxCharacters - content.length;
-  if (link && socialType === "twitter") remainingCharacters += link.length - 23;
 
-  if (remainingCharacters > maxCharacters) {
+  console.log(remainingCharacters);
+  console.log(maxCharacters);
+  console.log("\n");
+
+  if (remainingCharacters < 0) {
     alert("There are too many characters in this post!");
     return false;
   }

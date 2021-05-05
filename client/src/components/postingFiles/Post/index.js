@@ -309,9 +309,10 @@ class Post extends Component {
                     />
                   )}
                 </GIContainer>
-                {getMaxCharacters(link, socialType) && (
+                {getMaxCharacters(link, socialType, content) && (
                   <GIContainer>
-                    {getMaxCharacters(link, socialType) - content.length}
+                    {getMaxCharacters(link, socialType, content) -
+                      content.length}
                   </GIContainer>
                 )}
 
