@@ -146,7 +146,7 @@ class GhostitAgency extends Component {
             className="clickable bg-white relative column container small common-border ov-visible one-blue shadow-3 px32 py64 mb48 mx16 br20"
             onClick={() => this.setState({ showMore4: !showMore4 })}
           >
-            <GIText className="muli mb8" text="Email Newsletter" type="h4" />
+            <GIText className="muli mb8" text="Email Newsletters" type="h4" />
             <GIText
               text={shortenText(
                 showMore4,
@@ -200,7 +200,7 @@ class GhostitAgency extends Component {
           >
             <GIText
               className="muli mb8"
-              text="Lead Generation E-Book"
+              text="Lead Generation E-Books"
               type="h4"
             />
             <GIText

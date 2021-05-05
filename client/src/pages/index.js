@@ -155,7 +155,7 @@ class Routes extends Component {
               <Route path="/pricing/" component={PricingPage} />
               <Route path="/team/" component={TeamPage} exact />
               <Route path="/blog/" component={BlogPage} exact />
-              <Route path="/agency/" component={GhostitAgencyPage} />
+              <Route path="/services/" component={GhostitAgencyPage} />
               <Route path="/seo-blog-posts/" component={ServiceBlogPage} />
               <Route path="/social-media-posts/" component={ServiceBlogPage} />
               <Route path="/paid-advertising/" component={ServiceBlogPage} />

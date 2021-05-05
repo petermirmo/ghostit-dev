@@ -74,7 +74,7 @@ class WebsiteFooter extends Component {
                   type="p"
                 />
               </Link>
-              <Link to="/agency">
+              <Link to="/services">
                 <GIText
                   className={"grey clickable my4" + this.isActive("agency")}
                   text="Services"

@@ -14,10 +14,10 @@ import { isMobileOrTablet } from "../../../util";
 function ServicesNavigation() {
   return (
     <GIContainer className="column container extra-large full-center mb32">
-      <GIText className="fs-26 mb16" text="Our Other Services" type="h3" />
+      <GIText className="fs-26 mb16" text="Other Services" type="h3" />
 
       <GIContainer className="full-center wrap gap8">
-        <GIContainer className="gap8">
+        <GIContainer className="wrap gap8">
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/seo-blog-posts"
@@ -68,10 +68,10 @@ function ServicesNavigation() {
                 src={require("../../../svgs/agency-email.svg")}
               />
             </GIContainer>
-            <GIText className="muli" text="Email Newsletter" type="h6" />
+            <GIText className="muli" text="Email Newsletters" type="h6" />
           </Link>
         </GIContainer>
-        <GIContainer className="gap8">
+        <GIContainer className="wrap gap8">
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/web-content"
@@ -109,7 +109,7 @@ function ServicesNavigation() {
                 src={require("../../../svgs/agency-book.svg")}
               />
             </GIContainer>
-            <GIText className="muli" text="Lead Generation E-Book" type="h6" />
+            <GIText className="muli" text="Lead Generation E-Books" type="h6" />
           </Link>
         </GIContainer>
       </GIContainer>
