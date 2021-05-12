@@ -53,17 +53,6 @@ const teamMembers = [
     name: "Laurissa Cebryk",
     title: "Content Creator",
     _id: 9
-  },
-  {
-    color: "var(--five-purple-color)",
-    description:
-      "Some call me a wizard.. I call myself the css wizard. Although I love programming I do have a social life, meet my bestfriends keyboard and mouse.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544164187/peter.jpg",
-    location: "Victoria",
-    name: "Peter Mirmotahari",
-    title: "Wizard",
-    _id: 6
   }
 ];
 module.exports = {

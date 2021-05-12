@@ -150,7 +150,7 @@ class GhostitAgency extends Component {
             <GIText
               text={shortenText(
                 showMore4,
-                "\"Not another one.\" That's not shortenText your customers should be saying about your email newsletters. Your email campaigns should be part and parcel of a strong marketing strategy. When done right, you'll notice an increase in leads, website traffic, open rates, and customer engagement. Every business and entrepreneur out there is sending newsletters, your job is to be the one that your customer opens and enjoys reading. We can help."
+                "\"Not another one.\" That's not what your customers should be saying about your email newsletters. Your email campaigns should be part and parcel of a strong marketing strategy. When done right, you'll notice an increase in leads, website traffic, open rates, and customer engagement. Every business and entrepreneur out there is sending newsletters, your job is to be the one that your customer opens and enjoys reading. We can help."
               )}
               type="p"
             />
