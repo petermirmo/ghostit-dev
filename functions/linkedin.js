@@ -11,105 +11,117 @@ const fs = require("fs");
 const { whatFileTypeIsString, isUrlImage, isUrlVideo } = require("../util");
 
 const ImagePost = (postdata, account, post) => {
-  axios
-    .post(
-      "https://api.linkedin.com/v2/assets?action=registerUpload",
-      postdata,
-      {
-        headers: {
-          Authorization: "Bearer " + account.accessToken,
-          "Content-Type": "application/json"
+  try {
+    axios
+      .post(
+        "https://api.linkedin.com/v2/assets?action=registerUpload",
+        postdata,
+        {
+          headers: {
+            Authorization: "Bearer " + account.accessToken,
+            "Content-Type": "application/json"
+          }
         }
-      }
-    )
-    .then(linkedinImageResult => {
-      for (let i = 0; i < post.files.length; i++) {
-        const file = post.files[i].url;
+      )
+      .then(linkedinImageResult => {
+        for (let i = 0; i < post.files.length; i++) {
+          const file = post.files[i].url;
 
-        const uploadUrl =
-          linkedinImageResult.data.value.uploadMechanism[
-            "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
-          ]["uploadUrl"];
-        const header =
-          linkedinImageResult.data.value.uploadMechanism[
-            "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
-          ]["headers"]["media-type-family"];
-        const asset_urn = linkedinImageResult.data.value.asset;
-        request(file)
-          .pipe(fs.createWriteStream("image.jpg"))
-          .on("finish", data => {
-            const stream = fs.createReadStream("image.jpg");
-            var formdata = new FormData();
-            formdata.append("file", stream);
-            request(
-              {
-                headers: {
-                  Authorization: "Bearer " + account.accessToken,
-                  "media-type-family": header
+          const uploadUrl =
+            linkedinImageResult.data.value.uploadMechanism[
+              "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
+            ]["uploadUrl"];
+          const header =
+            linkedinImageResult.data.value.uploadMechanism[
+              "com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"
+            ]["headers"]["media-type-family"];
+          const asset_urn = linkedinImageResult.data.value.asset;
+          request(file)
+            .pipe(fs.createWriteStream("image.jpg"))
+            .on("finish", data => {
+              const stream = fs.createReadStream("image.jpg");
+              var formdata = new FormData();
+              formdata.append("file", stream);
+              request(
+                {
+                  headers: {
+                    Authorization: "Bearer " + account.accessToken,
+                    "media-type-family": header
+                  },
+                  uri: uploadUrl,
+                  body: stream,
+                  method: "POST"
                 },
-                uri: uploadUrl,
-                body: stream,
-                method: "POST"
-              },
-              (error, res, body) => {}
-            );
-            const post_data = {
-              content: {
-                contentEntities: [
-                  {
-                    entity: "" + asset_urn
-                  }
-                ],
-                description: "Test Description " + post.content,
-                title: "Test Share with Title",
-                shareMediaCategory: "IMAGE"
-              },
-              distribution: {
-                linkedInDistributionTarget: {}
-              },
+                (error, res, body) => {}
+              );
+              const post_data = {
+                content: {
+                  contentEntities: [
+                    {
+                      entity: "" + asset_urn
+                    }
+                  ],
+                  description: "Test Description " + post.content,
+                  title: "Test Share with Title",
+                  shareMediaCategory: "IMAGE"
+                },
+                distribution: {
+                  linkedInDistributionTarget: {}
+                },
 
-              subject: "Test Share Subject",
-              text: {
-                text: post.content
-              }
-            };
-            if (account.accountType === "page")
-              post_data.owner = "urn:li:organization:" + account.socialID;
-            else post_data.owner = "urn:li:person:" + account.socialID;
-            axios
-              .post("https://api.linkedin.com/v2/shares", post_data, {
-                headers: {
-                  Authorization: "Bearer " + account.accessToken,
-                  "Content-Type": "application/json"
+                subject: "Test Share Subject",
+                text: {
+                  text: post.content
                 }
-              })
-              .then(linkedinPostResult => {
-                if (linkedinPostResult.data.message)
-                  savePostError(post._id, linkedinPostResult.data.message);
-                else savePostSuccessfully(post._id, linkedinPostResult.data.id);
-              })
-              .catch(linkedinPostError => {
-                let errorCatch = linkedinPostError.response;
+              };
+              if (account.accountType === "page")
+                post_data.owner = "urn:li:organization:" + account.socialID;
+              else post_data.owner = "urn:li:person:" + account.socialID;
+              try {
+                axios
+                  .post("https://api.linkedin.com/v2/shares", post_data, {
+                    headers: {
+                      Authorization: "Bearer " + account.accessToken,
+                      "Content-Type": "application/json"
+                    }
+                  })
+                  .then(linkedinPostResult => {
+                    if (linkedinPostResult.data.message)
+                      savePostError(post._id, linkedinPostResult.data.message);
+                    else
+                      savePostSuccessfully(
+                        post._id,
+                        linkedinPostResult.data.id
+                      );
+                  })
+                  .catch(linkedinPostError => {
+                    let errorCatch = linkedinPostError.response;
 
-                if (errorCatch)
-                  if (linkedinPostError.response.data)
-                    errorCatch = linkedinPostError.response.data;
+                    if (errorCatch)
+                      if (linkedinPostError.response.data)
+                        errorCatch = linkedinPostError.response.data;
 
-                savePostError(post._id, errorCatch);
-              });
-            try {
-              fs.unlinkSync("image.jpg");
-            } catch (e) {
-              console.log(e);
-            }
-          });
-      }
-    })
-    .catch(e => {
-      if (e.response && e.response.data)
-        savePostError(post._id, e.response.data.message);
-      else savePostError(post._id, "Unknown LinkedIn catch response");
-    });
+                    savePostError(post._id, errorCatch);
+                  });
+              } catch (e) {
+                savePostError(post._id, e);
+              }
+              try {
+                fs.unlinkSync("image.jpg");
+              } catch (e) {
+                console.log(e);
+              }
+            });
+        }
+      })
+      .catch(e => {
+        if (e.response && e.response.data)
+          savePostError(post._id, e.response.data.message);
+        else savePostError(post._id, "Unknown LinkedIn catch response");
+      });
+  } catch (e) {
+    savePostError(post._id, e);
+  }
 };
 
 const uploadLinkedinPost = (linkedinPost, account, post) => {
