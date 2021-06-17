@@ -30,7 +30,10 @@ class RegularVersion extends Component {
   };
   componentDidMount() {
     setTimeout(() => {
-      this.setState({ showModal: true });
+      if (!localStorage.noFirstVisit) {
+        this.setState({ showModal: true });
+        localStorage.noFirstVisit = "1";
+      }
     }, 10000);
   }
   render() {
