@@ -82,14 +82,8 @@ const createSiteMap = () => {
   });
 };
 
-function capitalizeTheFirstLetterOfEachWord(words) {
-  // taken from here https://www.tutorialspoint.com/how-to-capitalize-the-first-letter-of-each-word-in-a-string-using-javascript#:~:text=uppercase%20in%20JavaScript%3F-,How%20to%20capitalize%20the%20first%20letter%20of,in%20a%20string%20using%20JavaScript%3F&text=At%20first%2C%20you%20need%20to,()%20for%20the%20extracted%20character.
-  var separateWord = words.toLowerCase().split(" ");
-  for (var i = 0; i < separateWord.length; i++) {
-    separateWord[i] =
-      separateWord[i].charAt(0).toUpperCase() + separateWord[i].substring(1);
-  }
-  return separateWord.join(" ");
+function capitalizeTheFirstLetterOfEachWord(str) {
+  return str.replace(/\b\w/g, l => l.toUpperCase());
 }
 
 const getMetaInformation = (url, callback) => {
@@ -112,7 +106,9 @@ const getMetaInformation = (url, callback) => {
           if (ghostitBlog.url === url.substring(6, url.length)) {
             let metaTitle = defaultMetaTitle;
             if (contentArray[0] && contentArray[0].html)
-              metaTitle = htmlToText.fromString(contentArray[0].html, {});
+              metaTitle = htmlToText
+                .fromString(contentArray[0].html, {})
+                .toLowerCase();
 
             let metaDescription = defaultMetaDescription;
             if (contentArray[1] && contentArray[1].html)
