@@ -14,6 +14,7 @@ module.exports = {
       paidAdvertisements,
       phoneNumber,
       socialMedia,
+      url,
       webDev,
       weekdays,
       weekends
@@ -21,47 +22,49 @@ module.exports = {
 
     return sendEmail(
       { email: "rahul@ghostit.co" },
-      "Ghostit Lead",
-      "Name: " +
-        name +
-        "\n" +
-        "Message: " +
-        message +
-        "\n" +
-        "Email Address: " +
-        email +
-        "\n" +
-        "Phone Number: " +
-        phoneNumber +
-        "\n\n" +
-        "Times Available\n" +
-        "mornings: " +
-        mornings +
-        "\n" +
-        "afternoons: " +
-        afternoons +
-        "\n" +
-        "weekdays: " +
-        weekdays +
-        "\n" +
-        "weekends: " +
-        weekends +
-        "\n\n" +
-        "Services Required\n" +
-        "Blogs: " +
-        blogging +
-        "\n" +
-        "Social Media: " +
-        socialMedia +
-        "\n" +
-        "Email Newsletters: " +
-        emailNewsletters +
-        "\n" +
-        "Web Development and Design: " +
-        webDev +
-        "\n" +
-        "Paid Advertisements and Promotions: " +
-        paidAdvertisements,
+      url ? "Free Ghostit Audit" : "Ghostit Lead",
+      url
+        ? "Email Address: " + email + "\n" + "website: " + url + "\n"
+        : "Name: " +
+            name +
+            "\n" +
+            "Message: " +
+            message +
+            "\n" +
+            "Email Address: " +
+            email +
+            "\n" +
+            "Phone Number: " +
+            phoneNumber +
+            "\n\n" +
+            "Times Available\n" +
+            "mornings: " +
+            mornings +
+            "\n" +
+            "afternoons: " +
+            afternoons +
+            "\n" +
+            "weekdays: " +
+            weekdays +
+            "\n" +
+            "weekends: " +
+            weekends +
+            "\n\n" +
+            "Services Required\n" +
+            "Blogs: " +
+            blogging +
+            "\n" +
+            "Social Media: " +
+            socialMedia +
+            "\n" +
+            "Email Newsletters: " +
+            emailNewsletters +
+            "\n" +
+            "Web Development and Design: " +
+            webDev +
+            "\n" +
+            "Paid Advertisements and Promotions: " +
+            paidAdvertisements,
 
       results => {
         res.send(results);

@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/pro-light-svg-icons/faTimes";
 
 import Consumer from "../../context";
 
 import Page from "../../components/containers/Page";
+import Modal from "../../components/containers/Modal";
 import GIContainer from "../../components/containers/GIContainer";
 import GIButton from "../../components/views/GIButton";
 import GIText from "../../components/views/GIText";
@@ -16,10 +21,20 @@ import { isMobileOrTablet } from "../../util";
 
 import "./style.css";
 
-//
-
 class RegularVersion extends Component {
+  state = {
+    email: "",
+    showModal: false,
+    url: ""
+  };
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ showModal: true });
+    }, 10000);
+  }
   render() {
+    const { email, showModal, url } = this.state;
+
     return (
       <Consumer>
         {context => (
@@ -424,6 +439,85 @@ class RegularVersion extends Component {
                   />
                 </Link>
               </GIContainer>
+            )}
+            {showModal && (
+              <Modal
+                body={
+                  <GIContainer className="full-center column x-fill y-fill pa16">
+                    <input
+                      type="text"
+                      className="x-fill pa8 mb16 br4"
+                      placeholder="URL"
+                      onChange={event =>
+                        this.setState({ url: event.target.value })
+                      }
+                      value={url}
+                    />
+                    <input
+                      type="text"
+                      className="x-fill pa8 mb16 br4"
+                      placeholder="Email"
+                      onChange={event =>
+                        this.setState({ email: event.target.value })
+                      }
+                      value={email}
+                    />
+                    <button
+                      className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb8 br32"
+                      onClick={() => {
+                        const { email, url } = this.state;
+                        const { history } = this.props;
+
+                        if (!email || !url)
+                          alert("Please fill out all fields!");
+
+                        this.setState({ showModal: false });
+
+                        axios
+                          .post("/api/book-a-call", {
+                            email,
+                            url
+                          })
+                          .then(res => {
+                            const { success } = res.data;
+
+                            if (success) {
+                              history.push("/thank-you");
+                            } else {
+                              alert(
+                                "Error - Your request was not successful, please email us directly at hello@ghostit.co."
+                              );
+                            }
+                            console.log(success);
+                          });
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </GIContainer>
+                }
+                close={() => this.setState({ showModal: false })}
+                className="br8"
+                header={
+                  <GIContainer className="bg-seven-blue x-fill full-center py16">
+                    <GIContainer className="flex-fill" />
+                    <GIText
+                      className="tac white"
+                      text="Would you like a free online presence audit?"
+                      type="h2"
+                    />
+                    <GIContainer className="justify-end flex-fill px16">
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        className="opposite-button-colors clickable br4 round-icon-small"
+                        onClick={() => this.setState({ showModal: false })}
+                      />
+                    </GIContainer>
+                  </GIContainer>
+                }
+                showClose={false}
+                style={{}}
+              />
             )}
           </Page>
         )}
