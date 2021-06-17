@@ -88,10 +88,11 @@ function capitalizeTheFirstLetterOfEachWord(str) {
 
 const getMetaInformation = (url, callback) => {
   const defaultMetaDescription =
-    "Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion.";
+    "We are a Growth-Focused Digital Marketing & Web Development Agency. Come see why our audience-centered data-driven approach works.";
   const defaultMetaImage =
     "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png";
-  const defaultMetaTitle = "Ghostit Marketing Solution and Agency";
+  const defaultMetaTitle =
+    "Amplify Your Website Traffic and Turn Visitors Into Paying Customers";
   const defaultObject = {
     metaDescription: defaultMetaDescription,
     metaImage: defaultMetaImage,

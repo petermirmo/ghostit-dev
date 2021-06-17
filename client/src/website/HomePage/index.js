@@ -25,6 +25,7 @@ class RegularVersion extends Component {
   state = {
     email: "",
     showModal: false,
+    showThankYou: false,
     url: ""
   };
   componentDidMount() {
@@ -33,7 +34,7 @@ class RegularVersion extends Component {
     }, 10000);
   }
   render() {
-    const { email, showModal, url } = this.state;
+    const { email, showModal, showThankYou, url } = this.state;
 
     return (
       <Consumer>
@@ -67,20 +68,22 @@ class RegularVersion extends Component {
                     : "container-box extra-large"
                 }`}
               >
-                <GIText className="tac muli mb16" type="h2">
-                  Growth-Focused
-                  <GIText className="" text=" Digital Marketing " type="span" />
-                  &
-                  <GIText className="" text=" Web Development " type="span" />
-                  Agency
+                <GIText
+                  className="bold primary-font tac muli mb16"
+                  type="h1"
+                  style={{ fontSize: "60px" }}
+                >
+                  Amplify Your Website Traffic and Turn Visitors Into Paying
+                  Customers
                 </GIText>
                 <GIText
-                  className="fs-18 tac mb32"
-                  text="Increase your website traffic and turn visitors into paying customers with our audience-centered data-driven approach."
-                  type="h4"
+                  className="primary-font fs-20 tac mb32"
+                  text="We are Your Growth-Focused Digital Marketing & Web Development Agency"
+                  type="h2"
                 />
                 <Link
-                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb8 br32"
+                  className="muli bold white bg-orange-fade-2 shadow-orange-3 px64 py16 mb8 "
+                  style={{ fontSize: "30px", borderRadius: "64px" }}
                   to="/contact-us"
                 >
                   Book a Call
@@ -259,146 +262,7 @@ class RegularVersion extends Component {
                 </Link>
               </GIContainer>
             </GIContainer>
-            <GIContainer
-              className={`full-center x-fill ${
-                isMobileOrTablet() ? "column my32" : "my64"
-              }`}
-            >
-              <GIContainer
-                className={
-                  "column px32 " +
-                  (isMobileOrTablet() ? "x-fill" : "container-box extra-large")
-                }
-              >
-                <GIText className="tac muli mb16" type="h2">
-                  Customized Creative
-                  <GIText
-                    className="four-blue2 bold"
-                    text=" Content "
-                    type="span"
-                  />
-                  Created, Scheduled, and Promoted Without You Lifting a Finger
-                </GIText>
-              </GIContainer>
-            </GIContainer>
 
-            <GIContainer
-              className={
-                "full-center column " + (isMobileOrTablet() ? "my32" : "my64")
-              }
-            >
-              <GIContainer className="column relative mb32">
-                <GIText
-                  className="muli white tac  "
-                  text="Powered by People,"
-                  type="h2"
-                />
-                <GIText
-                  className="muli white tac"
-                  text="Scheduled by Software"
-                  type="h2"
-                />
-
-                <img
-                  alt=""
-                  id="blob-behind-more-features"
-                  src={require("../../svgs/home-4.svg")}
-                />
-              </GIContainer>
-
-              <GIContainer className="wrap full-center px16">
-                <GIContainer
-                  className={
-                    "column mb32 " +
-                    (isMobileOrTablet() ? "x-fill" : "container-box small")
-                  }
-                >
-                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
-                    <img
-                      alt=""
-                      className="fill-parent"
-                      src={require("../../svgs/home-7.svg")}
-                    />
-                  </GIContainer>
-                  <GIText className="muli tac mb8" type="h4">
-                    Social
-                    <GIText
-                      className="four-blue2 bold"
-                      text=" Scheduling"
-                      type="span"
-                    />
-                  </GIText>
-                  <GIText
-                    className="tac"
-                    text="Sync all your social sharing accounts and post directly from our platform."
-                    type="p"
-                  />
-                </GIContainer>
-
-                <GIContainer
-                  className={
-                    "column mb32 " +
-                    (isMobileOrTablet() ? "x-fill" : "container-box small")
-                  }
-                >
-                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
-                    <img
-                      alt=""
-                      className="fill-parent"
-                      src={require("../../svgs/home-5.svg")}
-                    />
-                  </GIContainer>
-                  <GIText className="muli tac mb8" type="h4">
-                    Custom
-                    <GIText
-                      className="four-blue2 bold"
-                      text=" Workflows"
-                      type="span"
-                    />
-                  </GIText>
-                  <GIText
-                    className="tac"
-                    text="Map your marketing campaign from scratch or use pre-built templates."
-                    type="p"
-                  />
-                </GIContainer>
-
-                <GIContainer
-                  className={
-                    "column mb32 " +
-                    (isMobileOrTablet() ? "x-fill" : "container-box small")
-                  }
-                >
-                  <GIContainer className={isMobileOrTablet() ? "" : "mb16"}>
-                    <img
-                      alt=""
-                      className="fill-parent"
-                      src={require("../../svgs/home-6.svg")}
-                    />
-                  </GIContainer>
-                  <GIText className="muli tac mb8" type="h4">
-                    Post
-                    <GIText
-                      className="four-blue2 bold"
-                      text=" Instructions"
-                      type="span"
-                    />
-                  </GIText>
-                  <GIText
-                    className="tac"
-                    text="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
-                    type="p"
-                  />
-                </GIContainer>
-              </GIContainer>
-
-              <Link
-                className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
-                to="/contact-us"
-              >
-                Book a Call
-              </Link>
-            </GIContainer>
             <TestimonyScroller />
 
             {context.ghostitBlogs.length !== 0 && (
@@ -443,58 +307,66 @@ class RegularVersion extends Component {
             {showModal && (
               <Modal
                 body={
-                  <GIContainer className="full-center column x-fill y-fill pa16">
-                    <input
-                      type="text"
-                      className="x-fill pa8 mb16 br4"
-                      placeholder="URL"
-                      onChange={event =>
-                        this.setState({ url: event.target.value })
-                      }
-                      value={url}
-                    />
-                    <input
-                      type="text"
-                      className="x-fill pa8 mb16 br4"
-                      placeholder="Email"
-                      onChange={event =>
-                        this.setState({ email: event.target.value })
-                      }
-                      value={email}
-                    />
-                    <button
-                      className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb8 br32"
-                      onClick={() => {
-                        const { email, url } = this.state;
-                        const { history } = this.props;
+                  showThankYou ? (
+                    <GIContainer className="full-center column x-fill y-fill pa16">
+                      <h4 className="fs-20 tac">
+                        Expect to hear from us within one business day!
+                        Meanwhile, keep browsing our website.
+                      </h4>
+                    </GIContainer>
+                  ) : (
+                    <GIContainer className="full-center column x-fill y-fill pa16">
+                      <input
+                        type="text"
+                        className="x-fill pa8 mb16 br4"
+                        placeholder="URL"
+                        onChange={event =>
+                          this.setState({ url: event.target.value })
+                        }
+                        value={url}
+                      />
+                      <input
+                        type="text"
+                        className="x-fill pa8 mb16 br4"
+                        placeholder="Email"
+                        onChange={event =>
+                          this.setState({ email: event.target.value })
+                        }
+                        value={email}
+                      />
+                      <button
+                        className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb8 br32"
+                        onClick={() => {
+                          const { email, url } = this.state;
 
-                        if (!email || !url)
-                          alert("Please fill out all fields!");
+                          if (!email || !url)
+                            alert("Please fill out all fields!");
 
-                        this.setState({ showModal: false });
+                          this.setState({ showModal: false });
 
-                        axios
-                          .post("/api/book-a-call", {
-                            email,
-                            url
-                          })
-                          .then(res => {
-                            const { success } = res.data;
+                          axios
+                            .post("/api/book-a-call", {
+                              email,
+                              url
+                            })
+                            .then(res => {
+                              const { success } = res.data;
 
-                            if (success) {
-                              history.push("/thank-you");
-                            } else {
-                              alert(
-                                "Error - Your request was not successful, please email us directly at hello@ghostit.co."
-                              );
-                            }
-                            console.log(success);
-                          });
-                      }}
-                    >
-                      Submit
-                    </button>
-                  </GIContainer>
+                              if (success) {
+                                this.setState({ showThankYou: true });
+                              } else {
+                                alert(
+                                  "Error - Your request was not successful, please email us directly at hello@ghostit.co."
+                                );
+                              }
+                              console.log(success);
+                            });
+                        }}
+                      >
+                        Submit
+                      </button>
+                    </GIContainer>
+                  )
                 }
                 close={() => this.setState({ showModal: false })}
                 className="br8"
@@ -503,7 +375,11 @@ class RegularVersion extends Component {
                     <GIContainer className="flex-fill" />
                     <GIText
                       className="tac white"
-                      text="Would you like a free online presence audit?"
+                      text={
+                        showThankYou
+                          ? "Thank you!"
+                          : "Would you like a free online presence audit?"
+                      }
                       type="h2"
                     />
                     <GIContainer className="justify-end flex-fill px16">

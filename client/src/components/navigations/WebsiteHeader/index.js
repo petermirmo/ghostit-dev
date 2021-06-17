@@ -73,20 +73,7 @@ class WebsiteHeader extends Component {
             style={{ width: homePage ? "55vw" : "350px" }}
           />
         )}
-        {!isMobileOrTablet() && !homePage && (
-          <img
-            alt="blob"
-            id="small-star-circle-under-login"
-            src={require("../../../svgs/circle-stars.svg")}
-          />
-        )}
-        {!isMobileOrTablet() && !homePage && (
-          <img
-            alt="blob"
-            id="medium-likes-circle-under-login"
-            src={require("../../../svgs/circle-likes.svg")}
-          />
-        )}
+
         {isMobileOrTablet() && (
           <FontAwesomeIcon
             icon={faTimes}

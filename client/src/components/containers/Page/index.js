@@ -33,7 +33,7 @@ class Page extends Component {
     window.scrollTo(0, 0);
   }
 
-  checkPropsVariables = (activePage) => {
+  checkPropsVariables = activePage => {
     const { testMode } = this.props; // Variables
     let { title, description, image, style } = this.props; // Variables
 
@@ -60,7 +60,7 @@ class Page extends Component {
       hideForm = false,
       homePage = true,
       location,
-      user,
+      user
     } = this.props; // Variables
     const activePage = location.pathname;
 
@@ -116,7 +116,7 @@ class Page extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user: state.user
   };
 }
 export default withRouter(connect(mapStateToProps)(Page));
