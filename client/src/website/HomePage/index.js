@@ -50,7 +50,7 @@ class RegularVersion extends Component {
             title="Ghostit Marketing Solution and Agency"
           >
             <GIContainer
-              className={`justify-center x-fill ${
+              className={`justify-center x-fill pb64 ${
                 isMobileOrTablet() ? "column mb32 " : "reverse"
               }`}
               style={{ minHeight: "90vh" }}

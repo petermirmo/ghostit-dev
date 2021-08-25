@@ -58,7 +58,7 @@ class Page extends Component {
       children,
       className,
       hideForm = false,
-      homePage = true,
+      homePage,
       location,
       user
     } = this.props; // Variables

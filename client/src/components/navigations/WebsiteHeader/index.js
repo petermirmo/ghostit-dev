@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 
-import { connect } from "react-redux";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
 import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
@@ -70,7 +68,7 @@ class WebsiteHeader extends Component {
             alt="blob"
             id="blob-under-login"
             src={require("../../../svgs/blob-under-login.svg")}
-            style={{ width: homePage ? "55vw" : "350px" }}
+            style={{ width: "55vw" }}
           />
         )}
 
@@ -189,10 +187,7 @@ class WebsiteHeader extends Component {
             isMobileOrTablet() ? "column" : "mr32"
           }`}
         >
-          <GIContainer
-            className="wrap align-center my4"
-            style={{ zIndex: 101 }}
-          >
+          <GIContainer className="wrap align-center" style={{ zIndex: 101 }}>
             <a
               href="https://www.facebook.com/ghostitcontent/"
               rel="noopener noreferrer"
@@ -234,36 +229,16 @@ class WebsiteHeader extends Component {
               />
             </a>
           </GIContainer>
-          {!user && (
-            <Link to="/sign-in">
-              <GIButton
-                className={`common-border br20 px16 py8 ${
-                  isMobileOrTablet() ? "four-blue" : "white"
-                }`}
-                text="Sign In"
-              />
-            </Link>
-          )}
-
-          {user && (
-            <Link to="/dashboard">
-              <GIButton
-                className={`common-border br20 px16 py8 ${
-                  isMobileOrTablet() ? "four-blue" : "white"
-                }`}
-                text="Go to Software"
-              />
-            </Link>
-          )}
+          <Link
+            className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
+            to="/contact-us"
+          >
+            Book a Call
+          </Link>
         </GIContainer>
       </GIContainer>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.user
-  };
-}
-export default withRouter(connect(mapStateToProps)(WebsiteHeader));
+export default withRouter(WebsiteHeader);

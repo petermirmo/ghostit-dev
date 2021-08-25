@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getPostColor, getPostIconRound } from "../../../componentFunctions";
@@ -7,6 +8,7 @@ import { isMobileOrTablet } from "../../../util";
 
 import GIContainer from "../../containers/GIContainer";
 import GIText from "../../views/GIText";
+import GIButton from "../../views/GIButton";
 import EmailForm from "../../forms/EmailForm";
 import Logo from "../WebsiteHeader/Logo";
 import AgencyForm from "../../forms/AgencyForm";
@@ -18,7 +20,7 @@ class WebsiteFooter extends Component {
     else return "";
   };
   render() {
-    const { hideForm = false } = this.props;
+    const { hideForm = false, user } = this.props;
 
     return (
       <GIContainer className="column x-fill">
@@ -96,6 +98,28 @@ class WebsiteFooter extends Component {
                   type="p"
                 />
               </Link>
+
+              {!user && (
+                <Link to="/sign-in">
+                  <GIButton
+                    className={`common-border br20 px16 py8 mt8 ${
+                      isMobileOrTablet() ? "four-blue" : "white"
+                    }`}
+                    text="Sign In"
+                  />
+                </Link>
+              )}
+
+              {user && (
+                <Link to="/dashboard">
+                  <GIButton
+                    className={`common-border br20 px16 py8 mt8 ${
+                      isMobileOrTablet() ? "four-blue" : "white"
+                    }`}
+                    text="Go to Software"
+                  />
+                </Link>
+              )}
             </div>
             <div className="flex column container-box tiny my16">
               <GIText className="white mb16" type="h6" text="Terms & Privacy" />
@@ -205,4 +229,10 @@ class WebsiteFooter extends Component {
   />
 </Link>*/
 
-export default withRouter(WebsiteFooter);
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(WebsiteFooter));

@@ -59,7 +59,7 @@ const teamMembers = [
     description:
       "Data and analytics are Luke’s superpowers, using numbers people often find boring or incomprehensible to create ads that convert. Originally from the Netherlands, Luke moved to Canada at a young age, growing up in New Brunswick before attending university in Halifax, Nova Scotia. While earning a major in marketing and a minor in psychology, he interned at a media agency where he discovered his love of data and analytics and learned the ins and outs of media planning and buying. He’s taken his wide-ranging set of skills and put them to use at various businesses, from local start-ups to international companies. In his free time, you can find him running, cycling, hiking, and enjoying the outdoors with friends.",
     image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1628629903/IMG_4381-cbw.jpg",
+      "https://res.cloudinary.com/ghostit-co/image/upload/v1629914752/djtI5nIQ.jpg",
     location: "Canada",
     name: "Luke Meijer",
     title: "Paid Ads Specialist",

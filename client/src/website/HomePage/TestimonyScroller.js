@@ -82,56 +82,47 @@ class TestimonyScroller extends Component {
         >
           <FontAwesomeIcon icon={faArrowAltLeft} size="2x" />
         </GIContainer>
-        {testimonies.map((activeTestimony, index) => {
-          if (activeTestimonyIndex === index)
-            return (
-              <GIContainer
-                className={"flex-fill column full-center " + direction}
-                key={index}
-              >
-                <GIText
-                  className="tac white muli fs-26 mt32"
-                  text="Here's What"
-                  type="h2"
-                />
-                <GIText
-                  className="tac white muli"
-                  text="Our Customers Are Saying"
-                  type="h2"
-                />
+        <GIContainer className={"flex-fill column full-center " + direction}>
+          <GIText
+            className="tac white muli fs-26 mt32"
+            text="Here's What"
+            type="h2"
+          />
+          <GIText
+            className="tac white muli"
+            text="Our Customers Are Saying"
+            type="h2"
+          />
+
+          {testimonies.map((activeTestimony, index) => {
+            if (activeTestimonyIndex === index)
+              return (
                 <GIContainer
-                  className="ov-hidden bg-white mt32"
-                  style={{ width: "180px" }}
+                  className={"column full-center " + direction}
+                  key={index}
                 >
-                  <a href={activeTestimony.link} target="_blank">
-                    <img
-                      alt=""
-                      className="x-fill"
-                      src={activeTestimony.photo}
+                  <GIText
+                    className={`white tac fs-18 mt32 ${
+                      isMobileOrTablet() ? "x-fill px8" : "container-box large "
+                    }`}
+                    text={activeTestimony.review}
+                    type="p"
+                  />
+                  <a
+                    href={activeTestimony.link}
+                    style={{ zIndex: 2 }}
+                    target="_blank"
+                  >
+                    <GIText
+                      className="bold white tac mt8 mb32"
+                      text={activeTestimony.companyName}
+                      type="p"
                     />
                   </a>
                 </GIContainer>
-                <GIText
-                  className={`white tac mt32 ${
-                    isMobileOrTablet() ? "x-fill px8" : "container-box large "
-                  }`}
-                  text={activeTestimony.review}
-                  type="p"
-                />
-                <a
-                  href={activeTestimony.link}
-                  style={{ zIndex: 2 }}
-                  target="_blank"
-                >
-                  <GIText
-                    className="bold white tac mt8 mb32"
-                    text={activeTestimony.companyName}
-                    type="p"
-                  />
-                </a>
-              </GIContainer>
-            );
-        })}
+              );
+          })}
+        </GIContainer>
         <GIContainer
           className={
             "clickable full-center " + (isMobileOrTablet() ? "px4" : "px64")
