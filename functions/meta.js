@@ -104,7 +104,8 @@ const getMetaInformation = (url, callback) => {
         const ghostitBlog = ghostitBlogs[index];
         const { contentArray = [], images = [] } = ghostitBlog;
         if (ghostitBlog.url) {
-          if (ghostitBlog.url === url.substring(6, url.length)) {
+          const newUrl = url.substring(6, url.length).replace(/\?.*/g, "$'");
+          if (ghostitBlog.url === newUrl) {
             let metaTitle = defaultMetaTitle;
             if (contentArray[0] && contentArray[0].html)
               metaTitle = htmlToText
