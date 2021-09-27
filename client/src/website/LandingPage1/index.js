@@ -64,11 +64,9 @@ class LandingPage1 extends Component {
                   }`}
                 >
                   <GIContainer className="x-fill bg-white shadow-8 column pa32 br8">
-                    <GIText text="Top Secrets To" type="h5" />
-                    <GIText text="Social Media" type="h2" />
                     <GIText
                       className="mb16"
-                      text="Marketing Success"
+                      text="Want a free non-bias opinion of your business’s online presence?"
                       type="h2"
                     />
                     <form
@@ -131,15 +129,14 @@ class LandingPage1 extends Component {
                     : "container-box medium align-start"
                 }`}
               >
-                <GIText className="muli" text="Create. Customize." type="h2" />
                 <GIText
                   className="muli four-blue mb16"
-                  text="Convert."
+                  text="SEO Optimized Blogs."
                   type="h2"
                 />
                 <GIText
                   className="mb32"
-                  text="Organize your marketing process with an all-in-one solution for unified content promotion."
+                  text="Ensure your website has regular thought-provoking blog posts."
                   type="p"
                 />
                 <Link
@@ -193,16 +190,16 @@ class LandingPage1 extends Component {
                   }`}
                   type="h2"
                 >
-                  Powerful
+                  Written by People.
                   <GIText
                     className="four-blue"
-                    text="&nbsp;Analytics Features"
+                    text="&nbsp;Backed by Data."
                     type="span"
                   />
                 </GIText>
                 <GIText
                   className="mb32"
-                  text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
+                  text="It’s not enough to just write a well-written blog post. You need metrics. You need analytics. You need to know the numbers attached to the keywords you are trying to rank for. From search volume to ranking difficulty. Don’t worry; our team has you covered."
                   type="p"
                 />
                 <Link
@@ -216,13 +213,8 @@ class LandingPage1 extends Component {
 
             <GIContainer className="column x-fill full-center bg-orange-fade py32">
               <GIText
-                className="tac muli white"
-                text="Top Secret to"
-                type="h4"
-              />
-              <GIText
                 className="tac muli white mb32"
-                text="Social Media Marketing Success"
+                text="Let’s talk about your online presence and how we can improve it!"
                 type="h2"
               />
               <form
@@ -306,39 +298,19 @@ class LandingPage1 extends Component {
                     }}
                   />
                   <GIContainer className="column container-box small bg-blue-fade-7 px32 py64 mx8 mb16 br8">
+                    <GIText className="white" text="SEO Keywords" type="h4" />
                     <GIText
                       className="white"
-                      text="Custom Workflows"
-                      type="h4"
-                    />
-                    <GIText
-                      className="white"
-                      text="Map your marketing campaign from scratch or use pre-built templates."
+                      text="What exactly is your audience typing into Google? Short-form keywords, long-form keywords, you need to know them all in order to rank for them."
                       type="p"
                     />
                   </GIContainer>
                   <GIContainer className="column mx8">
                     <GIContainer className="column container-box small bg-blue-fade-7 px32 py64 mb16 br8">
+                      <GIText className="white" text="SEO Topics" type="h4" />
                       <GIText
                         className="white"
-                        text="Post Instructions"
-                        type="h4"
-                      />
-                      <GIText
-                        className="white"
-                        text="Add custom steps for your marketing campaign or follow existing ones with a pre-built template."
-                        type="p"
-                      />
-                    </GIContainer>
-                    <GIContainer className="column container-box small bg-blue-fade-7 px32 py64 br8">
-                      <GIText
-                        className="white"
-                        text="Social Scheduling"
-                        type="h4"
-                      />
-                      <GIText
-                        className="white"
-                        text="Sync all your social sharing accounts and post directly from our platform."
+                        text="You need to know what keywords to rank for, but you ALSO need to know what topics your audience wants to read about. Keywords and topics go hand in hand. Nail the topic, and your website visitor is more likely to turn into a lead!"
                         type="p"
                       />
                     </GIContainer>
@@ -358,17 +330,12 @@ class LandingPage1 extends Component {
                   }`}
                   type="h2"
                 >
-                  How we help our clients to measure thier
-                  <GIText
-                    className="four-blue"
-                    text="&nbsp;Social Activites"
-                    type="span"
-                  />
+                  How do we help our clients?
                 </GIText>
 
                 <GIText
                   className="mb32"
-                  text="Ghostit lets you map out marketing campaigns, assign instructions, and schedule your content directly from the platform so you can get more done in less time."
+                  text="Ghostit is the blogging service you have been looking for. We take the guesswork out of what to write, when to write, how to write, and ensure your website’s blog is always full of content that leads your audience to you and makes your company stand out."
                   type="p"
                 />
                 <Link
@@ -380,77 +347,26 @@ class LandingPage1 extends Component {
               </GIContainer>
             </GIContainer>
 
-            <GIContainer
-              className={`justify-center x-fill  py32 ${
-                isMobileOrTablet() ? "column" : "my32"
-              }`}
-            >
-              <GIContainer
-                className={`${
-                  isMobileOrTablet()
-                    ? "relative x-fill full-center px32"
-                    : "ov-visible relative container-box large"
-                }`}
-              >
-                <img
-                  alt=""
-                  className="absolute"
-                  src={require("../../svgs/reviews-bg.svg")}
-                  style={{
-                    height: "150%",
-                    top: "-35%",
-                    right: "30%",
-                    zIndex: "-1"
-                  }}
-                />
-              </GIContainer>
-              <GIContainer
-                className={`column px32 ${
-                  isMobileOrTablet()
-                    ? "x-fill full-center"
-                    : "container-box medium align-start"
-                }`}
-              >
-                <FontAwesomeIcon
-                  className="grey-2"
-                  icon={faQuoteLeft}
-                  size="5x"
+            <GIContainer className="full-center x-fill column py64">
+              <GIContainer className="column full-center container large">
+                <GIText
+                  className="muli mb8"
+                  text="Become a Blogging Machine!"
+                  type="h2"
                 />
                 <GIText
-                  className="muli italic mb32"
-                  text="Repeatedly running digital campaigns for multiple clients can get both cumbersome and at times confusing. Ghostit's platform lets me schedule all of my client's marketing initiatives unlike any other platform and keep them all organized."
-                  type="p"
-                />
-                <GIText
-                  className="bold muli italic"
-                  text="Sean Wiggins"
-                  type="h5"
-                />
-                <GIText
-                  className="muli italic"
-                  text="North Digital Founder"
+                  className="tac mb16"
+                  text="We research evergreen content, trending topics, keywords, your competitors, and your audience to determine the best SEO-optimized blog strategy for your business."
                   type="h6"
                 />
-              </GIContainer>
-            </GIContainer>
-            <GIContainer className="full-center x-fill column py64">
-              <GIText
-                className="muli mb8"
-                text="Join the Social Revolution"
-                type="h2"
-              />
-              <GIText
-                className="mb16"
-                text="Try GhostIt free for 14 days. No credit card needed."
-                type="h6"
-              />
 
-              <Link
-                className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                to="/contact-us"
-              >
-                Book a Call
-              </Link>
+                <Link
+                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
+                  to="/contact-us"
+                >
+                  Book a Call
+                </Link>
+              </GIContainer>
             </GIContainer>
           </Page>
         )}

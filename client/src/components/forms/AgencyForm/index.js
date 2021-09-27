@@ -62,8 +62,7 @@ class MyForm extends Component {
     return (
       <form
         className={
-          "main-grid container large gap8 pa32 " +
-          (isMobileOrTablet() ? "px16" : "")
+          "container large gap8 pa32 " + (isMobileOrTablet() ? "px16" : "")
         }
         id="contact-us-form"
         onSubmit={e => {
@@ -78,8 +77,8 @@ class MyForm extends Component {
         }}
         noValidate
       >
-        <h3 className="grid-fill">Contact Form</h3>
-        <GIContainer className="wrap flex-fill gap8 mb16">
+        <h3>Contact Form</h3>
+        <GIContainer className="x-fill wrap gap8 mb16">
           <GIContainer className="flex-fill column gap8">
             <input
               className="px16 py8 br20"
@@ -130,7 +129,7 @@ class MyForm extends Component {
             type="text"
           />
         </GIContainer>
-        <h3 className="grid-fill">Services You Are Looking For</h3>
+        <h3>Services You Are Looking For</h3>
         <GIContainer className="wrap gap8 mb16">
           <p
             className={
@@ -228,7 +227,7 @@ class MyForm extends Component {
             None Of The Above
           </p>
         </GIContainer>
-        <h3 className="grid-fill">When Can You Chat?</h3>
+        <h3>When Can You Chat?</h3>
         <GIContainer className="column wrap gap8">
           <GIContainer className="gap8">
             <p
