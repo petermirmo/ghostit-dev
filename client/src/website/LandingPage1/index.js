@@ -132,12 +132,12 @@ class LandingPage1 extends Component {
                 <GIText
                   className="muli four-blue mb16"
                   text="SEO Optimized Blogs."
-                  type="h2"
+                  type="h1"
                 />
                 <GIText
                   className="mb32"
                   text="Ensure your website has regular thought-provoking blog posts."
-                  type="p"
+                  type="h4"
                 />
                 <Link
                   className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
