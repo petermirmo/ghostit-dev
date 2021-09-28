@@ -129,12 +129,12 @@ class LandingPage1 extends Component {
               >
                 <GIText
                   className="muli four-blue mb16"
-                  text="SEO Optimized Blogs."
+                  text="Pay-Per-Click (PPC) Paid Marketing"
                   type="h1"
                 />
                 <GIText
                   className="mb32"
-                  text="Ensure your website has regular thought-provoking blog posts."
+                  text="Get your business in front of your target audience quickly and effectively. With paid ads on search engines and social media platforms, we can drive traffic to your website right away."
                   type="h4"
                 />
                 <Link
@@ -188,7 +188,7 @@ class LandingPage1 extends Component {
                   }`}
                   type="h2"
                 >
-                  Written by People.
+                  Created by People.
                   <GIText
                     className="four-blue"
                     text="&nbsp;Backed by Data."
@@ -197,7 +197,7 @@ class LandingPage1 extends Component {
                 </GIText>
                 <GIText
                   className="mb32"
-                  text="It’s not enough to just write a well-written blog post. You need metrics. You need analytics. You need to know the numbers attached to the keywords you are trying to rank for. From search volume to ranking difficulty. Don’t worry; our team has you covered."
+                  text="It’s not enough to just put up a random Facebook Ad or Google Ads Campaign. You need metrics. You need analytics. You need to know where on the internet your customers are and what exactly they are looking for. From strategy to creation to management of your online ads, we’ve got you covered."
                   type="p"
                 />
                 <Link
@@ -296,19 +296,27 @@ class LandingPage1 extends Component {
                     }}
                   />
                   <GIContainer className="column container-box small bg-blue-fade-7 px32 py64 mx8 mb16 br8">
-                    <GIText className="white" text="SEO Keywords" type="h4" />
                     <GIText
                       className="white"
-                      text="What exactly is your audience typing into Google? Short-form keywords, long-form keywords, you need to know them all in order to rank for them."
+                      text="Search Engine Marketing (SEM)"
+                      type="h4"
+                    />
+                    <GIText
+                      className="white"
+                      text="What exactly is your audience looking for on Google (or Bing!)? From figuring out keyword types, to bidding, to how to go head-to-head with your competitors in the high value search space, there is a lot of information to process before starting even the most basic of SEM campaigns."
                       type="p"
                     />
                   </GIContainer>
                   <GIContainer className="column mx8">
                     <GIContainer className="column container-box small bg-blue-fade-7 px32 py64 mb16 br8">
-                      <GIText className="white" text="SEO Topics" type="h4" />
                       <GIText
                         className="white"
-                        text="You need to know what keywords to rank for, but you ALSO need to know what topics your audience wants to read about. Keywords and topics go hand in hand. Nail the topic, and your website visitor is more likely to turn into a lead!"
+                        text="Social Media Marketing (SMM)"
+                        type="h4"
+                      />
+                      <GIText
+                        className="white"
+                        text="What social media platforms do your customers spend time on? What are they interested in and how can you reach them when it matters? It takes time, effort, and specific know-how to figure this all out. Thankfully, Ghostit has the tools to find this information and more."
                         type="p"
                       />
                     </GIContainer>
@@ -333,7 +341,7 @@ class LandingPage1 extends Component {
 
                 <GIText
                   className="mb32"
-                  text="Ghostit is the blogging service you have been looking for. We take the guesswork out of what to write, when to write, how to write, and ensure your website’s blog is always full of content that leads your audience to you and makes your company stand out."
+                  text="Ghostit is the Paid Ads Agency you have been looking for. We take the guesswork out of where to advertise and what to advertise. Ghostit generates quality traffic to your website and turns that traffic into leads. No more wasting valuable time and online advertising dollars."
                   type="p"
                 />
                 <Link
@@ -349,12 +357,12 @@ class LandingPage1 extends Component {
               <GIContainer className="column full-center container large">
                 <GIText
                   className="muli mb8"
-                  text="Become a Blogging Machine!"
+                  text="Become an Online Advertising Machine!"
                   type="h2"
                 />
                 <GIText
                   className="tac mb16"
-                  text="We research evergreen content, trending topics, keywords, your competitors, and your audience to determine the best SEO-optimized blog strategy for your business."
+                  text="Ghostit stays on top of your audience. We find them, and make sure they know how great your company is. We can help you, contact us today!"
                   type="h6"
                 />
 

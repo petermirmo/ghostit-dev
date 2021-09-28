@@ -23,6 +23,7 @@ import ViewWebsiteBlog from "../components/ghostitBlog/ViewGhostitBlog";
 
 import HomePage from "../website/HomePage";
 import LandingPage1 from "../website/LandingPage1";
+import LandingPagePaidAds from "../website/LandingPagePaidAds";
 import PricingPage from "../website/PricingPage";
 import TeamPage from "../website/TeamPage";
 import TeamMemberPage from "../website/TeamMemberPage";
@@ -152,6 +153,10 @@ class Routes extends Component {
 
               <Route path="/home/" component={HomePage} />
               <Route path="/blog-landing-page/" component={LandingPage1} />
+              <Route
+                path="/paid-ads-landing-page/"
+                component={LandingPagePaidAds}
+              />
               <Route path="/pricing/" component={PricingPage} />
               <Route path="/team/" component={TeamPage} exact />
               <Route path="/blog/" component={BlogPage} exact />
