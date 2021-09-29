@@ -345,7 +345,7 @@ class LandingPage1 extends Component {
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="full-center x-fill column py64">
+            <GIContainer className="full-center x-fill column pt64 pb4">
               <GIContainer className="column full-center container large">
                 <GIText
                   className="muli mb8"
@@ -357,13 +357,6 @@ class LandingPage1 extends Component {
                   text="We research evergreen content, trending topics, keywords, your competitors, and your audience to determine the best SEO-optimized blog strategy for your business."
                   type="h6"
                 />
-
-                <Link
-                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  to="/contact-us"
-                >
-                  Book a Call
-                </Link>
               </GIContainer>
             </GIContainer>
           </Page>

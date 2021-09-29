@@ -197,7 +197,7 @@ class LandingPage1 extends Component {
                 </GIText>
                 <GIText
                   className="mb32"
-                  text="It’s not enough to just put up a random Facebook Ad or Google Ads Campaign. You need metrics. You need analytics. You need to know where on the internet your customers are and what exactly they are looking for. From strategy to creation to management of your online ads, we’ve got you covered."
+                  text="It’s not enough to just put up a random Facebook Ad or Google Ads Campaign. You need metrics. You need analytics. You need to know where on the internet your customers are and what exactly they are looking for. From strategy to execution to management of your online ads, we’ve got you covered."
                   type="p"
                 />
                 <Link
@@ -353,7 +353,7 @@ class LandingPage1 extends Component {
               </GIContainer>
             </GIContainer>
 
-            <GIContainer className="full-center x-fill column py64">
+            <GIContainer className="full-center x-fill column pt64 pb4">
               <GIContainer className="column full-center container large">
                 <GIText
                   className="muli mb8"
@@ -365,13 +365,6 @@ class LandingPage1 extends Component {
                   text="Ghostit stays on top of your audience. We find them, and make sure they know how great your company is. We can help you, contact us today!"
                   type="h6"
                 />
-
-                <Link
-                  className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb32 br32"
-                  to="/contact-us"
-                >
-                  Book a Call
-                </Link>
               </GIContainer>
             </GIContainer>
           </Page>
