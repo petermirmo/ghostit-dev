@@ -83,7 +83,7 @@ const createSiteMap = () => {
 };
 
 function capitalizeTheFirstLetterOfEachWord(str) {
-  return str.replace(/\b\w/g, l => l.toUpperCase());
+  return str.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
 }
 
 const getMetaInformation = (url, callback) => {
