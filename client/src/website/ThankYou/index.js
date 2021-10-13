@@ -69,14 +69,21 @@ src="https://www.facebook.com/tr?id=331605847504957&ev=PageView&noscript=1"
             }`}
           >
             <GIText className="tac bold muli mb16" type="h2">
-              Thank you for booking a call with us. We look forward to speaking
-              with you and hopefully working together!
+              Thank you for getting in touch with us! We look forward to
+              speaking with you and will reach out to you within one business
+              day.
             </GIText>
             <GIText
               className="fs-18 tac mb32"
               text="Ghostit is an all-in-one content marketing solution that blends the benefits of real people with strategy-based technology. Our goal: to create compelling digital content that increases your web traffic and converts visitors into customers."
               type="h4"
             />
+            <Link
+              className="no-bold white bg-orange-fade-2 shadow-orange-3 px32 py16 mb16 br32"
+              to="/blog"
+            >
+              Head to Our Blog
+            </Link>
           </GIContainer>
         </GIContainer>
       </Page>

@@ -16,6 +16,7 @@ import GIInput from "../../components/views/GIInput";
 import Blog from "../BlogPage/Blog";
 
 import { isMobileOrTablet } from "../../util";
+import { formSubmit } from "../../components/forms/AgencyForm/util";
 
 class LandingPage1 extends Component {
   state = {
@@ -24,6 +25,8 @@ class LandingPage1 extends Component {
   };
   render() {
     const { email, name } = this.state;
+    const { history } = this.props;
+
     return (
       <Consumer>
         {context => (
@@ -68,11 +71,11 @@ class LandingPage1 extends Component {
                       type="h2"
                     />
                     <form
-                      action="https://ghostit.us14.list-manage.com/subscribe/post?u=6295bbe9fa9b4ee614df357c4&amp;id=aab772526a"
                       className="flex column justify-center"
-                      method="post"
-                      name="mc-embedded-subscribe-form"
-                      target="_blank"
+                      onSubmit={e => {
+                        e.preventDefault();
+                        formSubmit({ fName: name, email }, history);
+                      }}
                       noValidate
                     >
                       <GIInput
@@ -251,7 +254,7 @@ class LandingPage1 extends Component {
                   name="subscribe"
                   type="submit"
                 >
-                  Get Your Free Report Now
+                  Get Your Free Consultation Now
                 </GIButton>
 
                 <div

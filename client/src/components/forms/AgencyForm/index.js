@@ -70,14 +70,14 @@ class MyForm extends Component {
 
           e.preventDefault();
           if (recaptcha) {
-            formSubmit(this.state, this.handleChange, history);
+            formSubmit(this.state, history);
           } else {
             alert("Please complete ReCAPTCHA");
           }
         }}
         noValidate
       >
-        <h3>Contact Form</h3>
+        <h3 className="mb8">Contact Form</h3>
         <GIContainer className="x-fill wrap gap8 mb16">
           <GIContainer className="flex-fill column gap8">
             <input
@@ -129,7 +129,7 @@ class MyForm extends Component {
             type="text"
           />
         </GIContainer>
-        <h3>Services You Are Looking For</h3>
+        <h3 className="mb8">Services You Are Looking For</h3>
         <GIContainer className="wrap gap8 mb16">
           <p
             className={
@@ -227,59 +227,104 @@ class MyForm extends Component {
             None Of The Above
           </p>
         </GIContainer>
-        <h3>When Can You Chat?</h3>
+        <h3 className="mb8">When Can You Chat?</h3>
         <GIContainer className="column wrap gap8">
           <GIContainer className="gap8">
             <p
               className={
                 "no-select clickable grey common-border thick pa8 br20 " +
-                (weekdays ? "four-blue" : "")
+                (weekdays && !weekends ? "four-blue" : "")
               }
-              onClick={() =>
-                this.handleChange({ weekdays: !weekdays, weekends: weekdays })
-              }
+              onClick={() => {
+                if (weekends && weekdays)
+                  this.handleChange({ weekends: false });
+                else
+                  this.handleChange({
+                    weekdays: !weekdays,
+                    weekends: weekdays
+                  });
+              }}
             >
               Weekdays
             </p>
-            <p className="flex full-center grey">Or</p>
             <p
               className={
                 "no-select clickable grey common-border thick pa8 br20 " +
-                (weekends ? "four-blue" : "")
+                (weekends && !weekdays ? "four-blue" : "")
               }
-              onClick={() =>
-                this.handleChange({ weekends: !weekends, weekdays: weekends })
-              }
+              onClick={() => {
+                if (weekends && weekdays)
+                  this.handleChange({ weekdays: false });
+                else
+                  this.handleChange({
+                    weekends: !weekends,
+                    weekdays: weekends
+                  });
+              }}
             >
               Weekends
+            </p>
+            <p
+              className={
+                "no-select clickable grey common-border thick pa8 br20 " +
+                (weekends && weekdays ? "four-blue" : "")
+              }
+              onClick={() => {
+                if (weekends && weekdays)
+                  this.handleChange({ weekends: false, weekdays: false });
+                else this.handleChange({ weekends: true, weekdays: true });
+              }}
+            >
+              Either
             </p>
           </GIContainer>
           <GIContainer className="gap8">
             <p
               className={
                 "no-select clickable grey common-border thick pa8 br20 " +
-                (mornings ? "four-blue" : "")
+                (mornings && !afternoons ? "four-blue" : "")
               }
-              onClick={() =>
-                this.handleChange({ mornings: !mornings, afternoons: mornings })
-              }
+              onClick={() => {
+                if (mornings && afternoons)
+                  this.handleChange({ afternoons: false });
+                else
+                  this.handleChange({
+                    mornings: !mornings,
+                    afternoons: mornings
+                  });
+              }}
             >
               Mornings
             </p>
-            <p className="flex full-center grey">Or</p>
             <p
               className={
                 "no-select clickable grey common-border thick pa8 br20 " +
-                (afternoons ? "four-blue" : "")
+                (afternoons && !mornings ? "four-blue" : "")
               }
-              onClick={() =>
-                this.handleChange({
-                  afternoons: !afternoons,
-                  mornings: afternoons
-                })
-              }
+              onClick={() => {
+                if (afternoons && mornings)
+                  this.handleChange({ mornings: false });
+                else
+                  this.handleChange({
+                    afternoons: !afternoons,
+                    mornings: afternoons
+                  });
+              }}
             >
               Afternoons
+            </p>
+            <p
+              className={
+                "no-select clickable grey common-border thick pa8 br20 " +
+                (mornings && afternoons ? "four-blue" : "")
+              }
+              onClick={() => {
+                if (afternoons && mornings)
+                  this.handleChange({ afternoons: false, mornings: false });
+                else this.handleChange({ afternoons: true, mornings: true });
+              }}
+            >
+              Anytime
             </p>
           </GIContainer>
         </GIContainer>
@@ -292,7 +337,7 @@ class MyForm extends Component {
           <GIButton
             className="white bg-orange-fade-2 shadow-orange-3 px32 py16 br32"
             name="subscribe"
-            text="Send Message"
+            text="Submit"
           />
         </GIContainer>
         {hiddenFormPortion}

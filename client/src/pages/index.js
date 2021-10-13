@@ -152,7 +152,7 @@ class Routes extends Component {
               <Route path="/subscription/" component={MySubscriptionPage} />
 
               <Route path="/home/" component={HomePage} />
-              <Route path="/blog-landing-page/" component={LandingPage1} />
+              <Route path="/landing-page-blog/" component={LandingPage1} />
               <Route
                 path="/paid-ads-landing-page/"
                 component={LandingPagePaidAds}

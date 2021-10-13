@@ -17,7 +17,6 @@ export const formSubmit = (
     weekdays,
     weekends
   },
-  handleChange,
   history
 ) => {
   if (email || phoneNumber) {
