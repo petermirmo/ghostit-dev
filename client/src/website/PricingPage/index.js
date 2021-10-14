@@ -57,7 +57,7 @@ class PricingPage extends Component {
               </GIContainer>
               <GIContainer className="full-center">
                 <GIContainer className="xy-128px full-center column round bg-four-blue">
-                  <GIText className="quicksand white" text="$540" type="h2" />
+                  <GIText className="quicksand white" text="$700" type="h2" />
                   <GIText className="white" text="Per Month" type="h6" />
                 </GIContainer>
               </GIContainer>
