@@ -13,60 +13,40 @@ function ServiceBlogPage() {
   return (
     <Page
       className="website-page align-center px32 mt32"
-      description="Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process."
+      description="Build authority, increase brand presence, and capture leads with high-value, high-quality eBooks"
       keywords="content creators"
       style={{ width: "100%" }}
-      title="Ghostit Services"
+      title="Lead Generation eBooks"
     >
       <GIText className="tac mb8" type="h1">
         <GIText
           className="primary-font"
-          text="Search Engine Optimized (SEO) Blog Posts"
+          text="Lead Generation eBooks"
           type="span"
         />
       </GIText>
       <GIText
         className="tac px32 mb64"
-        text="Delivering high-quality content that attracts potential customers right to your website."
+        text="Build authority, increase brand presence, and capture leads with high-value, high-quality eBooks"
         type="h4"
       />
       <GIContainer className="column full-center container large bg-white shadow-3 pa32 mb32 br16">
         <GIContainer className="column">
-          <GIText
-            className="bold fs-20 mb4"
-            text="Content Marketing Strategy"
-            type="h3"
-          />
           <GIText className="mb16" text="" type="p">
-            During our onboarding session, our team will sit with you to
-            understand your tone and voice of your brand. We will then develop a
-            detailed content marketing strategy plan that includes word length
-            for your content piece and the number of pieces of content per
-            month.
+            What’s a simple way you can generate leads and prove your expertise
+            in your field? With a powerful yet underrated conversion tool: the
+            downloadable eBook. Lead generating eBooks allow businesses to
+            connect with potential customers through well-written, beautifully
+            packaged downloads — something our content writing services can
+            provide.
           </GIText>
-          <GIText
-            className="bold fs-20 mb4"
-            text="Content Creation"
-            type="h3"
-          />
-          <GIText className="mb16" text="" type="p">
-            Whether it’s a blog post or a full-length article, our content
-            consistently drives increased traffic. Our approach to writing
-            content is simple yet effective – we take the time to understand the
-            value your brand brings to your audience. We then create original
-            content for you based on your strategy while keeping your brand in
-            mind. Once your content is ready, you’ll receive a copy of it for
-            review, where you can make suggestions or edit requests.
-          </GIText>
-          <GIText
-            className="bold fs-20 mb4"
-            text="Search Engine Optimization"
-            type="h3"
-          />
           <GIText className="mb64" text="" type="p">
-            We ensure that all the content we produce is optimized for your
-            niche market. We conduct comprehensive SEO research of target
-            keywords and optimize all titles and content with key terms.
+            Our eBook ghostwriters combine intense research, team collaboration,
+            and creative writing abilities to tell a story that appeals to your
+            niche audience. And with a targeted landing page and effective paid
+            ad strategy, you’ll capture leads instantly while raising brand
+            awareness every time a user heads to your website to download your
+            eBook.
           </GIText>
         </GIContainer>
         <Link

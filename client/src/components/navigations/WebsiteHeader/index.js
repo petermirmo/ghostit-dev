@@ -130,7 +130,9 @@ class WebsiteHeader extends Component {
           </Link>
           <Link to="/services">
             <button
-              className={"fs-18 relative pb8 mx8" + this.isActive("services")}
+              className={
+                "fs-18 relative pb8 mx8" + this.isRootActive("services")
+              }
               onClick={
                 isMobileOrTablet()
                   ? () => {
@@ -139,7 +141,7 @@ class WebsiteHeader extends Component {
                   : () => {}
               }
             >
-              {this.isActive("services") && (
+              {this.isRootActive("services") && (
                 <div className="border-bottom-50" />
               )}
               Services

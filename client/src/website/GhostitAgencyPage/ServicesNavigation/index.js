@@ -20,7 +20,7 @@ function ServicesNavigation() {
         <GIContainer className="wrap gap8">
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
-            to="/seo-blog-posts"
+            to="/services/seo-blog-posts"
           >
             <GIContainer className="round-icon-large full-center common-border four-blue bg-white round mb8">
               <img
@@ -37,7 +37,7 @@ function ServicesNavigation() {
           </Link>
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
-            to="/social-media-posts"
+            to="/services/social-media-posts"
           >
             <GIContainer className="round-icon-large full-center common-border four-blue bg-white round mb8">
               <img
@@ -50,7 +50,7 @@ function ServicesNavigation() {
           </Link>
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
-            to="/paid-advertising"
+            to="/services/paid-advertising"
           >
             <GIContainer className="round-icon-large full-center common-border four-blue bg-white round mb8">
               <FontAwesomeIcon className="" icon={faDollarSign} size="2x" />
@@ -59,7 +59,7 @@ function ServicesNavigation() {
           </Link>
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
-            to="/email-newsletter"
+            to="/services/email-newsletter"
           >
             <GIContainer className="round-icon-large full-center common-border four-blue bg-white round mb8">
               <img
@@ -74,7 +74,7 @@ function ServicesNavigation() {
         <GIContainer className="wrap gap8">
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
-            to="/web-content"
+            to="/services/web-content"
           >
             <GIContainer className="round-icon-large full-center common-border four-blue bg-red round">
               <img
@@ -87,7 +87,7 @@ function ServicesNavigation() {
           </Link>
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
-            to="/website-design-and-development"
+            to="/services/website-design-and-development"
           >
             <GIContainer className="round-icon-large full-center common-border four-blue bg-white round mb8">
               <FontAwesomeIcon icon={faBrowser} size="2x" />
@@ -100,7 +100,7 @@ function ServicesNavigation() {
           </Link>
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
-            to="/lead-generation-e-book"
+            to="/services/lead-generation-e-book"
           >
             <GIContainer className="round-icon-large full-center common-border four-blue bg-white round mb8">
               <img

@@ -24,7 +24,21 @@ const createSiteMap = () => {
     siteMapString +=
       "<url>\n<loc>https://www.ghostit.co/</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>1</priority>\n</url>\n\n";
     siteMapString +=
-      "<url>\n<loc>https://www.ghostit.co/agency</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+      "<url>\n<loc>https://www.ghostit.co/services</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n<loc>https://www.ghostit.co/services/seo-blog-posts</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n<loc>https://www.ghostit.co/services/social-media-posts</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n<loc>https://www.ghostit.co/services/paid-advertising</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n<loc>https://www.ghostit.co/services/email-newsletter</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n<loc>https://www.ghostit.co/services/web-content</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n<loc>https://www.ghostit.co/services/website-design-and-development</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
+    siteMapString +=
+      "<url>\n<loc>https://www.ghostit.co/services/lead-generation-e-book</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
       "<url>\n<loc>https://www.ghostit.co/blog</loc>\n<lastmod>2020-02-04</lastmod>\n<changefreq>yearly</changefreq>\n<priority>0.8</priority>\n</url>\n\n";
     siteMapString +=
@@ -168,7 +182,64 @@ const getMetaInformation = (url, callback) => {
             "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
           metaTitle: "Ghostit Blog | Sharing the Importance of Marketing"
         });
-      case "/agency":
+
+      case "/services/seo-blog-posts/":
+        return callback({
+          metaDescription:
+            "Boost your search engine positioning with data-driven, high-quality blog posts that will scale your business",
+          metaImage:
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
+          metaTitle: "SEO Optimized Blog Posts | Ghostit"
+        });
+      case "/services/social-media-posts":
+        return callback({
+          metaDescription:
+            "Authentic, engaging content to drive your brand forward",
+          metaImage:
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
+          metaTitle: "Social Media Posts | Ghostit"
+        });
+      case "/services/paid-advertising":
+        return callback({
+          metaDescription:
+            "Setting up effective paid online advertising to generate leads and drive traffic to your business",
+          metaImage:
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
+          metaTitle: "Paid Advertising | Ghostit"
+        });
+      case "/services/email-newsletter":
+        return callback({
+          metaDescription:
+            "Grow your revenue and meet your KPIs with strategic email marketing designed to deliver tangible results",
+          metaImage:
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
+          metaTitle: "Email Newsletters | Ghostit"
+        });
+      case "/services/web-content":
+        return callback({
+          metaDescription:
+            "Update your website copy and content with our data-driven approach",
+          metaImage:
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
+          metaTitle: "Web Content | Ghostit"
+        });
+      case "/services/website-design-and-development":
+        return callback({
+          metaDescription:
+            "Leave cookie-cutter websites behind — customize your website to increase engagement and leads for your business",
+          metaImage:
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
+          metaTitle: "Website Design & Development | Ghostit"
+        });
+      case "/services/lead-generation-e-book":
+        return callback({
+          metaDescription:
+            "Build authority, increase brand presence, and capture leads with high-value, high-quality eBooks",
+          metaImage:
+            "https://res.cloudinary.com/ghostit-co/image/upload/v1573309830/meta.png",
+          metaTitle: "Lead Generation E-Books | Ghostit"
+        });
+      case "/services":
         return callback({
           metaDescription:
             "Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process.",

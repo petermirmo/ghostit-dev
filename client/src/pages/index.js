@@ -29,7 +29,13 @@ import TeamPage from "../website/TeamPage";
 import TeamMemberPage from "../website/TeamMemberPage";
 import BlogPage from "../website/BlogPage";
 import GhostitAgencyPage from "../website/GhostitAgencyPage";
-import ServiceBlogPage from "../website/GhostitAgencyPage/SEOBlogPosts";
+import EmailNewsletterPage from "../website/GhostitAgencyPage/EmailNewsletter";
+import LeadGenerationEBookPage from "../website/GhostitAgencyPage/LeadGenerationEBook";
+import PaidAdvertisingPage from "../website/GhostitAgencyPage/PaidAdvertising";
+import SEOBlogPostsPage from "../website/GhostitAgencyPage/SEOBlogPosts";
+import SocialMediaPostsPage from "../website/GhostitAgencyPage/SocialMediaPosts";
+import WebContentPage from "../website/GhostitAgencyPage/WebContent";
+import WebsiteDesignAndDevelopmentPage from "../website/GhostitAgencyPage/WebsiteDesignAndDevelopment";
 import LoginPage from "../website/LoginPage";
 import RegisterPage from "../website/RegisterPage";
 import ContactUsPage from "../website/ContactUs";
@@ -160,19 +166,31 @@ class Routes extends Component {
               <Route path="/pricing/" component={PricingPage} />
               <Route path="/team/" component={TeamPage} exact />
               <Route path="/blog/" component={BlogPage} exact />
-              <Route path="/services/" component={GhostitAgencyPage} />
-              <Route path="/seo-blog-posts/" component={ServiceBlogPage} />
-              <Route path="/social-media-posts/" component={ServiceBlogPage} />
-              <Route path="/paid-advertising/" component={ServiceBlogPage} />
-              <Route path="/email-newsletter/" component={ServiceBlogPage} />
-              <Route path="/web-content/" component={ServiceBlogPage} />
+              <Route path="/services/" component={GhostitAgencyPage} exact />
               <Route
-                path="/website-design-and-development/"
-                component={ServiceBlogPage}
+                path="/services/seo-blog-posts/"
+                component={SEOBlogPostsPage}
               />
               <Route
-                path="/lead-generation-e-book/"
-                component={ServiceBlogPage}
+                path="/services/social-media-posts/"
+                component={SocialMediaPostsPage}
+              />
+              <Route
+                path="/services/paid-advertising/"
+                component={PaidAdvertisingPage}
+              />
+              <Route
+                path="/services/email-newsletter/"
+                component={EmailNewsletterPage}
+              />
+              <Route path="/services/web-content/" component={WebContentPage} />
+              <Route
+                path="/services/website-design-and-development/"
+                component={WebsiteDesignAndDevelopmentPage}
+              />
+              <Route
+                path="/services/lead-generation-e-book/"
+                component={LeadGenerationEBookPage}
               />
 
               <Route path="/sign-in/" component={LoginPage} />

@@ -13,60 +13,39 @@ function ServiceBlogPage() {
   return (
     <Page
       className="website-page align-center px32 mt32"
-      description="Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process."
+      description="Boost your search engine positioning with data-driven, high-quality blog posts that will scale your business"
       keywords="content creators"
       style={{ width: "100%" }}
-      title="Ghostit Services"
+      title="SEO Blog Posts"
     >
       <GIText className="tac mb8" type="h1">
-        <GIText
-          className="primary-font"
-          text="Search Engine Optimized (SEO) Blog Posts"
-          type="span"
-        />
+        <GIText className="primary-font" text="SEO Blog Posts" type="span" />
       </GIText>
       <GIText
         className="tac px32 mb64"
-        text="Delivering high-quality content that attracts potential customers right to your website."
+        text="Boost your search engine positioning with data-driven, high-quality blog posts that will scale your business"
         type="h4"
       />
       <GIContainer className="column full-center container large bg-white shadow-3 pa32 mb32 br16">
         <GIContainer className="column">
-          <GIText
-            className="bold fs-20 mb4"
-            text="Content Marketing Strategy"
-            type="h3"
-          />
           <GIText className="mb16" text="" type="p">
-            During our onboarding session, our team will sit with you to
-            understand your tone and voice of your brand. We will then develop a
-            detailed content marketing strategy plan that includes word length
-            for your content piece and the number of pieces of content per
-            month.
+            SEO — three letters that strike fear into the hearts of businesses
+            and blog writers worldwide. It’s never been more complex and
+            challenging to rank, begging the question: Is it worth it?
           </GIText>
-          <GIText
-            className="bold fs-20 mb4"
-            text="Content Creation"
-            type="h3"
-          />
           <GIText className="mb16" text="" type="p">
-            Whether it’s a blog post or a full-length article, our content
-            consistently drives increased traffic. Our approach to writing
-            content is simple yet effective – we take the time to understand the
-            value your brand brings to your audience. We then create original
-            content for you based on your strategy while keeping your brand in
-            mind. Once your content is ready, you’ll receive a copy of it for
-            review, where you can make suggestions or edit requests.
+            Of course, the answer is yes. You have something worthwhile to
+            share, and with the right SEO partner, visitors will come — and
+            convert.
           </GIText>
-          <GIText
-            className="bold fs-20 mb4"
-            text="Search Engine Optimization"
-            type="h3"
-          />
           <GIText className="mb64" text="" type="p">
-            We ensure that all the content we produce is optimized for your
-            niche market. We conduct comprehensive SEO research of target
-            keywords and optimize all titles and content with key terms.
+            Our team knows how to dig into your business and brand,
+            understanding minute details such as personality, tone, and voice.
+            We take this in-depth research and build a comprehensive digital
+            content strategy, complete with quality keywords for your audience
+            and niche. From here, a Ghostit blog writer can transform ideas into
+            coherent, engaging posts with high-value backlinks that will turn
+            your blog page into a growth machine.
           </GIText>
         </GIContainer>
         <Link

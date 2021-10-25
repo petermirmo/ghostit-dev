@@ -13,60 +13,47 @@ function ServiceBlogPage() {
   return (
     <Page
       className="website-page align-center px32 mt32"
-      description="Our marketing agency focuses on one thing: increasing qualified traffic to your site. Find out how our team can simplify your marketing process."
+      description="Update your website copy and content with our data-driven approach"
       keywords="content creators"
       style={{ width: "100%" }}
-      title="Ghostit Services"
+      title="Web Content"
     >
       <GIText className="tac mb8" type="h1">
-        <GIText
-          className="primary-font"
-          text="Search Engine Optimized (SEO) Blog Posts"
-          type="span"
-        />
+        <GIText className="primary-font" text="Web Content" type="span" />
       </GIText>
       <GIText
         className="tac px32 mb64"
-        text="Delivering high-quality content that attracts potential customers right to your website."
+        text="Update your website copy and content with our data-driven approach"
         type="h4"
       />
       <GIContainer className="column full-center container large bg-white shadow-3 pa32 mb32 br16">
         <GIContainer className="column">
-          <GIText
-            className="bold fs-20 mb4"
-            text="Content Marketing Strategy"
-            type="h3"
-          />
           <GIText className="mb16" text="" type="p">
-            During our onboarding session, our team will sit with you to
-            understand your tone and voice of your brand. We will then develop a
-            detailed content marketing strategy plan that includes word length
-            for your content piece and the number of pieces of content per
-            month.
+            Beautifully designed websites with stunning photography are only
+            half the battle (or even less) if you want a high-ranking website
+            that converts. So what’s the other half?
           </GIText>
-          <GIText
-            className="bold fs-20 mb4"
-            text="Content Creation"
-            type="h3"
-          />
           <GIText className="mb16" text="" type="p">
-            Whether it’s a blog post or a full-length article, our content
-            consistently drives increased traffic. Our approach to writing
-            content is simple yet effective – we take the time to understand the
-            value your brand brings to your audience. We then create original
-            content for you based on your strategy while keeping your brand in
-            mind. Once your content is ready, you’ll receive a copy of it for
-            review, where you can make suggestions or edit requests.
+            Your web content is the real star in your conversion tool belt. It
+            should be easy to read, speak directly to your customers’ concerns,
+            and load quickly — all with SEO-relevant keywords in mind.
           </GIText>
-          <GIText
-            className="bold fs-20 mb4"
-            text="Search Engine Optimization"
-            type="h3"
-          />
+          <GIText className="mb16" text="" type="p">
+            If you find your current website struggles to rank or convert, we’ll
+            sit down with you to audit your website and identify areas of
+            improvement. We analyze your call-to-actions, landing pages, title
+            tags, and website copy for their effectiveness in meeting your
+            business goals. We also do competitor analysis to ensure we’re
+            implementing content strategies that can give your web content an
+            edge over the competition.
+          </GIText>
           <GIText className="mb64" text="" type="p">
-            We ensure that all the content we produce is optimized for your
-            niche market. We conduct comprehensive SEO research of target
-            keywords and optimize all titles and content with key terms.
+            To develop a robust content strategy, we’ll do a deep dive into your
+            target audience’s pain points and expectations and research
+            pertinent SEO short- and long-tail keywords. Our writers will then
+            leverage this data to create tailored website content your
+            demographic will respond to. With compelling content, you’ll engage
+            visitors, generate new leads, and create lifelong customers.
           </GIText>
         </GIContainer>
         <Link
