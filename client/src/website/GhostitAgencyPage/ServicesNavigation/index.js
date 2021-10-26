@@ -11,13 +11,13 @@ import GIText from "../../../components/views/GIText";
 
 import { isMobileOrTablet } from "../../../util";
 
-function ServicesNavigation() {
+function ServicesNavigation({ location }) {
   return (
     <GIContainer className="column container extra-large full-center mb32">
       <GIText className="fs-26 mb16" text="Other Services" type="h3" />
 
       <GIContainer className="full-center wrap gap8">
-        <GIContainer className="wrap gap8">
+        {location.pathname !== "/services/seo-blog-posts" && (
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/services/seo-blog-posts"
@@ -35,6 +35,8 @@ function ServicesNavigation() {
               type="h6"
             />
           </Link>
+        )}
+        {location.pathname !== "/services/social-media-posts" && (
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/services/social-media-posts"
@@ -48,6 +50,8 @@ function ServicesNavigation() {
             </GIContainer>
             <GIText className="muli" text="Social Media Posts" type="h6" />
           </Link>
+        )}
+        {location.pathname !== "/services/paid-advertising" && (
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/services/paid-advertising"
@@ -57,6 +61,8 @@ function ServicesNavigation() {
             </GIContainer>
             <GIText className="muli" text="Paid Advertising" type="h6" />
           </Link>
+        )}
+        {location.pathname !== "/services/email-newsletter" && (
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/services/email-newsletter"
@@ -70,8 +76,8 @@ function ServicesNavigation() {
             </GIContainer>
             <GIText className="muli" text="Email Newsletters" type="h6" />
           </Link>
-        </GIContainer>
-        <GIContainer className="wrap gap8">
+        )}
+        {location.pathname !== "/services/web-content" && (
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/services/web-content"
@@ -85,6 +91,8 @@ function ServicesNavigation() {
             </GIContainer>
             <GIText className="muli" text="Web Content" type="h6" />
           </Link>
+        )}
+        {location.pathname !== "/services/website-design-and-development" && (
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/services/website-design-and-development"
@@ -98,6 +106,8 @@ function ServicesNavigation() {
               type="h6"
             />
           </Link>
+        )}
+        {location.pathname !== "/services/lead-generation-e-book" && (
           <Link
             className="flex full-center column shadow-3 bg-white pa32 br16"
             to="/services/lead-generation-e-book"
@@ -111,7 +121,7 @@ function ServicesNavigation() {
             </GIContainer>
             <GIText className="muli" text="Lead Generation E-Books" type="h6" />
           </Link>
-        </GIContainer>
+        )}
       </GIContainer>
     </GIContainer>
   );

@@ -128,25 +128,183 @@ class WebsiteHeader extends Component {
               Pricing
             </button>
           </Link>
-          <Link to="/services">
-            <button
-              className={
-                "fs-18 relative pb8 mx8" + this.isRootActive("services")
-              }
-              onClick={
-                isMobileOrTablet()
-                  ? () => {
-                      this.setState({ showHeader: false });
-                    }
-                  : () => {}
-              }
-            >
-              {this.isRootActive("services") && (
-                <div className="border-bottom-50" />
-              )}
-              Services
-            </button>
-          </Link>
+          <div className="relative" id="services-hover">
+            <Link to="/services">
+              <button
+                className={
+                  "fs-18 relative pb8 mx8" + this.isRootActive("services")
+                }
+                onClick={
+                  isMobileOrTablet()
+                    ? () => {
+                        this.setState({ showHeader: false });
+                      }
+                    : () => {}
+                }
+              >
+                {this.isRootActive("services") && (
+                  <div className="border-bottom-50" />
+                )}
+                Services
+              </button>
+            </Link>
+            {!isMobileOrTablet() && (
+              <div
+                className="pt8"
+                id="services-hover-hidden"
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 0)",
+                  right: "50%",
+                  transform: "translate(50%)",
+                  zIndex: 10
+                }}
+              >
+                <div className="flex full-center container small column bg-white shadow-3 pa16 br8">
+                  <Link to="/services/seo-blog-posts">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/seo-blog-posts")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/seo-blog-posts") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      SEO Optimized Blog Posts
+                    </button>
+                  </Link>
+                  <Link to="/services/social-media-posts">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/social-media-posts")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/social-media-posts") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      Social Media Posts
+                    </button>
+                  </Link>
+                  <Link to="/services/paid-advertising">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/paid-advertising")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/paid-advertising") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      Paid Advertising
+                    </button>
+                  </Link>
+                  <Link to="/services/email-newsletter">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/email-newsletter")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/email-newsletter") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      Email Newsletters
+                    </button>
+                  </Link>
+                  <Link to="/services/web-content">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/web-content")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/web-content") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      Web Content
+                    </button>
+                  </Link>
+                  <Link to="/services/website-design-and-development">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/website-design-and-development")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive(
+                        "services/website-design-and-development"
+                      ) && <div className="border-bottom-50" />}
+                      Website Design & Development{" "}
+                    </button>
+                  </Link>
+                  <Link to="/services/lead-generation-e-book">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/lead-generation-e-book")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/lead-generation-e-book") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      Lead Generation E-Books
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
           <Link to="/blog">
             <button
               className={"fs-18 relative pb8 mx8" + this.isRootActive("blog")}

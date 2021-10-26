@@ -9,7 +9,7 @@ import GIText from "../../../components/views/GIText";
 
 import { isMobileOrTablet } from "../../../util";
 
-function ServiceBlogPage() {
+function ServiceBlogPage({ location }) {
   return (
     <Page
       className="website-page align-center px32 mt32"
@@ -56,7 +56,7 @@ function ServiceBlogPage() {
           Get a Quote
         </Link>
       </GIContainer>
-      <ServicesNavigation />
+      <ServicesNavigation location={location} />
     </Page>
   );
 }
