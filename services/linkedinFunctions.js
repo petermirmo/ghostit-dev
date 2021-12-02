@@ -19,7 +19,7 @@ module.exports = {
       {
         userID: userID,
         socialType: "linkedin",
-        accountType: "profile",
+        accountType: "profile"
       },
       (err, account) => {
         if (err) generalFunctions.handleError(res, err);
@@ -31,10 +31,10 @@ module.exports = {
             .get(
               "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee",
               {
-                headers: { Authorization: "Bearer " + account.accessToken },
+                headers: { Authorization: "Bearer " + account.accessToken }
               }
             )
-            .then((linkedinCompaniesResponse) => {
+            .then(linkedinCompaniesResponse => {
               let companyURNs = linkedinCompaniesResponse.data.elements;
               let asyncCounter = 0;
               let companies = [];
@@ -56,11 +56,12 @@ module.exports = {
                       linkedinPageID,
                     {
                       headers: {
-                        Authorization: "Bearer " + account.accessToken,
-                      },
+                        Authorization: "Bearer " + account.accessToken
+                      }
                     }
                   )
-                  .then((linkedinCompanyResponse) => {
+                  .then(linkedinCompanyResponse => {
+                    console.log(linkedinCompanyResponse);
                     let company = linkedinCompanyResponse.data;
 
                     // Linkedin groups (companies) do not come with access tokens so we will use the
@@ -76,7 +77,7 @@ module.exports = {
                     if (asyncCounter === 0)
                       res.send({ success: true, pages: companies });
                   })
-                  .catch((linkedinCompanyError) => {
+                  .catch(linkedinCompanyError => {
                     if (linkedinCompanyError.response) {
                       if (linkedinCompanyError.response.data)
                         console.log(linkedinCompanyError.response.data);
@@ -88,7 +89,7 @@ module.exports = {
                   });
               }
             })
-            .catch((linkedinProfileErrorResonse) => {
+            .catch(linkedinProfileErrorResonse => {
               console.log(linkedinProfileErrorResonse);
               generalFunctions.handleError(res, "Linkedin error");
             });
@@ -130,17 +131,17 @@ module.exports = {
             code: req.query.code,
             redirect_uri: keys.linkedinCallbackURL,
             client_id: keys.linkedinConsumerKey,
-            client_secret: keys.linkedinConsumerSecret,
+            client_secret: keys.linkedinConsumerSecret
           })
         )
-        .then((linkedinTokenResponse) => {
+        .then(linkedinTokenResponse => {
           const accessToken = linkedinTokenResponse.data.access_token;
 
           axios
             .get("https://api.linkedin.com/v2/me", {
-              headers: { Authorization: "Bearer " + accessToken },
+              headers: { Authorization: "Bearer " + accessToken }
             })
-            .then((linkedinProfileResponse) => {
+            .then(linkedinProfileResponse => {
               const linkedinProfile = linkedinProfileResponse.data;
               Account.find(
                 { socialID: linkedinProfile.id },
@@ -191,12 +192,12 @@ module.exports = {
                 }
               );
             })
-            .catch((linkedinProfileErrorResonse) => {
+            .catch(linkedinProfileErrorResonse => {
               console.log(linkedinProfileErrorResonse);
               res.redirect("/social-accounts/failed");
             });
         })
-        .catch((linkedinTokenErrorResponse) => {
+        .catch(linkedinTokenErrorResponse => {
           console.log(linkedinTokenErrorResponse);
           res.redirect("/social-accounts/failed");
         });
@@ -204,5 +205,5 @@ module.exports = {
       console.log("No code received");
       res.redirect("/social-accounts/failed");
     }
-  },
+  }
 };
