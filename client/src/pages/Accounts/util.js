@@ -40,6 +40,7 @@ export const getInstagramPages = callback => {
 export const getLinkedinPages = callback => {
   axios.get("/api/linkedin/pages").then(res => {
     let { pages, errorMessage } = res.data;
+    console.log(res.data);
 
     callback(pages, errorMessage);
   });
