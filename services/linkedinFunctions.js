@@ -91,10 +91,7 @@ module.exports = {
             })
             .catch(linkedinProfileErrorResonse => {
               console.log(linkedinProfileErrorResonse);
-              generalFunctions.handleError(
-                res,
-                JSON.stringify(linkedinProfileErrorResonse)
-              );
+              generalFunctions.handleError(res, linkedinProfileErrorResonse);
             });
         } else {
           generalFunctions.handleError(
