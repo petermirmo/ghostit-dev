@@ -6,8 +6,10 @@ module.exports = {
     let error = err;
     if (message) error = message;
 
+    console.log("\n");
     console.log(err);
     console.log(message);
+    console.log("\n");
     if (res) res.send({ success: false, message: error });
     return false;
   },

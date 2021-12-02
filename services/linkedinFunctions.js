@@ -90,7 +90,7 @@ module.exports = {
               }
             })
             .catch(linkedinProfileErrorResonse => {
-              console.log(linkedinProfileErrorResonse.response);
+              console.log(linkedinProfileErrorResonse.error);
               generalFunctions.handleError(res, "Linkedin error");
             });
         } else {
