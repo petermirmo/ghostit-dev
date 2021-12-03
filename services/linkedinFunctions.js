@@ -29,7 +29,7 @@ module.exports = {
           // Get all companies that the user is an admin of
           axios
             .get(
-              "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee",
+              "http://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee",
               {
                 headers: { Authorization: "Bearer " + account.accessToken }
               }
