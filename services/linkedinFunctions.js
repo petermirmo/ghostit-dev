@@ -61,7 +61,6 @@ module.exports = {
                     }
                   )
                   .then(linkedinCompanyResponse => {
-                    console.log(linkedinCompanyResponse);
                     let company = linkedinCompanyResponse.data;
 
                     // Linkedin groups (companies) do not come with access tokens so we will use the
