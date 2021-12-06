@@ -11,18 +11,17 @@ const MongoStore = require("connect-mongo")(session); // Store sessions in mongo
 const secure = require("express-force-https"); // force https so http does not work
 const path = require("path");
 const fs = require("fs");
-var cors = require("cors");
 
 const { createSiteMap, getMetaInformation } = require("./functions/meta");
 
 const allowCrossDomain = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("access-control-allow-origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 };
 app.use(allowCrossDomain);
-app.use(cors());
 
 // Socket imports
 const server = require("http").createServer(app);
