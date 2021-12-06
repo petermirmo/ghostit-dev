@@ -30,6 +30,7 @@
     "connect-mongo": "^2.0.3",
     "connect-multiparty": "^2.2.0",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "draft-js": "^0.10.5",
     "express": "^4.17.1",
     "express-force-https": "^1.0.0",
