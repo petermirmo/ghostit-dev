@@ -6,6 +6,8 @@ const axios = require("axios");
 var http = require("http");
 var querystring = require("querystring");
 
+axios.defaults.withCredentials = true;
+
 module.exports = {
   getLinkedinPages: (req, res) => {
     let userID = req.user._id;
@@ -27,12 +29,18 @@ module.exports = {
         if (account) {
           // Use Linkedin profile access token to get account pages
           // Get all companies that the user is an admin of
-          axios({
-            method: "get",
-            url: `https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee`,
-            withCredentials: false,
-            headers: { Authorization: "Bearer " + account.accessToken }
-          })
+          axios.defaults.withCredentials = true;
+
+          axios
+            .get(
+              "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee",
+              {
+                headers: {
+                  Authorization: "Bearer " + account.accessToken,
+                  withCredentials: true
+                }
+              }
+            )
             .then(linkedinCompaniesResponse => {
               let companyURNs = linkedinCompaniesResponse.data.elements;
               let asyncCounter = 0;

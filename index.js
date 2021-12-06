@@ -16,7 +16,6 @@ const { createSiteMap, getMetaInformation } = require("./functions/meta");
 
 const allowCrossDomain = (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("access-control-allow-origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
