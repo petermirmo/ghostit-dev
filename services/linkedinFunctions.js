@@ -27,13 +27,12 @@ module.exports = {
         if (account) {
           // Use Linkedin profile access token to get account pages
           // Get all companies that the user is an admin of
-          axios
-            .get(
-              "https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee",
-              {
-                headers: { Authorization: "Bearer " + account.accessToken }
-              }
-            )
+          axios({
+            method: "get",
+            url: `https://api.linkedin.com/v2/organizationalEntityAcls?q=roleAssignee`,
+            withCredentials: false,
+            headers: { Authorization: "Bearer " + account.accessToken }
+          })
             .then(linkedinCompaniesResponse => {
               let companyURNs = linkedinCompaniesResponse.data.elements;
               let asyncCounter = 0;
