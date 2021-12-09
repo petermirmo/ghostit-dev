@@ -35,17 +35,6 @@ const teamMembers = [
   {
     color: "var(--five-blue-color)",
     description:
-      "Although most of her life is spent chasing after her preschool-aged daughter, Erika enjoys the time she gets to either be out living it up with great friends or at home with her nose buried in a book. When she gets a chance to sit at her computer, Erika loves researching and writing about just about everything. But it's fashion, beauty and lifestyle topics that are truly her expertise. You may actually see a novel out with her name on it someday! She sees herself as somewhat of a budding “domestic goddess” and believes all problems can be solved with a good cup of tea and large amounts of chocolate.",
-    image:
-      "https://res.cloudinary.com/ghostit-co/image/upload/v1544163966/erika.jpg",
-    location: "Victoria",
-    name: "Erika Palmer",
-    title: "Content Creator",
-    _id: 4
-  },
-  {
-    color: "var(--five-blue-color)",
-    description:
       "Born in the prairies, but raised by the ocean, Laurissa spent four years in Montréal and abroad obtaining a BA in Psychology and Behavioural Science before returning home to the coast. Now, she can be found traveling, surfing, hiking, running, or sipping good beer or wine while cozied up out of the rain. Born out of a love for adventure, the written word, and human connection, Laurissa uses content creation as a way to play with words in an engaging way and tell captivating stories.",
     image:
       "https://res.cloudinary.com/dnc1t9z9o/image/upload/v1614232166/ZI1FQ2m4.jpg",

@@ -49,15 +49,15 @@ class PricingPage extends Component {
                   text="Small to Medium-Sized Businesses"
                   type="h2"
                 />
-                <GIText
-                  className="flex-fill muli tac mb4"
-                  text="Starting at"
-                  type="h6"
-                />
               </GIContainer>
               <GIContainer className="full-center">
                 <GIContainer className="xy-128px full-center column round bg-four-blue">
-                  <GIText className="quicksand white" text="$700" type="h2" />
+                  <GIText
+                    className="muli tac white"
+                    text="Starting at"
+                    type="h6"
+                  />
+                  <GIText className="quicksand white" text="750" type="h2" />
                   <GIText className="white" text="Per Month" type="h6" />
                 </GIContainer>
               </GIContainer>
