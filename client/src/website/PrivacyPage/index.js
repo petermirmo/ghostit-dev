@@ -52,14 +52,14 @@ class PrivacyPage extends Component {
           We will only collect Personal Information that is necessary to fulfill
           the following purposes:
         </p>
-        <p>- To verify identity;</p>
-        <p>- To identify your preferences;</p>
-        <p>- To open and manage an account;</p>
-        <p>
+        <p className="mb8">- To verify identity;</p>
+        <p className="mb8">- To identify your preferences;</p>
+        <p className="mb8">- To open and manage an account;</p>
+        <p className="mb8">
           - To ensure you receive a high standard of service;- To meet
           regulatory requirements;
         </p>
-        <p>
+        <p className="mb8">
           - Other legal reasons as apply to the goods and services requested.
         </p>
         <p className="my8">
@@ -80,17 +80,19 @@ class PrivacyPage extends Component {
           We may collect, use or disclose Personal Information without the
           consent:
         </p>
-        <p>- When permitted or required by law;</p>
-        <p>
+        <p className="mb8">- When permitted or required by law;</p>
+        <p className="mb8">
           - In an emergency that threatens an individual’s life, health, or
           personal security;
         </p>
-        <p>
+        <p className="mb8">
           - When the Personal Information is available from a public source;
         </p>
-        <p>- When we require legal advice from a lawyer;</p>
-        <p>- For the purposes of collecting a debt or protection from fraud;</p>
-        <p>- Other legally established reasons.</p>
+        <p className="mb8">- When we require legal advice from a lawyer;</p>
+        <p className="mb8">
+          - For the purposes of collecting a debt or protection from fraud;
+        </p>
+        <p className="mb8">- Other legally established reasons.</p>
         <p className="my8">
           We will not sell your Personal Information to other parties unless
           consent has been provided or implied. We retain your Personal
@@ -221,6 +223,59 @@ class PrivacyPage extends Component {
           If we make any material changes to this Privacy Policy, we will notify
           you either through the email address you have provided us, or by
           placing a prominent notice on our website.
+        </p>
+        <h4 className="mb8">What info. do we collect?</h4>
+        <p className="mb8">
+          Your contact information that you provide to us Your social profile
+          information for Social Networks you choose to connect to the Services.
+          For example, your Facebook profile information may include your
+          Facebook username and profile image. Your messages, posts, comments,
+          images, advertising, and other material you curate on and upload to
+          the Services; and information that is collected from the Social
+          Networks that you choose to connect to and which is displayed on our
+          Services. Content that you may send and receive through Social
+          Networks may contain personal information of third parties. This may
+          include information such as: names, photos, age, gender, geographic
+          location, opinions, preferences, and phone numbers that are provided
+          or posted by social media users.
+        </p>
+        <h4 className="mb8">How do we use your information?</h4>
+        <p className="mb8">
+          We need to identify and authenticate our users to ensure, for example,
+          that only those authorized users are able to use the Services for
+          their organization and to make changes to their accounts. We use data
+          that you provide when signing up to set up your account, process
+          payments, contact you regarding our services, and manage your account.
+          We use your contact information and information related to your
+          requests to respond to your inquiries, manage our contract with you,
+          respond to your questions and requests, and send you updates and
+          information about our services. We use logging and other data such as
+          general location information—for example, the IP address of your
+          browser or device, to help us manage the performance, security and
+          compliance of our services. We use content, information that you send
+          and receive through Social Networks, and other information from
+          Facebook, LinkedIn, and Twitter (such as your messages, posts,
+          comments, images, advertising, and other material you curate on and
+          upload to our scheduler) in order to provide our services.
+        </p>
+        <p className="mb8">
+          When using our Services, you may access, update, or correct most of
+          your account information by logging in to your account to edit your
+          profile. You may delete and data such as scheduled social media
+          content and social network account connections by logging into your
+          account and going to the calendar or social networks pages.
+        </p>
+        <p className="mb8">
+          If you have requests that cannot be carried out by logging in to your
+          account, please email hello @ ghostit.co. Please note that we may need
+          to retain certain information about you for as long as you maintain
+          our services, to provide you with our services, for record-keeping
+          purposes, to comply with our legal and regulatory obligations, or to
+          resolve disputes.
+        </p>
+        <p className="mb8">
+          You can contact our team for other general requests by email at hello
+          @ ghostit.co.
         </p>
         <h4 className="my16">Contact Us</h4>
         <p className="my8">
