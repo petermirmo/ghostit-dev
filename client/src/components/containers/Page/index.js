@@ -38,7 +38,7 @@ class Page extends Component {
     let { title, description, image, style } = this.props; // Variables
 
     if (!style) style = {};
-    if (!title) title = "Ghostit Marketing Solution and Agency";
+    if (!title) title = "Ghostit Content Agency";
     if (!description)
       description =
         "Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion.";

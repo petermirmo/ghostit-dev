@@ -35,7 +35,7 @@ function ServiceBlogPage({ location }) {
           <GIText className="mb16" text="" type="p">
             Google, Facebook, and other online platforms boast billions of users
             — users you could be turning into leads and sales for your business.
-            As part of a comprehensive digital content strategy, paid online
+            As part of a comprehensive content strategy, paid online
             advertising can amplify your brand and get the right eyes on your
             business.
           </GIText>
@@ -72,7 +72,7 @@ function ServiceBlogPage({ location }) {
             <GIText className="mb4" text="" type="p"></GIText>- And more,
           </GIContainer>
           <GIText className="mb64" text="" type="p">
-            Does your digital content strategy involve content promotion? Our
+            Does your content strategy involve content promotion? Our
             team knows exactly how to push your website articles and blog posts
             to new, relevant audiences with shared interests and followings of
             their own to networks like Outbrain and Quuu Promote.

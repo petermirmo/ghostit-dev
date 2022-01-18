@@ -61,15 +61,15 @@ const ImagePost = (postdata, account, post) => {
                       entity: "" + asset_urn
                     }
                   ],
-                  description: "Test Description " + post.content,
-                  title: "Test Share with Title",
+                  description: post.content,
+                  title: "",
                   shareMediaCategory: "IMAGE"
                 },
                 distribution: {
                   linkedInDistributionTarget: {}
                 },
 
-                subject: "Test Share Subject",
+                subject: "",
                 text: {
                   text: post.content
                 }
@@ -79,13 +79,38 @@ const ImagePost = (postdata, account, post) => {
               else post_data.owner = "urn:li:person:" + account.socialID;
               try {
                 axios
-                  .post("https://api.linkedin.com/v2/shares", post_data, {
-                    headers: {
-                      Authorization: "Bearer " + account.accessToken,
-                      "Content-Type": "application/json"
+                  .post(
+                    "https://api.linkedin.com/v2/shares",
+                    {
+                      owner: "urn:li:organization:18616111",
+                      text: {
+                        text: "Test Share text"
+                      },
+                      distribution: {
+                        linkedInDistributionTarget: null
+                      },
+                      content: {
+                        contentEntities: [
+                          {
+                            entity: asset_urn
+                          }
+                        ],
+                        title: "Test Share with Content title",
+                        shareMediaCategory: "IMAGE",
+                        distribution: {
+                          linkedInDistributionTarget: {}
+                        }
+                      }
+                    },
+                    {
+                      headers: {
+                        Authorization: "Bearer " + account.accessToken,
+                        "Content-Type": "application/json"
+                      }
                     }
-                  })
+                  )
                   .then(linkedinPostResult => {
+                    console.log(linkedinPostResult.data);
                     if (linkedinPostResult.data.message)
                       savePostError(post._id, linkedinPostResult.data.message);
                     else

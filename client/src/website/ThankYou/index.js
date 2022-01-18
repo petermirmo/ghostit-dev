@@ -75,7 +75,7 @@ src="https://www.facebook.com/tr?id=331605847504957&ev=PageView&noscript=1"
             </GIText>
             <GIText
               className="fs-18 tac mb32"
-              text="Ghostit is an all-in-one content marketing solution that blends the benefits of real people with strategy-based technology. Our goal: to create compelling digital content that increases your web traffic and converts visitors into customers."
+              text="Ghostit is an all-in-one content marketing solution that blends the benefits of real people with strategy-based technology. Our goal: to create compelling content that increases your web traffic and converts visitors into customers."
               type="h4"
             />
             <Link

@@ -35,7 +35,7 @@ class LandingPage1 extends Component {
             description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
             homePage={true}
             keywords="content creators"
-            title="Ghostit Marketing Solution and Agency"
+            title="Ghostit Content Agency"
           >
             <GIContainer
               className={`full-center x-fill ${

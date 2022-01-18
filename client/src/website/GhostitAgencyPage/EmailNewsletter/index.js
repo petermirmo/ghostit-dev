@@ -34,7 +34,7 @@ function ServiceBlogPage({ location }) {
             leads, website traffic, open rates, and customer engagement.
           </GIText>
           <GIText className="mb16" text="" type="p">
-            Including email marketing in your digital content strategy doesn’t
+            Including email marketing in your content strategy doesn’t
             mean blasting subscribers with spam. Our team builds an email
             marketing strategy that includes:
           </GIText>

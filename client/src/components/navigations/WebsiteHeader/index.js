@@ -17,7 +17,7 @@ import "./styles";
 
 class WebsiteHeader extends Component {
   state = {
-    showHeader: !isMobileOrTablet()
+    showHeader: !isMobileOrTablet(),
   };
   componentDidMount() {
     // This is for header to blend with background when at top of home page
@@ -31,11 +31,11 @@ class WebsiteHeader extends Component {
     if (this._ismounted) this.setState({ [index]: value });
   };
 
-  isActive = page => {
+  isActive = (page) => {
     if ("/" + page === this.props.location.pathname) return " four-blue";
     else return "";
   };
-  isRootActive = page => {
+  isRootActive = (page) => {
     if (
       "/" + page ===
       this.props.location.pathname.substring(0, page.length + 1)
@@ -157,7 +157,7 @@ class WebsiteHeader extends Component {
                   top: "calc(100% + 0)",
                   right: "50%",
                   transform: "translate(50%)",
-                  zIndex: 10
+                  zIndex: 10,
                 }}
               >
                 <div className="flex full-center container small column bg-white shadow-3 pa16 br8">
@@ -181,46 +181,7 @@ class WebsiteHeader extends Component {
                       SEO Optimized Blog Posts
                     </button>
                   </Link>
-                  <Link to="/services/social-media-posts">
-                    <button
-                      className={
-                        "fs-18 relative pb8 mx8 mb8 " +
-                        this.isActive("services/social-media-posts")
-                      }
-                      onClick={
-                        isMobileOrTablet()
-                          ? () => {
-                              this.setState({ showHeader: false });
-                            }
-                          : () => {}
-                      }
-                    >
-                      {this.isActive("services/social-media-posts") && (
-                        <div className="border-bottom-50" />
-                      )}
-                      Social Media Posts
-                    </button>
-                  </Link>
-                  <Link to="/services/paid-advertising">
-                    <button
-                      className={
-                        "fs-18 relative pb8 mx8 mb8 " +
-                        this.isActive("services/paid-advertising")
-                      }
-                      onClick={
-                        isMobileOrTablet()
-                          ? () => {
-                              this.setState({ showHeader: false });
-                            }
-                          : () => {}
-                      }
-                    >
-                      {this.isActive("services/paid-advertising") && (
-                        <div className="border-bottom-50" />
-                      )}
-                      Paid Advertising
-                    </button>
-                  </Link>
+
                   <Link to="/services/email-newsletter">
                     <button
                       className={
@@ -241,6 +202,28 @@ class WebsiteHeader extends Component {
                       Email Newsletters
                     </button>
                   </Link>
+
+                  <Link to="/services/paid-advertising">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/paid-advertising")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/paid-advertising") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      Paid Advertising
+                    </button>
+                  </Link>
+
                   <Link to="/services/web-content">
                     <button
                       className={
@@ -261,6 +244,28 @@ class WebsiteHeader extends Component {
                       Web Content
                     </button>
                   </Link>
+
+                  <Link to="/services/lead-generation-e-book">
+                    <button
+                      className={
+                        "fs-18 relative pb8 mx8 mb8 " +
+                        this.isActive("services/lead-generation-e-book")
+                      }
+                      onClick={
+                        isMobileOrTablet()
+                          ? () => {
+                              this.setState({ showHeader: false });
+                            }
+                          : () => {}
+                      }
+                    >
+                      {this.isActive("services/lead-generation-e-book") && (
+                        <div className="border-bottom-50" />
+                      )}
+                      Lead Generation E-Books
+                    </button>
+                  </Link>
+
                   <Link to="/services/website-design-and-development">
                     <button
                       className={
@@ -281,11 +286,12 @@ class WebsiteHeader extends Component {
                       Website Design & Development{" "}
                     </button>
                   </Link>
-                  <Link to="/services/lead-generation-e-book">
+
+                  <Link to="/services/social-media-posts">
                     <button
                       className={
                         "fs-18 relative pb8 mx8 mb8 " +
-                        this.isActive("services/lead-generation-e-book")
+                        this.isActive("services/social-media-posts")
                       }
                       onClick={
                         isMobileOrTablet()
@@ -295,10 +301,10 @@ class WebsiteHeader extends Component {
                           : () => {}
                       }
                     >
-                      {this.isActive("services/lead-generation-e-book") && (
+                      {this.isActive("services/social-media-posts") && (
                         <div className="border-bottom-50" />
                       )}
-                      Lead Generation E-Books
+                      Social Media Posts
                     </button>
                   </Link>
                 </div>
@@ -357,7 +363,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("facebook")}
                 style={{
-                  backgroundColor: getPostColor("facebook")
+                  backgroundColor: getPostColor("facebook"),
                 }}
               />
             </a>
@@ -371,7 +377,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 ml16"
                 icon={getPostIconRound("linkedin")}
                 style={{
-                  backgroundColor: getPostColor("linkedin")
+                  backgroundColor: getPostColor("linkedin"),
                 }}
               />
             </a>
@@ -384,7 +390,7 @@ class WebsiteHeader extends Component {
                 className="clickable common-border white round-icon round pa8 mx16"
                 icon={getPostIconRound("instagram")}
                 style={{
-                  backgroundColor: getPostColor("instagram")
+                  backgroundColor: getPostColor("instagram"),
                 }}
               />
             </a>

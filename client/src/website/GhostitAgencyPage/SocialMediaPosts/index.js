@@ -34,7 +34,7 @@ function ServiceBlogPage({ location }) {
         <GIContainer className="column">
           <GIText className="mb16" text="" type="p">
             You may have a love-hate relationship with social media, but it’s an
-            integral part of a business’ digital content strategy. So how do you
+            integral part of a business’ content strategy. So how do you
             cut through the noise and stand out? We can say from experience,
             it’s not about quantity — it’s about quality.
           </GIText>

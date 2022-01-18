@@ -7,12 +7,8 @@ const generalFunctions = require("../services/generalFunctions");
 
 module.exports = {
   test: () => {
-    return;
-    Post.findById("5fff471369bd28001449aaa2", (err, post) => {
-      console.log(post);
-      if (post.status === "working") {
-        linkedin.postToLinkedIn(post);
-      }
+    Post.findById("61cd33ddd728250016778611", (err, post) => {
+      linkedin.postToLinkedIn(post);
     });
   },
   main: () => {

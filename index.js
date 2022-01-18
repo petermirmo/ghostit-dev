@@ -45,12 +45,13 @@ const PageAnalyticsScheduler = require("./scheduler/PageAnalytics");
 const PostAnalyticsScheduler = require("./scheduler/PostAnalytics");
 const schedule = require("node-schedule");
 
-schedule.scheduleJob("20 * * * * *", () => {
-  return;
+//*/
+const test = () => {
   console.log("starting");
   PostScheduler.test();
-});
-
+};
+test();
+//*/
 if (process.env.NODE_ENV === "production") {
   schedule.scheduleJob("0 0 * * 0", () => {
     TokenScheduler.main();

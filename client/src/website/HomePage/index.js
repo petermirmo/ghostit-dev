@@ -26,7 +26,7 @@ class RegularVersion extends Component {
     email: "",
     showModal: false,
     showThankYou: false,
-    url: ""
+    url: "",
   };
   componentDidMount() {
     setTimeout(() => {
@@ -41,13 +41,13 @@ class RegularVersion extends Component {
 
     return (
       <Consumer>
-        {context => (
+        {(context) => (
           <Page
             className="website-page"
             description="Organize your marketing process with an all-in-one marketing solution & agency for unified content development & promotion."
             homePage={true}
             keywords="content creators"
-            title="Ghostit Marketing Solution and Agency"
+            title="Ghostit Content Agency"
           >
             <GIContainer
               className={`justify-center x-fill pb64 ${
@@ -76,12 +76,11 @@ class RegularVersion extends Component {
                   type="h1"
                   style={{ fontSize: "60px" }}
                 >
-                  Amplify Your Website Traffic and Turn Visitors Into Paying
-                  Customers
+                  Content That Converts
                 </GIText>
                 <GIText
                   className="primary-font fs-20 tac mb32"
-                  text="We are Your Growth-Focused Digital Marketing & Web Development Agency"
+                  text="We write your creative copy so you don’t have to!"
                   type="h2"
                 />
                 <Link
@@ -139,7 +138,7 @@ class RegularVersion extends Component {
                 </GIText>
                 <GIText
                   className={"mb32 " + (isMobileOrTablet() ? "x-fill tac" : "")}
-                  text="Ghostit is your end-to-end solution for digital content marketing. From content strategy to creation to distribution and promotion. Waste less time and accomplish more with the right team behind you creating content that is tailored and created specifically for you."
+                  text="Ghostit is your end-to-end solution for content marketing, from content strategy to creation to distribution and promotion. Waste less time and accomplish more with the right team behind you creating content that is tailored and created specifically for you."
                   type="p"
                 />
 
@@ -323,7 +322,7 @@ class RegularVersion extends Component {
                         type="text"
                         className="x-fill pa8 mb16 br4"
                         placeholder="URL"
-                        onChange={event =>
+                        onChange={(event) =>
                           this.setState({ url: event.target.value })
                         }
                         value={url}
@@ -332,7 +331,7 @@ class RegularVersion extends Component {
                         type="text"
                         className="x-fill pa8 mb16 br4"
                         placeholder="Email"
-                        onChange={event =>
+                        onChange={(event) =>
                           this.setState({ email: event.target.value })
                         }
                         value={email}
@@ -350,9 +349,9 @@ class RegularVersion extends Component {
                           axios
                             .post("/api/book-a-call", {
                               email,
-                              url
+                              url,
                             })
-                            .then(res => {
+                            .then((res) => {
                               const { success } = res.data;
 
                               if (success) {

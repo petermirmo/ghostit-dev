@@ -8,7 +8,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Rahul Bhatia",
     title: "TCB Specialist",
-    _id: 1
+    _id: 1,
   },
   {
     color: "var(--five-orange-color)",
@@ -19,7 +19,7 @@ const teamMembers = [
     location: "Paris",
     name: "Mishar Briones",
     title: "SheEO",
-    _id: 2
+    _id: 2,
   },
   {
     color: "var(--five-purple-color)",
@@ -30,7 +30,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Stephanie Brown",
     title: "Content Creator",
-    _id: 10
+    _id: 10,
   },
   {
     color: "var(--five-blue-color)",
@@ -41,7 +41,7 @@ const teamMembers = [
     location: "Victoria",
     name: "Laurissa Cebryk",
     title: "Content Creator",
-    _id: 9
+    _id: 9,
   },
   {
     color: "var(--five-blue-color)",
@@ -52,9 +52,20 @@ const teamMembers = [
     location: "Canada",
     name: "Luke Meijer",
     title: "Paid Ads Specialist",
-    _id: 11
-  }
+    _id: 11,
+  },
+  {
+    color: "var(--five-blue-color)",
+    description:
+      "Emily is captivated by storytelling in every shape and form. Powered by lattes, Netflix binges, and the thrill of finding her next great read, Emily is a versatile writer dedicated to creatively weaving accuracy, agency, and authenticity into the heart of every project.",
+    image:
+      "https://res.cloudinary.com/ghostit-co/image/upload/v1642528000/Emily_Massey.jpg",
+    location: "Canada",
+    name: "Emily Kennaley",
+    title: "Content Creator",
+    _id: 12,
+  },
 ];
 module.exports = {
-  teamMembers
+  teamMembers,
 };

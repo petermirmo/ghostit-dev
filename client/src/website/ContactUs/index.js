@@ -20,7 +20,7 @@ function ContactUsPage({ history }) {
       description="Contact Ghostit."
       hideForm={true}
       keywords="contact"
-      title="Ghostit Marketing Solution and Agency"
+      title="Ghostit Content Agency"
     >
       <GIContainer className="column align-center px32 pt32 pb64">
         <GIContainer className="column mb32">
