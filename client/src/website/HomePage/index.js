@@ -84,7 +84,7 @@ class RegularVersion extends Component {
                   type="h2"
                 />
                 <Link
-                  className="muli bold white bg-orange-fade-2 shadow-orange-3 px64 py16 mb8 "
+                  className="tac muli bold white bg-orange-fade-2 shadow-orange-3 px64 py16 mb8 "
                   style={{ fontSize: "30px", borderRadius: "64px" }}
                   to="/contact-us"
                 >

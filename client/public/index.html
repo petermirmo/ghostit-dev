@@ -26,9 +26,9 @@
       window._linkedin_data_partner_ids.push(_linkedin_partner_id);
     </script>
     <script type="text/javascript">
-      (function(l) {
+      (function (l) {
         if (!l) {
-          window.lintrk = function(a, b) {
+          window.lintrk = function (a, b) {
             window.lintrk.q.push([a, b]);
           };
           window.lintrk.q = [];
@@ -45,7 +45,7 @@
       <img
         height="1"
         width="1"
-        style="display:none;"
+        style="display: none;"
         alt=""
         src="https://px.ads.linkedin.com/collect/?pid=1159500&fmt=gif"
       />
@@ -55,12 +55,12 @@
     <!-- chat bot script-->
     <script>
       window.intercomSettings = {
-        app_id: "wz8kaaa4"
+        app_id: "wz8kaaa4",
       };
     </script>
     <script>
       // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/wz8kaaa4'
-      (function() {
+      (function () {
         var w = window;
         var ic = w.Intercom;
         if (typeof ic === "function") {
@@ -68,15 +68,15 @@
           ic("update", w.intercomSettings);
         } else {
           var d = document;
-          var i = function() {
+          var i = function () {
             i.c(arguments);
           };
           i.q = [];
-          i.c = function(args) {
+          i.c = function (args) {
             i.q.push(args);
           };
           w.Intercom = i;
-          var l = function() {
+          var l = function () {
             var s = d.createElement("script");
             s.type = "text/javascript";
             s.async = true;
@@ -122,9 +122,9 @@
 
     <!-- Facebook Pixel Code -->
     <script>
-      !(function(f, b, e, v, n, t, s) {
+      !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
-        n = f.fbq = function() {
+        n = f.fbq = function () {
           n.callMethod
             ? n.callMethod.apply(n, arguments)
             : n.queue.push(arguments);
@@ -161,10 +161,10 @@
     <!-- End of outbrain tracking Code -->
     <script data-obct type="text/javascript">
       /** DO NOT MODIFY THIS CODE**/
-      !(function(_window, _document) {
+      !(function (_window, _document) {
         var OB_ADV_ID = "006348befd9047eae112d3d972d496ca05";
         if (_window.obApi) {
-          var toArray = function(object) {
+          var toArray = function (object) {
             return Object.prototype.toString.call(object) === "[object Array]"
               ? object
               : [object];
@@ -174,7 +174,7 @@
           );
           return;
         }
-        var api = (_window.obApi = function() {
+        var api = (_window.obApi = function () {
           api.dispatch
             ? api.dispatch.apply(api, arguments)
             : api.queue.push(arguments);
@@ -195,10 +195,10 @@
     <!-- End of outbrain tracking Code -->
     <!-- Hotjar Tracking Code for www.ghostit.co -->
     <script>
-      (function(h, o, t, j, a, r) {
+      (function (h, o, t, j, a, r) {
         h.hj =
           h.hj ||
-          function() {
+          function () {
             (h.hj.q = h.hj.q || []).push(arguments);
           };
         h._hjSettings = { hjid: 1855088, hjsv: 6 };
@@ -209,6 +209,39 @@
         a.appendChild(r);
       })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
     </script>
+
+    <!-- Linkedin tracking from luke -->
+    <script type="text/javascript">
+      _linkedin_partner_id = "3849540";
+      window._linkedin_data_partner_ids =
+        window._linkedin_data_partner_ids || [];
+      window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+    </script>
+    <script type="text/javascript">
+      (function (l) {
+        if (!l) {
+          window.lintrk = function (a, b) {
+            window.lintrk.q.push([a, b]);
+          };
+          window.lintrk.q = [];
+        }
+        var s = document.getElementsByTagName("script")[0];
+        var b = document.createElement("script");
+        b.type = "text/javascript";
+        b.async = true;
+        b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+        s.parentNode.insertBefore(b, s);
+      })(window.lintrk);
+    </script>
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display: none;"
+        alt=""
+        src="https://px.ads.linkedin.com/collect/?pid=3849540&fmt=gif"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>
