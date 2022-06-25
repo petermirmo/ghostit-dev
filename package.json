@@ -39,7 +39,7 @@
     "fb": "^2.0.0",
     "form-data": "^2.5.1",
     "html-to-text": "^5.1.1",
-    "jsdom": "^15.2.1",
+    "jsdom": "^16.5.0",
     "moment-timezone": "^0.5.34",
     "mongoose": "^5.13.13",
     "morgan": "^1.10.0",
