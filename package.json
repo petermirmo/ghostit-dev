@@ -64,7 +64,7 @@
     "stripe": "^5.8.0",
     "twitter": "^1.7.1",
     "underscore": "^1.13.1",
-    "webpack": "^4.46.0",
+    "webpack": "^5.75.0",
     "xmlhttprequest": "^1.8.0",
     "xoauth2": "^1.2.0"
   }
